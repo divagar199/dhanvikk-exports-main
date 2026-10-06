@@ -188,3 +188,20 @@ html {
   transition-timing-function: linear !important;
   will-change: transform;
 }
+
+/* Skiper47 Perspective Coverflow Carousel Pagination */
+.skiper47-bullet {
+  width: 8px;
+  height: 8px;
+  border-radius: 9999px;
+  background-color: #D5CDC5;
+  display: inline-block;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.skiper47-bullet-active {
+  width: 24px;
+  background-color: #EC407A;
+  box-shadow: 0 2px 8px rgba(236, 64, 122, 0.4);
+}
