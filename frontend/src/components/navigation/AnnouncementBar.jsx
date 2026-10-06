@@ -37,12 +37,6 @@ export default function AnnouncementBar() {
             aria-label="Contact Dhanvikk Floral Concierge on WhatsApp +91 91089 16328"
             className="group inline-flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-full bg-white/95 hover:bg-white border border-[#25D366]/35 hover:border-[#25D366] text-[#128C7E] text-[11px] sm:text-xs font-semibold shadow-2xs hover:shadow-xs hover:ring-2 hover:ring-[#25D366]/15 transition-all duration-200"
           >
-            {/* Live Concierge Active Indicator */}
-            <span className="relative flex h-2 w-2 flex-shrink-0">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#25D366] opacity-75" />
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-[#25D366]" />
-            </span>
-
             {/* WhatsApp Icon */}
             <MessageCircle className="w-3.5 h-3.5 text-[#25D366] transition-transform duration-200 group-hover:scale-110 flex-shrink-0" />
 
@@ -50,7 +44,8 @@ export default function AnnouncementBar() {
             <span className="hidden sm:inline text-[#5A4F55] font-normal">Contact Us:</span>
             <span className="hidden xs:inline font-semibold text-[#128C7E] group-hover:text-[#0b6b5e] tracking-tight whitespace-nowrap">
               +91 91089 16328
-              </span>
+            </span>
+
             {/* Concierge Badge on Desktop */}
             <span className="hidden md:inline-flex items-center text-[9px] uppercase tracking-wider font-bold bg-[#E8F8F0] text-[#0E7A66] px-1.5 py-0.5 rounded-full border border-[#25D366]/20 leading-none">
               WhatsApp
