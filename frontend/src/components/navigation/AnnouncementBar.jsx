@@ -50,11 +50,7 @@ export default function AnnouncementBar() {
             <span className="hidden sm:inline text-[#5A4F55] font-normal">Contact Us:</span>
             <span className="hidden xs:inline font-semibold text-[#128C7E] group-hover:text-[#0b6b5e] tracking-tight whitespace-nowrap">
               +91 91089 16328
-            </span>
-            <span className="xs:hidden font-semibold text-[#128C7E]">
-              WhatsApp
-            </span>
-
+              </span>
             {/* Concierge Badge on Desktop */}
             <span className="hidden md:inline-flex items-center text-[9px] uppercase tracking-wider font-bold bg-[#E8F8F0] text-[#0E7A66] px-1.5 py-0.5 rounded-full border border-[#25D366]/20 leading-none">
               WhatsApp

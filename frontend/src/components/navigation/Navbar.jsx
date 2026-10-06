@@ -217,31 +217,31 @@ export default function Navbar({ onSearch, searchQuery = '' }) {
   const isAdmin = user?.role === 'admin' || user?.role === 'super_admin';
 
   return (
-    <header className="sticky-mobile-nav sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-[#F7F2ED] transition-all font-['Poppins'] shadow-xs">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between gap-4">
+    <header className="sticky-mobile-nav sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-[#F0EBE5] transition-all font-['Poppins'] shadow-2xs">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-18 flex items-center justify-between gap-3 sm:gap-6">
         {/* Mobile menu toggle & Brand Logo */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 flex-shrink-0">
           <button
             type="button"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="lg:hidden p-2 text-[#242124] hover:text-[#EC407A] focus:outline-none"
+            className="lg:hidden p-1.5 text-[#242124] hover:text-[#EC407A] rounded-lg focus:outline-none"
             aria-label="Toggle Navigation Menu"
           >
-            {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            {mobileMenuOpen ? <X className="w-5 h-5 sm:w-6 sm:h-6" /> : <Menu className="w-5 h-5 sm:w-6 sm:h-6" />}
           </button>
 
           <Logo />
         </div>
 
         {/* Center: Search Bar with Autocomplete Dropdown */}
-        <div ref={searchContainerRef} className="relative hidden md:flex flex-1 max-w-lg mx-4 lg:mx-6">
+        <div ref={searchContainerRef} className="relative hidden md:flex flex-1 max-w-md lg:max-w-lg mx-2 lg:mx-6">
           <form onSubmit={handleSearchSubmit} className="relative w-full">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#777777]" />
+            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#888888] pointer-events-none" />
             
             <input
               ref={inputRef}
               type="text"
-              placeholder="Search by flower name, category (e.g. roses, hatboxes), occasion..."
+              placeholder="Search luxury flowers, bouquets & gifts..."
               value={query}
               onFocus={() => setIsSearchFocused(true)}
               onChange={(e) => {
@@ -250,7 +250,7 @@ export default function Navbar({ onSearch, searchQuery = '' }) {
                 if (!isSearchFocused) setIsSearchFocused(true);
                 if (onSearch) onSearch(val);
               }}
-              className="w-full h-11 pl-11 pr-28 bg-[#FAF7F2] border border-[#E9E2E5] rounded-full text-xs text-[#242124] placeholder:text-[#888888] focus:bg-white focus:outline-none focus:border-[#EC407A] focus:ring-2 focus:ring-[#EC407A]/15 transition-all shadow-xs"
+              className="w-full h-10 pl-10 pr-24 bg-[#FAF7F2] hover:bg-[#F5EFEB] border border-[#E8E1DA] rounded-full text-xs text-[#242124] placeholder:text-[#888888] focus:bg-white focus:outline-none focus:border-[#C2185B] focus:ring-2 focus:ring-[#C2185B]/10 transition-all shadow-2xs"
             />
 
             {/* Clear Input Button */}
@@ -258,7 +258,7 @@ export default function Navbar({ onSearch, searchQuery = '' }) {
               <button
                 type="button"
                 onClick={handleClearSearch}
-                className="absolute right-20 top-1/2 -translate-y-1/2 p-1 text-[#888888] hover:text-[#242124] rounded-full hover:bg-black/5 transition-colors"
+                className="absolute right-18 top-1/2 -translate-y-1/2 p-1 text-[#888888] hover:text-[#242124] rounded-full hover:bg-black/5 transition-colors"
                 title="Clear query"
               >
                 <X className="w-3.5 h-3.5" />
@@ -268,7 +268,7 @@ export default function Navbar({ onSearch, searchQuery = '' }) {
             {/* Submit Button */}
             <button
               type="submit"
-              className="absolute right-1.5 top-1/2 -translate-y-1/2 px-4 py-1.5 rounded-full bg-[#242124] text-white hover:bg-[#EC407A] text-[11px] font-semibold transition-colors cursor-pointer"
+              className="absolute right-1 top-1/2 -translate-y-1/2 px-3.5 py-1.5 rounded-full bg-[#242124] hover:bg-[#C2185B] text-white text-[11px] font-semibold transition-colors cursor-pointer shadow-2xs"
             >
               Search
             </button>
@@ -474,26 +474,26 @@ export default function Navbar({ onSearch, searchQuery = '' }) {
         </div>
 
         {/* Right Action Icons & Controls */}
-        <div className="flex items-center gap-2 sm:gap-3">
-          {/* Skiper20 UniSwap Country & Auto-Currency Selector Trigger (Desktop) */}
+        <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
+          {/* Skiper20 UniSwap Country & Auto-Currency Selector Trigger */}
           <div className="relative">
             <button
               type="button"
               onClick={() => setIsRegionDialogOpen(true)}
-              className="flex items-center gap-1.5 bg-[#FAF7F2] hover:bg-[#FFF3F6] border border-[#EBE3DC] hover:border-[#FCC1C5] px-2.5 sm:px-3 py-1.5 rounded-full text-xs font-semibold text-[#242124] transition-all shadow-2xs group cursor-pointer"
+              className="group inline-flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1.5 rounded-full bg-[#FAF7F2] hover:bg-white border border-[#E8E1DA] hover:border-[#D0C6BD] text-xs font-semibold text-[#242124] transition-all shadow-2xs hover:shadow-xs cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#C2185B]/20"
               title="Select Delivery Region & Auto-change Currency"
-              aria-label="Change delivery region and currency"
+              aria-label={`Current delivery region: ${currentCountryObj.name}, currency: ${currency}. Click to change.`}
             >
-              <span className="text-base leading-none">
+              <span className="text-base sm:text-lg leading-none filter drop-shadow-2xs">
                 {currentCountryObj.flag}
               </span>
-              <span className="font-bold text-[#242124] group-hover:text-[#C2185B] transition-colors">
+              <span className="font-bold text-[#242124] group-hover:text-[#C2185B] transition-colors tracking-tight">
                 {currency}
               </span>
-              <span className="text-[10px] text-[#777777] hidden md:inline">
+              <span className="text-[10px] text-[#777777] font-medium hidden md:inline">
                 ({currentCountryObj.currencySymbol})
               </span>
-              <ChevronDown className="w-3.5 h-3.5 text-[#777777] group-hover:text-[#EC407A] transition-colors" />
+              <ChevronDown className="w-3.5 h-3.5 text-[#888888] group-hover:text-[#242124] transition-transform duration-200 group-hover:translate-y-0.5 flex-shrink-0" />
             </button>
           </div>
 
@@ -504,23 +504,23 @@ export default function Navbar({ onSearch, searchQuery = '' }) {
                 <button
                   type="button"
                   onClick={() => setUserDropdownOpen(!userDropdownOpen)}
-                  className="flex items-center gap-2 p-1.5 sm:px-3 sm:py-2 rounded-full hover:bg-[#FFF3F6] border border-[#F7F2ED] transition-all cursor-pointer"
+                  className="flex items-center gap-2 p-1.5 sm:px-2.5 sm:py-1.5 rounded-full hover:bg-[#FAF7F2] border border-transparent hover:border-[#E8E1DA] transition-all cursor-pointer"
                 >
-                  <span className="w-7 h-7 rounded-full bg-[#FFF0F4] border border-[#F2D7DE] text-[#C2185B] flex items-center justify-center font-bold text-xs shadow-2xs">
+                  <span className="w-7 h-7 rounded-full bg-[#FFF0F4] border border-[#FCC1C5] text-[#C2185B] flex items-center justify-center font-bold text-xs shadow-2xs">
                     {user?.name ? user.name.charAt(0).toUpperCase() : <User className="w-3.5 h-3.5" />}
                   </span>
-                  <span className="hidden sm:inline text-xs font-semibold text-[#242124] max-w-[100px] truncate">
+                  <span className="hidden sm:inline text-xs font-semibold text-[#242124] max-w-[85px] truncate">
                     {user?.name?.split(' ')[0]}
                   </span>
-                  <ChevronDown className="w-3.5 h-3.5 text-[#777777]" />
+                  <ChevronDown className="w-3.5 h-3.5 text-[#888888]" />
                 </button>
 
                 {userDropdownOpen && (
-                  <div className="absolute right-0 top-full mt-2 w-56 bg-white rounded-2xl shadow-xl border border-[#F7F2ED] py-2 z-50 animate-in fade-in duration-150">
+                  <div className="absolute right-0 top-full mt-2 w-56 bg-white rounded-2xl shadow-xl border border-[#F0EBE5] py-2 z-50 animate-in fade-in duration-150">
                     <div className="px-4 py-2 border-b border-[#F7F2ED]">
                       <p className="text-xs font-semibold text-[#242124] truncate">{user?.name}</p>
                       <p className="text-[11px] text-[#777777] truncate">{user?.email}</p>
-                      <span className="inline-block mt-1 text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#FFF3F6] text-[#C2185B] uppercase tracking-wider">
+                      <span className="inline-block mt-1 text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#FFF0F4] text-[#C2185B] uppercase tracking-wider">
                         {user?.role}
                       </span>
                     </div>
@@ -559,23 +559,24 @@ export default function Navbar({ onSearch, searchQuery = '' }) {
             ) : (
               <Link
                 to="/login"
-                className="flex items-center gap-1.5 px-3.5 py-2 rounded-full text-xs font-semibold text-[#242124] hover:text-[#C2185B] hover:bg-[#FFF3F6] border border-transparent hover:border-[#FCC1C5] transition-all"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 sm:py-2 rounded-full text-xs font-semibold text-[#242124] hover:text-[#C2185B] hover:bg-[#FAF7F2] border border-transparent hover:border-[#E8E1DA] transition-all"
               >
-                <User className="w-4 h-4 text-[#EC407A]" />
+                <User className="w-4 h-4 text-[#C2185B]" />
                 <span className="hidden sm:inline">Sign In</span>
               </Link>
             )}
           </div>
+
           {/* Cart Drawer Trigger */}
           <button
             type="button"
             onClick={() => dispatch(openCart())}
-            className="relative flex items-center gap-2 px-4 py-2 rounded-full bg-[#EC407A] text-white hover:bg-[#C2185B] transition-all shadow-sm hover:shadow-md hover:shadow-[#EC407A]/25 cursor-pointer"
+            className="relative inline-flex items-center gap-2 px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-full bg-[#242124] hover:bg-[#C2185B] text-white transition-all shadow-2xs hover:shadow-xs cursor-pointer group"
             aria-label="View shopping cart"
           >
-            <ShoppingBag className="w-4 h-4" />
-            <span className="text-xs font-bold hidden sm:inline">Cart</span>
-            <span className="w-5 h-5 rounded-full bg-white text-[#EC407A] text-[11px] font-bold flex items-center justify-center font-mono">
+            <ShoppingBag className="w-4 h-4 group-hover:scale-105 transition-transform" />
+            <span className="text-xs font-semibold hidden sm:inline">Cart</span>
+            <span className="w-5 h-5 rounded-full bg-white text-[#242124] group-hover:text-[#C2185B] text-[11px] font-bold flex items-center justify-center font-mono transition-colors">
               {totalCartCount}
             </span>
           </button>
