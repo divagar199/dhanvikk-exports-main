@@ -28,9 +28,10 @@ import { useCurrency } from '../../context/CurrencyContext';
 import { productService } from '../../services/productService';
 import { SEARCH_CATEGORIES, TRENDING_SEARCHES } from '../../data/searchIndex';
 import { getProductImageUrl } from '../../utils/imageUrl';
+import { CountrySelectDialog, SKIPER_COUNTRIES } from '../v1/skiper20';
 
 export default function Navbar({ onSearch, searchQuery = '' }) {
-  const { currency, setCurrency, currencies, formatPrice } = useCurrency();
+  const { currency, setCurrency, currencies, formatPrice, selectedCountry } = useCurrency();
   const [searchParams] = useSearchParams();
   const urlQuery = searchParams.get('q') || '';
   
@@ -39,6 +40,17 @@ export default function Navbar({ onSearch, searchQuery = '' }) {
   const [isSearchFocused, setIsSearchFocused] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [userDropdownOpen, setUserDropdownOpen] = useState(false);
+  const [isRegionDialogOpen, setIsRegionDialogOpen] = useState(false);
+
+  const currentCountryObj = useMemo(() => {
+    return (
+      SKIPER_COUNTRIES.find(
+        (c) => c.code.toUpperCase() === (selectedCountry || 'AE').toUpperCase()
+      ) ||
+      SKIPER_COUNTRIES.find((c) => c.currency === currency) ||
+      SKIPER_COUNTRIES[0]
+    );
+  }, [selectedCountry, currency]);
 
   const searchContainerRef = useRef(null);
   const mobileSearchRef = useRef(null);
@@ -463,23 +475,26 @@ export default function Navbar({ onSearch, searchQuery = '' }) {
 
         {/* Right Action Icons & Controls */}
         <div className="flex items-center gap-2 sm:gap-3">
-          {/* Currency Switcher */}
+          {/* Skiper20 UniSwap Country & Auto-Currency Selector Trigger (Desktop) */}
           <div className="relative">
-            <div className="flex items-center gap-1 bg-[#FAF7F2] hover:bg-[#FFF3F6] border border-[#EBE3DC] hover:border-[#FCC1C5] px-2 sm:px-2.5 py-1 sm:py-1.5 rounded-full text-xs transition-all shadow-2xs">
-              <span className="text-[10px] font-bold text-[#888888] uppercase hidden md:inline">Currency:</span>
-              <select
-                value={currency}
-                onChange={(e) => setCurrency(e.target.value)}
-                className="bg-transparent text-[#242124] text-xs font-bold focus:outline-none cursor-pointer"
-                aria-label="Select Currency"
-              >
-                {Object.values(currencies).map((c) => (
-                  <option key={c.code} value={c.code} className="bg-white text-[#242124] font-medium py-1">
-                    {c.symbol} {c.code}
-                  </option>
-                ))}
-              </select>
-            </div>
+            <button
+              type="button"
+              onClick={() => setIsRegionDialogOpen(true)}
+              className="flex items-center gap-1.5 bg-[#FAF7F2] hover:bg-[#FFF3F6] border border-[#EBE3DC] hover:border-[#FCC1C5] px-2.5 sm:px-3 py-1.5 rounded-full text-xs font-semibold text-[#242124] transition-all shadow-2xs group cursor-pointer"
+              title="Select Delivery Region & Auto-change Currency"
+              aria-label="Change delivery region and currency"
+            >
+              <span className="text-base leading-none">
+                {currentCountryObj.flag}
+              </span>
+              <span className="font-bold text-[#242124] group-hover:text-[#C2185B] transition-colors">
+                {currency}
+              </span>
+              <span className="text-[10px] text-[#777777] hidden md:inline">
+                ({currentCountryObj.currencySymbol})
+              </span>
+              <ChevronDown className="w-3.5 h-3.5 text-[#777777] group-hover:text-[#EC407A] transition-colors" />
+            </button>
           </div>
 
           {/* Customer / Admin Dropdown */}
@@ -702,27 +717,33 @@ export default function Navbar({ onSearch, searchQuery = '' }) {
           </div>
 
           {/* Mobile Currency Switcher */}
+          {/* Mobile Skiper20 Region & Currency Button */}
           <div className="pt-3 border-t border-[#F7F2ED] flex items-center justify-between text-xs">
-            <span className="text-[#777777] font-medium">Currency:</span>
-            <div className="flex items-center gap-1 bg-[#FAF7F2] p-1 rounded-lg border border-[#E9E2E5]">
-              {Object.values(currencies).map((c) => (
-                <button
-                  key={c.code}
-                  type="button"
-                  onClick={() => setCurrency(c.code)}
-                  className={`px-2.5 py-1 rounded text-xs font-bold transition-all cursor-pointer ${
-                    currency === c.code
-                      ? 'bg-[#242124] text-white shadow-xs'
-                      : 'text-[#777777] hover:text-[#242124]'
-                  }`}
-                >
-                  {c.code}
-                </button>
-              ))}
-            </div>
+            <span className="text-[#777777] font-medium">Delivery Region:</span>
+            <button
+              type="button"
+              onClick={() => {
+                setMobileMenuOpen(false);
+                setIsRegionDialogOpen(true);
+              }}
+              className="flex items-center gap-2 bg-[#FAF7F2] hover:bg-[#FFF3F6] border border-[#E9E2E5] hover:border-[#FCC1C5] px-3 py-1.5 rounded-xl text-xs font-bold text-[#242124] transition-all cursor-pointer shadow-2xs"
+            >
+              <span className="text-base">{currentCountryObj.flag}</span>
+              <span>{currentCountryObj.name.split(' ')[0]}</span>
+              <span className="text-[11px] text-[#EC407A] font-extrabold bg-[#FFF0F4] px-1.5 py-0.5 rounded-md">
+                {currency}
+              </span>
+              <ChevronDown className="w-3.5 h-3.5 text-[#777777]" />
+            </button>
           </div>
         </div>
       )}
+
+      {/* Skiper20 UniSwap Country & Auto-Currency Selection Dialog */}
+      <CountrySelectDialog
+        isOpen={isRegionDialogOpen}
+        onClose={() => setIsRegionDialogOpen(false)}
+      />
     </header>
   );
 }

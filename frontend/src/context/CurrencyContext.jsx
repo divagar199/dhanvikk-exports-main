@@ -81,16 +81,135 @@ export const CURRENCY_CONFIGS = {
     rateFromINR: 1 / 90.5, // 1 EUR = ~90.5 INR
     format: (val) => `€${val.toLocaleString()}`,
   },
+  GBP: {
+    code: 'GBP',
+    symbol: '£',
+    nativeSymbol: '£',
+    label: 'GBP (£) • United Kingdom',
+    name: 'British Pound',
+    country: 'United Kingdom',
+    rateFromINR: 1 / 106.5, // 1 GBP = ~106.5 INR
+    format: (val) => `£${val.toLocaleString()}`,
+  },
+  SAR: {
+    code: 'SAR',
+    symbol: 'SAR',
+    nativeSymbol: 'ر.س',
+    label: 'SAR (ر.س) • Saudi Arabia',
+    name: 'Saudi Riyal',
+    country: 'Saudi Arabia',
+    rateFromINR: 1 / 22.3, // 1 SAR = ~22.3 INR
+    format: (val) => `SAR ${val.toLocaleString()}`,
+  },
+  QAR: {
+    code: 'QAR',
+    symbol: 'QAR',
+    nativeSymbol: 'ر.ق',
+    label: 'QAR (ر.ق) • Qatar',
+    name: 'Qatari Riyal',
+    country: 'Qatar',
+    rateFromINR: 1 / 22.9, // 1 QAR = ~22.9 INR
+    format: (val) => `QAR ${val.toLocaleString()}`,
+  },
+  KWD: {
+    code: 'KWD',
+    symbol: 'KWD',
+    nativeSymbol: 'د.ك',
+    label: 'KWD (د.ك) • Kuwait',
+    name: 'Kuwaiti Dinar',
+    country: 'Kuwait',
+    rateFromINR: 1 / 272, // 1 KWD = ~272 INR
+    format: (val) => `KWD ${Number(val).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`,
+  },
+  BHD: {
+    code: 'BHD',
+    symbol: 'BHD',
+    nativeSymbol: 'ب.د',
+    label: 'BHD (ب.د) • Bahrain',
+    name: 'Bahraini Dinar',
+    country: 'Bahrain',
+    rateFromINR: 1 / 221, // 1 BHD = ~221 INR
+    format: (val) => `BHD ${Number(val).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`,
+  },
+  CAD: {
+    code: 'CAD',
+    symbol: 'C$',
+    nativeSymbol: 'C$',
+    label: 'CAD (C$) • Canada',
+    name: 'Canadian Dollar',
+    country: 'Canada',
+    rateFromINR: 1 / 61.5, // 1 CAD = ~61.5 INR
+    format: (val) => `C$${val.toLocaleString()}`,
+  },
+  AUD: {
+    code: 'AUD',
+    symbol: 'A$',
+    nativeSymbol: 'A$',
+    label: 'AUD (A$) • Australia',
+    name: 'Australian Dollar',
+    country: 'Australia',
+    rateFromINR: 1 / 55.2, // 1 AUD = ~55.2 INR
+    format: (val) => `A$${val.toLocaleString()}`,
+  },
+  JPY: {
+    code: 'JPY',
+    symbol: '¥',
+    nativeSymbol: '¥',
+    label: 'JPY (¥) • Japan',
+    name: 'Japanese Yen',
+    country: 'Japan',
+    rateFromINR: 1.82, // 1 INR = ~1.82 JPY
+    format: (val) => `¥${Math.round(val).toLocaleString()}`,
+  },
+};
+
+// Map ISO country codes to default currencies
+export const COUNTRY_TO_CURRENCY_MAP = {
+  AE: 'AED',
+  IN: 'INR',
+  US: 'USD',
+  GB: 'GBP',
+  SG: 'SGD',
+  OM: 'OMR',
+  SA: 'SAR',
+  QA: 'QAR',
+  KW: 'KWD',
+  BH: 'BHD',
+  MY: 'MYR',
+  LK: 'LKR',
+  DE: 'EUR',
+  FR: 'EUR',
+  IT: 'EUR',
+  ES: 'EUR',
+  NL: 'EUR',
+  EU: 'EUR',
+  CA: 'CAD',
+  AU: 'AUD',
+  JP: 'JPY',
 };
 
 const CurrencyContext = createContext(null);
 
 export function CurrencyProvider({ children }) {
+  const [selectedCountry, setSelectedCountryState] = useState(() => {
+    try {
+      const savedCountry = localStorage.getItem('dhanvikk_country');
+      if (savedCountry) return savedCountry.toUpperCase();
+    } catch {
+      // ignore
+    }
+    return 'AE'; // Default to UAE
+  });
+
   const [currency, setCurrencyState] = useState(() => {
     try {
       const saved = localStorage.getItem('dhanvikk_currency');
       if (saved && CURRENCY_CONFIGS[saved]) {
         return saved;
+      }
+      const savedCountry = localStorage.getItem('dhanvikk_country');
+      if (savedCountry && COUNTRY_TO_CURRENCY_MAP[savedCountry.toUpperCase()]) {
+        return COUNTRY_TO_CURRENCY_MAP[savedCountry.toUpperCase()];
       }
     } catch {
       // ignore
@@ -107,6 +226,27 @@ export function CurrencyProvider({ children }) {
         // ignore
       }
     }
+  };
+
+  /**
+   * Automatically select a region/country and automatically change the currency.
+   * @param {string} countryCode - ISO-2 code (e.g. 'AE', 'US', 'IN', 'GB', 'SG', 'SA')
+   * @param {string} [customCurrency] - Optional currency override
+   */
+  const selectRegion = (countryCode, customCurrency = null) => {
+    const code = (countryCode || 'AE').toUpperCase();
+    setSelectedCountryState(code);
+    try {
+      localStorage.setItem('dhanvikk_country', code);
+    } catch {
+      // ignore
+    }
+
+    const targetCurrency = customCurrency || COUNTRY_TO_CURRENCY_MAP[code] || 'USD';
+    if (CURRENCY_CONFIGS[targetCurrency]) {
+      setCurrency(targetCurrency);
+    }
+    return { countryCode: code, currency: targetCurrency };
   };
 
   const currentConfig = CURRENCY_CONFIGS[currency] || CURRENCY_CONFIGS.AED;
@@ -162,6 +302,9 @@ export function CurrencyProvider({ children }) {
       value={{
         currency,
         setCurrency,
+        selectedCountry,
+        setSelectedCountry: setSelectedCountryState,
+        selectRegion,
         currentConfig,
         currencySymbol: currentConfig.symbol,
         currencies: CURRENCY_CONFIGS,
