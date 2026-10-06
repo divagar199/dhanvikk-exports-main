@@ -94,8 +94,13 @@ export const SERVICEABLE_COUNTRIES = [
 ];
 
 export default function GlobalServiceableCountries() {
-  // Seamless loop array (duplicated for infinite smooth animation)
-  const marqueeItems = [...SERVICEABLE_COUNTRIES, ...SERVICEABLE_COUNTRIES, ...SERVICEABLE_COUNTRIES];
+  // Seamless loop array (duplicated for infinite smooth continuous animation)
+  const marqueeItems = [
+    ...SERVICEABLE_COUNTRIES,
+    ...SERVICEABLE_COUNTRIES,
+    ...SERVICEABLE_COUNTRIES,
+    ...SERVICEABLE_COUNTRIES,
+  ];
 
   return (
     <section className="w-full py-10 sm:py-14 bg-gradient-to-b from-[#FFFDF9] via-[#FAF7F2] to-[#FFFDF9] border-y border-[#F2ECE6] overflow-hidden relative">
@@ -124,21 +129,29 @@ export default function GlobalServiceableCountries() {
         <div className="pointer-events-none absolute inset-y-0 left-0 w-16 sm:w-28 bg-gradient-to-r from-[#FAF7F2] via-[#FAF7F2]/80 to-transparent z-10" />
         <div className="pointer-events-none absolute inset-y-0 right-0 w-16 sm:w-28 bg-gradient-to-l from-[#FAF7F2] via-[#FAF7F2]/80 to-transparent z-10" />
 
-        {/* Interactive Swiper with Free-mode & Autoplay */}
+        {/* Interactive Continuous Loop Swiper with Free-mode & Swipe Resume */}
         <Swiper
           modules={[Autoplay, FreeMode]}
           slidesPerView="auto"
           spaceBetween={16}
           loop={true}
+          loopAdditionalSlides={14}
           grabCursor={true}
           freeMode={{ enabled: true, momentum: true }}
           autoplay={{
-            delay: 1500,
+            delay: 0,
             disableOnInteraction: false,
             pauseOnMouseEnter: true,
           }}
-          speed={900}
-          className="w-full !overflow-visible select-none py-1"
+          speed={4500}
+          onTouchEnd={(swiper) => {
+            setTimeout(() => {
+              if (swiper && !swiper.destroyed && !swiper.autoplay.running) {
+                swiper.autoplay.start();
+              }
+            }, 300);
+          }}
+          className="w-full !overflow-visible select-none py-1 continuous-country-swiper"
         >
           {marqueeItems.map((country, index) => (
             <SwiperSlide key={`${country.code}-${index}`} className="!w-auto">

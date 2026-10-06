@@ -182,3 +182,9 @@ html {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
+/* Continuous Infinite Marquee Loop for Serviceable Countries */
+.continuous-country-swiper .swiper-wrapper {
+  transition-timing-function: linear !important;
+  will-change: transform;
+}
