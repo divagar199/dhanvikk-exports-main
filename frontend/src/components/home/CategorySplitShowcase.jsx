@@ -11,6 +11,7 @@ import {
   Grid,
   Layers,
   ChevronRight,
+  ChevronDown,
 } from 'lucide-react';
 import Button from '../common/Button';
 import { addItem } from '../../store/slices/cartSlice';
@@ -43,6 +44,7 @@ export default function CategorySplitShowcase({ products = [], loading = false }
 
   const [activeStemFilter, setActiveStemFilter] = useState('ALL');
   const [addedIds, setAddedIds] = useState([]);
+  const [showAllStems, setShowAllStems] = useState(false);
 
   const handleToggleWishlist = (e, product) => {
     e.preventDefault();
@@ -193,7 +195,10 @@ export default function CategorySplitShowcase({ products = [], loading = false }
             <button
               key={pill.id}
               type="button"
-              onClick={() => setActiveStemFilter(pill.id)}
+              onClick={() => {
+                setActiveStemFilter(pill.id);
+                setShowAllStems(false);
+              }}
               className={`px-4 py-2 rounded-full text-xs font-semibold whitespace-nowrap transition-all flex items-center gap-2 cursor-pointer ${
                 isSelected
                   ? 'bg-[#EC407A] text-white shadow-md shadow-[#EC407A]/25'
@@ -214,22 +219,48 @@ export default function CategorySplitShowcase({ products = [], loading = false }
           const catProducts = filterStemProducts(rawCatProducts);
           if (rawCatProducts.length === 0) return null;
 
+          // Display exactly 2 rows on standard 4-column layout (8 items) by default
+          const visibleProducts = showAllStems ? catProducts : catProducts.slice(0, 8);
+
           return (
             <div
               key={cat.id}
               id={`category-block-${cat.slug}`}
               className="w-full"
             >
-              {/* Product Grid for Fresh Blooms */}
+              {/* Product Grid for Fresh Blooms - 2 Rows */}
               {catProducts.length === 0 ? (
                 <div className="py-12 text-center bg-white/70 rounded-2xl p-6 border border-[#F4ECE4]">
                   <Flower2 className="w-8 h-8 text-[#EC407A] mx-auto mb-2 opacity-50" />
                   <p className="text-xs font-semibold text-[#777777]">No stems matching this filter right now.</p>
                 </div>
               ) : (
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
-                  {catProducts.map((product) => renderProductCard(product))}
-                </div>
+                <>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+                    {visibleProducts.map((product) => renderProductCard(product))}
+                  </div>
+
+                  {catProducts.length > 8 && (
+                    <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
+                      <button
+                        type="button"
+                        onClick={() => setShowAllStems(!showAllStems)}
+                        className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-white hover:bg-[#FFF0F4] border border-[#FCC1C5] text-xs font-bold text-[#C2185B] shadow-xs hover:shadow-md transition-all cursor-pointer"
+                      >
+                        <span>{showAllStems ? 'Show Less (2 Rows)' : `View More Stems (+${catProducts.length - 8})`}</span>
+                        <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${showAllStems ? 'rotate-180' : ''}`} />
+                      </button>
+
+                      <Link
+                        to="/category/roses"
+                        className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-[#242124] hover:bg-[#EC407A] text-white text-xs font-bold transition-all shadow-xs hover:shadow-md"
+                      >
+                        <span>Explore All Bouquets</span>
+                        <ArrowRight className="w-3.5 h-3.5" />
+                      </Link>
+                    </div>
+                  )}
+                </>
               )}
             </div>
           );
