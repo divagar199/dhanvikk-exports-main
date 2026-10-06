@@ -43,6 +43,8 @@ import { productService } from '../../services/productService';
 import { addItem } from '../../store/slices/cartSlice';
 import { toast } from 'sonner';
 import { useCurrency } from '../../context/CurrencyContext';
+import { Carousel_005, SwiperSlide } from '../../components/v1/skiper51';
+import { Sparkles, Zap } from 'lucide-react';
 import { getProductImageUrl } from '../../utils/imageUrl';
 
 export default function HomePage() {
@@ -193,120 +195,388 @@ export default function HomePage() {
         <SubNav />
 
         {/* 4. Editorial Hero Banners (Dhanvikk 3-Column Layout) */}
+        {/* 4. Editorial Hero Banners (Dhanvikk 3-Place Layout with Skiper51 Creative Carousels) */}
         <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 w-full">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-6">
-            {/* Primary Left Main Banner */}
-            <div className="lg:col-span-8 relative rounded-3xl overflow-hidden shadow-sm bg-gradient-to-r from-[#FFF0F4] via-[#FFF8F9] to-[#FAF7F2] border border-[#F7F2ED] min-h-[380px] sm:min-h-[440px] flex items-center p-6 sm:p-12">
-              <div className="relative z-10 max-w-lg space-y-4">
-                <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/90 border border-[#FCC1C5] text-[#C2185B] text-xs font-bold tracking-wider uppercase shadow-2xs">
-                  <Flame className="w-3.5 h-3.5 text-[#EC407A]" />
-                  <span>Spring Floristry Edit 2026</span>
-                </div>
+            {/* Primary Left Main Banner (Place 1) - Skiper51 Creative Carousel */}
+            <div className="lg:col-span-8 relative rounded-3xl overflow-hidden shadow-sm border border-[#F7F2ED] min-h-[400px] sm:min-h-[460px] bg-white">
+              <Carousel_005
+                autoplayDelay={5000}
+                showNavigation={true}
+                showPagination={true}
+                className="h-full rounded-3xl overflow-hidden"
+              >
+                {/* Place 1 - Slide 1 (Exact User Design: Elegance In Every Petal. Delivered Today.) */}
+                <SwiperSlide className="w-full h-full">
+                  <div className="relative w-full h-full bg-gradient-to-r from-[#FFF0F4] via-[#FFF8F9] to-[#FAF7F2] flex items-center p-6 sm:p-12 overflow-hidden">
+                    <div className="relative z-10 max-w-lg space-y-4">
+                      <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/90 border border-[#FCC1C5] text-[#C2185B] text-xs font-bold tracking-wider uppercase shadow-2xs">
+                        <Flame className="w-3.5 h-3.5 text-[#EC407A]" />
+                        <span>Spring Floristry Edit 2026</span>
+                      </div>
 
-                <h1 className="text-3xl sm:text-5xl font-bold font-['Poppins'] text-[#242124] leading-[1.15]">
-                  Elegance In Every Petal. <br />
-                  <span className="text-[#EC407A] italic font-normal">Delivered Today.</span>
-                </h1>
+                      <h1 className="text-3xl sm:text-5xl font-bold font-['Poppins'] text-[#242124] leading-[1.15]">
+                        Elegance In Every Petal. <br />
+                        <span className="text-[#EC407A] italic font-normal">Delivered Today.</span>
+                      </h1>
 
-                <p className="text-xs sm:text-sm text-[#777777] font-normal leading-relaxed">
-                  Directly imported highland Ecuadorian roses & exotic lilies, crafted by master florists with complimentary handwritten cards.
-                </p>
+                      <p className="text-xs sm:text-sm text-[#777777] font-normal leading-relaxed">
+                        Directly imported highland Ecuadorian roses & exotic lilies, crafted by master florists with complimentary handwritten cards.
+                      </p>
 
-                <div className="pt-2 flex flex-wrap items-center gap-3">
-                  <Link
-                    to="/category/roses"
-                    className="px-6 py-3 rounded-full bg-[#EC407A] hover:bg-[#C2185B] text-white text-xs sm:text-sm font-semibold transition-all shadow-md hover:shadow-lg hover:shadow-[#EC407A]/25 flex items-center gap-2 group"
-                  >
-                    <span>Shop Spring Roses</span>
-                    <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-                  </Link>
+                      <div className="pt-2 flex flex-wrap items-center gap-3">
+                        <Link
+                          to="/category/roses"
+                          className="px-6 py-3 rounded-full bg-[#EC407A] hover:bg-[#C2185B] text-white text-xs sm:text-sm font-semibold transition-all shadow-md hover:shadow-lg hover:shadow-[#EC407A]/25 flex items-center gap-2 group"
+                        >
+                          <span>Shop Spring Roses</span>
+                          <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                        </Link>
 
-                  <Link
-                    to="/category/occasions"
-                    className="px-6 py-3 rounded-full bg-white hover:bg-[#FFF3F6] text-[#242124] hover:text-[#C2185B] text-xs sm:text-sm font-semibold border border-[#E9E2E5] transition-all"
-                  >
-                    <span>Browse Occasions</span>
-                  </Link>
-                </div>
-              </div>
+                        <Link
+                          to="/category/occasions"
+                          className="px-6 py-3 rounded-full bg-white hover:bg-[#FFF3F6] text-[#242124] hover:text-[#C2185B] text-xs sm:text-sm font-semibold border border-[#E9E2E5] transition-all"
+                        >
+                          <span>Browse Occasions</span>
+                        </Link>
+                      </div>
+                    </div>
 
-              {/* Floating Artistic Floral Imagery */}
-              <div className="hidden sm:block absolute right-0 bottom-0 top-0 w-2/5 pointer-events-none">
-                <img
-                  src="https://images.unsplash.com/photo-1561181286-d3fee7d55364?auto=format&fit=crop&w=800&q=85"
-                  alt="Dhanvikk Blooms Luxury Fresh Rose Arrangements Handcrafted by Master Florists"
-                  className="w-full h-full object-cover rounded-l-full shadow-lg border-l-4 border-white opacity-95"
-                  loading="lazy"
-                  decoding="async"
-                  width="800"
-                  height="600"
-                />
-              </div>
+                    <div className="hidden sm:block absolute right-0 bottom-0 top-0 w-2/5 pointer-events-none">
+                      <img
+                        src="https://images.unsplash.com/photo-1561181286-d3fee7d55364?auto=format&fit=crop&w=800&q=85"
+                        alt="Dhanvikk Blooms Luxury Fresh Rose Arrangements Handcrafted by Master Florists"
+                        className="w-full h-full object-cover rounded-l-full shadow-lg border-l-4 border-white opacity-95"
+                        loading="lazy"
+                        decoding="async"
+                        width="800"
+                        height="600"
+                      />
+                    </div>
+                  </div>
+                </SwiperSlide>
+
+                {/* Place 1 - Slide 2 (New Stock Arrival Promotion) */}
+                <SwiperSlide className="w-full h-full">
+                  <div className="relative w-full h-full bg-gradient-to-r from-[#FFF5F8] via-[#FFF9FA] to-[#F7F3EE] flex items-center p-6 sm:p-12 overflow-hidden">
+                    <div className="relative z-10 max-w-lg space-y-4">
+                      <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/90 border border-[#FCC1C5] text-[#C2185B] text-xs font-bold tracking-wider uppercase shadow-2xs">
+                        <Sparkles className="w-3.5 h-3.5 text-[#EC407A]" />
+                        <span>New Harvest Arrival 2026</span>
+                      </div>
+
+                      <h2 className="text-3xl sm:text-5xl font-bold font-['Poppins'] text-[#242124] leading-[1.15]">
+                        Royal Imperial Orchids & <br />
+                        <span className="text-[#C2185B] italic font-normal">Exotic Garden Lilies.</span>
+                      </h2>
+
+                      <p className="text-xs sm:text-sm text-[#777777] font-normal leading-relaxed">
+                        Chilled morning cargo air-flown directly from high-altitude estates across India & Ecuador. Limited farm-fresh harvest available today.
+                      </p>
+
+                      <div className="pt-2 flex flex-wrap items-center gap-3">
+                        <Link
+                          to="/category/flowers"
+                          className="px-6 py-3 rounded-full bg-[#242124] hover:bg-[#EC407A] text-white text-xs sm:text-sm font-semibold transition-all shadow-md hover:shadow-lg flex items-center gap-2 group"
+                        >
+                          <span>Explore New Harvest</span>
+                          <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                        </Link>
+
+                        <Link
+                          to="/category/all"
+                          className="px-6 py-3 rounded-full bg-white hover:bg-[#FFF3F6] text-[#242124] hover:text-[#C2185B] text-xs sm:text-sm font-semibold border border-[#E9E2E5] transition-all"
+                        >
+                          <span>Curated Bouquets</span>
+                        </Link>
+                      </div>
+                    </div>
+
+                    <div className="hidden sm:block absolute right-0 bottom-0 top-0 w-2/5 pointer-events-none">
+                      <img
+                        src="https://images.unsplash.com/photo-1526047932273-341f2a7631f9?auto=format&fit=crop&w=800&q=85"
+                        alt="Royal Imperial Orchids and Garden Lilies New Stock"
+                        className="w-full h-full object-cover rounded-l-full shadow-lg border-l-4 border-white opacity-95"
+                        loading="lazy"
+                        decoding="async"
+                        width="800"
+                        height="600"
+                      />
+                    </div>
+                  </div>
+                </SwiperSlide>
+
+                {/* Place 1 - Slide 3 (Midnight Romance & Grand Celebration Promotion) */}
+                <SwiperSlide className="w-full h-full">
+                  <div className="relative w-full h-full bg-gradient-to-r from-[#FFF0F4] via-[#FDF5F8] to-[#F5ECE8] flex items-center p-6 sm:p-12 overflow-hidden">
+                    <div className="relative z-10 max-w-lg space-y-4">
+                      <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/90 border border-[#FCC1C5] text-[#C2185B] text-xs font-bold tracking-wider uppercase shadow-2xs">
+                        <Zap className="w-3.5 h-3.5 text-[#EC407A]" />
+                        <span>Signature Romance Edit</span>
+                      </div>
+
+                      <h2 className="text-3xl sm:text-5xl font-bold font-['Poppins'] text-[#242124] leading-[1.15]">
+                        Grand 100-Stem Crimson Passion. <br />
+                        <span className="text-[#EC407A] italic font-normal">Midnight Surprise Delivery.</span>
+                      </h2>
+
+                      <p className="text-xs sm:text-sm text-[#777777] font-normal leading-relaxed">
+                        Turn extraordinary moments into unforgettable memories with our signature Parisian velvet wrapping and embossed gold wax seal.
+                      </p>
+
+                      <div className="pt-2 flex flex-wrap items-center gap-3">
+                        <Link
+                          to="/category/roses"
+                          className="px-6 py-3 rounded-full bg-[#EC407A] hover:bg-[#C2185B] text-white text-xs sm:text-sm font-semibold transition-all shadow-md hover:shadow-lg hover:shadow-[#EC407A]/25 flex items-center gap-2 group"
+                        >
+                          <span>Shop Grand Bouquets</span>
+                          <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                        </Link>
+
+                        <Link
+                          to="/category/gifts"
+                          className="px-6 py-3 rounded-full bg-white hover:bg-[#FFF3F6] text-[#242124] hover:text-[#C2185B] text-xs sm:text-sm font-semibold border border-[#E9E2E5] transition-all"
+                        >
+                          <span>Reserve Gift Bundles</span>
+                        </Link>
+                      </div>
+                    </div>
+
+                    <div className="hidden sm:block absolute right-0 bottom-0 top-0 w-2/5 pointer-events-none">
+                      <img
+                        src="https://images.unsplash.com/photo-1582794543139-8ac9cb0f7b11?auto=format&fit=crop&w=800&q=85"
+                        alt="Signature Grand Crimson Velvet 100 Stems Arrangement"
+                        className="w-full h-full object-cover rounded-l-full shadow-lg border-l-4 border-white opacity-95"
+                        loading="lazy"
+                        decoding="async"
+                        width="800"
+                        height="600"
+                      />
+                    </div>
+                  </div>
+                </SwiperSlide>
+              </Carousel_005>
             </div>
 
-            {/* Right Side Editorial Pair */}
+            {/* Right Side Editorial Pair (Places 2 & 3) */}
             <div className="lg:col-span-4 flex flex-col gap-4">
-              {/* Card 1: Flower Boxes & Hampers */}
-              <Link
-                to="/category/flower-boxes"
-                className="group relative rounded-3xl overflow-hidden border border-[#F7F2ED] bg-[#FFF3F6] p-6 flex flex-col justify-between h-1/2 min-h-[200px] hover:shadow-md transition-all"
-              >
-                <div className="relative z-10 space-y-1">
-                  <span className="text-[10px] font-bold text-[#C2185B] uppercase tracking-wider bg-white/80 px-2.5 py-0.5 rounded-full inline-block">
-                    SAVE UP TO 20%
-                  </span>
-                  <h3 className="text-xl font-bold font-['Poppins'] text-[#242124]">
-                    Velvet Flower Boxes
-                  </h3>
-                  <p className="text-xs text-[#777777]">Signature Parisian hatboxes filled with garden blooms</p>
-                </div>
+              {/* Place 2: Velvet Flower Boxes Carousel (Top Right Card) */}
+              <div className="rounded-3xl overflow-hidden border border-[#F7F2ED] shadow-sm h-1/2 min-h-[210px] bg-white">
+                <Carousel_005
+                  autoplayDelay={4200}
+                  showNavigation={false}
+                  showPagination={true}
+                  className="h-full"
+                >
+                  {/* Place 2 - Slide 1 (Exact User Design: Velvet Flower Boxes) */}
+                  <SwiperSlide className="w-full h-full">
+                    <Link
+                      to="/category/flower-boxes"
+                      className="group relative rounded-3xl overflow-hidden bg-gradient-to-br from-[#FFF3F6] via-[#FFF8FA] to-[#FAF7F2] p-6 flex flex-col justify-between h-full w-full select-none"
+                    >
+                      <div className="relative z-10 space-y-1">
+                        <span className="text-[10px] font-bold text-[#C2185B] uppercase tracking-wider bg-white/90 px-2.5 py-0.5 rounded-full inline-block shadow-2xs">
+                          SAVE UP TO 20%
+                        </span>
+                        <h3 className="text-xl font-bold font-['Poppins'] text-[#242124]">
+                          Velvet Flower Boxes
+                        </h3>
+                        <p className="text-xs text-[#777777]">Signature Parisian hatboxes filled with garden blooms</p>
+                      </div>
 
-                <div className="relative z-10 flex items-center text-xs font-bold text-[#EC407A] group-hover:text-[#C2185B] gap-1">
-                  <span>Explore Boxes</span>
-                  <ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-                </div>
+                      <div className="relative z-10 flex items-center text-xs font-bold text-[#EC407A] group-hover:text-[#C2185B] gap-1">
+                        <span>Explore Boxes</span>
+                        <ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                      </div>
 
-                <img
-                  src="https://images.unsplash.com/photo-1582794543139-8ac9cb0f7b11?auto=format&fit=crop&w=400&q=80"
-                  alt="Signature Velvet Flower Box Parisian Hatbox Floral Arrangement"
-                  className="absolute right-0 bottom-0 w-36 h-36 object-cover rounded-tl-full opacity-90 group-hover:scale-105 transition-transform duration-300"
-                  loading="lazy"
-                  decoding="async"
-                  width="144"
-                  height="144"
-                />
-              </Link>
+                      <img
+                        src="https://images.unsplash.com/photo-1582794543139-8ac9cb0f7b11?auto=format&fit=crop&w=400&q=80"
+                        alt="Signature Velvet Flower Box Parisian Hatbox Floral Arrangement"
+                        className="absolute right-0 bottom-0 w-36 h-36 object-cover rounded-tl-full opacity-90 group-hover:scale-105 transition-transform duration-300"
+                        loading="lazy"
+                        decoding="async"
+                        width="144"
+                        height="144"
+                      />
+                    </Link>
+                  </SwiperSlide>
 
-              {/* Card 2: Forever Roses */}
-              <Link
-                to="/category/forever-roses"
-                className="group relative rounded-3xl overflow-hidden border border-[#F7F2ED] bg-[#FAF7F2] p-6 flex flex-col justify-between h-1/2 min-h-[200px] hover:shadow-md transition-all"
-              >
-                <div className="relative z-10 space-y-1">
-                  <span className="text-[10px] font-bold text-[#242124] uppercase tracking-wider bg-white/90 px-2.5 py-0.5 rounded-full inline-block">
-                    LASTS 3+ YEARS
-                  </span>
-                  <h3 className="text-xl font-bold font-['Poppins'] text-[#242124]">
-                    Preserved Forever Domes
-                  </h3>
-                  <p className="text-xs text-[#777777]">Natural Ecuadorian roses in luxury glass bell domes</p>
-                </div>
+                  {/* Place 2 - Slide 2 (New Stock: Crystal Acrylic Cases) */}
+                  <SwiperSlide className="w-full h-full">
+                    <Link
+                      to="/category/flower-boxes"
+                      className="group relative rounded-3xl overflow-hidden bg-gradient-to-br from-[#FFF8F2] via-[#FFF3EC] to-[#FAF7F2] p-6 flex flex-col justify-between h-full w-full select-none"
+                    >
+                      <div className="relative z-10 space-y-1">
+                        <span className="text-[10px] font-bold text-[#C2185B] uppercase tracking-wider bg-white/90 px-2.5 py-0.5 rounded-full inline-block shadow-2xs">
+                          NEW ARRIVAL 2026
+                        </span>
+                        <h3 className="text-xl font-bold font-['Poppins'] text-[#242124]">
+                          Crystal Acrylic Cases
+                        </h3>
+                        <p className="text-xs text-[#777777]">Glass-clear displays with secret pull-out keepsake drawer</p>
+                      </div>
 
-                <div className="relative z-10 flex items-center text-xs font-bold text-[#242124] group-hover:text-[#EC407A] gap-1">
-                  <span>Shop Forever Roses</span>
-                  <ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-                </div>
+                      <div className="relative z-10 flex items-center text-xs font-bold text-[#EC407A] group-hover:text-[#C2185B] gap-1">
+                        <span>Shop Acrylic Boxes</span>
+                        <ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                      </div>
 
-                <img
-                  src="https://images.unsplash.com/photo-1518895949257-7621c3c786d7?auto=format&fit=crop&w=400&q=80"
-                  alt="Preserved Forever Roses in Crystal Bell Dome Lasting 3 Years"
-                  className="absolute right-0 bottom-0 w-36 h-36 object-cover rounded-tl-full opacity-90 group-hover:scale-105 transition-transform duration-300"
-                  loading="lazy"
-                  decoding="async"
-                  width="144"
-                  height="144"
-                />
-              </Link>
+                      <img
+                        src="https://images.unsplash.com/photo-1563241527-3004b7be0ffd?auto=format&fit=crop&w=400&q=80"
+                        alt="Luxury Acrylic Bloom Case with Keepsake Drawer"
+                        className="absolute right-0 bottom-0 w-36 h-36 object-cover rounded-tl-full opacity-90 group-hover:scale-105 transition-transform duration-300"
+                        loading="lazy"
+                        decoding="async"
+                        width="144"
+                        height="144"
+                      />
+                    </Link>
+                  </SwiperSlide>
+
+                  {/* Place 2 - Slide 3 (Limited Edition: Heart Parisian Bloom Tins) */}
+                  <SwiperSlide className="w-full h-full">
+                    <Link
+                      to="/category/flower-boxes"
+                      className="group relative rounded-3xl overflow-hidden bg-gradient-to-br from-[#FAF0F8] via-[#FFF3FA] to-[#FAF7F2] p-6 flex flex-col justify-between h-full w-full select-none"
+                    >
+                      <div className="relative z-10 space-y-1">
+                        <span className="text-[10px] font-bold text-[#C2185B] uppercase tracking-wider bg-white/90 px-2.5 py-0.5 rounded-full inline-block shadow-2xs">
+                          LIMITED HARVEST
+                        </span>
+                        <h3 className="text-xl font-bold font-['Poppins'] text-[#242124]">
+                          Heart Parisian Tins
+                        </h3>
+                        <p className="text-xs text-[#777777]">Velvet heart-shaped boxes with scented morning garden roses</p>
+                      </div>
+
+                      <div className="relative z-10 flex items-center text-xs font-bold text-[#EC407A] group-hover:text-[#C2185B] gap-1">
+                        <span>Shop Limited Hearts</span>
+                        <ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                      </div>
+
+                      <img
+                        src="https://images.unsplash.com/photo-1527061011665-3652c757a4d4?auto=format&fit=crop&w=400&q=80"
+                        alt="Heart Parisian Bloom Velvet Tins Limited Harvest"
+                        className="absolute right-0 bottom-0 w-36 h-36 object-cover rounded-tl-full opacity-90 group-hover:scale-105 transition-transform duration-300"
+                        loading="lazy"
+                        decoding="async"
+                        width="144"
+                        height="144"
+                      />
+                    </Link>
+                  </SwiperSlide>
+                </Carousel_005>
+              </div>
+
+              {/* Place 3: Preserved Forever Domes Carousel (Bottom Right Card) */}
+              <div className="rounded-3xl overflow-hidden border border-[#F7F2ED] shadow-sm h-1/2 min-h-[210px] bg-white">
+                <Carousel_005
+                  autoplayDelay={4700}
+                  showNavigation={false}
+                  showPagination={true}
+                  className="h-full"
+                >
+                  {/* Place 3 - Slide 1 (Exact User Design: Preserved Forever Domes) */}
+                  <SwiperSlide className="w-full h-full">
+                    <Link
+                      to="/category/forever-roses"
+                      className="group relative rounded-3xl overflow-hidden bg-gradient-to-br from-[#FAF7F2] via-[#FFFDF9] to-[#F5EFE8] p-6 flex flex-col justify-between h-full w-full select-none"
+                    >
+                      <div className="relative z-10 space-y-1">
+                        <span className="text-[10px] font-bold text-[#242124] uppercase tracking-wider bg-white/90 px-2.5 py-0.5 rounded-full inline-block shadow-2xs">
+                          LASTS 3+ YEARS
+                        </span>
+                        <h3 className="text-xl font-bold font-['Poppins'] text-[#242124]">
+                          Preserved Forever Domes
+                        </h3>
+                        <p className="text-xs text-[#777777]">Natural Ecuadorian roses in luxury glass bell domes</p>
+                      </div>
+
+                      <div className="relative z-10 flex items-center text-xs font-bold text-[#242124] group-hover:text-[#EC407A] gap-1">
+                        <span>Shop Forever Roses</span>
+                        <ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                      </div>
+
+                      <img
+                        src="https://images.unsplash.com/photo-1518895949257-7621c3c786d7?auto=format&fit=crop&w=400&q=80"
+                        alt="Preserved Forever Roses in Crystal Bell Dome Lasting 3 Years"
+                        className="absolute right-0 bottom-0 w-36 h-36 object-cover rounded-tl-full opacity-90 group-hover:scale-105 transition-transform duration-300"
+                        loading="lazy"
+                        decoding="async"
+                        width="144"
+                        height="144"
+                      />
+                    </Link>
+                  </SwiperSlide>
+
+                  {/* Place 3 - Slide 2 (New Luxury Stock: 24K Gold-Dipped Roses) */}
+                  <SwiperSlide className="w-full h-full">
+                    <Link
+                      to="/category/forever-roses"
+                      className="group relative rounded-3xl overflow-hidden bg-gradient-to-br from-[#FFFDF0] via-[#FDF8E4] to-[#FAF7F2] p-6 flex flex-col justify-between h-full w-full select-none"
+                    >
+                      <div className="relative z-10 space-y-1">
+                        <span className="text-[10px] font-bold text-[#C2185B] uppercase tracking-wider bg-white/90 px-2.5 py-0.5 rounded-full inline-block shadow-2xs">
+                          AUTHENTIC 24K GOLD
+                        </span>
+                        <h3 className="text-xl font-bold font-['Poppins'] text-[#242124]">
+                          24K Gold-Dipped Roses
+                        </h3>
+                        <p className="text-xs text-[#777777]">Real Ecuadorian roses hand-dipped in authentic 24K gold</p>
+                      </div>
+
+                      <div className="relative z-10 flex items-center text-xs font-bold text-[#C2185B] group-hover:text-[#EC407A] gap-1">
+                        <span>Explore Gold Roses</span>
+                        <ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                      </div>
+
+                      <img
+                        src="https://images.unsplash.com/photo-1508615039623-a25605d2b022?auto=format&fit=crop&w=400&q=80"
+                        alt="24K Gold Dipped Forever Rose Keepsake in Luxury Velvet Case"
+                        className="absolute right-0 bottom-0 w-36 h-36 object-cover rounded-tl-full opacity-90 group-hover:scale-105 transition-transform duration-300"
+                        loading="lazy"
+                        decoding="async"
+                        width="144"
+                        height="144"
+                      />
+                    </Link>
+                  </SwiperSlide>
+
+                  {/* Place 3 - Slide 3 (New Ambient Bestseller: Celestial Fairy LED Domes) */}
+                  <SwiperSlide className="w-full h-full">
+                    <Link
+                      to="/category/forever-roses"
+                      className="group relative rounded-3xl overflow-hidden bg-gradient-to-br from-[#F4F1FA] via-[#FAF7FD] to-[#FAF7F2] p-6 flex flex-col justify-between h-full w-full select-none"
+                    >
+                      <div className="relative z-10 space-y-1">
+                        <span className="text-[10px] font-bold text-[#242124] uppercase tracking-wider bg-white/90 px-2.5 py-0.5 rounded-full inline-block shadow-2xs">
+                          FAIRY LED AMBIENT
+                        </span>
+                        <h3 className="text-xl font-bold font-['Poppins'] text-[#242124]">
+                          Celestial Glowing Domes
+                        </h3>
+                        <p className="text-xs text-[#777777]">Warm starlight illumination woven with everlasting preserved roses</p>
+                      </div>
+
+                      <div className="relative z-10 flex items-center text-xs font-bold text-[#242124] group-hover:text-[#EC407A] gap-1">
+                        <span>View Glowing Domes</span>
+                        <ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                      </div>
+
+                      <img
+                        src="https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=400&q=80"
+                        alt="Celestial Fairy LED Illuminated Preserved Roses in Dome"
+                        className="absolute right-0 bottom-0 w-36 h-36 object-cover rounded-tl-full opacity-90 group-hover:scale-105 transition-transform duration-300"
+                        loading="lazy"
+                        decoding="async"
+                        width="144"
+                        height="144"
+                      />
+                    </Link>
+                  </SwiperSlide>
+                </Carousel_005>
+              </div>
             </div>
           </div>
         </section>

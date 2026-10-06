@@ -205,3 +205,18 @@ html {
   background-color: #EC407A;
   box-shadow: 0 2px 8px rgba(236, 64, 122, 0.4);
 }
+
+/* Skiper51 Creative Carousel Pagination */
+.skiper51-creative-carousel .swiper-pagination-bullet {
+  background-color: #242124;
+  opacity: 0.3;
+  transition: all 0.3s ease;
+}
+
+.skiper51-creative-carousel .swiper-pagination-bullet-active {
+  background-color: #EC407A !important;
+  opacity: 1;
+  width: 18px;
+  border-radius: 9999px;
+  box-shadow: 0 2px 6px rgba(236, 64, 122, 0.4);
+}
