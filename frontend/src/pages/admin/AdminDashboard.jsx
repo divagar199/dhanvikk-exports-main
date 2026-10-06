@@ -20,41 +20,31 @@ import {
   Eye,
   Calendar,
   Layers,
-  ShoppingBag,
   Copy,
   Printer,
   X,
   ExternalLink,
   Sparkles,
   Flower2,
-  Check,
   MapPin,
   Phone,
   Mail,
   ChevronRight,
-  Filter,
-  Upload,
-  Image,
   Crown,
-  UserCheck,
   UserPlus,
-  ShieldAlert,
+  Upload,
   Coins,
   CreditCard,
   DollarSign,
-  Globe,
-  Percent,
   Save,
   FileText,
-  Sliders,
-  ArrowUpRight,
   Lock,
+  Menu,
 } from 'lucide-react';
 import Logo from '../../components/common/Logo';
 import { logoutUser } from '../../store/slices/authSlice';
 import Button from '../../components/common/Button';
 import Breadcrumb from '../../components/common/Breadcrumb';
-import Spinner from '../../components/common/Spinner';
 
 import { productService } from '../../services/productService';
 import { orderService } from '../../services/orderService';
@@ -93,13 +83,37 @@ const IMAGE_PRESETS = [
     name: 'Monstera Plant',
     url: 'https://images.unsplash.com/photo-1614594975525-e45190c55d0b?auto=format&fit=crop&w=800&q=80',
     category: 'Plants',
-    flowerType: 'Monstera',
+    flowerType: 'Air Purifying Plants',
   },
   {
     name: 'Peace Lily Plant',
     url: 'https://images.unsplash.com/photo-1593691509543-c55fb32e7355?auto=format&fit=crop&w=800&q=80',
     category: 'Plants',
-    flowerType: 'Indoor Plant',
+    flowerType: 'Indoor Botanicals',
+  },
+  {
+    name: 'White Orchid Planter',
+    url: 'https://images.unsplash.com/photo-1566908829550-e6551b00979b?auto=format&fit=crop&w=800&q=80',
+    category: 'Plants',
+    flowerType: 'Living Orchids',
+  },
+  {
+    name: 'Bonsai Tree',
+    url: 'https://images.unsplash.com/photo-1512428813834-c702c7702b78?auto=format&fit=crop&w=800&q=80',
+    category: 'Plants',
+    flowerType: 'Bonsai Trees',
+  },
+  {
+    name: 'Fiddle Leaf Fig',
+    url: 'https://images.unsplash.com/photo-1545241047-6083a3684587?auto=format&fit=crop&w=800&q=80',
+    category: 'Plants',
+    flowerType: 'Air Purifying Plants',
+  },
+  {
+    name: 'Succulent Garden',
+    url: 'https://images.unsplash.com/photo-1509423350716-97f9360b4e09?auto=format&fit=crop&w=800&q=80',
+    category: 'Plants',
+    flowerType: 'Indoor Succulents',
   },
   {
     name: 'Sacred Marigolds',
@@ -114,6 +128,81 @@ const IMAGE_PRESETS = [
     flowerType: 'Gift Bundle',
   },
 ];
+
+export const CATEGORY_SUBCATEGORIES_MAP = {
+  'Flowers': [
+    'Hand Bouquets',
+    'Vase Arrangements',
+    'Grand Luxury Bouquets',
+    'Exotic Garden Stems',
+    'Single Stem Wraps',
+  ],
+  'Flower Boxes': [
+    'Hat Box Arrangements',
+    'Velvet Keepsake Boxes',
+    'Parisian Round Suede Boxes',
+    'Acrylic Flower Boxes',
+    'Heart Keepsake Boxes',
+  ],
+  'Forever Roses': [
+    'Preserved Bell Domes',
+    'Crystal Rose Boxes',
+    'Infinity Rose Trays',
+    'Enchanted Rose Glass Domes',
+    'Forever Rose Blooms',
+  ],
+  'Plants': [
+    'Living Orchids',
+    'Air Purifying Plants',
+    'Bonsai Trees',
+    'Indoor Botanicals',
+    'Flowering Potted Plants',
+    'Indoor Succulents',
+    'Artisan Planters',
+  ],
+  'Gift Bundles': [
+    'Flowers & Belgian Truffles',
+    'Luxury Scent & Blooms',
+    'Flowers & Plush Teddy',
+    'Celebration Gift Hampers',
+    'Festive Hampers',
+  ],
+  'Traditional': [
+    'Madurai Malli Strings',
+    'Sacred Temple Garlands',
+    'Marigold & Sevvanthi Strings',
+    'Puja & Festival Blooms',
+    'Fresh Export Stems',
+  ],
+};
+
+// Client-side image compression to prevent localStorage quota overflows and enable instant previews
+export function compressImageFile(file, maxWidth = 1000, quality = 0.85) {
+  return new Promise((resolve) => {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const img = new window.Image();
+      img.onload = () => {
+        let width = img.width;
+        let height = img.height;
+        if (width > maxWidth) {
+          height = Math.round((height * maxWidth) / width);
+          width = maxWidth;
+        }
+        const canvas = document.createElement('canvas');
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, width, height);
+        resolve(canvas.toDataURL('image/jpeg', quality));
+      };
+      img.onerror = () => resolve(e.target.result);
+      img.src = e.target.result;
+    };
+    reader.onerror = () => resolve(null);
+    reader.readAsDataURL(file);
+  });
+}
 
 export const DEFAULT_ADMIN_CATEGORIES = [
   {
@@ -148,12 +237,20 @@ export const DEFAULT_ADMIN_CATEGORIES = [
   },
   {
     id: 'plants',
-    name: 'Indoor Botanical Plants',
+    name: 'Living Plants & Botanicals',
     slug: 'plants',
-    description: 'Living potted greenery, air-purifying foliage, and Nordic ceramics',
-    badge: 'LIVING BOTANICALS',
-    subCategories: ['Monstera Deliciosa', 'Peace Lilies', 'Fiddle Leaf Fig', 'Snake Plant Sansevieria'],
-    image: 'https://images.unsplash.com/photo-1614594975525-e45190c55d0b?auto=format&fit=crop&w=800&q=80',
+    description: 'Living Phalaenopsis orchids, air-purifying foliage, Japanese bonsai & handcrafted artisan planters',
+    badge: 'AIR PURIFYING',
+    subCategories: [
+      'Living Orchids',
+      'Air Purifying Plants',
+      'Bonsai Trees',
+      'Indoor Botanicals',
+      'Flowering Potted Plants',
+      'Indoor Succulents',
+      'Artisan Planters',
+    ],
+    image: 'https://images.unsplash.com/photo-1545241047-6083a3684587?auto=format&fit=crop&w=800&q=80',
     active: true,
   },
   {
@@ -251,16 +348,17 @@ export const DEFAULT_PAYMENTS_LIST = [
 ];
 
 export default function AdminDashboard() {
-  const { user } = useSelector((state) => state.auth);
+  const authUser = useSelector((state) => state.auth?.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const [activeTab, setActiveTab] = useState('products'); // 'products' | 'categories' | 'currencies' | 'hero' | 'orders' | 'payments' | 'staff' | 'users' | 'stats'
+  const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
   // Local Image Uploads & Linux Web Hosting Management
   const [uploadingImage, setUploadingImage] = useState(false);
-  const [localImages, setLocalImages] = useState([]);
+  const [_localImages, _setLocalImages] = useState([]);
   const [localUploadedGallery, setLocalUploadedGallery] = useState(() => {
     try {
       const saved = localStorage.getItem('dhanvikk_local_uploads');
@@ -316,7 +414,30 @@ export default function AdminDashboard() {
   const [categoriesList, setCategoriesList] = useState(() => {
     try {
       const saved = localStorage.getItem('dhanvikk_admin_categories');
-      if (saved) return JSON.parse(saved);
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        const defaultPlants = DEFAULT_ADMIN_CATEGORIES.find((c) => c.id === 'plants');
+        // Ensure plants category stays synchronized with modern botanical subcategories
+        const updated = parsed.map((cat) => {
+          if ((cat.id === 'plants' || cat.slug === 'plants') && defaultPlants) {
+            const currentSubCats = Array.isArray(cat.subCategories)
+              ? cat.subCategories
+              : (cat.subCategories ? cat.subCategories.split(',') : []);
+            if (currentSubCats.length < 7) {
+              return {
+                ...cat,
+                name: defaultPlants.name,
+                description: defaultPlants.description,
+                badge: defaultPlants.badge,
+                subCategories: defaultPlants.subCategories,
+                image: cat.image || defaultPlants.image,
+              };
+            }
+          }
+          return cat;
+        });
+        return updated;
+      }
     } catch {}
     return DEFAULT_ADMIN_CATEGORIES;
   });
@@ -372,7 +493,7 @@ export default function AdminDashboard() {
   });
 
   // Customer Payments State
-  const [paymentsList, setPaymentsList] = useState(() => {
+  const [paymentsList] = useState(() => {
     try {
       const saved = localStorage.getItem('dhanvikk_admin_payments');
       if (saved) return JSON.parse(saved);
@@ -457,7 +578,7 @@ export default function AdminDashboard() {
       if (statsData?.stats) setStats(statsData.stats);
       if (staffData?.staff) setStaffList(staffData.staff);
       if (staffData?.superAdminEmail) setSuperAdminEmail(staffData.superAdminEmail);
-      if (localImgsData?.images) setLocalImages(localImgsData.images);
+      if (localImgsData?.images) _setLocalImages(localImgsData.images);
     } catch (err) {
       console.error('Failed to load admin data:', err);
       toast.error('Notice: Running in resilient production mode with cached records.');
@@ -474,34 +595,36 @@ export default function AdminDashboard() {
 
     try {
       setUploadingImage(true);
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        const dataUrl = event.target.result;
-        setProductForm((prev) => ({
-          ...prev,
-          images: dataUrl,
-          linuxHostingPath: linuxRelativePath,
-        }));
+      const dataUrl = await compressImageFile(file, 1000, 0.85);
+      if (!dataUrl) {
+        toast.error('Could not read image file.');
+        return;
+      }
 
-        const newGalleryItem = {
-          name: file.name,
-          path: linuxRelativePath,
-          dataUrl,
-          size: `${(file.size / 1024).toFixed(1)} KB`,
-          date: new Date().toLocaleDateString(),
-        };
+      setProductForm((prev) => ({
+        ...prev,
+        images: dataUrl,
+        image: dataUrl,
+        linuxHostingPath: linuxRelativePath,
+      }));
 
-        const updated = [newGalleryItem, ...localUploadedGallery.filter((u) => u.name !== file.name)].slice(0, 25);
-        setLocalUploadedGallery(updated);
-        try {
-          localStorage.setItem('dhanvikk_local_uploads', JSON.stringify(updated));
-        } catch (storageErr) {
-          console.warn('LocalStorage gallery limit:', storageErr);
-        }
-
-        toast.success(`Image stored locally! Linux hosting target: ${linuxRelativePath} 🌸`);
+      const newGalleryItem = {
+        name: file.name,
+        path: linuxRelativePath,
+        dataUrl,
+        size: `${(file.size / 1024).toFixed(1)} KB`,
+        date: new Date().toLocaleDateString(),
       };
-      reader.readAsDataURL(file);
+
+      const updated = [newGalleryItem, ...localUploadedGallery.filter((u) => u.name !== file.name)].slice(0, 25);
+      setLocalUploadedGallery(updated);
+      try {
+        localStorage.setItem('dhanvikk_local_uploads', JSON.stringify(updated));
+      } catch (storageErr) {
+        console.warn('LocalStorage gallery limit:', storageErr);
+      }
+
+      toast.success(`Image uploaded and preview updated! Ready to save 🌸`);
 
       // Best effort background server upload if express backend is online
       productService.uploadImage(file).catch(() => {});
@@ -710,7 +833,7 @@ export default function AdminDashboard() {
       localStorage.setItem('dhanvikk_hero_settings', JSON.stringify(heroSettings));
       window.dispatchEvent(new Event('storage'));
       toast.success('Hero section published live to storefront! 🌸');
-    } catch (err) {
+    } catch {
       toast.error('Failed to save hero settings.');
     }
   };
@@ -797,30 +920,51 @@ export default function AdminDashboard() {
   // Product CRUD
   const handleSaveProduct = async (e) => {
     e.preventDefault();
+    if (!productForm.name?.trim()) {
+      toast.error('Please enter a product name.');
+      return;
+    }
+
+    const cleanImg = (productForm.images || '').trim() || 'https://images.unsplash.com/photo-1561181286-d3fee7d55364?auto=format&fit=crop&w=800&q=80';
+    const payload = {
+      ...productForm,
+      images: cleanImg,
+      image: cleanImg,
+      price: Number(productForm.price) || 2499,
+      originalPrice: Number(productForm.originalPrice) || (Number(productForm.price) ? Number(productForm.price) + 500 : 2999),
+      stock: Number(productForm.stock) || 10,
+    };
+
     try {
       if (editingProduct) {
         const prodId = editingProduct._id || editingProduct.id;
-        await productService.updateProduct(prodId, productForm);
+        const res = await productService.updateProduct(prodId, payload);
+        const updatedItem = res?.product || { ...editingProduct, ...payload };
         setProducts((prev) =>
           prev.map((p) =>
-            (p._id === prodId || p.id === prodId) ? { ...p, ...productForm } : p
+            (p._id === prodId || p.id === prodId)
+              ? { ...p, ...updatedItem, image: cleanImg, images: [cleanImg] }
+              : p
           )
         );
-        toast.success(`Updated arrangement: ${productForm.name}`);
+        toast.success(`Updated arrangement: ${productForm.name} 🌸`);
       } else {
-        const res = await productService.createProduct(productForm);
+        const res = await productService.createProduct(payload);
         const created = res?.product || {
           id: `flw-${Date.now()}`,
           _id: `flw-${Date.now()}`,
-          ...productForm,
+          ...payload,
+          image: cleanImg,
+          images: [cleanImg],
           createdAt: new Date().toISOString(),
         };
         setProducts((prev) => [created, ...prev]);
-        toast.success(`Created new botanical item: ${productForm.name}`);
+        toast.success(`Created new botanical item: ${productForm.name} 🌸`);
       }
       setShowProductModal(false);
       setEditingProduct(null);
     } catch (err) {
+      console.error('Error saving product:', err);
       toast.error(err.message || 'Product save failed');
     }
   };
@@ -839,12 +983,14 @@ export default function AdminDashboard() {
       tag: 'NEW ARRIVAL',
       description: prod.description || 'Artisan handcrafted floral composition.',
       images: image || 'https://images.unsplash.com/photo-1561181286-d3fee7d55364?auto=format&fit=crop&w=800&q=80',
+      linuxHostingPath: `/images/products/${(prod.name || 'product').toLowerCase().replace(/\s+/g, '-')}-copy.jpg`,
       lightRequirement: prod.lightRequirement || 'Bright Indirect Light',
       waterFrequency: prod.waterFrequency || 'Water 1-2 times weekly',
       potSize: prod.potSize || 'Hand-crafted Ceramic Planter Included',
+      fixedPrices: prod.fixedPrices || {},
     });
     setShowProductModal(true);
-    toast.info('Loaded clone of product. Modify any details and click Create Product.');
+    toast.info('Loaded clone of product. Modify any details and click Publish Product.');
   };
 
   const handleDeleteProduct = async (id, name) => {
@@ -936,6 +1082,282 @@ export default function AdminDashboard() {
   const outForDeliveryCount = orders.filter((o) => (o.status || o.orderStatus) === 'Out for Delivery').length;
   const deliveredOrdersCount = orders.filter((o) => (o.status || o.orderStatus) === 'Delivered').length;
 
+  const ADMIN_MENU_SECTIONS = [
+    {
+      heading: 'CATALOG & INVENTORY',
+      items: [
+        {
+          id: 'products',
+          label: 'Products & Stock',
+          icon: Layers,
+          count: products.length,
+          alert: lowStockCount > 0 ? `${lowStockCount} low` : null,
+          alertColor: 'text-amber-700 bg-amber-50 border-amber-200',
+        },
+        {
+          id: 'categories',
+          label: 'Categories Atelier',
+          icon: Flower2,
+          count: categoriesList.length,
+        },
+        {
+          id: 'currencies',
+          label: 'Currencies & Rates',
+          icon: Coins,
+          count: currenciesList.length,
+          badge: '11 Hubs',
+          badgeColor: 'text-sky-700 bg-sky-50 border-sky-200',
+        },
+        {
+          id: 'hero',
+          label: 'Hero Section CMS',
+          icon: Sparkles,
+          badge: 'LIVE',
+          badgeColor: 'text-emerald-700 bg-emerald-50 border-emerald-200',
+        },
+      ],
+    },
+    {
+      heading: 'OPERATIONS & FULFILLMENT',
+      items: [
+        {
+          id: 'orders',
+          label: 'Orders Pipeline',
+          icon: Package,
+          count: orders.length,
+          alert: pendingOrdersCount > 0 ? `${pendingOrdersCount} pending` : null,
+          alertColor: 'text-rose-700 bg-rose-50 border-rose-200 animate-pulse',
+        },
+        {
+          id: 'payments',
+          label: 'Payments Ledger',
+          icon: CreditCard,
+          count: paymentsList.length,
+        },
+      ],
+    },
+    {
+      heading: 'ADMINISTRATION & USERS',
+      items: [
+        {
+          id: 'staff',
+          label: 'Super Admin & Staff',
+          icon: Crown,
+          count: `${staffList.length}/2`,
+        },
+        {
+          id: 'users',
+          label: 'Patrons Accounts',
+          icon: Users,
+          count: usersList.length,
+        },
+        {
+          id: 'stats',
+          label: 'Executive Analytics',
+          icon: TrendingUp,
+        },
+      ],
+    },
+  ];
+
+  const TAB_METADATA = {
+    products: {
+      category: 'CATALOG & INVENTORY',
+      title: 'Floral & Plant Inventory Maintenance',
+      description: 'Live stock adjustment, flower specs, dynamic categories & multi-currency rates.',
+    },
+    categories: {
+      category: 'CATALOG & INVENTORY',
+      title: 'Categories & Subcategories Atelier',
+      description: 'Manage primary floral collections, SEO badges, and luxury gift categories.',
+    },
+    currencies: {
+      category: 'INTERNATIONAL COMMERCE',
+      title: 'Multi-Currency & Fixed Exchange Rates',
+      description: '11 International export hubs with live converter simulator and fixed rates.',
+    },
+    hero: {
+      category: 'STOREFRONT CMS',
+      title: 'Hero Section & Seasonal Campaign Banner',
+      description: 'Live headline, promotional highlights, CTA links, and hero arrangement visuals.',
+    },
+    orders: {
+      category: 'FULFILLMENT PIPELINE',
+      title: 'Customer Orders & Cold-Chain Dispatch',
+      description: 'Track orders through Confirmed, Out for Delivery, and Delivered stages.',
+    },
+    payments: {
+      category: 'FINANCIAL LEDGER',
+      title: 'Payment Transactions & Gateway Receipts',
+      description: 'Verified Razorpay, Stripe, and COD orders with receipts and currency breakdown.',
+    },
+    staff: {
+      category: 'ACCESS CONTROL',
+      title: 'Super Admin Authority & Staff Quota (Max 2)',
+      description: 'Strict 2-staff member quota enforcement with role allocation and credentials.',
+    },
+    users: {
+      category: 'CLIENTELE DIRECTORY',
+      title: 'Registered Patrons & Accounts',
+      description: 'Customer list with verified phone numbers, emails, order counts, and registration dates.',
+    },
+    stats: {
+      category: 'EXECUTIVE INTELLIGENCE',
+      title: 'Executive Analytics & Performance Insights',
+      description: 'Revenue totals, order completion ratios, customer growth, and floral category insights.',
+    },
+  };
+
+  const renderSidebarContent = (isMobile = false) => (
+    <div className="flex flex-col h-full select-none bg-white">
+      {/* Sidebar Header */}
+      {isMobile ? (
+        <div className="p-4 border-b border-[#EFE7DE] flex items-center justify-between bg-white shrink-0">
+          <div className="flex items-center gap-2">
+            <Logo size="sm" linkTo="/admin/dashboard" />
+            <div>
+              <span className="font-bold text-xs uppercase tracking-wider text-[#242124] block">
+                Staff Console
+              </span>
+              <span className="text-[10px] text-[#C2185B] font-mono">Dhanvikk Blooms</span>
+            </div>
+          </div>
+          <button
+            type="button"
+            onClick={() => setMobileSidebarOpen(false)}
+            className="p-1.5 rounded-full hover:bg-[#FAF7F2] text-[#666] hover:text-[#242124] border border-[#EFE7DE] cursor-pointer"
+            aria-label="Close menu drawer"
+          >
+            <X className="w-4 h-4" />
+          </button>
+        </div>
+      ) : (
+        <div className="p-3.5 border-b border-[#EFE7DE] bg-[#FFFDFB] shrink-0">
+          <div className="flex items-center gap-2.5">
+            <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-[#C2185B] to-[#EC407A] flex items-center justify-center text-white shadow-xs shrink-0">
+              <Shield className="w-4 h-4" />
+            </div>
+            <div className="min-w-0">
+              <span className="font-bold text-xs uppercase tracking-wider text-[#242124] block truncate">
+                {authUser?.name ? authUser.name : 'Admin Navigation'}
+              </span>
+              <span className="text-[10px] text-emerald-700 font-semibold flex items-center gap-1 truncate">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse shrink-0" />
+                {authUser?.email ? authUser.email : 'Live Control Hub'}
+              </span>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Navigation Groups List */}
+      <div className="flex-1 overflow-y-auto p-2.5 sm:p-3 space-y-3.5 text-xs font-['Poppins']">
+        {ADMIN_MENU_SECTIONS.map((sec, sIdx) => (
+          <div key={sIdx} className="space-y-1">
+            <div className="px-2.5 py-0.5 text-[9px] font-bold uppercase tracking-wider text-[#888888]">
+              {sec.heading}
+            </div>
+            <div className="space-y-0.5">
+              {sec.items.map((item) => {
+                const Icon = item.icon;
+                const isActive = activeTab === item.id;
+                return (
+                  <button
+                    key={item.id}
+                    type="button"
+                    onClick={() => {
+                      setActiveTab(item.id);
+                      if (isMobile) setMobileSidebarOpen(false);
+                      window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }}
+                    className={`w-full text-left flex items-center justify-between px-2.5 sm:px-3 py-2 rounded-xl text-xs transition-all cursor-pointer group ${
+                      isActive
+                        ? 'bg-gradient-to-r from-[#FFF0F4] to-[#FFF5F8] text-[#C2185B] font-bold border border-[#FCC1C5]/70 shadow-2xs'
+                        : 'text-[#444444] hover:text-[#242124] hover:bg-[#FAF7F2] font-medium border border-transparent'
+                    }`}
+                  >
+                    <div className="flex items-center gap-2.5 min-w-0">
+                      <Icon
+                        className={`w-4 h-4 shrink-0 transition-colors ${
+                          isActive ? 'text-[#C2185B]' : 'text-[#777777] group-hover:text-[#242124]'
+                        }`}
+                      />
+                      <span className="truncate">{item.label}</span>
+                    </div>
+
+                    {/* Count or Badge on Right */}
+                    <div className="flex items-center gap-1 shrink-0 ml-1.5">
+                      {item.alert && (
+                        <span className={`px-1.5 py-0.2 rounded-full text-[9px] font-bold border ${item.alertColor}`}>
+                          {item.alert}
+                        </span>
+                      )}
+                      {item.badge && (
+                        <span className={`px-1.5 py-0.2 rounded-full text-[9px] font-bold border ${item.badgeColor || 'text-[#C2185B] bg-[#FFF0F4] border-[#F2D7DE]'}`}>
+                          {item.badge}
+                        </span>
+                      )}
+                      {item.count !== undefined && !item.alert && (
+                        <span
+                          className={`px-1.5 py-0.2 rounded-full text-[10px] font-mono ${
+                            isActive ? 'bg-[#C2185B]/10 text-[#C2185B] font-bold' : 'bg-[#F2ECE6] text-[#666666]'
+                          }`}
+                        >
+                          {item.count}
+                        </span>
+                      )}
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Sidebar Footer */}
+      <div className="p-2.5 sm:p-3 border-t border-[#EFE7DE] bg-[#FFFDFB] space-y-2 shrink-0">
+        <Link
+          to="/"
+          target="_blank"
+          className="flex items-center justify-between p-2 rounded-xl bg-[#FAF7F2] hover:bg-[#F2ECE6] text-[#444] text-xs font-semibold border border-[#EFE7DE] transition-colors group"
+        >
+          <span className="flex items-center gap-2">
+            <ExternalLink className="w-3.5 h-3.5 text-[#C2185B]" />
+            <span>Storefront Live</span>
+          </span>
+          <span className="text-[10px] text-[#888] group-hover:translate-x-0.5 transition-transform">↗</span>
+        </Link>
+
+        {/* Super Admin Status Card */}
+        <div className="p-2.5 rounded-xl bg-white border border-[#EFE7DE] flex items-center justify-between gap-2 shadow-2xs">
+          <div className="flex items-center gap-2 min-w-0">
+            <div className="w-7 h-7 rounded-lg bg-[#FFF0F4] border border-[#F2D7DE] text-[#C2185B] flex items-center justify-center shrink-0">
+              <Crown className="w-3.5 h-3.5" />
+            </div>
+            <div className="min-w-0">
+              <span className="text-[10px] font-bold text-[#242124] block truncate uppercase">
+                Super Admin
+              </span>
+              <span className="text-[9px] text-[#777777] font-mono block truncate" title={superAdminEmail}>
+                {superAdminEmail.split('@')[0]}
+              </span>
+            </div>
+          </div>
+
+          <button
+            type="button"
+            onClick={handleLogout}
+            className="p-1.5 rounded-lg text-[#888888] hover:text-rose-600 hover:bg-rose-50 transition-colors shrink-0 cursor-pointer"
+            title="Sign Out Admin"
+          >
+            <LogOut className="w-3.5 h-3.5" />
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+
   return (
     <>
       <SEO
@@ -946,27 +1368,37 @@ export default function AdminDashboard() {
 
       <div className="min-h-screen bg-[#FAF7F2] text-[#242124] font-['Poppins'] flex flex-col selection:bg-[#EC407A] selection:text-white">
         {/* Top Header */}
-        <header className="border-b border-[#EFE7DE] bg-white sticky top-0 z-40 px-4 sm:px-6 py-3 flex items-center justify-between shadow-xs">
-          <div className="flex items-center gap-3">
-            <Logo size="sm" linkTo="/admin/dashboard" className="mr-1" />
+        <header className="border-b border-[#EFE7DE] bg-white sticky top-0 z-40 px-2.5 sm:px-6 py-2.5 sm:py-3 flex items-center justify-between shadow-xs">
+          <div className="flex items-center gap-2 sm:gap-3 min-w-0">
+            {/* Mobile Hamburger Drawer Trigger */}
+            <button
+              type="button"
+              onClick={() => setMobileSidebarOpen(true)}
+              className="lg:hidden p-1.5 rounded-xl text-[#242124] hover:bg-[#FAF7F2] border border-[#EFE7DE] transition-colors cursor-pointer mr-0.5 shrink-0"
+              aria-label="Open Admin Navigation Menu"
+            >
+              <Menu className="w-5 h-5 text-[#242124]" />
+            </button>
+
+            <Logo size="sm" linkTo="/admin/dashboard" className="mr-0.5 sm:mr-1 shrink-0" />
             <div className="hidden sm:block h-6 w-px bg-[#EFE7DE]" />
-            <div>
-              <div className="flex items-center gap-2">
-                <span className="font-bold text-sm tracking-wider uppercase text-[#242124] block">
-                  Staff Executive Console
+            <div className="min-w-0">
+              <div className="flex items-center gap-1.5 sm:gap-2">
+                <span className="font-bold text-xs sm:text-sm tracking-wider uppercase text-[#242124] block truncate">
+                  Staff Console
                 </span>
                 <span className="hidden md:inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
                   Live Production System
                 </span>
               </div>
-              <span className="text-[11px] text-[#C2185B] font-mono block">
+              <span className="text-[10px] sm:text-[11px] text-[#C2185B] font-mono block truncate max-w-[140px] xs:max-w-[180px] sm:max-w-none">
                 Super Admin: {superAdminEmail}
               </span>
             </div>
           </div>
 
-          <div className="flex items-center gap-2 sm:gap-3">
+          <div className="flex items-center gap-1.5 sm:gap-3 shrink-0">
             <Link
               to="/"
               className="text-xs text-[#555555] hover:text-[#242124] border border-[#EFE7DE] px-3 py-1.5 rounded-full transition-colors hidden sm:inline-flex items-center gap-1.5 hover:bg-[#FAF7F2]"
@@ -977,167 +1409,236 @@ export default function AdminDashboard() {
             <button
               onClick={fetchDashboardData}
               disabled={loading}
-              className="p-2 text-[#666666] hover:text-[#242124] border border-[#EFE7DE] rounded-full transition-colors hover:bg-[#FAF7F2] cursor-pointer"
+              className="p-1.5 sm:p-2 text-[#666666] hover:text-[#242124] border border-[#EFE7DE] rounded-full transition-colors hover:bg-[#FAF7F2] cursor-pointer"
               title="Refresh Live Data"
             >
-              <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin text-[#C2185B]' : ''}`} />
+              <RefreshCw className={`w-3.5 h-3.5 sm:w-4 sm:h-4 ${loading ? 'animate-spin text-[#C2185B]' : ''}`} />
             </button>
 
             <Button
               variant="outline"
               size="sm"
               onClick={handleLogout}
-              className="bg-transparent border-[#EFE7DE] text-[#242124] hover:bg-rose-50 hover:text-rose-600 hover:border-rose-200 text-xs py-1.5 px-3"
+              className="bg-transparent border-[#EFE7DE] text-[#242124] hover:bg-rose-50 hover:text-rose-600 hover:border-rose-200 text-[11px] sm:text-xs py-1 sm:py-1.5 px-2.5 sm:px-3"
             >
-              <LogOut className="w-3.5 h-3.5" /> <span className="hidden sm:inline">Sign Out</span>
+              <LogOut className="w-3 h-3 sm:w-3.5 sm:h-3.5" /> <span className="hidden sm:inline">Sign Out</span>
             </Button>
           </div>
         </header>
 
-        {/* Breadcrumb Navigation */}
-        <div className="bg-[#FAF7F2] border-b border-[#EFE7DE] px-4 sm:px-6 py-1">
-          <div className="max-w-7xl mx-auto">
-            <Breadcrumb
-              items={[
-                { label: 'Home', path: '/' },
-                { label: 'Staff Portal', path: '/admin/dashboard' },
-                {
-                  label:
-                    activeTab === 'products'
-                      ? 'Floral & Plant Inventory'
-                      : activeTab === 'categories'
-                      ? 'Categories Atelier'
-                      : activeTab === 'currencies'
-                      ? 'Currencies & Fixed Rates'
-                      : activeTab === 'hero'
-                      ? 'Hero Section CMS'
-                      : activeTab === 'orders'
-                      ? 'Orders Pipeline'
-                      : activeTab === 'payments'
-                      ? 'Users & Payments'
-                      : activeTab === 'staff'
-                      ? 'Super Admin & Staff Allocation (Max 2)'
-                      : activeTab === 'users'
-                      ? 'Patrons & Accounts'
-                      : 'Executive Analytics',
-                },
-              ]}
-            />
-          </div>
-        </div>
+        {/* Master Two-Column Dashboard Layout: Left Menus + Right Content & Values */}
+        <div className="flex flex-1 w-full min-h-[calc(100vh-65px)] relative">
+          {/* Mobile Sidebar Slide-Over Drawer */}
+          {mobileSidebarOpen && (
+            <div className="fixed inset-0 z-50 lg:hidden">
+              {/* Backdrop */}
+              <div
+                className="fixed inset-0 bg-black/50 backdrop-blur-xs transition-opacity animate-in fade-in"
+                onClick={() => setMobileSidebarOpen(false)}
+              />
+              {/* Drawer panel */}
+              <aside className="fixed inset-y-0 left-0 z-50 w-72 sm:w-80 bg-white border-r border-[#EFE7DE] flex flex-col shadow-2xl animate-in slide-in-from-left duration-200">
+                {renderSidebarContent(true)}
+              </aside>
+            </div>
+          )}
 
-        {/* Navigation Tabs Bar */}
-        <div className="border-b border-[#EFE7DE] bg-white px-4 sm:px-6">
-          <div className="max-w-7xl mx-auto flex items-center gap-2 overflow-x-auto scrollbar-none">
-            {[
-              { id: 'products', label: 'Products & Inventory', icon: Layers, count: products.length },
-              { id: 'categories', label: 'Categories & Collections', icon: Flower2, count: categoriesList.length },
-              { id: 'currencies', label: 'Currencies & Fixed Rates', icon: Coins, count: currenciesList.length },
-              { id: 'hero', label: 'Hero Section CMS', icon: Sparkles },
-              { id: 'orders', label: 'Orders Pipeline', icon: Package, count: orders.length },
-              { id: 'payments', label: 'Users & Payments', icon: CreditCard, count: paymentsList.length },
-              { id: 'staff', label: 'Super Admin & 2 Staffs', icon: Crown, count: staffList.length },
-              { id: 'users', label: 'Patrons Accounts', icon: Users, count: usersList.length },
-              { id: 'stats', label: 'Executive Analytics', icon: TrendingUp },
-            ].map((tab) => {
-              const Icon = tab.icon;
-              const isActive = activeTab === tab.id;
-              return (
+          {/* Desktop Permanent Left Sidebar (Sticky on lg:) */}
+          <aside className="hidden lg:flex w-64 xl:w-72 bg-white border-r border-[#EFE7DE] flex-col shrink-0 sticky top-[65px] h-[calc(100vh-65px)] shadow-2xs">
+            {renderSidebarContent(false)}
+          </aside>
+
+          {/* Right Workspace Area: Displays all Values, KPIs, Tables & Forms */}
+          <div className="flex-1 min-w-0 flex flex-col bg-[#FAF7F2] overflow-x-hidden">
+            {/* Top Context Header for Active Section */}
+            <div className="bg-white border-b border-[#EFE7DE] px-3.5 sm:px-6 py-2.5 sm:py-3 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 sticky top-[65px] z-30 shadow-2xs">
+              <div className="min-w-0">
+                <div className="flex items-center gap-2 flex-wrap">
+                  <span className="text-[10px] font-bold text-[#C2185B] uppercase tracking-wider bg-[#FFF0F4] px-2 py-0.5 rounded-md border border-[#F2D7DE]">
+                    {TAB_METADATA[activeTab]?.category || 'MANAGEMENT'}
+                  </span>
+                  <span className="text-[#D0C6BD] hidden sm:inline">•</span>
+                  <h1 className="text-sm sm:text-base font-bold text-[#242124] truncate">
+                    {TAB_METADATA[activeTab]?.title || 'Staff Console'}
+                  </h1>
+                </div>
+                <p className="text-[11px] text-[#777777] truncate mt-0.5">
+                  {TAB_METADATA[activeTab]?.description}
+                </p>
+              </div>
+
+              {/* Action buttons on Right */}
+              <div className="flex items-center gap-2 shrink-0 flex-wrap">
                 <button
-                  key={tab.id}
-                  onClick={() => setActiveTab(tab.id)}
-                  className={`flex items-center gap-2 px-4 py-3.5 text-xs font-semibold border-b-2 transition-all cursor-pointer whitespace-nowrap ${
-                    isActive
-                      ? 'border-[#C2185B] text-[#C2185B] bg-[#FFF0F4]/60'
-                      : 'border-transparent text-[#666666] hover:text-[#242124] hover:bg-[#FAF7F2]'
-                  }`}
+                  onClick={fetchDashboardData}
+                  disabled={loading}
+                  className="px-2.5 py-1 text-xs text-[#555] hover:text-[#242124] border border-[#EFE7DE] rounded-lg hover:bg-[#FAF7F2] transition-colors flex items-center gap-1.5 cursor-pointer shadow-2xs"
+                  title="Refresh Live Data"
                 >
-                  <Icon className="w-4 h-4" />
-                  <span>{tab.label}</span>
-                  {tab.count !== undefined && (
-                    <span
-                      className={`px-2 py-0.5 rounded-full text-[10px] font-mono ${
-                        isActive ? 'bg-[#C2185B]/10 text-[#C2185B]' : 'bg-[#F2ECE6] text-[#666666]'
-                      }`}
-                    >
-                      {tab.count}
-                    </span>
-                  )}
+                  <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin text-[#C2185B]' : ''}`} />
+                  <span className="hidden xs:inline">Sync</span>
                 </button>
-              );
-            })}
-          </div>
-        </div>
+
+                {activeTab === 'products' && (
+                  <button
+                    onClick={() => {
+                      setEditingProduct(null);
+                      setProductForm({
+                        name: '',
+                        category: 'Flowers',
+                        subCategory: 'Hand Bouquets',
+                        flowerType: 'Roses',
+                        price: 2499,
+                        originalPrice: 2999,
+                        stock: 25,
+                        tag: 'NEW ARRIVAL',
+                        description: '',
+                        images: 'https://images.unsplash.com/photo-1561181286-d3fee7d55364?auto=format&fit=crop&w=800&q=80',
+                        linuxHostingPath: '/images/products/new-arrangement.jpg',
+                        lightRequirement: 'Bright Indirect Light',
+                        waterFrequency: 'Water 1-2 times weekly',
+                        potSize: 'Hand-crafted Ceramic Planter Included',
+                        fixedPrices: { AED: 110, INR: 2499, USD: 30, EUR: 28, GBP: 24, SAR: 112, QAR: 109, KWD: 9.2, OMR: 11.5, BHD: 11.3, SGD: 41 },
+                      });
+                      setShowProductModal(true);
+                    }}
+                    className="px-3 py-1 rounded-lg bg-[#C2185B] hover:bg-[#AD1457] text-white text-xs font-bold flex items-center gap-1.5 shadow-xs cursor-pointer transition-colors"
+                  >
+                    <Plus className="w-3.5 h-3.5" />
+                    <span>Add Product</span>
+                  </button>
+                )}
+
+                {activeTab === 'categories' && (
+                  <button
+                    onClick={() => {
+                      setEditingCategory(null);
+                      setCategoryForm({
+                        name: '',
+                        slug: '',
+                        description: '',
+                        badge: 'SIGNATURE EDIT',
+                        subCategories: '',
+                        image: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=800&q=80',
+                        active: true,
+                      });
+                      setShowCategoryModal(true);
+                    }}
+                    className="px-3 py-1 rounded-lg bg-[#C2185B] hover:bg-[#AD1457] text-white text-xs font-bold flex items-center gap-1.5 shadow-xs cursor-pointer transition-colors"
+                  >
+                    <Plus className="w-3.5 h-3.5" />
+                    <span>New Category</span>
+                  </button>
+                )}
+
+                {activeTab === 'staff' && (
+                  <button
+                    onClick={() => {
+                      if (staffList.length >= 2) {
+                        toast.error('Staff quota reached! Maximum 2 staff allowed.');
+                        return;
+                      }
+                      setEditingStaff(null);
+                      setStaffForm({
+                        name: '',
+                        email: '',
+                        phone: '',
+                        role: 'inventory_manager',
+                        roleTitle: 'Inventory Associate',
+                      });
+                      setShowStaffModal(true);
+                    }}
+                    className="px-3 py-1 rounded-lg bg-[#C2185B] hover:bg-[#AD1457] text-white text-xs font-bold flex items-center gap-1.5 shadow-xs cursor-pointer transition-colors"
+                  >
+                    <UserPlus className="w-3.5 h-3.5" />
+                    <span>Add Staff ({staffList.length}/2)</span>
+                  </button>
+                )}
+              </div>
+            </div>
+
+            {/* Breadcrumb Strip */}
+            <div className="bg-[#FAF7F2] border-b border-[#EFE7DE] px-3.5 sm:px-6 py-1">
+              <div className="overflow-x-auto scrollbar-none">
+                <Breadcrumb
+                  items={[
+                    { label: 'Home', path: '/' },
+                    { label: 'Staff Portal', path: '/admin/dashboard' },
+                    { label: TAB_METADATA[activeTab]?.title || activeTab },
+                  ]}
+                />
+              </div>
+            </div>
 
         {/* ========================================================
             TAB 1: PRODUCTS & LIVE STOCK LEVEL MAINTENANCE
             ======================================================== */}
         {activeTab === 'products' && (
-          <main className="max-w-7xl mx-auto px-4 sm:px-6 py-6 w-full flex-1 space-y-6">
+          <main className="max-w-7xl mx-auto px-3 sm:px-6 py-4 sm:py-6 w-full flex-1 space-y-4 sm:space-y-6">
             {/* Live Inventory Status KPI Bar */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-4">
               <div
                 onClick={() => setStockFilter('all')}
-                className={`p-4 rounded-2xl border transition-all cursor-pointer ${
+                className={`p-3 sm:p-4 rounded-2xl border transition-all cursor-pointer ${
                   stockFilter === 'all'
                     ? 'bg-white border-[#C2185B] shadow-md ring-1 ring-[#C2185B]/30'
                     : 'bg-white border-[#EFE7DE] hover:border-[#DCD5CD] shadow-xs'
                 }`}
               >
                 <div className="flex items-center justify-between text-xs text-[#666666]">
-                  <span>Total Botanical SKUs</span>
-                  <Layers className="w-4 h-4 text-[#888888]" />
+                  <span className="truncate">Total SKUs</span>
+                  <Layers className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#888888] shrink-0" />
                 </div>
-                <p className="text-2xl font-bold font-mono text-[#242124] mt-1">{totalSKUs}</p>
-                <span className="text-[10px] text-[#777777]">Active on Storefront</span>
+                <p className="text-xl sm:text-2xl font-bold font-mono text-[#242124] mt-1">{totalSKUs}</p>
+                <span className="text-[10px] text-[#777777] block truncate">On Storefront</span>
               </div>
 
               <div
                 onClick={() => setStockFilter('in_stock')}
-                className={`p-4 rounded-2xl border transition-all cursor-pointer ${
+                className={`p-3 sm:p-4 rounded-2xl border transition-all cursor-pointer ${
                   stockFilter === 'in_stock'
                     ? 'bg-white border-emerald-500 shadow-md ring-1 ring-emerald-500/30'
                     : 'bg-white border-[#EFE7DE] hover:border-[#DCD5CD] shadow-xs'
                 }`}
               >
                 <div className="flex items-center justify-between text-xs text-emerald-700">
-                  <span>Healthy In-Stock</span>
-                  <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+                  <span className="truncate">In-Stock</span>
+                  <CheckCircle2 className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-emerald-600 shrink-0" />
                 </div>
-                <p className="text-2xl font-bold font-mono text-emerald-700 mt-1">{inStockCount}</p>
-                <span className="text-[10px] text-[#777777]">Available for checkout</span>
+                <p className="text-xl sm:text-2xl font-bold font-mono text-emerald-700 mt-1">{inStockCount}</p>
+                <span className="text-[10px] text-[#777777] block truncate">Available</span>
               </div>
 
               <div
                 onClick={() => setStockFilter('low_stock')}
-                className={`p-4 rounded-2xl border transition-all cursor-pointer ${
+                className={`p-3 sm:p-4 rounded-2xl border transition-all cursor-pointer ${
                   stockFilter === 'low_stock'
                     ? 'bg-white border-amber-500 shadow-md ring-1 ring-amber-500/30'
                     : 'bg-white border-[#EFE7DE] hover:border-[#DCD5CD] shadow-xs'
                 }`}
               >
                 <div className="flex items-center justify-between text-xs text-amber-700">
-                  <span>Low Stock Alert (≤5)</span>
-                  <AlertCircle className="w-4 h-4 text-amber-600" />
+                  <span className="truncate">Low Stock (≤5)</span>
+                  <AlertCircle className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-amber-600 shrink-0" />
                 </div>
-                <p className="text-2xl font-bold font-mono text-amber-700 mt-1">{lowStockCount}</p>
-                <span className="text-[10px] text-amber-700/80">Needs farm re-harvest</span>
+                <p className="text-xl sm:text-2xl font-bold font-mono text-amber-700 mt-1">{lowStockCount}</p>
+                <span className="text-[10px] text-amber-700/80 block truncate">Needs harvest</span>
               </div>
 
               <div
                 onClick={() => setStockFilter('out_of_stock')}
-                className={`p-4 rounded-2xl border transition-all cursor-pointer ${
+                className={`p-3 sm:p-4 rounded-2xl border transition-all cursor-pointer ${
                   stockFilter === 'out_of_stock'
                     ? 'bg-white border-rose-500 shadow-md ring-1 ring-rose-500/30'
                     : 'bg-white border-[#EFE7DE] hover:border-[#DCD5CD] shadow-xs'
                 }`}
               >
                 <div className="flex items-center justify-between text-xs text-rose-700">
-                  <span>Sold Out (0 units)</span>
-                  <AlertCircle className="w-4 h-4 text-rose-600" />
+                  <span className="truncate">Sold Out</span>
+                  <AlertCircle className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-rose-600 shrink-0" />
                 </div>
-                <p className="text-2xl font-bold font-mono text-rose-700 mt-1">{outOfStockCount}</p>
-                <span className="text-[10px] text-rose-700/80">Disabled on frontend</span>
+                <p className="text-xl sm:text-2xl font-bold font-mono text-rose-700 mt-1">{outOfStockCount}</p>
+                <span className="text-[10px] text-rose-700/80 block truncate">0 units</span>
               </div>
             </div>
 
@@ -1145,7 +1646,7 @@ export default function AdminDashboard() {
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 pt-2">
               <div className="flex flex-wrap items-center gap-2">
                 {/* Search */}
-                <div className="relative min-w-[220px]">
+                <div className="relative w-full sm:w-auto sm:min-w-[220px]">
                   <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#999999]" />
                   <input
                     type="text"
@@ -1171,10 +1672,10 @@ export default function AdminDashboard() {
                 </select>
 
                 {/* Stock Filter Pills */}
-                <div className="flex items-center gap-1 p-1 bg-white rounded-xl border border-[#EFE7DE] text-[11px] shadow-2xs">
+                <div className="flex items-center gap-1 p-1 bg-white rounded-xl border border-[#EFE7DE] text-[11px] shadow-2xs overflow-x-auto max-w-full">
                   <button
                     onClick={() => setStockFilter('all')}
-                    className={`px-2.5 py-1 rounded-lg transition-colors cursor-pointer ${
+                    className={`px-2.5 py-1 rounded-lg transition-colors cursor-pointer shrink-0 ${
                       stockFilter === 'all' ? 'bg-[#C2185B] text-white font-bold' : 'text-[#666666] hover:text-[#242124]'
                     }`}
                   >
@@ -1182,7 +1683,7 @@ export default function AdminDashboard() {
                   </button>
                   <button
                     onClick={() => setStockFilter('in_stock')}
-                    className={`px-2.5 py-1 rounded-lg transition-colors cursor-pointer ${
+                    className={`px-2.5 py-1 rounded-lg transition-colors cursor-pointer shrink-0 ${
                       stockFilter === 'in_stock' ? 'bg-emerald-600 text-white font-bold' : 'text-[#666666] hover:text-[#242124]'
                     }`}
                   >
@@ -1190,7 +1691,7 @@ export default function AdminDashboard() {
                   </button>
                   <button
                     onClick={() => setStockFilter('low_stock')}
-                    className={`px-2.5 py-1 rounded-lg transition-colors cursor-pointer ${
+                    className={`px-2.5 py-1 rounded-lg transition-colors cursor-pointer shrink-0 ${
                       stockFilter === 'low_stock' ? 'bg-amber-600 text-white font-bold' : 'text-[#666666] hover:text-[#242124]'
                     }`}
                   >
@@ -1198,7 +1699,7 @@ export default function AdminDashboard() {
                   </button>
                   <button
                     onClick={() => setStockFilter('out_of_stock')}
-                    className={`px-2.5 py-1 rounded-lg transition-colors cursor-pointer ${
+                    className={`px-2.5 py-1 rounded-lg transition-colors cursor-pointer shrink-0 ${
                       stockFilter === 'out_of_stock' ? 'bg-rose-600 text-white font-bold' : 'text-[#666666] hover:text-[#242124]'
                     }`}
                   >
@@ -1239,7 +1740,7 @@ export default function AdminDashboard() {
             {/* Products & Live Stock Table */}
             <div className="bg-white border border-[#EFE7DE] rounded-2xl overflow-hidden shadow-sm">
               <div className="overflow-x-auto">
-                <table className="w-full text-left text-xs text-[#333333]">
+                <table className="w-full text-left text-xs text-[#333333] min-w-[680px]">
                   <thead className="bg-[#FAF7F2] text-[#666666] text-[11px] uppercase tracking-wider border-b border-[#EFE7DE]">
                     <tr>
                       <th className="py-3.5 px-4 font-semibold">Botanical Item & Details</th>
@@ -1422,20 +1923,24 @@ export default function AdminDashboard() {
                                 <button
                                   onClick={() => {
                                     setEditingProduct(prod);
+                                    const image = Array.isArray(prod.images) ? prod.images[0] : (prod.images || prod.image || '');
                                     setProductForm({
-                                      name: prod.name,
+                                      name: prod.name || '',
                                       category: prod.category || 'Flowers',
-                                      subCategory: prod.subCategory || 'Hand Bouquets',
+                                      subCategory: prod.subCategory || CATEGORY_SUBCATEGORIES_MAP[prod.category]?.[0] || 'Hand Bouquets',
                                       flowerType: prod.flowerType || 'Roses',
-                                      price: prod.price,
-                                      originalPrice: prod.originalPrice || prod.price + 500,
-                                      stock: prod.stock || 10,
+                                      price: prod.price || 2499,
+                                      originalPrice: prod.originalPrice || (prod.price ? prod.price + 500 : 2999),
+                                      stock: prod.stock !== undefined ? prod.stock : 10,
                                       tag: prod.tag || '',
                                       description: prod.description || '',
                                       images: image,
+                                      image: image,
+                                      linuxHostingPath: prod.linuxHostingPath || `/images/products/${(prod.name || 'product').toLowerCase().replace(/\s+/g, '-')}.jpg`,
                                       lightRequirement: prod.lightRequirement || 'Bright Indirect Light',
                                       waterFrequency: prod.waterFrequency || 'Water 1-2 times weekly',
                                       potSize: prod.potSize || 'Hand-crafted Ceramic Planter Included',
+                                      fixedPrices: prod.fixedPrices || {},
                                     });
                                     setShowProductModal(true);
                                   }}
@@ -1468,11 +1973,11 @@ export default function AdminDashboard() {
             TAB: CATEGORIES & COLLECTIONS WORKFLOW MANAGEMENT
             ======================================================== */}
         {activeTab === 'categories' && (
-          <main className="max-w-7xl mx-auto px-4 sm:px-6 py-6 w-full flex-1 space-y-6">
+          <main className="max-w-7xl mx-auto px-3 sm:px-6 py-4 sm:py-6 w-full flex-1 space-y-4 sm:space-y-6">
             {/* Header & Actions */}
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4">
               <div>
-                <h2 className="text-xl font-bold font-['Poppins'] text-[#242124]">
+                <h2 className="text-lg sm:text-xl font-bold font-['Poppins'] text-[#242124]">
                   Botanical Categories & Curated Collections
                 </h2>
                 <p className="text-xs text-[#666666] mt-0.5">
@@ -1483,7 +1988,7 @@ export default function AdminDashboard() {
               <button
                 type="button"
                 onClick={() => handleOpenCategoryModal()}
-                className="px-5 py-2.5 rounded-2xl bg-gradient-to-r from-[#C2185B] to-[#EC407A] text-white text-xs font-bold shadow-md hover:opacity-95 transition-all flex items-center gap-2 cursor-pointer self-start sm:self-center"
+                className="px-4 sm:px-5 py-2 sm:py-2.5 rounded-2xl bg-gradient-to-r from-[#C2185B] to-[#EC407A] text-white text-xs font-bold shadow-md hover:opacity-95 transition-all flex items-center gap-2 cursor-pointer self-start sm:self-center"
               >
                 <Plus className="w-4 h-4" />
                 <span>Add New Category</span>
@@ -1491,40 +1996,40 @@ export default function AdminDashboard() {
             </div>
 
             {/* KPI Overview */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
-              <div className="p-4 rounded-2xl bg-white border border-[#EFE7DE] shadow-xs">
-                <span className="text-[11px] text-[#777] block">Active Collections</span>
-                <span className="text-2xl font-bold font-mono text-[#242124] mt-1 block">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-4">
+              <div className="p-3 sm:p-4 rounded-2xl bg-white border border-[#EFE7DE] shadow-xs">
+                <span className="text-[11px] text-[#777] block truncate">Active Collections</span>
+                <span className="text-xl sm:text-2xl font-bold font-mono text-[#242124] mt-1 block">
                   {categoriesList.filter((c) => c.active !== false).length}
                 </span>
-                <span className="text-[10px] text-emerald-600 font-semibold">Live on Storefront</span>
+                <span className="text-[10px] text-emerald-600 font-semibold block truncate">Live on Storefront</span>
               </div>
-              <div className="p-4 rounded-2xl bg-white border border-[#EFE7DE] shadow-xs">
-                <span className="text-[11px] text-[#777] block">Total SKUs Categorized</span>
-                <span className="text-2xl font-bold font-mono text-[#242124] mt-1 block">
+              <div className="p-3 sm:p-4 rounded-2xl bg-white border border-[#EFE7DE] shadow-xs">
+                <span className="text-[11px] text-[#777] block truncate">SKUs Categorized</span>
+                <span className="text-xl sm:text-2xl font-bold font-mono text-[#242124] mt-1 block">
                   {products.length}
                 </span>
-                <span className="text-[10px] text-[#777]">Catalog Coverage 100%</span>
+                <span className="text-[10px] text-[#777] block truncate">Coverage 100%</span>
               </div>
-              <div className="p-4 rounded-2xl bg-white border border-[#EFE7DE] shadow-xs">
-                <span className="text-[11px] text-[#777] block">Subcategory Facets</span>
-                <span className="text-2xl font-bold font-mono text-[#C2185B] mt-1 block">
+              <div className="p-3 sm:p-4 rounded-2xl bg-white border border-[#EFE7DE] shadow-xs">
+                <span className="text-[11px] text-[#777] block truncate">Subcategory Facets</span>
+                <span className="text-xl sm:text-2xl font-bold font-mono text-[#C2185B] mt-1 block">
                   {categoriesList.reduce((acc, c) => acc + (Array.isArray(c.subCategories) ? c.subCategories.length : 1), 0)}
                 </span>
-                <span className="text-[10px] text-[#777]">Sub-navigation tags</span>
+                <span className="text-[10px] text-[#777] block truncate">Sub-navigation</span>
               </div>
-              <div className="p-4 rounded-2xl bg-white border border-[#EFE7DE] shadow-xs">
-                <span className="text-[11px] text-[#777] block">Category Badges</span>
-                <span className="text-2xl font-bold font-mono text-[#D4AF37] mt-1 block">
+              <div className="p-3 sm:p-4 rounded-2xl bg-white border border-[#EFE7DE] shadow-xs">
+                <span className="text-[11px] text-[#777] block truncate">Category Badges</span>
+                <span className="text-xl sm:text-2xl font-bold font-mono text-[#D4AF37] mt-1 block">
                   {categoriesList.filter((c) => c.badge).length}
                 </span>
-                <span className="text-[10px] text-[#777]">Curated Highlighting</span>
+                <span className="text-[10px] text-[#777] block truncate">Curated Highlighting</span>
               </div>
             </div>
 
             {/* Category Cards Table */}
-            <div className="bg-white border border-[#EFE7DE] rounded-3xl overflow-hidden shadow-sm">
-              <div className="p-5 border-b border-[#EFE7DE] flex items-center justify-between">
+            <div className="bg-white border border-[#EFE7DE] rounded-2xl sm:rounded-3xl overflow-hidden shadow-sm">
+              <div className="p-4 sm:p-5 border-b border-[#EFE7DE] flex items-center justify-between">
                 <div>
                   <h3 className="text-sm font-bold text-[#242124] font-['Poppins']">
                     Configured Floral Collections ({categoriesList.length})
@@ -1534,7 +2039,7 @@ export default function AdminDashboard() {
               </div>
 
               <div className="overflow-x-auto">
-                <table className="w-full text-left text-xs text-[#333333]">
+                <table className="w-full text-left text-xs text-[#333333] min-w-[650px]">
                   <thead className="bg-[#FAF7F2] text-[#666666] text-[11px] uppercase tracking-wider border-b border-[#EFE7DE]">
                     <tr>
                       <th className="py-3.5 px-5 font-semibold">Collection</th>
@@ -1621,10 +2126,10 @@ export default function AdminDashboard() {
             TAB: MULTI-CURRENCY FIXED PRICING & EXCHANGE RATES
             ======================================================== */}
         {activeTab === 'currencies' && (
-          <main className="max-w-7xl mx-auto px-4 sm:px-6 py-6 w-full flex-1 space-y-6">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <main className="max-w-7xl mx-auto px-3 sm:px-6 py-4 sm:py-6 w-full flex-1 space-y-4 sm:space-y-6">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4">
               <div>
-                <h2 className="text-xl font-bold font-['Poppins'] text-[#242124]">
+                <h2 className="text-lg sm:text-xl font-bold font-['Poppins'] text-[#242124]">
                   Multi-Currency Fixed Values & Exchange Rates
                 </h2>
                 <p className="text-xs text-[#666666] mt-0.5">
@@ -1640,7 +2145,7 @@ export default function AdminDashboard() {
                     localStorage.removeItem('dhanvikk_admin_currencies');
                     toast.success('Reset exchange rates to default financial standards.');
                   }}
-                  className="px-4 py-2 rounded-xl border border-[#EFE7DE] bg-white text-xs text-[#666] hover:text-[#242124] hover:bg-[#FAF7F2] transition-colors cursor-pointer"
+                  className="px-3.5 sm:px-4 py-2 rounded-xl border border-[#EFE7DE] bg-white text-xs text-[#666] hover:text-[#242124] hover:bg-[#FAF7F2] transition-colors cursor-pointer"
                 >
                   Reset Standard Rates
                 </button>
@@ -1648,21 +2153,21 @@ export default function AdminDashboard() {
             </div>
 
             {/* Live Interactive Conversion Simulator */}
-            <div className="p-6 rounded-3xl bg-white border border-[#EFE7DE] shadow-xs space-y-4">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div className="p-4 sm:p-6 rounded-2xl sm:rounded-3xl bg-white border border-[#EFE7DE] shadow-xs space-y-4">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
                 <div className="flex items-center gap-2">
                   <Coins className="w-5 h-5 text-[#C2185B]" />
                   <h3 className="text-sm font-bold text-[#242124] font-['Poppins']">
                     Interactive Multi-Currency Value Simulator
                   </h3>
                 </div>
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 flex-wrap">
                   <span className="text-xs text-[#777]">Test Base Amount:</span>
                   <input
                     type="number"
                     value={simAmount}
                     onChange={(e) => setSimAmount(Number(e.target.value) || 0)}
-                    className="w-24 h-8 px-2.5 rounded-lg border border-[#DCD5CD] text-xs font-mono font-bold text-[#242124] focus:outline-none focus:border-[#C2185B]"
+                    className="w-20 sm:w-24 h-8 px-2.5 rounded-lg border border-[#DCD5CD] text-xs font-mono font-bold text-[#242124] focus:outline-none focus:border-[#C2185B]"
                   />
                   <select
                     value={simCurrency}
@@ -1702,8 +2207,8 @@ export default function AdminDashboard() {
             </div>
 
             {/* Currency Rates Table */}
-            <div className="bg-white border border-[#EFE7DE] rounded-3xl overflow-hidden shadow-sm">
-              <div className="p-5 border-b border-[#EFE7DE] flex items-center justify-between">
+            <div className="bg-white border border-[#EFE7DE] rounded-2xl sm:rounded-3xl overflow-hidden shadow-sm">
+              <div className="p-4 sm:p-5 border-b border-[#EFE7DE] flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                 <div>
                   <h3 className="text-sm font-bold text-[#242124] font-['Poppins']">
                     Fixed Rates & Serviceable Currencies ({currenciesList.length})
@@ -1714,7 +2219,7 @@ export default function AdminDashboard() {
               </div>
 
               <div className="overflow-x-auto">
-                <table className="w-full text-left text-xs text-[#333333]">
+                <table className="w-full text-left text-xs text-[#333333] min-w-[700px]">
                   <thead className="bg-[#FAF7F2] text-[#666666] text-[11px] uppercase tracking-wider border-b border-[#EFE7DE]">
                     <tr>
                       <th className="py-3.5 px-5 font-semibold">Currency & Territory</th>
@@ -1789,10 +2294,10 @@ export default function AdminDashboard() {
             TAB: HERO SECTION CMS & STOREFRONT BANNER ATELIER
             ======================================================== */}
         {activeTab === 'hero' && (
-          <main className="max-w-7xl mx-auto px-4 sm:px-6 py-6 w-full flex-1 space-y-6">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <main className="max-w-7xl mx-auto px-3 sm:px-6 py-4 sm:py-6 w-full flex-1 space-y-4 sm:space-y-6">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4">
               <div>
-                <h2 className="text-xl font-bold font-['Poppins'] text-[#242124]">
+                <h2 className="text-lg sm:text-xl font-bold font-['Poppins'] text-[#242124]">
                   Hero Section Visual & Content Management (CMS)
                 </h2>
                 <p className="text-xs text-[#666666] mt-0.5">
@@ -1800,18 +2305,18 @@ export default function AdminDashboard() {
                 </p>
               </div>
 
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 flex-wrap">
                 <button
                   type="button"
                   onClick={handleResetHeroSettings}
-                  className="px-4 py-2 rounded-xl border border-[#EFE7DE] bg-white text-xs text-[#666] hover:text-[#242124] hover:bg-[#FAF7F2] transition-colors cursor-pointer"
+                  className="px-3.5 sm:px-4 py-2 rounded-xl border border-[#EFE7DE] bg-white text-xs text-[#666] hover:text-[#242124] hover:bg-[#FAF7F2] transition-colors cursor-pointer"
                 >
                   Reset Defaults
                 </button>
                 <button
                   type="button"
                   onClick={handleSaveHeroSettings}
-                  className="px-5 py-2 rounded-xl bg-gradient-to-r from-[#C2185B] to-[#EC407A] text-white text-xs font-bold shadow-md hover:opacity-95 transition-all flex items-center gap-1.5 cursor-pointer"
+                  className="px-4 sm:px-5 py-2 rounded-xl bg-gradient-to-r from-[#C2185B] to-[#EC407A] text-white text-xs font-bold shadow-md hover:opacity-95 transition-all flex items-center gap-1.5 cursor-pointer"
                 >
                   <Save className="w-4 h-4" />
                   <span>Publish Hero Updates</span>
@@ -1819,9 +2324,9 @@ export default function AdminDashboard() {
               </div>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-start">
               {/* Left Column: Form Editor */}
-              <div className="lg:col-span-6 bg-white border border-[#EFE7DE] rounded-3xl p-6 shadow-sm space-y-4 text-xs">
+              <div className="lg:col-span-6 bg-white border border-[#EFE7DE] rounded-2xl sm:rounded-3xl p-4 sm:p-6 shadow-sm space-y-4 text-xs">
                 <h3 className="text-sm font-bold text-[#242124] font-['Poppins'] pb-2 border-b border-[#EFE7DE] flex items-center gap-2">
                   <Sparkles className="w-4 h-4 text-[#C2185B]" />
                   <span>Banner Headlines & Typography</span>
@@ -2052,78 +2557,78 @@ export default function AdminDashboard() {
             TAB 2: CUSTOMER ORDERS PIPELINE MANAGEMENT
             ======================================================== */}
         {activeTab === 'orders' && (
-          <main className="max-w-7xl mx-auto px-4 sm:px-6 py-6 w-full flex-1 space-y-6">
+          <main className="max-w-7xl mx-auto px-3 sm:px-6 py-4 sm:py-6 w-full flex-1 space-y-4 sm:space-y-6">
             {/* Orders Pipeline KPI Bar */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-4">
               <div
                 onClick={() => setOrderStatusFilter('All')}
-                className={`p-4 rounded-2xl border transition-all cursor-pointer ${
+                className={`p-3 sm:p-4 rounded-2xl border transition-all cursor-pointer ${
                   orderStatusFilter === 'All'
                     ? 'bg-white border-[#C2185B] shadow-md ring-1 ring-[#C2185B]/30'
                     : 'bg-white border-[#EFE7DE] hover:border-[#DCD5CD] shadow-xs'
                 }`}
               >
                 <div className="flex items-center justify-between text-xs text-[#666666]">
-                  <span>Total Pipeline Orders</span>
-                  <Package className="w-4 h-4 text-[#888888]" />
+                  <span className="truncate">Total Orders</span>
+                  <Package className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#888888] shrink-0" />
                 </div>
-                <p className="text-2xl font-bold font-mono text-[#242124] mt-1">{orders.length}</p>
-                <span className="text-[10px] text-[#777777]">All recorded bookings</span>
+                <p className="text-xl sm:text-2xl font-bold font-mono text-[#242124] mt-1">{orders.length}</p>
+                <span className="text-[10px] text-[#777777] block truncate">Bookings</span>
               </div>
 
               <div
                 onClick={() => setOrderStatusFilter('Pending')}
-                className={`p-4 rounded-2xl border transition-all cursor-pointer ${
+                className={`p-3 sm:p-4 rounded-2xl border transition-all cursor-pointer ${
                   orderStatusFilter === 'Pending'
                     ? 'bg-white border-amber-500 shadow-md ring-1 ring-amber-500/30'
                     : 'bg-white border-[#EFE7DE] hover:border-[#DCD5CD] shadow-xs'
                 }`}
               >
                 <div className="flex items-center justify-between text-xs text-amber-700">
-                  <span>Pending Confirmation</span>
-                  <Clock className="w-4 h-4 text-amber-600" />
+                  <span className="truncate">Pending</span>
+                  <Clock className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-amber-600 shrink-0" />
                 </div>
-                <p className="text-2xl font-bold font-mono text-amber-700 mt-1">{pendingOrdersCount}</p>
-                <span className="text-[10px] text-amber-700/80">Awaiting florist pickup</span>
+                <p className="text-xl sm:text-2xl font-bold font-mono text-amber-700 mt-1">{pendingOrdersCount}</p>
+                <span className="text-[10px] text-amber-700/80 block truncate">Awaiting pickup</span>
               </div>
 
               <div
                 onClick={() => setOrderStatusFilter('Out for Delivery')}
-                className={`p-4 rounded-2xl border transition-all cursor-pointer ${
+                className={`p-3 sm:p-4 rounded-2xl border transition-all cursor-pointer ${
                   orderStatusFilter === 'Out for Delivery'
                     ? 'bg-white border-[#C2185B] shadow-md ring-1 ring-[#C2185B]/30'
                     : 'bg-white border-[#EFE7DE] hover:border-[#DCD5CD] shadow-xs'
                 }`}
               >
                 <div className="flex items-center justify-between text-xs text-[#C2185B]">
-                  <span>Out for Delivery</span>
-                  <Truck className="w-4 h-4 text-[#C2185B]" />
+                  <span className="truncate">Out for Delivery</span>
+                  <Truck className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#C2185B] shrink-0" />
                 </div>
-                <p className="text-2xl font-bold font-mono text-[#C2185B] mt-1">{outForDeliveryCount}</p>
-                <span className="text-[10px] text-[#C2185B]/80">Cold-chain transit active</span>
+                <p className="text-xl sm:text-2xl font-bold font-mono text-[#C2185B] mt-1">{outForDeliveryCount}</p>
+                <span className="text-[10px] text-[#C2185B]/80 block truncate">Cold-chain active</span>
               </div>
 
               <div
                 onClick={() => setOrderStatusFilter('Delivered')}
-                className={`p-4 rounded-2xl border transition-all cursor-pointer ${
+                className={`p-3 sm:p-4 rounded-2xl border transition-all cursor-pointer ${
                   orderStatusFilter === 'Delivered'
                     ? 'bg-white border-emerald-500 shadow-md ring-1 ring-emerald-500/30'
                     : 'bg-white border-[#EFE7DE] hover:border-[#DCD5CD] shadow-xs'
                 }`}
               >
                 <div className="flex items-center justify-between text-xs text-emerald-700">
-                  <span>Delivered Successfully</span>
-                  <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+                  <span className="truncate">Delivered</span>
+                  <CheckCircle2 className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-emerald-600 shrink-0" />
                 </div>
-                <p className="text-2xl font-bold font-mono text-emerald-700 mt-1">{deliveredOrdersCount}</p>
-                <span className="text-[10px] text-[#777777]">Recipient handed receipt</span>
+                <p className="text-xl sm:text-2xl font-bold font-mono text-emerald-700 mt-1">{deliveredOrdersCount}</p>
+                <span className="text-[10px] text-[#777777] block truncate">Completed</span>
               </div>
             </div>
 
             {/* Filter and Search Bar */}
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-2">
               <div className="flex flex-wrap items-center gap-2">
-                <div className="relative min-w-[240px]">
+                <div className="relative w-full sm:w-auto sm:min-w-[240px]">
                   <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#999999]" />
                   <input
                     type="text"
@@ -2134,18 +2639,26 @@ export default function AdminDashboard() {
                   />
                 </div>
 
-                <div className="flex items-center gap-1 p-1 bg-white rounded-xl border border-[#EFE7DE] text-[11px] overflow-x-auto scrollbar-none shadow-2xs">
-                  {['All', 'Pending', 'Confirmed', 'Out for Delivery', 'Delivered', 'Cancelled'].map((st) => (
+                <div className="flex items-center gap-1 p-1 bg-white rounded-xl border border-[#EFE7DE] text-[11px] overflow-x-auto max-w-full shadow-2xs">
+                  {[
+                    { label: 'All', count: orders.length },
+                    { label: 'Pending', count: pendingOrdersCount },
+                    { label: 'Confirmed', count: confirmedOrdersCount },
+                    { label: 'Out for Delivery', count: outForDeliveryCount },
+                    { label: 'Delivered', count: deliveredOrdersCount },
+                    { label: 'Cancelled', count: orders.filter((o) => (o.status || o.orderStatus) === 'Cancelled').length },
+                  ].map(({ label, count }) => (
                     <button
-                      key={st}
-                      onClick={() => setOrderStatusFilter(st)}
-                      className={`px-2.5 py-1 rounded-lg transition-colors cursor-pointer whitespace-nowrap ${
-                        orderStatusFilter === st
+                      key={label}
+                      onClick={() => setOrderStatusFilter(label)}
+                      className={`px-2.5 py-1 rounded-lg transition-colors cursor-pointer whitespace-nowrap shrink-0 flex items-center gap-1.5 ${
+                        orderStatusFilter === label
                           ? 'bg-[#C2185B] text-white font-bold'
                           : 'text-[#666666] hover:text-[#242124]'
                       }`}
                     >
-                      {st}
+                      <span>{label}</span>
+                      <span className={`px-1.5 py-0.2 rounded-full text-[10px] font-mono ${orderStatusFilter === label ? 'bg-white/20 text-white' : 'bg-[#FAF7F2] text-[#888]'}`}>{count}</span>
                     </button>
                   ))}
                 </div>
@@ -2330,10 +2843,10 @@ export default function AdminDashboard() {
             TAB: CUSTOMER PAYMENTS & FINANCIAL LEDGER
             ======================================================== */}
         {activeTab === 'payments' && (
-          <main className="max-w-7xl mx-auto px-4 sm:px-6 py-6 w-full flex-1 space-y-6">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <main className="max-w-7xl mx-auto px-3 sm:px-6 py-4 sm:py-6 w-full flex-1 space-y-4 sm:space-y-6">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4">
               <div>
-                <h2 className="text-xl font-bold font-['Poppins'] text-[#242124]">
+                <h2 className="text-lg sm:text-xl font-bold font-['Poppins'] text-[#242124]">
                   Patron Payments & Financial Ledger
                 </h2>
                 <p className="text-xs text-[#666666] mt-0.5">
@@ -2359,7 +2872,7 @@ export default function AdminDashboard() {
                     document.body.removeChild(link);
                     toast.success('Downloaded financial payment ledger CSV.');
                   }}
-                  className="px-4 py-2 rounded-xl border border-[#EFE7DE] bg-white text-xs font-semibold text-[#242124] hover:bg-[#FAF7F2] transition-colors cursor-pointer flex items-center gap-1.5 shadow-2xs"
+                  className="px-3.5 sm:px-4 py-2 rounded-xl border border-[#EFE7DE] bg-white text-xs font-semibold text-[#242124] hover:bg-[#FAF7F2] transition-colors cursor-pointer flex items-center gap-1.5 shadow-2xs"
                 >
                   <FileText className="w-3.5 h-3.5 text-[#C2185B]" />
                   <span>Export Financial Report</span>
@@ -2368,55 +2881,55 @@ export default function AdminDashboard() {
             </div>
 
             {/* Payment KPI Cards */}
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-              <div className="p-4 rounded-2xl bg-white border border-[#EFE7DE] shadow-xs">
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-4">
+              <div className="p-3 sm:p-4 rounded-2xl bg-white border border-[#EFE7DE] shadow-xs">
                 <div className="flex items-center justify-between text-xs text-[#666666]">
-                  <span>Total Settled Volume</span>
-                  <DollarSign className="w-4 h-4 text-emerald-600" />
+                  <span className="truncate">Settled Volume</span>
+                  <DollarSign className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-emerald-600 shrink-0" />
                 </div>
-                <p className="text-2xl font-bold font-mono text-[#242124] mt-1">
+                <p className="text-lg sm:text-2xl font-bold font-mono text-[#242124] mt-1 truncate">
                   ₹{paymentsList.reduce((acc, curr) => acc + (curr.currency === 'AED' ? curr.amount * 22.8 : curr.currency === 'USD' ? curr.amount * 83.5 : curr.amount), 0).toLocaleString('en-IN', { maximumFractionDigits: 0 })}
                 </p>
-                <span className="text-[10px] text-emerald-600 font-semibold">100% Verified Ledger</span>
+                <span className="text-[10px] text-emerald-600 font-semibold block truncate">100% Verified</span>
               </div>
 
-              <div className="p-4 rounded-2xl bg-white border border-[#EFE7DE] shadow-xs">
+              <div className="p-3 sm:p-4 rounded-2xl bg-white border border-[#EFE7DE] shadow-xs">
                 <div className="flex items-center justify-between text-xs text-[#666666]">
-                  <span>Razorpay Gateway</span>
-                  <CreditCard className="w-4 h-4 text-blue-600" />
+                  <span className="truncate">Razorpay</span>
+                  <CreditCard className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-blue-600 shrink-0" />
                 </div>
-                <p className="text-2xl font-bold font-mono text-blue-600 mt-1">
-                  {paymentsList.filter((p) => p.gateway.includes('Razorpay')).length} Transactions
+                <p className="text-xl sm:text-2xl font-bold font-mono text-blue-600 mt-1">
+                  {paymentsList.filter((p) => p.gateway.includes('Razorpay')).length} Txns
                 </p>
-                <span className="text-[10px] text-[#777]">Cards / NetBanking / UPI</span>
+                <span className="text-[10px] text-[#777] block truncate">Cards / UPI</span>
               </div>
 
-              <div className="p-4 rounded-2xl bg-white border border-[#EFE7DE] shadow-xs">
+              <div className="p-3 sm:p-4 rounded-2xl bg-white border border-[#EFE7DE] shadow-xs">
                 <div className="flex items-center justify-between text-xs text-[#666666]">
-                  <span>Stripe & Apple Pay</span>
-                  <Shield className="w-4 h-4 text-[#C2185B]" />
+                  <span className="truncate">Stripe & Apple Pay</span>
+                  <Shield className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#C2185B] shrink-0" />
                 </div>
-                <p className="text-2xl font-bold font-mono text-[#C2185B] mt-1">
-                  {paymentsList.filter((p) => p.gateway.includes('Stripe')).length} Transactions
+                <p className="text-xl sm:text-2xl font-bold font-mono text-[#C2185B] mt-1">
+                  {paymentsList.filter((p) => p.gateway.includes('Stripe')).length} Txns
                 </p>
-                <span className="text-[10px] text-[#777]">Global & GCC Direct</span>
+                <span className="text-[10px] text-[#777] block truncate">Global Direct</span>
               </div>
 
-              <div className="p-4 rounded-2xl bg-white border border-[#EFE7DE] shadow-xs">
+              <div className="p-3 sm:p-4 rounded-2xl bg-white border border-[#EFE7DE] shadow-xs">
                 <div className="flex items-center justify-between text-xs text-[#666666]">
-                  <span>Cash on Delivery</span>
-                  <Clock className="w-4 h-4 text-amber-600" />
+                  <span className="truncate">Cash on Delivery</span>
+                  <Clock className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-amber-600 shrink-0" />
                 </div>
-                <p className="text-2xl font-bold font-mono text-amber-600 mt-1">
+                <p className="text-xl sm:text-2xl font-bold font-mono text-amber-600 mt-1">
                   {paymentsList.filter((p) => p.gateway.includes('Cash')).length} Orders
                 </p>
-                <span className="text-[10px] text-amber-600 font-semibold">Pending Courier Settlement</span>
+                <span className="text-[10px] text-amber-600 font-semibold block truncate">Pending Courier</span>
               </div>
             </div>
 
             {/* Payments Table */}
-            <div className="bg-white border border-[#EFE7DE] rounded-3xl overflow-hidden shadow-sm">
-              <div className="p-5 border-b border-[#EFE7DE] flex items-center justify-between">
+            <div className="bg-white border border-[#EFE7DE] rounded-2xl sm:rounded-3xl overflow-hidden shadow-sm">
+              <div className="p-4 sm:p-5 border-b border-[#EFE7DE] flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                 <div>
                   <h3 className="text-sm font-bold text-[#242124] font-['Poppins']">
                     Customer Payment Records ({paymentsList.length})
@@ -2427,7 +2940,7 @@ export default function AdminDashboard() {
               </div>
 
               <div className="overflow-x-auto">
-                <table className="w-full text-left text-xs text-[#333333]">
+                <table className="w-full text-left text-xs text-[#333333] min-w-[720px]">
                   <thead className="bg-[#FAF7F2] text-[#666666] text-[11px] uppercase tracking-wider border-b border-[#EFE7DE]">
                     <tr>
                       <th className="py-3.5 px-5 font-semibold">Transaction ID & Order</th>
@@ -2511,21 +3024,21 @@ export default function AdminDashboard() {
             TAB: SUPER ADMIN & EXACTLY 2 STAFFS ALLOCATION SLOTS
             ======================================================== */}
         {activeTab === 'staff' && (
-          <main className="max-w-7xl mx-auto px-4 sm:px-6 py-6 w-full flex-1 space-y-6">
+          <main className="max-w-7xl mx-auto px-3 sm:px-6 py-4 sm:py-6 w-full flex-1 space-y-4 sm:space-y-6">
             {/* Super Admin Status Banner */}
-            <div className="rounded-3xl p-6 bg-gradient-to-r from-[#FFFDF9] via-[#FAF7F2] to-[#FFF5F7] border border-[#D4AF37]/40 shadow-sm relative overflow-hidden">
+            <div className="rounded-2xl sm:rounded-3xl p-4 sm:p-6 bg-gradient-to-r from-[#FFFDF9] via-[#FAF7F2] to-[#FFF5F7] border border-[#D4AF37]/40 shadow-sm relative overflow-hidden">
               <div className="absolute top-0 right-0 p-8 opacity-10 pointer-events-none">
                 <Crown className="w-48 h-48 text-[#D4AF37]" />
               </div>
 
               <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4">
-                <div className="flex items-start gap-4">
-                  <div className="p-3.5 rounded-2xl bg-[#D4AF37]/15 text-[#854D0E] border border-[#D4AF37]/40 shadow-xs">
-                    <Crown className="w-7 h-7" />
+                <div className="flex flex-col sm:flex-row items-start gap-3 sm:gap-4">
+                  <div className="p-3 sm:p-3.5 rounded-2xl bg-[#D4AF37]/15 text-[#854D0E] border border-[#D4AF37]/40 shadow-xs shrink-0">
+                    <Crown className="w-6 h-6 sm:w-7 sm:h-7" />
                   </div>
                   <div>
                     <div className="flex items-center gap-2 flex-wrap">
-                      <h2 className="text-xl font-bold font-['Poppins'] text-[#242124]">
+                      <h2 className="text-lg sm:text-xl font-bold font-['Poppins'] text-[#242124]">
                         Super Admin Governance & 2 Staff Quota
                       </h2>
                       <span className="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase bg-[#FEF3C7] text-[#854D0E] border border-[#FDE68A] font-mono">
@@ -2535,9 +3048,9 @@ export default function AdminDashboard() {
                     <p className="text-xs text-[#666666] mt-1 max-w-2xl leading-relaxed">
                       Super Admin retains root governance. System policy allocates <strong>exactly 2 authorized staff members</strong> (Slot 1 & Slot 2) for operational management (Master Florist & Cold-Chain Dispatch).
                     </p>
-                    <div className="mt-3 inline-flex items-center gap-2 text-xs bg-white px-3 py-1.5 rounded-xl border border-[#EFE7DE] text-[#242124] shadow-2xs">
-                      <Mail className="w-3.5 h-3.5 text-[#854D0E]" />
-                      <span>Root Super Admin: <strong className="text-[#854D0E] font-mono">{superAdminEmail}</strong></span>
+                    <div className="mt-3 inline-flex items-center gap-2 text-xs bg-white px-3 py-1.5 rounded-xl border border-[#EFE7DE] text-[#242124] shadow-2xs max-w-full">
+                      <Mail className="w-3.5 h-3.5 text-[#854D0E] shrink-0" />
+                      <span className="truncate">Root Super Admin: <strong className="text-[#854D0E] font-mono break-all">{superAdminEmail}</strong></span>
                     </div>
                   </div>
                 </div>
@@ -2551,7 +3064,7 @@ export default function AdminDashboard() {
                     type="button"
                     onClick={() => handleOpenStaffModal()}
                     disabled={isStaffQuotaFull}
-                    className={`px-5 py-3 rounded-2xl text-white font-bold text-xs shadow-md transition-all flex items-center gap-2 cursor-pointer ${
+                    className={`px-4 sm:px-5 py-2.5 sm:py-3 rounded-2xl text-white font-bold text-xs shadow-md transition-all flex items-center gap-2 cursor-pointer ${
                       isStaffQuotaFull
                         ? 'bg-stone-400 cursor-not-allowed opacity-80'
                         : 'bg-gradient-to-r from-[#D4AF37] to-[#B89628] hover:opacity-95'
@@ -2565,9 +3078,9 @@ export default function AdminDashboard() {
             </div>
 
             {/* DEDICATED 3-TIER EXECUTIVE SLOTS: SUPER ADMIN + 2 STAFF MEMBERS */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-5">
               {/* Card 1: Root Super Admin */}
-              <div className="rounded-3xl p-6 bg-white border-2 border-[#D4AF37]/50 shadow-sm relative overflow-hidden flex flex-col justify-between">
+              <div className="rounded-2xl sm:rounded-3xl p-4 sm:p-6 bg-white border-2 border-[#D4AF37]/50 shadow-sm relative overflow-hidden flex flex-col justify-between">
                 <div className="space-y-3">
                   <div className="flex items-center justify-between">
                     <span className="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold bg-[#FEF3C7] text-[#854D0E] border border-[#FDE68A] uppercase tracking-wider">
@@ -2755,8 +3268,8 @@ export default function AdminDashboard() {
             </div>
 
             {/* Staff Credentials Table */}
-            <div className="bg-white border border-[#EFE7DE] rounded-3xl overflow-hidden shadow-sm">
-              <div className="p-5 border-b border-[#EFE7DE] flex items-center justify-between">
+            <div className="bg-white border border-[#EFE7DE] rounded-2xl sm:rounded-3xl overflow-hidden shadow-sm">
+              <div className="p-4 sm:p-5 border-b border-[#EFE7DE] flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                 <div>
                   <h3 className="text-sm font-bold text-[#242124] font-['Poppins']">
                     Authorized Personnel Roster ({staffList.length} Accounts)
@@ -2769,7 +3282,7 @@ export default function AdminDashboard() {
               </div>
 
               <div className="overflow-x-auto">
-                <table className="w-full text-left text-xs text-[#333333]">
+                <table className="w-full text-left text-xs text-[#333333] min-w-[650px]">
                   <thead className="bg-[#FAF7F2] text-[#666666] text-[11px] uppercase tracking-wider border-b border-[#EFE7DE]">
                     <tr>
                       <th className="py-3.5 px-5 font-semibold">Staff Member</th>
@@ -2892,7 +3405,7 @@ export default function AdminDashboard() {
             TAB 3: REGISTERED USERS & LOGINS HISTORY
             ======================================================== */}
         {activeTab === 'users' && (
-          <main className="max-w-7xl mx-auto px-4 sm:px-6 py-6 w-full flex-1 space-y-6">
+          <main className="max-w-7xl mx-auto px-3 sm:px-6 py-4 sm:py-6 w-full flex-1 space-y-4 sm:space-y-6">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
               <div>
                 <h2 className="text-lg font-bold font-['Poppins'] text-[#242124]">
@@ -2907,65 +3420,67 @@ export default function AdminDashboard() {
               </span>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-6">
               {/* Users list */}
               <div className="lg:col-span-7 bg-white border border-[#EFE7DE] rounded-2xl overflow-hidden shadow-sm">
-                <table className="w-full text-left text-xs text-[#333333]">
-                  <thead className="bg-[#FAF7F2] text-[#666666] text-[11px] uppercase tracking-wider border-b border-[#EFE7DE]">
-                    <tr>
-                      <th className="py-3 px-4 font-semibold">User</th>
-                      <th className="py-3 px-4 font-semibold">Role</th>
-                      <th className="py-3 px-4 font-semibold">Logins</th>
-                      <th className="py-3 px-4 text-right font-semibold">Inspect</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-[#EFE7DE]">
-                    {usersList.map((usr) => (
-                      <tr key={usr._id || usr.id} className="hover:bg-[#FFFDF9]">
-                        <td className="py-3 px-4">
-                          <div className="flex items-center gap-2.5">
-                            <div className="w-8 h-8 rounded-full bg-[#FFF0F4] border border-[#F2D7DE] text-[#C2185B] flex items-center justify-center font-bold text-xs shadow-2xs flex-shrink-0">
-                              {usr.name ? usr.name.charAt(0).toUpperCase() : 'U'}
-                            </div>
-                            <div>
-                              <span className="font-bold text-[#242124] block">{usr.name}</span>
-                              <span className="text-[11px] text-[#777777]">{usr.email}</span>
-                            </div>
-                          </div>
-                        </td>
-
-                        <td className="py-3 px-4">
-                          <span
-                            className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider ${
-                              usr.role === 'admin' || usr.role === 'super_admin'
-                                ? 'bg-[#FFF0F4] text-[#C2185B] border border-[#F2D7DE]'
-                                : 'bg-[#FAF7F2] text-[#555555] border border-[#EFE7DE]'
-                            }`}
-                          >
-                            {usr.role || 'customer'}
-                          </span>
-                        </td>
-
-                        <td className="py-3 px-4 font-mono font-bold text-[#242124]">
-                          {usr.loginHistory?.length || 1} logins
-                        </td>
-
-                        <td className="py-3 px-4 text-right">
-                          <button
-                            onClick={() => setSelectedUserLogins(usr)}
-                            className="px-3 py-1 rounded-lg bg-[#FFF0F4] hover:bg-[#FFE4EC] text-[#C2185B] border border-[#F2D7DE] text-xs font-semibold cursor-pointer transition-colors"
-                          >
-                            View Logs
-                          </button>
-                        </td>
+                <div className="overflow-x-auto">
+                  <table className="w-full text-left text-xs text-[#333333] min-w-[480px]">
+                    <thead className="bg-[#FAF7F2] text-[#666666] text-[11px] uppercase tracking-wider border-b border-[#EFE7DE]">
+                      <tr>
+                        <th className="py-3 px-4 font-semibold">User</th>
+                        <th className="py-3 px-4 font-semibold">Role</th>
+                        <th className="py-3 px-4 font-semibold">Logins</th>
+                        <th className="py-3 px-4 text-right font-semibold">Inspect</th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
+                    </thead>
+                    <tbody className="divide-y divide-[#EFE7DE]">
+                      {usersList.map((usr) => (
+                        <tr key={usr._id || usr.id} className="hover:bg-[#FFFDF9]">
+                          <td className="py-3 px-4">
+                            <div className="flex items-center gap-2.5">
+                              <div className="w-8 h-8 rounded-full bg-[#FFF0F4] border border-[#F2D7DE] text-[#C2185B] flex items-center justify-center font-bold text-xs shadow-2xs flex-shrink-0">
+                                {usr.name ? usr.name.charAt(0).toUpperCase() : 'U'}
+                              </div>
+                              <div>
+                                <span className="font-bold text-[#242124] block">{usr.name}</span>
+                                <span className="text-[11px] text-[#777777]">{usr.email}</span>
+                              </div>
+                            </div>
+                          </td>
+
+                          <td className="py-3 px-4">
+                            <span
+                              className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider ${
+                                usr.role === 'admin' || usr.role === 'super_admin'
+                                  ? 'bg-[#FFF0F4] text-[#C2185B] border border-[#F2D7DE]'
+                                  : 'bg-[#FAF7F2] text-[#555555] border border-[#EFE7DE]'
+                              }`}
+                            >
+                              {usr.role || 'customer'}
+                            </span>
+                          </td>
+
+                          <td className="py-3 px-4 font-mono font-bold text-[#242124]">
+                            {usr.loginHistory?.length || 1} logins
+                          </td>
+
+                          <td className="py-3 px-4 text-right">
+                            <button
+                              onClick={() => setSelectedUserLogins(usr)}
+                              className="px-3 py-1 rounded-lg bg-[#FFF0F4] hover:bg-[#FFE4EC] text-[#C2185B] border border-[#F2D7DE] text-xs font-semibold cursor-pointer transition-colors"
+                            >
+                              View Logs
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
               </div>
 
               {/* Login history telemetry panel */}
-              <div className="lg:col-span-5 bg-white border border-[#EFE7DE] rounded-2xl p-6 shadow-sm space-y-4">
+              <div className="lg:col-span-5 bg-white border border-[#EFE7DE] rounded-2xl p-4 sm:p-6 shadow-sm space-y-4">
                 {selectedUserLogins ? (
                   <>
                     <div className="flex items-center justify-between pb-3 border-b border-[#EFE7DE]">
@@ -3014,49 +3529,51 @@ export default function AdminDashboard() {
             TAB 4: EXECUTIVE ANALYTICS STATS
             ======================================================== */}
         {activeTab === 'stats' && (
-          <main className="max-w-7xl mx-auto px-4 sm:px-6 py-6 w-full flex-1 space-y-6">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-              <div className="bg-white border border-[#EFE7DE] rounded-2xl p-6 shadow-sm">
-                <span className="text-xs text-[#666666]">Gross Pipeline Revenue</span>
-                <p className="text-3xl font-bold font-mono text-[#242124] mt-1">
+          <main className="max-w-7xl mx-auto px-3 sm:px-6 py-4 sm:py-6 w-full flex-1 space-y-4 sm:space-y-6">
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-4">
+              <div className="bg-white border border-[#EFE7DE] rounded-2xl p-3.5 sm:p-6 shadow-sm">
+                <span className="text-[11px] sm:text-xs text-[#666666] block truncate">Gross Pipeline Revenue</span>
+                <p className="text-xl sm:text-3xl font-bold font-mono text-[#242124] mt-1 truncate">
                   ₹{stats.totalRevenue?.toLocaleString('en-IN')}
                 </p>
-                <span className="text-[11px] text-emerald-600 font-semibold">+24.5% vs previous cycle</span>
+                <span className="text-[10px] sm:text-[11px] text-emerald-600 font-semibold block truncate">+24.5% vs cycle</span>
               </div>
 
-              <div className="bg-white border border-[#EFE7DE] rounded-2xl p-6 shadow-sm">
-                <span className="text-xs text-[#666666]">Total Dispatched Bookings</span>
-                <p className="text-3xl font-bold font-mono text-[#242124] mt-1">
+              <div className="bg-white border border-[#EFE7DE] rounded-2xl p-3.5 sm:p-6 shadow-sm">
+                <span className="text-[11px] sm:text-xs text-[#666666] block truncate">Total Dispatched</span>
+                <p className="text-xl sm:text-3xl font-bold font-mono text-[#242124] mt-1">
                   {orders.length}
                 </p>
-                <span className="text-[11px] text-[#777777]">Cold-chain tracked</span>
+                <span className="text-[10px] sm:text-[11px] text-[#777777] block truncate">Cold-chain tracked</span>
               </div>
 
-              <div className="bg-white border border-[#EFE7DE] rounded-2xl p-6 shadow-sm">
-                <span className="text-xs text-[#666666]">Active Registered Patrons</span>
-                <p className="text-3xl font-bold font-mono text-[#242124] mt-1">
+              <div className="bg-white border border-[#EFE7DE] rounded-2xl p-3.5 sm:p-6 shadow-sm">
+                <span className="text-[11px] sm:text-xs text-[#666666] block truncate">Active Patrons</span>
+                <p className="text-xl sm:text-3xl font-bold font-mono text-[#242124] mt-1">
                   {usersList.length}
                 </p>
-                <span className="text-[11px] text-[#C2185B] font-semibold">Active accounts in MongoDB</span>
+                <span className="text-[10px] sm:text-[11px] text-[#C2185B] font-semibold block truncate">MongoDB Accounts</span>
               </div>
 
-              <div className="bg-white border border-[#EFE7DE] rounded-2xl p-6 shadow-sm">
-                <span className="text-xs text-[#666666]">Low Stock SKUs (≤ 5)</span>
-                <p className="text-3xl font-bold font-mono text-rose-600 mt-1">
-                  {lowStockCount} Items
+              <div className="bg-white border border-[#EFE7DE] rounded-2xl p-3.5 sm:p-6 shadow-sm">
+                <span className="text-[11px] sm:text-xs text-[#666666] block truncate">Low Stock SKUs (≤ 5)</span>
+                <p className="text-xl sm:text-3xl font-bold font-mono text-rose-600 mt-1">
+                  {lowStockCount}
                 </p>
-                <span className="text-[11px] text-rose-600">Needs immediate harvest restock</span>
+                <span className="text-[10px] sm:text-[11px] text-rose-600 block truncate">Needs harvest</span>
               </div>
             </div>
           </main>
         )}
+            </div>
+          </div>
 
         {/* ========================================================
             MODAL: ADD / EDIT BOTANICAL PRODUCT
             ======================================================== */}
         {showProductModal && (
-          <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-xs flex items-center justify-center p-4">
-            <div className="bg-white border border-[#EFE7DE] rounded-3xl p-6 max-w-xl w-full max-h-[92vh] overflow-y-auto space-y-4 shadow-2xl text-[#242124]">
+          <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4">
+            <div className="bg-white border border-[#EFE7DE] rounded-2xl sm:rounded-3xl p-4 sm:p-6 max-w-xl w-full max-h-[92vh] overflow-y-auto space-y-4 shadow-2xl text-[#242124]">
               <div className="flex items-center justify-between pb-3 border-b border-[#EFE7DE]">
                 <div className="flex items-center gap-2.5">
                   <div className="p-2 rounded-xl bg-[#FFF0F4] text-[#C2185B] border border-[#F2D7DE]">
@@ -3078,7 +3595,7 @@ export default function AdminDashboard() {
               </div>
 
               <form onSubmit={handleSaveProduct} className="space-y-4 text-xs">
-                {/* Arrangement Name */}
+                {/* 1. Proper Product Name */}
                 <div>
                   <label className="block text-[#444444] font-semibold mb-1">Product / Bouquet Name *</label>
                   <input
@@ -3091,13 +3608,21 @@ export default function AdminDashboard() {
                   />
                 </div>
 
-                {/* Category & Flower/Plant Type */}
+                {/* 2. Proper Product Category & Subcategory Dropdown List */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div>
-                    <label className="block text-[#444444] font-semibold mb-1">Category *</label>
+                    <label className="block text-[#444444] font-semibold mb-1">Product Category *</label>
                     <select
                       value={productForm.category}
-                      onChange={(e) => setProductForm({ ...productForm, category: e.target.value })}
+                      onChange={(e) => {
+                        const newCat = e.target.value;
+                        const subCats = CATEGORY_SUBCATEGORIES_MAP[newCat] || [];
+                        setProductForm({
+                          ...productForm,
+                          category: newCat,
+                          subCategory: subCats[0] || '',
+                        });
+                      }}
                       className="w-full h-10 px-3 rounded-xl bg-white border border-[#DCD5CD] text-[#242124] focus:outline-none focus:border-[#C2185B]"
                     >
                       {DEFINED_CATEGORIES.map((cat) => (
@@ -3109,6 +3634,29 @@ export default function AdminDashboard() {
                   </div>
 
                   <div>
+                    <label className="block text-[#444444] font-semibold mb-1">Subcategory Dropdown List *</label>
+                    <select
+                      value={productForm.subCategory}
+                      onChange={(e) => setProductForm({ ...productForm, subCategory: e.target.value })}
+                      className="w-full h-10 px-3 rounded-xl bg-white border border-[#DCD5CD] text-[#242124] focus:outline-none focus:border-[#C2185B]"
+                    >
+                      {(CATEGORY_SUBCATEGORIES_MAP[productForm.category] || [
+                        'Hand Bouquets',
+                        'Vase Arrangements',
+                        'Grand Luxury Bouquets',
+                        'Exotic Garden Stems',
+                      ]).map((sub) => (
+                        <option key={sub} value={sub}>
+                          {sub}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+
+                {/* Botanical Variety & Promotional Tag */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div>
                     <label className="block text-[#444444] font-semibold mb-1">Flower / Botanical Spec</label>
                     <input
                       type="text"
@@ -3118,10 +3666,27 @@ export default function AdminDashboard() {
                       className="w-full h-10 px-3 rounded-xl bg-white border border-[#DCD5CD] text-[#242124] placeholder:text-[#999999] focus:outline-none focus:border-[#C2185B]"
                     />
                   </div>
+
+                  <div>
+                    <label className="block text-[#444444] font-semibold mb-1">Promotional Badge Tag</label>
+                    <select
+                      value={productForm.tag}
+                      onChange={(e) => setProductForm({ ...productForm, tag: e.target.value })}
+                      className="w-full h-10 px-3 rounded-xl bg-white border border-[#DCD5CD] text-[#242124] focus:outline-none focus:border-[#C2185B]"
+                    >
+                      <option value="">No Badge</option>
+                      <option value="NEW ARRIVAL">NEW ARRIVAL</option>
+                      <option value="BESTSELLER">BESTSELLER</option>
+                      <option value="EXCLUSIVE">EXCLUSIVE</option>
+                      <option value="LIMITED EDIT">LIMITED EDIT</option>
+                      <option value="ORGANIC EXPORT">ORGANIC EXPORT</option>
+                      <option value="SALE">SALE (20% OFF)</option>
+                    </select>
+                  </div>
                 </div>
 
-                {/* Price, MRP, and Stock */}
-                <div className="grid grid-cols-3 gap-3">
+                {/* 3. Pricing & Inventory */}
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 sm:gap-3">
                   <div>
                     <label className="block text-[#444444] font-semibold mb-1">Selling Price (₹) *</label>
                     <input
@@ -3135,7 +3700,7 @@ export default function AdminDashboard() {
                   </div>
 
                   <div>
-                    <label className="block text-[#444444] font-semibold mb-1">Original Price (₹)</label>
+                    <label className="block text-[#444444] font-semibold mb-1">Original Price / MRP (₹)</label>
                     <input
                       type="number"
                       min="1"
@@ -3146,7 +3711,7 @@ export default function AdminDashboard() {
                   </div>
 
                   <div>
-                    <label className="block text-[#444444] font-semibold mb-1">Initial Stock *</label>
+                    <label className="block text-[#444444] font-semibold mb-1">Initial Stock Level *</label>
                     <input
                       type="number"
                       required
@@ -3158,27 +3723,9 @@ export default function AdminDashboard() {
                   </div>
                 </div>
 
-                {/* Tag Badge */}
-                <div>
-                  <label className="block text-[#444444] font-semibold mb-1">Badge Tag</label>
-                  <select
-                    value={productForm.tag}
-                    onChange={(e) => setProductForm({ ...productForm, tag: e.target.value })}
-                    className="w-full h-10 px-3 rounded-xl bg-white border border-[#DCD5CD] text-[#242124] focus:outline-none focus:border-[#C2185B]"
-                  >
-                    <option value="">No Badge</option>
-                    <option value="NEW ARRIVAL">NEW ARRIVAL</option>
-                    <option value="BESTSELLER">BESTSELLER</option>
-                    <option value="EXCLUSIVE">EXCLUSIVE</option>
-                    <option value="LIMITED EDIT">LIMITED EDIT</option>
-                    <option value="ORGANIC EXPORT">ORGANIC EXPORT</option>
-                    <option value="SALE">SALE (20% OFF)</option>
-                  </select>
-                </div>
-
                 {/* MULTI-CURRENCY FIXED PRICING MATRIX (11 CURRENCIES) */}
-                <div className="p-4 rounded-2xl bg-white border border-[#EFE7DE] shadow-xs space-y-3">
-                  <div className="flex items-center justify-between">
+                <div className="p-3.5 sm:p-4 rounded-2xl bg-white border border-[#EFE7DE] shadow-xs space-y-3">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                     <div className="flex items-center gap-2">
                       <Coins className="w-4 h-4 text-[#C2185B]" />
                       <span className="font-bold text-xs text-[#242124]">
@@ -3201,7 +3748,7 @@ export default function AdminDashboard() {
                         }));
                         toast.success('Auto-populated fixed rates across all 11 currencies based on current exchange matrix!');
                       }}
-                      className="px-2.5 py-1 rounded-lg bg-[#FFF0F4] hover:bg-[#FFE4EC] text-[#C2185B] border border-[#F2D7DE] text-[10px] font-bold transition-colors cursor-pointer"
+                      className="px-2.5 py-1 rounded-lg bg-[#FFF0F4] hover:bg-[#FFE4EC] text-[#C2185B] border border-[#F2D7DE] text-[10px] font-bold transition-colors cursor-pointer self-start sm:self-auto"
                     >
                       ⚡ Auto-Calculate Fixed Rates
                     </button>
@@ -3245,136 +3792,92 @@ export default function AdminDashboard() {
                   </div>
                 </div>
 
-                {/* Image Selection: Local Upload OR Presets */}
-                <div className="space-y-3 p-3.5 rounded-2xl bg-[#FAF7F2] border border-[#EFE7DE]">
-                  <div className="flex items-center justify-between">
-                    <label className="text-[#333333] font-semibold flex items-center gap-1.5 text-xs">
-                      <Upload className="w-3.5 h-3.5 text-[#C2185B]" />
-                      <span>Upload & Store Image Locally (Linux Web Hosting Ready)</span>
-                    </label>
-                    {uploadingImage && (
+                {/* 4. Product Image Upload & Media Management (Properly Aligned) */}
+                <div className="p-4 rounded-2xl bg-[#FAF7F2] border border-[#EFE7DE] space-y-3">
+                  <div className="flex items-center justify-between border-b border-[#EFE7DE] pb-2">
+                    <div className="flex items-center gap-2">
+                      <Upload className="w-4 h-4 text-[#C2185B]" />
+                      <span className="font-bold text-xs text-[#242124]">
+                        Product Image & Visual Asset *
+                      </span>
+                    </div>
+                    {uploadingImage ? (
                       <span className="text-[#C2185B] text-[10px] font-bold animate-pulse">
-                        Processing image...
+                        Compressing & saving image...
+                      </span>
+                    ) : (
+                      <span className="text-[10px] text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200 font-semibold">
+                        Instant Live Preview
                       </span>
                     )}
                   </div>
 
-                  {/* Drag/Click file picker */}
-                  <label className="flex flex-col items-center justify-center border-2 border-dashed border-[#DCD5CD] hover:border-[#C2185B] rounded-xl p-4 cursor-pointer bg-white hover:bg-[#FFFDF9] transition-all group">
-                    <Upload className="w-5 h-5 text-[#888888] group-hover:text-[#C2185B] transition-colors mb-1" />
-                    <span className="text-xs text-[#242124] font-medium">
-                      Select local image from computer
-                    </span>
-                    <span className="text-[10px] text-[#777777] mt-0.5">
-                      Structured for Linux hosting: <code className="text-[#C2185B]">public/images/products/</code>
-                    </span>
-                    <input
-                      type="file"
-                      accept="image/*"
-                      onChange={handleLocalImageUpload}
-                      className="hidden"
-                    />
-                  </label>
-
-                  {/* Linux Hosting Local Destination Path */}
-                  <div className="p-2.5 rounded-xl bg-white border border-[#EFE7DE] space-y-1">
-                    <span className="text-[10px] font-bold text-[#555] uppercase tracking-wider block">
-                      🐧 Linux Web Hosting Asset Path:
-                    </span>
-                    <div className="flex items-center gap-2">
-                      <input
-                        type="text"
-                        value={productForm.linuxHostingPath || `/images/products/${(productForm.name || 'bouquet').toLowerCase().replace(/\s+/g, '-')}.jpg`}
-                        onChange={(e) => setProductForm({ ...productForm, linuxHostingPath: e.target.value })}
-                        className="flex-1 h-8 px-2.5 rounded-lg bg-[#FAF7F2] border border-[#DCD5CD] text-[#242124] font-mono text-xs focus:outline-none focus:border-[#C2185B]"
-                      />
-                      <button
-                        type="button"
-                        onClick={() => {
-                          const path = productForm.linuxHostingPath || `/images/products/${(productForm.name || 'bouquet').toLowerCase().replace(/\s+/g, '-')}.jpg`;
-                          navigator.clipboard.writeText(path);
-                          toast.success('Copied Linux asset path to clipboard!');
-                        }}
-                        className="px-2.5 py-1.5 rounded-lg bg-[#FAF7F2] hover:bg-[#EFE7DE] text-[#242124] border border-[#DCD5CD] text-[10px] font-bold cursor-pointer"
-                      >
-                        Copy Path
-                      </button>
-                    </div>
-                  </div>
-
-                  {/* Stored locally badge if path includes /uploads */}
-                  {productForm.images && productForm.images.includes('/uploads') && (
-                    <div className="flex items-center gap-2 text-[11px] text-emerald-800 bg-emerald-50 px-3 py-2 rounded-xl border border-emerald-200">
-                      <Check className="w-3.5 h-3.5 flex-shrink-0 text-emerald-600" />
-                      <span className="truncate">
-                        Stored locally in code: <strong>{productForm.images.split('/').pop()}</strong>
-                      </span>
-                    </div>
-                  )}
-
-                  {/* Image URL & Live Preview */}
-                  <div className="space-y-1 pt-1">
-                    <span className="text-[11px] text-[#666666] block">Image URL or Local Asset Path:</span>
-                    <div className="flex gap-3 items-center">
+                  {/* Aligned 2-Column: Live Preview (Left) + Upload Controls (Right) */}
+                  <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3.5">
+                    {/* Live Preview Thumbnail */}
+                    <div className="relative group shrink-0">
                       <img
-                        src={getProductImageUrl(productForm.images)}
-                        alt="Product Image Preview"
-                        className="w-12 h-12 rounded-xl object-cover border border-[#EFE7DE] bg-white flex-shrink-0"
-                        loading="lazy"
-                        decoding="async"
+                        src={getProductImageUrl(productForm.images || productForm.image)}
+                        alt="Product Preview"
+                        className="w-20 h-20 rounded-xl object-cover border-2 border-[#C2185B]/40 shadow-sm bg-white"
                         onError={(e) => {
                           e.target.src = 'https://images.unsplash.com/photo-1561181286-d3fee7d55364?auto=format&fit=crop&w=400&q=80';
                         }}
                       />
-                      <input
-                        type="text"
-                        required
-                        value={productForm.images}
-                        onChange={(e) => setProductForm({ ...productForm, images: e.target.value })}
-                        placeholder="Image URL or local file path"
-                        className="flex-1 h-9 px-3 rounded-xl bg-white border border-[#DCD5CD] text-[#242124] text-xs focus:outline-none focus:border-[#C2185B]"
-                      />
+                      <div className="absolute inset-0 bg-black/40 rounded-xl opacity-0 group-hover:opacity-100 flex items-center justify-center text-white text-[9px] font-bold transition-opacity pointer-events-none">
+                        Live
+                      </div>
+                    </div>
+
+                    {/* Dual Upload Options */}
+                    <div className="flex-1 w-full space-y-2">
+                      {/* File Upload Trigger */}
+                      <label className="flex items-center justify-center gap-2 w-full h-10 px-3 rounded-xl border border-dashed border-[#C2185B] bg-white hover:bg-[#FFF5F8] text-[#C2185B] font-semibold text-xs cursor-pointer transition-colors">
+                        <Upload className="w-4 h-4" />
+                        <span>Select Image from Computer</span>
+                        <input
+                          type="file"
+                          accept="image/*"
+                          onChange={handleLocalImageUpload}
+                          className="hidden"
+                        />
+                      </label>
+
+                      {/* Direct Image URL input */}
+                      <div className="flex items-center gap-2">
+                        <input
+                          type="text"
+                          required
+                          placeholder="Or paste direct image URL (https://... or /images/...)"
+                          value={productForm.images || ''}
+                          onChange={(e) => setProductForm({ ...productForm, images: e.target.value, image: e.target.value })}
+                          className="w-full h-8 px-2.5 rounded-lg bg-white border border-[#DCD5CD] text-[#242124] text-xs placeholder:text-[#999999] focus:outline-none focus:border-[#C2185B]"
+                        />
+                      </div>
                     </div>
                   </div>
 
-                  {/* Previously Uploaded Local Images Gallery (if any) */}
-                  {localImages.length > 0 && (
-                    <div className="pt-2 border-t border-[#EFE7DE]">
-                      <span className="text-[10px] text-[#777777] block mb-1.5">
-                        Recently Uploaded Local Code Assets ({localImages.length}):
-                      </span>
-                      <div className="flex gap-2 overflow-x-auto pb-1.5 scrollbar-none">
-                        {localImages.slice(0, 8).map((imgObj, idx) => (
-                          <button
-                            key={idx}
-                            type="button"
-                            onClick={() => {
-                              setProductForm({ ...productForm, images: imgObj.relativeUrl });
-                              toast.info(`Selected local asset: ${imgObj.filename}`);
-                            }}
-                            className={`w-11 h-11 rounded-lg overflow-hidden border flex-shrink-0 transition-transform hover:scale-105 cursor-pointer ${
-                              productForm.images === imgObj.relativeUrl || productForm.images === imgObj.fullUrl
-                                ? 'border-[#C2185B] ring-2 ring-[#C2185B]/40'
-                                : 'border-[#EFE7DE] opacity-80 hover:opacity-100'
-                            }`}
-                            title={imgObj.filename}
-                          >
-                            <img
-                              src={imgObj.fullUrl || imgObj.relativeUrl}
-                              alt={imgObj.filename || 'Uploaded asset thumbnail'}
-                              className="w-full h-full object-cover"
-                              loading="lazy"
-                              decoding="async"
-                            />
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-                  )}
+                  {/* Linux Hosting Path Subtext */}
+                  <div className="flex items-center justify-between text-[10px] text-[#666666] bg-white p-2 rounded-lg border border-[#EFE7DE]">
+                    <span className="truncate">
+                      Linux Asset: <code className="text-[#C2185B] font-mono">{productForm.linuxHostingPath || `/images/products/${(productForm.name || 'bouquet').toLowerCase().replace(/\s+/g, '-')}.jpg`}</code>
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const path = productForm.linuxHostingPath || `/images/products/${(productForm.name || 'bouquet').toLowerCase().replace(/\s+/g, '-')}.jpg`;
+                        navigator.clipboard.writeText(path);
+                        toast.success('Copied Linux asset path!');
+                      }}
+                      className="text-[#C2185B] hover:underline font-bold shrink-0 ml-2 cursor-pointer"
+                    >
+                      Copy
+                    </button>
+                  </div>
 
                   {/* 1-Click Curated Presets */}
-                  <div className="pt-1">
-                    <span className="text-[10px] text-[#777777] block mb-1.5">Or choose from curated botanical presets:</span>
+                  <div className="space-y-1.5 pt-1">
+                    <span className="text-[10px] text-[#777777] font-semibold block">Quick Curated Botanical Photo Presets:</span>
                     <div className="flex flex-wrap gap-1.5">
                       {IMAGE_PRESETS.map((preset, idx) => (
                         <button
@@ -3384,12 +3887,14 @@ export default function AdminDashboard() {
                             setProductForm({
                               ...productForm,
                               images: preset.url,
+                              image: preset.url,
                               category: preset.category,
                               flowerType: preset.flowerType,
+                              subCategory: CATEGORY_SUBCATEGORIES_MAP[preset.category]?.[0] || productForm.subCategory,
                             });
                             toast.info(`Selected ${preset.name} image preset`);
                           }}
-                          className="px-2.5 py-1 rounded-lg bg-white hover:bg-[#F2ECE6] border border-[#EFE7DE] text-[10px] text-[#555555] hover:text-[#242124] transition-colors cursor-pointer"
+                          className="px-2.5 py-1 rounded-lg bg-white hover:bg-[#FFF0F4] hover:text-[#C2185B] hover:border-[#F2D7DE] border border-[#EFE7DE] text-[10px] text-[#555555] transition-all cursor-pointer"
                         >
                           {preset.name}
                         </button>
@@ -3398,7 +3903,7 @@ export default function AdminDashboard() {
                   </div>
                 </div>
 
-                {/* Botanical Plant Care Specs (Optional) */}
+                {/* 5. Botanical Plant Care Specs (Optional) */}
                 {productForm.category === 'Plants' && (
                   <div className="p-3 rounded-xl bg-emerald-50/50 border border-emerald-200 space-y-2">
                     <span className="text-[11px] font-bold text-emerald-800 block">🌿 Botanical Plant Care Specs:</span>
@@ -3421,9 +3926,9 @@ export default function AdminDashboard() {
                   </div>
                 )}
 
-                {/* Description */}
+                {/* 6. Description & Floristry Notes */}
                 <div>
-                  <label className="block text-[#444444] font-semibold mb-1">Description & Floristry Notes</label>
+                  <label className="block text-[#444444] font-semibold mb-1">Product Description & Floristry Notes</label>
                   <textarea
                     rows="3"
                     placeholder="Describe stem varieties, fragrance notes, vase care tips..."
@@ -3458,8 +3963,8 @@ export default function AdminDashboard() {
             MODAL: PACKING SLIP & ORDER DETAILS INSPECTION
             ======================================================== */}
         {selectedOrderModal && (
-          <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-xs flex items-center justify-center p-4">
-            <div className="bg-white border border-[#EFE7DE] rounded-3xl p-6 max-w-xl w-full max-h-[92vh] overflow-y-auto space-y-5 shadow-2xl text-[#242124]">
+          <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4">
+            <div className="bg-white border border-[#EFE7DE] rounded-2xl sm:rounded-3xl p-4 sm:p-6 max-w-xl w-full max-h-[92vh] overflow-y-auto space-y-4 sm:space-y-5 shadow-2xl text-[#242124]">
               {/* Modal Header */}
               <div className="flex items-center justify-between pb-3 border-b border-[#EFE7DE]">
                 <div className="flex items-center gap-2">
@@ -3477,7 +3982,7 @@ export default function AdminDashboard() {
               </div>
 
               {/* Printable Packing Slip Area */}
-              <div className="p-5 rounded-2xl bg-[#FAF7F2] border border-[#EFE7DE] space-y-4 text-xs">
+              <div className="p-3.5 sm:p-5 rounded-2xl bg-[#FAF7F2] border border-[#EFE7DE] space-y-4 text-xs">
                 {/* Header branding on slip */}
                 <div className="flex items-center justify-between pb-3 border-b border-[#EFE7DE]">
                   <div>
@@ -3497,7 +4002,7 @@ export default function AdminDashboard() {
                 </div>
 
                 {/* Recipient info & Destination */}
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                   <div>
                     <span className="text-[10px] uppercase font-bold text-[#777777] block mb-1">Ship To:</span>
                     <p className="font-bold text-[#242124]">
@@ -3607,8 +4112,8 @@ export default function AdminDashboard() {
             MODAL: ADD / EDIT STAFF MEMBER (SUPER ADMIN)
             ======================================================== */}
         {showStaffModal && (
-          <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-xs flex items-center justify-center p-4">
-            <div className="bg-white border border-[#EFE7DE] rounded-3xl p-6 max-w-lg w-full max-h-[92vh] overflow-y-auto space-y-5 shadow-2xl text-[#242124]">
+          <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4">
+            <div className="bg-white border border-[#EFE7DE] rounded-2xl sm:rounded-3xl p-4 sm:p-6 max-w-lg w-full max-h-[92vh] overflow-y-auto space-y-4 sm:space-y-5 shadow-2xl text-[#242124]">
               <div className="flex items-center justify-between pb-3 border-b border-[#EFE7DE]">
                 <div className="flex items-center gap-2.5">
                   <div className="p-2.5 rounded-xl bg-[#FEF3C7] text-[#854D0E] border border-[#FDE68A]">
@@ -3758,8 +4263,8 @@ export default function AdminDashboard() {
             MODAL: ADD / EDIT COLLECTION & CATEGORY
             ======================================================== */}
         {showCategoryModal && (
-          <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-xs flex items-center justify-center p-4">
-            <div className="bg-white border border-[#EFE7DE] rounded-3xl p-6 max-w-lg w-full max-h-[92vh] overflow-y-auto space-y-5 shadow-2xl text-[#242124]">
+          <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4">
+            <div className="bg-white border border-[#EFE7DE] rounded-2xl sm:rounded-3xl p-4 sm:p-6 max-w-lg w-full max-h-[92vh] overflow-y-auto space-y-4 sm:space-y-5 shadow-2xl text-[#242124]">
               <div className="flex items-center justify-between pb-3 border-b border-[#EFE7DE]">
                 <div className="flex items-center gap-2.5">
                   <div className="p-2.5 rounded-xl bg-[#FFF0F4] text-[#C2185B] border border-[#F2D7DE]">
@@ -3928,8 +4433,8 @@ export default function AdminDashboard() {
             MODAL: EDIT MULTI-CURRENCY FIXED RATE
             ======================================================== */}
         {showCurrencyModal && editingCurrency && (
-          <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-xs flex items-center justify-center p-4">
-            <div className="bg-white border border-[#EFE7DE] rounded-3xl p-6 max-w-md w-full shadow-2xl text-[#242124] space-y-5">
+          <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4">
+            <div className="bg-white border border-[#EFE7DE] rounded-2xl sm:rounded-3xl p-4 sm:p-6 max-w-md w-full shadow-2xl text-[#242124] space-y-4 sm:space-y-5">
               <div className="flex items-center justify-between pb-3 border-b border-[#EFE7DE]">
                 <div className="flex items-center gap-2.5">
                   <div className="p-2.5 rounded-xl bg-[#FFF0F4] text-[#C2185B] border border-[#F2D7DE]">
@@ -4016,8 +4521,8 @@ export default function AdminDashboard() {
             MODAL: INSPECT CUSTOMER PAYMENT RECEIPT
             ======================================================== */}
         {selectedPaymentReceipt && (
-          <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-xs flex items-center justify-center p-4">
-            <div className="bg-white border border-[#EFE7DE] rounded-3xl p-6 sm:p-8 max-w-lg w-full max-h-[92vh] overflow-y-auto space-y-6 shadow-2xl text-[#242124]">
+          <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4">
+            <div className="bg-white border border-[#EFE7DE] rounded-2xl sm:rounded-3xl p-4 sm:p-8 max-w-lg w-full max-h-[92vh] overflow-y-auto space-y-5 sm:space-y-6 shadow-2xl text-[#242124]">
               {/* Slip Header */}
               <div className="flex items-center justify-between pb-4 border-b border-[#EFE7DE]">
                 <div className="flex items-center gap-3">
@@ -4055,7 +4560,7 @@ export default function AdminDashboard() {
               </div>
 
               {/* Customer and Order Metadata */}
-              <div className="grid grid-cols-2 gap-4 text-xs">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 text-xs">
                 <div className="space-y-1">
                   <span className="text-[10px] font-bold uppercase tracking-wider text-[#888] block">
                     Patron Information

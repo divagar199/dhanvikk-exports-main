@@ -6,10 +6,10 @@ import {
   Heart,
   Star,
   Check,
-  Filter,
   SlidersHorizontal,
-  ChevronRight,
+  ChevronDown,
   Flower2,
+  X,
 } from 'lucide-react';
 
 import AnnouncementBar from '../../components/navigation/AnnouncementBar';
@@ -38,6 +38,14 @@ export default function CategoryPage() {
   const [selectedPrice, setSelectedPrice] = useState('All');
   const [sortBy, setSortBy] = useState('recommended');
   const [addedIds, setAddedIds] = useState([]);
+  const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
+
+  const activeFilterCount = useMemo(() => {
+    let count = 0;
+    if (selectedFlower !== 'All') count += 1;
+    if (selectedPrice !== 'All') count += 1;
+    return count;
+  }, [selectedFlower, selectedPrice]);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -149,8 +157,8 @@ export default function CategoryPage() {
     plants: {
       title: 'Living Plants & Botanicals',
       badge: 'Living Botanical Atelier',
-      desc: 'Living potted plants, air-purifying foliage, and exotic indoor botanicals paired with handcrafted designer ceramic planters.',
-      filter: (p) => p.category === 'Plants',
+      desc: 'Air-purifying foliage, living Phalaenopsis orchids, ancient bonsai trees, and rare indoor greenery paired with handcrafted artisan ceramic planters.',
+      filter: (p) => p.category === 'Plants' && p.subCategory !== 'Hand Bouquets' && !p.name?.toLowerCase().includes('bouquet'),
     },
     'indoor-plants': {
       title: 'Indoor Botanicals & Air Purifiers',
@@ -341,9 +349,27 @@ export default function CategoryPage() {
       if (!matchesSearch) return false;
     }
 
-    // 3. Flower type filter (if not in plant mode)
-    if (selectedFlower !== 'All' && prod.flowerType !== selectedFlower) {
-      return false;
+    // 3. Flower/Plant variety filter
+    if (selectedFlower !== 'All') {
+      if (isPlantCategory) {
+        const selLow = selectedFlower.toLowerCase();
+        const matchesPlantVariety =
+          prod.subCategory === selectedFlower ||
+          prod.flowerType === selectedFlower ||
+          (prod.subCategory && prod.subCategory.toLowerCase().includes(selLow)) ||
+          (prod.flowerType && prod.flowerType.toLowerCase().includes(selLow)) ||
+          (prod.name && prod.name.toLowerCase().includes(selLow)) ||
+          (selectedFlower === 'Bonsai Trees' && ((prod.subCategory && prod.subCategory.toLowerCase().includes('bonsai')) || (prod.name && prod.name.toLowerCase().includes('bonsai')))) ||
+          (selectedFlower === 'Living Orchids' && ((prod.subCategory && prod.subCategory.toLowerCase().includes('orchid')) || (prod.name && prod.name.toLowerCase().includes('orchid')))) ||
+          (selectedFlower === 'Air Purifying Plants' && ((prod.subCategory && prod.subCategory.toLowerCase().includes('air')) || (prod.tag && prod.tag.toLowerCase().includes('air')) || (prod.name && (prod.name.toLowerCase().includes('lily') || prod.name.toLowerCase().includes('snake') || prod.name.toLowerCase().includes('zz') || prod.name.toLowerCase().includes('pothos') || prod.name.toLowerCase().includes('fern'))))) ||
+          (selectedFlower === 'Indoor Botanicals' && ((prod.subCategory && prod.subCategory.toLowerCase().includes('botanical')) || (prod.name && (prod.name.toLowerCase().includes('monstera') || prod.name.toLowerCase().includes('fig') || prod.name.toLowerCase().includes('calathea'))))) ||
+          (selectedFlower === 'Flowering Potted Plants' && ((prod.subCategory && prod.subCategory.toLowerCase().includes('flowering')) || (prod.name && (prod.name.toLowerCase().includes('anthurium') || prod.name.toLowerCase().includes('peace lily'))))) ||
+          (selectedFlower === 'Indoor Succulents' && ((prod.subCategory && prod.subCategory.toLowerCase().includes('succulent')) || (prod.name && (prod.name.toLowerCase().includes('succulent') || prod.name.toLowerCase().includes('jade') || prod.name.toLowerCase().includes('cactus') || prod.name.toLowerCase().includes('haworthia'))))) ||
+          (selectedFlower === 'Artisan Planters' && ((prod.subCategory && prod.subCategory.toLowerCase().includes('planter')) || (prod.name && (prod.name.toLowerCase().includes('planter') || prod.name.toLowerCase().includes('care')))));
+        if (!matchesPlantVariety) return false;
+      } else {
+        if (prod.flowerType !== selectedFlower) return false;
+      }
     }
 
     // 4. Price range filter
@@ -491,18 +517,46 @@ export default function CategoryPage() {
                 </div>
               </div>
 
-              <div className="flex items-center gap-2">
-                <span className="text-xs font-semibold text-[#777777]">Sort by:</span>
-                <select
-                  value={sortBy}
-                  onChange={(e) => setSortBy(e.target.value)}
-                  className="bg-white border border-[#E9E2E5] rounded-full px-3 py-1.5 text-xs text-[#242124] focus:outline-none focus:border-[#EC407A] cursor-pointer shadow-2xs"
+              <div className="flex items-center gap-2.5 flex-wrap">
+                {/* Mobile Filter Selection Toggle Button */}
+                <button
+                  type="button"
+                  onClick={() => setMobileFiltersOpen((prev) => !prev)}
+                  className={`lg:hidden flex items-center gap-2 px-3.5 py-1.5 rounded-full border text-xs font-bold transition-all shadow-2xs cursor-pointer luxury-touch-press ${
+                    mobileFiltersOpen
+                      ? 'bg-[#FFF0F4] border-[#EC407A] text-[#C2185B]'
+                      : 'bg-white border-[#E9E2E5] text-[#242124] hover:border-[#EC407A]'
+                  }`}
+                  aria-expanded={mobileFiltersOpen}
+                  aria-label="Toggle Filter Selection"
                 >
-                  <option value="recommended">Featured & Recommended</option>
-                  <option value="price-low">Price: Low to High</option>
-                  <option value="price-high">Price: High to Low</option>
-                  <option value="rating">Customer Rating</option>
-                </select>
+                  <SlidersHorizontal className="w-3.5 h-3.5 text-[#EC407A]" />
+                  <span>Filter Selection</span>
+                  {activeFilterCount > 0 && (
+                    <span className="w-4 h-4 rounded-full bg-[#EC407A] text-white text-[10px] flex items-center justify-center font-bold animate-badge-glow">
+                      {activeFilterCount}
+                    </span>
+                  )}
+                  <ChevronDown
+                    className={`w-3.5 h-3.5 transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+                      mobileFiltersOpen ? 'rotate-180 text-[#C2185B]' : 'text-[#777777]'
+                    }`}
+                  />
+                </button>
+
+                <div className="flex items-center gap-2">
+                  <span className="text-xs font-semibold text-[#777777]">Sort by:</span>
+                  <select
+                    value={sortBy}
+                    onChange={(e) => setSortBy(e.target.value)}
+                    className="bg-white border border-[#E9E2E5] rounded-full px-3 py-1.5 text-xs text-[#242124] focus:outline-none focus:border-[#EC407A] cursor-pointer shadow-2xs luxury-touch-press"
+                  >
+                    <option value="recommended">Featured & Recommended</option>
+                    <option value="price-low">Price: Low to High</option>
+                    <option value="price-high">Price: High to Low</option>
+                    <option value="rating">Customer Rating</option>
+                  </select>
+                </div>
               </div>
             </div>
           </div>
@@ -510,15 +564,157 @@ export default function CategoryPage() {
 
         {/* Content Layout with Sidebar Filters */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full flex-1">
+          {/* Mobile Filter Drawer / Bottom Sheet */}
+          {mobileFiltersOpen && (
+            <div className="fixed inset-0 z-50 lg:hidden overflow-hidden" role="dialog" aria-modal="true">
+              {/* Backdrop */}
+              <div
+                className="fixed inset-0 bg-[#242124]/50 backdrop-blur-md animate-backdrop-fade transition-opacity"
+                onClick={() => setMobileFiltersOpen(false)}
+                aria-hidden="true"
+              />
+
+              {/* Bottom Sheet Modal */}
+              <div className="fixed inset-x-0 bottom-0 max-h-[85vh] bg-white rounded-t-3xl shadow-2xl flex flex-col animate-drawer-up z-10 border-t border-[#F7F2ED]">
+                {/* Grab handle indicator */}
+                <div className="pt-2.5 pb-0 flex justify-center">
+                  <div className="w-10 h-1.5 rounded-full bg-[#E5E1E2]" />
+                </div>
+
+                {/* Header */}
+                <div className="p-4 sm:p-5 border-b border-[#F7F2ED] flex items-center justify-between bg-white rounded-t-3xl sticky top-0 z-10">
+                  <div className="flex items-center gap-2.5">
+                    <div className="w-9 h-9 rounded-2xl bg-[#FFF0F4] flex items-center justify-center text-[#EC407A] shadow-xs">
+                      <SlidersHorizontal className="w-4 h-4" />
+                    </div>
+                    <div>
+                      <div className="flex items-center gap-2">
+                        <h3 className="text-sm font-bold text-[#242124] uppercase tracking-wider">
+                          Filter Selection
+                        </h3>
+                        {activeFilterCount > 0 && (
+                          <span className="px-2 py-0.5 rounded-full bg-[#FFF0F4] text-[#C2185B] text-[10px] font-bold border border-[#FCD9E0] animate-luxury-scale">
+                            {activeFilterCount} active
+                          </span>
+                        )}
+                      </div>
+                      <p className="text-[11px] text-[#777777]">Refine by variety and price bracket</p>
+                    </div>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setMobileFiltersOpen(false)}
+                    className="p-2 rounded-full text-[#777777] hover:text-[#242124] hover:bg-[#FAF7F2] transition-colors cursor-pointer luxury-touch-press"
+                    aria-label="Close Filter Selection"
+                  >
+                    <X className="w-5 h-5" />
+                  </button>
+                </div>
+
+                {/* Filter Controls Scrollable Body */}
+                <div className="p-5 overflow-y-auto flex-1 space-y-5">
+                  {/* Variety */}
+                  <div className="space-y-2">
+                    <h4 className="text-xs font-bold text-[#242124]">
+                      {isPlantCategory ? 'Plant Variety' : 'Flower Variety'}
+                    </h4>
+                    <div className="space-y-1 text-xs text-[#777777]">
+                      {(isPlantCategory
+                        ? ['All', 'Living Orchids', 'Air Purifying Plants', 'Bonsai Trees', 'Indoor Botanicals', 'Flowering Potted Plants', 'Indoor Succulents', 'Artisan Planters']
+                        : ['All', 'Roses', 'Lilies', 'Tulips', 'Peonies', 'Orchids', 'Sunflowers']
+                      ).map((f) => {
+                        const isSelected = selectedFlower === f;
+                        return (
+                          <label
+                            key={f}
+                            className={`flex items-center justify-between p-2.5 rounded-xl cursor-pointer hover:bg-[#FFF3F6] transition-colors ${
+                              isSelected ? 'bg-[#FFF3F6] text-[#C2185B] font-semibold' : ''
+                            }`}
+                          >
+                            <span className="line-clamp-1">{f}</span>
+                            <input
+                              type="radio"
+                              name="mobileFlowerType"
+                              checked={isSelected}
+                              onChange={() => setSelectedFlower(f)}
+                              className="accent-[#EC407A]"
+                            />
+                          </label>
+                        );
+                      })}
+                    </div>
+                  </div>
+
+                  {/* Price Range */}
+                  <div className="space-y-2 pt-3 border-t border-[#F7F2ED]">
+                    <h4 className="text-xs font-bold text-[#242124]">Price Bracket</h4>
+                    <div className="space-y-1 text-xs text-[#777777]">
+                      {[
+                        { label: 'All Prices', val: 'All' },
+                        { label: `Under ${formatPrice(2000)}`, val: 'under-2000' },
+                        { label: `${formatPrice(2000)} - ${formatPrice(4000)}`, val: '2000-4000' },
+                        { label: `Above ${formatPrice(4000)}`, val: 'above-4000' },
+                      ].map((p) => (
+                        <label
+                          key={p.val}
+                          className={`flex items-center justify-between p-2.5 rounded-xl cursor-pointer hover:bg-[#FFF3F6] transition-colors ${
+                            selectedPrice === p.val ? 'bg-[#FFF3F6] text-[#C2185B] font-semibold' : ''
+                          }`}
+                        >
+                          <span>{p.label}</span>
+                          <input
+                            type="radio"
+                            name="mobilePriceBracket"
+                            checked={selectedPrice === p.val}
+                            onChange={() => setSelectedPrice(p.val)}
+                            className="accent-[#EC407A]"
+                          />
+                        </label>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Sticky Footer */}
+                <div className="p-4 border-t border-[#F7F2ED] bg-white flex items-center gap-3 sticky bottom-0">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setSelectedFlower('All');
+                      setSelectedPrice('All');
+                    }}
+                    className="flex-1 py-3 rounded-2xl border border-[#E9E2E5] text-xs font-semibold text-[#777777] hover:text-[#242124] hover:bg-[#FAF7F2] transition-colors cursor-pointer text-center"
+                  >
+                    Reset Filters
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setMobileFiltersOpen(false)}
+                    className="flex-1 py-3 rounded-2xl bg-gradient-to-r from-[#EC407A] to-[#D81B60] text-white text-xs font-bold shadow-md hover:opacity-95 transition-opacity cursor-pointer text-center"
+                  >
+                    Apply Filters ({sortedProducts.length})
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-            {/* Filter Sidebar */}
-            <aside className="lg:col-span-1 space-y-6">
+            {/* Desktop Filter Sidebar - visible only on desktop */}
+            <aside className="hidden lg:block lg:col-span-1 space-y-6">
               <div className="bg-white rounded-3xl p-5 border border-[#F7F2ED] shadow-xs space-y-5">
-                <div className="flex items-center gap-2 pb-3 border-b border-[#F7F2ED]">
-                  <SlidersHorizontal className="w-4 h-4 text-[#EC407A]" />
-                  <span className="text-xs font-bold text-[#242124] uppercase tracking-wider">
-                    Filter Selection
-                  </span>
+                <div className="flex items-center justify-between pb-3 border-b border-[#F7F2ED]">
+                  <div className="flex items-center gap-2">
+                    <SlidersHorizontal className="w-4 h-4 text-[#EC407A]" />
+                    <span className="text-xs font-bold text-[#242124] uppercase tracking-wider">
+                      Filter Selection
+                    </span>
+                    {activeFilterCount > 0 && (
+                      <span className="px-2 py-0.5 rounded-full bg-[#FFF0F4] text-[#C2185B] text-[10px] font-bold border border-[#FCD9E0]">
+                        {activeFilterCount} active
+                      </span>
+                    )}
+                  </div>
                 </div>
 
                 {/* Filter: Variety */}
@@ -531,9 +727,7 @@ export default function CategoryPage() {
                       ? ['All', 'Living Orchids', 'Air Purifying Plants', 'Bonsai Trees', 'Indoor Botanicals', 'Flowering Potted Plants', 'Indoor Succulents', 'Artisan Planters']
                       : ['All', 'Roses', 'Lilies', 'Tulips', 'Peonies', 'Orchids', 'Sunflowers']
                     ).map((f) => {
-                      const isSelected = isPlantCategory
-                        ? selectedFlower === f
-                        : selectedFlower === f;
+                      const isSelected = selectedFlower === f;
                       return (
                         <label
                           key={f}
@@ -544,7 +738,7 @@ export default function CategoryPage() {
                           <span className="line-clamp-1">{f}</span>
                           <input
                             type="radio"
-                            name="flowerType"
+                            name="desktopFlowerType"
                             checked={isSelected}
                             onChange={() => setSelectedFlower(f)}
                             className="accent-[#EC407A]"
@@ -574,7 +768,7 @@ export default function CategoryPage() {
                         <span>{p.label}</span>
                         <input
                           type="radio"
-                          name="priceBracket"
+                          name="desktopPriceBracket"
                           checked={selectedPrice === p.val}
                           onChange={() => setSelectedPrice(p.val)}
                           className="accent-[#EC407A]"
@@ -591,7 +785,7 @@ export default function CategoryPage() {
                     setSelectedFlower('All');
                     setSelectedPrice('All');
                   }}
-                  className="w-full py-2 rounded-xl border border-[#E9E2E5] text-xs font-semibold text-[#777777] hover:text-[#242124] hover:bg-[#FAF7F2] transition-colors"
+                  className="w-full py-2.5 rounded-xl border border-[#E9E2E5] text-xs font-semibold text-[#777777] hover:text-[#242124] hover:bg-[#FAF7F2] transition-colors cursor-pointer text-center"
                 >
                   Reset Filters
                 </button>
@@ -600,13 +794,70 @@ export default function CategoryPage() {
 
             {/* Products Listing Grid */}
             <main className="lg:col-span-3">
+              {/* Plant Subcategories Filter Bar */}
+              {/* Plant Subcategories Filter Bar */}
+              {isPlantCategory && (
+                <div className="mb-6 pb-2 overflow-x-auto smooth-horizontal-scroll no-scrollbar -mx-1 px-1">
+                  <div className="flex items-center gap-2 min-w-max">
+                    {[
+                      { id: 'All', label: 'All Living Plants', icon: '🌿' },
+                      { id: 'Living Orchids', label: 'Living Orchids', icon: '🌸' },
+                      { id: 'Air Purifying Plants', label: 'Air Purifiers', icon: '🍃' },
+                      { id: 'Bonsai Trees', label: 'Bonsai Trees', icon: '🎋' },
+                      { id: 'Indoor Botanicals', label: 'Indoor Foliage', icon: '🪴' },
+                      { id: 'Flowering Potted Plants', label: 'Flowering Plants', icon: '🌺' },
+                      { id: 'Indoor Succulents', label: 'Succulents & Cacti', icon: '🌵' },
+                      { id: 'Artisan Planters', label: 'Planters & Care', icon: '🏺' },
+                    ].map((chip) => {
+                      const isSelected = selectedFlower === chip.id;
+                      const count = chip.id === 'All'
+                        ? products.filter((p) => p.category === 'Plants' && p.subCategory !== 'Hand Bouquets' && !p.name?.toLowerCase().includes('bouquet')).length
+                        : products.filter((p) => {
+                            if (p.category !== 'Plants' || p.subCategory === 'Hand Bouquets' || p.name?.toLowerCase().includes('bouquet')) return false;
+                            const chipLow = chip.id.toLowerCase();
+                            return (
+                              p.subCategory === chip.id ||
+                              (p.subCategory && p.subCategory.toLowerCase().includes(chipLow)) ||
+                              (p.name && p.name.toLowerCase().includes(chipLow))
+                            );
+                          }).length;
+
+                      return (
+                        <button
+                          key={chip.id}
+                          type="button"
+                          onClick={() => setSelectedFlower(chip.id)}
+                          className={`luxury-filter-chip px-3.5 py-2 rounded-2xl text-xs font-semibold flex items-center gap-1.5 cursor-pointer border ${
+                            isSelected
+                              ? 'bg-gradient-to-r from-emerald-800 to-emerald-700 text-white border-emerald-900 shadow-md scale-102'
+                              : 'bg-white hover:bg-emerald-50/60 text-[#333333] hover:text-emerald-800 border-[#EFE7DE] shadow-2xs'
+                          }`}
+                        >
+                          <span className="text-sm">{chip.icon}</span>
+                          <span>{chip.label}</span>
+                          {count > 0 && (
+                            <span
+                              className={`px-1.5 py-0.2 rounded-full text-[10px] font-mono transition-colors ${
+                                isSelected ? 'bg-white/20 text-white' : 'bg-[#FAF7F2] text-[#666]'
+                              }`}
+                            >
+                              {count}
+                            </span>
+                          )}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+
               {loading ? (
                 <div className="py-20 text-center flex flex-col items-center justify-center gap-3">
                   <Flower2 className="w-8 h-8 text-[#EC407A] animate-spin" />
                   <p className="text-xs text-[#777777]">Loading floral creations...</p>
                 </div>
               ) : sortedProducts.length === 0 ? (
-                <div className="py-20 text-center bg-white rounded-3xl border border-[#F7F2ED] p-8">
+                <div className="py-20 text-center bg-white rounded-3xl border border-[#F7F2ED] p-8 animate-luxury-scale">
                   <Flower2 className="w-12 h-12 text-[#FCC1C5] mx-auto mb-3" />
                   <h3 className="text-base font-bold text-[#242124]">No blooms found for this filter</h3>
                   <p className="text-xs text-[#777777] mt-1 mb-4">
@@ -625,7 +876,7 @@ export default function CategoryPage() {
                 </div>
               ) : (
                 <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
-                  {sortedProducts.map((product) => {
+                  {sortedProducts.map((product, index) => {
                     const prodId = product._id || product.id;
                     const isAdded = addedIds.includes(prodId);
                     const displayImage = Array.isArray(product.images)
@@ -635,21 +886,22 @@ export default function CategoryPage() {
                     return (
                       <div
                         key={prodId}
-                        className="group bg-white rounded-3xl border border-[#F7F2ED] overflow-hidden flex flex-col justify-between hover:shadow-xl hover:shadow-[#EC407A]/10 hover:border-[#FCC1C5] transition-all duration-300"
+                        style={{ animationDelay: `${Math.min(index * 35, 350)}ms` }}
+                        className="luxury-product-card group bg-white rounded-3xl border border-[#F7F2ED] overflow-hidden flex flex-col justify-between animate-luxury-fade"
                       >
                         <div className="relative aspect-[4/3] overflow-hidden bg-[#FAF7F2]">
-                          <Link to={`/product/${product.slug || prodId}`}>
+                          <Link to={`/product/${product.slug || prodId}`} className="block w-full h-full">
                             <img
                               src={displayImage}
                               alt={`${product.name} - Handcrafted ${product.category || 'Luxury Floristry'} | Dhanvikk Blooms`}
-                              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                              className="luxury-image-zoom w-full h-full object-cover"
                               loading="lazy"
                               decoding="async"
                             />
                           </Link>
 
                           {product.tag && (
-                            <span className="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-[#242124]/85 text-white text-[10px] tracking-wider uppercase font-bold">
+                            <span className="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-[#242124]/85 text-white text-[10px] tracking-wider uppercase font-bold backdrop-blur-xs">
                               {product.tag}
                             </span>
                           )}
@@ -660,9 +912,9 @@ export default function CategoryPage() {
                               <button
                                 type="button"
                                 onClick={(e) => handleToggleWishlist(e, product)}
-                                className={`absolute top-3 right-3 w-8 h-8 rounded-full flex items-center justify-center transition-all shadow-xs z-10 cursor-pointer ${
+                                className={`luxury-touch-press absolute top-3 right-3 w-8 h-8 rounded-full flex items-center justify-center shadow-xs z-10 cursor-pointer ${
                                   inWishlist
-                                    ? 'bg-white text-[#E11D48] shadow-md ring-1 ring-red-200 scale-105'
+                                    ? 'bg-white text-[#E11D48] shadow-md ring-1 ring-red-200'
                                     : 'bg-white/90 text-[#777777] hover:text-[#E11D48] hover:bg-white'
                                 }`}
                                 aria-label={inWishlist ? 'Remove from wishlist' : 'Save to wishlist'}
@@ -670,24 +922,34 @@ export default function CategoryPage() {
                               >
                                 <Heart
                                   className={`w-4 h-4 transition-all duration-200 ${
-                                    inWishlist ? 'fill-[#E11D48] text-[#E11D48] scale-110' : ''
+                                    inWishlist ? 'fill-[#E11D48] text-[#E11D48] animate-heart-pop' : ''
                                   }`}
                                 />
                               </button>
                             );
                           })()}
 
-                          <span className="absolute bottom-3 left-3 px-2 py-0.5 rounded-md bg-white/90 text-[10px] text-[#C2185B] font-semibold font-mono">
+                          <span className="absolute bottom-3 left-3 px-2 py-0.5 rounded-md bg-white/90 text-[10px] text-[#C2185B] font-semibold font-mono backdrop-blur-xs">
                             {product.stock > 0 ? `${product.stock} in stock` : 'Restocking Soon'}
                           </span>
                         </div>
 
                         <div className="p-5 flex-1 flex flex-col justify-between">
                           <div>
-                            <div className="flex items-center gap-1.5 text-xs text-[#777777] mb-1.5">
-                              <Star className="w-3.5 h-3.5 fill-[#FFB400] text-[#FFB400]" />
-                              <span className="font-bold text-[#242124]">{product.rating || 4.9}</span>
-                              <span>({product.reviewsCount || 42})</span>
+                            <div className="flex items-center justify-between gap-1 mb-1.5 flex-wrap">
+                              <div className="flex items-center gap-1.5 text-xs text-[#777777]">
+                                <Star className="w-3.5 h-3.5 fill-[#FFB400] text-[#FFB400]" />
+                                <span className="font-bold text-[#242124]">{product.rating || 4.9}</span>
+                                <span>({product.reviewsCount || 42})</span>
+                              </div>
+
+                              {/* Plant Subcategory Pill */}
+                              {(isPlantCategory || product.category === 'Plants') && product.subCategory && (
+                                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider bg-emerald-50 text-emerald-800 border border-emerald-200">
+                                  <span>🪴</span>
+                                  <span>{product.subCategory}</span>
+                                </span>
+                              )}
                             </div>
 
                             <Link to={`/product/${product.slug || prodId}`}>
@@ -695,6 +957,13 @@ export default function CategoryPage() {
                                 {product.name}
                               </h3>
                             </Link>
+
+                            {/* Plant Dimensions & Planter Hint */}
+                            {(isPlantCategory || product.category === 'Plants') && product.specifications?.dimensions && (
+                              <div className="text-[11px] text-emerald-700 font-medium mt-1 truncate">
+                                <span>🌿 {product.specifications.dimensions.split('|')[0].trim()}</span>
+                              </div>
+                            )}
 
                             <p className="text-xs text-[#777777] line-clamp-2 mt-1 leading-relaxed">
                               {product.description}

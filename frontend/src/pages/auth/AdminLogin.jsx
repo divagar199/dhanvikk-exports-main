@@ -79,12 +79,12 @@ export default function AdminLogin() {
         noindex={true}
       />
 
-      <div className="min-h-screen bg-[#FFFDF9] text-[#242124] flex flex-col justify-center items-center px-4 py-8 selection:bg-[#EC407A] selection:text-white relative overflow-hidden">
+      <div className="min-h-screen bg-[#FFFDF9] text-[#242124] flex flex-col justify-center items-center px-3 sm:px-4 py-6 sm:py-8 selection:bg-[#EC407A] selection:text-white relative overflow-hidden">
         {/* Decorative soft floral ambient glows */}
         <div className="absolute top-1/4 -left-20 w-80 h-80 rounded-full bg-[#FCC1C5]/20 blur-3xl pointer-events-none" />
         <div className="absolute bottom-1/4 -right-20 w-80 h-80 rounded-full bg-[#D4AF37]/15 blur-3xl pointer-events-none" />
 
-        <div className="w-full max-w-[440px] bg-white border border-[#EFE7DE] rounded-3xl p-8 shadow-xl relative z-10">
+        <div className="w-full max-w-[440px] bg-white border border-[#EFE7DE] rounded-2xl sm:rounded-3xl p-5 sm:p-8 shadow-xl relative z-10">
           <Breadcrumb
             items={[
               { label: 'Home', path: '/' },

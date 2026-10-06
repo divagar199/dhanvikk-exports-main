@@ -509,7 +509,7 @@ export default function ProductDetailPage() {
         <SubNav />
 
         {/* Breadcrumb */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2 w-full">
+        <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-2 w-full">
           <Breadcrumb
             items={[
               { label: 'Home', path: '/' },
@@ -523,22 +523,22 @@ export default function ProductDetailPage() {
         </div>
 
         {/* Product Master Section */}
-        <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 w-full flex-1">
+        <main className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-6 w-full flex-1">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
             {/* Left: Gallery (5 Cols) */}
             <div className="lg:col-span-6 space-y-4">
               {/* Main Active Image */}
-              <div className="relative rounded-3xl overflow-hidden bg-white border border-[#F7F2ED] shadow-sm aspect-square">
+              <div className="relative rounded-3xl overflow-hidden bg-white border border-[#F7F2ED] shadow-sm aspect-square group">
                 <img
                   src={images[activeImageIndex] || images[0]}
                   alt={`${product.name} - Luxury ${product.category || 'Floral Arrangement'} by Dhanvikk Blooms`}
-                  className="w-full h-full object-cover transition-all duration-300"
+                  className="w-full h-full object-cover transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-105"
                   loading="lazy"
                   decoding="async"
                 />
 
                 {product.tag && (
-                  <span className="absolute top-4 left-4 px-3 py-1 rounded-full bg-[#242124]/90 text-white text-[11px] tracking-wider uppercase font-bold">
+                  <span className="absolute top-4 left-4 px-3 py-1 rounded-full bg-[#242124]/90 text-white text-[11px] tracking-wider uppercase font-bold backdrop-blur-xs">
                     {product.tag}
                   </span>
                 )}
@@ -546,7 +546,7 @@ export default function ProductDetailPage() {
                 <button
                   type="button"
                   onClick={() => handleToggleWishlist(product)}
-                  className={`absolute top-4 right-4 w-10 h-10 rounded-full flex items-center justify-center transition-all shadow-sm z-10 cursor-pointer ${
+                  className={`luxury-touch-press absolute top-4 right-4 w-10 h-10 rounded-full flex items-center justify-center transition-all shadow-sm z-10 cursor-pointer ${
                     inWishlist
                       ? 'bg-white text-[#E11D48] shadow-md ring-2 ring-red-100 scale-105'
                       : 'bg-white/90 text-[#777777] hover:text-[#E11D48] hover:bg-white'
@@ -556,7 +556,7 @@ export default function ProductDetailPage() {
                 >
                   <Heart
                     className={`w-5 h-5 transition-all duration-200 ${
-                      inWishlist ? 'fill-[#E11D48] text-[#E11D48] scale-110' : ''
+                      inWishlist ? 'fill-[#E11D48] text-[#E11D48] animate-heart-pop' : ''
                     }`}
                   />
                 </button>
@@ -564,19 +564,19 @@ export default function ProductDetailPage() {
 
               {/* Thumbnails row if multiple images exist */}
               {images.length > 1 && (
-                <div className="flex items-center gap-3 overflow-x-auto pb-2">
+                <div className="flex items-center gap-3 overflow-x-auto pb-2 smooth-horizontal-scroll no-scrollbar">
                   {images.map((img, idx) => (
                     <button
                       key={idx}
                       onClick={() => setActiveImageIndex(idx)}
-                      className={`w-20 h-20 rounded-2xl overflow-hidden border-2 transition-all cursor-pointer ${
-                        activeImageIndex === idx ? 'border-[#EC407A] scale-105' : 'border-transparent opacity-70 hover:opacity-100'
+                      className={`luxury-touch-press w-20 h-20 rounded-2xl overflow-hidden border-2 transition-all cursor-pointer flex-shrink-0 ${
+                        activeImageIndex === idx ? 'border-[#EC407A] scale-105 shadow-xs' : 'border-transparent opacity-70 hover:opacity-100'
                       }`}
                     >
                       <img
                         src={img}
                         alt={`${product.name} - Botanical Gallery Detail View ${idx + 1}`}
-                        className="w-full h-full object-cover"
+                        className="w-full h-full object-cover transition-transform duration-300 hover:scale-110"
                         loading="lazy"
                         decoding="async"
                       />
@@ -725,7 +725,7 @@ export default function ProductDetailPage() {
                         <div
                           key={opt.id}
                           onClick={() => setDeliveryType(opt.id)}
-                          className={`p-3 rounded-2xl border cursor-pointer transition-all ${
+                          className={`luxury-touch-press p-3 rounded-2xl border cursor-pointer transition-all ${
                             isSelected
                               ? 'border-[#EC407A] bg-[#FFF0F5]/60 ring-1 ring-[#EC407A] shadow-xs'
                               : 'border-[#EAE4DD] bg-white hover:border-[#D6CCC2] hover:bg-[#FAF7F2]'
@@ -770,7 +770,7 @@ export default function ProductDetailPage() {
                         key={item.slot}
                         type="button"
                         onClick={() => setDeliverySlot(item.slot)}
-                        className={`p-2.5 rounded-xl text-left border transition-all cursor-pointer ${
+                        className={`luxury-touch-press p-2.5 rounded-xl text-left border transition-all cursor-pointer ${
                           deliverySlot === item.slot
                             ? 'border-[#EC407A] bg-[#FFF0F5] text-[#242124] ring-1 ring-[#EC407A]'
                             : 'border-[#EAE4DD] bg-white text-[#555] hover:bg-[#FAF7F2]'
@@ -827,19 +827,19 @@ export default function ProductDetailPage() {
                       type="button"
                       disabled={quantity <= 1}
                       onClick={() => setQuantity((prev) => Math.max(1, prev - 1))}
-                      className="w-8 h-8 rounded-xl flex items-center justify-center text-[#242124] hover:bg-[#FAF7F2] disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+                      className="luxury-touch-press w-8 h-8 rounded-xl flex items-center justify-center text-[#242124] hover:bg-[#FAF7F2] disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
                       aria-label="Decrease quantity"
                     >
                       <Minus className="w-3.5 h-3.5" />
                     </button>
-                    <span className="w-10 text-center font-bold text-sm text-[#242124]">
+                    <span className="w-10 text-center font-bold text-sm text-[#242124] select-none">
                       {quantity}
                     </span>
                     <button
                       type="button"
                       disabled={quantity >= (product.stock || 99)}
                       onClick={() => setQuantity((prev) => prev + 1)}
-                      className="w-8 h-8 rounded-xl flex items-center justify-center text-[#242124] hover:bg-[#FAF7F2] disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+                      className="luxury-touch-press w-8 h-8 rounded-xl flex items-center justify-center text-[#242124] hover:bg-[#FAF7F2] disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
                       aria-label="Increase quantity"
                     >
                       <Plus className="w-3.5 h-3.5" />
@@ -850,7 +850,7 @@ export default function ProductDetailPage() {
                 {/* Subtotal preview */}
                 <div className="flex items-center justify-between text-xs pt-1 border-t border-[#EAE4DD]">
                   <span className="text-[#777777]">Estimated Total (Includes service & taxes):</span>
-                  <span className="font-extrabold text-base text-[#242124]">
+                  <span className="font-extrabold text-base text-[#242124] font-mono">
                     {formatPrice(totalPrice)}
                   </span>
                 </div>
@@ -861,7 +861,7 @@ export default function ProductDetailPage() {
                     variant="secondary"
                     size="lg"
                     onClick={handleAddToCart}
-                    className="h-12 text-xs sm:text-sm font-semibold border-2 border-[#EC407A] text-[#EC407A] hover:bg-[#FFF0F5]"
+                    className="luxury-touch-press h-12 text-xs sm:text-sm font-semibold border-2 border-[#EC407A] text-[#EC407A] hover:bg-[#FFF0F5]"
                   >
                     {added ? (
                       <span className="inline-flex items-center gap-1.5 text-emerald-600 font-bold">
@@ -880,10 +880,10 @@ export default function ProductDetailPage() {
                     variant="primary"
                     size="lg"
                     onClick={handleInstantBuy}
-                    className="h-12 text-xs sm:text-sm font-bold shadow-md hover:shadow-lg transition-all"
+                    className="luxury-touch-press h-12 text-xs sm:text-sm font-bold shadow-md hover:shadow-lg transition-all"
                   >
                     <span>Instant Buy Now</span>
-                    <ArrowRight className="w-4 h-4 ml-1.5" />
+                    <ArrowRight className="w-4 h-4 ml-1.5 transition-transform group-hover:translate-x-1" />
                   </Button>
                 </div>
               </div>
@@ -1204,10 +1204,10 @@ export default function ProductDetailPage() {
             </div>
 
             {/* Ratings Overview KPI Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-12 gap-5 mb-8">
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-4 sm:gap-5 mb-8">
               {/* Score Box */}
-              <div className="md:col-span-4 p-6 rounded-3xl bg-white border border-[#EFE7DE] shadow-xs flex flex-col items-center justify-center text-center">
-                <span className="text-5xl font-extrabold text-[#242124] font-mono leading-none">
+              <div className="md:col-span-4 p-4 sm:p-6 rounded-2xl sm:rounded-3xl bg-white border border-[#EFE7DE] shadow-xs flex flex-col items-center justify-center text-center">
+                <span className="text-4xl sm:text-5xl font-extrabold text-[#242124] font-mono leading-none">
                   {product.rating || 4.9}
                 </span>
                 <div className="flex items-center gap-1 my-2 text-[#FFB400]">
@@ -1230,7 +1230,7 @@ export default function ProductDetailPage() {
               </div>
 
               {/* Star breakdown bar */}
-              <div className="md:col-span-4 p-6 rounded-3xl bg-white border border-[#EFE7DE] shadow-xs space-y-2 flex flex-col justify-center text-xs">
+              <div className="md:col-span-4 p-4 sm:p-6 rounded-2xl sm:rounded-3xl bg-white border border-[#EFE7DE] shadow-xs space-y-2 flex flex-col justify-center text-xs">
                 {[
                   { star: 5, pct: 88 },
                   { star: 4, pct: 10 },
@@ -1254,7 +1254,7 @@ export default function ProductDetailPage() {
               </div>
 
               {/* Verified Gating Banner */}
-              <div className="md:col-span-4 p-6 rounded-3xl bg-[#FFF9FA] border border-[#FCD9E0] flex flex-col justify-between">
+              <div className="md:col-span-4 p-4 sm:p-6 rounded-2xl sm:rounded-3xl bg-[#FFF9FA] border border-[#FCD9E0] flex flex-col justify-between">
                 <div>
                   <div className="flex items-center gap-2 text-[#C2185B] font-bold text-xs uppercase tracking-wider mb-1">
                     <ShieldCheck className="w-4 h-4 text-[#EC407A]" />
@@ -1282,7 +1282,7 @@ export default function ProductDetailPage() {
 
             {/* Interactive Rating Form (For Logged-in Users) */}
             {showReviewForm && (
-              <div className="mb-8 p-6 sm:p-8 rounded-3xl bg-white border border-[#EFE7DE] shadow-md space-y-4 animate-in fade-in duration-300">
+              <div className="mb-8 p-4 sm:p-8 rounded-2xl sm:rounded-3xl bg-white border border-[#EFE7DE] shadow-md space-y-4 animate-in fade-in duration-300">
                 <div className="flex items-center justify-between border-b border-[#F2ECE6] pb-3">
                   <h3 className="text-sm font-bold text-[#242124] font-['Poppins'] flex items-center gap-2">
                     <Sparkles className="w-4 h-4 text-[#EC407A]" />
@@ -1385,7 +1385,7 @@ export default function ProductDetailPage() {
               {reviewsList.map((rev) => (
                 <div
                   key={rev.id}
-                  className="p-5 sm:p-6 rounded-3xl bg-white border border-[#EFE7DE] shadow-2xs space-y-2.5 transition-all hover:border-[#DCD5CD]"
+                  className="p-4 sm:p-6 rounded-2xl sm:rounded-3xl bg-white border border-[#EFE7DE] shadow-2xs space-y-2.5 transition-all hover:border-[#DCD5CD]"
                 >
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                     <div className="flex items-center gap-3">
@@ -1480,7 +1480,7 @@ export default function ProductDetailPage() {
                 </div>
 
                 {/* 2-Row Grid Carousel (4 columns x 2 rows on desktop) */}
-                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
+                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2.5 sm:gap-6">
                   {currentSlice.map((relItem) => {
                     const isRelPlant = relItem.category === 'Plants';
                     const relImg = Array.isArray(relItem.images)
@@ -1491,7 +1491,7 @@ export default function ProductDetailPage() {
                     return (
                       <div
                         key={relItem.id || relItem._id}
-                        className="group relative bg-white rounded-3xl border border-[#EFE8DF] overflow-hidden hover:shadow-lg transition-all duration-300 flex flex-col"
+                        className="group relative bg-white rounded-2xl sm:rounded-3xl border border-[#EFE8DF] overflow-hidden hover:shadow-lg transition-all duration-300 flex flex-col"
                       >
                         {/* Image wrapper */}
                         <div className="relative aspect-square w-full overflow-hidden bg-[#FAF7F2]">
@@ -1506,11 +1506,11 @@ export default function ProductDetailPage() {
 
                           {/* Mercury Flowers Style Sale / Badge */}
                           {relItem.originalPrice && relItem.originalPrice > relItem.price ? (
-                            <span className="absolute top-3 left-3 px-2.5 py-0.5 rounded-full bg-[#EC407A] text-white text-[10px] font-bold uppercase tracking-wider shadow-xs">
+                            <span className="absolute top-2 sm:top-3 left-2 sm:left-3 px-2 sm:px-2.5 py-0.5 rounded-full bg-[#EC407A] text-white text-[9px] sm:text-[10px] font-bold uppercase tracking-wider shadow-xs">
                               SALE
                             </span>
                           ) : relItem.badge ? (
-                            <span className="absolute top-3 left-3 px-2.5 py-0.5 rounded-full bg-[#242124]/80 backdrop-blur-xs text-white text-[10px] font-bold uppercase tracking-wider">
+                            <span className="absolute top-2 sm:top-3 left-2 sm:left-3 px-2 sm:px-2.5 py-0.5 rounded-full bg-[#242124]/80 backdrop-blur-xs text-white text-[9px] sm:text-[10px] font-bold uppercase tracking-wider">
                               {relItem.badge}
                             </span>
                           ) : null}
@@ -1519,11 +1519,11 @@ export default function ProductDetailPage() {
                           <button
                             type="button"
                             onClick={() => handleToggleWishlist(relItem)}
-                            className="absolute top-3 right-3 w-8 h-8 rounded-full bg-white/90 backdrop-blur-xs flex items-center justify-center shadow-xs hover:bg-white hover:scale-110 transition-all cursor-pointer"
+                            className="absolute top-2 sm:top-3 right-2 sm:right-3 w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white/90 backdrop-blur-xs flex items-center justify-center shadow-xs hover:bg-white hover:scale-110 transition-all cursor-pointer"
                             aria-label="Wishlist"
                           >
                             <Heart
-                              className={`w-4 h-4 transition-colors ${
+                              className={`w-3.5 h-3.5 sm:w-4 sm:h-4 transition-colors ${
                                 isRelSaved ? 'fill-[#E11D48] text-[#E11D48]' : 'text-[#777777]'
                               }`}
                             />
@@ -1531,7 +1531,7 @@ export default function ProductDetailPage() {
                         </div>
 
                         {/* Content */}
-                        <div className="p-4 flex flex-col justify-between flex-1 space-y-2">
+                        <div className="p-2.5 sm:p-4 flex flex-col justify-between flex-1 space-y-1.5 sm:space-y-2">
                           <div>
                             <span className="text-[10px] font-bold uppercase tracking-wider text-[#C2185B] line-clamp-1">
                               {isRelPlant ? (relItem.subCategory || 'Living Plant') : (relItem.flowerType || relItem.category)}

@@ -16,17 +16,17 @@ export default function Button({
   ...props
 }) {
   const baseClasses =
-    'relative inline-flex items-center justify-center font-medium font-["Poppins"] transition-all duration-200 select-none focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 active:scale-[0.99] disabled:pointer-events-none disabled:opacity-60 cursor-pointer';
+    'relative inline-flex items-center justify-center font-medium font-["Poppins"] transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] select-none focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 active:scale-[0.96] disabled:pointer-events-none disabled:opacity-60 cursor-pointer';
 
   const variants = {
     primary:
-      'bg-gradient-to-r from-[#E11D48] via-[#EC407A] to-[#C2185B] text-white hover:opacity-95 hover:shadow-[0_8px_20px_rgba(236,64,122,0.28)] hover:-translate-y-[1px] active:translate-y-0 active:opacity-100 shadow-[0_4px_14px_rgba(236,64,122,0.2)] focus-visible:ring-[#EC407A]',
+      'bg-gradient-to-r from-[#E11D48] via-[#EC407A] to-[#C2185B] text-white hover:opacity-95 hover:shadow-[0_10px_25px_rgba(236,64,122,0.32)] hover:-translate-y-0.5 active:translate-y-0 active:opacity-100 shadow-[0_4px_14px_rgba(236,64,122,0.2)] focus-visible:ring-[#EC407A]',
     secondary:
-      'bg-[#FFF3F6] text-[#C2185B] hover:bg-[#FCC1C5]/40 hover:-translate-y-[1px] active:translate-y-0 focus-visible:ring-[#EC407A]',
+      'bg-[#FFF3F6] text-[#C2185B] hover:bg-[#FCC1C5]/40 hover:-translate-y-0.5 active:translate-y-0 focus-visible:ring-[#EC407A]',
     outline:
-      'bg-white text-[#242124] border border-[#E5E1E2] hover:border-[#FCC1C5] hover:bg-[#FFFDF9] hover:shadow-sm focus-visible:ring-[#EC407A]',
+      'bg-white text-[#242124] border border-[#E5E1E2] hover:border-[#FCC1C5] hover:bg-[#FFFDF9] hover:shadow-sm hover:-translate-y-0.5 active:translate-y-0 focus-visible:ring-[#EC407A]',
     ghost:
-      'bg-transparent text-[#242124] hover:bg-[#FFF3F6] hover:text-[#C2185B] focus-visible:ring-[#EC407A]',
+      'bg-transparent text-[#242124] hover:bg-[#FFF3F6] hover:text-[#C2185B] active:scale-[0.96] focus-visible:ring-[#EC407A]',
   };
 
   const sizes = {

@@ -246,8 +246,8 @@ export default function SubNav() {
       onMouseLeave={handleMouseLeave}
       className="relative bg-white border-b border-[#F7F2ED] z-30 select-none"
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-        <ul className="flex items-center justify-center gap-5 sm:gap-8 lg:gap-10 text-[12px] sm:text-[13px] font-semibold text-[#242124] tracking-wider py-3 overflow-x-auto lg:overflow-visible scrollbar-none">
+      <div className="max-w-7xl mx-auto px-2.5 sm:px-6 lg:px-8 relative">
+        <ul className="flex items-center justify-start sm:justify-center gap-4 sm:gap-8 lg:gap-10 text-[11px] sm:text-[13px] font-semibold text-[#242124] tracking-wider py-2 sm:py-3 overflow-x-auto lg:overflow-visible scrollbar-none px-1 sm:px-0">
           {menuItems.map((item) => {
             const isOpen = activeMenu === item.title;
 

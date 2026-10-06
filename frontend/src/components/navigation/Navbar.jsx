@@ -28,10 +28,19 @@ import { useCurrency } from '../../context/CurrencyContext';
 import { productService } from '../../services/productService';
 import { SEARCH_CATEGORIES, TRENDING_SEARCHES } from '../../data/searchIndex';
 import { getProductImageUrl } from '../../utils/imageUrl';
-import { CountrySelectDialog, SKIPER_COUNTRIES } from '../v1/skiper20';
+import { CountrySelectDialog, CountryFlag, SKIPER_COUNTRIES } from '../v1/skiper20';
 
 export default function Navbar({ onSearch, searchQuery = '' }) {
-  const { currency, setCurrency, currencies, formatPrice, selectedCountry } = useCurrency();
+  const {
+    currency,
+    setCurrency,
+    currencies,
+    formatPrice,
+    selectedCountry,
+    openCurrencyDialog,
+    isCurrencyDialogOpen,
+    closeCurrencyDialog,
+  } = useCurrency();
   const [searchParams] = useSearchParams();
   const urlQuery = searchParams.get('q') || '';
   
@@ -218,9 +227,9 @@ export default function Navbar({ onSearch, searchQuery = '' }) {
 
   return (
     <header className="sticky-mobile-nav sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-[#F0EBE5] transition-all font-['Poppins'] shadow-2xs">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-18 flex items-center justify-between gap-3 sm:gap-6">
+      <div className="max-w-7xl mx-auto px-2.5 sm:px-6 lg:px-8 h-16 sm:h-18 flex items-center justify-between gap-2 sm:gap-6">
         {/* Mobile menu toggle & Brand Logo */}
-        <div className="flex items-center gap-3 flex-shrink-0">
+        <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
           <button
             type="button"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -474,19 +483,25 @@ export default function Navbar({ onSearch, searchQuery = '' }) {
         </div>
 
         {/* Right Action Icons & Controls */}
-        <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
+        <div className="flex items-center gap-1.5 sm:gap-3 flex-shrink-0">
           {/* Skiper20 UniSwap Country & Auto-Currency Selector Trigger */}
           <div className="relative">
             <button
               type="button"
-              onClick={() => setIsRegionDialogOpen(true)}
-              className="group inline-flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1.5 rounded-full bg-[#FAF7F2] hover:bg-white border border-[#E8E1DA] hover:border-[#D0C6BD] text-xs font-semibold text-[#242124] transition-all shadow-2xs hover:shadow-xs cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#C2185B]/20"
+              onClick={() => {
+                setIsRegionDialogOpen(true);
+                openCurrencyDialog();
+              }}
+              className="luxury-touch-press group inline-flex items-center gap-1 sm:gap-2 px-2 sm:px-3 py-1.5 rounded-full bg-[#FAF7F2] hover:bg-white border border-[#E8E1DA] hover:border-[#D0C6BD] text-xs font-semibold text-[#242124] transition-all shadow-2xs hover:shadow-xs cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#C2185B]/20"
               title="Select Delivery Region & Auto-change Currency"
               aria-label={`Current delivery region: ${currentCountryObj.name}, currency: ${currency}. Click to change.`}
             >
-              <span className="text-base sm:text-lg leading-none filter drop-shadow-2xs">
-                {currentCountryObj.flag}
-              </span>
+              <CountryFlag
+                code={currentCountryObj.code}
+                name={currentCountryObj.name}
+                flag={currentCountryObj.flag}
+                className="w-5 h-3.5 rounded-[2px] object-cover shrink-0 shadow-2xs"
+              />
               <span className="font-bold text-[#242124] group-hover:text-[#C2185B] transition-colors tracking-tight">
                 {currency}
               </span>
@@ -504,7 +519,7 @@ export default function Navbar({ onSearch, searchQuery = '' }) {
                 <button
                   type="button"
                   onClick={() => setUserDropdownOpen(!userDropdownOpen)}
-                  className="flex items-center gap-2 p-1.5 sm:px-2.5 sm:py-1.5 rounded-full hover:bg-[#FAF7F2] border border-transparent hover:border-[#E8E1DA] transition-all cursor-pointer"
+                  className="luxury-touch-press flex items-center gap-2 p-1.5 sm:px-2.5 sm:py-1.5 rounded-full hover:bg-[#FAF7F2] border border-transparent hover:border-[#E8E1DA] transition-all cursor-pointer"
                 >
                   <span className="w-7 h-7 rounded-full bg-[#FFF0F4] border border-[#FCC1C5] text-[#C2185B] flex items-center justify-center font-bold text-xs shadow-2xs">
                     {user?.name ? user.name.charAt(0).toUpperCase() : <User className="w-3.5 h-3.5" />}
@@ -512,11 +527,11 @@ export default function Navbar({ onSearch, searchQuery = '' }) {
                   <span className="hidden sm:inline text-xs font-semibold text-[#242124] max-w-[85px] truncate">
                     {user?.name?.split(' ')[0]}
                   </span>
-                  <ChevronDown className="w-3.5 h-3.5 text-[#888888]" />
+                  <ChevronDown className={`w-3.5 h-3.5 text-[#888888] transition-transform duration-200 ${userDropdownOpen ? 'rotate-180' : ''}`} />
                 </button>
 
                 {userDropdownOpen && (
-                  <div className="absolute right-0 top-full mt-2 w-56 bg-white rounded-2xl shadow-xl border border-[#F0EBE5] py-2 z-50 animate-in fade-in duration-150">
+                  <div className="absolute right-0 top-full mt-2 w-56 bg-white rounded-2xl shadow-xl border border-[#F0EBE5] py-2 z-50 animate-modal-pop">
                     <div className="px-4 py-2 border-b border-[#F7F2ED]">
                       <p className="text-xs font-semibold text-[#242124] truncate">{user?.name}</p>
                       <p className="text-[11px] text-[#777777] truncate">{user?.email}</p>
@@ -548,7 +563,7 @@ export default function Navbar({ onSearch, searchQuery = '' }) {
                     <button
                       type="button"
                       onClick={handleLogout}
-                      className="w-full flex items-center gap-2.5 px-4 py-2.5 text-xs text-red-600 hover:bg-red-50 transition-colors text-left"
+                      className="w-full flex items-center gap-2.5 px-4 py-2.5 text-xs text-red-600 hover:bg-red-50 transition-colors text-left cursor-pointer"
                     >
                       <LogOut className="w-4 h-4" />
                       <span>Sign Out</span>
@@ -559,7 +574,7 @@ export default function Navbar({ onSearch, searchQuery = '' }) {
             ) : (
               <Link
                 to="/login"
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 sm:py-2 rounded-full text-xs font-semibold text-[#242124] hover:text-[#C2185B] hover:bg-[#FAF7F2] border border-transparent hover:border-[#E8E1DA] transition-all"
+                className="luxury-touch-press inline-flex items-center gap-1.5 px-3 py-1.5 sm:py-2 rounded-full text-xs font-semibold text-[#242124] hover:text-[#C2185B] hover:bg-[#FAF7F2] border border-transparent hover:border-[#E8E1DA] transition-all"
               >
                 <User className="w-4 h-4 text-[#C2185B]" />
                 <span className="hidden sm:inline">Sign In</span>
@@ -571,12 +586,12 @@ export default function Navbar({ onSearch, searchQuery = '' }) {
           <button
             type="button"
             onClick={() => dispatch(openCart())}
-            className="relative inline-flex items-center gap-2 px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-full bg-[#242124] hover:bg-[#C2185B] text-white transition-all shadow-2xs hover:shadow-xs cursor-pointer group"
+            className="luxury-touch-press relative inline-flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-4 py-1.5 sm:py-2 rounded-full bg-[#242124] hover:bg-[#C2185B] text-white transition-all shadow-2xs hover:shadow-xs cursor-pointer group"
             aria-label="View shopping cart"
           >
             <ShoppingBag className="w-4 h-4 group-hover:scale-105 transition-transform" />
             <span className="text-xs font-semibold hidden sm:inline">Cart</span>
-            <span className="w-5 h-5 rounded-full bg-white text-[#242124] group-hover:text-[#C2185B] text-[11px] font-bold flex items-center justify-center font-mono transition-colors">
+            <span className={`w-5 h-5 rounded-full bg-white text-[#242124] group-hover:text-[#C2185B] text-[11px] font-bold flex items-center justify-center font-mono transition-all ${totalCartCount > 0 ? 'animate-badge-glow' : ''}`}>
               {totalCartCount}
             </span>
           </button>
@@ -726,10 +741,16 @@ export default function Navbar({ onSearch, searchQuery = '' }) {
               onClick={() => {
                 setMobileMenuOpen(false);
                 setIsRegionDialogOpen(true);
+                openCurrencyDialog();
               }}
               className="flex items-center gap-2 bg-[#FAF7F2] hover:bg-[#FFF3F6] border border-[#E9E2E5] hover:border-[#FCC1C5] px-3 py-1.5 rounded-xl text-xs font-bold text-[#242124] transition-all cursor-pointer shadow-2xs"
             >
-              <span className="text-base">{currentCountryObj.flag}</span>
+              <CountryFlag
+                code={currentCountryObj.code}
+                name={currentCountryObj.name}
+                flag={currentCountryObj.flag}
+                className="w-5 h-3.5 rounded-[2px] object-cover shrink-0 shadow-2xs"
+              />
               <span>{currentCountryObj.name.split(' ')[0]}</span>
               <span className="text-[11px] text-[#EC407A] font-extrabold bg-[#FFF0F4] px-1.5 py-0.5 rounded-md">
                 {currency}
@@ -742,8 +763,11 @@ export default function Navbar({ onSearch, searchQuery = '' }) {
 
       {/* Skiper20 UniSwap Country & Auto-Currency Selection Dialog */}
       <CountrySelectDialog
-        isOpen={isRegionDialogOpen}
-        onClose={() => setIsRegionDialogOpen(false)}
+        isOpen={isRegionDialogOpen || isCurrencyDialogOpen}
+        onClose={() => {
+          setIsRegionDialogOpen(false);
+          closeCurrencyDialog();
+        }}
       />
     </header>
   );

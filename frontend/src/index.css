@@ -54,6 +54,9 @@ body {
   min-height: 100dvh;
   display: flex;
   flex-direction: column;
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: clip;
 }
 
 /* Botanical subtle shadow and custom inputs */
@@ -72,6 +75,293 @@ body {
 .bloom-input-focus:focus-within {
   border-color: #EC407A;
   box-shadow: 0 0 0 4px rgba(236, 64, 122, 0.12);
+}
+
+/* ========================================================
+   LUXURY FLORAL ANIMATIONS & MICRO-INTERACTIONS
+   Curated for ultra-smooth 60fps transitions & tactile feedback
+   ======================================================== */
+
+@keyframes luxuryFadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes luxuryFadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes luxuryScaleIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes luxuryZoomIn95 {
+  0% {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes drawerSlideUp {
+  0% {
+    transform: translateY(100%);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes luxurySlideInRight {
+  0% {
+    transform: translateX(100%);
+    opacity: 0.7;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes luxurySlideInLeft {
+  0% {
+    transform: translateX(-100%);
+    opacity: 0.7;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes backdropFadeIn {
+  0% {
+    opacity: 0;
+    backdrop-filter: blur(0px);
+  }
+  100% {
+    opacity: 1;
+    backdrop-filter: blur(8px);
+  }
+}
+
+@keyframes heartPop {
+  0% {
+    transform: scale(1);
+  }
+  30% {
+    transform: scale(1.35);
+  }
+  60% {
+    transform: scale(0.9);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes badgeGlow {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(236, 64, 122, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 0 6px rgba(236, 64, 122, 0);
+  }
+}
+
+@keyframes bounceSubtle {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-3px);
+  }
+}
+
+@keyframes shimmerSweep {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes floatGentle {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+.animate-luxury-fade {
+  animation: luxuryFadeInUp 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.animate-luxury-scale {
+  animation: luxuryScaleIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.animate-drawer-up {
+  animation: drawerSlideUp 0.38s cubic-bezier(0.16, 1, 0.3, 1) both;
+  will-change: transform;
+}
+
+.animate-drawer-right {
+  animation: luxurySlideInRight 0.38s cubic-bezier(0.16, 1, 0.3, 1) both;
+  will-change: transform, opacity;
+}
+
+.animate-drawer-left {
+  animation: luxurySlideInLeft 0.38s cubic-bezier(0.16, 1, 0.3, 1) both;
+  will-change: transform, opacity;
+}
+
+.animate-modal-pop {
+  animation: luxuryZoomIn95 0.28s cubic-bezier(0.16, 1, 0.3, 1) both;
+  will-change: transform, opacity;
+}
+
+.animate-backdrop-fade {
+  animation: backdropFadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) both;
+  will-change: opacity, backdrop-filter;
+}
+
+.animate-heart-pop {
+  animation: heartPop 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.animate-badge-glow {
+  animation: badgeGlow 2.5s infinite;
+}
+
+.animate-bounce-subtle {
+  animation: bounceSubtle 1.8s ease-in-out infinite;
+}
+
+.animate-float {
+  animation: floatGentle 3s ease-in-out infinite;
+}
+
+/* Tailwind utility polyfills for animate-in so all elements animate seamlessly */
+.animate-in {
+  animation-duration: 0.3s;
+  animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+  animation-fill-mode: both;
+}
+
+.fade-in {
+  animation-name: luxuryFadeIn;
+}
+
+.slide-in-from-right,
+.slide-in-from-right-3 {
+  animation-name: luxurySlideInRight;
+}
+
+.slide-in-from-left {
+  animation-name: luxurySlideInLeft;
+}
+
+.zoom-in-95 {
+  animation-name: luxuryZoomIn95;
+}
+
+/* Glassmorphism utility */
+.luxury-glass {
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+/* Shimmer placeholder */
+.luxury-shimmer {
+  background: linear-gradient(90deg, #FAF7F2 25%, #FFF0F4 50%, #FAF7F2 75%);
+  background-size: 200% 100%;
+  animation: shimmerSweep 1.8s infinite;
+}
+
+/* Luxury card hover with smooth lift and shadow expansion */
+.luxury-product-card {
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.3s ease;
+  will-change: transform, box-shadow;
+}
+
+.luxury-product-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 40px -10px rgba(194, 24, 91, 0.12), 0 6px 18px rgba(0, 0, 0, 0.03);
+  border-color: #FCC1C5;
+}
+
+/* Image zoom with velvety ease */
+.luxury-image-zoom {
+  transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+}
+
+.luxury-product-card:hover .luxury-image-zoom {
+  transform: scale(1.07);
+}
+
+/* Tactile button micro-press */
+.luxury-touch-press {
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+              background-color 0.2s ease,
+              border-color 0.2s ease;
+}
+
+.luxury-touch-press:hover {
+  transform: translateY(-1px);
+}
+
+.luxury-touch-press:active {
+  transform: scale(0.96) translateY(0);
+}
+
+/* Filter chip smooth spring interaction */
+.luxury-filter-chip {
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.luxury-filter-chip:hover {
+  transform: translateY(-2px);
+}
+
+.luxury-filter-chip:active {
+  transform: scale(0.95);
+}
+
+/* Subcategory scrollbar hide with smooth scroll behavior */
+.smooth-horizontal-scroll {
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
 }
 
 /* Safe area insets */

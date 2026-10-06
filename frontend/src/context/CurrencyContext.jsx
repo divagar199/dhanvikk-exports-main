@@ -249,6 +249,10 @@ export function CurrencyProvider({ children }) {
     return { countryCode: code, currency: targetCurrency };
   };
 
+  const [isCurrencyDialogOpen, setIsCurrencyDialogOpen] = useState(false);
+  const openCurrencyDialog = () => setIsCurrencyDialogOpen(true);
+  const closeCurrencyDialog = () => setIsCurrencyDialogOpen(false);
+
   const currentConfig = CURRENCY_CONFIGS[currency] || CURRENCY_CONFIGS.AED;
 
   /**
@@ -305,6 +309,10 @@ export function CurrencyProvider({ children }) {
         selectedCountry,
         setSelectedCountry: setSelectedCountryState,
         selectRegion,
+        isCurrencyDialogOpen,
+        setIsCurrencyDialogOpen,
+        openCurrencyDialog,
+        closeCurrencyDialog,
         currentConfig,
         currencySymbol: currentConfig.symbol,
         currencies: CURRENCY_CONFIGS,

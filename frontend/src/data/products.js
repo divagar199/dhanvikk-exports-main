@@ -1345,8 +1345,8 @@ export const PRODUCTS = [
     "id": "flw-036",
     "name": "Midnight Orchid Serenity",
     "slug": "midnight-orchid-serenity",
-    "category": "Plants",
-    "subCategory": "Living Orchids",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
     "flowerType": "Orchids",
     "occasion": "Congratulations",
     "recipient": "Everyone",
@@ -1361,12 +1361,12 @@ export const PRODUCTS = [
     "images": [
       "/images/products/midnight-orchid-serenity.webp"
     ],
-    "description": "Exotic living orchids nurtured to peak flowering perfection, displayed in a handcrafted artisan ceramic planter. Includes custom nutrient moss bedding, moisture-retaining base, and Dhanvikk botanical plant care guide.",
+    "description": "Exotic deep-blue Dendrobium orchids and white garden sprays hand-tied in frosted Parisian wrap with double-faced Dhanvikk satin ribbon.",
     "features": [
-      "Certified disease-free living plant in artisan ceramic container",
+      "Air-flown fresh daily from high-altitude volcanic farms",
       "Handcrafted and tailored by master floral artisans",
       "Complimentary personalized handwritten calligraphy greeting card",
-      "Includes complete botanical hydration & light care booklet"
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
     ],
     "specifications": {
       "stemCount": "Twin-spike cascading floral stems with buds",
@@ -3967,8 +3967,8 @@ export const PRODUCTS = [
     "id": "flw-105",
     "name": "Orchid Serenity",
     "slug": "orchid-serenity",
-    "category": "Plants",
-    "subCategory": "Living Orchids",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
     "flowerType": "Orchids",
     "occasion": "Congratulations",
     "recipient": "Everyone",
@@ -3983,12 +3983,12 @@ export const PRODUCTS = [
     "images": [
       "/images/products/orchid-serenity.webp"
     ],
-    "description": "Exotic living orchids nurtured to peak flowering perfection, displayed in a handcrafted artisan ceramic planter. Includes custom nutrient moss bedding, moisture-retaining base, and Dhanvikk botanical plant care guide.",
+    "description": "Pure white Phalaenopsis and Dendrobium cut orchid blossoms gathered in hand-tied presentation wrap with ivory organza ribbons.",
     "features": [
-      "Certified disease-free living plant in artisan ceramic container",
+      "Air-flown fresh daily from high-altitude volcanic farms",
       "Handcrafted and tailored by master floral artisans",
       "Complimentary personalized handwritten calligraphy greeting card",
-      "Includes complete botanical hydration & light care booklet"
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
     ],
     "specifications": {
       "stemCount": "Twin-spike cascading floral stems with buds",
@@ -7630,9 +7630,9 @@ export const PRODUCTS = [
     "reviewsCount": 64,
     "tag": "Air Purifying",
     "badge": "NASA Certified",
-    "image": "https://images.unsplash.com/photo-1593482892290-f54927ae1bf6?auto=format&fit=crop&w=800&q=80",
+    "image": "https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?auto=format&fit=crop&w=800&q=80",
     "images": [
-      "https://images.unsplash.com/photo-1593482892290-f54927ae1bf6?auto=format&fit=crop&w=800&q=80"
+      "https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?auto=format&fit=crop&w=800&q=80"
     ],
     "description": "Known as nature's ultimate air purifier, this lush Peace Lily features glossy emerald foliage crowned with pure white spadix blooms. Presented in a handcrafted stone-textured planter, it actively filters indoor airborne toxins.",
     "features": [
@@ -7753,9 +7753,9 @@ export const PRODUCTS = [
     "reviewsCount": 98,
     "tag": "Indestructible",
     "badge": "Night Oxygen Producer",
-    "image": "https://images.unsplash.com/photo-1599598425947-52026857d425?auto=format&fit=crop&w=800&q=80",
+    "image": "https://images.unsplash.com/photo-1617173944883-6ffbd35d584d?auto=format&fit=crop&w=800&q=80",
     "images": [
-      "https://images.unsplash.com/photo-1599598425947-52026857d425?auto=format&fit=crop&w=800&q=80"
+      "https://images.unsplash.com/photo-1617173944883-6ffbd35d584d?auto=format&fit=crop&w=800&q=80"
     ],
     "description": "Architectural sword-like leaves banded with deep forest green and golden yellow margins. One of the rare plants that releases pure oxygen throughout the night, making it the perfect bedroom or executive office sanctuary companion.",
     "features": [
@@ -7794,9 +7794,9 @@ export const PRODUCTS = [
     "reviewsCount": 82,
     "tag": "Constant Bloomer",
     "badge": "Living Color",
-    "image": "https://images.unsplash.com/photo-1596724817757-01053a473180?auto=format&fit=crop&w=800&q=80",
+    "image": "https://images.unsplash.com/photo-1600411833196-7c1f6b1a8b90?auto=format&fit=crop&w=800&q=80",
     "images": [
-      "https://images.unsplash.com/photo-1596724817757-01053a473180?auto=format&fit=crop&w=800&q=80"
+      "https://images.unsplash.com/photo-1600411833196-7c1f6b1a8b90?auto=format&fit=crop&w=800&q=80"
     ],
     "description": "Showcasing waxy, heart-shaped blush pink spathes and lush dark emerald leaves. The Anthurium symbolizes lasting hospitality and romance, blooming almost continuously throughout the entire year indoors.",
     "features": [
@@ -7982,6 +7982,418 @@ export const PRODUCTS = [
     "inStock": true,
     "isBestSeller": false,
     "isFeatured": false
+  },
+  {
+    "id": "flw-210",
+    "name": "Fiddle Leaf Fig Architectural Tree (Ficus Lyrata)",
+    "slug": "fiddle-leaf-fig-architectural-tree-ficus-lyrata",
+    "category": "Plants",
+    "subCategory": "Indoor Botanicals",
+    "flowerType": "Plants",
+    "occasion": "Housewarming",
+    "recipient": "Everyone",
+    "price": 5499,
+    "originalPrice": 6999,
+    "discountPercent": 21,
+    "rating": 4.9,
+    "reviewsCount": 89,
+    "tag": "Designer Favorite",
+    "badge": "Lush Canopy",
+    "image": "https://images.unsplash.com/photo-1545241047-6083a3684587?auto=format&fit=crop&w=800&q=80",
+    "images": [
+      "https://images.unsplash.com/photo-1545241047-6083a3684587?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "The quintessential interior designer tree. Features dramatic, violin-shaped waxy emerald leaves that command attention in penthouse salons, boutique offices, and grand entryways. Potted in an oversized matte-white cylinder planter.",
+    "features": [
+      "Magnificent violin-shaped architectural foliage",
+      "Supplied in premium self-draining matte white cylinder pot",
+      "Conditions indoor air and absorbs acoustic reflections",
+      "Includes organic neem polish and detailed watering chart"
+    ],
+    "specifications": {
+      "plantType": "Ficus Lyrata (Fiddle Leaf Fig Tree)",
+      "dimensions": "Height: 90cm - 110cm | Pot: Ø 26cm x H 28cm",
+      "boxOrVase": "Designer Matte-White Ceramic Cylinder Vessel",
+      "careGuide": "Position in bright indirect sunlight. Water every 7-10 days when top 5cm of soil is dry.",
+      "airPurification": "High Transpiration Natural Humidifier",
+      "lightRequirement": "Abundant Bright Indirect Light",
+      "petSafety": "Keep away from pets"
+    },
+    "stock": 18,
+    "inStock": true,
+    "isBestSeller": true,
+    "isFeatured": true
+  },
+  {
+    "id": "flw-211",
+    "name": "Calathea Ornata Pinstripe Living Botanical",
+    "slug": "calathea-ornata-pinstripe-living-botanical",
+    "category": "Plants",
+    "subCategory": "Indoor Botanicals",
+    "flowerType": "Plants",
+    "occasion": "Birthday",
+    "recipient": "For Her",
+    "price": 3199,
+    "originalPrice": 3999,
+    "discountPercent": 20,
+    "rating": 4.8,
+    "reviewsCount": 54,
+    "tag": "Prayer Plant",
+    "badge": "Pink Pinstripes",
+    "image": "https://images.unsplash.com/photo-1614594975525-e45190c55d0b?auto=format&fit=crop&w=800&q=80",
+    "images": [
+      "https://images.unsplash.com/photo-1614594975525-e45190c55d0b?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "Celebrated as the living 'Prayer Plant', the Calathea Ornata boasts iridescent pink brushstroke stripes across deep olive-green leaves with rich burgundy undersides. Its leaves fold upwards in evening prayer.",
+    "features": [
+      "Dynamic nyctinastic movement (leaves pray upwards at night)",
+      "Striking hand-painted pink pinstripe foliage",
+      "100% non-toxic and pet-safe for cats and dogs",
+      "Potted in artisanal blush ceramic planter with drainage tray"
+    ],
+    "specifications": {
+      "plantType": "Calathea Ornata (Pinstripe Calathea)",
+      "dimensions": "Height: 40cm - 50cm | Pot: Ø 16cm x H 16cm",
+      "boxOrVase": "Handcrafted Soft Blush Ceramic Pot",
+      "careGuide": "Thrives in humid rooms and indirect light. Keep soil lightly moist using filtered water.",
+      "airPurification": "Natural Moisture Booster",
+      "lightRequirement": "Medium to Bright Indirect Light",
+      "petSafety": "100% Pet-Friendly & Non-Toxic"
+    },
+    "stock": 28,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-212",
+    "name": "Royal White Anthurium Blooming Porcelain Planter",
+    "slug": "royal-white-anthurium-blooming-porcelain-planter",
+    "category": "Plants",
+    "subCategory": "Flowering Potted Plants",
+    "flowerType": "Plants",
+    "occasion": "Congratulations",
+    "recipient": "Everyone",
+    "price": 4499,
+    "originalPrice": 5699,
+    "discountPercent": 21,
+    "rating": 4.9,
+    "reviewsCount": 67,
+    "tag": "Continuous Bloom",
+    "badge": "Pure White Spathes",
+    "image": "https://images.unsplash.com/photo-1600411833196-7c1f6b1a8b90?auto=format&fit=crop&w=800&q=80",
+    "images": [
+      "https://images.unsplash.com/photo-1600411833196-7c1f6b1a8b90?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "Pristine porcelain-white spathes crowned with pale lime spadixes rise above deep glossy heart-shaped foliage. Potted in an elegant ivory fluted planter with matching base, symbolizing pure intentions and luxury hospitality.",
+    "features": [
+      "Perennial ivory blooms lasting up to 8 weeks each",
+      "Premium organic orchid bark and peat moss soil blend",
+      "Architectural heart-shaped leaves for clean modern spaces",
+      "Presented with Dhanvikk signature silk botanical ribbon"
+    ],
+    "specifications": {
+      "plantType": "Anthurium Scherzerianum (White Flamingo Lily)",
+      "dimensions": "Height: 50cm - 60cm | Pot: Ø 18cm x H 18cm",
+      "boxOrVase": "Fluted Ivory Porcelain Container",
+      "careGuide": "Keep in warm humid spot. Water when topsoil feels slightly dry.",
+      "airPurification": "Toxin Filter • Ammonia Neutralizer",
+      "lightRequirement": "Bright Indirect Light",
+      "petSafety": "Mildly toxic to pets"
+    },
+    "stock": 22,
+    "inStock": true,
+    "isBestSeller": true,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-213",
+    "name": "Cascading Golden Pothos in Hanging Artisan Ceramic",
+    "slug": "cascading-golden-pothos-in-hanging-artisan-ceramic",
+    "category": "Plants",
+    "subCategory": "Air Purifying Plants",
+    "flowerType": "Plants",
+    "occasion": "Get Well Soon",
+    "recipient": "Everyone",
+    "price": 2499,
+    "originalPrice": 3199,
+    "discountPercent": 22,
+    "rating": 4.9,
+    "reviewsCount": 112,
+    "tag": "Trailing Vine",
+    "badge": "Fast Growing",
+    "image": "https://images.unsplash.com/photo-1597055181300-e3633a917c9c?auto=format&fit=crop&w=800&q=80",
+    "images": [
+      "https://images.unsplash.com/photo-1597055181300-e3633a917c9c?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "Lush trailing vines of heart-shaped leaves variegated in golden yellow and forest green. Suspended in a handcrafted stoneware hanging bowl with macramé or displayed on bookshelves, creating an effortless living green cascade.",
+    "features": [
+      "Dramatically cascading vines up to 80cm in length",
+      "Top-rated air cleanser removing formaldehyde and benzene",
+      "Very forgiving of missed waterings and low light",
+      "Hand-knotted natural jute suspension hanger included"
+    ],
+    "specifications": {
+      "plantType": "Epipremnum Aureum (Golden Pothos / Devil's Ivy)",
+      "dimensions": "Trailing Length: 60cm - 80cm | Bowl: Ø 18cm x H 12cm",
+      "boxOrVase": "Stoneware Hanging Pot with Jute Cord",
+      "careGuide": "Water every 7-10 days. Prune tips to encourage bushy fuller growth.",
+      "airPurification": "NASA Clean Air All-Star",
+      "lightRequirement": "Low, Medium, or Bright Indirect Light",
+      "petSafety": "Keep suspended out of reach of pets"
+    },
+    "stock": 35,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-214",
+    "name": "Chinese Elm Imperial Zen Bonsai (10 Years Matured)",
+    "slug": "chinese-elm-imperial-zen-bonsai-10-years-matured",
+    "category": "Plants",
+    "subCategory": "Bonsai Trees",
+    "flowerType": "Plants",
+    "occasion": "Congratulations",
+    "recipient": "For Him",
+    "price": 8499,
+    "originalPrice": 10999,
+    "discountPercent": 23,
+    "rating": 5.0,
+    "reviewsCount": 38,
+    "tag": "Masterpiece",
+    "badge": "10-Year Specimen",
+    "image": "https://images.unsplash.com/photo-1520412099551-62b6bafeb5bb?auto=format&fit=crop&w=800&q=80",
+    "images": [
+      "https://images.unsplash.com/photo-1520412099551-62b6bafeb5bb?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "A living heirloom shaped through a decade of meticulous bonsai wire training. Features intricate fine ramification, tiny serrated leaves, and an expressive textured trunk resting in a master-glazed cobalt stoneware dish.",
+    "features": [
+      "10-year masterfully trained Ulmus Parvifolia specimen",
+      "Intricate canopy ramification with graceful branch layering",
+      "Stoneware cobalt glazed dish with integrated drainage holes",
+      "Complete with brass pruning shears and bonsai feed flask"
+    ],
+    "specifications": {
+      "plantType": "Ulmus Parvifolia (Chinese Elm Bonsai)",
+      "dimensions": "Height: 42cm - 50cm | Dish: 28cm x 20cm",
+      "boxOrVase": "Cobalt Glazed Artisan Bonsai Tray with Saucer",
+      "careGuide": "Keep near a sunny window. Water evenly when soil surface is slightly dry.",
+      "airPurification": "Focus & Tranquility Living Centerpiece",
+      "lightRequirement": "Bright Sunlit Room or Filtered Sunlight",
+      "petSafety": "Non-toxic to animals"
+    },
+    "stock": 10,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": true
+  },
+  {
+    "id": "flw-215",
+    "name": "Zebra Haworthia & Moon Cactus Terracotta Trio",
+    "slug": "zebra-haworthia-moon-cactus-terracotta-trio",
+    "category": "Plants",
+    "subCategory": "Indoor Succulents",
+    "flowerType": "Plants",
+    "occasion": "Birthday",
+    "recipient": "Everyone",
+    "price": 2199,
+    "originalPrice": 2799,
+    "discountPercent": 21,
+    "rating": 4.8,
+    "reviewsCount": 59,
+    "tag": "Mini Collection",
+    "badge": "Desk Friendly",
+    "image": "https://images.unsplash.com/photo-1509423350716-97f9360b4e09?auto=format&fit=crop&w=800&q=80",
+    "images": [
+      "https://images.unsplash.com/photo-1509423350716-97f9360b4e09?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "A delightful triptych of three petite architectural succulents: Zebra Haworthia with embossed white bands, Ruby Moon Cactus, and Jade miniature in individual handmade Italian terracotta pots lined on a wooden tray.",
+    "features": [
+      "Set of 3 distinct living succulent specimens",
+      "Individual hand-stamped Italian terracotta pots with acacia tray",
+      "Requires virtually zero watering and thrives on workstations",
+      "Charming compact footprint suitable for desks and windowsills"
+    ],
+    "specifications": {
+      "plantType": "Haworthia Fasciata, Gymnocalycium, Crassula",
+      "dimensions": "Overall Tray: 28cm x 10cm | Pot Height: 8cm each",
+      "boxOrVase": "Terracotta Pots with Natural Acacia Tray",
+      "careGuide": "Water each pot with 20ml water once every 3 weeks. Keep in sunny spot.",
+      "airPurification": "Desktop Oxygen Enhancer",
+      "lightRequirement": "Bright Indirect to Direct Sunlight",
+      "petSafety": "Haworthia is pet-friendly"
+    },
+    "stock": 40,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-216",
+    "name": "Boston Fern Lush Air Purifying Sphere",
+    "slug": "boston-fern-lush-air-purifying-sphere",
+    "category": "Plants",
+    "subCategory": "Air Purifying Plants",
+    "flowerType": "Plants",
+    "occasion": "Housewarming",
+    "recipient": "Everyone",
+    "price": 2899,
+    "originalPrice": 3699,
+    "discountPercent": 22,
+    "rating": 4.8,
+    "reviewsCount": 44,
+    "tag": "Lush Fronds",
+    "badge": "High Humidity",
+    "image": "https://images.unsplash.com/photo-1632207691143-643e2a9a9361?auto=format&fit=crop&w=800&q=80",
+    "images": [
+      "https://images.unsplash.com/photo-1632207691143-643e2a9a9361?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "Feathery sword-shaped fronds arching outward in an exuberant sphere of bright chartreuse foliage. Boston Ferns are natural humidifiers that excel at purifying formaldehyde and xylene from indoor air.",
+    "features": [
+      "Densely arching botanical fronds with soft textural beauty",
+      "Natural indoor humidifier improving respiratory comfort",
+      "Presented in a textured Nordic stone planter",
+      "100% pet-friendly and non-toxic foliage"
+    ],
+    "specifications": {
+      "plantType": "Nephrolepis Exaltata (Boston Fern)",
+      "dimensions": "Spread: 50cm - 65cm | Pot: Ø 20cm x H 18cm",
+      "boxOrVase": "Nordic Stone Textured Ceramic Pot",
+      "careGuide": "Prefers humid environments like bathrooms or regular misting. Keep soil damp.",
+      "airPurification": "Top Formaldehyde Cleanser & Moisture Source",
+      "lightRequirement": "Medium to Bright Indirect Light",
+      "petSafety": "100% Pet-Friendly and Safe"
+    },
+    "stock": 25,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-217",
+    "name": "Golden Cymbidium Triple-Spike Highland Orchid",
+    "slug": "golden-cymbidium-triple-spike-highland-orchid",
+    "category": "Plants",
+    "subCategory": "Living Orchids",
+    "flowerType": "Orchids",
+    "occasion": "Anniversary",
+    "recipient": "For Her",
+    "price": 7299,
+    "originalPrice": 9299,
+    "discountPercent": 22,
+    "rating": 5.0,
+    "reviewsCount": 86,
+    "tag": "Imperial Orchid",
+    "badge": "Triple Spike",
+    "image": "https://images.unsplash.com/photo-1525310072745-f49212b5ac6d?auto=format&fit=crop&w=800&q=80",
+    "images": [
+      "https://images.unsplash.com/photo-1525310072745-f49212b5ac6d?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "Three grand spikes boasting up to 30 radiant golden-yellow Cymbidium blooms with speckled crimson throats. Set in an opulent hammered brass and ceramic pedestal bowl, symbolizing abundance and high fortune.",
+    "features": [
+      "Rare triple-spike Cymbidium with long-lasting waxy blooms",
+      "Blooms stay fresh on the plant for 10 to 14 weeks",
+      "Opulent hammered brass and ivory pedestal container",
+      "Includes orchid moisture meter and organic liquid food"
+    ],
+    "specifications": {
+      "plantType": "Cymbidium Hybrid (Highland Boat Orchid)",
+      "dimensions": "Height: 70cm - 85cm | Bowl: Ø 24cm x H 22cm",
+      "boxOrVase": "Hammered Metallic & Ivory Pedestal Bowl",
+      "careGuide": "Place in bright cool room. Water thoroughly once weekly allowing complete drainage.",
+      "airPurification": "Luxurious Living Botanical Air Refresher",
+      "lightRequirement": "Bright Indirect to Filtered Morning Sun",
+      "petSafety": "Safe and Non-Toxic to Pets"
+    },
+    "stock": 15,
+    "inStock": true,
+    "isBestSeller": true,
+    "isFeatured": true
+  },
+  {
+    "id": "flw-218",
+    "name": "Amethyst Phalaenopsis Potted Living Orchid",
+    "slug": "amethyst-phalaenopsis-potted-living-orchid",
+    "category": "Plants",
+    "subCategory": "Living Orchids",
+    "flowerType": "Orchids",
+    "occasion": "Congratulations",
+    "recipient": "Everyone",
+    "price": 5899,
+    "originalPrice": 7499,
+    "discountPercent": 21,
+    "rating": 4.9,
+    "reviewsCount": 112,
+    "tag": "Living Botanical",
+    "badge": "Fresh Potted",
+    "image": "https://images.unsplash.com/photo-1534885320675-b08aa131cc5e?auto=format&fit=crop&w=800&q=80",
+    "images": [
+      "https://images.unsplash.com/photo-1534885320675-b08aa131cc5e?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1610397648930-477b8c7f0943?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "Double-spike cascading amethyst-violet Phalaenopsis orchid planted in a fluted Nordic matte ceramic pot. Cultivated with living sphagnum moss and organic orchid bark for healthy root aeration and 8-12 weeks of continuous blooming.",
+    "features": [
+      "Twin arching stems with up to 18 velvet violet-purple blooms",
+      "Handcrafted fluted ceramic pot with hidden drainage basin",
+      "Premium moss and orchid bark aeration substrate",
+      "Includes comprehensive hydration and light care handbook"
+    ],
+    "specifications": {
+      "plantType": "Phalaenopsis Living Orchid (Amethyst Twin Spike)",
+      "dimensions": "Height: 55cm - 65cm | Pot: Ø 16cm x H 18cm",
+      "boxOrVase": "Handcrafted Fluted Nordic Matte Ceramic Pot",
+      "careGuide": "Bright indirect light. Mist aerial roots and water with 60ml filtered water once weekly.",
+      "airPurification": "Natural Living Air Freshener",
+      "lightRequirement": "Bright Filtered Indirect Light",
+      "petSafety": "100% Non-Toxic and Pet-Friendly"
+    },
+    "stock": 22,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": true
+  },
+  {
+    "id": "flw-219",
+    "name": "Grand Imperial White Orchid in Marble Stoneware",
+    "slug": "grand-imperial-white-orchid-in-marble-stoneware",
+    "category": "Plants",
+    "subCategory": "Living Orchids",
+    "flowerType": "Orchids",
+    "occasion": "Housewarming",
+    "recipient": "For Home",
+    "price": 6499,
+    "originalPrice": 8299,
+    "discountPercent": 22,
+    "rating": 5.0,
+    "reviewsCount": 94,
+    "tag": "Imperial Orchid",
+    "badge": "Living Bloom",
+    "image": "https://images.unsplash.com/photo-1545241047-6083a3684587?auto=format&fit=crop&w=800&q=80",
+    "images": [
+      "https://images.unsplash.com/photo-1545241047-6083a3684587?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "A magnificent triple-stem pure white living Phalaenopsis orchid flourishing in a heavy marbleized stoneware planter. Perfect for luxury entryways and conference credenzas, radiating serene natural refinement.",
+    "features": [
+      "Triple arching stems laden with pristine ivory blossoms",
+      "Heavyweight natural marbleized stoneware planter",
+      "Natural river pebble top dressing and nutrient moss root zone",
+      "Long-lasting living blooms persisting up to 3 months"
+    ],
+    "specifications": {
+      "plantType": "Phalaenopsis Living Orchid (Triple Spike White)",
+      "dimensions": "Height: 60cm - 72cm | Planter: Ø 18cm x H 20cm",
+      "boxOrVase": "Heavyweight Marbleized Stoneware Planter",
+      "careGuide": "Keep away from cold AC drafts. Water once weekly when moss feels dry to the touch.",
+      "airPurification": "Natural Indoor Air Quality Enhancer",
+      "lightRequirement": "Bright Indirect Sunlight",
+      "petSafety": "100% Pet-Friendly and Safe"
+    },
+    "stock": 18,
+    "inStock": true,
+    "isBestSeller": true,
+    "isFeatured": true
   }
 ];
+
 
