@@ -13,6 +13,8 @@ import {
   Check,
   ArrowRight,
   ChevronRight,
+  ChevronLeft,
+  ChevronDown,
   Flower2,
   Share2,
   Plus,
@@ -49,19 +51,32 @@ export default function ProductDetailPage() {
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [activeImageIndex, setActiveImageIndex] = useState(0);
+  const [detailsOpen, setDetailsOpen] = useState(true);
+  const [relatedProducts, setRelatedProducts] = useState([]);
+  const [carouselPage, setCarouselPage] = useState(0);
 
   const inWishlist = isProductInWishlist(wishlistItems, product);
 
-  const handleToggleWishlist = () => {
-    if (!product) return;
-    const isSaved = isProductInWishlist(wishlistItems, product);
-    dispatch(toggleWishlist(product));
+  const handleToggleWishlist = (targetProduct = product) => {
+    if (!targetProduct) return;
+    const isSaved = isProductInWishlist(wishlistItems, targetProduct);
+    dispatch(toggleWishlist(targetProduct));
     if (isSaved) {
       toast('Removed from wishlist', { icon: '🤍' });
     } else {
-      toast.success(`${product.name} saved to wishlist ❤️`);
+      toast.success(`${targetProduct.name} saved to wishlist ❤️`);
     }
   };
+
+  // Plant detection helper
+  const isPlant = useMemo(() => {
+    if (!product) return false;
+    return (
+      product.category === 'Plants' ||
+      product.flowerType === 'Plants' ||
+      Boolean(product.specifications?.plantType)
+    );
+  }, [product]);
 
   // Delivery configuration & Quantity states
   const todayDateStr = useMemo(() => new Date().toISOString().split('T')[0], []);
@@ -130,6 +145,42 @@ export default function ProductDetailPage() {
         if (isMounted) {
           setProduct(data);
           setActiveImageIndex(0);
+          setCarouselPage(0);
+        }
+
+        // Fetch related products for the "Complete the Occasion" 2-row carousel
+        const allProds = await productService.getAllProducts();
+        if (isMounted && data) {
+          const currentId = data._id || data.id;
+          const isCurrentPlant = data.category === 'Plants' || data.flowerType === 'Plants' || Boolean(data.specifications?.plantType);
+          const others = allProds.filter((p) => (p._id || p.id) !== currentId);
+
+          // Intelligent affinity ranking: prioritize same category and flower/plant type
+          const sorted = others.sort((a, b) => {
+            const aIsPlant = a.category === 'Plants' || a.flowerType === 'Plants' || Boolean(a.specifications?.plantType);
+            const bIsPlant = b.category === 'Plants' || b.flowerType === 'Plants' || Boolean(b.specifications?.plantType);
+
+            let scoreA = 0;
+            let scoreB = 0;
+
+            if (isCurrentPlant) {
+              if (aIsPlant) scoreA += 5;
+              if (bIsPlant) scoreB += 5;
+            } else {
+              if (!aIsPlant) scoreA += 5;
+              if (!bIsPlant) scoreB += 5;
+            }
+
+            if (a.category === data.category) scoreA += 3;
+            if (b.category === data.category) scoreB += 3;
+
+            if (a.flowerType === data.flowerType) scoreA += 2;
+            if (b.flowerType === data.flowerType) scoreB += 2;
+
+            return scoreB - scoreA;
+          });
+
+          setRelatedProducts(sorted.slice(0, 16));
         }
       } catch (err) {
         console.error('Failed to load product:', err);
@@ -177,6 +228,27 @@ export default function ProductDetailPage() {
     setAdded(true);
     setTimeout(() => setAdded(false), 2000);
     toast.success(`Added ${quantity > 1 ? `${quantity}x ` : ''}${product.name} to cart 🌸`);
+  };
+
+  const handleQuickAddRelated = (e, relatedItem) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const cartItem = {
+      id: relatedItem._id || relatedItem.id,
+      name: relatedItem.name,
+      price: relatedItem.price,
+      originalPrice: relatedItem.originalPrice,
+      image: Array.isArray(relatedItem.images) ? relatedItem.images[0] : (relatedItem.images || relatedItem.image),
+      quantity: 1,
+      deliveryDate,
+      deliveryType: activeDeliveryOption.name,
+      deliveryFee: activeDeliveryOption.fee,
+      deliverySlot,
+      inStock: relatedItem.stock > 0,
+      stock: relatedItem.stock,
+    };
+    dispatch(addItem(cartItem));
+    toast.success(`Added ${relatedItem.name} to cart 🌸`);
   };
 
   const handleInstantBuy = () => {
@@ -237,6 +309,30 @@ export default function ProductDetailPage() {
 
   const productFaqs = useMemo(() => {
     if (!product) return [];
+    if (isPlant) {
+      return [
+        {
+          question: `How should I water and care for ${product.name}?`,
+          answer:
+            product.specifications?.careGuide ||
+            'Water once weekly or when the top 2 inches of soil feel dry to the touch. Ensure proper drainage and avoid waterlogging.',
+        },
+        {
+          question: `What sunlight and room placement does ${product.name} require?`,
+          answer:
+            product.specifications?.lightRequirement ||
+            'Place in bright, filtered indirect natural light. Avoid harsh direct midday rays and cold air conditioning drafts.',
+        },
+        {
+          question: `What are the planter and botanical dimensions for ${product.name}?`,
+          answer: `${product.name} stands approximately ${product.specifications?.dimensions || '50cm - 65cm tall'}, potted in our ${product.specifications?.boxOrVase || 'hand-glazed artisanal ceramic planter'}.`,
+        },
+        {
+          question: `Is ${product.name} safe for pets and effective for air purification?`,
+          answer: `${product.specifications?.petSafety || 'Non-toxic to common household pets'}. Features: ${product.specifications?.airPurification || 'Natural room oxygenation and humidity balancing'}.`,
+        },
+      ];
+    }
     return [
       {
         question: `How should I care for ${product.name} to maximize freshness?`,
@@ -254,7 +350,7 @@ export default function ProductDetailPage() {
           'Yes, orders placed before 7:00 PM are delivered same-day in temperature-controlled cold-chain vehicles across Bengaluru. Express 2-hour delivery is also available at checkout.',
       },
     ];
-  }, [product]);
+  }, [product, isPlant]);
 
   if (loading) {
     return (
@@ -314,7 +410,7 @@ export default function ProductDetailPage() {
               { label: 'Home', path: '/' },
               {
                 label: product.category || 'Flowers',
-                path: `/category/${product.category?.toLowerCase() || 'flowers'}`,
+                path: `/category/${(product.category || 'flowers').toLowerCase().replace(/\s+/g, '-')}`,
               },
               { label: product.name },
             ]}
@@ -344,7 +440,7 @@ export default function ProductDetailPage() {
 
                 <button
                   type="button"
-                  onClick={handleToggleWishlist}
+                  onClick={() => handleToggleWishlist(product)}
                   className={`absolute top-4 right-4 w-10 h-10 rounded-full flex items-center justify-center transition-all shadow-sm z-10 cursor-pointer ${
                     inWishlist
                       ? 'bg-white text-[#E11D48] shadow-md ring-2 ring-red-100 scale-105'
@@ -391,7 +487,7 @@ export default function ProductDetailPage() {
               <div>
                 <div className="flex items-center gap-2 mb-2">
                   <span className="px-2.5 py-0.5 rounded-full bg-[#FFF3F6] text-[#C2185B] text-[10px] font-bold uppercase tracking-wider">
-                    {product.flowerType || 'Luxury Bloom'}
+                    {isPlant ? (product.subCategory || 'Living Botanical') : (product.flowerType || 'Luxury Bloom')}
                   </span>
                   <div className="flex items-center gap-1 text-xs text-[#FFB400]">
                     <Star className="w-3.5 h-3.5 fill-current" />
@@ -687,6 +783,126 @@ export default function ProductDetailPage() {
                 </div>
               </div>
 
+              {/* Mercury Flowers Style Product Details Collapsible Accordion */}
+              <div className="bg-white rounded-3xl p-5 sm:p-6 border border-[#EFE8DF] shadow-xs">
+                <button
+                  type="button"
+                  onClick={() => setDetailsOpen(!detailsOpen)}
+                  className="w-full flex items-center justify-between text-left cursor-pointer group"
+                >
+                  <h3 className="text-base sm:text-lg font-bold text-[#242124] group-hover:text-[#EC407A] transition-colors">
+                    Product Details
+                  </h3>
+                  <ChevronDown
+                    className={`w-5 h-5 text-[#777777] transition-transform duration-200 ${
+                      detailsOpen ? 'rotate-180' : ''
+                    }`}
+                  />
+                </button>
+
+                {detailsOpen && (
+                  <div className="mt-4 pt-4 border-t border-[#F2ECE6] space-y-3.5 text-xs sm:text-sm text-[#555] leading-relaxed">
+                    <p>{product.description}</p>
+
+                    {isPlant ? (
+                      <div className="space-y-2 pt-2 border-t border-dashed border-[#EFE8DF]">
+                        <h4 className="font-bold text-[#242124] text-xs uppercase tracking-wider text-[#C2185B]">
+                          Botanical Specifications
+                        </h4>
+                        <ul className="space-y-1.5 text-xs text-[#555] list-disc list-inside">
+                          {product.specifications?.plantType && (
+                            <li>
+                              <strong className="text-[#242124]">Plant Variety:</strong>{' '}
+                              {product.specifications.plantType}
+                            </li>
+                          )}
+                          {product.specifications?.dimensions && (
+                            <li>
+                              <strong className="text-[#242124]">Dimensions:</strong>{' '}
+                              {product.specifications.dimensions}
+                            </li>
+                          )}
+                          {product.specifications?.boxOrVase && (
+                            <li>
+                              <strong className="text-[#242124]">Planter:</strong>{' '}
+                              {product.specifications.boxOrVase}
+                            </li>
+                          )}
+                          {product.specifications?.lightRequirement && (
+                            <li>
+                              <strong className="text-[#242124]">Sunlight:</strong>{' '}
+                              {product.specifications.lightRequirement}
+                            </li>
+                          )}
+                          {product.specifications?.careGuide && (
+                            <li>
+                              <strong className="text-[#242124]">Watering & Care:</strong>{' '}
+                              {product.specifications.careGuide}
+                            </li>
+                          )}
+                          {product.specifications?.airPurification && (
+                            <li>
+                              <strong className="text-[#242124]">Air Purification:</strong>{' '}
+                              {product.specifications.airPurification}
+                            </li>
+                          )}
+                          {product.specifications?.petSafety && (
+                            <li>
+                              <strong className="text-[#242124]">Pet Safety:</strong>{' '}
+                              {product.specifications.petSafety}
+                            </li>
+                          )}
+                        </ul>
+                      </div>
+                    ) : (
+                      <div className="space-y-2 pt-2 border-t border-dashed border-[#EFE8DF]">
+                        <h4 className="font-bold text-[#242124] text-xs uppercase tracking-wider text-[#C2185B]">
+                          Arrangement Specifications
+                        </h4>
+                        <ul className="space-y-1.5 text-xs text-[#555] list-disc list-inside">
+                          {product.specifications?.stemCount && (
+                            <li>
+                              <strong className="text-[#242124]">Flower / Stem Count:</strong>{' '}
+                              {product.specifications.stemCount}
+                            </li>
+                          )}
+                          {product.specifications?.dimensions && (
+                            <li>
+                              <strong className="text-[#242124]">Dimensions:</strong>{' '}
+                              {product.specifications.dimensions}
+                            </li>
+                          )}
+                          {product.specifications?.boxOrVase && (
+                            <li>
+                              <strong className="text-[#242124]">Keepsake Box / Vase:</strong>{' '}
+                              {product.specifications.boxOrVase}
+                            </li>
+                          )}
+                          {product.specifications?.careGuide && (
+                            <li>
+                              <strong className="text-[#242124]">Hydration Care:</strong>{' '}
+                              {product.specifications.careGuide}
+                            </li>
+                          )}
+                        </ul>
+                      </div>
+                    )}
+
+                    {/* Mercury Flowers Style Reassurance Row */}
+                    <div className="pt-3 border-t border-[#F2ECE6] flex flex-wrap items-center gap-5 text-xs">
+                      <div className="flex items-center gap-1.5 text-[#C2185B] font-semibold">
+                        <Truck className="w-4 h-4 text-[#EC407A]" />
+                        <span>Secure Chilled Delivery</span>
+                      </div>
+                      <div className="flex items-center gap-1.5 text-emerald-600 font-semibold">
+                        <ShieldCheck className="w-4 h-4 text-emerald-500" />
+                        <span>Satisfaction Guaranteed</span>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+
               {/* Mercury Flowers Style Trust & Freshness Highlights */}
               <div className="grid grid-cols-2 gap-3 pt-2 text-xs text-[#555]">
                 <div className="flex items-center gap-2 p-2.5 rounded-xl bg-white border border-[#EFE8DF]">
@@ -695,7 +911,7 @@ export default function ProductDetailPage() {
                 </div>
                 <div className="flex items-center gap-2 p-2.5 rounded-xl bg-white border border-[#EFE8DF]">
                   <Flower2 className="w-4 h-4 text-[#EC407A] shrink-0" />
-                  <span className="line-clamp-1">100% Fresh Farm Blooms</span>
+                  <span className="line-clamp-1">{isPlant ? '100% Potted Living Botanicals' : '100% Fresh Farm Blooms'}</span>
                 </div>
                 <div className="flex items-center gap-2 p-2.5 rounded-xl bg-white border border-[#EFE8DF]">
                   <Award className="w-4 h-4 text-[#EC407A] shrink-0" />
@@ -716,67 +932,103 @@ export default function ProductDetailPage() {
               <div className="lg:col-span-6 space-y-6">
                 <div>
                   <span className="text-[11px] font-bold uppercase tracking-wider text-[#C2185B]">
-                    Atelier Craftsmanship
+                    {isPlant ? 'Living Greenery Atelier' : 'Atelier Craftsmanship'}
                   </span>
                   <h2 className="text-xl sm:text-2xl font-bold font-['Poppins'] text-[#242124] mt-0.5">
-                    Botanical Specifications & Details
+                    {isPlant ? 'Botanical Specifications & Plant Care' : 'Botanical Specifications & Details'}
                   </h2>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
                   <div className="p-4 rounded-2xl bg-white border border-[#EFE7DE] shadow-2xs">
                     <span className="text-[10px] font-bold text-[#888888] uppercase tracking-wider block">
-                      Stem Count
+                      {isPlant ? 'Plant Variety' : 'Stem Count'}
                     </span>
                     <p className="text-xs font-semibold text-[#242124] mt-1">
-                      {product.specifications?.stemCount || '24 to 36 Luxury Stems'}
+                      {isPlant
+                        ? (product.specifications?.plantType || product.subCategory || 'Living Botanical Specimen')
+                        : (product.specifications?.stemCount || '24 to 36 Luxury Stems')}
                     </p>
                   </div>
 
                   <div className="p-4 rounded-2xl bg-white border border-[#EFE7DE] shadow-2xs">
                     <span className="text-[10px] font-bold text-[#888888] uppercase tracking-wider block">
-                      Arrangement Dimensions
+                      {isPlant ? 'Plant Dimensions' : 'Arrangement Dimensions'}
                     </span>
                     <p className="text-xs font-semibold text-[#242124] mt-1">
-                      {product.specifications?.dimensions || 'Ø 22cm x H 35cm'}
+                      {product.specifications?.dimensions || (isPlant ? 'Height: 55cm - 65cm' : 'Ø 22cm x H 35cm')}
                     </p>
                   </div>
 
                   <div className="p-4 rounded-2xl bg-white border border-[#EFE7DE] shadow-2xs">
                     <span className="text-[10px] font-bold text-[#888888] uppercase tracking-wider block">
-                      Vase / Keepsake Box
+                      {isPlant ? 'Artisan Planter' : 'Vase / Keepsake Box'}
                     </span>
                     <p className="text-xs font-semibold text-[#242124] mt-1">
-                      {product.specifications?.boxOrVase || 'Signature Parisian Velvet Cylinder'}
+                      {product.specifications?.boxOrVase || (isPlant ? 'Hand-Glazed Nordic Ceramic Planter' : 'Signature Parisian Velvet Cylinder')}
                     </p>
                   </div>
 
                   <div className="p-4 rounded-2xl bg-white border border-[#EFE7DE] shadow-2xs">
                     <span className="text-[10px] font-bold text-[#888888] uppercase tracking-wider block">
-                      Cold-Chain Transit
+                      {isPlant ? 'Sunlight Requirement' : 'Cold-Chain Transit'}
                     </span>
                     <p className="text-xs font-semibold text-[#242124] mt-1">
-                      Chilled 2°C – 4°C Monitored
+                      {isPlant
+                        ? (product.specifications?.lightRequirement || 'Bright Indirect Light')
+                        : 'Chilled 2°C – 4°C Monitored'}
                     </p>
                   </div>
                 </div>
 
-                {/* Features Checkmarks */}
-                {product.features && product.features.length > 0 && (
-                  <div className="p-5 rounded-2xl bg-[#FFF9FA] border border-[#FCD9E0] space-y-2.5">
-                    <h3 className="text-xs font-bold text-[#C2185B] uppercase tracking-wider">
-                      Signature Highlights
-                    </h3>
-                    <ul className="space-y-2">
-                      {product.features.map((feat, fIdx) => (
+                {/* Features & Plant Care Checkmarks */}
+                <div className="p-5 rounded-2xl bg-[#FFF9FA] border border-[#FCD9E0] space-y-2.5">
+                  <h3 className="text-xs font-bold text-[#C2185B] uppercase tracking-wider">
+                    {isPlant ? 'Plant Care & Benefits' : 'Signature Highlights'}
+                  </h3>
+                  <ul className="space-y-2">
+                    {isPlant ? (
+                      <>
+                        {product.specifications?.careGuide && (
+                          <li className="flex items-start gap-2 text-xs text-[#444444]">
+                            <Check className="w-3.5 h-3.5 text-[#C2185B] flex-shrink-0 mt-0.5" />
+                            <span><strong className="text-[#242124]">Watering:</strong> {product.specifications.careGuide}</span>
+                          </li>
+                        )}
+                        {product.specifications?.airPurification && (
+                          <li className="flex items-start gap-2 text-xs text-[#444444]">
+                            <Check className="w-3.5 h-3.5 text-[#C2185B] flex-shrink-0 mt-0.5" />
+                            <span><strong className="text-[#242124]">Air Purity:</strong> {product.specifications.airPurification}</span>
+                          </li>
+                        )}
+                        {product.specifications?.petSafety && (
+                          <li className="flex items-start gap-2 text-xs text-[#444444]">
+                            <Check className="w-3.5 h-3.5 text-[#C2185B] flex-shrink-0 mt-0.5" />
+                            <span><strong className="text-[#242124]">Pet Safety:</strong> {product.specifications.petSafety}</span>
+                          </li>
+                        )}
+                        {product.features?.map((feat, fIdx) => (
+                          <li key={fIdx} className="flex items-start gap-2 text-xs text-[#444444]">
+                            <Check className="w-3.5 h-3.5 text-[#C2185B] flex-shrink-0 mt-0.5" />
+                            <span>{feat}</span>
+                          </li>
+                        ))}
+                      </>
+                    ) : (
+                      (product.features && product.features.length > 0 ? product.features : [
+                        'Air-flown fresh daily from high-altitude volcanic farms',
+                        'Handcrafted and tailored by master floral artisans',
+                        'Signature reusable keepsake cylinder with gold embossing',
+                        'Insulated cold-chain temperature-controlled doorstep dispatch',
+                      ]).map((feat, fIdx) => (
                         <li key={fIdx} className="flex items-start gap-2 text-xs text-[#444444]">
                           <Check className="w-3.5 h-3.5 text-[#C2185B] flex-shrink-0 mt-0.5" />
                           <span>{feat}</span>
                         </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
+                      ))
+                    )}
+                  </ul>
+                </div>
               </div>
 
               {/* Right Column: Care Guide & Product FAQs (AEO Answering Box) */}
@@ -807,6 +1059,154 @@ export default function ProductDetailPage() {
               </div>
             </div>
           </section>
+
+          {/* Mercury Flowers Style "Complete the Occasion" Related Products 2-Row Carousel */}
+          {relatedProducts.length > 0 && (() => {
+            const itemsPerPage = 8;
+            const totalPages = Math.ceil(relatedProducts.length / itemsPerPage);
+            const currentSlice = relatedProducts.slice(
+              carouselPage * itemsPerPage,
+              (carouselPage + 1) * itemsPerPage
+            );
+
+            return (
+              <section className="mt-16 pt-12 border-t border-[#F2ECE6]">
+                <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
+                  <div>
+                    <h2 className="text-2xl sm:text-3xl font-bold font-['Poppins'] text-[#242124]">
+                      Complete the Occasion
+                    </h2>
+                    <p className="text-xs sm:text-sm text-[#777777] mt-1">
+                      Hand-picked arrangements you might also love.
+                    </p>
+                  </div>
+
+                  {totalPages > 1 && (
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs font-semibold text-[#888888] mr-2">
+                        {carouselPage + 1} / {totalPages}
+                      </span>
+                      <button
+                        type="button"
+                        onClick={() => setCarouselPage((prev) => Math.max(0, prev - 1))}
+                        disabled={carouselPage === 0}
+                        className="w-10 h-10 rounded-full border border-[#E0D8D0] bg-white flex items-center justify-center text-[#242124] hover:bg-[#FAF7F2] hover:border-[#EC407A] disabled:opacity-30 disabled:cursor-not-allowed shadow-2xs transition-all"
+                        aria-label="Previous related products"
+                      >
+                        <ChevronLeft className="w-5 h-5" />
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setCarouselPage((prev) => Math.min(totalPages - 1, prev + 1))}
+                        disabled={carouselPage >= totalPages - 1}
+                        className="w-10 h-10 rounded-full border border-[#E0D8D0] bg-white flex items-center justify-center text-[#242124] hover:bg-[#FAF7F2] hover:border-[#EC407A] disabled:opacity-30 disabled:cursor-not-allowed shadow-2xs transition-all"
+                        aria-label="Next related products"
+                      >
+                        <ChevronRight className="w-5 h-5" />
+                      </button>
+                    </div>
+                  )}
+                </div>
+
+                {/* 2-Row Grid Carousel (4 columns x 2 rows on desktop) */}
+                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
+                  {currentSlice.map((relItem) => {
+                    const isRelPlant = relItem.category === 'Plants';
+                    const relImg = Array.isArray(relItem.images)
+                      ? relItem.images[0]
+                      : relItem.images || relItem.image;
+                    const isRelSaved = isProductInWishlist(wishlistItems, relItem);
+
+                    return (
+                      <div
+                        key={relItem.id || relItem._id}
+                        className="group relative bg-white rounded-3xl border border-[#EFE8DF] overflow-hidden hover:shadow-lg transition-all duration-300 flex flex-col"
+                      >
+                        {/* Image wrapper */}
+                        <div className="relative aspect-square w-full overflow-hidden bg-[#FAF7F2]">
+                          <Link to={`/product/${relItem.slug || relItem.id}`} className="block w-full h-full">
+                            <img
+                              src={relImg}
+                              alt={relItem.name}
+                              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                              loading="lazy"
+                            />
+                          </Link>
+
+                          {/* Mercury Flowers Style Sale / Badge */}
+                          {relItem.originalPrice && relItem.originalPrice > relItem.price ? (
+                            <span className="absolute top-3 left-3 px-2.5 py-0.5 rounded-full bg-[#EC407A] text-white text-[10px] font-bold uppercase tracking-wider shadow-xs">
+                              SALE
+                            </span>
+                          ) : relItem.badge ? (
+                            <span className="absolute top-3 left-3 px-2.5 py-0.5 rounded-full bg-[#242124]/80 backdrop-blur-xs text-white text-[10px] font-bold uppercase tracking-wider">
+                              {relItem.badge}
+                            </span>
+                          ) : null}
+
+                          {/* Wishlist Heart Button */}
+                          <button
+                            type="button"
+                            onClick={() => handleToggleWishlist(relItem)}
+                            className="absolute top-3 right-3 w-8 h-8 rounded-full bg-white/90 backdrop-blur-xs flex items-center justify-center shadow-xs hover:bg-white hover:scale-110 transition-all cursor-pointer"
+                            aria-label="Wishlist"
+                          >
+                            <Heart
+                              className={`w-4 h-4 transition-colors ${
+                                isRelSaved ? 'fill-[#E11D48] text-[#E11D48]' : 'text-[#777777]'
+                              }`}
+                            />
+                          </button>
+                        </div>
+
+                        {/* Content */}
+                        <div className="p-4 flex flex-col justify-between flex-1 space-y-2">
+                          <div>
+                            <span className="text-[10px] font-bold uppercase tracking-wider text-[#C2185B] line-clamp-1">
+                              {isRelPlant ? (relItem.subCategory || 'Living Plant') : (relItem.flowerType || relItem.category)}
+                            </span>
+                            <Link to={`/product/${relItem.slug || relItem.id}`}>
+                              <h3 className="text-xs sm:text-sm font-bold text-[#242124] line-clamp-1 group-hover:text-[#EC407A] transition-colors mt-0.5">
+                                {relItem.name}
+                              </h3>
+                            </Link>
+
+                            <div className="flex items-center gap-1 mt-1 text-[11px] text-[#FFB400]">
+                              <Star className="w-3 h-3 fill-current" />
+                              <span className="font-bold text-[#242124]">{relItem.rating || 4.9}</span>
+                              <span className="text-[#888888]">({relItem.reviewsCount || 42})</span>
+                            </div>
+                          </div>
+
+                          <div className="pt-2 border-t border-[#F5EFE8]">
+                            <div className="flex items-baseline gap-2">
+                              <span className="text-sm sm:text-base font-bold text-[#242124] font-mono">
+                                {formatPrice(relItem.price)}
+                              </span>
+                              {relItem.originalPrice && (
+                                <span className="text-xs text-[#888888] line-through font-mono">
+                                  {formatPrice(relItem.originalPrice)}
+                                </span>
+                              )}
+                            </div>
+
+                            <button
+                              type="button"
+                              onClick={(e) => handleQuickAddRelated(e, relItem)}
+                              className="w-full mt-2.5 py-2 px-3 rounded-xl border border-[#EC407A]/30 text-[#EC407A] hover:bg-[#FFF0F4] hover:border-[#EC407A] text-xs font-semibold flex items-center justify-center gap-1.5 transition-all cursor-pointer"
+                            >
+                              <Plus className="w-3.5 h-3.5" />
+                              <span>Add to Bag</span>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </section>
+            );
+          })()}
         </main>
 
         {/* Haute Couture Master Footer */}

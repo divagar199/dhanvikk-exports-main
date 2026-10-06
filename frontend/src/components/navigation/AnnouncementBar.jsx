@@ -1,5 +1,5 @@
-import React from 'react';
-import { Truck, Gift, MessageCircle } from 'lucide-react';
+import React from "react";
+import { Truck, Gift, MessageCircle } from "lucide-react";
 
 export default function AnnouncementBar() {
   return (
@@ -41,7 +41,9 @@ export default function AnnouncementBar() {
             <MessageCircle className="w-3.5 h-3.5 text-[#25D366] transition-transform duration-200 group-hover:scale-110 flex-shrink-0" />
 
             {/* Label & Number */}
-            <span className="hidden sm:inline text-[#5A4F55] font-normal">Contact Us:</span>
+            <span className="hidden sm:inline text-[#5A4F55] font-normal">
+              Contact Us:
+            </span>
             <span className="hidden xs:inline font-semibold text-[#128C7E] group-hover:text-[#0b6b5e] tracking-tight whitespace-nowrap">
               +91 91089 16328
             </span>

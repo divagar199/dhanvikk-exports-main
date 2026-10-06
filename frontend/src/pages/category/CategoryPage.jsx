@@ -75,23 +75,254 @@ export default function CategoryPage() {
     };
   }, [slug]);
 
-  // Clean title display
-  const title = (slug || 'Flowers')
+  // Master Category Metadata & Robust Matcher
+  const CATEGORY_META = useMemo(() => ({
+    // Flowers & Floral Varieties
+    roses: {
+      title: 'Ecuadorian Roses',
+      badge: 'Direct Farm-Cut',
+      desc: 'Imperial long-stemmed and garden spray roses grown at high altitudes in Ecuador, hand-curated for velvety petals and lasting fragrance.',
+      filter: (p) => p.flowerType?.toLowerCase() === 'roses' || p.name?.toLowerCase().includes('rose') || p.category?.toLowerCase().includes('rose'),
+    },
+    lilies: {
+      title: 'Casablanca Lilies',
+      badge: 'Sweetly Scented',
+      desc: 'Majestic Casablanca and Oriental lilies with fragrant, star-shaped blossoms hand-tied in artisanal tissue presentation.',
+      filter: (p) => p.flowerType?.toLowerCase() === 'lilies' || p.name?.toLowerCase().includes('lil'),
+    },
+    tulips: {
+      title: 'Dutch Tulips',
+      badge: 'Spring Harvest',
+      desc: 'Vibrant Dutch tulips imported fresh from the Netherlands, displaying sculptural stems and saturated jewel tones.',
+      filter: (p) => p.flowerType?.toLowerCase() === 'tulips' || p.name?.toLowerCase().includes('tulip'),
+    },
+    peonies: {
+      title: 'Blush Peonies & Sprays',
+      badge: 'Seasonal Exclusives',
+      desc: 'Fluffy, cloud-like peony blooms and delicate spray roses curated in romantic blush and pastel colorways.',
+      filter: (p) => p.flowerType?.toLowerCase() === 'peonies' || p.name?.toLowerCase().includes('peon') || p.name?.toLowerCase().includes('blush'),
+    },
+    orchids: {
+      title: 'Exotic Living & Cut Orchids',
+      badge: 'Exotic Botanical',
+      desc: 'Graceful Phalaenopsis and Cymbidium orchids in artisan presentation, symbolizing rare beauty, elegance, and refinement.',
+      filter: (p) => p.flowerType?.toLowerCase() === 'orchids' || p.name?.toLowerCase().includes('orchid') || p.subCategory?.toLowerCase().includes('orchid'),
+    },
+    sunflowers: {
+      title: 'Golden Sunflowers',
+      badge: 'Radiant Sunshine',
+      desc: 'Bright golden sunflowers and wildflower accents radiating warmth, cheer, and positive energy for any celebration.',
+      filter: (p) => p.flowerType?.toLowerCase() === 'sunflowers' || p.name?.toLowerCase().includes('sunflower'),
+    },
+    'hand-bouquets': {
+      title: 'Handcrafted Bouquets',
+      badge: 'Artisan Hand-Tied',
+      desc: 'Bespoke hand-tied floral bouquets wrapped in waterproof eco-matte papers with premium Dhanvikk grosgrain silk ribbons.',
+      filter: (p) => p.subCategory?.toLowerCase().includes('hand bouquet') || p.category?.toLowerCase().includes('hand bouquet') || (p.category === 'Flowers' && !p.name?.toLowerCase().includes('box')),
+    },
+    'flower-boxes': {
+      title: 'Luxury Velvet Flower Boxes',
+      badge: 'Signature Parisian Edition',
+      desc: 'Opulent French velvet hatboxes filled with pristine fresh blooms nestled in floral nutrient oasis sponge.',
+      filter: (p) => p.category === 'Flower Boxes' || p.subCategory?.toLowerCase().includes('box') || p.name?.toLowerCase().includes('box'),
+    },
+    luxury: {
+      title: 'Haute Floral Luxury',
+      badge: 'Grandeur Edit',
+      desc: 'Our most lavish floral statements featuring premium stem counts, crystal vases, and rare botanical blooms.',
+      filter: (p) => p.price >= 8000 || p.tag?.toLowerCase().includes('luxury') || p.badge?.toLowerCase().includes('artisan') || p.isFeatured,
+    },
+    'forever-roses': {
+      title: 'Forever Preserved Roses',
+      badge: 'Lasts 3+ Years',
+      desc: '100% natural Ecuadorian roses stabilized through French botanical preservation, lasting over 3 years with zero water required.',
+      filter: (p) => p.category === 'Forever Roses' || p.subCategory?.toLowerCase().includes('preserved') || p.name?.toLowerCase().includes('eternal'),
+    },
+    flowers: {
+      title: 'All Fresh Blooms',
+      badge: 'Dew-Fresh Harvest',
+      desc: 'Explore the full Dhanvikk couture floral catalog, conditioned in active 2°C–4°C cold-chain fleet for unrivaled freshness.',
+      filter: (p) => p.category !== 'Plants',
+    },
+
+    // Living Plants & Botanicals
+    plants: {
+      title: 'Living Plants & Botanicals',
+      badge: 'Living Botanical Atelier',
+      desc: 'Living potted plants, air-purifying foliage, and exotic indoor botanicals paired with handcrafted designer ceramic planters.',
+      filter: (p) => p.category === 'Plants',
+    },
+    'indoor-plants': {
+      title: 'Indoor Botanicals & Air Purifiers',
+      badge: 'Clean Air Living',
+      desc: 'NASA-recommended air-purifying greenery including Sansevieria, Peace Lilies, and Monstera that detoxify home and office air.',
+      filter: (p) => p.category === 'Plants' && (p.subCategory?.toLowerCase().includes('air') || p.subCategory?.toLowerCase().includes('indoor') || p.name?.toLowerCase().includes('peace') || p.name?.toLowerCase().includes('snake') || p.name?.toLowerCase().includes('monstera') || p.name?.toLowerCase().includes('zz')),
+    },
+    bonsai: {
+      title: 'Miniature Bonsai Gardens',
+      badge: 'Ancient Zen Art',
+      desc: 'Carefully shaped S-curve Ficus and juniper bonsai trees in shallow ceramic stoneware trays, bringing calm tranquility to interiors.',
+      filter: (p) => p.subCategory?.toLowerCase().includes('bonsai') || p.name?.toLowerCase().includes('bonsai'),
+    },
+    planters: {
+      title: 'Designer Ceramic Planters',
+      badge: 'Hand-Glazed Ceramic',
+      desc: 'Nordic minimalist planters, matte terracotta ceramics, and botanical plant care essentials crafted for modern spaces.',
+      filter: (p) => p.subCategory?.toLowerCase().includes('planter') || p.name?.toLowerCase().includes('planter'),
+    },
+    succulents: {
+      title: 'Rare Succulents & Jade',
+      badge: 'Low-Maintenance Gems',
+      desc: 'Drought-tolerant architectural jade plants and rosette Echeveria arranged in minimalist stone dish gardens.',
+      filter: (p) => p.subCategory?.toLowerCase().includes('succulent') || p.name?.toLowerCase().includes('succulent') || p.name?.toLowerCase().includes('jade'),
+    },
+    'flowering-plants': {
+      title: 'Flowering Potted Plants',
+      badge: 'Long-Lasting Blooms',
+      desc: 'Living Anthurium, blooming Peace Lilies, and Phalaenopsis orchids that offer months of ongoing natural floral beauty.',
+      filter: (p) => p.category === 'Plants' && (p.subCategory?.toLowerCase().includes('flowering') || p.subCategory?.toLowerCase().includes('orchid') || p.name?.toLowerCase().includes('anthurium') || p.name?.toLowerCase().includes('orchid') || p.name?.toLowerCase().includes('peace lily')),
+    },
+    'plant-care': {
+      title: 'Botanical Plant Nutrition & Care',
+      badge: 'Organic Care Essentials',
+      desc: 'Slow-release organic plant tonics, misting sprays, and premium soil substrates formulated to keep indoor greenery flourishing.',
+      filter: (p) => p.subCategory?.toLowerCase().includes('planter') || p.name?.toLowerCase().includes('care') || p.name?.toLowerCase().includes('food') || p.category === 'Plants',
+    },
+
+    // Occasions
+    anniversary: {
+      title: 'Anniversary Bouquets & Boxes',
+      badge: 'Romantic Grandeur',
+      desc: 'Unforgettable anniversary declarations styled with opulent Ecuadorian roses, sparkling champagne tones, and keepsake boxes.',
+      filter: (p) => p.occasion?.toLowerCase() === 'anniversary' || p.name?.toLowerCase().includes('anniversary') || p.category === 'Forever Roses' || p.price > 8000,
+    },
+    birthday: {
+      title: 'Birthday Flowers & Celebrations',
+      badge: 'Joyful Splendor',
+      desc: 'Vibrant, uplifting floral arrangements curated to make birthdays feel unforgettable and celebrated in style.',
+      filter: (p) => p.occasion?.toLowerCase() === 'birthday' || p.category === 'Flowers' || p.name?.toLowerCase().includes('sun') || p.flowerType === 'Tulips',
+    },
+    romance: {
+      title: 'Love & Romance Collection',
+      badge: 'True Romance',
+      desc: 'Passionate red roses, velvety blush ranunculus, and heart-shaped keepsakes engineered to speak the language of love.',
+      filter: (p) => p.occasion?.toLowerCase() === 'romance' || p.flowerType === 'Roses' || p.name?.toLowerCase().includes('love') || p.name?.toLowerCase().includes('rose'),
+    },
+    congratulations: {
+      title: 'Congratulations & Milestone Celebrations',
+      badge: 'Triumph & Cheers',
+      desc: 'Luxurious bouquets and living orchid planters styled to toast promotions, graduations, new beginnings, and milestone achievements.',
+      filter: (p) => p.occasion?.toLowerCase() === 'congratulations' || p.category === 'Flower Boxes' || p.subCategory === 'Living Orchids',
+    },
+    sympathy: {
+      title: 'Sympathy & Condolence Tributes',
+      badge: 'Peace & Remembrance',
+      desc: 'Serene white lilies, pristine ivory roses, and calming orchids assembled with gentle reverence to convey sincere heartfelt condolences.',
+      filter: (p) => p.occasion?.toLowerCase() === 'sympathy' || p.name?.toLowerCase().includes('white') || p.flowerType === 'Lilies' || p.name?.toLowerCase().includes('peace'),
+    },
+    'get-well': {
+      title: 'Get Well Soon Arrangements',
+      badge: 'Healing Warmth',
+      desc: 'Bright cheerful blossoms and easy-care living plants packaged to bring refreshing positive vitality to hospital rooms and home recovery.',
+      filter: (p) => p.occasion?.toLowerCase() === 'get well' || p.flowerType === 'Sunflowers' || p.subCategory === 'Air Purifying Plants',
+    },
+    housewarming: {
+      title: 'Housewarming Gifts & Botanicals',
+      badge: 'New Beginnings',
+      desc: 'Air-purifying plants, long-lasting preserved domes, and statement floral centerpieces designed to breathe warmth into new homes.',
+      filter: (p) => p.category === 'Plants' || p.category === 'Forever Roses' || p.name?.toLowerCase().includes('harmony'),
+    },
+    'thank-you': {
+      title: 'Thank You & Gratitude Bouquets',
+      badge: 'Heartfelt Gratitude',
+      desc: 'Graceful floral arrangements and delicate pastel sprays expressing your deepest thanks with refined sophistication.',
+      filter: (p) => p.occasion?.toLowerCase() === 'thank you' || p.category === 'Flowers' || p.flowerType === 'Lilies' || p.flowerType === 'Tulips',
+    },
+    occasions: {
+      title: 'Flowers For Every Occasion',
+      badge: 'Precious Moments',
+      desc: 'Explore celebratory arrangements, milestone gifts, and thoughtful tributes designed for every chapter of life.',
+      filter: (p) => Boolean(p.occasion),
+    },
+
+    // Gift Bundles & Recipient Guides
+    'gift-bundles': {
+      title: 'Luxury Gift Bundles & Hampers',
+      badge: 'Gifting Couture',
+      desc: 'Handcrafted confectioneries, fragrant artisanal candles, and plush keepsakes paired with bespoke botanical stems.',
+      filter: (p) => p.category?.toLowerCase().includes('bundle') || p.category === 'Flower Boxes' || p.category === 'Forever Roses',
+    },
+    'for-her': {
+      title: 'Gifts For Her',
+      badge: 'Curated Elegance',
+      desc: 'Romantic blooms, blush Parisian hatboxes, and preserved Ecuadorian roses chosen specially for her.',
+      filter: (p) => p.recipient?.toLowerCase() === 'for her' || p.category === 'Flower Boxes' || p.category === 'Forever Roses' || p.flowerType === 'Roses',
+    },
+    'for-him': {
+      title: 'Gifts For Him',
+      badge: 'Modern Sophistication',
+      desc: 'Architectural living botanicals, sleek obsidian planters, and deep midnight tones tailored for him.',
+      filter: (p) => p.category === 'Plants' || p.name?.toLowerCase().includes('noir') || p.name?.toLowerCase().includes('ficus') || p.name?.toLowerCase().includes('sapphire'),
+    },
+    'for-mom': {
+      title: 'Gifts For Mom',
+      badge: 'Unconditional Love',
+      desc: 'Gentle pastel peonies, fragrant lilies, and long-lasting orchids to celebrate maternal tenderness.',
+      filter: (p) => p.flowerType === 'Lilies' || p.flowerType === 'Peonies' || p.flowerType === 'Roses' || p.subCategory === 'Living Orchids',
+    },
+    'for-dad': {
+      title: 'Gifts For Dad',
+      badge: 'Quiet Dignity',
+      desc: 'Sturdy bonsai specimens, lush air-purifying foliage, and elegant desk planters crafted for dad.',
+      filter: (p) => p.category === 'Plants' || p.subCategory === 'Bonsai Trees' || p.name?.toLowerCase().includes('zz') || p.name?.toLowerCase().includes('snake'),
+    },
+    bffs: {
+      title: 'Best Friends Forever (BFFs)',
+      badge: 'Cherished Bonds',
+      desc: 'Radiant sunflowers, sweet mixed posies, and vibrant forever roses celebrating cherished friendships.',
+      filter: (p) => p.flowerType === 'Sunflowers' || p.flowerType === 'Tulips' || p.name?.toLowerCase().includes('whisper') || p.category === 'Forever Roses',
+    },
+  }), []);
+
+  const currentMeta = slug ? CATEGORY_META[slug.toLowerCase()] : null;
+
+  // Clean title & meta display
+  const title = currentMeta?.title || (slug || 'Flowers')
     .replace(/-/g, ' ')
     .replace(/\b\w/g, (c) => c.toUpperCase());
+  const categoryBadge = currentMeta?.badge || 'Luxury Collection';
+  const categoryDesc = currentMeta?.desc || 'Artisanal arrangements hand-tied by master florists with temperature-controlled doorstep delivery.';
+
+  // Check if current category is plant-focused
+  const isPlantCategory = useMemo(() => {
+    if (!slug) return false;
+    const s = slug.toLowerCase();
+    return s === 'plants' || s === 'indoor-plants' || s === 'bonsai' || s === 'planters' || s === 'succulents' || s === 'flowering-plants' || s === 'plant-care';
+  }, [slug]);
 
   // Filter products by category/slug, flower, price, and search query
   const filteredProducts = products.filter((prod) => {
-    // 1. Slug matching (relax if search query is explicitly provided)
+    // 1. Slug matching with dedicated CATEGORY_META or smart fallback
     if (slug && slug !== 'flowers' && slug !== 'all' && !searchQuery) {
-      const matchFlowerType = prod.flowerType && prod.flowerType.toLowerCase() === slug.toLowerCase();
-      const matchCategory = prod.category && prod.category.toLowerCase().includes(slug.toLowerCase().replace(/s$/, ''));
-      const matchOccasion = prod.occasion && prod.occasion.toLowerCase().includes(slug.toLowerCase());
-      const matchSubCat = prod.subCategory && prod.subCategory.toLowerCase().includes(slug.toLowerCase());
-      const matchName = prod.name && prod.name.toLowerCase().includes(slug.toLowerCase());
+      if (currentMeta?.filter) {
+        if (!currentMeta.filter(prod)) return false;
+      } else {
+        const cleanSlug = slug.toLowerCase().replace(/[^a-z0-9]/g, '');
+        const cleanCat = (prod.category || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+        const cleanSub = (prod.subCategory || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+        const cleanFlower = (prod.flowerType || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+        const cleanOccasion = (prod.occasion || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+        const cleanName = (prod.name || '').toLowerCase().replace(/[^a-z0-9]/g, '');
 
-      if (!matchFlowerType && !matchCategory && !matchOccasion && !matchSubCat && !matchName) {
-        return false;
+        const matches =
+          cleanCat.includes(cleanSlug) ||
+          cleanSlug.includes(cleanCat) ||
+          cleanSub.includes(cleanSlug) ||
+          cleanFlower.includes(cleanSlug) ||
+          cleanOccasion.includes(cleanSlug) ||
+          cleanName.includes(cleanSlug);
+
+        if (!matches) return false;
       }
     }
 
@@ -110,7 +341,7 @@ export default function CategoryPage() {
       if (!matchesSearch) return false;
     }
 
-    // 3. Flower type filter
+    // 3. Flower type filter (if not in plant mode)
     if (selectedFlower !== 'All' && prod.flowerType !== selectedFlower) {
       return false;
     }
@@ -245,12 +476,19 @@ export default function CategoryPage() {
 
             <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
               <div>
+                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#FFF0F4] border border-[#FCD9E0] text-[11px] font-bold text-[#C2185B] uppercase tracking-wider mb-2">
+                  <Flower2 className="w-3.5 h-3.5 text-[#EC407A]" />
+                  <span>{categoryBadge}</span>
+                </div>
                 <h1 className="text-3xl sm:text-4xl font-bold font-['Poppins'] text-[#242124]">
                   {title}
                 </h1>
                 <p className="text-xs sm:text-sm text-[#777777] mt-1 max-w-xl">
-                  Artisanal arrangements hand-tied by master florists with temperature-controlled doorstep delivery.
+                  {categoryDesc}
                 </p>
+                <div className="mt-2 text-xs font-semibold text-[#888888]">
+                  Showing <span className="text-[#242124] font-bold">{sortedProducts.length}</span> curated items
+                </div>
               </div>
 
               <div className="flex items-center gap-2">
@@ -283,27 +521,37 @@ export default function CategoryPage() {
                   </span>
                 </div>
 
-                {/* Filter: Flower Type */}
+                {/* Filter: Variety */}
                 <div className="space-y-2">
-                  <h4 className="text-xs font-bold text-[#242124]">Flower Variety</h4>
+                  <h4 className="text-xs font-bold text-[#242124]">
+                    {isPlantCategory ? 'Plant Variety' : 'Flower Variety'}
+                  </h4>
                   <div className="space-y-1 text-xs text-[#777777]">
-                    {['All', 'Roses', 'Lilies', 'Tulips', 'Peonies', 'Orchids', 'Sunflowers'].map((f) => (
-                      <label
-                        key={f}
-                        className={`flex items-center justify-between p-2 rounded-xl cursor-pointer hover:bg-[#FFF3F6] transition-colors ${
-                          selectedFlower === f ? 'bg-[#FFF3F6] text-[#C2185B] font-semibold' : ''
-                        }`}
-                      >
-                        <span>{f}</span>
-                        <input
-                          type="radio"
-                          name="flowerType"
-                          checked={selectedFlower === f}
-                          onChange={() => setSelectedFlower(f)}
-                          className="accent-[#EC407A]"
-                        />
-                      </label>
-                    ))}
+                    {(isPlantCategory
+                      ? ['All', 'Living Orchids', 'Air Purifying Plants', 'Bonsai Trees', 'Indoor Botanicals', 'Flowering Potted Plants', 'Indoor Succulents', 'Artisan Planters']
+                      : ['All', 'Roses', 'Lilies', 'Tulips', 'Peonies', 'Orchids', 'Sunflowers']
+                    ).map((f) => {
+                      const isSelected = isPlantCategory
+                        ? selectedFlower === f
+                        : selectedFlower === f;
+                      return (
+                        <label
+                          key={f}
+                          className={`flex items-center justify-between p-2 rounded-xl cursor-pointer hover:bg-[#FFF3F6] transition-colors ${
+                            isSelected ? 'bg-[#FFF3F6] text-[#C2185B] font-semibold' : ''
+                          }`}
+                        >
+                          <span className="line-clamp-1">{f}</span>
+                          <input
+                            type="radio"
+                            name="flowerType"
+                            checked={isSelected}
+                            onChange={() => setSelectedFlower(f)}
+                            className="accent-[#EC407A]"
+                          />
+                        </label>
+                      );
+                    })}
                   </div>
                 </div>
 

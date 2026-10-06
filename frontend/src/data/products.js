@@ -7572,5 +7572,416 @@ export const PRODUCTS = [
     "inStock": true,
     "isBestSeller": false,
     "isFeatured": false
+  },
+  {
+    "id": "flw-200",
+    "name": "Cascading Imperial White Orchid",
+    "slug": "cascading-imperial-white-orchid",
+    "category": "Plants",
+    "subCategory": "Living Orchids",
+    "flowerType": "Orchids",
+    "occasion": "Congratulations",
+    "recipient": "Everyone",
+    "price": 5499,
+    "originalPrice": 6999,
+    "discountPercent": 21,
+    "rating": 4.9,
+    "reviewsCount": 89,
+    "tag": "Living Botanical",
+    "badge": "Fresh Potted",
+    "image": "https://images.unsplash.com/photo-1545241047-6083a3684587?auto=format&fit=crop&w=800&q=80",
+    "images": [
+      "https://images.unsplash.com/photo-1545241047-6083a3684587?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "An imperial double-spike Phalaenopsis white orchid gracefully blooming in an artisan hand-glazed ceramic planter. Cultivated in climate-controlled Nilgiris greenhouses, this living orchid brings refined tranquility and blooms for 8-12 weeks with minimal care.",
+    "features": [
+      "Twin arching stems with up to 16 velvety white blooms",
+      "Handcrafted Nordic matte ceramic planter with natural drainage",
+      "Sphagnum moss and organic pine bark moisture-locking substrate",
+      "Includes comprehensive plant hydration and light care guide"
+    ],
+    "specifications": {
+      "plantType": "Phalaenopsis Living Orchid (Double Spike)",
+      "dimensions": "Height: 55cm - 65cm | Pot: Ø 16cm x H 18cm",
+      "boxOrVase": "Artisan Hand-Glazed Matte Ceramic Planter",
+      "careGuide": "Place in bright indirect light. Water with 60ml filtered water once weekly.",
+      "airPurification": "Natural Air Freshener • Low Maintenance",
+      "lightRequirement": "Bright Indirect Sunlight (Avoid Direct Harsh Rays)",
+      "petSafety": "100% Pet-Friendly and Non-Toxic"
+    },
+    "stock": 25,
+    "inStock": true,
+    "isBestSeller": true,
+    "isFeatured": true
+  },
+  {
+    "id": "flw-201",
+    "name": "Spathiphyllum Peace Lily Elegance",
+    "slug": "spathiphyllum-peace-lily-elegance",
+    "category": "Plants",
+    "subCategory": "Air Purifying Plants",
+    "flowerType": "Plants",
+    "occasion": "Housewarming",
+    "recipient": "Everyone",
+    "price": 3499,
+    "originalPrice": 4499,
+    "discountPercent": 22,
+    "rating": 4.8,
+    "reviewsCount": 64,
+    "tag": "Air Purifying",
+    "badge": "NASA Certified",
+    "image": "https://images.unsplash.com/photo-1593482892290-f54927ae1bf6?auto=format&fit=crop&w=800&q=80",
+    "images": [
+      "https://images.unsplash.com/photo-1593482892290-f54927ae1bf6?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "Known as nature's ultimate air purifier, this lush Peace Lily features glossy emerald foliage crowned with pure white spadix blooms. Presented in a handcrafted stone-textured planter, it actively filters indoor airborne toxins.",
+    "features": [
+      "NASA clean air study certified toxin-neutralizing foliage",
+      "Perennial pure white architectural sail blooms",
+      "Forgiving indoor plant that communicates watering needs gracefully",
+      "Premium organic nutrient-rich potting soil base"
+    ],
+    "specifications": {
+      "plantType": "Spathiphyllum Wallisii (Peace Lily)",
+      "dimensions": "Height: 45cm - 55cm | Pot: Ø 18cm x H 16cm",
+      "boxOrVase": "Stone-Finish Textured Ceramic Planter",
+      "careGuide": "Keep in low to medium indirect light. Water when leaves slightly droop.",
+      "airPurification": "NASA Top 10 Indoor Air Purifier",
+      "lightRequirement": "Low to Bright Indirect Light",
+      "petSafety": "Keep away from curious cats and dogs"
+    },
+    "stock": 30,
+    "inStock": true,
+    "isBestSeller": true,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-202",
+    "name": "Japanese S-Curve Ficus Ginseng Bonsai",
+    "slug": "japanese-s-curve-ficus-ginseng-bonsai",
+    "category": "Plants",
+    "subCategory": "Bonsai Trees",
+    "flowerType": "Plants",
+    "occasion": "Congratulations",
+    "recipient": "For Him",
+    "price": 6999,
+    "originalPrice": 8999,
+    "discountPercent": 22,
+    "rating": 4.9,
+    "reviewsCount": 51,
+    "tag": "Artisan Bonsai",
+    "badge": "8 Years Matured",
+    "image": "https://images.unsplash.com/photo-1512428813834-c702c7702b78?auto=format&fit=crop&w=800&q=80",
+    "images": [
+      "https://images.unsplash.com/photo-1512428813834-c702c7702b78?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "A miniature living sculpture shaped over 8 years into a classic oriental S-curve trunk with a lush umbrella canopy of glossy green banyan leaves. Set in a traditional glazed ceramic bonsai tray with decorative river river stones.",
+    "features": [
+      "8-year matured root system with sculptural exposed banyan caudex",
+      "Handcrafted traditional Japanese ceramic bonsai dish with saucer",
+      "Includes polished natural Zen river pebbles and miniature rake",
+      "Symbol of longevity, wisdom, and serene prosperity"
+    ],
+    "specifications": {
+      "plantType": "Ficus Retusa Ginseng Bonsai Tree",
+      "dimensions": "Height: 35cm - 42cm | Tray: 24cm x 18cm",
+      "boxOrVase": "Traditional Glazed Oriental Stoneware Bonsai Dish",
+      "careGuide": "Place in bright sunny spot. Mist canopy every morning and water when topsoil feels dry.",
+      "airPurification": "Natural Oxygenator & Zen Desk Accent",
+      "lightRequirement": "Bright Indirect to Filtered Sunlight",
+      "petSafety": "Mildly irritating if consumed by pets"
+    },
+    "stock": 18,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": true
+  },
+  {
+    "id": "flw-203",
+    "name": "Monstera Deliciosa Swiss Cheese Tropical",
+    "slug": "monstera-deliciosa-swiss-cheese-tropical",
+    "category": "Plants",
+    "subCategory": "Indoor Botanicals",
+    "flowerType": "Plants",
+    "occasion": "Housewarming",
+    "recipient": "Everyone",
+    "price": 4299,
+    "originalPrice": 5499,
+    "discountPercent": 21,
+    "rating": 4.8,
+    "reviewsCount": 73,
+    "tag": "Trending Green",
+    "badge": "Statement Plant",
+    "image": "https://images.unsplash.com/photo-1614594975525-e45190c55d0b?auto=format&fit=crop&w=800&q=80",
+    "images": [
+      "https://images.unsplash.com/photo-1614594975525-e45190c55d0b?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "A magnificent tropical statement plant featuring bold, fenestrated Swiss-cheese foliage. Potted in an artisanal neutral terracotta planter, the Monstera Deliciosa effortlessly transforms modern apartments and villas into botanical sanctuaries.",
+    "features": [
+      "Lush fenestrated leaves with natural artistic splits",
+      "Handmade breathable terracotta planter with matching water saucer",
+      "Fast-growing resilient houseplant that thrives indoors",
+      "Includes natural coconut coir climbing support pole"
+    ],
+    "specifications": {
+      "plantType": "Monstera Deliciosa (Swiss Cheese Plant)",
+      "dimensions": "Height: 60cm - 75cm | Pot: Ø 22cm x H 20cm",
+      "boxOrVase": "Handcrafted Warm Terracotta Artisan Planter",
+      "careGuide": "Water every 7-10 days once the top 2 inches of soil are dry. Wipe leaves occasionally.",
+      "airPurification": "High Humidity Regulator & Oxygenator",
+      "lightRequirement": "Moderate to Bright Indirect Light",
+      "petSafety": "Keep away from pets"
+    },
+    "stock": 22,
+    "inStock": true,
+    "isBestSeller": true,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-204",
+    "name": "Sansevieria Laurentii Golden Snake Plant",
+    "slug": "sansevieria-laurentii-golden-snake-plant",
+    "category": "Plants",
+    "subCategory": "Air Purifying Plants",
+    "flowerType": "Plants",
+    "occasion": "Get Well Soon",
+    "recipient": "Everyone",
+    "price": 2999,
+    "originalPrice": 3899,
+    "discountPercent": 23,
+    "rating": 4.9,
+    "reviewsCount": 98,
+    "tag": "Indestructible",
+    "badge": "Night Oxygen Producer",
+    "image": "https://images.unsplash.com/photo-1599598425947-52026857d425?auto=format&fit=crop&w=800&q=80",
+    "images": [
+      "https://images.unsplash.com/photo-1599598425947-52026857d425?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "Architectural sword-like leaves banded with deep forest green and golden yellow margins. One of the rare plants that releases pure oxygen throughout the night, making it the perfect bedroom or executive office sanctuary companion.",
+    "features": [
+      "Generates continuous nocturnal oxygen for deeper sleep",
+      "Drought-resistant and almost impossible to kill",
+      "Contemporary cylindrical matte ceramic pot in warm ivory",
+      "Ideal for frequent travelers and busy professionals"
+    ],
+    "specifications": {
+      "plantType": "Sansevieria Trifasciata Laurentii (Snake Plant)",
+      "dimensions": "Height: 50cm - 60cm | Pot: Ø 16cm x H 18cm",
+      "boxOrVase": "Matte Ivory Cylindrical Ceramic Planter",
+      "careGuide": "Extremely drought-tolerant. Water only every 2-3 weeks when soil is fully dry.",
+      "airPurification": "Releases Oxygen at Night (CAM Photosynthesis)",
+      "lightRequirement": "Tolerates Low Light to Direct Sunlight",
+      "petSafety": "Toxic to pets if chewed"
+    },
+    "stock": 40,
+    "inStock": true,
+    "isBestSeller": true,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-205",
+    "name": "Flamingo Pink Anthurium Blooming Planter",
+    "slug": "flamingo-pink-anthurium-blooming-planter",
+    "category": "Plants",
+    "subCategory": "Flowering Potted Plants",
+    "flowerType": "Plants",
+    "occasion": "Anniversary",
+    "recipient": "For Her",
+    "price": 4199,
+    "originalPrice": 5299,
+    "discountPercent": 20,
+    "rating": 4.9,
+    "reviewsCount": 82,
+    "tag": "Constant Bloomer",
+    "badge": "Living Color",
+    "image": "https://images.unsplash.com/photo-1596724817757-01053a473180?auto=format&fit=crop&w=800&q=80",
+    "images": [
+      "https://images.unsplash.com/photo-1596724817757-01053a473180?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "Showcasing waxy, heart-shaped blush pink spathes and lush dark emerald leaves. The Anthurium symbolizes lasting hospitality and romance, blooming almost continuously throughout the entire year indoors.",
+    "features": [
+      "Year-round flowering with striking heart-shaped blooms",
+      "Glazed blush porcelain pot with gold foil accent ring",
+      "High natural air purification and toxin reduction",
+      "Complimentary handwritten message card and plant food"
+    ],
+    "specifications": {
+      "plantType": "Anthurium Andreanum (Flamingo Flower)",
+      "dimensions": "Height: 45cm - 55cm | Pot: Ø 17cm x H 17cm",
+      "boxOrVase": "Blush Porcelain Planter with Metallic Accent",
+      "careGuide": "Thrives in warm rooms with filtered light. Keep soil consistently moist but never waterlogged.",
+      "airPurification": "Removes Formaldehyde and Ammonia",
+      "lightRequirement": "Bright Indirect Light Encourages Blooms",
+      "petSafety": "Contains calcium oxalate (keep away from pets)"
+    },
+    "stock": 26,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": true
+  },
+  {
+    "id": "flw-206",
+    "name": "Zanzibar Gem (ZZ Plant) Midnight Planter",
+    "slug": "zanzibar-gem-zz-plant-midnight-planter",
+    "category": "Plants",
+    "subCategory": "Air Purifying Plants",
+    "flowerType": "Plants",
+    "occasion": "Housewarming",
+    "recipient": "Everyone",
+    "price": 3899,
+    "originalPrice": 4899,
+    "discountPercent": 20,
+    "rating": 4.8,
+    "reviewsCount": 47,
+    "tag": "Ultra Hardy",
+    "badge": "Low Light Master",
+    "image": "https://images.unsplash.com/photo-1632207691143-643e2a9a9361?auto=format&fit=crop&w=800&q=80",
+    "images": [
+      "https://images.unsplash.com/photo-1632207691143-643e2a9a9361?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "Characterized by feather-like stems lined with mirror-gloss emerald leaflets that catch the light like polished gems. The ZZ Plant is famous for its legendary resilience, flourishing even in windowless interior spaces.",
+    "features": [
+      "Thrives in windowless offices, basements, and low-light suites",
+      "Natural subterranean water-storing rhizomes need infrequent watering",
+      "Artisan charcoal-glazed fluted ceramic container",
+      "Sleek architectural design that complements minimalist decor"
+    ],
+    "specifications": {
+      "plantType": "Zamioculcas Zamiifolia (ZZ Plant)",
+      "dimensions": "Height: 50cm - 60cm | Pot: Ø 18cm x H 19cm",
+      "boxOrVase": "Charcoal Fluted Matte Ceramic Planter",
+      "careGuide": "Water only once a month. Requires almost zero maintenance to look pristine.",
+      "airPurification": "Removes Toluene and Benzene",
+      "lightRequirement": "Low to Bright Indirect Light (Avoid Direct Sun)",
+      "petSafety": "Keep out of reach of pets"
+    },
+    "stock": 20,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-207",
+    "name": "Artisan Jade & Echeveria Succulent Dish Garden",
+    "slug": "artisan-jade-echeveria-succulent-dish-garden",
+    "category": "Plants",
+    "subCategory": "Indoor Succulents",
+    "flowerType": "Plants",
+    "occasion": "Birthday",
+    "recipient": "Everyone",
+    "price": 2799,
+    "originalPrice": 3499,
+    "discountPercent": 20,
+    "rating": 4.9,
+    "reviewsCount": 63,
+    "tag": "Artisan Arranged",
+    "badge": "Easy Care",
+    "image": "https://images.unsplash.com/photo-1485955900006-10f4d324d411?auto=format&fit=crop&w=800&q=80",
+    "images": [
+      "https://images.unsplash.com/photo-1485955900006-10f4d324d411?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "A curated landscape of geometric rosette Echeveria, Crassula Jade, and trailing String of Pearls artfully arranged in a shallow handcrafted stone bowl with decorative volcanic moss.",
+    "features": [
+      "Six diverse slow-growing living succulent varieties",
+      "Shallow artisan terra-stone centerpiece bowl",
+      "Topped with natural quartz crystal pebbles and volcanic sand",
+      "Requires only minimal sunlight and monthly watering"
+    ],
+    "specifications": {
+      "plantType": "Curated Succulent & Crassula Dish Garden",
+      "dimensions": "Diameter: 25cm | Height: 15cm",
+      "boxOrVase": "Handcrafted Shallow Stone Centerpiece Bowl",
+      "careGuide": "Place on a sunny table or desk. Water lightly once every 3-4 weeks.",
+      "airPurification": "Natural Moisture & Oxygen Balancer",
+      "lightRequirement": "Bright Direct to Filtered Sunlight",
+      "petSafety": "Non-toxic varieties included"
+    },
+    "stock": 35,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-208",
+    "name": "Twin-Stem Royal Phalaenopsis Magenta Orchid",
+    "slug": "twin-stem-royal-phalaenopsis-magenta-orchid",
+    "category": "Plants",
+    "subCategory": "Living Orchids",
+    "flowerType": "Orchids",
+    "occasion": "Anniversary",
+    "recipient": "For Her",
+    "price": 5899,
+    "originalPrice": 7299,
+    "discountPercent": 19,
+    "rating": 4.9,
+    "reviewsCount": 115,
+    "tag": "Exotic Bloom",
+    "badge": "12 Weeks Blooming",
+    "image": "https://images.unsplash.com/photo-1525310072745-f49212b5ac6d?auto=format&fit=crop&w=800&q=80",
+    "images": [
+      "https://images.unsplash.com/photo-1525310072745-f49212b5ac6d?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "Two towering stems laden with velvet magenta orchid blossoms, supported by botanical bamboo stakes. Potted in an artisan hand-dipped pearl ceramic vase, this orchid is the epitome of luxurious botanical refinement.",
+    "features": [
+      "Two mature arching flower spikes with up to 18 buds and blooms",
+      "Specially nurtured in Nilgiris highland mist greenhouses",
+      "Hand-dipped pearl ceramic pot with gold brand monogram",
+      "Complimentary orchid nutrient spray and care booklet"
+    ],
+    "specifications": {
+      "plantType": "Phalaenopsis Orchid (Deep Magenta Double Spike)",
+      "dimensions": "Height: 65cm - 75cm | Pot: Ø 18cm x H 20cm",
+      "boxOrVase": "Hand-Dipped Pearl Ceramic Monogram Planter",
+      "careGuide": "Submerge pot in water for 5 minutes once every 7-10 days, drain thoroughly.",
+      "airPurification": "Living Flower Air Enhancer",
+      "lightRequirement": "Bright Filtered Light (East or West Facing Window)",
+      "petSafety": "Pet Friendly & Non-Toxic"
+    },
+    "stock": 20,
+    "inStock": true,
+    "isBestSeller": true,
+    "isFeatured": true
+  },
+  {
+    "id": "flw-209",
+    "name": "Nordic Ceramic Planter & Plant Food Care Duo",
+    "slug": "nordic-ceramic-planter-plant-food-care-duo",
+    "category": "Plants",
+    "subCategory": "Artisan Planters",
+    "flowerType": "Plants",
+    "occasion": "Housewarming",
+    "recipient": "Everyone",
+    "price": 1999,
+    "originalPrice": 2499,
+    "discountPercent": 20,
+    "rating": 4.8,
+    "reviewsCount": 42,
+    "tag": "Botanical Accessory",
+    "badge": "Handmade Clay",
+    "image": "https://images.unsplash.com/photo-1487700160041-babef9c3cb55?auto=format&fit=crop&w=800&q=80",
+    "images": [
+      "https://images.unsplash.com/photo-1487700160041-babef9c3cb55?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "An artisanal handcrafted stoneware planter featuring minimalist Nordic ribs, paired with Dhanvikk's signature organic botanical liquid nourishment mist (250ml) formulated for indoor houseplants.",
+    "features": [
+      "Heavyweight natural ceramic planter with built-in drainage saucer",
+      "Includes 250ml organic seaweed and micro-nutrient plant tonic",
+      "Brass vintage-style continuous fine-mist plant atomizer",
+      "Ideal gift for green-thumb enthusiasts and indoor plant parents"
+    ],
+    "specifications": {
+      "plantType": "Artisan Stoneware Planter & Botanical Nutrients",
+      "dimensions": "Pot: Ø 20cm x H 18cm | Spray: 250ml Bottle",
+      "boxOrVase": "Minimalist Ribbed Nordic Ceramic Vessel",
+      "careGuide": "Mist houseplant leaves fortnightly with nutrient spray for glossy green foliage.",
+      "airPurification": "Compatible with all indoor botanicals",
+      "lightRequirement": "Indoor / Outdoor suitable",
+      "petSafety": "100% Organic & Chemical-Free"
+    },
+    "stock": 45,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
   }
 ];
+
