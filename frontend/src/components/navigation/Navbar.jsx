@@ -461,7 +461,26 @@ export default function Navbar({ onSearch, searchQuery = '' }) {
         </div>
 
         {/* Right Action Icons & Controls */}
-        <div className="flex items-center gap-2 sm:gap-4">
+        <div className="flex items-center gap-2 sm:gap-3">
+          {/* Currency Switcher */}
+          <div className="relative">
+            <div className="flex items-center gap-1 bg-[#FAF7F2] hover:bg-[#FFF3F6] border border-[#EBE3DC] hover:border-[#FCC1C5] px-2 sm:px-2.5 py-1 sm:py-1.5 rounded-full text-xs transition-all shadow-2xs">
+              <span className="text-[10px] font-bold text-[#888888] uppercase hidden md:inline">Currency:</span>
+              <select
+                value={currency}
+                onChange={(e) => setCurrency(e.target.value)}
+                className="bg-transparent text-[#242124] text-xs font-bold focus:outline-none cursor-pointer"
+                aria-label="Select Currency"
+              >
+                {Object.values(currencies).map((c) => (
+                  <option key={c.code} value={c.code} className="bg-white text-[#242124] font-medium py-1">
+                    {c.symbol} {c.code}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+
           {/* Customer / Admin Dropdown */}
           <div className="relative">
             {isAuthenticated ? (

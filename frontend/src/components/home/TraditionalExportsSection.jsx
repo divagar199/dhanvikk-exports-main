@@ -126,7 +126,7 @@ export const PROMO_EXPORT_PRODUCTS = [
 ];
 
 export default function TraditionalExportsSection() {
-  const { currency, setCurrency, formatPrice, currencies } = useCurrency();
+  const { currency, formatPrice } = useCurrency();
   const [addedIds, setAddedIds] = useState([]);
   const [inquiryModalItem, setInquiryModalItem] = useState(null);
   const [bulkQty, setBulkQty] = useState('25');
@@ -197,56 +197,35 @@ export default function TraditionalExportsSection() {
           </p>
         </div>
 
-        {/* Currency Toggle + Navigation Controls */}
-        <div className="flex items-center gap-3 self-start md:self-end">
-          {/* Currency Switch */}
-          <div className="inline-flex rounded-lg border border-[#E9E2E5] p-0.5 bg-[#FAF7F2] max-w-full overflow-x-auto">
-            {Object.values(currencies).map((c) => (
-              <button
-                key={c.code}
-                type="button"
-                onClick={() => setCurrency(c.code)}
-                className={`px-2.5 py-1 rounded-md text-xs font-bold transition-all cursor-pointer whitespace-nowrap ${
-                  currency === c.code
-                    ? 'bg-[#C2185B] text-white shadow-xs'
-                    : 'text-[#666666] hover:text-[#242124]'
-                }`}
-              >
-                {c.nativeSymbol || c.symbol} {c.code}
-              </button>
-            ))}
-          </div>
+        {/* Navigation Controls */}
+        <div className="flex items-center gap-1.5 self-start md:self-end">
+          <button
+            type="button"
+            onClick={() => swiperInstanceRef.current?.slidePrev()}
+            disabled={isBeginning}
+            className={`w-9 h-9 rounded-full border border-[#E9E2E5] flex items-center justify-center transition-all ${
+              !isBeginning
+                ? 'bg-white hover:bg-[#FFF3F6] hover:border-[#FCC1C5] text-[#242124] shadow-xs hover:scale-105 cursor-pointer'
+                : 'bg-white/50 text-gray-300 border-gray-100 cursor-not-allowed'
+            }`}
+            aria-label="Previous Slide"
+          >
+            <ChevronLeft className="w-5 h-5" />
+          </button>
 
-          {/* Carousel Arrows */}
-          <div className="flex items-center gap-1.5">
-            <button
-              type="button"
-              onClick={() => swiperInstanceRef.current?.slidePrev()}
-              disabled={isBeginning}
-              className={`w-9 h-9 rounded-full border border-[#E9E2E5] flex items-center justify-center transition-all ${
-                !isBeginning
-                  ? 'bg-white hover:bg-[#FFF3F6] hover:border-[#FCC1C5] text-[#242124] shadow-xs hover:scale-105 cursor-pointer'
-                  : 'bg-white/50 text-gray-300 border-gray-100 cursor-not-allowed'
-              }`}
-              aria-label="Previous Slide"
-            >
-              <ChevronLeft className="w-5 h-5" />
-            </button>
-
-            <button
-              type="button"
-              onClick={() => swiperInstanceRef.current?.slideNext()}
-              disabled={isEnd}
-              className={`w-9 h-9 rounded-full border border-[#E9E2E5] flex items-center justify-center transition-all ${
-                !isEnd
-                  ? 'bg-white hover:bg-[#FFF3F6] hover:border-[#FCC1C5] text-[#242124] shadow-xs hover:scale-105 cursor-pointer'
-                  : 'bg-white/50 text-gray-300 border-gray-100 cursor-not-allowed'
-              }`}
-              aria-label="Next Slide"
-            >
-              <ChevronRight className="w-5 h-5" />
-            </button>
-          </div>
+          <button
+            type="button"
+            onClick={() => swiperInstanceRef.current?.slideNext()}
+            disabled={isEnd}
+            className={`w-9 h-9 rounded-full border border-[#E9E2E5] flex items-center justify-center transition-all ${
+              !isEnd
+                ? 'bg-white hover:bg-[#FFF3F6] hover:border-[#FCC1C5] text-[#242124] shadow-xs hover:scale-105 cursor-pointer'
+                : 'bg-white/50 text-gray-300 border-gray-100 cursor-not-allowed'
+            }`}
+            aria-label="Next Slide"
+          >
+            <ChevronRight className="w-5 h-5" />
+          </button>
         </div>
       </div>
 
