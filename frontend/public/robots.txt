@@ -1,0 +1,58 @@
+# Robots.txt for Dhanvikk Blooms (https://dhanvikkexports.com)
+# 100% SEO, AEO & GEO Optimized Crawler Directives
+
+User-agent: *
+Allow: /
+Allow: /category/
+Allow: /product/
+Allow: /images/
+Allow: /assets/
+Allow: /favicon.svg
+Allow: /dhanvikk-brand-logo.png
+
+# Disallow private user and administrative endpoints
+Disallow: /admin
+Disallow: /admin/
+Disallow: /admin/login
+Disallow: /admin/dashboard
+Disallow: /account
+Disallow: /account/
+Disallow: /checkout
+Disallow: /checkout/
+Disallow: /api/
+
+# Specialized Search Engine Bots (Allow all for maximum SEO & AEO indexing)
+User-agent: Googlebot
+Allow: /
+
+User-agent: Googlebot-Image
+Allow: /
+Allow: /images/
+
+User-agent: Bingbot
+Allow: /
+
+# AI Answer Engines & LLM Crawlers (AEO / GEO Optimization)
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: GPTBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: Applebot
+Allow: /
+
+User-agent: Bytespider
+Allow: /
+
+# Sitemap Location
+Sitemap: https://dhanvikkexports.com/sitemap.xml

@@ -1,0 +1,171 @@
+@import "tailwindcss";
+
+@theme {
+  --font-poppins: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-serif: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  
+  --color-primary-pink: #EC407A;
+  --color-deep-magenta: #C2185B;
+  --color-soft-blush: #FCC1C5;
+  --color-warm-gold: #FFB400;
+  --color-pale-pink: #FFF3F6;
+  --color-cream: #FFFDF9;
+  --color-soft-beige: #F7F2ED;
+  --color-charcoal: #242124;
+  --color-muted-text: #777777;
+}
+
+:root {
+  font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  color-scheme: light;
+  background-color: #FFFDF9;
+  color: #242124;
+}
+
+h1, h2, h3, h4, h5, h6, .font-serif, [class*="Playfair"] {
+  font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  min-height: 100dvh;
+  background-color: #FFFDF9;
+  overflow-x: hidden;
+  font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+}
+
+#root {
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Botanical subtle shadow and custom inputs */
+.bloom-shadow-card {
+  box-shadow: 0 12px 40px rgba(194, 24, 91, 0.06), 0 2px 10px rgba(0, 0, 0, 0.02);
+}
+
+.bloom-input-shadow {
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
+}
+
+.bloom-input-focus {
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.bloom-input-focus:focus-within {
+  border-color: #EC407A;
+  box-shadow: 0 0 0 4px rgba(236, 64, 122, 0.12);
+}
+
+/* Safe area insets */
+.safe-pt {
+  padding-top: max(16px, env(safe-area-inset-top));
+}
+
+.safe-pb {
+  padding-bottom: max(16px, env(safe-area-inset-bottom));
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Left-to-Right Endless Marquee */
+@keyframes marquee-ltr {
+  0% {
+    transform: translateX(-50%);
+  }
+  100% {
+    transform: translateX(0%);
+  }
+}
+
+.animate-marquee-ltr {
+  display: flex;
+  width: max-content;
+  animation: marquee-ltr 32s linear infinite;
+  will-change: transform;
+}
+
+.animate-marquee-ltr:hover {
+  animation-play-state: paused;
+}
+
+/* Right-to-Left Endless Marquee */
+@keyframes marquee-rtl {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee-rtl {
+  display: flex;
+  width: max-content;
+  animation: marquee-rtl 32s linear infinite;
+  will-change: transform;
+}
+
+.animate-marquee-rtl:hover {
+  animation-play-state: paused;
+}
+
+/* ========================================================
+   LUXURY FLORAL THEME CUSTOM SCROLLBAR
+   Theme: Dhanvikk Blooms signature blush & deep magenta
+   ======================================================== */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #FFF7F9;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #FCC1C5 0%, #EC407A 50%, #C2185B 100%);
+  border-radius: 9999px;
+  border: 2px solid #FFF7F9;
+  transition: all 0.2s ease-in-out;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #EC407A 0%, #C2185B 100%);
+  border: 1.5px solid #FFF7F9;
+}
+
+::-webkit-scrollbar-thumb:active {
+  background: #C2185B;
+}
+
+::-webkit-scrollbar-corner {
+  background: #FFF7F9;
+}
+
+/* Firefox custom scrollbar */
+html {
+  scrollbar-width: thin;
+  scrollbar-color: #EC407A #FFF7F9;
+}
+
+/* Hide scrollbar utility */
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-none {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

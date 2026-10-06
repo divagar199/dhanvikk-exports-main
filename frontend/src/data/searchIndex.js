@@ -1,0 +1,86 @@
+export const SEARCH_CATEGORIES = [
+  {
+    name: 'Roses Atelier & Stems',
+    slug: 'roses',
+    icon: '🌹',
+    badge: 'Signature',
+    description: 'Grand Ecuadorian roses, Red Naomi & long stems',
+    keywords: ['rose', 'roses', 'ecuadorian', 'red rose', 'pink rose', 'white rose', 'stem', 'stems', 'atelier', 'naomi'],
+  },
+  {
+    name: 'Artisan Hand Bouquets',
+    slug: 'hand-bouquets',
+    icon: '💐',
+    badge: 'Trending',
+    description: 'Fresh seasonal tied silks, peonies & garden sprays',
+    keywords: ['bouquet', 'bouquets', 'hand', 'tied', 'bunch', 'flower bunch', 'peonies', 'peony', 'hydrangea', 'tulip', 'tulips', 'lily', 'lilies'],
+  },
+  {
+    name: 'Signature Velvet Hatboxes',
+    slug: 'flower-boxes',
+    icon: '🎁',
+    badge: 'Haute Luxe',
+    description: 'Parisian round suede & velvet keepsake cylinders',
+    keywords: ['box', 'boxes', 'hatbox', 'hatboxes', 'velvet', 'cylinder', 'suede', 'round box'],
+  },
+  {
+    name: 'Preserved Forever Roses',
+    slug: 'forever-roses',
+    icon: '✨',
+    badge: 'Lasts 3+ Years',
+    description: 'Natural Ecuadorian blooms in glass bell domes',
+    keywords: ['forever', 'preserved', 'dome', 'glass dome', 'infinity', 'bell dome', 'eternal', 'everlasting', '1-year bloom'],
+  },
+  {
+    name: 'Exotic Orchids & Living Plants',
+    slug: 'orchids',
+    icon: '🪴',
+    badge: 'Exotic Cut',
+    description: 'Multi-spike cascading Phalaenopsis in ceramic planters',
+    keywords: ['orchid', 'orchids', 'phalaenopsis', 'plant', 'plants', 'living', 'bonsai', 'indoor', 'greenery'],
+  },
+  {
+    name: 'Haute Gift Bundles & Hampers',
+    slug: 'gift-bundles',
+    icon: '🍫',
+    badge: 'Grand Gifting',
+    description: 'Artisanal Belgian pralines, candles & celebration sets',
+    keywords: ['gift', 'bundle', 'bundles', 'hamper', 'hampers', 'chocolate', 'chocolates', 'pralines', 'scented', 'candle', 'truffles', 'set'],
+  },
+  {
+    name: 'Birthday Celebrations',
+    slug: 'birthday',
+    icon: '🎂',
+    badge: 'Occasion',
+    description: 'Vibrant celebratory blooms with complimentary gift card',
+    keywords: ['birthday', 'bday', 'birth day', 'celebrate', 'celebration'],
+  },
+  {
+    name: 'Anniversary & Romance',
+    slug: 'anniversary',
+    icon: '💍',
+    badge: 'Occasion',
+    description: 'Velvety Ecuadorian roses, wedding & romantic curations',
+    keywords: ['anniversary', 'wedding', 'romance', 'love', 'romantic', 'couple', 'wife', 'husband'],
+  },
+  {
+    name: 'Sacred Traditional Floral Exports',
+    slug: 'traditional-exports',
+    icon: '🪷',
+    badge: 'Export Grade',
+    description: 'Madurai Jasmine, Mullai & Lotus for temples & global diaspora',
+    keywords: ['traditional', 'export', 'exports', 'jasmine', 'mullai', 'lotus', 'marigold', 'temple', 'puja', 'cargo'],
+  }
+];
+
+export const TRENDING_SEARCHES = [
+  'Ecuadorian Roses',
+  'Velvet Hatboxes',
+  'Forever Roses',
+  'Hand Bouquets',
+  'Exotic Orchids',
+  'Birthday Blooms',
+  'Anniversary Stems',
+  'Luxury Hampers',
+  'Jasmine String'
+];

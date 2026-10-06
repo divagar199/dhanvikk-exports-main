@@ -1,0 +1,7576 @@
+// Dhanvikk Blooms Master Luxury Floral Catalog & Atelier Collection
+
+export const CATEGORIES = [
+  'All Blooms',
+  'Flowers',
+  'Flower Boxes',
+  'Forever Roses',
+  'Plants',
+  'Gift Bundles',
+  'Traditional',
+];
+
+export const PRODUCTS = [
+  {
+    "id": "flw-001",
+    "name": "Blush Ivory Royal Box",
+    "slug": "blush-ivory-royal-box",
+    "category": "Flower Boxes",
+    "subCategory": "Hat Box Arrangements",
+    "flowerType": "Roses",
+    "occasion": "Anniversary",
+    "recipient": "For Her",
+    "price": 23602,
+    "originalPrice": 33750,
+    "discountPercent": 30,
+    "rating": 4.7,
+    "reviewsCount": 181,
+    "tag": "Florist Choice",
+    "badge": "Artisan Arranged",
+    "image": "/images/products/blush-ivory-royal-box.webp",
+    "images": [
+      "/images/products/blush-ivory-royal-box.webp"
+    ],
+    "description": "A lavish curation of handpicked roses, masterfully arranged in Dhanvikk's signature French velvet keepsake box. Accented with lush spiral eucalyptus and tied with an ivory satin ribbon, this bespoke creation brings regal grandeur to every celebration.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Signature reusable velvet keepsake cylinder with gold embossing",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "24 to 36 Premium Blooms",
+      "dimensions": "Box: Ø 22cm x H 25cm | Total: H 35cm",
+      "boxOrVase": "Signature Velvet Keepsake Cylinder with Gold Hot-Stamp",
+      "careGuide": "Add 50ml fresh cool water every 2 days into central oasis foam."
+    },
+    "stock": 36,
+    "inStock": true,
+    "isBestSeller": true,
+    "isFeatured": true
+  },
+  {
+    "id": "flw-002",
+    "name": "Eternal Harmony Roses",
+    "slug": "eternal-harmony-roses",
+    "category": "Forever Roses",
+    "subCategory": "Preserved Bell Domes",
+    "flowerType": "Roses",
+    "occasion": "Anniversary",
+    "recipient": "For Her",
+    "price": 10102,
+    "originalPrice": 12375,
+    "discountPercent": 18,
+    "rating": 5.0,
+    "reviewsCount": 140,
+    "tag": "Signature Atelier",
+    "badge": "Artisan Arranged",
+    "image": "/images/products/eternal-harmony-roses.webp",
+    "images": [
+      "/images/products/eternal-harmony-roses.webp"
+    ],
+    "description": "A breathtaking showcase of naturally preserved Ecuadorian roses, meticulously stabilized to retain velvety softness, vibrant pigment, and structural perfection for up to 3 years without watering. Encased in a hand-blown borosilicate bell dome.",
+    "features": [
+      "100% natural real roses preserved at peak bloom",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Zero water or maintenance required — blooms for 3+ years"
+    ],
+    "specifications": {
+      "stemCount": "Imperial Preserved Head (Ø 9-10cm)",
+      "dimensions": "Dome: H 28cm x Ø 16cm with solid beechwood base",
+      "boxOrVase": "Hand-blown Borosilicate Crystal Glass Bell Dome",
+      "careGuide": "Keep away from direct sunlight, humidity, and moisture. Do not water."
+    },
+    "stock": 27,
+    "inStock": true,
+    "isBestSeller": true,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-003",
+    "name": "Ocean Whisper Luxury Box",
+    "slug": "ocean-whisper-luxury-box",
+    "category": "Flower Boxes",
+    "subCategory": "Hat Box Arrangements",
+    "flowerType": "Mixed",
+    "occasion": "Congratulations",
+    "recipient": "Everyone",
+    "price": 9652,
+    "originalPrice": 12375,
+    "discountPercent": 22,
+    "rating": 5.0,
+    "reviewsCount": 74,
+    "tag": "Luxury Edit",
+    "badge": "Hand Delivered",
+    "image": "/images/products/ocean-whisper-luxury-box.webp",
+    "images": [
+      "/images/products/ocean-whisper-luxury-box.webp"
+    ],
+    "description": "A lavish curation of handpicked garden blooms, masterfully arranged in Dhanvikk's signature French velvet keepsake box. Accented with lush spiral eucalyptus and tied with an ivory satin ribbon, this bespoke creation brings regal grandeur to every celebration.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Signature reusable velvet keepsake cylinder with gold embossing",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "24 to 36 Premium Blooms",
+      "dimensions": "Box: Ø 22cm x H 25cm | Total: H 35cm",
+      "boxOrVase": "Signature Velvet Keepsake Cylinder with Gold Hot-Stamp",
+      "careGuide": "Add 50ml fresh cool water every 2 days into central oasis foam."
+    },
+    "stock": 28,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": true
+  },
+  {
+    "id": "flw-004",
+    "name": "Azure Majesty Hat Box",
+    "slug": "azure-majesty-hat-box",
+    "category": "Flower Boxes",
+    "subCategory": "Hat Box Arrangements",
+    "flowerType": "Mixed",
+    "occasion": "Anniversary",
+    "recipient": "For Her",
+    "price": 11228,
+    "originalPrice": 11250,
+    "discountPercent": 0,
+    "rating": 5.0,
+    "reviewsCount": 113,
+    "tag": "Best Seller",
+    "badge": "Hand Delivered",
+    "image": "/images/products/azure-majesty-hat-box.webp",
+    "images": [
+      "/images/products/azure-majesty-hat-box.webp"
+    ],
+    "description": "A lavish curation of handpicked garden blooms, masterfully arranged in Dhanvikk's signature French velvet keepsake box. Accented with lush spiral eucalyptus and tied with an ivory satin ribbon, this bespoke creation brings regal grandeur to every celebration.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Signature reusable velvet keepsake cylinder with gold embossing",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "24 to 36 Premium Blooms",
+      "dimensions": "Box: Ø 22cm x H 25cm | Total: H 35cm",
+      "boxOrVase": "Signature Velvet Keepsake Cylinder with Gold Hot-Stamp",
+      "careGuide": "Add 50ml fresh cool water every 2 days into central oasis foam."
+    },
+    "stock": 20,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": true
+  },
+  {
+    "id": "flw-005",
+    "name": "Crimson Royal Grandeur",
+    "slug": "crimson-royal-grandeur",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Roses",
+    "occasion": "Love & Romance",
+    "recipient": "For Her",
+    "price": 11228,
+    "originalPrice": 13500,
+    "discountPercent": 17,
+    "rating": 4.9,
+    "reviewsCount": 146,
+    "tag": "Artisan Hand-tied",
+    "badge": "Same Day Dispatch",
+    "image": "/images/products/crimson-royal-grandeur.webp",
+    "images": [
+      "/images/products/crimson-royal-grandeur.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Crimson Royal Grandeur harmonizes premium long-stemmed roses with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 15,
+    "inStock": true,
+    "isBestSeller": true,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-006",
+    "name": "Sunshine Lily Bouquet",
+    "slug": "sunshine-lily-bouquet",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Lilies",
+    "occasion": "Birthday",
+    "recipient": "BFFs",
+    "price": 6728,
+    "originalPrice": 7875,
+    "discountPercent": 15,
+    "rating": 4.8,
+    "reviewsCount": 172,
+    "tag": "Artisan Hand-tied",
+    "badge": "Hand Delivered",
+    "image": "/images/products/sunshine-lily-bouquet.webp",
+    "images": [
+      "/images/products/sunshine-lily-bouquet.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Sunshine Lily Bouquet harmonizes premium long-stemmed lilies with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 41,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-007",
+    "name": "Golden Lily Bouquet",
+    "slug": "golden-lily-bouquet",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Lilies",
+    "occasion": "Anniversary",
+    "recipient": "For Her",
+    "price": 6728,
+    "originalPrice": 7875,
+    "discountPercent": 15,
+    "rating": 4.7,
+    "reviewsCount": 45,
+    "tag": "Limited Edition",
+    "badge": "Chilled Delivery",
+    "image": "/images/products/golden-lily-bouquet.webp",
+    "images": [
+      "/images/products/golden-lily-bouquet.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Golden Lily Bouquet harmonizes premium long-stemmed lilies with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 38,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": true
+  },
+  {
+    "id": "flw-008",
+    "name": "Sunset Orange Lily Vase",
+    "slug": "sunset-orange-lily-vase",
+    "category": "Flowers",
+    "subCategory": "Vase Arrangements",
+    "flowerType": "Lilies",
+    "occasion": "Anniversary",
+    "recipient": "For Her",
+    "price": 4478,
+    "originalPrice": 5625,
+    "discountPercent": 20,
+    "rating": 4.8,
+    "reviewsCount": 141,
+    "tag": "Best Seller",
+    "badge": "Same Day Dispatch",
+    "image": "/images/products/sunset-orange-lily-vase.webp",
+    "images": [
+      "/images/products/sunset-orange-lily-vase.webp"
+    ],
+    "description": "Architecturally balanced lilies nestled in an artisan fluted lead-free crystal glass vase. Styled with fragrant silvery spiral eucalyptus and ethereal gypsophila sprays for an effortless centerpiece statement.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "18 to 28 Fresh Cut Stems with Foliage",
+      "dimensions": "Arrangement: H 50cm x W 40cm",
+      "boxOrVase": "Fluted Lead-Free Heavy Artisan Crystal Glass Vase",
+      "careGuide": "Trim stems 2cm at 45° angle, replenish cool water every 48 hours."
+    },
+    "stock": 42,
+    "inStock": true,
+    "isBestSeller": true,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-009",
+    "name": "Pink Lily Grace Vase",
+    "slug": "pink-lily-grace-vase",
+    "category": "Flowers",
+    "subCategory": "Vase Arrangements",
+    "flowerType": "Lilies",
+    "occasion": "Congratulations",
+    "recipient": "For Her",
+    "price": 6728,
+    "originalPrice": 7875,
+    "discountPercent": 15,
+    "rating": 5.0,
+    "reviewsCount": 123,
+    "tag": "Luxury Edit",
+    "badge": "Chilled Delivery",
+    "image": "/images/products/pink-lily-grace-vase.webp",
+    "images": [
+      "/images/products/pink-lily-grace-vase.webp"
+    ],
+    "description": "Architecturally balanced lilies nestled in an artisan fluted lead-free crystal glass vase. Styled with fragrant silvery spiral eucalyptus and ethereal gypsophila sprays for an effortless centerpiece statement.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "18 to 28 Fresh Cut Stems with Foliage",
+      "dimensions": "Arrangement: H 50cm x W 40cm",
+      "boxOrVase": "Fluted Lead-Free Heavy Artisan Crystal Glass Vase",
+      "careGuide": "Trim stems 2cm at 45° angle, replenish cool water every 48 hours."
+    },
+    "stock": 29,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-010",
+    "name": "Celestial Paradise Vase",
+    "slug": "celestial-paradise-vase",
+    "category": "Flowers",
+    "subCategory": "Vase Arrangements",
+    "flowerType": "Mixed",
+    "occasion": "Birthday",
+    "recipient": "Everyone",
+    "price": 11228,
+    "originalPrice": 13500,
+    "discountPercent": 17,
+    "rating": 4.9,
+    "reviewsCount": 78,
+    "tag": "Artisan Hand-tied",
+    "badge": "Fresh Cut",
+    "image": "/images/products/celestial-paradise-vase.webp",
+    "images": [
+      "/images/products/celestial-paradise-vase.webp"
+    ],
+    "description": "Architecturally balanced garden blooms nestled in an artisan fluted lead-free crystal glass vase. Styled with fragrant silvery spiral eucalyptus and ethereal gypsophila sprays for an effortless centerpiece statement.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "18 to 28 Fresh Cut Stems with Foliage",
+      "dimensions": "Arrangement: H 50cm x W 40cm",
+      "boxOrVase": "Fluted Lead-Free Heavy Artisan Crystal Glass Vase",
+      "careGuide": "Trim stems 2cm at 45° angle, replenish cool water every 48 hours."
+    },
+    "stock": 34,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": true
+  },
+  {
+    "id": "flw-011",
+    "name": "Crimson Elegance in Pinnacle",
+    "slug": "crimson-elegance-in-pinnacle",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Roses",
+    "occasion": "Love & Romance",
+    "recipient": "For Her",
+    "price": 270000,
+    "originalPrice": 351000,
+    "discountPercent": 23,
+    "rating": 4.8,
+    "reviewsCount": 172,
+    "tag": "Artisan Hand-tied",
+    "badge": "Chilled Delivery",
+    "image": "/images/products/crimson-elegance-in-pinnacle.webp",
+    "images": [
+      "/images/products/crimson-elegance-in-pinnacle.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Crimson Elegance in Pinnacle harmonizes premium long-stemmed roses with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 33,
+    "inStock": true,
+    "isBestSeller": true,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-012",
+    "name": "Eternal Ivory Majesty",
+    "slug": "eternal-ivory-majesty",
+    "category": "Forever Roses",
+    "subCategory": "Preserved Bell Domes",
+    "flowerType": "Mixed",
+    "occasion": "Anniversary",
+    "recipient": "For Her",
+    "price": 112478,
+    "originalPrice": 146228,
+    "discountPercent": 23,
+    "rating": 4.7,
+    "reviewsCount": 94,
+    "tag": "Artisan Hand-tied",
+    "badge": "Artisan Arranged",
+    "image": "/images/products/eternal-ivory-majesty.webp",
+    "images": [
+      "/images/products/eternal-ivory-majesty.webp"
+    ],
+    "description": "A breathtaking showcase of naturally preserved Ecuadorian garden blooms, meticulously stabilized to retain velvety softness, vibrant pigment, and structural perfection for up to 3 years without watering. Encased in a hand-blown borosilicate bell dome.",
+    "features": [
+      "100% natural real roses preserved at peak bloom",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Zero water or maintenance required — blooms for 3+ years"
+    ],
+    "specifications": {
+      "stemCount": "Imperial Preserved Head (Ø 9-10cm)",
+      "dimensions": "Dome: H 28cm x Ø 16cm with solid beechwood base",
+      "boxOrVase": "Hand-blown Borosilicate Crystal Glass Bell Dome",
+      "careGuide": "Keep away from direct sunlight, humidity, and moisture. Do not water."
+    },
+    "stock": 15,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": true
+  },
+  {
+    "id": "flw-013",
+    "name": "Royal Harvest Grandeur",
+    "slug": "royal-harvest-grandeur",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
+    "occasion": "Congratulations",
+    "recipient": "Everyone",
+    "price": 33750,
+    "originalPrice": 43875,
+    "discountPercent": 23,
+    "rating": 4.8,
+    "reviewsCount": 49,
+    "tag": "Trending Now",
+    "badge": "Artisan Arranged",
+    "image": "/images/products/royal-harvest-grandeur.webp",
+    "images": [
+      "/images/products/royal-harvest-grandeur.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Royal Harvest Grandeur harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 35,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": true
+  },
+  {
+    "id": "flw-014",
+    "name": "Champagne Garden Luxe",
+    "slug": "champagne-garden-luxe",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
+    "occasion": "Birthday",
+    "recipient": "Everyone",
+    "price": 15728,
+    "originalPrice": 20452,
+    "discountPercent": 23,
+    "rating": 5.0,
+    "reviewsCount": 74,
+    "tag": "Signature Atelier",
+    "badge": "Hand Delivered",
+    "image": "/images/products/champagne-garden-luxe.webp",
+    "images": [
+      "/images/products/champagne-garden-luxe.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Champagne Garden Luxe harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 21,
+    "inStock": true,
+    "isBestSeller": true,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-015",
+    "name": "Baby Boy Harmony Celebration Box",
+    "slug": "baby-boy-harmony-celebration-box",
+    "category": "Flower Boxes",
+    "subCategory": "Hat Box Arrangements",
+    "flowerType": "Mixed",
+    "occasion": "Congratulations",
+    "recipient": "Everyone",
+    "price": 14602,
+    "originalPrice": 18990,
+    "discountPercent": 23,
+    "rating": 4.9,
+    "reviewsCount": 177,
+    "tag": "Best Seller",
+    "badge": "Same Day Dispatch",
+    "image": "/images/products/baby-boy-harmony-celebration-box.webp",
+    "images": [
+      "/images/products/baby-boy-harmony-celebration-box.webp"
+    ],
+    "description": "A lavish curation of handpicked garden blooms, masterfully arranged in Dhanvikk's signature French velvet keepsake box. Accented with lush spiral eucalyptus and tied with an ivory satin ribbon, this bespoke creation brings regal grandeur to every celebration.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Signature reusable velvet keepsake cylinder with gold embossing",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "24 to 36 Premium Blooms",
+      "dimensions": "Box: Ø 22cm x H 25cm | Total: H 35cm",
+      "boxOrVase": "Signature Velvet Keepsake Cylinder with Gold Hot-Stamp",
+      "careGuide": "Add 50ml fresh cool water every 2 days into central oasis foam."
+    },
+    "stock": 33,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": true
+  },
+  {
+    "id": "flw-016",
+    "name": "Serenity Blush and Azure Breeze",
+    "slug": "serenity-blush-and-azure-breeze",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Roses",
+    "occasion": "Love & Romance",
+    "recipient": "For Her",
+    "price": 3352,
+    "originalPrice": 4365,
+    "discountPercent": 23,
+    "rating": 4.8,
+    "reviewsCount": 66,
+    "tag": "Luxury Edit",
+    "badge": "Fresh Cut",
+    "image": "/images/products/serenity-blush-and-azure-breeze.webp",
+    "images": [
+      "/images/products/serenity-blush-and-azure-breeze.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Serenity Blush and Azure Breeze harmonizes premium long-stemmed roses with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 27,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-017",
+    "name": "Harmony Hydrangea Grandeur",
+    "slug": "harmony-hydrangea-grandeur",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
+    "occasion": "Congratulations",
+    "recipient": "Everyone",
+    "price": 11228,
+    "originalPrice": 14602,
+    "discountPercent": 23,
+    "rating": 4.9,
+    "reviewsCount": 70,
+    "tag": "Signature Atelier",
+    "badge": "Hand Delivered",
+    "image": "/images/products/harmony-hydrangea-grandeur.webp",
+    "images": [
+      "/images/products/harmony-hydrangea-grandeur.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Harmony Hydrangea Grandeur harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 33,
+    "inStock": true,
+    "isBestSeller": true,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-018",
+    "name": "Imperial Pink Tulip Majesty",
+    "slug": "imperial-pink-tulip-majesty",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Tulips",
+    "occasion": "Anniversary",
+    "recipient": "For Her",
+    "price": 84352,
+    "originalPrice": 109665,
+    "discountPercent": 23,
+    "rating": 5.0,
+    "reviewsCount": 70,
+    "tag": "Signature Atelier",
+    "badge": "Same Day Dispatch",
+    "image": "/images/products/imperial-pink-tulip-majesty.webp",
+    "images": [
+      "/images/products/imperial-pink-tulip-majesty.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Imperial Pink Tulip Majesty harmonizes premium long-stemmed tulips with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 41,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-019",
+    "name": "Bountiful Tulip Serenity",
+    "slug": "bountiful-tulip-serenity",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Tulips",
+    "occasion": "Birthday",
+    "recipient": "BFFs",
+    "price": 34852,
+    "originalPrice": 45315,
+    "discountPercent": 23,
+    "rating": 4.9,
+    "reviewsCount": 72,
+    "tag": "Signature Atelier",
+    "badge": "Hand Delivered",
+    "image": "/images/products/bountiful-tulip-serenity.webp",
+    "images": [
+      "/images/products/bountiful-tulip-serenity.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Bountiful Tulip Serenity harmonizes premium long-stemmed tulips with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 43,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": true
+  },
+  {
+    "id": "flw-020",
+    "name": "Midnight Sapphire and  Ivory Majesty",
+    "slug": "midnight-sapphire-and-ivory-majesty",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
+    "occasion": "Anniversary",
+    "recipient": "For Her",
+    "price": 6728,
+    "originalPrice": 8752,
+    "discountPercent": 23,
+    "rating": 4.7,
+    "reviewsCount": 173,
+    "tag": "Florist Choice",
+    "badge": "Artisan Arranged",
+    "image": "/images/products/midnight-sapphire-and-ivory-majesty.webp",
+    "images": [
+      "/images/products/midnight-sapphire-and-ivory-majesty.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Midnight Sapphire and  Ivory Majesty harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 39,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-021",
+    "name": "White Bloom Elegance",
+    "slug": "white-bloom-elegance",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
+    "occasion": "Congratulations",
+    "recipient": "Everyone",
+    "price": 11228,
+    "originalPrice": 14602,
+    "discountPercent": 23,
+    "rating": 4.9,
+    "reviewsCount": 176,
+    "tag": "Luxury Bloom",
+    "badge": "Same Day Dispatch",
+    "image": "/images/products/white-bloom-elegance.webp",
+    "images": [
+      "/images/products/white-bloom-elegance.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the White Bloom Elegance harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 33,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-022",
+    "name": "Rustic Pink Collection",
+    "slug": "rustic-pink-collection",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
+    "occasion": "Birthday",
+    "recipient": "Everyone",
+    "price": 6728,
+    "originalPrice": 8752,
+    "discountPercent": 23,
+    "rating": 4.7,
+    "reviewsCount": 46,
+    "tag": "Limited Edition",
+    "badge": "Same Day Dispatch",
+    "image": "/images/products/rustic-pink-collection.webp",
+    "images": [
+      "/images/products/rustic-pink-collection.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Rustic Pink Collection harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 40,
+    "inStock": true,
+    "isBestSeller": true,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-023",
+    "name": "Blushing Harmony Blend",
+    "slug": "blushing-harmony-blend",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Roses",
+    "occasion": "Love & Romance",
+    "recipient": "For Her",
+    "price": 5625,
+    "originalPrice": 7312,
+    "discountPercent": 23,
+    "rating": 5.0,
+    "reviewsCount": 164,
+    "tag": "Luxury Bloom",
+    "badge": "Fresh Cut",
+    "image": "/images/products/blushing-harmony-blend.webp",
+    "images": [
+      "/images/products/blushing-harmony-blend.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Blushing Harmony Blend harmonizes premium long-stemmed roses with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 14,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-024",
+    "name": "Dual Blossom Charm",
+    "slug": "dual-blossom-charm",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
+    "occasion": "Birthday",
+    "recipient": "Everyone",
+    "price": 11228,
+    "originalPrice": 14602,
+    "discountPercent": 23,
+    "rating": 5.0,
+    "reviewsCount": 80,
+    "tag": "Florist Choice",
+    "badge": "Hand Delivered",
+    "image": "/images/products/dual-blossom-charm.webp",
+    "images": [
+      "/images/products/dual-blossom-charm.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Dual Blossom Charm harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 33,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-025",
+    "name": "Infinite Blush Grandeur",
+    "slug": "infinite-blush-grandeur",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Roses",
+    "occasion": "Congratulations",
+    "recipient": "Everyone",
+    "price": 31478,
+    "originalPrice": 40928,
+    "discountPercent": 23,
+    "rating": 4.9,
+    "reviewsCount": 171,
+    "tag": "Luxury Bloom",
+    "badge": "Fresh Cut",
+    "image": "/images/products/infinite-blush-grandeur.webp",
+    "images": [
+      "/images/products/infinite-blush-grandeur.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Infinite Blush Grandeur harmonizes premium long-stemmed roses with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 43,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": true
+  },
+  {
+    "id": "flw-026",
+    "name": "Rustic Romance Meadow",
+    "slug": "rustic-romance-meadow",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Roses",
+    "occasion": "Love & Romance",
+    "recipient": "For Her",
+    "price": 8078,
+    "originalPrice": 10508,
+    "discountPercent": 23,
+    "rating": 4.7,
+    "reviewsCount": 183,
+    "tag": "Best Seller",
+    "badge": "Same Day Dispatch",
+    "image": "/images/products/rustic-romance-meadow.webp",
+    "images": [
+      "/images/products/rustic-romance-meadow.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Rustic Romance Meadow harmonizes premium long-stemmed roses with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 20,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-027",
+    "name": "Ethereal White Grandeur",
+    "slug": "ethereal-white-grandeur",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
+    "occasion": "Congratulations",
+    "recipient": "Everyone",
+    "price": 11228,
+    "originalPrice": 14602,
+    "discountPercent": 23,
+    "rating": 5.0,
+    "reviewsCount": 84,
+    "tag": "Luxury Bloom",
+    "badge": "Artisan Arranged",
+    "image": "/images/products/ethereal-white-grandeur.webp",
+    "images": [
+      "/images/products/ethereal-white-grandeur.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Ethereal White Grandeur harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 39,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-028",
+    "name": "Golden Lily Radiance",
+    "slug": "golden-lily-radiance",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Lilies",
+    "occasion": "Anniversary",
+    "recipient": "For Her",
+    "price": 6728,
+    "originalPrice": 8752,
+    "discountPercent": 23,
+    "rating": 4.9,
+    "reviewsCount": 157,
+    "tag": "Best Seller",
+    "badge": "Chilled Delivery",
+    "image": "/images/products/golden-lily-radiance.webp",
+    "images": [
+      "/images/products/golden-lily-radiance.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Golden Lily Radiance harmonizes premium long-stemmed lilies with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 31,
+    "inStock": true,
+    "isBestSeller": true,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-029",
+    "name": "Blue Serenity Bouquet",
+    "slug": "blue-serenity-bouquet",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
+    "occasion": "Birthday",
+    "recipient": "Everyone",
+    "price": 13478,
+    "originalPrice": 17528,
+    "discountPercent": 23,
+    "rating": 4.9,
+    "reviewsCount": 93,
+    "tag": "Luxury Bloom",
+    "badge": "Chilled Delivery",
+    "image": "/images/products/blue-serenity-bouquet.webp",
+    "images": [
+      "/images/products/blue-serenity-bouquet.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Blue Serenity Bouquet harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 42,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-030",
+    "name": "Midnight Blue Charm",
+    "slug": "midnight-blue-charm",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
+    "occasion": "Birthday",
+    "recipient": "Everyone",
+    "price": 2678,
+    "originalPrice": 3488,
+    "discountPercent": 23,
+    "rating": 4.8,
+    "reviewsCount": 154,
+    "tag": "Luxury Edit",
+    "badge": "Hand Delivered",
+    "image": "/images/products/midnight-blue-charm.webp",
+    "images": [
+      "/images/products/midnight-blue-charm.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Midnight Blue Charm harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 19,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": true
+  },
+  {
+    "id": "flw-031",
+    "name": "Lavender Dream Serenity",
+    "slug": "lavender-dream-serenity",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
+    "occasion": "Birthday",
+    "recipient": "Everyone",
+    "price": 4478,
+    "originalPrice": 5828,
+    "discountPercent": 23,
+    "rating": 4.8,
+    "reviewsCount": 128,
+    "tag": "Luxury Bloom",
+    "badge": "Fresh Cut",
+    "image": "/images/products/lavender-dream-serenity.webp",
+    "images": [
+      "/images/products/lavender-dream-serenity.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Lavender Dream Serenity harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 17,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-032",
+    "name": "Sunny Tulip Glow",
+    "slug": "sunny-tulip-glow",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Tulips",
+    "occasion": "Birthday",
+    "recipient": "BFFs",
+    "price": 3352,
+    "originalPrice": 4365,
+    "discountPercent": 23,
+    "rating": 4.8,
+    "reviewsCount": 147,
+    "tag": "Fresh Harvest",
+    "badge": "Artisan Arranged",
+    "image": "/images/products/sunny-tulip-glow.webp",
+    "images": [
+      "/images/products/sunny-tulip-glow.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Sunny Tulip Glow harmonizes premium long-stemmed tulips with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 34,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-033",
+    "name": "Blushing Spring Elegance",
+    "slug": "blushing-spring-elegance",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Roses",
+    "occasion": "Congratulations",
+    "recipient": "For Her",
+    "price": 6728,
+    "originalPrice": 8752,
+    "discountPercent": 23,
+    "rating": 4.8,
+    "reviewsCount": 74,
+    "tag": "Luxury Bloom",
+    "badge": "Same Day Dispatch",
+    "image": "/images/products/blushing-spring-elegance.webp",
+    "images": [
+      "/images/products/blushing-spring-elegance.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Blushing Spring Elegance harmonizes premium long-stemmed roses with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 22,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-034",
+    "name": "Eternal Passion Harmony",
+    "slug": "eternal-passion-harmony",
+    "category": "Forever Roses",
+    "subCategory": "Preserved Bell Domes",
+    "flowerType": "Mixed",
+    "occasion": "Love & Romance",
+    "recipient": "For Her",
+    "price": 3352,
+    "originalPrice": 4365,
+    "discountPercent": 23,
+    "rating": 4.9,
+    "reviewsCount": 184,
+    "tag": "Artisan Hand-tied",
+    "badge": "Hand Delivered",
+    "image": "/images/products/eternal-passion-harmony.webp",
+    "images": [
+      "/images/products/eternal-passion-harmony.webp"
+    ],
+    "description": "A breathtaking showcase of naturally preserved Ecuadorian garden blooms, meticulously stabilized to retain velvety softness, vibrant pigment, and structural perfection for up to 3 years without watering. Encased in a hand-blown borosilicate bell dome.",
+    "features": [
+      "100% natural real roses preserved at peak bloom",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Zero water or maintenance required — blooms for 3+ years"
+    ],
+    "specifications": {
+      "stemCount": "Imperial Preserved Head (Ø 9-10cm)",
+      "dimensions": "Dome: H 28cm x Ø 16cm with solid beechwood base",
+      "boxOrVase": "Hand-blown Borosilicate Crystal Glass Bell Dome",
+      "careGuide": "Keep away from direct sunlight, humidity, and moisture. Do not water."
+    },
+    "stock": 31,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-035",
+    "name": "Pastel Harmony Oasis",
+    "slug": "pastel-harmony-oasis",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
+    "occasion": "Birthday",
+    "recipient": "BFFs",
+    "price": 3802,
+    "originalPrice": 4950,
+    "discountPercent": 23,
+    "rating": 4.9,
+    "reviewsCount": 159,
+    "tag": "Luxury Bloom",
+    "badge": "Chilled Delivery",
+    "image": "/images/products/pastel-harmony-oasis.webp",
+    "images": [
+      "/images/products/pastel-harmony-oasis.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Pastel Harmony Oasis harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 17,
+    "inStock": true,
+    "isBestSeller": true,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-036",
+    "name": "Midnight Orchid Serenity",
+    "slug": "midnight-orchid-serenity",
+    "category": "Plants",
+    "subCategory": "Living Orchids",
+    "flowerType": "Orchids",
+    "occasion": "Congratulations",
+    "recipient": "Everyone",
+    "price": 4478,
+    "originalPrice": 5828,
+    "discountPercent": 23,
+    "rating": 4.7,
+    "reviewsCount": 128,
+    "tag": "Trending Now",
+    "badge": "Fresh Cut",
+    "image": "/images/products/midnight-orchid-serenity.webp",
+    "images": [
+      "/images/products/midnight-orchid-serenity.webp"
+    ],
+    "description": "Exotic living orchids nurtured to peak flowering perfection, displayed in a handcrafted artisan ceramic planter. Includes custom nutrient moss bedding, moisture-retaining base, and Dhanvikk botanical plant care guide.",
+    "features": [
+      "Certified disease-free living plant in artisan ceramic container",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Includes complete botanical hydration & light care booklet"
+    ],
+    "specifications": {
+      "stemCount": "Twin-spike cascading floral stems with buds",
+      "dimensions": "Plant Height: 55-65cm in 15cm ceramic planter",
+      "boxOrVase": "Artisan Hand-glazed Matte Ceramic Planter",
+      "careGuide": "Water lightly once a week when topsoil is dry. Keep in bright indirect light."
+    },
+    "stock": 34,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-037",
+    "name": "Crimson Carnation Grandeur",
+    "slug": "crimson-carnation-grandeur",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Roses",
+    "occasion": "Love & Romance",
+    "recipient": "For Her",
+    "price": 1552,
+    "originalPrice": 2025,
+    "discountPercent": 23,
+    "rating": 4.8,
+    "reviewsCount": 139,
+    "tag": "Luxury Bloom",
+    "badge": "Fresh Cut",
+    "image": "/images/products/crimson-carnation-grandeur.webp",
+    "images": [
+      "/images/products/crimson-carnation-grandeur.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Crimson Carnation Grandeur harmonizes premium long-stemmed roses with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 33,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-038",
+    "name": "Blushing Harmony Blend",
+    "slug": "blushing-harmony-blend-2",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Roses",
+    "occasion": "Love & Romance",
+    "recipient": "For Her",
+    "price": 7852,
+    "originalPrice": 10215,
+    "discountPercent": 23,
+    "rating": 4.7,
+    "reviewsCount": 181,
+    "tag": "Best Seller",
+    "badge": "Artisan Arranged",
+    "image": "/images/products/blushing-harmony-blend-2.webp",
+    "images": [
+      "/images/products/blushing-harmony-blend-2.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Blushing Harmony Blend harmonizes premium long-stemmed roses with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 33,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-039",
+    "name": "Prism of Affection Grandeur",
+    "slug": "prism-of-affection-grandeur",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
+    "occasion": "Love & Romance",
+    "recipient": "For Her",
+    "price": 24728,
+    "originalPrice": 32152,
+    "discountPercent": 23,
+    "rating": 4.9,
+    "reviewsCount": 48,
+    "tag": "Luxury Bloom",
+    "badge": "Hand Delivered",
+    "image": "/images/products/prism-of-affection-grandeur.webp",
+    "images": [
+      "/images/products/prism-of-affection-grandeur.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Prism of Affection Grandeur harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 15,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-040",
+    "name": "Twilight Lavender Noir",
+    "slug": "twilight-lavender-noir",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
+    "occasion": "Birthday",
+    "recipient": "Everyone",
+    "price": 2678,
+    "originalPrice": 3488,
+    "discountPercent": 23,
+    "rating": 4.9,
+    "reviewsCount": 31,
+    "tag": "Florist Choice",
+    "badge": "Artisan Arranged",
+    "image": "/images/products/twilight-lavender-noir.webp",
+    "images": [
+      "/images/products/twilight-lavender-noir.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Twilight Lavender Noir harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 44,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": true
+  },
+  {
+    "id": "flw-041",
+    "name": "Peach Delight",
+    "slug": "peach-delight",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
+    "occasion": "Birthday",
+    "recipient": "Everyone",
+    "price": 2228,
+    "originalPrice": 2902,
+    "discountPercent": 23,
+    "rating": 4.9,
+    "reviewsCount": 148,
+    "tag": "Luxury Bloom",
+    "badge": "Chilled Delivery",
+    "image": "/images/products/peach-delight.webp",
+    "images": [
+      "/images/products/peach-delight.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Peach Delight harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 24,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-042",
+    "name": "Midnight Passion Noir",
+    "slug": "midnight-passion-noir",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
+    "occasion": "Love & Romance",
+    "recipient": "For Her",
+    "price": 3128,
+    "originalPrice": 4072,
+    "discountPercent": 23,
+    "rating": 5.0,
+    "reviewsCount": 35,
+    "tag": "Trending Now",
+    "badge": "Fresh Cut",
+    "image": "/images/products/midnight-passion-noir.webp",
+    "images": [
+      "/images/products/midnight-passion-noir.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Midnight Passion Noir harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 15,
+    "inStock": true,
+    "isBestSeller": true,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-043",
+    "name": "Revival Romance",
+    "slug": "revival-romance",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Roses",
+    "occasion": "Love & Romance",
+    "recipient": "For Her",
+    "price": 3352,
+    "originalPrice": 4365,
+    "discountPercent": 23,
+    "rating": 4.8,
+    "reviewsCount": 140,
+    "tag": "Luxury Bloom",
+    "badge": "Fresh Cut",
+    "image": "/images/products/revival-romance.webp",
+    "images": [
+      "/images/products/revival-romance.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Revival Romance harmonizes premium long-stemmed roses with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 19,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-044",
+    "name": "Sweet Blush Serenity",
+    "slug": "sweet-blush-serenity",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Roses",
+    "occasion": "Love & Romance",
+    "recipient": "For Her",
+    "price": 3352,
+    "originalPrice": 4365,
+    "discountPercent": 23,
+    "rating": 5.0,
+    "reviewsCount": 132,
+    "tag": "Artisan Hand-tied",
+    "badge": "Same Day Dispatch",
+    "image": "/images/products/sweet-blush-serenity.webp",
+    "images": [
+      "/images/products/sweet-blush-serenity.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Sweet Blush Serenity harmonizes premium long-stemmed roses with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 14,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-045",
+    "name": "Blushing Hydrangea Dream tem",
+    "slug": "blushing-hydrangea-dream-tem",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Roses",
+    "occasion": "Love & Romance",
+    "recipient": "For Her",
+    "price": 2228,
+    "originalPrice": 2902,
+    "discountPercent": 23,
+    "rating": 4.7,
+    "reviewsCount": 183,
+    "tag": "Luxury Bloom",
+    "badge": "Same Day Dispatch",
+    "image": "/images/products/blushing-hydrangea-dream-tem.webp",
+    "images": [
+      "/images/products/blushing-hydrangea-dream-tem.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Blushing Hydrangea Dream tem harmonizes premium long-stemmed roses with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 35,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-046",
+    "name": "Sunny Radiance",
+    "slug": "sunny-radiance",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
+    "occasion": "Birthday",
+    "recipient": "BFFs",
+    "price": 2228,
+    "originalPrice": 2902,
+    "discountPercent": 23,
+    "rating": 4.9,
+    "reviewsCount": 62,
+    "tag": "Artisan Hand-tied",
+    "badge": "Artisan Arranged",
+    "image": "/images/products/sunny-radiance.webp",
+    "images": [
+      "/images/products/sunny-radiance.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Sunny Radiance harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 39,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-047",
+    "name": "Eternal Blush Grandeur",
+    "slug": "eternal-blush-grandeur",
+    "category": "Forever Roses",
+    "subCategory": "Preserved Bell Domes",
+    "flowerType": "Roses",
+    "occasion": "Congratulations",
+    "recipient": "Everyone",
+    "price": 11228,
+    "originalPrice": 14602,
+    "discountPercent": 23,
+    "rating": 4.8,
+    "reviewsCount": 186,
+    "tag": "Luxury Bloom",
+    "badge": "Chilled Delivery",
+    "image": "/images/products/eternal-blush-grandeur.webp",
+    "images": [
+      "/images/products/eternal-blush-grandeur.webp"
+    ],
+    "description": "A breathtaking showcase of naturally preserved Ecuadorian roses, meticulously stabilized to retain velvety softness, vibrant pigment, and structural perfection for up to 3 years without watering. Encased in a hand-blown borosilicate bell dome.",
+    "features": [
+      "100% natural real roses preserved at peak bloom",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Zero water or maintenance required — blooms for 3+ years"
+    ],
+    "specifications": {
+      "stemCount": "Imperial Preserved Head (Ø 9-10cm)",
+      "dimensions": "Dome: H 28cm x Ø 16cm with solid beechwood base",
+      "boxOrVase": "Hand-blown Borosilicate Crystal Glass Bell Dome",
+      "careGuide": "Keep away from direct sunlight, humidity, and moisture. Do not water."
+    },
+    "stock": 16,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-048",
+    "name": "Sweet Gypsy Charm",
+    "slug": "sweet-gypsy-charm",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
+    "occasion": "Love & Romance",
+    "recipient": "For Her",
+    "price": 13478,
+    "originalPrice": 17528,
+    "discountPercent": 23,
+    "rating": 4.7,
+    "reviewsCount": 88,
+    "tag": "Florist Choice",
+    "badge": "Fresh Cut",
+    "image": "/images/products/sweet-gypsy-charm.webp",
+    "images": [
+      "/images/products/sweet-gypsy-charm.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Sweet Gypsy Charm harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 38,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-049",
+    "name": "Kaleidoscope Harmony",
+    "slug": "kaleidoscope-harmony",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
+    "occasion": "Birthday",
+    "recipient": "Everyone",
+    "price": 6728,
+    "originalPrice": 8752,
+    "discountPercent": 23,
+    "rating": 4.9,
+    "reviewsCount": 126,
+    "tag": "Luxury Bloom",
+    "badge": "Fresh Cut",
+    "image": "/images/products/kaleidoscope-harmony.webp",
+    "images": [
+      "/images/products/kaleidoscope-harmony.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Kaleidoscope Harmony harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 26,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-050",
+    "name": "Midnight Sapphire Grandeur",
+    "slug": "midnight-sapphire-grandeur",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
+    "occasion": "Congratulations",
+    "recipient": "Everyone",
+    "price": 13478,
+    "originalPrice": 17528,
+    "discountPercent": 23,
+    "rating": 4.9,
+    "reviewsCount": 185,
+    "tag": "Fresh Harvest",
+    "badge": "Hand Delivered",
+    "image": "/images/products/midnight-sapphire-grandeur.webp",
+    "images": [
+      "/images/products/midnight-sapphire-grandeur.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Midnight Sapphire Grandeur harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 27,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": true
+  },
+  {
+    "id": "flw-051",
+    "name": "Lavender Ethereal Grace",
+    "slug": "lavender-ethereal-grace",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
+    "occasion": "Congratulations",
+    "recipient": "For Her",
+    "price": 3352,
+    "originalPrice": 4365,
+    "discountPercent": 23,
+    "rating": 5.0,
+    "reviewsCount": 124,
+    "tag": "Luxury Bloom",
+    "badge": "Chilled Delivery",
+    "image": "/images/products/lavender-ethereal-grace.webp",
+    "images": [
+      "/images/products/lavender-ethereal-grace.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Lavender Ethereal Grace harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 23,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-052",
+    "name": "The Floral Cloud Box",
+    "slug": "the-floral-cloud-box",
+    "category": "Flower Boxes",
+    "subCategory": "Hat Box Arrangements",
+    "flowerType": "Mixed",
+    "occasion": "Birthday",
+    "recipient": "Everyone",
+    "price": 11228,
+    "originalPrice": 14602,
+    "discountPercent": 23,
+    "rating": 5.0,
+    "reviewsCount": 43,
+    "tag": "Limited Edition",
+    "badge": "Chilled Delivery",
+    "image": "/images/products/the-floral-cloud-box.webp",
+    "images": [
+      "/images/products/the-floral-cloud-box.webp"
+    ],
+    "description": "A lavish curation of handpicked garden blooms, masterfully arranged in Dhanvikk's signature French velvet keepsake box. Accented with lush spiral eucalyptus and tied with an ivory satin ribbon, this bespoke creation brings regal grandeur to every celebration.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Signature reusable velvet keepsake cylinder with gold embossing",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "24 to 36 Premium Blooms",
+      "dimensions": "Box: Ø 22cm x H 25cm | Total: H 35cm",
+      "boxOrVase": "Signature Velvet Keepsake Cylinder with Gold Hot-Stamp",
+      "careGuide": "Add 50ml fresh cool water every 2 days into central oasis foam."
+    },
+    "stock": 16,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-053",
+    "name": "Eternal Blush Grandeur",
+    "slug": "eternal-blush-grandeur-2",
+    "category": "Forever Roses",
+    "subCategory": "Preserved Bell Domes",
+    "flowerType": "Roses",
+    "occasion": "Congratulations",
+    "recipient": "Everyone",
+    "price": 11228,
+    "originalPrice": 14602,
+    "discountPercent": 23,
+    "rating": 4.8,
+    "reviewsCount": 120,
+    "tag": "Luxury Bloom",
+    "badge": "Fresh Cut",
+    "image": "/images/products/eternal-blush-grandeur-2.webp",
+    "images": [
+      "/images/products/eternal-blush-grandeur-2.webp"
+    ],
+    "description": "A breathtaking showcase of naturally preserved Ecuadorian roses, meticulously stabilized to retain velvety softness, vibrant pigment, and structural perfection for up to 3 years without watering. Encased in a hand-blown borosilicate bell dome.",
+    "features": [
+      "100% natural real roses preserved at peak bloom",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Zero water or maintenance required — blooms for 3+ years"
+    ],
+    "specifications": {
+      "stemCount": "Imperial Preserved Head (Ø 9-10cm)",
+      "dimensions": "Dome: H 28cm x Ø 16cm with solid beechwood base",
+      "boxOrVase": "Hand-blown Borosilicate Crystal Glass Bell Dome",
+      "careGuide": "Keep away from direct sunlight, humidity, and moisture. Do not water."
+    },
+    "stock": 45,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-054",
+    "name": "The Passion Box",
+    "slug": "the-passion-box",
+    "category": "Flower Boxes",
+    "subCategory": "Hat Box Arrangements",
+    "flowerType": "Mixed",
+    "occasion": "Love & Romance",
+    "recipient": "For Her",
+    "price": 12352,
+    "originalPrice": 16065,
+    "discountPercent": 23,
+    "rating": 4.9,
+    "reviewsCount": 162,
+    "tag": "Luxury Edit",
+    "badge": "Artisan Arranged",
+    "image": "/images/products/the-passion-box.webp",
+    "images": [
+      "/images/products/the-passion-box.webp"
+    ],
+    "description": "A lavish curation of handpicked garden blooms, masterfully arranged in Dhanvikk's signature French velvet keepsake box. Accented with lush spiral eucalyptus and tied with an ivory satin ribbon, this bespoke creation brings regal grandeur to every celebration.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Signature reusable velvet keepsake cylinder with gold embossing",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "24 to 36 Premium Blooms",
+      "dimensions": "Box: Ø 22cm x H 25cm | Total: H 35cm",
+      "boxOrVase": "Signature Velvet Keepsake Cylinder with Gold Hot-Stamp",
+      "careGuide": "Add 50ml fresh cool water every 2 days into central oasis foam."
+    },
+    "stock": 32,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-055",
+    "name": "The Blue Sky Box",
+    "slug": "the-blue-sky-box",
+    "category": "Flower Boxes",
+    "subCategory": "Hat Box Arrangements",
+    "flowerType": "Mixed",
+    "occasion": "Birthday",
+    "recipient": "Everyone",
+    "price": 7852,
+    "originalPrice": 10215,
+    "discountPercent": 23,
+    "rating": 4.8,
+    "reviewsCount": 87,
+    "tag": "Luxury Bloom",
+    "badge": "Fresh Cut",
+    "image": "/images/products/the-blue-sky-box.webp",
+    "images": [
+      "/images/products/the-blue-sky-box.webp"
+    ],
+    "description": "A lavish curation of handpicked garden blooms, masterfully arranged in Dhanvikk's signature French velvet keepsake box. Accented with lush spiral eucalyptus and tied with an ivory satin ribbon, this bespoke creation brings regal grandeur to every celebration.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Signature reusable velvet keepsake cylinder with gold embossing",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "24 to 36 Premium Blooms",
+      "dimensions": "Box: Ø 22cm x H 25cm | Total: H 35cm",
+      "boxOrVase": "Signature Velvet Keepsake Cylinder with Gold Hot-Stamp",
+      "careGuide": "Add 50ml fresh cool water every 2 days into central oasis foam."
+    },
+    "stock": 36,
+    "inStock": true,
+    "isBestSeller": true,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-056",
+    "name": "The Tuscan Meadow Box",
+    "slug": "the-tuscan-meadow-box",
+    "category": "Flower Boxes",
+    "subCategory": "Hat Box Arrangements",
+    "flowerType": "Mixed",
+    "occasion": "Congratulations",
+    "recipient": "For Her",
+    "price": 7852,
+    "originalPrice": 10215,
+    "discountPercent": 23,
+    "rating": 4.9,
+    "reviewsCount": 81,
+    "tag": "Best Seller",
+    "badge": "Same Day Dispatch",
+    "image": "/images/products/the-tuscan-meadow-box.webp",
+    "images": [
+      "/images/products/the-tuscan-meadow-box.webp"
+    ],
+    "description": "A lavish curation of handpicked garden blooms, masterfully arranged in Dhanvikk's signature French velvet keepsake box. Accented with lush spiral eucalyptus and tied with an ivory satin ribbon, this bespoke creation brings regal grandeur to every celebration.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Signature reusable velvet keepsake cylinder with gold embossing",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "24 to 36 Premium Blooms",
+      "dimensions": "Box: Ø 22cm x H 25cm | Total: H 35cm",
+      "boxOrVase": "Signature Velvet Keepsake Cylinder with Gold Hot-Stamp",
+      "careGuide": "Add 50ml fresh cool water every 2 days into central oasis foam."
+    },
+    "stock": 24,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-057",
+    "name": "British Garden Heritage",
+    "slug": "british-garden-heritage",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
+    "occasion": "Birthday",
+    "recipient": "Everyone",
+    "price": 35978,
+    "originalPrice": 46778,
+    "discountPercent": 23,
+    "rating": 4.9,
+    "reviewsCount": 80,
+    "tag": "Luxury Bloom",
+    "badge": "Same Day Dispatch",
+    "image": "/images/products/british-garden-heritage.webp",
+    "images": [
+      "/images/products/british-garden-heritage.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the British Garden Heritage harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 20,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-058",
+    "name": "The Elegance Box",
+    "slug": "the-elegance-box",
+    "category": "Flower Boxes",
+    "subCategory": "Hat Box Arrangements",
+    "flowerType": "Mixed",
+    "occasion": "Birthday",
+    "recipient": "Everyone",
+    "price": 10102,
+    "originalPrice": 13140,
+    "discountPercent": 23,
+    "rating": 4.8,
+    "reviewsCount": 138,
+    "tag": "Trending Now",
+    "badge": "Artisan Arranged",
+    "image": "/images/products/the-elegance-box.webp",
+    "images": [
+      "/images/products/the-elegance-box.webp"
+    ],
+    "description": "A lavish curation of handpicked garden blooms, masterfully arranged in Dhanvikk's signature French velvet keepsake box. Accented with lush spiral eucalyptus and tied with an ivory satin ribbon, this bespoke creation brings regal grandeur to every celebration.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Signature reusable velvet keepsake cylinder with gold embossing",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "24 to 36 Premium Blooms",
+      "dimensions": "Box: Ø 22cm x H 25cm | Total: H 35cm",
+      "boxOrVase": "Signature Velvet Keepsake Cylinder with Gold Hot-Stamp",
+      "careGuide": "Add 50ml fresh cool water every 2 days into central oasis foam."
+    },
+    "stock": 29,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-059",
+    "name": "Le Jardin de Violette ( The Violet Garde )",
+    "slug": "le-jardin-de-violette-the-violet-garde",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
+    "occasion": "Birthday",
+    "recipient": "Everyone",
+    "price": 22478,
+    "originalPrice": 29228,
+    "discountPercent": 23,
+    "rating": 4.7,
+    "reviewsCount": 111,
+    "tag": "Luxury Bloom",
+    "badge": "Fresh Cut",
+    "image": "/images/products/le-jardin-de-violette-the-violet-garde.webp",
+    "images": [
+      "/images/products/le-jardin-de-violette-the-violet-garde.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Le Jardin de Violette ( The Violet Garde ) harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 39,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-060",
+    "name": "The Provence Meadow",
+    "slug": "the-provence-meadow",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
+    "occasion": "Congratulations",
+    "recipient": "For Her",
+    "price": 15728,
+    "originalPrice": 20452,
+    "discountPercent": 23,
+    "rating": 4.9,
+    "reviewsCount": 164,
+    "tag": "Trending Now",
+    "badge": "Artisan Arranged",
+    "image": "/images/products/the-provence-meadow.webp",
+    "images": [
+      "/images/products/the-provence-meadow.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the The Provence Meadow harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 24,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": true
+  },
+  {
+    "id": "flw-061",
+    "name": "The Enchanted Garden",
+    "slug": "the-enchanted-garden",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
+    "occasion": "Birthday",
+    "recipient": "Everyone",
+    "price": 22478,
+    "originalPrice": 29228,
+    "discountPercent": 23,
+    "rating": 4.7,
+    "reviewsCount": 184,
+    "tag": "Luxury Bloom",
+    "badge": "Artisan Arranged",
+    "image": "/images/products/the-enchanted-garden.webp",
+    "images": [
+      "/images/products/the-enchanted-garden.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the The Enchanted Garden harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 27,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-062",
+    "name": "The Continental Romance Basket",
+    "slug": "the-continental-romance-basket",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Roses",
+    "occasion": "Love & Romance",
+    "recipient": "For Her",
+    "price": 23602,
+    "originalPrice": 30690,
+    "discountPercent": 23,
+    "rating": 4.9,
+    "reviewsCount": 141,
+    "tag": "Artisan Hand-tied",
+    "badge": "Hand Delivered",
+    "image": "/images/products/the-continental-romance-basket.webp",
+    "images": [
+      "/images/products/the-continental-romance-basket.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the The Continental Romance Basket harmonizes premium long-stemmed roses with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 25,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-063",
+    "name": "The Basket of Purity",
+    "slug": "the-basket-of-purity",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
+    "occasion": "Congratulations",
+    "recipient": "Everyone",
+    "price": 12352,
+    "originalPrice": 16065,
+    "discountPercent": 23,
+    "rating": 4.7,
+    "reviewsCount": 101,
+    "tag": "Luxury Bloom",
+    "badge": "Chilled Delivery",
+    "image": "/images/products/the-basket-of-purity.webp",
+    "images": [
+      "/images/products/the-basket-of-purity.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the The Basket of Purity harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 30,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-064",
+    "name": "Serenity Blush",
+    "slug": "serenity-blush",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Roses",
+    "occasion": "Love & Romance",
+    "recipient": "For Her",
+    "price": 2678,
+    "originalPrice": 3488,
+    "discountPercent": 23,
+    "rating": 4.7,
+    "reviewsCount": 134,
+    "tag": "Artisan Hand-tied",
+    "badge": "Fresh Cut",
+    "image": "/images/products/serenity-blush.webp",
+    "images": [
+      "/images/products/serenity-blush.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Serenity Blush harmonizes premium long-stemmed roses with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 18,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-065",
+    "name": "Celestial Harmony",
+    "slug": "celestial-harmony",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
+    "occasion": "Birthday",
+    "recipient": "Everyone",
+    "price": 8978,
+    "originalPrice": 11678,
+    "discountPercent": 23,
+    "rating": 4.8,
+    "reviewsCount": 178,
+    "tag": "Luxury Bloom",
+    "badge": "Chilled Delivery",
+    "image": "/images/products/celestial-harmony.webp",
+    "images": [
+      "/images/products/celestial-harmony.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Celestial Harmony harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 40,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-066",
+    "name": "Sunny Meadows",
+    "slug": "sunny-meadows",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
+    "occasion": "Birthday",
+    "recipient": "BFFs",
+    "price": 13478,
+    "originalPrice": 17528,
+    "discountPercent": 23,
+    "rating": 4.8,
+    "reviewsCount": 46,
+    "tag": "Luxury Edit",
+    "badge": "Hand Delivered",
+    "image": "/images/products/sunny-meadows.webp",
+    "images": [
+      "/images/products/sunny-meadows.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Sunny Meadows harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 35,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-067",
+    "name": "Pure Pink Lilies",
+    "slug": "pure-pink-lilies",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Lilies",
+    "occasion": "Anniversary",
+    "recipient": "For Her",
+    "price": 5602,
+    "originalPrice": 7290,
+    "discountPercent": 23,
+    "rating": 4.9,
+    "reviewsCount": 156,
+    "tag": "Luxury Bloom",
+    "badge": "Chilled Delivery",
+    "image": "/images/products/pure-pink-lilies.webp",
+    "images": [
+      "/images/products/pure-pink-lilies.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Pure Pink Lilies harmonizes premium long-stemmed lilies with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 37,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-068",
+    "name": "Kaleidoscope Radiance",
+    "slug": "kaleidoscope-radiance",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
+    "occasion": "Birthday",
+    "recipient": "Everyone",
+    "price": 22478,
+    "originalPrice": 29228,
+    "discountPercent": 23,
+    "rating": 4.8,
+    "reviewsCount": 183,
+    "tag": "Signature Atelier",
+    "badge": "Artisan Arranged",
+    "image": "/images/products/kaleidoscope-radiance.webp",
+    "images": [
+      "/images/products/kaleidoscope-radiance.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Kaleidoscope Radiance harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 25,
+    "inStock": true,
+    "isBestSeller": true,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-069",
+    "name": "Ethereal Blush",
+    "slug": "ethereal-blush",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Roses",
+    "occasion": "Love & Romance",
+    "recipient": "For Her",
+    "price": 7852,
+    "originalPrice": 10215,
+    "discountPercent": 23,
+    "rating": 4.9,
+    "reviewsCount": 174,
+    "tag": "Luxury Bloom",
+    "badge": "Hand Delivered",
+    "image": "/images/products/ethereal-blush.webp",
+    "images": [
+      "/images/products/ethereal-blush.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Ethereal Blush harmonizes premium long-stemmed roses with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 34,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-070",
+    "name": "Ocean Royal Contrast",
+    "slug": "ocean-royal-contrast",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
+    "occasion": "Anniversary",
+    "recipient": "For Her",
+    "price": 12352,
+    "originalPrice": 16065,
+    "discountPercent": 23,
+    "rating": 4.9,
+    "reviewsCount": 167,
+    "tag": "Luxury Edit",
+    "badge": "Same Day Dispatch",
+    "image": "/images/products/ocean-royal-contrast.webp",
+    "images": [
+      "/images/products/ocean-royal-contrast.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Ocean Royal Contrast harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 38,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-071",
+    "name": "Golden Flame",
+    "slug": "golden-flame",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
+    "occasion": "Anniversary",
+    "recipient": "For Her",
+    "price": 11228,
+    "originalPrice": 14602,
+    "discountPercent": 23,
+    "rating": 4.8,
+    "reviewsCount": 78,
+    "tag": "Luxury Bloom",
+    "badge": "Hand Delivered",
+    "image": "/images/products/golden-flame.webp",
+    "images": [
+      "/images/products/golden-flame.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Golden Flame harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 33,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-072",
+    "name": "Midnight Solstice",
+    "slug": "midnight-solstice",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
+    "occasion": "Birthday",
+    "recipient": "Everyone",
+    "price": 12352,
+    "originalPrice": 16065,
+    "discountPercent": 23,
+    "rating": 4.8,
+    "reviewsCount": 154,
+    "tag": "Trending Now",
+    "badge": "Chilled Delivery",
+    "image": "/images/products/midnight-solstice.webp",
+    "images": [
+      "/images/products/midnight-solstice.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Midnight Solstice harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 37,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-073",
+    "name": "Pink Gypsy Delight",
+    "slug": "pink-gypsy-delight",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
+    "occasion": "Birthday",
+    "recipient": "Everyone",
+    "price": 2228,
+    "originalPrice": 2902,
+    "discountPercent": 23,
+    "rating": 4.9,
+    "reviewsCount": 137,
+    "tag": "Luxury Bloom",
+    "badge": "Chilled Delivery",
+    "image": "/images/products/pink-gypsy-delight.webp",
+    "images": [
+      "/images/products/pink-gypsy-delight.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Pink Gypsy Delight harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 15,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-074",
+    "name": "Crimson Serenade",
+    "slug": "crimson-serenade",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Roses",
+    "occasion": "Love & Romance",
+    "recipient": "For Her",
+    "price": 5152,
+    "originalPrice": 6705,
+    "discountPercent": 23,
+    "rating": 4.8,
+    "reviewsCount": 37,
+    "tag": "Limited Edition",
+    "badge": "Artisan Arranged",
+    "image": "/images/products/crimson-serenade.webp",
+    "images": [
+      "/images/products/crimson-serenade.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Crimson Serenade harmonizes premium long-stemmed roses with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 26,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-075",
+    "name": "Soft Whisper",
+    "slug": "soft-whisper",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
+    "occasion": "Congratulations",
+    "recipient": "Everyone",
+    "price": 1552,
+    "originalPrice": 2025,
+    "discountPercent": 23,
+    "rating": 4.7,
+    "reviewsCount": 81,
+    "tag": "Luxury Bloom",
+    "badge": "Chilled Delivery",
+    "image": "/images/products/soft-whisper.webp",
+    "images": [
+      "/images/products/soft-whisper.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Soft Whisper harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 21,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": true
+  },
+  {
+    "id": "flw-076",
+    "name": "Solar Radiance",
+    "slug": "solar-radiance",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
+    "occasion": "Birthday",
+    "recipient": "Everyone",
+    "price": 2678,
+    "originalPrice": 3488,
+    "discountPercent": 23,
+    "rating": 5.0,
+    "reviewsCount": 151,
+    "tag": "Trending Now",
+    "badge": "Chilled Delivery",
+    "image": "/images/products/solar-radiance.webp",
+    "images": [
+      "/images/products/solar-radiance.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Solar Radiance harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 40,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-077",
+    "name": "Eternal Passion",
+    "slug": "eternal-passion",
+    "category": "Forever Roses",
+    "subCategory": "Preserved Bell Domes",
+    "flowerType": "Mixed",
+    "occasion": "Love & Romance",
+    "recipient": "For Her",
+    "price": 40478,
+    "originalPrice": 52628,
+    "discountPercent": 23,
+    "rating": 5.0,
+    "reviewsCount": 166,
+    "tag": "Luxury Bloom",
+    "badge": "Fresh Cut",
+    "image": "/images/products/eternal-passion.webp",
+    "images": [
+      "/images/products/eternal-passion.webp"
+    ],
+    "description": "A breathtaking showcase of naturally preserved Ecuadorian garden blooms, meticulously stabilized to retain velvety softness, vibrant pigment, and structural perfection for up to 3 years without watering. Encased in a hand-blown borosilicate bell dome.",
+    "features": [
+      "100% natural real roses preserved at peak bloom",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Zero water or maintenance required — blooms for 3+ years"
+    ],
+    "specifications": {
+      "stemCount": "Imperial Preserved Head (Ø 9-10cm)",
+      "dimensions": "Dome: H 28cm x Ø 16cm with solid beechwood base",
+      "boxOrVase": "Hand-blown Borosilicate Crystal Glass Bell Dome",
+      "careGuide": "Keep away from direct sunlight, humidity, and moisture. Do not water."
+    },
+    "stock": 43,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-078",
+    "name": "Midnight Majesty",
+    "slug": "midnight-majesty",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
+    "occasion": "Anniversary",
+    "recipient": "For Her",
+    "price": 11228,
+    "originalPrice": 14602,
+    "discountPercent": 23,
+    "rating": 5.0,
+    "reviewsCount": 74,
+    "tag": "Signature Atelier",
+    "badge": "Same Day Dispatch",
+    "image": "/images/products/midnight-majesty.webp",
+    "images": [
+      "/images/products/midnight-majesty.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Midnight Majesty harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 21,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-079",
+    "name": "Grandeur Romance",
+    "slug": "grandeur-romance",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Roses",
+    "occasion": "Love & Romance",
+    "recipient": "For Her",
+    "price": 11228,
+    "originalPrice": 14602,
+    "discountPercent": 23,
+    "rating": 4.7,
+    "reviewsCount": 26,
+    "tag": "Luxury Bloom",
+    "badge": "Same Day Dispatch",
+    "image": "/images/products/grandeur-romance.webp",
+    "images": [
+      "/images/products/grandeur-romance.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Grandeur Romance harmonizes premium long-stemmed roses with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 30,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-080",
+    "name": "Elegance Redefined",
+    "slug": "elegance-redefined",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
+    "occasion": "Birthday",
+    "recipient": "Everyone",
+    "price": 6728,
+    "originalPrice": 8752,
+    "discountPercent": 23,
+    "rating": 4.9,
+    "reviewsCount": 50,
+    "tag": "Fresh Harvest",
+    "badge": "Hand Delivered",
+    "image": "/images/products/elegance-redefined.webp",
+    "images": [
+      "/images/products/elegance-redefined.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Elegance Redefined harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 17,
+    "inStock": true,
+    "isBestSeller": true,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-081",
+    "name": "Petite Crimson Love",
+    "slug": "petite-crimson-love",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Roses",
+    "occasion": "Love & Romance",
+    "recipient": "For Her",
+    "price": 1102,
+    "originalPrice": 1440,
+    "discountPercent": 23,
+    "rating": 4.8,
+    "reviewsCount": 83,
+    "tag": "Luxury Bloom",
+    "badge": "Hand Delivered",
+    "image": "/images/products/petite-crimson-love.webp",
+    "images": [
+      "/images/products/petite-crimson-love.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Petite Crimson Love harmonizes premium long-stemmed roses with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 28,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-082",
+    "name": "Golden Touch",
+    "slug": "golden-touch",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
+    "occasion": "Anniversary",
+    "recipient": "For Her",
+    "price": 1552,
+    "originalPrice": 2025,
+    "discountPercent": 23,
+    "rating": 4.7,
+    "reviewsCount": 24,
+    "tag": "Limited Edition",
+    "badge": "Fresh Cut",
+    "image": "/images/products/golden-touch.webp",
+    "images": [
+      "/images/products/golden-touch.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Golden Touch harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 36,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-083",
+    "name": "Ivory Cube",
+    "slug": "ivory-cube",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
+    "occasion": "Congratulations",
+    "recipient": "Everyone",
+    "price": 4478,
+    "originalPrice": 5828,
+    "discountPercent": 23,
+    "rating": 4.8,
+    "reviewsCount": 85,
+    "tag": "Luxury Bloom",
+    "badge": "Hand Delivered",
+    "image": "/images/products/ivory-cube.webp",
+    "images": [
+      "/images/products/ivory-cube.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Ivory Cube harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 34,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-084",
+    "name": "Imperial Grandeur",
+    "slug": "imperial-grandeur",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
+    "occasion": "Congratulations",
+    "recipient": "Everyone",
+    "price": 24728,
+    "originalPrice": 32152,
+    "discountPercent": 23,
+    "rating": 5.0,
+    "reviewsCount": 52,
+    "tag": "Florist Choice",
+    "badge": "Hand Delivered",
+    "image": "/images/products/imperial-grandeur.webp",
+    "images": [
+      "/images/products/imperial-grandeur.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Imperial Grandeur harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 23,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-085",
+    "name": "Harmonious Bonds",
+    "slug": "harmonious-bonds",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
+    "occasion": "Birthday",
+    "recipient": "Everyone",
+    "price": 4928,
+    "originalPrice": 6412,
+    "discountPercent": 23,
+    "rating": 4.8,
+    "reviewsCount": 130,
+    "tag": "Luxury Bloom",
+    "badge": "Same Day Dispatch",
+    "image": "/images/products/harmonious-bonds.webp",
+    "images": [
+      "/images/products/harmonious-bonds.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Harmonious Bonds harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 42,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-086",
+    "name": "Golden Sunshine",
+    "slug": "golden-sunshine",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Sunflowers",
+    "occasion": "Anniversary",
+    "recipient": "For Her",
+    "price": 2678,
+    "originalPrice": 3488,
+    "discountPercent": 23,
+    "rating": 4.8,
+    "reviewsCount": 145,
+    "tag": "Best Seller",
+    "badge": "Artisan Arranged",
+    "image": "/images/products/golden-sunshine.webp",
+    "images": [
+      "/images/products/golden-sunshine.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Golden Sunshine harmonizes premium long-stemmed sunflowers with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 23,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-087",
+    "name": "Golden Red Splendor",
+    "slug": "golden-red-splendor",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
+    "occasion": "Anniversary",
+    "recipient": "For Her",
+    "price": 12352,
+    "originalPrice": 16065,
+    "discountPercent": 23,
+    "rating": 4.9,
+    "reviewsCount": 80,
+    "tag": "Luxury Bloom",
+    "badge": "Same Day Dispatch",
+    "image": "/images/products/golden-red-splendor.webp",
+    "images": [
+      "/images/products/golden-red-splendor.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Golden Red Splendor harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 30,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-088",
+    "name": "The White Dome Box",
+    "slug": "the-white-dome-box",
+    "category": "Flower Boxes",
+    "subCategory": "Hat Box Arrangements",
+    "flowerType": "Mixed",
+    "occasion": "Congratulations",
+    "recipient": "Everyone",
+    "price": 3352,
+    "originalPrice": 4365,
+    "discountPercent": 23,
+    "rating": 4.8,
+    "reviewsCount": 94,
+    "tag": "Signature Atelier",
+    "badge": "Chilled Delivery",
+    "image": "/images/products/the-white-dome-box.webp",
+    "images": [
+      "/images/products/the-white-dome-box.webp"
+    ],
+    "description": "A lavish curation of handpicked garden blooms, masterfully arranged in Dhanvikk's signature French velvet keepsake box. Accented with lush spiral eucalyptus and tied with an ivory satin ribbon, this bespoke creation brings regal grandeur to every celebration.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Signature reusable velvet keepsake cylinder with gold embossing",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "24 to 36 Premium Blooms",
+      "dimensions": "Box: Ø 22cm x H 25cm | Total: H 35cm",
+      "boxOrVase": "Signature Velvet Keepsake Cylinder with Gold Hot-Stamp",
+      "careGuide": "Add 50ml fresh cool water every 2 days into central oasis foam."
+    },
+    "stock": 23,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-089",
+    "name": "Soft White Bloom",
+    "slug": "soft-white-bloom",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
+    "occasion": "Congratulations",
+    "recipient": "Everyone",
+    "price": 2678,
+    "originalPrice": 3488,
+    "discountPercent": 23,
+    "rating": 4.7,
+    "reviewsCount": 109,
+    "tag": "Luxury Bloom",
+    "badge": "Fresh Cut",
+    "image": "/images/products/soft-white-bloom.webp",
+    "images": [
+      "/images/products/soft-white-bloom.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Soft White Bloom harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 37,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-090",
+    "name": "Golden Radiance Vase",
+    "slug": "golden-radiance-vase",
+    "category": "Flowers",
+    "subCategory": "Vase Arrangements",
+    "flowerType": "Mixed",
+    "occasion": "Anniversary",
+    "recipient": "For Her",
+    "price": 5602,
+    "originalPrice": 7290,
+    "discountPercent": 23,
+    "rating": 4.9,
+    "reviewsCount": 165,
+    "tag": "Luxury Edit",
+    "badge": "Chilled Delivery",
+    "image": "/images/products/golden-radiance-vase.webp",
+    "images": [
+      "/images/products/golden-radiance-vase.webp"
+    ],
+    "description": "Architecturally balanced garden blooms nestled in an artisan fluted lead-free crystal glass vase. Styled with fragrant silvery spiral eucalyptus and ethereal gypsophila sprays for an effortless centerpiece statement.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "18 to 28 Fresh Cut Stems with Foliage",
+      "dimensions": "Arrangement: H 50cm x W 40cm",
+      "boxOrVase": "Fluted Lead-Free Heavy Artisan Crystal Glass Vase",
+      "careGuide": "Trim stems 2cm at 45° angle, replenish cool water every 48 hours."
+    },
+    "stock": 23,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": true
+  },
+  {
+    "id": "flw-091",
+    "name": "Golden Serenity",
+    "slug": "golden-serenity",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
+    "occasion": "Anniversary",
+    "recipient": "For Her",
+    "price": 3352,
+    "originalPrice": 4365,
+    "discountPercent": 23,
+    "rating": 4.8,
+    "reviewsCount": 100,
+    "tag": "Luxury Bloom",
+    "badge": "Chilled Delivery",
+    "image": "/images/products/golden-serenity.webp",
+    "images": [
+      "/images/products/golden-serenity.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Golden Serenity harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 19,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-092",
+    "name": "Lavender Dream",
+    "slug": "lavender-dream",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
+    "occasion": "Birthday",
+    "recipient": "Everyone",
+    "price": 2678,
+    "originalPrice": 3488,
+    "discountPercent": 23,
+    "rating": 4.9,
+    "reviewsCount": 68,
+    "tag": "Limited Edition",
+    "badge": "Artisan Arranged",
+    "image": "/images/products/lavender-dream.webp",
+    "images": [
+      "/images/products/lavender-dream.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Lavender Dream harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 33,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-093",
+    "name": "Sweet Romance",
+    "slug": "sweet-romance",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Roses",
+    "occasion": "Love & Romance",
+    "recipient": "For Her",
+    "price": 5602,
+    "originalPrice": 7290,
+    "discountPercent": 23,
+    "rating": 4.9,
+    "reviewsCount": 41,
+    "tag": "Luxury Bloom",
+    "badge": "Hand Delivered",
+    "image": "/images/products/sweet-romance.webp",
+    "images": [
+      "/images/products/sweet-romance.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Sweet Romance harmonizes premium long-stemmed roses with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 23,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-094",
+    "name": "Trio of Love",
+    "slug": "trio-of-love",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
+    "occasion": "Love & Romance",
+    "recipient": "For Her",
+    "price": 31478,
+    "originalPrice": 40928,
+    "discountPercent": 23,
+    "rating": 4.9,
+    "reviewsCount": 34,
+    "tag": "Trending Now",
+    "badge": "Chilled Delivery",
+    "image": "/images/products/trio-of-love.webp",
+    "images": [
+      "/images/products/trio-of-love.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Trio of Love harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 26,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-095",
+    "name": "Blush Romance",
+    "slug": "blush-romance",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Roses",
+    "occasion": "Love & Romance",
+    "recipient": "For Her",
+    "price": 2678,
+    "originalPrice": 3488,
+    "discountPercent": 23,
+    "rating": 4.9,
+    "reviewsCount": 31,
+    "tag": "Luxury Bloom",
+    "badge": "Chilled Delivery",
+    "image": "/images/products/blush-romance.webp",
+    "images": [
+      "/images/products/blush-romance.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Blush Romance harmonizes premium long-stemmed roses with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 27,
+    "inStock": true,
+    "isBestSeller": true,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-096",
+    "name": "Ethereal Blush Raam",
+    "slug": "ethereal-blush-raam",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Roses",
+    "occasion": "Love & Romance",
+    "recipient": "For Her",
+    "price": 7852,
+    "originalPrice": 10215,
+    "discountPercent": 23,
+    "rating": 4.9,
+    "reviewsCount": 57,
+    "tag": "Best Seller",
+    "badge": "Fresh Cut",
+    "image": "/images/products/ethereal-blush-raam.webp",
+    "images": [
+      "/images/products/ethereal-blush-raam.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Ethereal Blush Raam harmonizes premium long-stemmed roses with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 24,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-097",
+    "name": "Golden Radiance",
+    "slug": "golden-radiance",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
+    "occasion": "Anniversary",
+    "recipient": "For Her",
+    "price": 4478,
+    "originalPrice": 5828,
+    "discountPercent": 23,
+    "rating": 4.7,
+    "reviewsCount": 147,
+    "tag": "Luxury Bloom",
+    "badge": "Chilled Delivery",
+    "image": "/images/products/golden-radiance.webp",
+    "images": [
+      "/images/products/golden-radiance.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Golden Radiance harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 20,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-098",
+    "name": "Classic Red Wrap",
+    "slug": "classic-red-wrap",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
+    "occasion": "Birthday",
+    "recipient": "Everyone",
+    "price": 6728,
+    "originalPrice": 8752,
+    "discountPercent": 23,
+    "rating": 4.8,
+    "reviewsCount": 124,
+    "tag": "Limited Edition",
+    "badge": "Same Day Dispatch",
+    "image": "/images/products/classic-red-wrap.webp",
+    "images": [
+      "/images/products/classic-red-wrap.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Classic Red Wrap harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 31,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-099",
+    "name": "Sunny Yellow Delight",
+    "slug": "sunny-yellow-delight",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
+    "occasion": "Birthday",
+    "recipient": "BFFs",
+    "price": 11228,
+    "originalPrice": 14602,
+    "discountPercent": 23,
+    "rating": 4.7,
+    "reviewsCount": 76,
+    "tag": "Luxury Bloom",
+    "badge": "Fresh Cut",
+    "image": "/images/products/sunny-yellow-delight.webp",
+    "images": [
+      "/images/products/sunny-yellow-delight.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Sunny Yellow Delight harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 15,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-100",
+    "name": "Red Gypsy Charm",
+    "slug": "red-gypsy-charm",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
+    "occasion": "Birthday",
+    "recipient": "Everyone",
+    "price": 6728,
+    "originalPrice": 8752,
+    "discountPercent": 23,
+    "rating": 4.7,
+    "reviewsCount": 107,
+    "tag": "Best Seller",
+    "badge": "Hand Delivered",
+    "image": "/images/products/red-gypsy-charm.webp",
+    "images": [
+      "/images/products/red-gypsy-charm.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Red Gypsy Charm harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 40,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-101",
+    "name": "The Azure Horizon Box",
+    "slug": "the-azure-horizon-box",
+    "category": "Flower Boxes",
+    "subCategory": "Hat Box Arrangements",
+    "flowerType": "Mixed",
+    "occasion": "Birthday",
+    "recipient": "Everyone",
+    "price": 7852,
+    "originalPrice": 10215,
+    "discountPercent": 23,
+    "rating": 4.9,
+    "reviewsCount": 144,
+    "tag": "Luxury Bloom",
+    "badge": "Fresh Cut",
+    "image": "/images/products/the-azure-horizon-box.webp",
+    "images": [
+      "/images/products/the-azure-horizon-box.webp"
+    ],
+    "description": "A lavish curation of handpicked garden blooms, masterfully arranged in Dhanvikk's signature French velvet keepsake box. Accented with lush spiral eucalyptus and tied with an ivory satin ribbon, this bespoke creation brings regal grandeur to every celebration.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Signature reusable velvet keepsake cylinder with gold embossing",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "24 to 36 Premium Blooms",
+      "dimensions": "Box: Ø 22cm x H 25cm | Total: H 35cm",
+      "boxOrVase": "Signature Velvet Keepsake Cylinder with Gold Hot-Stamp",
+      "careGuide": "Add 50ml fresh cool water every 2 days into central oasis foam."
+    },
+    "stock": 40,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-102",
+    "name": "Snowy Elegance",
+    "slug": "snowy-elegance",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
+    "occasion": "Birthday",
+    "recipient": "Everyone",
+    "price": 22478,
+    "originalPrice": 29228,
+    "discountPercent": 23,
+    "rating": 4.7,
+    "reviewsCount": 149,
+    "tag": "Best Seller",
+    "badge": "Artisan Arranged",
+    "image": "/images/products/snowy-elegance.webp",
+    "images": [
+      "/images/products/snowy-elegance.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Snowy Elegance harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 27,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-103",
+    "name": "Pure White Box",
+    "slug": "pure-white-box",
+    "category": "Flower Boxes",
+    "subCategory": "Hat Box Arrangements",
+    "flowerType": "Mixed",
+    "occasion": "Congratulations",
+    "recipient": "Everyone",
+    "price": 7852,
+    "originalPrice": 10215,
+    "discountPercent": 23,
+    "rating": 4.8,
+    "reviewsCount": 45,
+    "tag": "Luxury Bloom",
+    "badge": "Fresh Cut",
+    "image": "/images/products/pure-white-box.webp",
+    "images": [
+      "/images/products/pure-white-box.webp"
+    ],
+    "description": "A lavish curation of handpicked garden blooms, masterfully arranged in Dhanvikk's signature French velvet keepsake box. Accented with lush spiral eucalyptus and tied with an ivory satin ribbon, this bespoke creation brings regal grandeur to every celebration.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Signature reusable velvet keepsake cylinder with gold embossing",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "24 to 36 Premium Blooms",
+      "dimensions": "Box: Ø 22cm x H 25cm | Total: H 35cm",
+      "boxOrVase": "Signature Velvet Keepsake Cylinder with Gold Hot-Stamp",
+      "careGuide": "Add 50ml fresh cool water every 2 days into central oasis foam."
+    },
+    "stock": 27,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-104",
+    "name": "Radiant Joy",
+    "slug": "radiant-joy",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
+    "occasion": "Birthday",
+    "recipient": "Everyone",
+    "price": 6728,
+    "originalPrice": 8752,
+    "discountPercent": 23,
+    "rating": 4.8,
+    "reviewsCount": 49,
+    "tag": "Artisan Hand-tied",
+    "badge": "Fresh Cut",
+    "image": "/images/products/radiant-joy.webp",
+    "images": [
+      "/images/products/radiant-joy.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Radiant Joy harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 45,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-105",
+    "name": "Orchid Serenity",
+    "slug": "orchid-serenity",
+    "category": "Plants",
+    "subCategory": "Living Orchids",
+    "flowerType": "Orchids",
+    "occasion": "Congratulations",
+    "recipient": "Everyone",
+    "price": 6728,
+    "originalPrice": 8752,
+    "discountPercent": 23,
+    "rating": 4.7,
+    "reviewsCount": 102,
+    "tag": "Luxury Bloom",
+    "badge": "Fresh Cut",
+    "image": "/images/products/orchid-serenity.webp",
+    "images": [
+      "/images/products/orchid-serenity.webp"
+    ],
+    "description": "Exotic living orchids nurtured to peak flowering perfection, displayed in a handcrafted artisan ceramic planter. Includes custom nutrient moss bedding, moisture-retaining base, and Dhanvikk botanical plant care guide.",
+    "features": [
+      "Certified disease-free living plant in artisan ceramic container",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Includes complete botanical hydration & light care booklet"
+    ],
+    "specifications": {
+      "stemCount": "Twin-spike cascading floral stems with buds",
+      "dimensions": "Plant Height: 55-65cm in 15cm ceramic planter",
+      "boxOrVase": "Artisan Hand-glazed Matte Ceramic Planter",
+      "careGuide": "Water lightly once a week when topsoil is dry. Keep in bright indirect light."
+    },
+    "stock": 28,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-106",
+    "name": "Blush Gypsy",
+    "slug": "blush-gypsy",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Roses",
+    "occasion": "Love & Romance",
+    "recipient": "For Her",
+    "price": 2902,
+    "originalPrice": 3780,
+    "discountPercent": 23,
+    "rating": 4.9,
+    "reviewsCount": 179,
+    "tag": "Florist Choice",
+    "badge": "Same Day Dispatch",
+    "image": "/images/products/blush-gypsy.webp",
+    "images": [
+      "/images/products/blush-gypsy.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Blush Gypsy harmonizes premium long-stemmed roses with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 28,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-107",
+    "name": "Sweet Scarlet Box",
+    "slug": "sweet-scarlet-box",
+    "category": "Flower Boxes",
+    "subCategory": "Hat Box Arrangements",
+    "flowerType": "Roses",
+    "occasion": "Love & Romance",
+    "recipient": "For Her",
+    "price": 6728,
+    "originalPrice": 8752,
+    "discountPercent": 23,
+    "rating": 4.8,
+    "reviewsCount": 74,
+    "tag": "Luxury Bloom",
+    "badge": "Artisan Arranged",
+    "image": "/images/products/sweet-scarlet-box.webp",
+    "images": [
+      "/images/products/sweet-scarlet-box.webp"
+    ],
+    "description": "A lavish curation of handpicked roses, masterfully arranged in Dhanvikk's signature French velvet keepsake box. Accented with lush spiral eucalyptus and tied with an ivory satin ribbon, this bespoke creation brings regal grandeur to every celebration.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Signature reusable velvet keepsake cylinder with gold embossing",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "24 to 36 Premium Blooms",
+      "dimensions": "Box: Ø 22cm x H 25cm | Total: H 35cm",
+      "boxOrVase": "Signature Velvet Keepsake Cylinder with Gold Hot-Stamp",
+      "careGuide": "Add 50ml fresh cool water every 2 days into central oasis foam."
+    },
+    "stock": 17,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-108",
+    "name": "Mixed Rose Floral Cloud Box",
+    "slug": "mixed-rose-floral-cloud-box",
+    "category": "Flower Boxes",
+    "subCategory": "Hat Box Arrangements",
+    "flowerType": "Roses",
+    "occasion": "Love & Romance",
+    "recipient": "For Her",
+    "price": 11228,
+    "originalPrice": 14602,
+    "discountPercent": 23,
+    "rating": 4.9,
+    "reviewsCount": 29,
+    "tag": "Limited Edition",
+    "badge": "Same Day Dispatch",
+    "image": "/images/products/mixed-rose-floral-cloud-box.webp",
+    "images": [
+      "/images/products/mixed-rose-floral-cloud-box.webp"
+    ],
+    "description": "A lavish curation of handpicked roses, masterfully arranged in Dhanvikk's signature French velvet keepsake box. Accented with lush spiral eucalyptus and tied with an ivory satin ribbon, this bespoke creation brings regal grandeur to every celebration.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Signature reusable velvet keepsake cylinder with gold embossing",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "24 to 36 Premium Blooms",
+      "dimensions": "Box: Ø 22cm x H 25cm | Total: H 35cm",
+      "boxOrVase": "Signature Velvet Keepsake Cylinder with Gold Hot-Stamp",
+      "careGuide": "Add 50ml fresh cool water every 2 days into central oasis foam."
+    },
+    "stock": 24,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-109",
+    "name": "Baby Rose Delight",
+    "slug": "baby-rose-delight",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Roses",
+    "occasion": "Love & Romance",
+    "recipient": "For Her",
+    "price": 10102,
+    "originalPrice": 13140,
+    "discountPercent": 23,
+    "rating": 4.8,
+    "reviewsCount": 127,
+    "tag": "Luxury Bloom",
+    "badge": "Same Day Dispatch",
+    "image": "/images/products/baby-rose-delight.webp",
+    "images": [
+      "/images/products/baby-rose-delight.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Baby Rose Delight harmonizes premium long-stemmed roses with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 24,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-110",
+    "name": "Kaleidoscope of Joy",
+    "slug": "kaleidoscope-of-joy",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
+    "occasion": "Birthday",
+    "recipient": "Everyone",
+    "price": 8978,
+    "originalPrice": 11678,
+    "discountPercent": 23,
+    "rating": 4.9,
+    "reviewsCount": 85,
+    "tag": "Fresh Harvest",
+    "badge": "Artisan Arranged",
+    "image": "/images/products/kaleidoscope-of-joy.webp",
+    "images": [
+      "/images/products/kaleidoscope-of-joy.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Kaleidoscope of Joy harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 15,
+    "inStock": true,
+    "isBestSeller": true,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-111",
+    "name": "The Pink Rose Elegance Box",
+    "slug": "the-pink-rose-elegance-box",
+    "category": "Flower Boxes",
+    "subCategory": "Hat Box Arrangements",
+    "flowerType": "Roses",
+    "occasion": "Love & Romance",
+    "recipient": "For Her",
+    "price": 13478,
+    "originalPrice": 17528,
+    "discountPercent": 23,
+    "rating": 4.8,
+    "reviewsCount": 34,
+    "tag": "Luxury Bloom",
+    "badge": "Hand Delivered",
+    "image": "/images/products/the-pink-rose-elegance-box.webp",
+    "images": [
+      "/images/products/the-pink-rose-elegance-box.webp"
+    ],
+    "description": "A lavish curation of handpicked roses, masterfully arranged in Dhanvikk's signature French velvet keepsake box. Accented with lush spiral eucalyptus and tied with an ivory satin ribbon, this bespoke creation brings regal grandeur to every celebration.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Signature reusable velvet keepsake cylinder with gold embossing",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "24 to 36 Premium Blooms",
+      "dimensions": "Box: Ø 22cm x H 25cm | Total: H 35cm",
+      "boxOrVase": "Signature Velvet Keepsake Cylinder with Gold Hot-Stamp",
+      "careGuide": "Add 50ml fresh cool water every 2 days into central oasis foam."
+    },
+    "stock": 17,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-112",
+    "name": "Pink Lily Serenity",
+    "slug": "pink-lily-serenity",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Lilies",
+    "occasion": "Anniversary",
+    "recipient": "For Her",
+    "price": 3128,
+    "originalPrice": 4072,
+    "discountPercent": 23,
+    "rating": 4.7,
+    "reviewsCount": 80,
+    "tag": "Best Seller",
+    "badge": "Fresh Cut",
+    "image": "/images/products/pink-lily-serenity.webp",
+    "images": [
+      "/images/products/pink-lily-serenity.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Pink Lily Serenity harmonizes premium long-stemmed lilies with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 32,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-113",
+    "name": "The Rainbow Celebration Box",
+    "slug": "the-rainbow-celebration-box",
+    "category": "Flower Boxes",
+    "subCategory": "Hat Box Arrangements",
+    "flowerType": "Mixed",
+    "occasion": "Birthday",
+    "recipient": "BFFs",
+    "price": 5602,
+    "originalPrice": 7290,
+    "discountPercent": 23,
+    "rating": 4.9,
+    "reviewsCount": 114,
+    "tag": "Luxury Bloom",
+    "badge": "Hand Delivered",
+    "image": "/images/products/the-rainbow-celebration-box.webp",
+    "images": [
+      "/images/products/the-rainbow-celebration-box.webp"
+    ],
+    "description": "A lavish curation of handpicked garden blooms, masterfully arranged in Dhanvikk's signature French velvet keepsake box. Accented with lush spiral eucalyptus and tied with an ivory satin ribbon, this bespoke creation brings regal grandeur to every celebration.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Signature reusable velvet keepsake cylinder with gold embossing",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "24 to 36 Premium Blooms",
+      "dimensions": "Box: Ø 22cm x H 25cm | Total: H 35cm",
+      "boxOrVase": "Signature Velvet Keepsake Cylinder with Gold Hot-Stamp",
+      "careGuide": "Add 50ml fresh cool water every 2 days into central oasis foam."
+    },
+    "stock": 40,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-114",
+    "name": "Graceful Serenity",
+    "slug": "graceful-serenity",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
+    "occasion": "Congratulations",
+    "recipient": "For Her",
+    "price": 4478,
+    "originalPrice": 5828,
+    "discountPercent": 23,
+    "rating": 4.7,
+    "reviewsCount": 108,
+    "tag": "Limited Edition",
+    "badge": "Fresh Cut",
+    "image": "/images/products/graceful-serenity.webp",
+    "images": [
+      "/images/products/graceful-serenity.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Graceful Serenity harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 20,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-115",
+    "name": "Pristine Grace",
+    "slug": "pristine-grace",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
+    "occasion": "Congratulations",
+    "recipient": "For Her",
+    "price": 2678,
+    "originalPrice": 3488,
+    "discountPercent": 23,
+    "rating": 5.0,
+    "reviewsCount": 71,
+    "tag": "Luxury Bloom",
+    "badge": "Chilled Delivery",
+    "image": "/images/products/pristine-grace.webp",
+    "images": [
+      "/images/products/pristine-grace.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Pristine Grace harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 44,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-116",
+    "name": "Pure White Grace",
+    "slug": "pure-white-grace",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
+    "occasion": "Congratulations",
+    "recipient": "Everyone",
+    "price": 6728,
+    "originalPrice": 8752,
+    "discountPercent": 23,
+    "rating": 5.0,
+    "reviewsCount": 84,
+    "tag": "Limited Edition",
+    "badge": "Fresh Cut",
+    "image": "/images/products/pure-white-grace.webp",
+    "images": [
+      "/images/products/pure-white-grace.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Pure White Grace harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 25,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-117",
+    "name": "Red Eucalyptus Elegance",
+    "slug": "red-eucalyptus-elegance",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
+    "occasion": "Birthday",
+    "recipient": "Everyone",
+    "price": 2902,
+    "originalPrice": 3780,
+    "discountPercent": 23,
+    "rating": 4.8,
+    "reviewsCount": 51,
+    "tag": "Luxury Bloom",
+    "badge": "Hand Delivered",
+    "image": "/images/products/red-eucalyptus-elegance.webp",
+    "images": [
+      "/images/products/red-eucalyptus-elegance.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Red Eucalyptus Elegance harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 36,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-118",
+    "name": "The Golden Garden",
+    "slug": "the-golden-garden",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
+    "occasion": "Anniversary",
+    "recipient": "For Her",
+    "price": 26978,
+    "originalPrice": 35078,
+    "discountPercent": 23,
+    "rating": 4.9,
+    "reviewsCount": 111,
+    "tag": "Fresh Harvest",
+    "badge": "Same Day Dispatch",
+    "image": "/images/products/the-golden-garden.webp",
+    "images": [
+      "/images/products/the-golden-garden.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the The Golden Garden harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 16,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-119",
+    "name": "The Pearl Empire Box",
+    "slug": "the-pearl-empire-box",
+    "category": "Flower Boxes",
+    "subCategory": "Hat Box Arrangements",
+    "flowerType": "Mixed",
+    "occasion": "Congratulations",
+    "recipient": "Everyone",
+    "price": 24728,
+    "originalPrice": 32152,
+    "discountPercent": 23,
+    "rating": 4.9,
+    "reviewsCount": 83,
+    "tag": "Luxury Bloom",
+    "badge": "Chilled Delivery",
+    "image": "/images/products/the-pearl-empire-box.webp",
+    "images": [
+      "/images/products/the-pearl-empire-box.webp"
+    ],
+    "description": "A lavish curation of handpicked garden blooms, masterfully arranged in Dhanvikk's signature French velvet keepsake box. Accented with lush spiral eucalyptus and tied with an ivory satin ribbon, this bespoke creation brings regal grandeur to every celebration.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Signature reusable velvet keepsake cylinder with gold embossing",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "24 to 36 Premium Blooms",
+      "dimensions": "Box: Ø 22cm x H 25cm | Total: H 35cm",
+      "boxOrVase": "Signature Velvet Keepsake Cylinder with Gold Hot-Stamp",
+      "careGuide": "Add 50ml fresh cool water every 2 days into central oasis foam."
+    },
+    "stock": 29,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-120",
+    "name": "Eternal Red and White",
+    "slug": "eternal-red-and-white",
+    "category": "Forever Roses",
+    "subCategory": "Preserved Bell Domes",
+    "flowerType": "Mixed",
+    "occasion": "Anniversary",
+    "recipient": "For Her",
+    "price": 11228,
+    "originalPrice": 14602,
+    "discountPercent": 23,
+    "rating": 4.8,
+    "reviewsCount": 47,
+    "tag": "Limited Edition",
+    "badge": "Artisan Arranged",
+    "image": "/images/products/eternal-red-and-white.webp",
+    "images": [
+      "/images/products/eternal-red-and-white.webp"
+    ],
+    "description": "A breathtaking showcase of naturally preserved Ecuadorian garden blooms, meticulously stabilized to retain velvety softness, vibrant pigment, and structural perfection for up to 3 years without watering. Encased in a hand-blown borosilicate bell dome.",
+    "features": [
+      "100% natural real roses preserved at peak bloom",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Zero water or maintenance required — blooms for 3+ years"
+    ],
+    "specifications": {
+      "stemCount": "Imperial Preserved Head (Ø 9-10cm)",
+      "dimensions": "Dome: H 28cm x Ø 16cm with solid beechwood base",
+      "boxOrVase": "Hand-blown Borosilicate Crystal Glass Bell Dome",
+      "careGuide": "Keep away from direct sunlight, humidity, and moisture. Do not water."
+    },
+    "stock": 45,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": true
+  },
+  {
+    "id": "flw-121",
+    "name": "Radiant Affection",
+    "slug": "radiant-affection",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
+    "occasion": "Love & Romance",
+    "recipient": "For Her",
+    "price": 7852,
+    "originalPrice": 10215,
+    "discountPercent": 23,
+    "rating": 4.9,
+    "reviewsCount": 84,
+    "tag": "Luxury Bloom",
+    "badge": "Hand Delivered",
+    "image": "/images/products/radiant-affection.webp",
+    "images": [
+      "/images/products/radiant-affection.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Radiant Affection harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 32,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-122",
+    "name": "Timeless Devotion",
+    "slug": "timeless-devotion",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
+    "occasion": "Love & Romance",
+    "recipient": "For Her",
+    "price": 5602,
+    "originalPrice": 7290,
+    "discountPercent": 23,
+    "rating": 4.8,
+    "reviewsCount": 136,
+    "tag": "Luxury Edit",
+    "badge": "Artisan Arranged",
+    "image": "/images/products/timeless-devotion.webp",
+    "images": [
+      "/images/products/timeless-devotion.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Timeless Devotion harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 26,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-123",
+    "name": "Velvet Elegance",
+    "slug": "velvet-elegance",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Roses",
+    "occasion": "Love & Romance",
+    "recipient": "For Her",
+    "price": 3802,
+    "originalPrice": 4950,
+    "discountPercent": 23,
+    "rating": 4.7,
+    "reviewsCount": 72,
+    "tag": "Luxury Bloom",
+    "badge": "Same Day Dispatch",
+    "image": "/images/products/velvet-elegance.webp",
+    "images": [
+      "/images/products/velvet-elegance.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Velvet Elegance harmonizes premium long-stemmed roses with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 43,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-124",
+    "name": "Passionate Serenity noir",
+    "slug": "passionate-serenity-noir",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
+    "occasion": "Love & Romance",
+    "recipient": "For Her",
+    "price": 3802,
+    "originalPrice": 4950,
+    "discountPercent": 23,
+    "rating": 4.9,
+    "reviewsCount": 85,
+    "tag": "Florist Choice",
+    "badge": "Fresh Cut",
+    "image": "/images/products/passionate-serenity-noir.webp",
+    "images": [
+      "/images/products/passionate-serenity-noir.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Passionate Serenity noir harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 25,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-125",
+    "name": "Red Passion Wrap",
+    "slug": "red-passion-wrap",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
+    "occasion": "Love & Romance",
+    "recipient": "For Her",
+    "price": 2678,
+    "originalPrice": 3488,
+    "discountPercent": 23,
+    "rating": 4.8,
+    "reviewsCount": 164,
+    "tag": "Luxury Bloom",
+    "badge": "Fresh Cut",
+    "image": "/images/products/red-passion-wrap.webp",
+    "images": [
+      "/images/products/red-passion-wrap.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Red Passion Wrap harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 17,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-126",
+    "name": "Blushing Singles",
+    "slug": "blushing-singles",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Roses",
+    "occasion": "Love & Romance",
+    "recipient": "For Her",
+    "price": 3352,
+    "originalPrice": 4365,
+    "discountPercent": 23,
+    "rating": 4.8,
+    "reviewsCount": 118,
+    "tag": "Artisan Hand-tied",
+    "badge": "Fresh Cut",
+    "image": "/images/products/blushing-singles.webp",
+    "images": [
+      "/images/products/blushing-singles.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Blushing Singles harmonizes premium long-stemmed roses with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 19,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-127",
+    "name": "White Serenity Singles",
+    "slug": "white-serenity-singles",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
+    "occasion": "Congratulations",
+    "recipient": "Everyone",
+    "price": 6728,
+    "originalPrice": 8752,
+    "discountPercent": 23,
+    "rating": 5.0,
+    "reviewsCount": 80,
+    "tag": "Luxury Bloom",
+    "badge": "Fresh Cut",
+    "image": "/images/products/white-serenity-singles.webp",
+    "images": [
+      "/images/products/white-serenity-singles.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the White Serenity Singles harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 28,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-128",
+    "name": "Affectionate Gestures",
+    "slug": "affectionate-gestures",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
+    "occasion": "Love & Romance",
+    "recipient": "For Her",
+    "price": 2678,
+    "originalPrice": 3488,
+    "discountPercent": 23,
+    "rating": 4.9,
+    "reviewsCount": 81,
+    "tag": "Limited Edition",
+    "badge": "Fresh Cut",
+    "image": "/images/products/affectionate-gestures.webp",
+    "images": [
+      "/images/products/affectionate-gestures.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Affectionate Gestures harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 41,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-129",
+    "name": "Sweet Affection",
+    "slug": "sweet-affection",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
+    "occasion": "Love & Romance",
+    "recipient": "For Her",
+    "price": 2228,
+    "originalPrice": 2902,
+    "discountPercent": 23,
+    "rating": 4.9,
+    "reviewsCount": 101,
+    "tag": "Luxury Bloom",
+    "badge": "Chilled Delivery",
+    "image": "/images/products/sweet-affection.webp",
+    "images": [
+      "/images/products/sweet-affection.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Sweet Affection harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 15,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-130",
+    "name": "Ivory Splendor",
+    "slug": "ivory-splendor",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
+    "occasion": "Congratulations",
+    "recipient": "Everyone",
+    "price": 7852,
+    "originalPrice": 10215,
+    "discountPercent": 23,
+    "rating": 5.0,
+    "reviewsCount": 56,
+    "tag": "Fresh Harvest",
+    "badge": "Artisan Arranged",
+    "image": "/images/products/ivory-splendor.webp",
+    "images": [
+      "/images/products/ivory-splendor.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Ivory Splendor harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 38,
+    "inStock": true,
+    "isBestSeller": true,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-131",
+    "name": "Sunny Sunflower Bliss",
+    "slug": "sunny-sunflower-bliss",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Sunflowers",
+    "occasion": "Birthday",
+    "recipient": "BFFs",
+    "price": 3128,
+    "originalPrice": 4072,
+    "discountPercent": 23,
+    "rating": 4.8,
+    "reviewsCount": 83,
+    "tag": "Luxury Bloom",
+    "badge": "Same Day Dispatch",
+    "image": "/images/products/sunny-sunflower-bliss.webp",
+    "images": [
+      "/images/products/sunny-sunflower-bliss.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Sunny Sunflower Bliss harmonizes premium long-stemmed sunflowers with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 19,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-132",
+    "name": "Eternal Crimson",
+    "slug": "eternal-crimson",
+    "category": "Forever Roses",
+    "subCategory": "Preserved Bell Domes",
+    "flowerType": "Roses",
+    "occasion": "Love & Romance",
+    "recipient": "For Her",
+    "price": 6728,
+    "originalPrice": 8752,
+    "discountPercent": 23,
+    "rating": 4.9,
+    "reviewsCount": 184,
+    "tag": "Trending Now",
+    "badge": "Chilled Delivery",
+    "image": "/images/products/eternal-crimson.webp",
+    "images": [
+      "/images/products/eternal-crimson.webp"
+    ],
+    "description": "A breathtaking showcase of naturally preserved Ecuadorian roses, meticulously stabilized to retain velvety softness, vibrant pigment, and structural perfection for up to 3 years without watering. Encased in a hand-blown borosilicate bell dome.",
+    "features": [
+      "100% natural real roses preserved at peak bloom",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Zero water or maintenance required — blooms for 3+ years"
+    ],
+    "specifications": {
+      "stemCount": "Imperial Preserved Head (Ø 9-10cm)",
+      "dimensions": "Dome: H 28cm x Ø 16cm with solid beechwood base",
+      "boxOrVase": "Hand-blown Borosilicate Crystal Glass Bell Dome",
+      "careGuide": "Keep away from direct sunlight, humidity, and moisture. Do not water."
+    },
+    "stock": 25,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-133",
+    "name": "Ivory Purity",
+    "slug": "ivory-purity",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
+    "occasion": "Congratulations",
+    "recipient": "Everyone",
+    "price": 8978,
+    "originalPrice": 11678,
+    "discountPercent": 23,
+    "rating": 4.8,
+    "reviewsCount": 38,
+    "tag": "Luxury Bloom",
+    "badge": "Artisan Arranged",
+    "image": "/images/products/ivory-purity.webp",
+    "images": [
+      "/images/products/ivory-purity.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Ivory Purity harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 40,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-134",
+    "name": "Rustic Sunflower Bouquet",
+    "slug": "rustic-sunflower-bouquet",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Sunflowers",
+    "occasion": "Birthday",
+    "recipient": "BFFs",
+    "price": 1778,
+    "originalPrice": 2318,
+    "discountPercent": 23,
+    "rating": 4.8,
+    "reviewsCount": 155,
+    "tag": "Trending Now",
+    "badge": "Same Day Dispatch",
+    "image": "/images/products/rustic-sunflower-bouquet.webp",
+    "images": [
+      "/images/products/rustic-sunflower-bouquet.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Rustic Sunflower Bouquet harmonizes premium long-stemmed sunflowers with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 16,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-135",
+    "name": "Petite Sunshine",
+    "slug": "petite-sunshine",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Sunflowers",
+    "occasion": "Birthday",
+    "recipient": "BFFs",
+    "price": 878,
+    "originalPrice": 1148,
+    "discountPercent": 24,
+    "rating": 4.9,
+    "reviewsCount": 150,
+    "tag": "Luxury Bloom",
+    "badge": "Same Day Dispatch",
+    "image": "/images/products/petite-sunshine.webp",
+    "images": [
+      "/images/products/petite-sunshine.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Petite Sunshine harmonizes premium long-stemmed sunflowers with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 36,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-136",
+    "name": "Crimson Heart",
+    "slug": "crimson-heart",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Roses",
+    "occasion": "Love & Romance",
+    "recipient": "For Her",
+    "price": 12352,
+    "originalPrice": 16065,
+    "discountPercent": 23,
+    "rating": 4.9,
+    "reviewsCount": 67,
+    "tag": "Luxury Edit",
+    "badge": "Same Day Dispatch",
+    "image": "/images/products/crimson-heart.webp",
+    "images": [
+      "/images/products/crimson-heart.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Crimson Heart harmonizes premium long-stemmed roses with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 29,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-137",
+    "name": "Trifecta Luxe",
+    "slug": "trifecta-luxe",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
+    "occasion": "Birthday",
+    "recipient": "Everyone",
+    "price": 5602,
+    "originalPrice": 7290,
+    "discountPercent": 23,
+    "rating": 4.9,
+    "reviewsCount": 47,
+    "tag": "Luxury Bloom",
+    "badge": "Same Day Dispatch",
+    "image": "/images/products/trifecta-luxe.webp",
+    "images": [
+      "/images/products/trifecta-luxe.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Trifecta Luxe harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 41,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-138",
+    "name": "Red Eucalyptus Elegance",
+    "slug": "red-eucalyptus-elegance-2",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
+    "occasion": "Birthday",
+    "recipient": "Everyone",
+    "price": 2902,
+    "originalPrice": 3780,
+    "discountPercent": 23,
+    "rating": 4.7,
+    "reviewsCount": 62,
+    "tag": "Signature Atelier",
+    "badge": "Chilled Delivery",
+    "image": "/images/products/red-eucalyptus-elegance-2.webp",
+    "images": [
+      "/images/products/red-eucalyptus-elegance-2.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Red Eucalyptus Elegance harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 40,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-139",
+    "name": "Blushing Romance",
+    "slug": "blushing-romance",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Roses",
+    "occasion": "Love & Romance",
+    "recipient": "For Her",
+    "price": 5602,
+    "originalPrice": 7290,
+    "discountPercent": 23,
+    "rating": 5.0,
+    "reviewsCount": 39,
+    "tag": "Luxury Bloom",
+    "badge": "Hand Delivered",
+    "image": "/images/products/blushing-romance.webp",
+    "images": [
+      "/images/products/blushing-romance.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Blushing Romance harmonizes premium long-stemmed roses with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 16,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-140",
+    "name": "Blushing Duo",
+    "slug": "blushing-duo",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Roses",
+    "occasion": "Love & Romance",
+    "recipient": "For Her",
+    "price": 5602,
+    "originalPrice": 7290,
+    "discountPercent": 23,
+    "rating": 4.9,
+    "reviewsCount": 50,
+    "tag": "Signature Atelier",
+    "badge": "Fresh Cut",
+    "image": "/images/products/blushing-duo.webp",
+    "images": [
+      "/images/products/blushing-duo.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Blushing Duo harmonizes premium long-stemmed roses with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 36,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": true
+  },
+  {
+    "id": "flw-141",
+    "name": "White Gold Elegance",
+    "slug": "white-gold-elegance",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
+    "occasion": "Anniversary",
+    "recipient": "For Her",
+    "price": 16875,
+    "originalPrice": 21938,
+    "discountPercent": 23,
+    "rating": 4.8,
+    "reviewsCount": 151,
+    "tag": "Luxury Bloom",
+    "badge": "Artisan Arranged",
+    "image": "/images/products/white-gold-elegance.webp",
+    "images": [
+      "/images/products/white-gold-elegance.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the White Gold Elegance harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 45,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-142",
+    "name": "The Pink Glow Box",
+    "slug": "the-pink-glow-box",
+    "category": "Flower Boxes",
+    "subCategory": "Hat Box Arrangements",
+    "flowerType": "Mixed",
+    "occasion": "Birthday",
+    "recipient": "Everyone",
+    "price": 23625,
+    "originalPrice": 30712,
+    "discountPercent": 23,
+    "rating": 5.0,
+    "reviewsCount": 158,
+    "tag": "Luxury Edit",
+    "badge": "Same Day Dispatch",
+    "image": "/images/products/the-pink-glow-box.webp",
+    "images": [
+      "/images/products/the-pink-glow-box.webp"
+    ],
+    "description": "A lavish curation of handpicked garden blooms, masterfully arranged in Dhanvikk's signature French velvet keepsake box. Accented with lush spiral eucalyptus and tied with an ivory satin ribbon, this bespoke creation brings regal grandeur to every celebration.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Signature reusable velvet keepsake cylinder with gold embossing",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "24 to 36 Premium Blooms",
+      "dimensions": "Box: Ø 22cm x H 25cm | Total: H 35cm",
+      "boxOrVase": "Signature Velvet Keepsake Cylinder with Gold Hot-Stamp",
+      "careGuide": "Add 50ml fresh cool water every 2 days into central oasis foam."
+    },
+    "stock": 34,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-143",
+    "name": "Midnight Black Beauty",
+    "slug": "midnight-black-beauty",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
+    "occasion": "Birthday",
+    "recipient": "Everyone",
+    "price": 16875,
+    "originalPrice": 21938,
+    "discountPercent": 23,
+    "rating": 5.0,
+    "reviewsCount": 128,
+    "tag": "Luxury Bloom",
+    "badge": "Artisan Arranged",
+    "image": "/images/products/midnight-black-beauty.webp",
+    "images": [
+      "/images/products/midnight-black-beauty.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Midnight Black Beauty harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 38,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-144",
+    "name": "The Golden Heart Box",
+    "slug": "the-golden-heart-box",
+    "category": "Flower Boxes",
+    "subCategory": "Hat Box Arrangements",
+    "flowerType": "Mixed",
+    "occasion": "Love & Romance",
+    "recipient": "For Her",
+    "price": 16875,
+    "originalPrice": 21938,
+    "discountPercent": 23,
+    "rating": 4.7,
+    "reviewsCount": 144,
+    "tag": "Artisan Hand-tied",
+    "badge": "Hand Delivered",
+    "image": "/images/products/the-golden-heart-box.webp",
+    "images": [
+      "/images/products/the-golden-heart-box.webp"
+    ],
+    "description": "A lavish curation of handpicked garden blooms, masterfully arranged in Dhanvikk's signature French velvet keepsake box. Accented with lush spiral eucalyptus and tied with an ivory satin ribbon, this bespoke creation brings regal grandeur to every celebration.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Signature reusable velvet keepsake cylinder with gold embossing",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "24 to 36 Premium Blooms",
+      "dimensions": "Box: Ø 22cm x H 25cm | Total: H 35cm",
+      "boxOrVase": "Signature Velvet Keepsake Cylinder with Gold Hot-Stamp",
+      "careGuide": "Add 50ml fresh cool water every 2 days into central oasis foam."
+    },
+    "stock": 18,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-145",
+    "name": "Radiant Unity",
+    "slug": "radiant-unity",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
+    "occasion": "Birthday",
+    "recipient": "Everyone",
+    "price": 5625,
+    "originalPrice": 7312,
+    "discountPercent": 23,
+    "rating": 5.0,
+    "reviewsCount": 156,
+    "tag": "Luxury Bloom",
+    "badge": "Hand Delivered",
+    "image": "/images/products/radiant-unity.webp",
+    "images": [
+      "/images/products/radiant-unity.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Radiant Unity harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 38,
+    "inStock": true,
+    "isBestSeller": true,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-146",
+    "name": "White Serenity",
+    "slug": "white-serenity",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
+    "occasion": "Congratulations",
+    "recipient": "Everyone",
+    "price": 5625,
+    "originalPrice": 7312,
+    "discountPercent": 23,
+    "rating": 4.8,
+    "reviewsCount": 29,
+    "tag": "Artisan Hand-tied",
+    "badge": "Same Day Dispatch",
+    "image": "/images/products/white-serenity.webp",
+    "images": [
+      "/images/products/white-serenity.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the White Serenity harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 36,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-147",
+    "name": "Crimson Elegance",
+    "slug": "crimson-elegance",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Roses",
+    "occasion": "Love & Romance",
+    "recipient": "For Her",
+    "price": 7852,
+    "originalPrice": 10215,
+    "discountPercent": 23,
+    "rating": 5.0,
+    "reviewsCount": 146,
+    "tag": "Luxury Bloom",
+    "badge": "Chilled Delivery",
+    "image": "/images/products/crimson-elegance.webp",
+    "images": [
+      "/images/products/crimson-elegance.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Crimson Elegance harmonizes premium long-stemmed roses with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 26,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-148",
+    "name": "Sunny Yellow Blooms",
+    "slug": "sunny-yellow-blooms",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
+    "occasion": "Birthday",
+    "recipient": "BFFs",
+    "price": 6750,
+    "originalPrice": 8775,
+    "discountPercent": 23,
+    "rating": 4.8,
+    "reviewsCount": 178,
+    "tag": "Artisan Hand-tied",
+    "badge": "Artisan Arranged",
+    "image": "/images/products/sunny-yellow-blooms.webp",
+    "images": [
+      "/images/products/sunny-yellow-blooms.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Sunny Yellow Blooms harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 31,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-149",
+    "name": "Classic Red Tulips",
+    "slug": "classic-red-tulips",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Tulips",
+    "occasion": "Birthday",
+    "recipient": "BFFs",
+    "price": 8438,
+    "originalPrice": 10980,
+    "discountPercent": 23,
+    "rating": 4.8,
+    "reviewsCount": 64,
+    "tag": "Luxury Bloom",
+    "badge": "Same Day Dispatch",
+    "image": "/images/products/classic-red-tulips.webp",
+    "images": [
+      "/images/products/classic-red-tulips.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Classic Red Tulips harmonizes premium long-stemmed tulips with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 18,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-150",
+    "name": "Midnight Red Tulip",
+    "slug": "midnight-red-tulip",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Tulips",
+    "occasion": "Birthday",
+    "recipient": "BFFs",
+    "price": 5062,
+    "originalPrice": 6592,
+    "discountPercent": 23,
+    "rating": 4.8,
+    "reviewsCount": 121,
+    "tag": "Trending Now",
+    "badge": "Chilled Delivery",
+    "image": "/images/products/midnight-red-tulip.webp",
+    "images": [
+      "/images/products/midnight-red-tulip.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Midnight Red Tulip harmonizes premium long-stemmed tulips with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 43,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": true
+  },
+  {
+    "id": "flw-151",
+    "name": "Rustic Red Bloom",
+    "slug": "rustic-red-bloom",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
+    "occasion": "Birthday",
+    "recipient": "Everyone",
+    "price": 3938,
+    "originalPrice": 5130,
+    "discountPercent": 23,
+    "rating": 4.9,
+    "reviewsCount": 28,
+    "tag": "Luxury Bloom",
+    "badge": "Artisan Arranged",
+    "image": "/images/products/rustic-red-bloom.webp",
+    "images": [
+      "/images/products/rustic-red-bloom.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Rustic Red Bloom harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 32,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-152",
+    "name": "Crimson Green Delight",
+    "slug": "crimson-green-delight",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Roses",
+    "occasion": "Love & Romance",
+    "recipient": "For Her",
+    "price": 10102,
+    "originalPrice": 13140,
+    "discountPercent": 23,
+    "rating": 4.9,
+    "reviewsCount": 121,
+    "tag": "Florist Choice",
+    "badge": "Fresh Cut",
+    "image": "/images/products/crimson-green-delight.webp",
+    "images": [
+      "/images/products/crimson-green-delight.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Crimson Green Delight harmonizes premium long-stemmed roses with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 40,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-153",
+    "name": "Serene Pastel",
+    "slug": "serene-pastel",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
+    "occasion": "Birthday",
+    "recipient": "BFFs",
+    "price": 10125,
+    "originalPrice": 13162,
+    "discountPercent": 23,
+    "rating": 4.8,
+    "reviewsCount": 88,
+    "tag": "Luxury Bloom",
+    "badge": "Hand Delivered",
+    "image": "/images/products/serene-pastel.webp",
+    "images": [
+      "/images/products/serene-pastel.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Serene Pastel harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 40,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-154",
+    "name": "Passionate Harmony",
+    "slug": "passionate-harmony",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
+    "occasion": "Love & Romance",
+    "recipient": "For Her",
+    "price": 10125,
+    "originalPrice": 13162,
+    "discountPercent": 23,
+    "rating": 4.7,
+    "reviewsCount": 186,
+    "tag": "Fresh Harvest",
+    "badge": "Artisan Arranged",
+    "image": "/images/products/passionate-harmony.webp",
+    "images": [
+      "/images/products/passionate-harmony.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Passionate Harmony harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 16,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-155",
+    "name": "Orange Tulip Delight",
+    "slug": "orange-tulip-delight",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Tulips",
+    "occasion": "Birthday",
+    "recipient": "BFFs",
+    "price": 5625,
+    "originalPrice": 7312,
+    "discountPercent": 23,
+    "rating": 4.8,
+    "reviewsCount": 134,
+    "tag": "Luxury Bloom",
+    "badge": "Chilled Delivery",
+    "image": "/images/products/orange-tulip-delight.webp",
+    "images": [
+      "/images/products/orange-tulip-delight.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Orange Tulip Delight harmonizes premium long-stemmed tulips with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 37,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-156",
+    "name": "Magenta Serenity",
+    "slug": "magenta-serenity",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
+    "occasion": "Birthday",
+    "recipient": "Everyone",
+    "price": 10125,
+    "originalPrice": 13162,
+    "discountPercent": 23,
+    "rating": 4.8,
+    "reviewsCount": 49,
+    "tag": "Trending Now",
+    "badge": "Same Day Dispatch",
+    "image": "/images/products/magenta-serenity.webp",
+    "images": [
+      "/images/products/magenta-serenity.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Magenta Serenity harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 31,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-157",
+    "name": "Blushing Grace",
+    "slug": "blushing-grace",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Roses",
+    "occasion": "Congratulations",
+    "recipient": "For Her",
+    "price": 4478,
+    "originalPrice": 5625,
+    "discountPercent": 20,
+    "rating": 4.9,
+    "reviewsCount": 42,
+    "tag": "Luxury Bloom",
+    "badge": "Artisan Arranged",
+    "image": "/images/products/blushing-grace.webp",
+    "images": [
+      "/images/products/blushing-grace.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Blushing Grace harmonizes premium long-stemmed roses with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 23,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-158",
+    "name": "White Tulip Whisper",
+    "slug": "white-tulip-whisper",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Tulips",
+    "occasion": "Congratulations",
+    "recipient": "Everyone",
+    "price": 4478,
+    "originalPrice": 4500,
+    "discountPercent": 0,
+    "rating": 4.7,
+    "reviewsCount": 164,
+    "tag": "Luxury Edit",
+    "badge": "Artisan Arranged",
+    "image": "/images/products/white-tulip-whisper.webp",
+    "images": [
+      "/images/products/white-tulip-whisper.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the White Tulip Whisper harmonizes premium long-stemmed tulips with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 19,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-159",
+    "name": "Pastel Harmony",
+    "slug": "pastel-harmony",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
+    "occasion": "Birthday",
+    "recipient": "BFFs",
+    "price": 17978,
+    "originalPrice": 22500,
+    "discountPercent": 20,
+    "rating": 4.8,
+    "reviewsCount": 128,
+    "tag": "Luxury Bloom",
+    "badge": "Fresh Cut",
+    "image": "/images/products/pastel-harmony.webp",
+    "images": [
+      "/images/products/pastel-harmony.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Pastel Harmony harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 44,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-160",
+    "name": "Unity in Contrast",
+    "slug": "unity-in-contrast",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
+    "occasion": "Birthday",
+    "recipient": "Everyone",
+    "price": 11228,
+    "originalPrice": 14602,
+    "discountPercent": 23,
+    "rating": 4.8,
+    "reviewsCount": 31,
+    "tag": "Best Seller",
+    "badge": "Artisan Arranged",
+    "image": "/images/products/unity-in-contrast.webp",
+    "images": [
+      "/images/products/unity-in-contrast.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Unity in Contrast harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 25,
+    "inStock": true,
+    "isBestSeller": true,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-161",
+    "name": "Classic Single Red",
+    "slug": "classic-single-red",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
+    "occasion": "Birthday",
+    "recipient": "Everyone",
+    "price": 225,
+    "originalPrice": 292,
+    "discountPercent": 23,
+    "rating": 4.8,
+    "reviewsCount": 160,
+    "tag": "Luxury Bloom",
+    "badge": "Chilled Delivery",
+    "image": "/images/products/classic-single-red.webp",
+    "images": [
+      "/images/products/classic-single-red.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Classic Single Red harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 40,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-162",
+    "name": "Blushing Romance",
+    "slug": "blushing-romance-2",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Roses",
+    "occasion": "Love & Romance",
+    "recipient": "For Her",
+    "price": 16875,
+    "originalPrice": 21938,
+    "discountPercent": 23,
+    "rating": 4.9,
+    "reviewsCount": 133,
+    "tag": "Luxury Edit",
+    "badge": "Hand Delivered",
+    "image": "/images/products/blushing-romance-2.webp",
+    "images": [
+      "/images/products/blushing-romance-2.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Blushing Romance harmonizes premium long-stemmed roses with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 35,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-163",
+    "name": "Eternal Devotion",
+    "slug": "eternal-devotion",
+    "category": "Forever Roses",
+    "subCategory": "Preserved Bell Domes",
+    "flowerType": "Mixed",
+    "occasion": "Love & Romance",
+    "recipient": "For Her",
+    "price": 42728,
+    "originalPrice": 55552,
+    "discountPercent": 23,
+    "rating": 4.9,
+    "reviewsCount": 98,
+    "tag": "Luxury Bloom",
+    "badge": "Artisan Arranged",
+    "image": "/images/products/eternal-devotion.webp",
+    "images": [
+      "/images/products/eternal-devotion.webp"
+    ],
+    "description": "A breathtaking showcase of naturally preserved Ecuadorian garden blooms, meticulously stabilized to retain velvety softness, vibrant pigment, and structural perfection for up to 3 years without watering. Encased in a hand-blown borosilicate bell dome.",
+    "features": [
+      "100% natural real roses preserved at peak bloom",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Zero water or maintenance required — blooms for 3+ years"
+    ],
+    "specifications": {
+      "stemCount": "Imperial Preserved Head (Ø 9-10cm)",
+      "dimensions": "Dome: H 28cm x Ø 16cm with solid beechwood base",
+      "boxOrVase": "Hand-blown Borosilicate Crystal Glass Bell Dome",
+      "careGuide": "Keep away from direct sunlight, humidity, and moisture. Do not water."
+    },
+    "stock": 26,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-164",
+    "name": "Blush Pink Delight",
+    "slug": "blush-pink-delight",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Roses",
+    "occasion": "Love & Romance",
+    "recipient": "For Her",
+    "price": 7875,
+    "originalPrice": 10238,
+    "discountPercent": 23,
+    "rating": 4.9,
+    "reviewsCount": 146,
+    "tag": "Artisan Hand-tied",
+    "badge": "Artisan Arranged",
+    "image": "/images/products/blush-pink-delight.webp",
+    "images": [
+      "/images/products/blush-pink-delight.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Blush Pink Delight harmonizes premium long-stemmed roses with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 34,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-165",
+    "name": "Orange Radiance",
+    "slug": "orange-radiance",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
+    "occasion": "Birthday",
+    "recipient": "Everyone",
+    "price": 4478,
+    "originalPrice": 5828,
+    "discountPercent": 23,
+    "rating": 5.0,
+    "reviewsCount": 162,
+    "tag": "Luxury Bloom",
+    "badge": "Chilled Delivery",
+    "image": "/images/products/orange-radiance.webp",
+    "images": [
+      "/images/products/orange-radiance.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Orange Radiance harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 20,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-166",
+    "name": "Pure White Serenity",
+    "slug": "pure-white-serenity",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
+    "occasion": "Congratulations",
+    "recipient": "Everyone",
+    "price": 3352,
+    "originalPrice": 4365,
+    "discountPercent": 23,
+    "rating": 4.8,
+    "reviewsCount": 137,
+    "tag": "Signature Atelier",
+    "badge": "Same Day Dispatch",
+    "image": "/images/products/pure-white-serenity.webp",
+    "images": [
+      "/images/products/pure-white-serenity.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Pure White Serenity harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 35,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-167",
+    "name": "Sweet Scarlet Heart",
+    "slug": "sweet-scarlet-heart",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Roses",
+    "occasion": "Love & Romance",
+    "recipient": "For Her",
+    "price": 7852,
+    "originalPrice": 10215,
+    "discountPercent": 23,
+    "rating": 4.9,
+    "reviewsCount": 160,
+    "tag": "Luxury Bloom",
+    "badge": "Same Day Dispatch",
+    "image": "/images/products/sweet-scarlet-heart.webp",
+    "images": [
+      "/images/products/sweet-scarlet-heart.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Sweet Scarlet Heart harmonizes premium long-stemmed roses with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 34,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-168",
+    "name": "Hydrangea Bliss",
+    "slug": "hydrangea-bliss",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
+    "occasion": "Birthday",
+    "recipient": "BFFs",
+    "price": 3352,
+    "originalPrice": 4365,
+    "discountPercent": 23,
+    "rating": 4.7,
+    "reviewsCount": 40,
+    "tag": "Trending Now",
+    "badge": "Hand Delivered",
+    "image": "/images/products/hydrangea-bliss.webp",
+    "images": [
+      "/images/products/hydrangea-bliss.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Hydrangea Bliss harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 33,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-169",
+    "name": "Purple Eucalyptus Elegance",
+    "slug": "purple-eucalyptus-elegance",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
+    "occasion": "Birthday",
+    "recipient": "Everyone",
+    "price": 2228,
+    "originalPrice": 2902,
+    "discountPercent": 23,
+    "rating": 5.0,
+    "reviewsCount": 115,
+    "tag": "Luxury Bloom",
+    "badge": "Artisan Arranged",
+    "image": "/images/products/purple-eucalyptus-elegance.webp",
+    "images": [
+      "/images/products/purple-eucalyptus-elegance.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Purple Eucalyptus Elegance harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 19,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-170",
+    "name": "Rustic Sunbeam",
+    "slug": "rustic-sunbeam",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Sunflowers",
+    "occasion": "Birthday",
+    "recipient": "Everyone",
+    "price": 2228,
+    "originalPrice": 2902,
+    "discountPercent": 23,
+    "rating": 4.8,
+    "reviewsCount": 115,
+    "tag": "Florist Choice",
+    "badge": "Hand Delivered",
+    "image": "/images/products/rustic-sunbeam.webp",
+    "images": [
+      "/images/products/rustic-sunbeam.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Rustic Sunbeam harmonizes premium long-stemmed sunflowers with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 35,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": true
+  },
+  {
+    "id": "flw-171",
+    "name": "Eucalyptus Grace",
+    "slug": "eucalyptus-grace",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
+    "occasion": "Congratulations",
+    "recipient": "For Her",
+    "price": 338,
+    "originalPrice": 450,
+    "discountPercent": 25,
+    "rating": 5.0,
+    "reviewsCount": 115,
+    "tag": "Luxury Bloom",
+    "badge": "Chilled Delivery",
+    "image": "/images/products/eucalyptus-grace.webp",
+    "images": [
+      "/images/products/eucalyptus-grace.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Eucalyptus Grace harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 18,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-172",
+    "name": "Autumn Warmth",
+    "slug": "autumn-warmth",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
+    "occasion": "Congratulations",
+    "recipient": "For Her",
+    "price": 11228,
+    "originalPrice": 14602,
+    "discountPercent": 23,
+    "rating": 4.8,
+    "reviewsCount": 186,
+    "tag": "Limited Edition",
+    "badge": "Artisan Arranged",
+    "image": "/images/products/autumn-warmth.webp",
+    "images": [
+      "/images/products/autumn-warmth.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Autumn Warmth harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 29,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-173",
+    "name": "Meadow Radiance",
+    "slug": "meadow-radiance",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
+    "occasion": "Congratulations",
+    "recipient": "For Her",
+    "price": 16875,
+    "originalPrice": 21938,
+    "discountPercent": 23,
+    "rating": 4.7,
+    "reviewsCount": 118,
+    "tag": "Luxury Bloom",
+    "badge": "Same Day Dispatch",
+    "image": "/images/products/meadow-radiance.webp",
+    "images": [
+      "/images/products/meadow-radiance.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Meadow Radiance harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 40,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-174",
+    "name": "Ethereal Blush",
+    "slug": "ethereal-blush-2",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Roses",
+    "occasion": "Love & Romance",
+    "recipient": "For Her",
+    "price": 28125,
+    "originalPrice": 36562,
+    "discountPercent": 23,
+    "rating": 4.9,
+    "reviewsCount": 55,
+    "tag": "Limited Edition",
+    "badge": "Hand Delivered",
+    "image": "/images/products/ethereal-blush-2.webp",
+    "images": [
+      "/images/products/ethereal-blush-2.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Ethereal Blush harmonizes premium long-stemmed roses with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 37,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-175",
+    "name": "Golden Sunrise",
+    "slug": "golden-sunrise",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
+    "occasion": "Anniversary",
+    "recipient": "For Her",
+    "price": 7875,
+    "originalPrice": 10238,
+    "discountPercent": 23,
+    "rating": 4.8,
+    "reviewsCount": 74,
+    "tag": "Luxury Bloom",
+    "badge": "Hand Delivered",
+    "image": "/images/products/golden-sunrise.webp",
+    "images": [
+      "/images/products/golden-sunrise.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Golden Sunrise harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 34,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-176",
+    "name": "Pink Gypsy Grace",
+    "slug": "pink-gypsy-grace",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
+    "occasion": "Congratulations",
+    "recipient": "For Her",
+    "price": 2228,
+    "originalPrice": 2902,
+    "discountPercent": 23,
+    "rating": 5.0,
+    "reviewsCount": 71,
+    "tag": "Best Seller",
+    "badge": "Fresh Cut",
+    "image": "/images/products/pink-gypsy-grace.webp",
+    "images": [
+      "/images/products/pink-gypsy-grace.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Pink Gypsy Grace harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 27,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-177",
+    "name": "Eucalyptus Scarlet Blend",
+    "slug": "eucalyptus-scarlet-blend",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Roses",
+    "occasion": "Love & Romance",
+    "recipient": "For Her",
+    "price": 2475,
+    "originalPrice": 3218,
+    "discountPercent": 23,
+    "rating": 5.0,
+    "reviewsCount": 151,
+    "tag": "Luxury Bloom",
+    "badge": "Same Day Dispatch",
+    "image": "/images/products/eucalyptus-scarlet-blend.webp",
+    "images": [
+      "/images/products/eucalyptus-scarlet-blend.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Eucalyptus Scarlet Blend harmonizes premium long-stemmed roses with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 31,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-178",
+    "name": "The Pastel Wonder Box",
+    "slug": "the-pastel-wonder-box",
+    "category": "Flower Boxes",
+    "subCategory": "Hat Box Arrangements",
+    "flowerType": "Mixed",
+    "occasion": "Birthday",
+    "recipient": "BFFs",
+    "price": 33728,
+    "originalPrice": 43852,
+    "discountPercent": 23,
+    "rating": 4.8,
+    "reviewsCount": 37,
+    "tag": "Florist Choice",
+    "badge": "Fresh Cut",
+    "image": "/images/products/the-pastel-wonder-box.webp",
+    "images": [
+      "/images/products/the-pastel-wonder-box.webp"
+    ],
+    "description": "A lavish curation of handpicked garden blooms, masterfully arranged in Dhanvikk's signature French velvet keepsake box. Accented with lush spiral eucalyptus and tied with an ivory satin ribbon, this bespoke creation brings regal grandeur to every celebration.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Signature reusable velvet keepsake cylinder with gold embossing",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "24 to 36 Premium Blooms",
+      "dimensions": "Box: Ø 22cm x H 25cm | Total: H 35cm",
+      "boxOrVase": "Signature Velvet Keepsake Cylinder with Gold Hot-Stamp",
+      "careGuide": "Add 50ml fresh cool water every 2 days into central oasis foam."
+    },
+    "stock": 45,
+    "inStock": true,
+    "isBestSeller": true,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-179",
+    "name": "Midnight Passion",
+    "slug": "midnight-passion",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
+    "occasion": "Love & Romance",
+    "recipient": "For Her",
+    "price": 3375,
+    "originalPrice": 4388,
+    "discountPercent": 23,
+    "rating": 4.8,
+    "reviewsCount": 45,
+    "tag": "Luxury Bloom",
+    "badge": "Chilled Delivery",
+    "image": "/images/products/midnight-passion.webp",
+    "images": [
+      "/images/products/midnight-passion.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Midnight Passion harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 30,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-180",
+    "name": "The Pearl Serenade Box",
+    "slug": "the-pearl-serenade-box",
+    "category": "Flower Boxes",
+    "subCategory": "Hat Box Arrangements",
+    "flowerType": "Mixed",
+    "occasion": "Congratulations",
+    "recipient": "Everyone",
+    "price": 11228,
+    "originalPrice": 14602,
+    "discountPercent": 23,
+    "rating": 4.7,
+    "reviewsCount": 88,
+    "tag": "Artisan Hand-tied",
+    "badge": "Chilled Delivery",
+    "image": "/images/products/the-pearl-serenade-box.webp",
+    "images": [
+      "/images/products/the-pearl-serenade-box.webp"
+    ],
+    "description": "A lavish curation of handpicked garden blooms, masterfully arranged in Dhanvikk's signature French velvet keepsake box. Accented with lush spiral eucalyptus and tied with an ivory satin ribbon, this bespoke creation brings regal grandeur to every celebration.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Signature reusable velvet keepsake cylinder with gold embossing",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "24 to 36 Premium Blooms",
+      "dimensions": "Box: Ø 22cm x H 25cm | Total: H 35cm",
+      "boxOrVase": "Signature Velvet Keepsake Cylinder with Gold Hot-Stamp",
+      "careGuide": "Add 50ml fresh cool water every 2 days into central oasis foam."
+    },
+    "stock": 21,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-181",
+    "name": "The Silk Wonder Box",
+    "slug": "the-silk-wonder-box",
+    "category": "Flower Boxes",
+    "subCategory": "Hat Box Arrangements",
+    "flowerType": "Mixed",
+    "occasion": "Birthday",
+    "recipient": "BFFs",
+    "price": 16852,
+    "originalPrice": 21915,
+    "discountPercent": 23,
+    "rating": 4.9,
+    "reviewsCount": 146,
+    "tag": "Luxury Bloom",
+    "badge": "Hand Delivered",
+    "image": "/images/products/the-silk-wonder-box.webp",
+    "images": [
+      "/images/products/the-silk-wonder-box.webp"
+    ],
+    "description": "A lavish curation of handpicked garden blooms, masterfully arranged in Dhanvikk's signature French velvet keepsake box. Accented with lush spiral eucalyptus and tied with an ivory satin ribbon, this bespoke creation brings regal grandeur to every celebration.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Signature reusable velvet keepsake cylinder with gold embossing",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "24 to 36 Premium Blooms",
+      "dimensions": "Box: Ø 22cm x H 25cm | Total: H 35cm",
+      "boxOrVase": "Signature Velvet Keepsake Cylinder with Gold Hot-Stamp",
+      "careGuide": "Add 50ml fresh cool water every 2 days into central oasis foam."
+    },
+    "stock": 38,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-182",
+    "name": "Pink and Red Harmony",
+    "slug": "pink-and-red-harmony",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
+    "occasion": "Birthday",
+    "recipient": "Everyone",
+    "price": 22478,
+    "originalPrice": 29228,
+    "discountPercent": 23,
+    "rating": 4.9,
+    "reviewsCount": 58,
+    "tag": "Artisan Hand-tied",
+    "badge": "Chilled Delivery",
+    "image": "/images/products/pink-and-red-harmony.webp",
+    "images": [
+      "/images/products/pink-and-red-harmony.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Pink and Red Harmony harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 30,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-183",
+    "name": "Midnight Black",
+    "slug": "midnight-black",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
+    "occasion": "Birthday",
+    "recipient": "Everyone",
+    "price": 26978,
+    "originalPrice": 35078,
+    "discountPercent": 23,
+    "rating": 4.7,
+    "reviewsCount": 95,
+    "tag": "Luxury Bloom",
+    "badge": "Same Day Dispatch",
+    "image": "/images/products/midnight-black.webp",
+    "images": [
+      "/images/products/midnight-black.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Midnight Black harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 37,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-184",
+    "name": "Regenbogenfest Box",
+    "slug": "regenbogenfest-box",
+    "category": "Flower Boxes",
+    "subCategory": "Hat Box Arrangements",
+    "flowerType": "Mixed",
+    "occasion": "Birthday",
+    "recipient": "BFFs",
+    "price": 16852,
+    "originalPrice": 21915,
+    "discountPercent": 23,
+    "rating": 4.9,
+    "reviewsCount": 123,
+    "tag": "Signature Atelier",
+    "badge": "Hand Delivered",
+    "image": "/images/products/regenbogenfest-box.webp",
+    "images": [
+      "/images/products/regenbogenfest-box.webp"
+    ],
+    "description": "A lavish curation of handpicked garden blooms, masterfully arranged in Dhanvikk's signature French velvet keepsake box. Accented with lush spiral eucalyptus and tied with an ivory satin ribbon, this bespoke creation brings regal grandeur to every celebration.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Signature reusable velvet keepsake cylinder with gold embossing",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "24 to 36 Premium Blooms",
+      "dimensions": "Box: Ø 22cm x H 25cm | Total: H 35cm",
+      "boxOrVase": "Signature Velvet Keepsake Cylinder with Gold Hot-Stamp",
+      "careGuide": "Add 50ml fresh cool water every 2 days into central oasis foam."
+    },
+    "stock": 43,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-185",
+    "name": "Golden Solitaire",
+    "slug": "golden-solitaire",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Roses",
+    "occasion": "Anniversary",
+    "recipient": "For Her",
+    "price": 338,
+    "originalPrice": 450,
+    "discountPercent": 25,
+    "rating": 4.8,
+    "reviewsCount": 105,
+    "tag": "Luxury Bloom",
+    "badge": "Same Day Dispatch",
+    "image": "/images/products/golden-solitaire.webp",
+    "images": [
+      "/images/products/golden-solitaire.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Golden Solitaire harmonizes premium long-stemmed roses with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 18,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": true
+  },
+  {
+    "id": "flw-186",
+    "name": "Golden Eucalyptus Radiance",
+    "slug": "golden-eucalyptus-radiance",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
+    "occasion": "Anniversary",
+    "recipient": "For Her",
+    "price": 5602,
+    "originalPrice": 7290,
+    "discountPercent": 23,
+    "rating": 4.9,
+    "reviewsCount": 104,
+    "tag": "Signature Atelier",
+    "badge": "Fresh Cut",
+    "image": "/images/products/golden-eucalyptus-radiance.webp",
+    "images": [
+      "/images/products/golden-eucalyptus-radiance.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Golden Eucalyptus Radiance harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 30,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-187",
+    "name": "Sunshine Roses",
+    "slug": "sunshine-roses",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Roses",
+    "occasion": "Birthday",
+    "recipient": "BFFs",
+    "price": 4702,
+    "originalPrice": 6120,
+    "discountPercent": 23,
+    "rating": 5.0,
+    "reviewsCount": 96,
+    "tag": "Luxury Bloom",
+    "badge": "Chilled Delivery",
+    "image": "/images/products/sunshine-roses.webp",
+    "images": [
+      "/images/products/sunshine-roses.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Sunshine Roses harmonizes premium long-stemmed roses with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 45,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-188",
+    "name": "Passionate Serenity",
+    "slug": "passionate-serenity",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
+    "occasion": "Love & Romance",
+    "recipient": "For Her",
+    "price": 12352,
+    "originalPrice": 16065,
+    "discountPercent": 23,
+    "rating": 5.0,
+    "reviewsCount": 93,
+    "tag": "Signature Atelier",
+    "badge": "Chilled Delivery",
+    "image": "/images/products/passionate-serenity.webp",
+    "images": [
+      "/images/products/passionate-serenity.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Passionate Serenity harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 25,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-189",
+    "name": "Singular Devotion",
+    "slug": "singular-devotion",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
+    "occasion": "Love & Romance",
+    "recipient": "For Her",
+    "price": 450,
+    "originalPrice": 585,
+    "discountPercent": 23,
+    "rating": 4.9,
+    "reviewsCount": 110,
+    "tag": "Luxury Bloom",
+    "badge": "Artisan Arranged",
+    "image": "/images/products/singular-devotion.webp",
+    "images": [
+      "/images/products/singular-devotion.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Singular Devotion harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 45,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-190",
+    "name": "Passionate Romance",
+    "slug": "passionate-romance",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Roses",
+    "occasion": "Love & Romance",
+    "recipient": "For Her",
+    "price": 4478,
+    "originalPrice": 5828,
+    "discountPercent": 23,
+    "rating": 4.9,
+    "reviewsCount": 186,
+    "tag": "Luxury Edit",
+    "badge": "Artisan Arranged",
+    "image": "/images/products/passionate-romance.webp",
+    "images": [
+      "/images/products/passionate-romance.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Passionate Romance harmonizes premium long-stemmed roses with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 19,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-191",
+    "name": "Sweet Rose Greens",
+    "slug": "sweet-rose-greens",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Roses",
+    "occasion": "Love & Romance",
+    "recipient": "For Her",
+    "price": 4478,
+    "originalPrice": 5828,
+    "discountPercent": 23,
+    "rating": 4.9,
+    "reviewsCount": 98,
+    "tag": "Luxury Bloom",
+    "badge": "Hand Delivered",
+    "image": "/images/products/sweet-rose-greens.webp",
+    "images": [
+      "/images/products/sweet-rose-greens.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Sweet Rose Greens harmonizes premium long-stemmed roses with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 23,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-192",
+    "name": "Ohara Blossom",
+    "slug": "ohara-blossom",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
+    "occasion": "Birthday",
+    "recipient": "Everyone",
+    "price": 7852,
+    "originalPrice": 10215,
+    "discountPercent": 23,
+    "rating": 4.8,
+    "reviewsCount": 53,
+    "tag": "Luxury Edit",
+    "badge": "Same Day Dispatch",
+    "image": "/images/products/ohara-blossom.webp",
+    "images": [
+      "/images/products/ohara-blossom.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Ohara Blossom harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 28,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-193",
+    "name": "Pastel Petals",
+    "slug": "pastel-petals",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
+    "occasion": "Birthday",
+    "recipient": "BFFs",
+    "price": 11228,
+    "originalPrice": 14602,
+    "discountPercent": 23,
+    "rating": 4.8,
+    "reviewsCount": 147,
+    "tag": "Luxury Bloom",
+    "badge": "Same Day Dispatch",
+    "image": "/images/products/pastel-petals.webp",
+    "images": [
+      "/images/products/pastel-petals.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Pastel Petals harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 26,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-194",
+    "name": "Crimson Majesty",
+    "slug": "crimson-majesty",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Roses",
+    "occasion": "Love & Romance",
+    "recipient": "For Her",
+    "price": 3352,
+    "originalPrice": 4365,
+    "discountPercent": 23,
+    "rating": 5.0,
+    "reviewsCount": 96,
+    "tag": "Fresh Harvest",
+    "badge": "Artisan Arranged",
+    "image": "/images/products/crimson-majesty.webp",
+    "images": [
+      "/images/products/crimson-majesty.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Crimson Majesty harmonizes premium long-stemmed roses with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 44,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-195",
+    "name": "Charming Contrast",
+    "slug": "charming-contrast",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
+    "occasion": "Birthday",
+    "recipient": "Everyone",
+    "price": 2228,
+    "originalPrice": 2902,
+    "discountPercent": 23,
+    "rating": 4.7,
+    "reviewsCount": 88,
+    "tag": "Luxury Bloom",
+    "badge": "Artisan Arranged",
+    "image": "/images/products/charming-contrast.webp",
+    "images": [
+      "/images/products/charming-contrast.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Charming Contrast harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 37,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": true
+  },
+  {
+    "id": "flw-196",
+    "name": "Soft Serenade",
+    "slug": "soft-serenade",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
+    "occasion": "Birthday",
+    "recipient": "Everyone",
+    "price": 5602,
+    "originalPrice": 7290,
+    "discountPercent": 23,
+    "rating": 4.9,
+    "reviewsCount": 127,
+    "tag": "Fresh Harvest",
+    "badge": "Same Day Dispatch",
+    "image": "/images/products/soft-serenade.webp",
+    "images": [
+      "/images/products/soft-serenade.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Soft Serenade harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 16,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-197",
+    "name": "Midnight Passion",
+    "slug": "midnight-passion-2",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
+    "occasion": "Love & Romance",
+    "recipient": "For Her",
+    "price": 33728,
+    "originalPrice": 43852,
+    "discountPercent": 23,
+    "rating": 4.8,
+    "reviewsCount": 159,
+    "tag": "Luxury Bloom",
+    "badge": "Artisan Arranged",
+    "image": "/images/products/midnight-passion-2.webp",
+    "images": [
+      "/images/products/midnight-passion-2.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Midnight Passion harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 25,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-198",
+    "name": "Sweet Sentiment",
+    "slug": "sweet-sentiment",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
+    "occasion": "Love & Romance",
+    "recipient": "For Her",
+    "price": 338,
+    "originalPrice": 450,
+    "discountPercent": 25,
+    "rating": 4.8,
+    "reviewsCount": 72,
+    "tag": "Artisan Hand-tied",
+    "badge": "Artisan Arranged",
+    "image": "/images/products/sweet-sentiment.webp",
+    "images": [
+      "/images/products/sweet-sentiment.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Sweet Sentiment harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 14,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  },
+  {
+    "id": "flw-199",
+    "name": "Serene Blossom",
+    "slug": "serene-blossom",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
+    "occasion": "Congratulations",
+    "recipient": "Everyone",
+    "price": 15728,
+    "originalPrice": 20452,
+    "discountPercent": 23,
+    "rating": 4.9,
+    "reviewsCount": 112,
+    "tag": "Luxury Bloom",
+    "badge": "Chilled Delivery",
+    "image": "/images/products/serene-blossom.webp",
+    "images": [
+      "/images/products/serene-blossom.webp"
+    ],
+    "description": "Hand-tied by master Parisian florists, the Serene Blossom harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "features": [
+      "Air-flown fresh daily from high-altitude volcanic farms",
+      "Handcrafted and tailored by master floral artisans",
+      "Complimentary personalized handwritten calligraphy greeting card",
+      "Insulated cold-chain temperature-controlled doorstep dispatch"
+    ],
+    "specifications": {
+      "stemCount": "20 to 30 Selected Stems with Garden Greens",
+      "dimensions": "Bouquet: H 45cm x W 35cm",
+      "boxOrVase": "French Frosted Botanical Wrap & Satin Silk Ribbons",
+      "careGuide": "Unwrap stems, place in clean vase with floral food, change water every 2 days."
+    },
+    "stock": 14,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false
+  }
+];
