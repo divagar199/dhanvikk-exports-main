@@ -105,31 +105,6 @@ export default function LoginPage() {
           />
         </div>
 
-        {/* Quick Demo Credentials as Subtle Light Pills */}
-        <div className="mt-4 pt-3.5 border-t border-[#F2ECE6] text-left">
-          <div className="flex items-center justify-between mb-2">
-            <span className="text-[10.5px] font-bold uppercase tracking-wider text-[#888888]">
-              Instant Demo Access
-            </span>
-            <span className="text-[10px] text-[#C2185B] font-semibold">1-Click Fill</span>
-          </div>
-          <div className="grid grid-cols-2 gap-2">
-            <button
-              type="button"
-              onClick={() => handleLoginSubmit({ email: 'priya.sharma@gmail.com', password: 'password123', rememberMe: true })}
-              className="py-1.5 px-2.5 rounded-xl bg-[#FAF7F2] hover:bg-[#FFF0F4] border border-[#EBE3DC] hover:border-[#EC407A] text-[#242124] text-[11px] font-medium transition-all cursor-pointer text-left truncate"
-            >
-              🌸 Customer: <span className="text-[#C2185B] font-semibold">Priya</span>
-            </button>
-            <button
-              type="button"
-              onClick={() => handleLoginSubmit({ email: 'divagar.m.msc.cs@gmail.com', password: 'password123', rememberMe: true })}
-              className="py-1.5 px-2.5 rounded-xl bg-[#FAF7F2] hover:bg-[#FFFDF0] border border-[#EBE3DC] hover:border-[#D4AF37] text-[#242124] text-[11px] font-medium transition-all cursor-pointer text-left truncate"
-            >
-              🛡️ Admin: <span className="text-[#B8860B] font-semibold">Divagar M</span>
-            </button>
-          </div>
-        </div>
 
         {/* Register CTA Link */}
         <div className="mt-4 pt-3.5 border-t border-[#F2ECE6] text-center text-xs text-[#666666]">
