@@ -21,13 +21,12 @@ export function getProductImageUrl(img) {
   }
 
   // If stored locally in /uploads/
+  const backendUrl = (import.meta.env.VITE_API_URL || '').replace(/\/+$/, '');
   if (img.startsWith('/uploads')) {
-    const backendUrl = import.meta.env.VITE_API_URL || '';
     return `${backendUrl}${img}`;
   }
 
   if (img.startsWith('uploads/')) {
-    const backendUrl = import.meta.env.VITE_API_URL || '';
     return `${backendUrl}/${img}`;
   }
 

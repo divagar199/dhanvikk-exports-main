@@ -1,10 +1,12 @@
 import axios from 'axios';
 
 // Centralized Axios instance
+const normalizedBaseURL = (import.meta.env.VITE_API_URL || '').replace(/\/+$/, '');
+
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || '',
+  baseURL: normalizedBaseURL,
   withCredentials: true,
-  timeout: 10000,
+  timeout: 15000,
   headers: {
     'Content-Type': 'application/json',
     'Accept': 'application/json',

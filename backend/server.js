@@ -41,9 +41,28 @@ app.use(
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Cross-Origin Resource Sharing
+const rawClientUrl = (process.env.CLIENT_URL || '').replace(/\/+$/, '');
+const allowedOrigins = [
+  rawClientUrl,
+  'http://127.0.0.1:5173',
+  'http://localhost:5173',
+  'http://localhost:3000',
+].filter(Boolean);
+
 app.use(
   cors({
-    origin: [CLIENT_URL, 'http://127.0.0.1:5173', 'http://localhost:5173'],
+    origin: (origin, callback) => {
+      if (!origin) return callback(null, true);
+      if (
+        allowedOrigins.includes(origin) ||
+        origin.endsWith('.vercel.app') ||
+        origin.includes('dhanvikk') ||
+        process.env.NODE_ENV !== 'production'
+      ) {
+        return callback(null, true);
+      }
+      return callback(null, origin);
+    },
     credentials: true,
   })
 );
