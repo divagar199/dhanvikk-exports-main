@@ -3,11 +3,11 @@ import { Truck, Gift, MessageCircle } from 'lucide-react';
 
 export default function AnnouncementBar() {
   return (
-    <div className="bg-gradient-to-r from-[#FFF5F7] via-[#FAF7F2] to-[#FFF0F4] text-[#4A3F45] border-b border-[#F0E6DE] text-[11px] sm:text-xs select-none tracking-wide shadow-2xs">
-      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 h-9 sm:h-10 flex items-center justify-between gap-2 sm:gap-4">
+    <div className="w-full bg-gradient-to-r from-[#FFF5F7] via-[#FAF7F2] to-[#FFF0F4] text-[#4A3F45] border-b border-[#F0E6DE] text-[11px] sm:text-xs select-none tracking-wide shadow-2xs">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 min-h-[38px] sm:min-h-[40px] py-1 sm:py-1.5 flex items-center justify-between gap-3 sm:gap-6">
         {/* Left: Premium Guarantee & Highlights */}
-        <div className="flex items-center gap-2.5 sm:gap-4 text-[#52484E] min-w-0">
-          <div className="flex items-center gap-1.5 font-medium min-w-0">
+        <div className="flex items-center gap-3 sm:gap-4 text-[#52484E] min-w-0">
+          <div className="flex items-center gap-2 font-medium min-w-0 leading-normal">
             <Gift className="w-3.5 h-3.5 text-[#C2185B] flex-shrink-0" />
             <span className="hidden md:inline text-[#4A3F45]">
               Complimentary handwritten message card with every order
@@ -22,7 +22,7 @@ export default function AnnouncementBar() {
 
           <span className="hidden lg:inline text-[#D8CDC4] select-none">•</span>
 
-          <div className="hidden lg:flex items-center gap-1.5 text-[#6B5E66] whitespace-nowrap">
+          <div className="hidden lg:flex items-center gap-2 text-[#6B5E66] whitespace-nowrap leading-normal">
             <Truck className="w-3.5 h-3.5 text-[#C2185B] flex-shrink-0" />
             <span>Same-Day & Midnight Delivery Across UAE & India</span>
           </div>
@@ -35,7 +35,7 @@ export default function AnnouncementBar() {
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Contact Dhanvikk Floral Concierge on WhatsApp +91 91089 16328"
-            className="group inline-flex items-center gap-1.5 sm:gap-2 px-2.5 py-1 sm:px-3 sm:py-1 rounded-full bg-white/95 hover:bg-white border border-[#25D366]/35 hover:border-[#25D366] text-[#128C7E] text-[11px] sm:text-xs font-semibold shadow-2xs hover:shadow-xs hover:ring-2 hover:ring-[#25D366]/15 transition-all duration-200"
+            className="group inline-flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-full bg-white/95 hover:bg-white border border-[#25D366]/35 hover:border-[#25D366] text-[#128C7E] text-[11px] sm:text-xs font-semibold shadow-2xs hover:shadow-xs hover:ring-2 hover:ring-[#25D366]/15 transition-all duration-200"
           >
             {/* Live Concierge Active Indicator */}
             <span className="relative flex h-2 w-2 flex-shrink-0">
