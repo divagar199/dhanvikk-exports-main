@@ -78,6 +78,7 @@ export default function App() {
                   </RoleRoute>
                 }
               />
+              <Route path="/admin/dashbord" element={<Navigate to="/admin/dashboard" replace />} />
 
               {/* Customer Account Routes */}
               <Route

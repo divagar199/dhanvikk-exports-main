@@ -95,22 +95,18 @@ export default function AdminLogin() {
           />
 
           <div className="flex flex-col items-center text-center mb-6">
-            <div className="p-3.5 bg-gradient-to-br from-[#FFF0F4] to-[#FAF7F2] rounded-2xl border border-[#F2D7DE] mb-3 text-[#C2185B] shadow-xs">
-              <Shield className="w-8 h-8" />
+            <div className="mb-3">
+              <Logo size="lg" linkTo="/" />
             </div>
-            <div>
-              <span className="font-semibold tracking-[0.2em] text-[18px] uppercase font-['Poppins'] text-[#242124]">
-                Dhanvikk
-              </span>
-              <span className="tracking-[0.4em] text-[11px] font-semibold text-[#C2185B] uppercase block">
-                Management Portal
-              </span>
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#FFF0F4] border border-[#FCD9E0] text-[10px] font-bold text-[#C2185B] uppercase tracking-wider mb-2">
+              <Shield className="w-3.5 h-3.5 text-[#EC407A]" />
+              <span>Internal Management Console</span>
             </div>
-            <h1 className="text-xl font-bold text-[#242124] mt-3 font-['Poppins']">
-              Restricted Staff Access
+            <h1 className="text-xl sm:text-2xl font-bold text-[#242124] font-['Poppins']">
+              Staff Portal Access
             </h1>
-            <p className="text-xs text-[#666666] mt-1">
-              Authorized floristry management & inventory administrators
+            <p className="text-xs text-[#666666] mt-1 max-w-xs">
+              Authorized floristry operations, catalog management & dispatch administration
             </p>
           </div>
 

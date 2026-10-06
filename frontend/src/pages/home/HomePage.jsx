@@ -57,6 +57,41 @@ export default function HomePage() {
   const [addedIds, setAddedIds] = useState([]);
   const searchResultsRef = useRef(null);
 
+  // Dynamic Hero Section CMS Settings (Managed via Admin Dashboard -> Hero Section)
+  const [heroSettings, setHeroSettings] = useState(() => {
+    try {
+      const saved = localStorage.getItem('dhanvikk_hero_settings');
+      if (saved) return JSON.parse(saved);
+    } catch (e) {
+      console.error(e);
+    }
+    return {
+      badge: 'Spring Floristry Edit 2026',
+      headline: 'Elegance In Every Petal.',
+      subHeadline: 'Delivered Today.',
+      description: 'Directly imported highland Ecuadorian roses & exotic lilies, crafted by master florists with complimentary handwritten cards.',
+      buttonText: 'Shop Spring Roses',
+      buttonLink: '/category/roses',
+      secondaryButtonText: 'Browse Occasions',
+      secondaryButtonLink: '/category/occasions',
+      imageUrl: 'https://images.unsplash.com/photo-1561181286-d3fee7d55364?auto=format&fit=crop&w=800&q=85',
+    };
+  });
+
+  // Listen for admin changes to hero settings
+  useEffect(() => {
+    const handleStorageChange = () => {
+      try {
+        const saved = localStorage.getItem('dhanvikk_hero_settings');
+        if (saved) setHeroSettings(JSON.parse(saved));
+      } catch (e) {
+        console.error(e);
+      }
+    };
+    window.addEventListener('storage', handleStorageChange);
+    return () => window.removeEventListener('storage', handleStorageChange);
+  }, []);
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -206,45 +241,45 @@ export default function HomePage() {
                 showPagination={true}
                 className="h-full rounded-3xl overflow-hidden"
               >
-                {/* Place 1 - Slide 1 (Exact User Design: Elegance In Every Petal. Delivered Today.) */}
+                {/* Place 1 - Slide 1 (Exact User Design & Dynamic CMS Settings) */}
                 <SwiperSlide className="w-full h-full">
                   <div className="relative w-full h-full bg-gradient-to-r from-[#FFF0F4] via-[#FFF8F9] to-[#FAF7F2] flex items-center p-6 sm:p-12 overflow-hidden">
                     <div className="relative z-10 max-w-lg space-y-4">
                       <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/90 border border-[#FCC1C5] text-[#C2185B] text-xs font-bold tracking-wider uppercase shadow-2xs">
                         <Flame className="w-3.5 h-3.5 text-[#EC407A]" />
-                        <span>Spring Floristry Edit 2026</span>
+                        <span>{heroSettings.badge || 'Spring Floristry Edit 2026'}</span>
                       </div>
 
                       <h1 className="text-3xl sm:text-5xl font-bold font-['Poppins'] text-[#242124] leading-[1.15]">
-                        Elegance In Every Petal. <br />
-                        <span className="text-[#EC407A] italic font-normal">Delivered Today.</span>
+                        {heroSettings.headline || 'Elegance In Every Petal.'} <br />
+                        <span className="text-[#EC407A] italic font-normal">{heroSettings.subHeadline || 'Delivered Today.'}</span>
                       </h1>
 
                       <p className="text-xs sm:text-sm text-[#777777] font-normal leading-relaxed">
-                        Directly imported highland Ecuadorian roses & exotic lilies, crafted by master florists with complimentary handwritten cards.
+                        {heroSettings.description || 'Directly imported highland Ecuadorian roses & exotic lilies, crafted by master florists with complimentary handwritten cards.'}
                       </p>
 
                       <div className="pt-2 flex flex-wrap items-center gap-3">
                         <Link
-                          to="/category/roses"
+                          to={heroSettings.buttonLink || '/category/roses'}
                           className="px-6 py-3 rounded-full bg-[#EC407A] hover:bg-[#C2185B] text-white text-xs sm:text-sm font-semibold transition-all shadow-md hover:shadow-lg hover:shadow-[#EC407A]/25 flex items-center gap-2 group"
                         >
-                          <span>Shop Spring Roses</span>
+                          <span>{heroSettings.buttonText || 'Shop Spring Roses'}</span>
                           <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
                         </Link>
 
                         <Link
-                          to="/category/occasions"
+                          to={heroSettings.secondaryButtonLink || '/category/occasions'}
                           className="px-6 py-3 rounded-full bg-white hover:bg-[#FFF3F6] text-[#242124] hover:text-[#C2185B] text-xs sm:text-sm font-semibold border border-[#E9E2E5] transition-all"
                         >
-                          <span>Browse Occasions</span>
+                          <span>{heroSettings.secondaryButtonText || 'Browse Occasions'}</span>
                         </Link>
                       </div>
                     </div>
 
                     <div className="hidden sm:block absolute right-0 bottom-0 top-0 w-2/5 pointer-events-none">
                       <img
-                        src="https://images.unsplash.com/photo-1561181286-d3fee7d55364?auto=format&fit=crop&w=800&q=85"
+                        src={heroSettings.imageUrl || 'https://images.unsplash.com/photo-1561181286-d3fee7d55364?auto=format&fit=crop&w=800&q=85'}
                         alt="Dhanvikk Blooms Luxury Fresh Rose Arrangements Handcrafted by Master Florists"
                         className="w-full h-full object-cover rounded-l-full shadow-lg border-l-4 border-white opacity-95"
                         loading="lazy"

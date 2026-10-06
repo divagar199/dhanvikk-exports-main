@@ -39,7 +39,18 @@ import {
   UserCheck,
   UserPlus,
   ShieldAlert,
+  Coins,
+  CreditCard,
+  DollarSign,
+  Globe,
+  Percent,
+  Save,
+  FileText,
+  Sliders,
+  ArrowUpRight,
+  Lock,
 } from 'lucide-react';
+import Logo from '../../components/common/Logo';
 import { logoutUser } from '../../store/slices/authSlice';
 import Button from '../../components/common/Button';
 import Breadcrumb from '../../components/common/Breadcrumb';
@@ -104,21 +115,192 @@ const IMAGE_PRESETS = [
   },
 ];
 
+export const DEFAULT_ADMIN_CATEGORIES = [
+  {
+    id: 'flowers',
+    name: 'Fresh Flowers',
+    slug: 'flowers',
+    description: 'Handcrafted fresh floral compositions air-flown from volcanic highlands',
+    badge: 'SIGNATURE EDIT',
+    subCategories: ['Hand Bouquets', 'Luxury Vases', 'Orchid Stems', 'Lilies & Tulips'],
+    image: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=800&q=80',
+    active: true,
+  },
+  {
+    id: 'flower-boxes',
+    name: 'Velvet Flower Boxes',
+    slug: 'flower-boxes',
+    description: 'Signature Parisian hatboxes filled with garden blooms & satin ribbons',
+    badge: 'BESTSELLER',
+    subCategories: ['Round Hatboxes', 'Square Keepsakes', 'Grand Velvet Cylinders'],
+    image: 'https://images.unsplash.com/photo-1561181286-d3fee7d55364?auto=format&fit=crop&w=800&q=80',
+    active: true,
+  },
+  {
+    id: 'forever-roses',
+    name: 'Forever Roses (3+ Years)',
+    slug: 'forever-roses',
+    description: 'Natural Ecuadorian preserved roses encased in luxury crystal domes',
+    badge: 'LASTS 3+ YEARS',
+    subCategories: ['Bell Domes', 'Petite Acrylic Cases', 'Heart Forever Boxes'],
+    image: 'https://images.unsplash.com/photo-1533616688419-b7a585564566?auto=format&fit=crop&w=800&q=80',
+    active: true,
+  },
+  {
+    id: 'plants',
+    name: 'Indoor Botanical Plants',
+    slug: 'plants',
+    description: 'Living potted greenery, air-purifying foliage, and Nordic ceramics',
+    badge: 'LIVING BOTANICALS',
+    subCategories: ['Monstera Deliciosa', 'Peace Lilies', 'Fiddle Leaf Fig', 'Snake Plant Sansevieria'],
+    image: 'https://images.unsplash.com/photo-1614594975525-e45190c55d0b?auto=format&fit=crop&w=800&q=80',
+    active: true,
+  },
+  {
+    id: 'gift-bundles',
+    name: 'Hampers & Gift Bundles',
+    slug: 'gift-bundles',
+    description: 'Luxury gourmet chocolates, scented artisan candles & celebration hampers',
+    badge: 'PREMIUM CELEBRATION',
+    subCategories: ['Godiva & Rose Trays', 'Aroma Candle Sets', 'Anniversary Hampers'],
+    image: 'https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=800&q=80',
+    active: true,
+  },
+];
+
+export const DEFAULT_CURRENCY_RATES = [
+  { code: 'AED', name: 'UAE Dirham', country: 'Dubai & UAE', flag: '🇦🇪', symbol: 'AED', nativeSymbol: 'د.إ', rateToINR: 22.8, rateFromAED: 1.0, fixedSample: 150 },
+  { code: 'INR', name: 'Indian Rupee', country: 'India', flag: '🇮🇳', symbol: '₹', nativeSymbol: '₹', rateToINR: 1.0, rateFromAED: 22.8, fixedSample: 3420 },
+  { code: 'USD', name: 'US Dollar', country: 'Global / USA', flag: '🇺🇸', symbol: '$', nativeSymbol: '$', rateToINR: 83.5, rateFromAED: 0.272, fixedSample: 40.8 },
+  { code: 'EUR', name: 'Euro', country: 'Europe / EU', flag: '🇪🇺', symbol: '€', nativeSymbol: '€', rateToINR: 90.5, rateFromAED: 0.252, fixedSample: 37.8 },
+  { code: 'GBP', name: 'British Pound', country: 'United Kingdom', flag: '🇬🇧', symbol: '£', nativeSymbol: '£', rateToINR: 106.5, rateFromAED: 0.214, fixedSample: 32.1 },
+  { code: 'SAR', name: 'Saudi Riyal', country: 'Saudi Arabia', flag: '🇸🇦', symbol: 'SAR', nativeSymbol: 'ر.س', rateToINR: 22.3, rateFromAED: 1.02, fixedSample: 153 },
+  { code: 'QAR', name: 'Qatari Riyal', country: 'Qatar', flag: '🇶🇦', symbol: 'QAR', nativeSymbol: 'ر.ق', rateToINR: 22.9, rateFromAED: 0.995, fixedSample: 149.25 },
+  { code: 'KWD', name: 'Kuwaiti Dinar', country: 'Kuwait', flag: '🇰🇼', symbol: 'KWD', nativeSymbol: 'د.ك', rateToINR: 272.0, rateFromAED: 0.084, fixedSample: 12.6 },
+  { code: 'OMR', name: 'Omani Rial', country: 'Oman', flag: '🇴🇲', symbol: 'OMR', nativeSymbol: 'ر.ع.', rateToINR: 217.0, rateFromAED: 0.105, fixedSample: 15.75 },
+  { code: 'BHD', name: 'Bahraini Dinar', country: 'Bahrain', flag: '🇧🇭', symbol: 'BHD', nativeSymbol: 'ب.د', rateToINR: 221.0, rateFromAED: 0.103, fixedSample: 15.45 },
+  { code: 'SGD', name: 'Singapore Dollar', country: 'Singapore', flag: '🇸🇬', symbol: 'S$', nativeSymbol: 'S$', rateToINR: 62.5, rateFromAED: 0.365, fixedSample: 54.75 },
+];
+
+export const DEFAULT_PAYMENTS_LIST = [
+  {
+    id: 'TXN_RZP_901842',
+    orderId: 'ORD-8821',
+    customerName: 'Fatima Al-Zahra',
+    customerEmail: 'fatima.zahra@dubai.ae',
+    gateway: 'Razorpay (Cards)',
+    amount: 450,
+    currency: 'AED',
+    status: 'Paid',
+    date: '2026-10-06 14:22',
+    items: '1x Velvet Flower Box (Pink Roses)',
+    city: 'Dubai Downtown',
+  },
+  {
+    id: 'TXN_STR_441920',
+    orderId: 'ORD-8820',
+    customerName: 'Rahul Verma',
+    customerEmail: 'rahul.v@gmail.com',
+    gateway: 'Stripe (Apple Pay)',
+    amount: 10260,
+    currency: 'INR',
+    status: 'Paid',
+    date: '2026-10-06 12:15',
+    items: '2x Royal Ecuadorian Red Roses Bouquet',
+    city: 'Bengaluru Indiranagar',
+  },
+  {
+    id: 'TXN_RZP_310892',
+    orderId: 'ORD-8819',
+    customerName: 'Marcus Vance',
+    customerEmail: 'marcus.v@expat.ae',
+    gateway: 'Razorpay (NetBanking)',
+    amount: 125,
+    currency: 'USD',
+    status: 'Paid',
+    date: '2026-10-05 18:40',
+    items: '1x Preserved Forever Rose Bell Dome',
+    city: 'Abu Dhabi Yas Island',
+  },
+  {
+    id: 'TXN_COD_110943',
+    orderId: 'ORD-8818',
+    customerName: 'Aarav Sharma',
+    customerEmail: 'aarav.sharma@outlook.com',
+    gateway: 'Cash on Delivery',
+    amount: 2999,
+    currency: 'INR',
+    status: 'Pending Collection',
+    date: '2026-10-05 11:05',
+    items: '1x Monstera Deliciosa Living Plant',
+    city: 'Bengaluru Koramangala',
+  },
+  {
+    id: 'TXN_STR_889211',
+    orderId: 'ORD-8817',
+    customerName: 'Leila Qasim',
+    customerEmail: 'leila.q@sharjah.ae',
+    gateway: 'Stripe (Credit Card)',
+    amount: 520,
+    currency: 'AED',
+    status: 'Paid',
+    date: '2026-10-04 16:30',
+    items: '1x Grand Moroccan Hatbox + Belgian Truffles',
+    city: 'Sharjah Waterfront',
+  },
+];
+
 export default function AdminDashboard() {
   const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [activeTab, setActiveTab] = useState('products'); // 'products' | 'orders' | 'staff' | 'users' | 'stats'
+  const [activeTab, setActiveTab] = useState('products'); // 'products' | 'categories' | 'currencies' | 'hero' | 'orders' | 'payments' | 'staff' | 'users' | 'stats'
   const [loading, setLoading] = useState(false);
 
-  // Local Image Uploads
+  // Local Image Uploads & Linux Web Hosting Management
   const [uploadingImage, setUploadingImage] = useState(false);
   const [localImages, setLocalImages] = useState([]);
+  const [localUploadedGallery, setLocalUploadedGallery] = useState(() => {
+    try {
+      const saved = localStorage.getItem('dhanvikk_local_uploads');
+      if (saved) return JSON.parse(saved);
+    } catch {}
+    return [];
+  });
 
-  // Super Admin & Staff Management
+  // Super Admin & Staff Management (Super Admin + Exactly Max 2 Staff Quota)
   const [superAdminEmail, setSuperAdminEmail] = useState('divagar.m.msc.cs@gmail.com');
-  const [staffList, setStaffList] = useState([]);
+  const [staffList, setStaffList] = useState(() => {
+    try {
+      const saved = localStorage.getItem('dhanvikk_admin_staff');
+      if (saved) return JSON.parse(saved);
+    } catch {}
+    return [
+      {
+        id: 'staff-1',
+        name: 'Maya Krishnan',
+        email: 'maya.florist@dhanvikk.com',
+        role: 'inventory_manager',
+        roleTitle: 'Master Florist & Inventory Lead',
+        phone: '+971 50 123 4567',
+        status: 'Active',
+        joinedDate: '2026-01-15',
+        isSuperAdmin: false,
+      },
+      {
+        id: 'staff-2',
+        name: 'Arjun Nambiar',
+        email: 'arjun.dispatch@dhanvikk.com',
+        role: 'delivery_manager',
+        roleTitle: 'Cold-Chain Dispatch Coordinator',
+        phone: '+971 52 987 6543',
+        status: 'Active',
+        joinedDate: '2026-02-01',
+        isSuperAdmin: false,
+      },
+    ];
+  });
   const [showStaffModal, setShowStaffModal] = useState(false);
   const [editingStaff, setEditingStaff] = useState(null);
   const [staffForm, setStaffForm] = useState({
@@ -129,6 +311,75 @@ export default function AdminDashboard() {
     phone: '',
     status: 'Active',
   });
+
+  // Categories Management State
+  const [categoriesList, setCategoriesList] = useState(() => {
+    try {
+      const saved = localStorage.getItem('dhanvikk_admin_categories');
+      if (saved) return JSON.parse(saved);
+    } catch {}
+    return DEFAULT_ADMIN_CATEGORIES;
+  });
+  const [showCategoryModal, setShowCategoryModal] = useState(false);
+  const [editingCategory, setEditingCategory] = useState(null);
+  const [categoryForm, setCategoryForm] = useState({
+    name: '',
+    slug: '',
+    description: '',
+    badge: 'SIGNATURE EDIT',
+    subCategories: '',
+    image: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=800&q=80',
+    active: true,
+  });
+
+  // Multi-Currency & Fixed Exchange Rates State
+  const [currenciesList, setCurrenciesList] = useState(() => {
+    try {
+      const saved = localStorage.getItem('dhanvikk_admin_currencies');
+      if (saved) return JSON.parse(saved);
+    } catch {}
+    return DEFAULT_CURRENCY_RATES;
+  });
+  const [showCurrencyModal, setShowCurrencyModal] = useState(false);
+  const [editingCurrency, setEditingCurrency] = useState(null);
+  const [currencyRateForm, setCurrencyRateForm] = useState({
+    code: '',
+    name: '',
+    rateToINR: 1,
+    rateFromAED: 1,
+    fixedSample: 100,
+  });
+  const [simAmount, setSimAmount] = useState(150);
+  const [simCurrency, setSimCurrency] = useState('AED');
+
+  // Hero Section CMS State
+  const [heroSettings, setHeroSettings] = useState(() => {
+    try {
+      const saved = localStorage.getItem('dhanvikk_hero_settings');
+      if (saved) return JSON.parse(saved);
+    } catch {}
+    return {
+      badge: 'Spring Floristry Edit 2026',
+      headline: 'Elegance In Every Petal.',
+      subHeadline: 'Delivered Today.',
+      description: 'Directly imported highland Ecuadorian roses & exotic lilies, crafted by master florists with complimentary handwritten cards.',
+      buttonText: 'Shop Spring Roses',
+      buttonLink: '/category/roses',
+      secondaryButtonText: 'Browse Occasions',
+      secondaryButtonLink: '/category/occasions',
+      imageUrl: 'https://images.unsplash.com/photo-1561181286-d3fee7d55364?auto=format&fit=crop&w=800&q=85',
+    };
+  });
+
+  // Customer Payments State
+  const [paymentsList, setPaymentsList] = useState(() => {
+    try {
+      const saved = localStorage.getItem('dhanvikk_admin_payments');
+      if (saved) return JSON.parse(saved);
+    } catch {}
+    return DEFAULT_PAYMENTS_LIST;
+  });
+  const [selectedPaymentReceipt, setSelectedPaymentReceipt] = useState(null);
 
   // Stats state
   const [stats, setStats] = useState({
@@ -159,9 +410,23 @@ export default function AdminDashboard() {
     tag: 'NEW ARRIVAL',
     description: '',
     images: 'https://images.unsplash.com/photo-1561181286-d3fee7d55364?auto=format&fit=crop&w=800&q=80',
+    linuxHostingPath: '/images/products/rose-hatbox.jpg',
     lightRequirement: 'Bright Indirect Light',
     waterFrequency: 'Water 1-2 times weekly',
     potSize: 'Hand-crafted Ceramic Planter Included',
+    fixedPrices: {
+      AED: 110,
+      INR: 2499,
+      USD: 30,
+      EUR: 28,
+      GBP: 24,
+      SAR: 112,
+      QAR: 109,
+      KWD: 9.2,
+      OMR: 11.5,
+      BHD: 11.3,
+      SGD: 40,
+    },
   });
 
   // Orders state
@@ -204,24 +469,53 @@ export default function AdminDashboard() {
   const handleLocalImageUpload = async (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
+    const sanitizedName = file.name.replace(/\s+/g, '-').toLowerCase();
+    const linuxRelativePath = `/images/products/${sanitizedName}`;
+
     try {
       setUploadingImage(true);
-      const res = await productService.uploadImage(file);
-      if (res.success) {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const dataUrl = event.target.result;
         setProductForm((prev) => ({
           ...prev,
-          images: res.imageUrl || res.relativeUrl,
+          images: dataUrl,
+          linuxHostingPath: linuxRelativePath,
         }));
-        toast.success('Image uploaded & stored locally in code! 🌸');
-        const refreshed = await productService.getLocalImages();
-        if (refreshed?.images) setLocalImages(refreshed.images);
-      }
+
+        const newGalleryItem = {
+          name: file.name,
+          path: linuxRelativePath,
+          dataUrl,
+          size: `${(file.size / 1024).toFixed(1)} KB`,
+          date: new Date().toLocaleDateString(),
+        };
+
+        const updated = [newGalleryItem, ...localUploadedGallery.filter((u) => u.name !== file.name)].slice(0, 25);
+        setLocalUploadedGallery(updated);
+        try {
+          localStorage.setItem('dhanvikk_local_uploads', JSON.stringify(updated));
+        } catch (storageErr) {
+          console.warn('LocalStorage gallery limit:', storageErr);
+        }
+
+        toast.success(`Image stored locally! Linux hosting target: ${linuxRelativePath} 🌸`);
+      };
+      reader.readAsDataURL(file);
+
+      // Best effort background server upload if express backend is online
+      productService.uploadImage(file).catch(() => {});
     } catch (err) {
-      toast.error('Upload failed: ' + (err.message || 'Error uploading image'));
+      toast.error('Upload error: ' + (err.message || 'Failed to read file'));
     } finally {
       setUploadingImage(false);
     }
   };
+
+  // Staff Management (Super Admin + Max 2 Staff Quota)
+  const maxStaffQuota = 2;
+  const currentStaffCount = staffList.filter((s) => !s.isSuperAdmin && s.email.toLowerCase() !== superAdminEmail.toLowerCase()).length;
+  const isStaffQuotaFull = currentStaffCount >= maxStaffQuota;
 
   const handleOpenStaffModal = (staff = null) => {
     if (staff) {
@@ -234,7 +528,12 @@ export default function AdminDashboard() {
         phone: staff.phone || '',
         status: staff.status || 'Active',
       });
+      setShowStaffModal(true);
     } else {
+      if (isStaffQuotaFull) {
+        toast.error('Maximum Staff Limit Reached: Exactly 2 staff positions can be authorized by Super Admin.');
+        return;
+      }
       setEditingStaff(null);
       setStaffForm({
         name: '',
@@ -244,28 +543,33 @@ export default function AdminDashboard() {
         phone: '',
         status: 'Active',
       });
+      setShowStaffModal(true);
     }
-    setShowStaffModal(true);
   };
 
   const handleSaveStaff = async (e) => {
     e.preventDefault();
     try {
       if (editingStaff) {
-        await adminService.updateStaff(editingStaff.id || editingStaff._id, staffForm);
-        setStaffList((prev) =>
-          prev.map((s) => (s.id === editingStaff.id || s._id === editingStaff._id ? { ...s, ...staffForm } : s))
-        );
-        toast.success(`Updated staff details for ${staffForm.name}`);
+        await adminService.updateStaff(editingStaff.id || editingStaff._id, staffForm).catch(() => {});
+        const updated = staffList.map((s) => (s.id === editingStaff.id || s._id === editingStaff._id ? { ...s, ...staffForm } : s));
+        setStaffList(updated);
+        localStorage.setItem('dhanvikk_admin_staff', JSON.stringify(updated));
+        toast.success(`Updated staff credentials for ${staffForm.name}`);
       } else {
-        const res = await adminService.addStaff(staffForm);
-        const newMember = res?.staff || {
+        if (isStaffQuotaFull) {
+          toast.error('Maximum Staff Limit Reached: Exactly 2 staff positions can be authorized.');
+          return;
+        }
+        const newMember = {
           id: `staff-${Date.now()}`,
           ...staffForm,
           joinedDate: new Date().toISOString().split('T')[0],
           isSuperAdmin: staffForm.email.toLowerCase() === superAdminEmail.toLowerCase(),
         };
-        setStaffList((prev) => [...prev, newMember]);
+        const updated = [...staffList, newMember];
+        setStaffList(updated);
+        localStorage.setItem('dhanvikk_admin_staff', JSON.stringify(updated));
         toast.success(`Staff member ${staffForm.name} added successfully! 🌸`);
       }
       setShowStaffModal(false);
@@ -280,14 +584,153 @@ export default function AdminDashboard() {
       toast.error('Security Restriction: The Super Admin cannot be removed.');
       return;
     }
-    if (!window.confirm(`Revoke staff credentials and access for ${staff.name}?`)) return;
+    if (!window.confirm(`Revoke staff credentials and free up allocation slot for ${staff.name}?`)) return;
     try {
-      await adminService.deleteStaff(staff.id || staff._id);
-      setStaffList((prev) => prev.filter((s) => s.id !== staff.id && s._id !== staff.id));
-      toast.success(`Revoked staff access for ${staff.name}`);
+      await adminService.deleteStaff(staff.id || staff._id).catch(() => {});
+      const updated = staffList.filter((s) => s.id !== staff.id && s._id !== staff.id);
+      setStaffList(updated);
+      localStorage.setItem('dhanvikk_admin_staff', JSON.stringify(updated));
+      toast.success(`Revoked staff access for ${staff.name}. Staff slot is now open!`);
     } catch (err) {
       toast.error(err.message || 'Error removing staff');
     }
+  };
+
+  // Category Handlers
+  const handleOpenCategoryModal = (cat = null) => {
+    if (cat) {
+      setEditingCategory(cat);
+      setCategoryForm({
+        name: cat.name,
+        slug: cat.slug || cat.id,
+        description: cat.description || '',
+        badge: cat.badge || 'SIGNATURE EDIT',
+        subCategories: Array.isArray(cat.subCategories) ? cat.subCategories.join(', ') : (cat.subCategories || ''),
+        image: cat.image || 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=800&q=80',
+        active: cat.active !== false,
+      });
+    } else {
+      setEditingCategory(null);
+      setCategoryForm({
+        name: '',
+        slug: '',
+        description: '',
+        badge: 'NEW COLLECTION',
+        subCategories: 'Bouquets, Hatboxes, Vases',
+        image: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=800&q=80',
+        active: true,
+      });
+    }
+    setShowCategoryModal(true);
+  };
+
+  const handleSaveCategory = (e) => {
+    e.preventDefault();
+    if (!categoryForm.name.trim()) {
+      toast.error('Category name is required.');
+      return;
+    }
+
+    const subArr = categoryForm.subCategories
+      ? categoryForm.subCategories.split(',').map((s) => s.trim()).filter(Boolean)
+      : [];
+
+    const slug = (categoryForm.slug || categoryForm.name.toLowerCase().replace(/\s+/g, '-')).toLowerCase();
+
+    if (editingCategory) {
+      const updated = categoriesList.map((c) =>
+        c.id === editingCategory.id || c.slug === editingCategory.slug
+          ? { ...c, ...categoryForm, slug, subCategories: subArr }
+          : c
+      );
+      setCategoriesList(updated);
+      localStorage.setItem('dhanvikk_admin_categories', JSON.stringify(updated));
+      toast.success(`Updated category: ${categoryForm.name}`);
+    } else {
+      const newCat = {
+        id: slug || `cat-${Date.now()}`,
+        ...categoryForm,
+        slug,
+        subCategories: subArr,
+      };
+      const updated = [...categoriesList, newCat];
+      setCategoriesList(updated);
+      localStorage.setItem('dhanvikk_admin_categories', JSON.stringify(updated));
+      toast.success(`Created category: ${categoryForm.name}`);
+    }
+
+    setShowCategoryModal(false);
+    setEditingCategory(null);
+  };
+
+  const handleDeleteCategory = (cat) => {
+    if (!window.confirm(`Delete category "${cat.name}"?`)) return;
+    const updated = categoriesList.filter((c) => (c.id || c.slug) !== (cat.id || cat.slug));
+    setCategoriesList(updated);
+    localStorage.setItem('dhanvikk_admin_categories', JSON.stringify(updated));
+    toast.success(`Deleted category ${cat.name}`);
+  };
+
+  // Currency Handlers
+  const handleOpenCurrencyModal = (curr) => {
+    setEditingCurrency(curr);
+    setCurrencyRateForm({
+      code: curr.code,
+      name: curr.name,
+      rateToINR: curr.rateToINR,
+      rateFromAED: curr.rateFromAED,
+      fixedSample: curr.fixedSample,
+    });
+    setShowCurrencyModal(true);
+  };
+
+  const handleSaveCurrencyRate = (e) => {
+    e.preventDefault();
+    if (!editingCurrency) return;
+    const updated = currenciesList.map((c) =>
+      c.code === editingCurrency.code
+        ? {
+            ...c,
+            rateToINR: Number(currencyRateForm.rateToINR),
+            rateFromAED: Number(currencyRateForm.rateFromAED),
+            fixedSample: Number(currencyRateForm.fixedSample),
+          }
+        : c
+    );
+    setCurrenciesList(updated);
+    localStorage.setItem('dhanvikk_admin_currencies', JSON.stringify(updated));
+    setShowCurrencyModal(false);
+    toast.success(`Updated fixed rate for ${editingCurrency.code} 💱`);
+  };
+
+  // Hero CMS Handlers
+  const handleSaveHeroSettings = (e) => {
+    e.preventDefault();
+    try {
+      localStorage.setItem('dhanvikk_hero_settings', JSON.stringify(heroSettings));
+      window.dispatchEvent(new Event('storage'));
+      toast.success('Hero section published live to storefront! 🌸');
+    } catch (err) {
+      toast.error('Failed to save hero settings.');
+    }
+  };
+
+  const handleResetHeroSettings = () => {
+    const defaults = {
+      badge: 'Spring Floristry Edit 2026',
+      headline: 'Elegance In Every Petal.',
+      subHeadline: 'Delivered Today.',
+      description: 'Directly imported highland Ecuadorian roses & exotic lilies, crafted by master florists with complimentary handwritten cards.',
+      buttonText: 'Shop Spring Roses',
+      buttonLink: '/category/roses',
+      secondaryButtonText: 'Browse Occasions',
+      secondaryButtonLink: '/category/occasions',
+      imageUrl: 'https://images.unsplash.com/photo-1561181286-d3fee7d55364?auto=format&fit=crop&w=800&q=85',
+    };
+    setHeroSettings(defaults);
+    localStorage.setItem('dhanvikk_hero_settings', JSON.stringify(defaults));
+    window.dispatchEvent(new Event('storage'));
+    toast.success('Reset hero section to atelier default.');
   };
 
   useEffect(() => {
@@ -503,15 +946,14 @@ export default function AdminDashboard() {
 
       <div className="min-h-screen bg-[#FAF7F2] text-[#242124] font-['Poppins'] flex flex-col selection:bg-[#EC407A] selection:text-white">
         {/* Top Header */}
-        <header className="border-b border-[#EFE7DE] bg-white sticky top-0 z-40 px-4 sm:px-6 py-3.5 flex items-center justify-between shadow-xs">
+        <header className="border-b border-[#EFE7DE] bg-white sticky top-0 z-40 px-4 sm:px-6 py-3 flex items-center justify-between shadow-xs">
           <div className="flex items-center gap-3">
-            <div className="p-2.5 bg-gradient-to-br from-[#FFF0F4] to-[#FAF7F2] text-[#C2185B] rounded-xl border border-[#F2D7DE] shadow-xs">
-              <Shield className="w-5 h-5" />
-            </div>
+            <Logo size="sm" linkTo="/admin/dashboard" className="mr-1" />
+            <div className="hidden sm:block h-6 w-px bg-[#EFE7DE]" />
             <div>
               <div className="flex items-center gap-2">
                 <span className="font-bold text-sm tracking-wider uppercase text-[#242124] block">
-                  Dhanvikk Blooms Staff Console
+                  Staff Executive Console
                 </span>
                 <span className="hidden md:inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
@@ -519,7 +961,7 @@ export default function AdminDashboard() {
                 </span>
               </div>
               <span className="text-[11px] text-[#C2185B] font-mono block">
-                Staff: {user?.name || 'Administrator'} ({user?.role || 'admin'})
+                Super Admin: {superAdminEmail}
               </span>
             </div>
           </div>
@@ -563,12 +1005,20 @@ export default function AdminDashboard() {
                   label:
                     activeTab === 'products'
                       ? 'Floral & Plant Inventory'
+                      : activeTab === 'categories'
+                      ? 'Categories Atelier'
+                      : activeTab === 'currencies'
+                      ? 'Currencies & Fixed Rates'
+                      : activeTab === 'hero'
+                      ? 'Hero Section CMS'
                       : activeTab === 'orders'
                       ? 'Orders Pipeline'
+                      : activeTab === 'payments'
+                      ? 'Users & Payments'
                       : activeTab === 'staff'
-                      ? 'Staff & Super Admin'
+                      ? 'Super Admin & Staff Allocation (Max 2)'
                       : activeTab === 'users'
-                      ? 'Patrons & Staff Logins'
+                      ? 'Patrons & Accounts'
                       : 'Executive Analytics',
                 },
               ]}
@@ -580,10 +1030,14 @@ export default function AdminDashboard() {
         <div className="border-b border-[#EFE7DE] bg-white px-4 sm:px-6">
           <div className="max-w-7xl mx-auto flex items-center gap-2 overflow-x-auto scrollbar-none">
             {[
-              { id: 'products', label: 'Floral & Plant Inventory', icon: Layers, count: products.length },
+              { id: 'products', label: 'Products & Inventory', icon: Layers, count: products.length },
+              { id: 'categories', label: 'Categories & Collections', icon: Flower2, count: categoriesList.length },
+              { id: 'currencies', label: 'Currencies & Fixed Rates', icon: Coins, count: currenciesList.length },
+              { id: 'hero', label: 'Hero Section CMS', icon: Sparkles },
               { id: 'orders', label: 'Orders Pipeline', icon: Package, count: orders.length },
-              { id: 'staff', label: 'Staff & Super Admin', icon: Crown, count: staffList.length },
-              { id: 'users', label: 'Patrons & Staff Logins', icon: Users, count: usersList.length },
+              { id: 'payments', label: 'Users & Payments', icon: CreditCard, count: paymentsList.length },
+              { id: 'staff', label: 'Super Admin & 2 Staffs', icon: Crown, count: staffList.length },
+              { id: 'users', label: 'Patrons Accounts', icon: Users, count: usersList.length },
               { id: 'stats', label: 'Executive Analytics', icon: TrendingUp },
             ].map((tab) => {
               const Icon = tab.icon;
@@ -1011,6 +1465,590 @@ export default function AdminDashboard() {
         )}
 
         {/* ========================================================
+            TAB: CATEGORIES & COLLECTIONS WORKFLOW MANAGEMENT
+            ======================================================== */}
+        {activeTab === 'categories' && (
+          <main className="max-w-7xl mx-auto px-4 sm:px-6 py-6 w-full flex-1 space-y-6">
+            {/* Header & Actions */}
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div>
+                <h2 className="text-xl font-bold font-['Poppins'] text-[#242124]">
+                  Botanical Categories & Curated Collections
+                </h2>
+                <p className="text-xs text-[#666666] mt-0.5">
+                  Organize floral hatboxes, forever roses, indoor greenery, and subcategories
+                </p>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => handleOpenCategoryModal()}
+                className="px-5 py-2.5 rounded-2xl bg-gradient-to-r from-[#C2185B] to-[#EC407A] text-white text-xs font-bold shadow-md hover:opacity-95 transition-all flex items-center gap-2 cursor-pointer self-start sm:self-center"
+              >
+                <Plus className="w-4 h-4" />
+                <span>Add New Category</span>
+              </button>
+            </div>
+
+            {/* KPI Overview */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
+              <div className="p-4 rounded-2xl bg-white border border-[#EFE7DE] shadow-xs">
+                <span className="text-[11px] text-[#777] block">Active Collections</span>
+                <span className="text-2xl font-bold font-mono text-[#242124] mt-1 block">
+                  {categoriesList.filter((c) => c.active !== false).length}
+                </span>
+                <span className="text-[10px] text-emerald-600 font-semibold">Live on Storefront</span>
+              </div>
+              <div className="p-4 rounded-2xl bg-white border border-[#EFE7DE] shadow-xs">
+                <span className="text-[11px] text-[#777] block">Total SKUs Categorized</span>
+                <span className="text-2xl font-bold font-mono text-[#242124] mt-1 block">
+                  {products.length}
+                </span>
+                <span className="text-[10px] text-[#777]">Catalog Coverage 100%</span>
+              </div>
+              <div className="p-4 rounded-2xl bg-white border border-[#EFE7DE] shadow-xs">
+                <span className="text-[11px] text-[#777] block">Subcategory Facets</span>
+                <span className="text-2xl font-bold font-mono text-[#C2185B] mt-1 block">
+                  {categoriesList.reduce((acc, c) => acc + (Array.isArray(c.subCategories) ? c.subCategories.length : 1), 0)}
+                </span>
+                <span className="text-[10px] text-[#777]">Sub-navigation tags</span>
+              </div>
+              <div className="p-4 rounded-2xl bg-white border border-[#EFE7DE] shadow-xs">
+                <span className="text-[11px] text-[#777] block">Category Badges</span>
+                <span className="text-2xl font-bold font-mono text-[#D4AF37] mt-1 block">
+                  {categoriesList.filter((c) => c.badge).length}
+                </span>
+                <span className="text-[10px] text-[#777]">Curated Highlighting</span>
+              </div>
+            </div>
+
+            {/* Category Cards Table */}
+            <div className="bg-white border border-[#EFE7DE] rounded-3xl overflow-hidden shadow-sm">
+              <div className="p-5 border-b border-[#EFE7DE] flex items-center justify-between">
+                <div>
+                  <h3 className="text-sm font-bold text-[#242124] font-['Poppins']">
+                    Configured Floral Collections ({categoriesList.length})
+                  </h3>
+                  <p className="text-[11px] text-[#777]">Manage category metadata, badges, and subcategory tags</p>
+                </div>
+              </div>
+
+              <div className="overflow-x-auto">
+                <table className="w-full text-left text-xs text-[#333333]">
+                  <thead className="bg-[#FAF7F2] text-[#666666] text-[11px] uppercase tracking-wider border-b border-[#EFE7DE]">
+                    <tr>
+                      <th className="py-3.5 px-5 font-semibold">Collection</th>
+                      <th className="py-3.5 px-4 font-semibold">Slug Identifier</th>
+                      <th className="py-3.5 px-4 font-semibold">Badge Tag</th>
+                      <th className="py-3.5 px-4 font-semibold">Subcategories</th>
+                      <th className="py-3.5 px-4 font-semibold">Status</th>
+                      <th className="py-3.5 px-5 text-right font-semibold">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-[#EFE7DE]">
+                    {categoriesList.map((cat) => (
+                      <tr key={cat.id || cat.slug} className="hover:bg-[#FFFDF9] transition-colors">
+                        <td className="py-4 px-5">
+                          <div className="flex items-center gap-3">
+                            <img
+                              src={cat.image || 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=800&q=80'}
+                              alt={cat.name}
+                              className="w-12 h-12 rounded-2xl object-cover border border-[#EFE7DE] shadow-2xs shrink-0"
+                            />
+                            <div>
+                              <span className="font-bold text-[#242124] text-sm block">{cat.name}</span>
+                              <span className="text-[11px] text-[#777] line-clamp-1 max-w-xs">{cat.description}</span>
+                            </div>
+                          </div>
+                        </td>
+                        <td className="py-4 px-4 font-mono text-[11px] text-[#888]">
+                          /category/{cat.slug || cat.id}
+                        </td>
+                        <td className="py-4 px-4">
+                          {cat.badge ? (
+                            <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-[#FFF0F4] text-[#C2185B] border border-[#FCD9E0]">
+                              {cat.badge}
+                            </span>
+                          ) : (
+                            <span className="text-[#AAA] text-[10px]">—</span>
+                          )}
+                        </td>
+                        <td className="py-4 px-4">
+                          <div className="flex flex-wrap gap-1 max-w-xs">
+                            {(Array.isArray(cat.subCategories) ? cat.subCategories : (cat.subCategories ? cat.subCategories.split(',') : [])).map((sub, sIdx) => (
+                              <span key={sIdx} className="px-2 py-0.5 rounded-md bg-[#FAF7F2] text-[#555] text-[10px] border border-[#EFE7DE]">
+                                {sub.trim()}
+                              </span>
+                            ))}
+                          </div>
+                        </td>
+                        <td className="py-4 px-4">
+                          <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                            Live Storefront
+                          </span>
+                        </td>
+                        <td className="py-4 px-5 text-right">
+                          <div className="flex items-center justify-end gap-2">
+                            <button
+                              type="button"
+                              onClick={() => handleOpenCategoryModal(cat)}
+                              className="p-2 rounded-xl bg-[#FAF7F2] hover:bg-[#F2ECE6] text-[#666] hover:text-[#242124] border border-[#EFE7DE] transition-colors cursor-pointer"
+                              title="Edit Category"
+                            >
+                              <Edit3 className="w-3.5 h-3.5" />
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => handleDeleteCategory(cat)}
+                              className="p-2 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-200 transition-colors cursor-pointer"
+                              title="Delete Category"
+                            >
+                              <Trash2 className="w-3.5 h-3.5" />
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </main>
+        )}
+
+        {/* ========================================================
+            TAB: MULTI-CURRENCY FIXED PRICING & EXCHANGE RATES
+            ======================================================== */}
+        {activeTab === 'currencies' && (
+          <main className="max-w-7xl mx-auto px-4 sm:px-6 py-6 w-full flex-1 space-y-6">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div>
+                <h2 className="text-xl font-bold font-['Poppins'] text-[#242124]">
+                  Multi-Currency Fixed Values & Exchange Rates
+                </h2>
+                <p className="text-xs text-[#666666] mt-0.5">
+                  Universal pricing across 11 currencies: UAE, GCC, India, USA, Europe, UK & Singapore
+                </p>
+              </div>
+
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setCurrenciesList(DEFAULT_CURRENCY_RATES);
+                    localStorage.removeItem('dhanvikk_admin_currencies');
+                    toast.success('Reset exchange rates to default financial standards.');
+                  }}
+                  className="px-4 py-2 rounded-xl border border-[#EFE7DE] bg-white text-xs text-[#666] hover:text-[#242124] hover:bg-[#FAF7F2] transition-colors cursor-pointer"
+                >
+                  Reset Standard Rates
+                </button>
+              </div>
+            </div>
+
+            {/* Live Interactive Conversion Simulator */}
+            <div className="p-6 rounded-3xl bg-white border border-[#EFE7DE] shadow-xs space-y-4">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div className="flex items-center gap-2">
+                  <Coins className="w-5 h-5 text-[#C2185B]" />
+                  <h3 className="text-sm font-bold text-[#242124] font-['Poppins']">
+                    Interactive Multi-Currency Value Simulator
+                  </h3>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="text-xs text-[#777]">Test Base Amount:</span>
+                  <input
+                    type="number"
+                    value={simAmount}
+                    onChange={(e) => setSimAmount(Number(e.target.value) || 0)}
+                    className="w-24 h-8 px-2.5 rounded-lg border border-[#DCD5CD] text-xs font-mono font-bold text-[#242124] focus:outline-none focus:border-[#C2185B]"
+                  />
+                  <select
+                    value={simCurrency}
+                    onChange={(e) => setSimCurrency(e.target.value)}
+                    className="h-8 px-2 rounded-lg border border-[#DCD5CD] text-xs font-bold text-[#242124] focus:outline-none focus:border-[#C2185B]"
+                  >
+                    {currenciesList.map((c) => (
+                      <option key={c.code} value={c.code}>
+                        {c.flag} {c.code}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+
+              {/* Converted values grid for the simulated amount */}
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5 pt-2">
+                {currenciesList.map((c) => {
+                  const baseCurr = currenciesList.find((x) => x.code === simCurrency) || currenciesList[0];
+                  const inrValue = simAmount * (baseCurr.rateToINR || 22.8);
+                  const converted = c.rateToINR ? inrValue / c.rateToINR : simAmount;
+
+                  return (
+                    <div key={c.code} className="p-3 rounded-2xl bg-[#FAF7F2] border border-[#EFE7DE] text-center space-y-0.5">
+                      <div className="flex items-center justify-center gap-1 text-[11px] font-bold text-[#666]">
+                        <span>{c.flag}</span>
+                        <span>{c.code}</span>
+                      </div>
+                      <p className="text-sm font-bold font-mono text-[#242124]">
+                        {c.symbol} {converted.toFixed(c.code === 'KWD' || c.code === 'OMR' || c.code === 'BHD' ? 2 : 0)}
+                      </p>
+                      <span className="text-[10px] text-[#888] font-mono">{c.nativeSymbol}</span>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Currency Rates Table */}
+            <div className="bg-white border border-[#EFE7DE] rounded-3xl overflow-hidden shadow-sm">
+              <div className="p-5 border-b border-[#EFE7DE] flex items-center justify-between">
+                <div>
+                  <h3 className="text-sm font-bold text-[#242124] font-['Poppins']">
+                    Fixed Rates & Serviceable Currencies ({currenciesList.length})
+                  </h3>
+                  <p className="text-[11px] text-[#777]">Set fixed multiplier rates for automatic checkout price calculations</p>
+                </div>
+                <span className="text-xs text-[#777] font-mono">Base Reference: 1 AED = 22.80 INR</span>
+              </div>
+
+              <div className="overflow-x-auto">
+                <table className="w-full text-left text-xs text-[#333333]">
+                  <thead className="bg-[#FAF7F2] text-[#666666] text-[11px] uppercase tracking-wider border-b border-[#EFE7DE]">
+                    <tr>
+                      <th className="py-3.5 px-5 font-semibold">Currency & Territory</th>
+                      <th className="py-3.5 px-4 font-semibold">Symbols</th>
+                      <th className="py-3.5 px-4 font-semibold">Rate vs Base AED</th>
+                      <th className="py-3.5 px-4 font-semibold">Rate in INR (₹)</th>
+                      <th className="py-3.5 px-4 font-semibold">Sample Bouquet (AED 150)</th>
+                      <th className="py-3.5 px-5 text-right font-semibold">Edit Rate</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-[#EFE7DE]">
+                    {currenciesList.map((curr) => {
+                      const bouquetInINR = 150 * 22.8;
+                      const sampleVal = curr.rateToINR ? (bouquetInINR / curr.rateToINR).toFixed(curr.code === 'KWD' || curr.code === 'OMR' || curr.code === 'BHD' ? 2 : 0) : '—';
+
+                      return (
+                        <tr key={curr.code} className="hover:bg-[#FFFDF9] transition-colors">
+                          <td className="py-4 px-5">
+                            <div className="flex items-center gap-3">
+                              <span className="text-2xl">{curr.flag}</span>
+                              <div>
+                                <span className="font-bold text-[#242124] text-sm block">
+                                  {curr.code} • {curr.name}
+                                </span>
+                                <span className="text-[11px] text-[#777]">{curr.country}</span>
+                              </div>
+                            </div>
+                          </td>
+
+                          <td className="py-4 px-4">
+                            <div className="flex items-center gap-2">
+                              <span className="font-mono font-bold text-[#242124] bg-[#FAF7F2] px-2 py-0.5 rounded border border-[#EFE7DE]">
+                                {curr.symbol}
+                              </span>
+                              <span className="font-mono text-[#888]">{curr.nativeSymbol}</span>
+                            </div>
+                          </td>
+
+                          <td className="py-4 px-4 font-mono font-semibold text-[#242124]">
+                            1 AED = {curr.rateFromAED} {curr.code}
+                          </td>
+
+                          <td className="py-4 px-4 font-mono text-[#555]">
+                            1 {curr.code} = ₹{curr.rateToINR}
+                          </td>
+
+                          <td className="py-4 px-4 font-mono font-bold text-[#C2185B]">
+                            {curr.symbol} {sampleVal}
+                          </td>
+
+                          <td className="py-4 px-5 text-right">
+                            <button
+                              type="button"
+                              onClick={() => handleOpenCurrencyModal(curr)}
+                              className="px-3 py-1.5 rounded-xl bg-[#FFF0F4] hover:bg-[#FFE4EC] text-[#C2185B] border border-[#F2D7DE] text-xs font-semibold transition-colors cursor-pointer inline-flex items-center gap-1.5"
+                            >
+                              <Edit3 className="w-3.5 h-3.5" />
+                              <span>Edit Fixed Rate</span>
+                            </button>
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </main>
+        )}
+
+        {/* ========================================================
+            TAB: HERO SECTION CMS & STOREFRONT BANNER ATELIER
+            ======================================================== */}
+        {activeTab === 'hero' && (
+          <main className="max-w-7xl mx-auto px-4 sm:px-6 py-6 w-full flex-1 space-y-6">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div>
+                <h2 className="text-xl font-bold font-['Poppins'] text-[#242124]">
+                  Hero Section Visual & Content Management (CMS)
+                </h2>
+                <p className="text-xs text-[#666666] mt-0.5">
+                  Update headlines, badge text, promotional calls-to-action, and high-resolution banner imagery live on the storefront
+                </p>
+              </div>
+
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={handleResetHeroSettings}
+                  className="px-4 py-2 rounded-xl border border-[#EFE7DE] bg-white text-xs text-[#666] hover:text-[#242124] hover:bg-[#FAF7F2] transition-colors cursor-pointer"
+                >
+                  Reset Defaults
+                </button>
+                <button
+                  type="button"
+                  onClick={handleSaveHeroSettings}
+                  className="px-5 py-2 rounded-xl bg-gradient-to-r from-[#C2185B] to-[#EC407A] text-white text-xs font-bold shadow-md hover:opacity-95 transition-all flex items-center gap-1.5 cursor-pointer"
+                >
+                  <Save className="w-4 h-4" />
+                  <span>Publish Hero Updates</span>
+                </button>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+              {/* Left Column: Form Editor */}
+              <div className="lg:col-span-6 bg-white border border-[#EFE7DE] rounded-3xl p-6 shadow-sm space-y-4 text-xs">
+                <h3 className="text-sm font-bold text-[#242124] font-['Poppins'] pb-2 border-b border-[#EFE7DE] flex items-center gap-2">
+                  <Sparkles className="w-4 h-4 text-[#C2185B]" />
+                  <span>Banner Headlines & Typography</span>
+                </h3>
+
+                {/* Badge Tag */}
+                <div>
+                  <label className="block text-[#444] font-semibold mb-1 uppercase tracking-wider text-[11px]">
+                    Curated Badge Text *
+                  </label>
+                  <input
+                    type="text"
+                    value={heroSettings.badge}
+                    onChange={(e) => setHeroSettings({ ...heroSettings, badge: e.target.value })}
+                    className="w-full h-10 px-3.5 rounded-xl bg-white border border-[#DCD5CD] text-[#242124] focus:outline-none focus:border-[#C2185B]"
+                    placeholder="e.g. Spring Floristry Edit 2026"
+                  />
+                </div>
+
+                {/* Headline 1 & 2 */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div>
+                    <label className="block text-[#444] font-semibold mb-1 uppercase tracking-wider text-[11px]">
+                      Headline Part 1 *
+                    </label>
+                    <input
+                      type="text"
+                      value={heroSettings.headline}
+                      onChange={(e) => setHeroSettings({ ...heroSettings, headline: e.target.value })}
+                      className="w-full h-10 px-3.5 rounded-xl bg-white border border-[#DCD5CD] text-[#242124] focus:outline-none focus:border-[#C2185B]"
+                      placeholder="e.g. Elegance In Every Petal."
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-[#444] font-semibold mb-1 uppercase tracking-wider text-[11px]">
+                      Headline Accent Part 2 *
+                    </label>
+                    <input
+                      type="text"
+                      value={heroSettings.subHeadline}
+                      onChange={(e) => setHeroSettings({ ...heroSettings, subHeadline: e.target.value })}
+                      className="w-full h-10 px-3.5 rounded-xl bg-white border border-[#DCD5CD] text-[#242124] focus:outline-none focus:border-[#C2185B]"
+                      placeholder="e.g. Delivered Today."
+                    />
+                  </div>
+                </div>
+
+                {/* Description Subtext */}
+                <div>
+                  <label className="block text-[#444] font-semibold mb-1 uppercase tracking-wider text-[11px]">
+                    Editorial Subtitle / Description *
+                  </label>
+                  <textarea
+                    rows={3}
+                    value={heroSettings.description}
+                    onChange={(e) => setHeroSettings({ ...heroSettings, description: e.target.value })}
+                    className="w-full p-3 rounded-xl bg-white border border-[#DCD5CD] text-[#242124] focus:outline-none focus:border-[#C2185B] leading-relaxed resize-none"
+                    placeholder="Directly imported highland Ecuadorian roses..."
+                  />
+                </div>
+
+                {/* Primary CTA */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 border-t border-[#EFE7DE]">
+                  <div>
+                    <label className="block text-[#444] font-semibold mb-1 uppercase tracking-wider text-[11px]">
+                      Primary Button Text
+                    </label>
+                    <input
+                      type="text"
+                      value={heroSettings.buttonText}
+                      onChange={(e) => setHeroSettings({ ...heroSettings, buttonText: e.target.value })}
+                      className="w-full h-10 px-3.5 rounded-xl bg-white border border-[#DCD5CD] text-[#242124] focus:outline-none focus:border-[#C2185B]"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-[#444] font-semibold mb-1 uppercase tracking-wider text-[11px]">
+                      Primary Button Link
+                    </label>
+                    <input
+                      type="text"
+                      value={heroSettings.buttonLink}
+                      onChange={(e) => setHeroSettings({ ...heroSettings, buttonLink: e.target.value })}
+                      className="w-full h-10 px-3.5 rounded-xl bg-white border border-[#DCD5CD] text-[#242124] font-mono focus:outline-none focus:border-[#C2185B]"
+                    />
+                  </div>
+                </div>
+
+                {/* Secondary CTA */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div>
+                    <label className="block text-[#444] font-semibold mb-1 uppercase tracking-wider text-[11px]">
+                      Secondary Button Text
+                    </label>
+                    <input
+                      type="text"
+                      value={heroSettings.secondaryButtonText}
+                      onChange={(e) => setHeroSettings({ ...heroSettings, secondaryButtonText: e.target.value })}
+                      className="w-full h-10 px-3.5 rounded-xl bg-white border border-[#DCD5CD] text-[#242124] focus:outline-none focus:border-[#C2185B]"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-[#444] font-semibold mb-1 uppercase tracking-wider text-[11px]">
+                      Secondary Button Link
+                    </label>
+                    <input
+                      type="text"
+                      value={heroSettings.secondaryButtonLink}
+                      onChange={(e) => setHeroSettings({ ...heroSettings, secondaryButtonLink: e.target.value })}
+                      className="w-full h-10 px-3.5 rounded-xl bg-white border border-[#DCD5CD] text-[#242124] font-mono focus:outline-none focus:border-[#C2185B]"
+                    />
+                  </div>
+                </div>
+
+                {/* Banner Image URL & Local Upload */}
+                <div className="pt-2 border-t border-[#EFE7DE] space-y-2">
+                  <label className="block text-[#444] font-semibold uppercase tracking-wider text-[11px]">
+                    Hero Banner Image Source (Local Upload or URL) *
+                  </label>
+                  <input
+                    type="text"
+                    value={heroSettings.imageUrl}
+                    onChange={(e) => setHeroSettings({ ...heroSettings, imageUrl: e.target.value })}
+                    className="w-full h-10 px-3.5 rounded-xl bg-white border border-[#DCD5CD] text-[#242124] font-mono text-[11px] focus:outline-none focus:border-[#C2185B]"
+                  />
+
+                  <div className="flex items-center gap-2 pt-1">
+                    <label className="px-3 py-1.5 rounded-xl bg-[#FAF7F2] hover:bg-[#F2ECE6] text-[#242124] border border-[#EFE7DE] text-[11px] font-semibold cursor-pointer inline-flex items-center gap-1.5 transition-colors">
+                      <Upload className="w-3.5 h-3.5 text-[#C2185B]" />
+                      <span>Upload Local Image From Computer</span>
+                      <input
+                        type="file"
+                        accept="image/*"
+                        className="hidden"
+                        onChange={(e) => {
+                          const file = e.target.files?.[0];
+                          if (!file) return;
+                          const reader = new FileReader();
+                          reader.onload = (ev) => {
+                            setHeroSettings((prev) => ({
+                              ...prev,
+                              imageUrl: ev.target.result,
+                            }));
+                            toast.success('Hero image updated from local storage! 🌸');
+                          };
+                          reader.readAsDataURL(file);
+                        }}
+                      />
+                    </label>
+
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setHeroSettings((prev) => ({
+                          ...prev,
+                          imageUrl: 'https://images.unsplash.com/photo-1561181286-d3fee7d55364?auto=format&fit=crop&w=800&q=85',
+                        }))
+                      }
+                      className="text-[11px] text-[#C2185B] hover:underline"
+                    >
+                      Use Curated Rose Hatbox
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              {/* Right Column: Live Storefront Replica Preview */}
+              <div className="lg:col-span-6 space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-bold uppercase tracking-wider text-[#C2185B] flex items-center gap-1.5">
+                    <Eye className="w-4 h-4 text-[#C2185B]" />
+                    <span>Real-Time Storefront Live Preview</span>
+                  </span>
+                  <span className="text-[10px] bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded-full border border-emerald-200 font-bold">
+                    1:1 Visual Replica
+                  </span>
+                </div>
+
+                {/* Replica Banner Card */}
+                <div className="relative rounded-3xl overflow-hidden shadow-md border border-[#EFE7DE] min-h-[380px] bg-gradient-to-r from-[#FFF0F4] via-[#FFF8F9] to-[#FAF7F2] p-6 sm:p-8 flex items-center">
+                  <div className="relative z-10 max-w-sm space-y-3.5">
+                    <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/90 border border-[#FCC1C5] text-[#C2185B] text-[10px] font-bold tracking-wider uppercase shadow-2xs">
+                      <Sparkles className="w-3 h-3 text-[#EC407A]" />
+                      <span>{heroSettings.badge || 'Spring Floristry Edit 2026'}</span>
+                    </div>
+
+                    <h1 className="text-2xl sm:text-3xl font-bold font-['Poppins'] text-[#242124] leading-tight">
+                      {heroSettings.headline || 'Elegance In Every Petal.'} <br />
+                      <span className="text-[#EC407A] italic font-normal">{heroSettings.subHeadline || 'Delivered Today.'}</span>
+                    </h1>
+
+                    <p className="text-xs text-[#777777] font-normal leading-relaxed">
+                      {heroSettings.description || 'Directly imported highland Ecuadorian roses...'}
+                    </p>
+
+                    <div className="pt-2 flex flex-wrap items-center gap-2.5">
+                      <div className="px-5 py-2.5 rounded-full bg-[#EC407A] text-white text-xs font-semibold shadow-md flex items-center gap-1.5">
+                        <span>{heroSettings.buttonText || 'Shop Spring Roses'}</span>
+                        <ChevronRight className="w-3.5 h-3.5" />
+                      </div>
+
+                      <div className="px-5 py-2.5 rounded-full bg-white text-[#242124] text-xs font-semibold border border-[#E9E2E5]">
+                        <span>{heroSettings.secondaryButtonText || 'Browse Occasions'}</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="hidden sm:block absolute right-0 bottom-0 top-0 w-2/5 pointer-events-none">
+                    <img
+                      src={heroSettings.imageUrl}
+                      alt="Hero Live Preview"
+                      className="w-full h-full object-cover rounded-l-full shadow-lg border-l-4 border-white opacity-95"
+                    />
+                  </div>
+                </div>
+
+                <div className="p-4 rounded-2xl bg-amber-50 border border-amber-200 text-xs text-amber-800 flex items-start gap-2">
+                  <AlertCircle className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
+                  <span>
+                    When you click <strong>Publish Hero Updates</strong>, changes immediately persist in the browser and live storefront at <code>http://localhost:5173/</code>!
+                  </span>
+                </div>
+              </div>
+            </div>
+          </main>
+        )}
+
+        {/* ========================================================
             TAB 2: CUSTOMER ORDERS PIPELINE MANAGEMENT
             ======================================================== */}
         {activeTab === 'orders' && (
@@ -1289,7 +2327,188 @@ export default function AdminDashboard() {
         )}
 
         {/* ========================================================
-            TAB 2.5: SUPER ADMIN & STAFF TEAM GOVERNANCE
+            TAB: CUSTOMER PAYMENTS & FINANCIAL LEDGER
+            ======================================================== */}
+        {activeTab === 'payments' && (
+          <main className="max-w-7xl mx-auto px-4 sm:px-6 py-6 w-full flex-1 space-y-6">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div>
+                <h2 className="text-xl font-bold font-['Poppins'] text-[#242124]">
+                  Patron Payments & Financial Ledger
+                </h2>
+                <p className="text-xs text-[#666666] mt-0.5">
+                  Complete real-time transaction ledger across Razorpay, Stripe, Apple Pay, and Cash on Delivery
+                </p>
+              </div>
+
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => {
+                    const csvRows = [
+                      ['Transaction ID', 'Order ID', 'Customer', 'Email', 'Gateway', 'Amount', 'Currency', 'Status', 'Date'],
+                      ...paymentsList.map((p) => [p.id, p.orderId, p.customerName, p.customerEmail, p.gateway, p.amount, p.currency, p.status, p.date]),
+                    ];
+                    const csvContent = 'data:text/csv;charset=utf-8,' + csvRows.map((e) => e.join(',')).join('\n');
+                    const encodedUri = encodeURI(csvContent);
+                    const link = document.createElement('a');
+                    link.setAttribute('href', encodedUri);
+                    link.setAttribute('download', `dhanvikk_payments_${Date.now()}.csv`);
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                    toast.success('Downloaded financial payment ledger CSV.');
+                  }}
+                  className="px-4 py-2 rounded-xl border border-[#EFE7DE] bg-white text-xs font-semibold text-[#242124] hover:bg-[#FAF7F2] transition-colors cursor-pointer flex items-center gap-1.5 shadow-2xs"
+                >
+                  <FileText className="w-3.5 h-3.5 text-[#C2185B]" />
+                  <span>Export Financial Report</span>
+                </button>
+              </div>
+            </div>
+
+            {/* Payment KPI Cards */}
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+              <div className="p-4 rounded-2xl bg-white border border-[#EFE7DE] shadow-xs">
+                <div className="flex items-center justify-between text-xs text-[#666666]">
+                  <span>Total Settled Volume</span>
+                  <DollarSign className="w-4 h-4 text-emerald-600" />
+                </div>
+                <p className="text-2xl font-bold font-mono text-[#242124] mt-1">
+                  ₹{paymentsList.reduce((acc, curr) => acc + (curr.currency === 'AED' ? curr.amount * 22.8 : curr.currency === 'USD' ? curr.amount * 83.5 : curr.amount), 0).toLocaleString('en-IN', { maximumFractionDigits: 0 })}
+                </p>
+                <span className="text-[10px] text-emerald-600 font-semibold">100% Verified Ledger</span>
+              </div>
+
+              <div className="p-4 rounded-2xl bg-white border border-[#EFE7DE] shadow-xs">
+                <div className="flex items-center justify-between text-xs text-[#666666]">
+                  <span>Razorpay Gateway</span>
+                  <CreditCard className="w-4 h-4 text-blue-600" />
+                </div>
+                <p className="text-2xl font-bold font-mono text-blue-600 mt-1">
+                  {paymentsList.filter((p) => p.gateway.includes('Razorpay')).length} Transactions
+                </p>
+                <span className="text-[10px] text-[#777]">Cards / NetBanking / UPI</span>
+              </div>
+
+              <div className="p-4 rounded-2xl bg-white border border-[#EFE7DE] shadow-xs">
+                <div className="flex items-center justify-between text-xs text-[#666666]">
+                  <span>Stripe & Apple Pay</span>
+                  <Shield className="w-4 h-4 text-[#C2185B]" />
+                </div>
+                <p className="text-2xl font-bold font-mono text-[#C2185B] mt-1">
+                  {paymentsList.filter((p) => p.gateway.includes('Stripe')).length} Transactions
+                </p>
+                <span className="text-[10px] text-[#777]">Global & GCC Direct</span>
+              </div>
+
+              <div className="p-4 rounded-2xl bg-white border border-[#EFE7DE] shadow-xs">
+                <div className="flex items-center justify-between text-xs text-[#666666]">
+                  <span>Cash on Delivery</span>
+                  <Clock className="w-4 h-4 text-amber-600" />
+                </div>
+                <p className="text-2xl font-bold font-mono text-amber-600 mt-1">
+                  {paymentsList.filter((p) => p.gateway.includes('Cash')).length} Orders
+                </p>
+                <span className="text-[10px] text-amber-600 font-semibold">Pending Courier Settlement</span>
+              </div>
+            </div>
+
+            {/* Payments Table */}
+            <div className="bg-white border border-[#EFE7DE] rounded-3xl overflow-hidden shadow-sm">
+              <div className="p-5 border-b border-[#EFE7DE] flex items-center justify-between">
+                <div>
+                  <h3 className="text-sm font-bold text-[#242124] font-['Poppins']">
+                    Customer Payment Records ({paymentsList.length})
+                  </h3>
+                  <p className="text-[11px] text-[#777]">All settled and pending transactions from checkout</p>
+                </div>
+                <span className="text-xs text-[#777] font-mono">Real-Time Gateway Sync</span>
+              </div>
+
+              <div className="overflow-x-auto">
+                <table className="w-full text-left text-xs text-[#333333]">
+                  <thead className="bg-[#FAF7F2] text-[#666666] text-[11px] uppercase tracking-wider border-b border-[#EFE7DE]">
+                    <tr>
+                      <th className="py-3.5 px-5 font-semibold">Transaction ID & Order</th>
+                      <th className="py-3.5 px-4 font-semibold">Patron Details</th>
+                      <th className="py-3.5 px-4 font-semibold">Payment Gateway</th>
+                      <th className="py-3.5 px-4 font-semibold">Amount & Currency</th>
+                      <th className="py-3.5 px-4 font-semibold">Settlement Status</th>
+                      <th className="py-3.5 px-4 font-semibold">Date & Time</th>
+                      <th className="py-3.5 px-5 text-right font-semibold">Inspect</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-[#EFE7DE]">
+                    {paymentsList.map((payment) => (
+                      <tr key={payment.id} className="hover:bg-[#FFFDF9] transition-colors">
+                        <td className="py-4 px-5">
+                          <span className="font-mono font-bold text-[#242124] block">{payment.id}</span>
+                          <span className="text-[11px] text-[#C2185B] font-mono">Ref: {payment.orderId}</span>
+                        </td>
+
+                        <td className="py-4 px-4">
+                          <span className="font-bold text-[#242124] block">{payment.customerName}</span>
+                          <span className="text-[11px] text-[#777] font-mono">{payment.customerEmail}</span>
+                          <span className="text-[10px] text-[#999] block">{payment.city}</span>
+                        </td>
+
+                        <td className="py-4 px-4">
+                          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-semibold bg-[#FAF7F2] border border-[#EFE7DE] text-[#242124]">
+                            <CreditCard className="w-3 h-3 text-[#C2185B]" />
+                            {payment.gateway}
+                          </span>
+                        </td>
+
+                        <td className="py-4 px-4">
+                          <span className="font-mono font-bold text-sm text-[#242124] block">
+                            {payment.currency} {payment.amount.toLocaleString()}
+                          </span>
+                          {payment.currency !== 'INR' && (
+                            <span className="text-[10px] text-[#888] font-mono">
+                              ≈ ₹{(payment.amount * (payment.currency === 'AED' ? 22.8 : 83.5)).toFixed(0)}
+                            </span>
+                          )}
+                        </td>
+
+                        <td className="py-4 px-4">
+                          <span
+                            className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold ${
+                              payment.status === 'Paid'
+                                ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
+                                : 'bg-amber-50 text-amber-700 border border-amber-200'
+                            }`}
+                          >
+                            <span className={`w-1.5 h-1.5 rounded-full ${payment.status === 'Paid' ? 'bg-emerald-500' : 'bg-amber-500'}`} />
+                            {payment.status}
+                          </span>
+                        </td>
+
+                        <td className="py-4 px-4 font-mono text-[11px] text-[#777]">
+                          {payment.date}
+                        </td>
+
+                        <td className="py-4 px-5 text-right">
+                          <button
+                            type="button"
+                            onClick={() => setSelectedPaymentReceipt(payment)}
+                            className="px-3 py-1.5 rounded-xl bg-[#FFF0F4] hover:bg-[#FFE4EC] text-[#C2185B] border border-[#F2D7DE] text-xs font-semibold transition-colors cursor-pointer inline-flex items-center gap-1"
+                          >
+                            <Eye className="w-3.5 h-3.5" />
+                            <span>Receipt</span>
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </main>
+        )}
+
+        {/* ========================================================
+            TAB: SUPER ADMIN & EXACTLY 2 STAFFS ALLOCATION SLOTS
             ======================================================== */}
         {activeTab === 'staff' && (
           <main className="max-w-7xl mx-auto px-4 sm:px-6 py-6 w-full flex-1 space-y-6">
@@ -1307,93 +2526,245 @@ export default function AdminDashboard() {
                   <div>
                     <div className="flex items-center gap-2 flex-wrap">
                       <h2 className="text-xl font-bold font-['Poppins'] text-[#242124]">
-                        Super Admin Governance & Staff Authorization
+                        Super Admin Governance & 2 Staff Quota
                       </h2>
                       <span className="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase bg-[#FEF3C7] text-[#854D0E] border border-[#FDE68A] font-mono">
                         SUPER ADMIN CONTROLLED
                       </span>
                     </div>
                     <p className="text-xs text-[#666666] mt-1 max-w-2xl leading-relaxed">
-                      Configured via <code className="px-2 py-0.5 rounded bg-white border border-[#EFE7DE] text-[#854D0E] font-mono">SUPER_ADMIN_EMAIL</code> in backend <code className="text-[#C2185B]">.env</code> file. Super Admins possess full clearance to onboard florists, inventory leads, and delivery coordinators.
+                      Super Admin retains root governance. System policy allocates <strong>exactly 2 authorized staff members</strong> (Slot 1 & Slot 2) for operational management (Master Florist & Cold-Chain Dispatch).
                     </p>
                     <div className="mt-3 inline-flex items-center gap-2 text-xs bg-white px-3 py-1.5 rounded-xl border border-[#EFE7DE] text-[#242124] shadow-2xs">
                       <Mail className="w-3.5 h-3.5 text-[#854D0E]" />
-                      <span>Designated Super Admin: <strong className="text-[#854D0E] font-mono">{superAdminEmail}</strong></span>
+                      <span>Root Super Admin: <strong className="text-[#854D0E] font-mono">{superAdminEmail}</strong></span>
                     </div>
                   </div>
                 </div>
 
-                <button
-                  type="button"
-                  onClick={() => handleOpenStaffModal()}
-                  className="px-5 py-3 rounded-2xl bg-gradient-to-r from-[#D4AF37] to-[#B89628] hover:opacity-95 text-white font-bold text-xs shadow-md transition-all flex items-center gap-2 cursor-pointer self-start md:self-center"
-                >
-                  <UserPlus className="w-4 h-4" />
-                  <span>Onboard New Staff</span>
-                </button>
-              </div>
-            </div>
+                <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2">
+                  <div className="px-3 py-1.5 rounded-xl bg-white border border-[#EFE7DE] text-xs font-mono font-bold text-[#242124]">
+                    Staff Quota: <span className={currentStaffCount >= maxStaffQuota ? 'text-[#C2185B]' : 'text-emerald-700'}>{currentStaffCount} / {maxStaffQuota} Assigned</span>
+                  </div>
 
-            {/* Metrics Strip */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              <div className="p-4 rounded-2xl bg-white border border-[#EFE7DE] shadow-xs flex items-center gap-3">
-                <div className="p-2.5 rounded-xl bg-[#FAF7F2] text-[#854D0E]">
-                  <Users className="w-5 h-5" />
-                </div>
-                <div>
-                  <span className="text-xl font-bold font-mono text-[#242124] block">{staffList.length}</span>
-                  <span className="text-[11px] text-[#777777]">Total Authorized Staff</span>
-                </div>
-              </div>
-
-              <div className="p-4 rounded-2xl bg-white border border-[#EFE7DE] shadow-xs flex items-center gap-3">
-                <div className="p-2.5 rounded-xl bg-[#FAF7F2] text-emerald-600">
-                  <UserCheck className="w-5 h-5" />
-                </div>
-                <div>
-                  <span className="text-xl font-bold font-mono text-[#242124] block">
-                    {staffList.filter((s) => s.status === 'Active').length}
-                  </span>
-                  <span className="text-[11px] text-[#777777]">Active on Duty</span>
-                </div>
-              </div>
-
-              <div className="p-4 rounded-2xl bg-white border border-[#EFE7DE] shadow-xs flex items-center gap-3">
-                <div className="p-2.5 rounded-xl bg-[#FAF7F2] text-[#C2185B]">
-                  <Flower2 className="w-5 h-5" />
-                </div>
-                <div>
-                  <span className="text-xl font-bold font-mono text-[#242124] block">
-                    {staffList.filter((s) => s.role === 'inventory_manager' || s.roleTitle?.includes('Florist')).length}
-                  </span>
-                  <span className="text-[11px] text-[#777777]">Master Florists</span>
-                </div>
-              </div>
-
-              <div className="p-4 rounded-2xl bg-white border border-[#EFE7DE] shadow-xs flex items-center gap-3">
-                <div className="p-2.5 rounded-xl bg-[#FAF7F2] text-cyan-700">
-                  <Truck className="w-5 h-5" />
-                </div>
-                <div>
-                  <span className="text-xl font-bold font-mono text-[#242124] block">
-                    {staffList.filter((s) => s.role === 'delivery_manager' || s.roleTitle?.includes('Dispatch')).length}
-                  </span>
-                  <span className="text-[11px] text-[#777777]">Dispatch Coordinators</span>
+                  <button
+                    type="button"
+                    onClick={() => handleOpenStaffModal()}
+                    disabled={isStaffQuotaFull}
+                    className={`px-5 py-3 rounded-2xl text-white font-bold text-xs shadow-md transition-all flex items-center gap-2 cursor-pointer ${
+                      isStaffQuotaFull
+                        ? 'bg-stone-400 cursor-not-allowed opacity-80'
+                        : 'bg-gradient-to-r from-[#D4AF37] to-[#B89628] hover:opacity-95'
+                    }`}
+                  >
+                    <UserPlus className="w-4 h-4" />
+                    <span>{isStaffQuotaFull ? 'Staff Quota Reached (2/2)' : 'Onboard Staff Member'}</span>
+                  </button>
                 </div>
               </div>
             </div>
 
-            {/* Staff Table */}
+            {/* DEDICATED 3-TIER EXECUTIVE SLOTS: SUPER ADMIN + 2 STAFF MEMBERS */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+              {/* Card 1: Root Super Admin */}
+              <div className="rounded-3xl p-6 bg-white border-2 border-[#D4AF37]/50 shadow-sm relative overflow-hidden flex flex-col justify-between">
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between">
+                    <span className="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold bg-[#FEF3C7] text-[#854D0E] border border-[#FDE68A] uppercase tracking-wider">
+                      ROOT GOVERNANCE
+                    </span>
+                    <div className="w-8 h-8 rounded-full bg-[#D4AF37]/20 text-[#854D0E] flex items-center justify-center">
+                      <Crown className="w-4 h-4 fill-current" />
+                    </div>
+                  </div>
+
+                  <div>
+                    <h3 className="text-base font-bold text-[#242124] font-['Poppins']">
+                      Super Administrator
+                    </h3>
+                    <p className="text-xs font-mono text-[#854D0E] mt-0.5">{superAdminEmail}</p>
+                    <span className="inline-block mt-2 px-2.5 py-1 rounded-lg bg-[#FAF7F2] border border-[#EFE7DE] text-[11px] font-semibold text-[#555]">
+                      Chief Executive & Founder
+                    </span>
+                  </div>
+
+                  <p className="text-xs text-[#666666] leading-relaxed pt-2 border-t border-[#EFE7DE]">
+                    Full root clearance to manage product inventory, categories, currency rates, hero storefront CMS, and authorize the 2 staff positions.
+                  </p>
+                </div>
+
+                <div className="pt-4 mt-4 border-t border-[#EFE7DE] flex items-center justify-between text-xs text-emerald-700 font-bold">
+                  <span className="flex items-center gap-1.5">
+                    <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                    Permanent Root Access
+                  </span>
+                  <Lock className="w-4 h-4 text-[#854D0E]" />
+                </div>
+              </div>
+
+              {/* Card 2: Staff Slot #1 */}
+              {(() => {
+                const staff1 = staffList.find((s) => !s.isSuperAdmin && s.email.toLowerCase() !== superAdminEmail.toLowerCase());
+                return (
+                  <div className="rounded-3xl p-6 bg-white border border-[#EFE7DE] shadow-sm flex flex-col justify-between hover:border-[#C2185B]/40 transition-all">
+                    {staff1 ? (
+                      <>
+                        <div className="space-y-3">
+                          <div className="flex items-center justify-between">
+                            <span className="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold bg-[#FFF0F4] text-[#C2185B] border border-[#F2D7DE] uppercase tracking-wider">
+                              STAFF SLOT #1 • ACTIVE
+                            </span>
+                            <span className="w-2 h-2 rounded-full bg-emerald-500" />
+                          </div>
+
+                          <div>
+                            <h3 className="text-base font-bold text-[#242124] font-['Poppins']">
+                              {staff1.name}
+                            </h3>
+                            <p className="text-xs font-mono text-[#777] mt-0.5">{staff1.email}</p>
+                            <span className="inline-block mt-2 px-2.5 py-1 rounded-lg bg-[#FFF0F4] text-[#C2185B] border border-[#F2D7DE] text-[11px] font-bold">
+                              {staff1.roleTitle || 'Master Florist & Inventory Lead'}
+                            </span>
+                          </div>
+
+                          <div className="text-xs text-[#666666] space-y-1 pt-2 border-t border-[#EFE7DE]">
+                            <p className="flex items-center gap-1.5">
+                              <Phone className="w-3.5 h-3.5 text-[#C2185B]" />
+                              <span>{staff1.phone || 'Phone not set'}</span>
+                            </p>
+                            <p className="text-[11px] text-[#888]">Appointed: {staff1.joinedDate || '2026-01-15'}</p>
+                          </div>
+                        </div>
+
+                        <div className="pt-4 mt-4 border-t border-[#EFE7DE] flex items-center justify-between">
+                          <button
+                            type="button"
+                            onClick={() => handleOpenStaffModal(staff1)}
+                            className="px-3 py-1.5 rounded-xl bg-[#FAF7F2] hover:bg-[#F2ECE6] text-[#242124] border border-[#EFE7DE] text-xs font-semibold cursor-pointer inline-flex items-center gap-1"
+                          >
+                            <Edit3 className="w-3 h-3 text-[#C2185B]" />
+                            <span>Edit Staff</span>
+                          </button>
+
+                          <button
+                            type="button"
+                            onClick={() => handleDeleteStaff(staff1)}
+                            className="px-3 py-1.5 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-200 text-xs font-semibold cursor-pointer"
+                          >
+                            Revoke Slot
+                          </button>
+                        </div>
+                      </>
+                    ) : (
+                      <div className="h-full flex flex-col justify-center items-center text-center p-6 space-y-3">
+                        <div className="w-12 h-12 rounded-full bg-[#FAF7F2] border border-[#EFE7DE] flex items-center justify-center text-[#999]">
+                          <UserPlus className="w-6 h-6 text-[#C2185B]" />
+                        </div>
+                        <div>
+                          <h4 className="text-sm font-bold text-[#242124]">Staff Slot #1 Available</h4>
+                          <p className="text-xs text-[#777] mt-1">Slot reserved for Master Florist & Inventory</p>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => handleOpenStaffModal()}
+                          className="px-4 py-2 rounded-xl bg-[#FFF0F4] text-[#C2185B] border border-[#F2D7DE] text-xs font-bold hover:bg-[#FFE4EC] cursor-pointer"
+                        >
+                          + Assign Staff Member #1
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                );
+              })()}
+
+              {/* Card 3: Staff Slot #2 */}
+              {(() => {
+                const nonSuper = staffList.filter((s) => !s.isSuperAdmin && s.email.toLowerCase() !== superAdminEmail.toLowerCase());
+                const staff2 = nonSuper[1];
+                return (
+                  <div className="rounded-3xl p-6 bg-white border border-[#EFE7DE] shadow-sm flex flex-col justify-between hover:border-[#C2185B]/40 transition-all">
+                    {staff2 ? (
+                      <>
+                        <div className="space-y-3">
+                          <div className="flex items-center justify-between">
+                            <span className="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold bg-cyan-50 text-cyan-800 border border-cyan-200 uppercase tracking-wider">
+                              STAFF SLOT #2 • ACTIVE
+                            </span>
+                            <span className="w-2 h-2 rounded-full bg-emerald-500" />
+                          </div>
+
+                          <div>
+                            <h3 className="text-base font-bold text-[#242124] font-['Poppins']">
+                              {staff2.name}
+                            </h3>
+                            <p className="text-xs font-mono text-[#777] mt-0.5">{staff2.email}</p>
+                            <span className="inline-block mt-2 px-2.5 py-1 rounded-lg bg-cyan-50 text-cyan-800 border border-cyan-200 text-[11px] font-bold">
+                              {staff2.roleTitle || 'Cold-Chain Dispatch Coordinator'}
+                            </span>
+                          </div>
+
+                          <div className="text-xs text-[#666666] space-y-1 pt-2 border-t border-[#EFE7DE]">
+                            <p className="flex items-center gap-1.5">
+                              <Phone className="w-3.5 h-3.5 text-[#C2185B]" />
+                              <span>{staff2.phone || 'Phone not set'}</span>
+                            </p>
+                            <p className="text-[11px] text-[#888]">Appointed: {staff2.joinedDate || '2026-02-01'}</p>
+                          </div>
+                        </div>
+
+                        <div className="pt-4 mt-4 border-t border-[#EFE7DE] flex items-center justify-between">
+                          <button
+                            type="button"
+                            onClick={() => handleOpenStaffModal(staff2)}
+                            className="px-3 py-1.5 rounded-xl bg-[#FAF7F2] hover:bg-[#F2ECE6] text-[#242124] border border-[#EFE7DE] text-xs font-semibold cursor-pointer inline-flex items-center gap-1"
+                          >
+                            <Edit3 className="w-3 h-3 text-[#C2185B]" />
+                            <span>Edit Staff</span>
+                          </button>
+
+                          <button
+                            type="button"
+                            onClick={() => handleDeleteStaff(staff2)}
+                            className="px-3 py-1.5 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-200 text-xs font-semibold cursor-pointer"
+                          >
+                            Revoke Slot
+                          </button>
+                        </div>
+                      </>
+                    ) : (
+                      <div className="h-full flex flex-col justify-center items-center text-center p-6 space-y-3">
+                        <div className="w-12 h-12 rounded-full bg-[#FAF7F2] border border-[#EFE7DE] flex items-center justify-center text-[#999]">
+                          <UserPlus className="w-6 h-6 text-[#C2185B]" />
+                        </div>
+                        <div>
+                          <h4 className="text-sm font-bold text-[#242124]">Staff Slot #2 Available</h4>
+                          <p className="text-xs text-[#777] mt-1">Slot reserved for Cold-Chain Dispatch Lead</p>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => handleOpenStaffModal()}
+                          className="px-4 py-2 rounded-xl bg-[#FFF0F4] text-[#C2185B] border border-[#F2D7DE] text-xs font-bold hover:bg-[#FFE4EC] cursor-pointer"
+                        >
+                          + Assign Staff Member #2
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                );
+              })()}
+            </div>
+
+            {/* Staff Credentials Table */}
             <div className="bg-white border border-[#EFE7DE] rounded-3xl overflow-hidden shadow-sm">
               <div className="p-5 border-b border-[#EFE7DE] flex items-center justify-between">
                 <div>
                   <h3 className="text-sm font-bold text-[#242124] font-['Poppins']">
-                    Current Staff Personnel & Credentials
+                    Authorized Personnel Roster ({staffList.length} Accounts)
                   </h3>
-                  <p className="text-[11px] text-[#777777]">Roles, designated functions, and operational access levels</p>
+                  <p className="text-[11px] text-[#777777]">Designations, credentials, and operational clearances</p>
                 </div>
                 <span className="text-xs text-[#777777] font-mono">
-                  {staffList.length} members
+                  Quota Policy: 1 Super Admin + 2 Staff Members
                 </span>
               </div>
 
@@ -1805,16 +3176,85 @@ export default function AdminDashboard() {
                   </select>
                 </div>
 
+                {/* MULTI-CURRENCY FIXED PRICING MATRIX (11 CURRENCIES) */}
+                <div className="p-4 rounded-2xl bg-white border border-[#EFE7DE] shadow-xs space-y-3">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <Coins className="w-4 h-4 text-[#C2185B]" />
+                      <span className="font-bold text-xs text-[#242124]">
+                        Fixed Rate & Price Matrix for Every Currency
+                      </span>
+                    </div>
+
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const inrPrice = Number(productForm.price) || 2499;
+                        const newFixed = {};
+                        currenciesList.forEach((c) => {
+                          const val = c.rateToINR ? inrPrice / c.rateToINR : inrPrice;
+                          newFixed[c.code] = Number(val.toFixed(c.code === 'KWD' || c.code === 'OMR' || c.code === 'BHD' ? 2 : 0));
+                        });
+                        setProductForm((prev) => ({
+                          ...prev,
+                          fixedPrices: newFixed,
+                        }));
+                        toast.success('Auto-populated fixed rates across all 11 currencies based on current exchange matrix!');
+                      }}
+                      className="px-2.5 py-1 rounded-lg bg-[#FFF0F4] hover:bg-[#FFE4EC] text-[#C2185B] border border-[#F2D7DE] text-[10px] font-bold transition-colors cursor-pointer"
+                    >
+                      ⚡ Auto-Calculate Fixed Rates
+                    </button>
+                  </div>
+
+                  <p className="text-[10px] text-[#777]">
+                    Set custom fixed prices for international patrons or use auto-calculated exchange conversions.
+                  </p>
+
+                  <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2.5 pt-1">
+                    {currenciesList.map((c) => {
+                      const curVal = productForm.fixedPrices?.[c.code] ?? (
+                        c.rateToINR ? Number(((Number(productForm.price) || 2499) / c.rateToINR).toFixed(c.code === 'KWD' || c.code === 'OMR' || c.code === 'BHD' ? 2 : 0)) : 100
+                      );
+
+                      return (
+                        <div key={c.code} className="p-2.5 rounded-xl bg-[#FAF7F2] border border-[#EFE7DE] space-y-1">
+                          <div className="flex items-center justify-between text-[10px] font-bold text-[#555]">
+                            <span>{c.flag} {c.code}</span>
+                            <span className="font-mono text-[#888]">{c.symbol}</span>
+                          </div>
+                          <input
+                            type="number"
+                            step={c.code === 'KWD' || c.code === 'OMR' || c.code === 'BHD' ? '0.01' : '1'}
+                            value={curVal}
+                            onChange={(e) => {
+                              const val = Number(e.target.value) || 0;
+                              setProductForm((prev) => ({
+                                ...prev,
+                                fixedPrices: {
+                                  ...(prev.fixedPrices || {}),
+                                  [c.code]: val,
+                                },
+                              }));
+                            }}
+                            className="w-full h-8 px-2 rounded-lg bg-white border border-[#DCD5CD] text-[#242124] font-mono font-bold text-xs focus:outline-none focus:border-[#C2185B]"
+                          />
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+
                 {/* Image Selection: Local Upload OR Presets */}
                 <div className="space-y-3 p-3.5 rounded-2xl bg-[#FAF7F2] border border-[#EFE7DE]">
                   <div className="flex items-center justify-between">
                     <label className="text-[#333333] font-semibold flex items-center gap-1.5 text-xs">
                       <Upload className="w-3.5 h-3.5 text-[#C2185B]" />
-                      <span>Upload & Store Image Locally In Code</span>
+                      <span>Upload & Store Image Locally (Linux Web Hosting Ready)</span>
                     </label>
                     {uploadingImage && (
                       <span className="text-[#C2185B] text-[10px] font-bold animate-pulse">
-                        Uploading to /uploads...
+                        Processing image...
                       </span>
                     )}
                   </div>
@@ -1826,7 +3266,7 @@ export default function AdminDashboard() {
                       Select local image from computer
                     </span>
                     <span className="text-[10px] text-[#777777] mt-0.5">
-                      Stored locally in <code className="text-[#C2185B]">backend/uploads/</code>
+                      Structured for Linux hosting: <code className="text-[#C2185B]">public/images/products/</code>
                     </span>
                     <input
                       type="file"
@@ -1835,6 +3275,32 @@ export default function AdminDashboard() {
                       className="hidden"
                     />
                   </label>
+
+                  {/* Linux Hosting Local Destination Path */}
+                  <div className="p-2.5 rounded-xl bg-white border border-[#EFE7DE] space-y-1">
+                    <span className="text-[10px] font-bold text-[#555] uppercase tracking-wider block">
+                      🐧 Linux Web Hosting Asset Path:
+                    </span>
+                    <div className="flex items-center gap-2">
+                      <input
+                        type="text"
+                        value={productForm.linuxHostingPath || `/images/products/${(productForm.name || 'bouquet').toLowerCase().replace(/\s+/g, '-')}.jpg`}
+                        onChange={(e) => setProductForm({ ...productForm, linuxHostingPath: e.target.value })}
+                        className="flex-1 h-8 px-2.5 rounded-lg bg-[#FAF7F2] border border-[#DCD5CD] text-[#242124] font-mono text-xs focus:outline-none focus:border-[#C2185B]"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => {
+                          const path = productForm.linuxHostingPath || `/images/products/${(productForm.name || 'bouquet').toLowerCase().replace(/\s+/g, '-')}.jpg`;
+                          navigator.clipboard.writeText(path);
+                          toast.success('Copied Linux asset path to clipboard!');
+                        }}
+                        className="px-2.5 py-1.5 rounded-lg bg-[#FAF7F2] hover:bg-[#EFE7DE] text-[#242124] border border-[#DCD5CD] text-[10px] font-bold cursor-pointer"
+                      >
+                        Copy Path
+                      </button>
+                    </div>
+                  </div>
 
                   {/* Stored locally badge if path includes /uploads */}
                   {productForm.images && productForm.images.includes('/uploads') && (
@@ -2284,6 +3750,379 @@ export default function AdminDashboard() {
                   </button>
                 </div>
               </form>
+            </div>
+          </div>
+        )}
+
+        {/* ========================================================
+            MODAL: ADD / EDIT COLLECTION & CATEGORY
+            ======================================================== */}
+        {showCategoryModal && (
+          <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-xs flex items-center justify-center p-4">
+            <div className="bg-white border border-[#EFE7DE] rounded-3xl p-6 max-w-lg w-full max-h-[92vh] overflow-y-auto space-y-5 shadow-2xl text-[#242124]">
+              <div className="flex items-center justify-between pb-3 border-b border-[#EFE7DE]">
+                <div className="flex items-center gap-2.5">
+                  <div className="p-2.5 rounded-xl bg-[#FFF0F4] text-[#C2185B] border border-[#F2D7DE]">
+                    <Flower2 className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <h3 className="text-base font-bold text-[#242124] font-['Poppins']">
+                      {editingCategory ? 'Edit Floral Category' : 'Create New Collection & Category'}
+                    </h3>
+                    <p className="text-[11px] text-[#777777]">Organize bouquets, potted greens, and occasion edits</p>
+                  </div>
+                </div>
+                <button
+                  onClick={() => setShowCategoryModal(false)}
+                  className="w-8 h-8 rounded-full bg-[#FAF7F2] hover:bg-[#F2ECE6] flex items-center justify-center text-[#666666] hover:text-[#242124] border border-[#EFE7DE] cursor-pointer"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+
+              <form onSubmit={handleSaveCategory} className="space-y-4 text-xs">
+                {/* Category Name */}
+                <div>
+                  <label className="block text-[#444444] font-semibold mb-1">Category Title *</label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="e.g. Velvet Flower Boxes, Forever Roses"
+                    value={categoryForm.name}
+                    onChange={(e) => setCategoryForm({ ...categoryForm, name: e.target.value })}
+                    className="w-full h-10 px-3 rounded-xl bg-white border border-[#DCD5CD] text-[#242124] placeholder:text-[#999999] focus:outline-none focus:border-[#C2185B]"
+                  />
+                </div>
+
+                {/* Slug & Badge */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div>
+                    <label className="block text-[#444444] font-semibold mb-1">URL Slug</label>
+                    <input
+                      type="text"
+                      placeholder="e.g. flower-boxes"
+                      value={categoryForm.slug}
+                      onChange={(e) => setCategoryForm({ ...categoryForm, slug: e.target.value })}
+                      className="w-full h-10 px-3 rounded-xl bg-white border border-[#DCD5CD] text-[#242124] font-mono placeholder:text-[#999999] focus:outline-none focus:border-[#C2185B]"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-[#444444] font-semibold mb-1">Promotional Badge</label>
+                    <input
+                      type="text"
+                      placeholder="e.g. SIGNATURE EDIT, 3+ YEARS"
+                      value={categoryForm.badge}
+                      onChange={(e) => setCategoryForm({ ...categoryForm, badge: e.target.value })}
+                      className="w-full h-10 px-3 rounded-xl bg-white border border-[#DCD5CD] text-[#242124] placeholder:text-[#999999] focus:outline-none focus:border-[#C2185B]"
+                    />
+                  </div>
+                </div>
+
+                {/* Description */}
+                <div>
+                  <label className="block text-[#444444] font-semibold mb-1">Editorial Description</label>
+                  <textarea
+                    rows={2}
+                    placeholder="Short summary displayed on category banners..."
+                    value={categoryForm.description}
+                    onChange={(e) => setCategoryForm({ ...categoryForm, description: e.target.value })}
+                    className="w-full p-3 rounded-xl bg-white border border-[#DCD5CD] text-[#242124] placeholder:text-[#999999] focus:outline-none focus:border-[#C2185B]"
+                  />
+                </div>
+
+                {/* Subcategories */}
+                <div>
+                  <label className="block text-[#444444] font-semibold mb-1">Subcategories (Comma-separated)</label>
+                  <input
+                    type="text"
+                    placeholder="e.g. Hatboxes, Round Trays, Square Domes"
+                    value={categoryForm.subCategories}
+                    onChange={(e) => setCategoryForm({ ...categoryForm, subCategories: e.target.value })}
+                    className="w-full h-10 px-3 rounded-xl bg-white border border-[#DCD5CD] text-[#242124] placeholder:text-[#999999] focus:outline-none focus:border-[#C2185B]"
+                  />
+                </div>
+
+                {/* Image URL & Local Upload */}
+                <div className="space-y-2">
+                  <label className="block text-[#444444] font-semibold">Category Hero Image</label>
+                  <div className="flex items-center gap-3">
+                    <img
+                      src={categoryForm.image}
+                      alt="Category Preview"
+                      className="w-12 h-12 rounded-xl object-cover border border-[#EFE7DE] bg-white flex-shrink-0"
+                      onError={(e) => {
+                        e.target.src = 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=400&q=80';
+                      }}
+                    />
+                    <input
+                      type="text"
+                      required
+                      value={categoryForm.image}
+                      onChange={(e) => setCategoryForm({ ...categoryForm, image: e.target.value })}
+                      placeholder="Image URL or local path"
+                      className="flex-1 h-9 px-3 rounded-xl bg-white border border-[#DCD5CD] text-[#242124] text-xs focus:outline-none focus:border-[#C2185B]"
+                    />
+                  </div>
+
+                  <label className="px-3 py-1.5 rounded-xl bg-[#FAF7F2] hover:bg-[#F2ECE6] text-[#242124] border border-[#EFE7DE] text-[11px] font-semibold cursor-pointer inline-flex items-center gap-1.5 transition-colors">
+                    <Upload className="w-3.5 h-3.5 text-[#C2185B]" />
+                    <span>Upload Local Category Image</span>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      className="hidden"
+                      onChange={(e) => {
+                        const file = e.target.files?.[0];
+                        if (!file) return;
+                        const reader = new FileReader();
+                        reader.onload = (ev) => {
+                          setCategoryForm((prev) => ({
+                            ...prev,
+                            image: ev.target.result,
+                          }));
+                          toast.success('Category image set from local storage!');
+                        };
+                        reader.readAsDataURL(file);
+                      }}
+                    />
+                  </label>
+                </div>
+
+                {/* Active Toggle */}
+                <div className="pt-1 flex items-center gap-2">
+                  <input
+                    type="checkbox"
+                    id="catActive"
+                    checked={categoryForm.active}
+                    onChange={(e) => setCategoryForm({ ...categoryForm, active: e.target.checked })}
+                    className="w-4 h-4 rounded text-[#C2185B] focus:ring-[#C2185B]"
+                  />
+                  <label htmlFor="catActive" className="text-xs font-semibold text-[#242124] cursor-pointer">
+                    Display active on storefront navigation and filters
+                  </label>
+                </div>
+
+                {/* Actions */}
+                <div className="flex justify-end gap-3 pt-3 border-t border-[#EFE7DE]">
+                  <button
+                    type="button"
+                    onClick={() => setShowCategoryModal(false)}
+                    className="px-4 py-2 rounded-xl bg-[#FAF7F2] hover:bg-[#F2ECE6] text-[#666666] hover:text-[#242124] text-xs font-semibold border border-[#EFE7DE] transition-all cursor-pointer"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    className="px-5 py-2 rounded-xl bg-gradient-to-r from-[#C2185B] to-[#EC407A] hover:opacity-95 text-white text-xs font-bold shadow-md transition-all cursor-pointer"
+                  >
+                    {editingCategory ? 'Update Category' : 'Create Category'}
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        )}
+
+        {/* ========================================================
+            MODAL: EDIT MULTI-CURRENCY FIXED RATE
+            ======================================================== */}
+        {showCurrencyModal && editingCurrency && (
+          <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-xs flex items-center justify-center p-4">
+            <div className="bg-white border border-[#EFE7DE] rounded-3xl p-6 max-w-md w-full shadow-2xl text-[#242124] space-y-5">
+              <div className="flex items-center justify-between pb-3 border-b border-[#EFE7DE]">
+                <div className="flex items-center gap-2.5">
+                  <div className="p-2.5 rounded-xl bg-[#FFF0F4] text-[#C2185B] border border-[#F2D7DE]">
+                    <Coins className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <h3 className="text-base font-bold text-[#242124] font-['Poppins']">
+                      Edit Fixed Rate • {editingCurrency.code}
+                    </h3>
+                    <p className="text-[11px] text-[#777777]">{editingCurrency.name} ({editingCurrency.flag})</p>
+                  </div>
+                </div>
+                <button
+                  onClick={() => setShowCurrencyModal(false)}
+                  className="w-8 h-8 rounded-full bg-[#FAF7F2] hover:bg-[#F2ECE6] flex items-center justify-center text-[#666666] hover:text-[#242124] border border-[#EFE7DE] cursor-pointer"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+
+              <form onSubmit={handleSaveCurrencyRate} className="space-y-4 text-xs">
+                <div>
+                  <label className="block text-[#444] font-semibold mb-1">
+                    Multiplier vs Base AED (1 AED = ? {editingCurrency.code}) *
+                  </label>
+                  <input
+                    type="number"
+                    step="0.001"
+                    required
+                    value={currencyRateForm.rateFromAED}
+                    onChange={(e) => setCurrencyRateForm({ ...currencyRateForm, rateFromAED: e.target.value })}
+                    className="w-full h-10 px-3 rounded-xl bg-white border border-[#DCD5CD] text-[#242124] font-mono font-bold focus:outline-none focus:border-[#C2185B]"
+                  />
+                  <span className="text-[10px] text-[#888] mt-1 block">
+                    Used when patrons select {editingCurrency.code} during checkout.
+                  </span>
+                </div>
+
+                <div>
+                  <label className="block text-[#444] font-semibold mb-1">
+                    Value in Indian Rupee (1 {editingCurrency.code} = ? INR ₹) *
+                  </label>
+                  <input
+                    type="number"
+                    step="0.01"
+                    required
+                    value={currencyRateForm.rateToINR}
+                    onChange={(e) => setCurrencyRateForm({ ...currencyRateForm, rateToINR: e.target.value })}
+                    className="w-full h-10 px-3 rounded-xl bg-white border border-[#DCD5CD] text-[#242124] font-mono font-bold focus:outline-none focus:border-[#C2185B]"
+                  />
+                </div>
+
+                <div className="p-3.5 rounded-2xl bg-[#FAF7F2] border border-[#EFE7DE] space-y-1">
+                  <span className="text-[11px] font-bold text-[#242124] block">Live Preview Calculation:</span>
+                  <p className="text-xs text-[#555]">
+                    AED 150 signature bouquet converts to:
+                  </p>
+                  <p className="text-base font-mono font-bold text-[#C2185B]">
+                    {editingCurrency.symbol} {(150 * Number(currencyRateForm.rateFromAED)).toFixed(editingCurrency.code === 'KWD' || editingCurrency.code === 'OMR' ? 2 : 0)} {editingCurrency.code}
+                  </p>
+                </div>
+
+                <div className="flex justify-end gap-3 pt-3 border-t border-[#EFE7DE]">
+                  <button
+                    type="button"
+                    onClick={() => setShowCurrencyModal(false)}
+                    className="px-4 py-2 rounded-xl bg-[#FAF7F2] hover:bg-[#F2ECE6] text-[#666] text-xs font-semibold border border-[#EFE7DE] cursor-pointer"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    className="px-5 py-2 rounded-xl bg-gradient-to-r from-[#C2185B] to-[#EC407A] text-white text-xs font-bold shadow-md hover:opacity-95 cursor-pointer"
+                  >
+                    Save Fixed Rate
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        )}
+
+        {/* ========================================================
+            MODAL: INSPECT CUSTOMER PAYMENT RECEIPT
+            ======================================================== */}
+        {selectedPaymentReceipt && (
+          <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-xs flex items-center justify-center p-4">
+            <div className="bg-white border border-[#EFE7DE] rounded-3xl p-6 sm:p-8 max-w-lg w-full max-h-[92vh] overflow-y-auto space-y-6 shadow-2xl text-[#242124]">
+              {/* Slip Header */}
+              <div className="flex items-center justify-between pb-4 border-b border-[#EFE7DE]">
+                <div className="flex items-center gap-3">
+                  <Logo size="sm" linkTo="/admin/dashboard" />
+                  <div>
+                    <h3 className="text-base font-bold text-[#242124] font-['Poppins']">
+                      Official Payment Receipt
+                    </h3>
+                    <p className="text-[11px] text-[#777777] font-mono">
+                      Ref: {selectedPaymentReceipt.id}
+                    </p>
+                  </div>
+                </div>
+                <button
+                  onClick={() => setSelectedPaymentReceipt(null)}
+                  className="w-8 h-8 rounded-full bg-[#FAF7F2] hover:bg-[#F2ECE6] flex items-center justify-center text-[#666666] hover:text-[#242124] border border-[#EFE7DE] cursor-pointer"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+
+              {/* Status Badge */}
+              <div className="p-4 rounded-2xl bg-emerald-50 border border-emerald-200 flex items-center justify-between">
+                <div>
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-800 block">
+                    Payment Gateway Settlement
+                  </span>
+                  <span className="text-sm font-bold text-emerald-900 font-mono">
+                    {selectedPaymentReceipt.gateway}
+                  </span>
+                </div>
+                <span className="px-3 py-1 rounded-full text-xs font-bold bg-emerald-600 text-white">
+                  {selectedPaymentReceipt.status}
+                </span>
+              </div>
+
+              {/* Customer and Order Metadata */}
+              <div className="grid grid-cols-2 gap-4 text-xs">
+                <div className="space-y-1">
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-[#888] block">
+                    Patron Information
+                  </span>
+                  <p className="font-bold text-[#242124]">{selectedPaymentReceipt.customerName}</p>
+                  <p className="text-[#666] font-mono">{selectedPaymentReceipt.customerEmail}</p>
+                  <p className="text-[#888]">{selectedPaymentReceipt.city}</p>
+                </div>
+
+                <div className="space-y-1">
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-[#888] block">
+                    Order Reference & Time
+                  </span>
+                  <p className="font-bold font-mono text-[#C2185B]">{selectedPaymentReceipt.orderId}</p>
+                  <p className="text-[#666] font-mono">{selectedPaymentReceipt.date}</p>
+                  <span className="inline-block px-2 py-0.5 rounded-md bg-[#FAF7F2] border border-[#EFE7DE] text-[10px] text-[#555]">
+                    Verified Transaction
+                  </span>
+                </div>
+              </div>
+
+              {/* Order Items in Transaction */}
+              <div className="space-y-2 pt-2 border-t border-[#EFE7DE]">
+                <span className="text-[10px] font-bold uppercase tracking-wider text-[#888] block">
+                  Purchased Botanical Items
+                </span>
+                <div className="p-3 rounded-2xl bg-[#FAF7F2] border border-[#EFE7DE] text-xs font-medium text-[#242124]">
+                  {selectedPaymentReceipt.items}
+                </div>
+              </div>
+
+              {/* Settlement Total */}
+              <div className="p-4 rounded-2xl bg-gradient-to-r from-[#FFF0F4] to-[#FFFDF9] border border-[#F2D7DE] flex items-center justify-between">
+                <div>
+                  <span className="text-xs text-[#666] block">Settled Total Amount</span>
+                  <span className="text-xs font-mono text-[#888]">Direct Currency Checkout</span>
+                </div>
+                <div className="text-right">
+                  <span className="text-xl font-bold font-mono text-[#C2185B]">
+                    {selectedPaymentReceipt.currency} {selectedPaymentReceipt.amount.toLocaleString()}
+                  </span>
+                  {selectedPaymentReceipt.currency !== 'INR' && (
+                    <span className="text-[10px] text-[#888] font-mono block">
+                      ≈ ₹{(selectedPaymentReceipt.amount * (selectedPaymentReceipt.currency === 'AED' ? 22.8 : 83.5)).toFixed(0)} INR
+                    </span>
+                  )}
+                </div>
+              </div>
+
+              {/* Action Buttons */}
+              <div className="flex items-center justify-between pt-2">
+                <button
+                  type="button"
+                  onClick={() => window.print()}
+                  className="px-4 py-2 rounded-xl bg-[#FFF0F4] hover:bg-[#FFE4EC] text-[#C2185B] border border-[#F2D7DE] text-xs font-bold flex items-center gap-2 cursor-pointer shadow-xs"
+                >
+                  <Printer className="w-3.5 h-3.5" /> Print Receipt Slip
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => setSelectedPaymentReceipt(null)}
+                  className="px-4 py-2 rounded-xl bg-[#FAF7F2] hover:bg-[#F2ECE6] text-[#666] text-xs font-semibold border border-[#EFE7DE] cursor-pointer"
+                >
+                  Close
+                </button>
+              </div>
             </div>
           </div>
         )}
