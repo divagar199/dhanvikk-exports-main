@@ -18,7 +18,7 @@ export default function Logo({ size = 'md', className = '', linkTo = '/' }) {
         src={brandLogo}
         alt="Dhanvikk Blooms Luxury Florist Atelier Brand Logo"
         className={`${sizeClasses[size] || sizeClasses.md} w-auto object-contain transition-transform duration-300 ease-out group-hover:scale-105`}
-        loading="eager"
+        loading="lazy"
         decoding="async"
         width="180"
         height="50"

@@ -22,7 +22,7 @@ export default function AuthBrandPanel({
           src="https://images.unsplash.com/photo-1526047932273-341f2a7631f9?auto=format&fit=crop&w=1800&q=90"
           alt="Dhanvikk Blooms Luxury Pastel Botanical Floral Arrangement"
           className="w-full h-full object-cover object-center scale-100 transition-transform duration-[12000ms] ease-out hover:scale-105"
-          loading="eager"
+          loading="lazy"
           decoding="async"
           width="1800"
           height="1200"

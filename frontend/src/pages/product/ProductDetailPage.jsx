@@ -275,8 +275,7 @@ export default function ProductDetailPage() {
                   src={images[activeImageIndex] || images[0]}
                   alt={`${product.name} - Luxury ${product.category || 'Floral Arrangement'} by Dhanvikk Blooms`}
                   className="w-full h-full object-cover transition-all duration-300"
-                  fetchPriority="high"
-                  loading="eager"
+                  loading="lazy"
                   decoding="async"
                 />
 
