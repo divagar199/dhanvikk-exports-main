@@ -15,6 +15,12 @@ import {
   ChevronRight,
   Flower2,
   Share2,
+  Plus,
+  Minus,
+  Zap,
+  Sparkles,
+  Layers,
+  Award,
 } from 'lucide-react';
 
 import AnnouncementBar from '../../components/navigation/AnnouncementBar';
@@ -57,15 +63,63 @@ export default function ProductDetailPage() {
     }
   };
 
-  // Delivery configuration states
-  const [deliveryDate, setDeliveryDate] = useState(() => {
-    const today = new Date();
-    return today.toISOString().split('T')[0];
-  });
-  const [deliverySlot, setDeliverySlot] = useState('Standard (2:00 PM - 6:00 PM)');
+  // Delivery configuration & Quantity states
+  const todayDateStr = useMemo(() => new Date().toISOString().split('T')[0], []);
+  const tomorrowDateStr = useMemo(() => {
+    const d = new Date();
+    d.setDate(d.getDate() + 1);
+    return d.toISOString().split('T')[0];
+  }, []);
+
+  const todayLabel = useMemo(() => {
+    return new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+  }, []);
+
+  const tomorrowLabel = useMemo(() => {
+    const d = new Date();
+    d.setDate(d.getDate() + 1);
+    return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+  }, []);
+
+  const [quantity, setQuantity] = useState(1);
+  const [quickDate, setQuickDate] = useState('today');
+  const [deliveryDate, setDeliveryDate] = useState(todayDateStr);
+  const [deliveryType, setDeliveryType] = useState('standard');
+  const [deliverySlot, setDeliverySlot] = useState('Morning (9:00 AM - 1:00 PM)');
   const [cardMessage, setCardMessage] = useState('');
   const [senderName, setSenderName] = useState('');
   const [added, setAdded] = useState(false);
+
+  const DELIVERY_OPTIONS = useMemo(() => [
+    {
+      id: 'standard',
+      name: 'Standard Chilled Delivery',
+      timeframe: '4 - 6 Hours',
+      fee: 0,
+      badge: 'FREE / REGULAR',
+    },
+    {
+      id: 'express',
+      name: 'Express 2-Hour Dispatch',
+      timeframe: 'Within 120 Minutes',
+      fee: 199,
+      badge: 'FAST RUSH',
+    },
+    {
+      id: 'midnight',
+      name: 'Midnight Surprise Delivery',
+      timeframe: '11:30 PM - 12:30 AM',
+      fee: 399,
+      badge: 'ROMANTIC SPECIAL',
+    },
+  ], []);
+
+  const activeDeliveryOption = DELIVERY_OPTIONS.find((o) => o.id === deliveryType) || DELIVERY_OPTIONS[0];
+
+  const totalPrice = useMemo(() => {
+    if (!product) return 0;
+    return (Number(product.price || 0) * quantity) + activeDeliveryOption.fee;
+  }, [product, quantity, activeDeliveryOption]);
 
   useEffect(() => {
     let isMounted = true;
@@ -108,7 +162,10 @@ export default function ProductDetailPage() {
       price: product.price,
       originalPrice: product.originalPrice,
       image: images[0],
+      quantity: quantity,
       deliveryDate,
+      deliveryType: activeDeliveryOption.name,
+      deliveryFee: activeDeliveryOption.fee,
       deliverySlot,
       cardMessage,
       senderName,
@@ -119,7 +176,7 @@ export default function ProductDetailPage() {
     dispatch(addItem(cartItem));
     setAdded(true);
     setTimeout(() => setAdded(false), 2000);
-    toast.success(`Added ${product.name} to cart 🌸`);
+    toast.success(`Added ${quantity > 1 ? `${quantity}x ` : ''}${product.name} to cart 🌸`);
   };
 
   const handleInstantBuy = () => {
@@ -375,57 +432,171 @@ export default function ProductDetailPage() {
                 </p>
               </div>
 
-              {/* Delivery Customizer Box */}
-              <div className="bg-white rounded-3xl p-5 border border-[#F7F2ED] shadow-xs space-y-4">
-                <h3 className="text-xs font-bold uppercase tracking-wider text-[#242124] flex items-center gap-2">
-                  <Calendar className="w-4 h-4 text-[#EC407A]" />
-                  <span>Choose Delivery Date & Time Slot</span>
-                </h3>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  <div>
-                    <label className="block text-[11px] font-semibold text-[#777777] mb-1">
-                      Delivery Date
+              {/* Mercury Flowers Style Delivery Customizer */}
+              <div className="bg-white rounded-3xl p-5 sm:p-6 border border-[#EFE8DF] shadow-xs space-y-5">
+                {/* 1. Quick Delivery Date Selector */}
+                <div>
+                  <div className="flex items-center justify-between mb-2.5">
+                    <label className="text-xs font-bold uppercase tracking-wider text-[#242124] flex items-center gap-1.5">
+                      <Calendar className="w-4 h-4 text-[#EC407A]" />
+                      <span>Select Delivery Date</span>
                     </label>
-                    <input
-                      type="date"
-                      value={deliveryDate}
-                      onChange={(e) => setDeliveryDate(e.target.value)}
-                      min={new Date().toISOString().split('T')[0]}
-                      className="w-full h-10 px-3 rounded-xl bg-[#FAF7F2] border border-[#E9E2E5] text-xs text-[#242124] focus:outline-none focus:border-[#EC407A]"
-                    />
+                    <span className="text-[11px] font-medium text-[#EC407A] bg-[#FFF0F5] px-2.5 py-0.5 rounded-full">
+                      Farm Fresh Guaranteed
+                    </span>
                   </div>
 
-                  <div>
-                    <label className="block text-[11px] font-semibold text-[#777777] mb-1">
-                      Delivery Slot
-                    </label>
-                    <select
-                      value={deliverySlot}
-                      onChange={(e) => setDeliverySlot(e.target.value)}
-                      className="w-full h-10 px-3 rounded-xl bg-[#FAF7F2] border border-[#E9E2E5] text-xs text-[#242124] focus:outline-none focus:border-[#EC407A] cursor-pointer"
+                  <div className="grid grid-cols-3 gap-2">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setQuickDate('today');
+                        setDeliveryDate(todayDateStr);
+                      }}
+                      className={`py-2.5 px-2 rounded-2xl text-center border transition-all cursor-pointer ${
+                        quickDate === 'today'
+                          ? 'border-[#EC407A] bg-[#FFF0F5] text-[#242124] shadow-xs ring-1 ring-[#EC407A]'
+                          : 'border-[#EAE4DD] bg-white text-[#555] hover:border-[#D6CCC2] hover:bg-[#FAF7F2]'
+                      }`}
                     >
-                      <option value="Morning (9:00 AM - 1:00 PM)">Morning (9:00 AM - 1:00 PM)</option>
-                      <option value="Standard (2:00 PM - 6:00 PM)">Standard (2:00 PM - 6:00 PM)</option>
-                      <option value="Express 2-Hour Delivery">Express 2-Hour Delivery (+{formatPrice(199)})</option>
-                      <option value="Midnight Special (11:30 PM - 12:30 AM)">Midnight Special (11:30 PM - 12:30 AM)</option>
-                    </select>
+                      <div className="text-[10px] font-bold uppercase tracking-wider text-[#C2185B]">Today</div>
+                      <div className="text-xs font-semibold mt-0.5">{todayLabel}</div>
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setQuickDate('tomorrow');
+                        setDeliveryDate(tomorrowDateStr);
+                      }}
+                      className={`py-2.5 px-2 rounded-2xl text-center border transition-all cursor-pointer ${
+                        quickDate === 'tomorrow'
+                          ? 'border-[#EC407A] bg-[#FFF0F5] text-[#242124] shadow-xs ring-1 ring-[#EC407A]'
+                          : 'border-[#EAE4DD] bg-white text-[#555] hover:border-[#D6CCC2] hover:bg-[#FAF7F2]'
+                      }`}
+                    >
+                      <div className="text-[10px] font-bold uppercase tracking-wider text-[#777777]">Tomorrow</div>
+                      <div className="text-xs font-semibold mt-0.5">{tomorrowLabel}</div>
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => setQuickDate('custom')}
+                      className={`py-2.5 px-2 rounded-2xl text-center border transition-all cursor-pointer ${
+                        quickDate === 'custom'
+                          ? 'border-[#EC407A] bg-[#FFF0F5] text-[#242124] shadow-xs ring-1 ring-[#EC407A]'
+                          : 'border-[#EAE4DD] bg-white text-[#555] hover:border-[#D6CCC2] hover:bg-[#FAF7F2]'
+                      }`}
+                    >
+                      <div className="text-[10px] font-bold uppercase tracking-wider text-[#777777]">Specific Date</div>
+                      <div className="text-xs font-semibold mt-0.5 flex items-center justify-center gap-1">
+                        <span>Pick Date</span>
+                      </div>
+                    </button>
+                  </div>
+
+                  {quickDate === 'custom' && (
+                    <div className="mt-2.5 pt-2">
+                      <input
+                        type="date"
+                        value={deliveryDate}
+                        onChange={(e) => setDeliveryDate(e.target.value)}
+                        min={todayDateStr}
+                        className="w-full h-10 px-3 rounded-xl bg-[#FAF7F2] border border-[#E9E2E5] text-xs text-[#242124] focus:outline-none focus:border-[#EC407A]"
+                      />
+                    </div>
+                  )}
+                </div>
+
+                {/* 2. Delivery Speed Options */}
+                <div>
+                  <div className="flex items-center justify-between mb-2">
+                    <label className="text-xs font-bold uppercase tracking-wider text-[#242124] flex items-center gap-1.5">
+                      <Zap className="w-4 h-4 text-[#EC407A]" />
+                      <span>Delivery Service</span>
+                    </label>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                    {DELIVERY_OPTIONS.map((opt) => {
+                      const isSelected = deliveryType === opt.id;
+                      return (
+                        <div
+                          key={opt.id}
+                          onClick={() => setDeliveryType(opt.id)}
+                          className={`p-3 rounded-2xl border cursor-pointer transition-all ${
+                            isSelected
+                              ? 'border-[#EC407A] bg-[#FFF0F5]/60 ring-1 ring-[#EC407A] shadow-xs'
+                              : 'border-[#EAE4DD] bg-white hover:border-[#D6CCC2] hover:bg-[#FAF7F2]'
+                          }`}
+                        >
+                          <div className="flex items-center justify-between">
+                            <span className="text-[10px] font-bold uppercase tracking-wider text-[#C2185B]">
+                              {opt.badge}
+                            </span>
+                            <span className="text-xs font-bold text-[#242124]">
+                              {opt.fee === 0 ? 'FREE' : `+${formatPrice(opt.fee)}`}
+                            </span>
+                          </div>
+                          <div className="text-xs font-semibold text-[#242124] mt-1 line-clamp-1">
+                            {opt.name}
+                          </div>
+                          <div className="text-[10px] text-[#777777] mt-0.5 flex items-center gap-1">
+                            <Clock className="w-3 h-3 text-[#EC407A]" />
+                            <span>{opt.timeframe}</span>
+                          </div>
+                        </div>
+                      );
+                    })}
                   </div>
                 </div>
 
-                {/* Free Greeting Card Textbox */}
-                <div className="pt-2 border-t border-[#F7F2ED] space-y-2">
+                {/* 3. Time Slot Pills */}
+                <div>
+                  <label className="block text-xs font-bold uppercase tracking-wider text-[#242124] mb-2 flex items-center gap-1.5">
+                    <Clock className="w-4 h-4 text-[#EC407A]" />
+                    <span>Preferred Time Window</span>
+                  </label>
+
+                  <div className="grid grid-cols-2 gap-2">
+                    {[
+                      { slot: 'Morning (9:00 AM - 1:00 PM)', label: '9 AM - 1 PM', sub: 'Morning Fresh' },
+                      { slot: 'Standard (2:00 PM - 6:00 PM)', label: '2 PM - 6 PM', sub: 'Afternoon Prime' },
+                      { slot: 'Evening (6:00 PM - 9:30 PM)', label: '6 PM - 9:30 PM', sub: 'Evening Sunset' },
+                      { slot: 'Midnight Special (11:30 PM - 12:30 AM)', label: '11:30 PM - 12:30 AM', sub: 'Midnight Rush' },
+                    ].map((item) => (
+                      <button
+                        key={item.slot}
+                        type="button"
+                        onClick={() => setDeliverySlot(item.slot)}
+                        className={`p-2.5 rounded-xl text-left border transition-all cursor-pointer ${
+                          deliverySlot === item.slot
+                            ? 'border-[#EC407A] bg-[#FFF0F5] text-[#242124] ring-1 ring-[#EC407A]'
+                            : 'border-[#EAE4DD] bg-white text-[#555] hover:bg-[#FAF7F2]'
+                        }`}
+                      >
+                        <div className="text-xs font-bold">{item.label}</div>
+                        <div className="text-[10px] text-[#777777]">{item.sub}</div>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* 4. Free Greeting Card Box */}
+                <div className="pt-3 border-t border-[#F2ECE6] space-y-2.5">
                   <div className="flex items-center justify-between">
-                    <label className="text-[11px] font-semibold text-[#242124] flex items-center gap-1.5">
-                      <MessageSquare className="w-3.5 h-3.5 text-[#EC407A]" />
-                      <span>Complimentary Greeting Card Message</span>
+                    <label className="text-xs font-bold uppercase tracking-wider text-[#242124] flex items-center gap-1.5">
+                      <MessageSquare className="w-4 h-4 text-[#EC407A]" />
+                      <span>Complimentary Greeting Card</span>
                     </label>
-                    <span className="text-[10px] text-[#777777]">Free printed gift card</span>
+                    <span className="text-[10px] text-emerald-600 font-semibold bg-emerald-50 px-2 py-0.5 rounded-md">
+                      Free Luxury Card Included
+                    </span>
                   </div>
 
                   <textarea
                     rows="2"
-                    placeholder="Write your personal romantic or celebration note here..."
+                    placeholder="Write your romantic note, birthday wishes, or anniversary message..."
                     value={cardMessage}
                     onChange={(e) => setCardMessage(e.target.value)}
                     className="w-full p-3 rounded-xl bg-[#FAF7F2] border border-[#E9E2E5] text-xs text-[#242124] placeholder:text-[#777777]/60 focus:outline-none focus:border-[#EC407A]"
@@ -433,50 +604,106 @@ export default function ProductDetailPage() {
 
                   <input
                     type="text"
-                    placeholder="From / Sender's Name (e.g. With Love, Divya)"
+                    placeholder="From / Sender's Name (e.g. With Endless Love, Arjun)"
                     value={senderName}
                     onChange={(e) => setSenderName(e.target.value)}
-                    className="w-full h-9 px-3 rounded-xl bg-[#FAF7F2] border border-[#E9E2E5] text-xs text-[#242124] placeholder:text-[#777777]/60 focus:outline-none focus:border-[#EC407A]"
+                    className="w-full h-10 px-3 rounded-xl bg-[#FAF7F2] border border-[#E9E2E5] text-xs text-[#242124] placeholder:text-[#777777]/60 focus:outline-none focus:border-[#EC407A]"
                   />
                 </div>
               </div>
 
-              {/* Action CTA Buttons */}
-              <div className="grid grid-cols-2 gap-3 pt-2">
-                <Button
-                  variant="secondary"
-                  size="lg"
-                  onClick={handleAddToCart}
-                  className="h-12 text-xs sm:text-sm font-semibold"
-                >
-                  {added ? (
-                    <span className="inline-flex items-center gap-1.5 text-emerald-600">
-                      <Check className="w-4 h-4" /> Added to Bag
-                    </span>
-                  ) : (
-                    'Add to Cart'
-                  )}
-                </Button>
+              {/* Quantity Stepper & Mercury Flowers Style Action Bar */}
+              <div className="bg-[#FAF7F2] rounded-3xl p-4 sm:p-5 border border-[#EFE8DF] space-y-4">
+                <div className="flex items-center justify-between">
+                  <div className="text-xs font-bold uppercase tracking-wider text-[#242124] flex items-center gap-1.5">
+                    <Layers className="w-4 h-4 text-[#EC407A]" />
+                    <span>Quantity</span>
+                  </div>
 
-                <Button
-                  variant="primary"
-                  size="lg"
-                  onClick={handleInstantBuy}
-                  className="h-12 text-xs sm:text-sm font-semibold"
-                >
-                  Proceed to Checkout
-                </Button>
+                  {/* Quantity Stepper */}
+                  <div className="flex items-center bg-white border border-[#E0D8D0] rounded-2xl p-1 shadow-2xs">
+                    <button
+                      type="button"
+                      disabled={quantity <= 1}
+                      onClick={() => setQuantity((prev) => Math.max(1, prev - 1))}
+                      className="w-8 h-8 rounded-xl flex items-center justify-center text-[#242124] hover:bg-[#FAF7F2] disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+                      aria-label="Decrease quantity"
+                    >
+                      <Minus className="w-3.5 h-3.5" />
+                    </button>
+                    <span className="w-10 text-center font-bold text-sm text-[#242124]">
+                      {quantity}
+                    </span>
+                    <button
+                      type="button"
+                      disabled={quantity >= (product.stock || 99)}
+                      onClick={() => setQuantity((prev) => prev + 1)}
+                      className="w-8 h-8 rounded-xl flex items-center justify-center text-[#242124] hover:bg-[#FAF7F2] disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+                      aria-label="Increase quantity"
+                    >
+                      <Plus className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
+                </div>
+
+                {/* Subtotal preview */}
+                <div className="flex items-center justify-between text-xs pt-1 border-t border-[#EAE4DD]">
+                  <span className="text-[#777777]">Estimated Total (Includes service & taxes):</span>
+                  <span className="font-extrabold text-base text-[#242124]">
+                    {formatPrice(totalPrice)}
+                  </span>
+                </div>
+
+                {/* Action CTA Buttons */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+                  <Button
+                    variant="secondary"
+                    size="lg"
+                    onClick={handleAddToCart}
+                    className="h-12 text-xs sm:text-sm font-semibold border-2 border-[#EC407A] text-[#EC407A] hover:bg-[#FFF0F5]"
+                  >
+                    {added ? (
+                      <span className="inline-flex items-center gap-1.5 text-emerald-600 font-bold">
+                        <Check className="w-4 h-4" /> Added to Bag
+                      </span>
+                    ) : (
+                      <span className="inline-flex items-center gap-1.5">
+                        <span>Add to Bag</span>
+                        <span className="opacity-60">•</span>
+                        <span>{formatPrice(totalPrice)}</span>
+                      </span>
+                    )}
+                  </Button>
+
+                  <Button
+                    variant="primary"
+                    size="lg"
+                    onClick={handleInstantBuy}
+                    className="h-12 text-xs sm:text-sm font-bold shadow-md hover:shadow-lg transition-all"
+                  >
+                    <span>Instant Buy Now</span>
+                    <ArrowRight className="w-4 h-4 ml-1.5" />
+                  </Button>
+                </div>
               </div>
 
-              {/* Trust Features */}
-              <div className="grid grid-cols-2 gap-4 pt-4 border-t border-[#F7F2ED] text-xs text-[#777777]">
-                <div className="flex items-center gap-2">
-                  <Truck className="w-4 h-4 text-[#EC407A]" />
-                  <span>Cold-chain insulated dispatch</span>
+              {/* Mercury Flowers Style Trust & Freshness Highlights */}
+              <div className="grid grid-cols-2 gap-3 pt-2 text-xs text-[#555]">
+                <div className="flex items-center gap-2 p-2.5 rounded-xl bg-white border border-[#EFE8DF]">
+                  <Truck className="w-4 h-4 text-[#EC407A] shrink-0" />
+                  <span className="line-clamp-1">Chilled Cold-Chain Transport</span>
                 </div>
-                <div className="flex items-center gap-2">
-                  <ShieldCheck className="w-4 h-4 text-[#EC407A]" />
-                  <span>Razorpay verified encryption</span>
+                <div className="flex items-center gap-2 p-2.5 rounded-xl bg-white border border-[#EFE8DF]">
+                  <Flower2 className="w-4 h-4 text-[#EC407A] shrink-0" />
+                  <span className="line-clamp-1">100% Fresh Farm Blooms</span>
+                </div>
+                <div className="flex items-center gap-2 p-2.5 rounded-xl bg-white border border-[#EFE8DF]">
+                  <Award className="w-4 h-4 text-[#EC407A] shrink-0" />
+                  <span className="line-clamp-1">Luxury Gift Wrapping Included</span>
+                </div>
+                <div className="flex items-center gap-2 p-2.5 rounded-xl bg-white border border-[#EFE8DF]">
+                  <ShieldCheck className="w-4 h-4 text-[#EC407A] shrink-0" />
+                  <span className="line-clamp-1">256-bit Secure Checkout</span>
                 </div>
               </div>
             </div>

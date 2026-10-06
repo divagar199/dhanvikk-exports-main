@@ -18,6 +18,7 @@ import {
   Star,
   Layers,
   ArrowUpRight,
+  ChevronRight,
 } from 'lucide-react';
 import Logo from '../common/Logo';
 import { openCart } from '../../store/slices/cartSlice';
@@ -597,6 +598,76 @@ export default function Navbar({ onSearch, searchQuery = '' }) {
               Go
             </button>
           </form>
+
+          {/* Mobile Live Autocomplete Dropdown (Mercury Flowers Style Search Experience) */}
+          {query.trim().length > 0 && (
+            <div className="bg-[#FFFDFB] rounded-2xl p-3 border border-[#F0E4D8] space-y-3 max-h-[360px] overflow-y-auto shadow-inner">
+              {matchingCategories.length > 0 && (
+                <div>
+                  <div className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider text-[#C2185B] mb-1.5 px-1">
+                    <Tag className="w-3 h-3" />
+                    <span>Categories & Collections</span>
+                  </div>
+                  <div className="space-y-1">
+                    {matchingCategories.map((cat) => (
+                      <div
+                        key={cat.slug}
+                        onClick={() => {
+                          setMobileMenuOpen(false);
+                          handleCategorySelect(cat.slug);
+                        }}
+                        className="flex items-center justify-between p-2 rounded-xl bg-white border border-[#EAE4DD] active:bg-[#FFF0F5] transition-colors cursor-pointer shadow-2xs"
+                      >
+                        <div className="flex items-center gap-2">
+                          <span className="text-base">{cat.icon}</span>
+                          <span className="text-xs font-semibold text-[#242124]">{cat.name}</span>
+                        </div>
+                        <span className="text-[10px] text-[#EC407A] font-bold bg-[#EC407A]/10 px-2 py-0.5 rounded-full">
+                          {cat.badge}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {matchingProducts.length > 0 ? (
+                <div>
+                  <div className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider text-[#777777] mb-1.5 px-1">
+                    <Sparkles className="w-3 h-3 text-[#EC407A]" />
+                    <span>Matching Blooms ({matchingProducts.length})</span>
+                  </div>
+                  <div className="space-y-1.5">
+                    {matchingProducts.slice(0, 5).map((prod) => (
+                      <div
+                        key={prod._id || prod.id}
+                        onClick={() => {
+                          setMobileMenuOpen(false);
+                          handleProductSelect(prod._id || prod.id);
+                        }}
+                        className="flex items-center gap-2.5 p-2 rounded-xl bg-white border border-[#EAE4DD] active:bg-[#FFF0F5] transition-colors cursor-pointer shadow-2xs"
+                      >
+                        <img
+                          src={getProductImageUrl(prod.image || prod.images?.[0])}
+                          alt={prod.name}
+                          className="w-10 h-10 rounded-lg object-cover flex-shrink-0 border border-[#EAE4DD]"
+                        />
+                        <div className="flex-1 min-w-0">
+                          <h4 className="text-xs font-semibold text-[#242124] truncate">{prod.name}</h4>
+                          <span className="text-xs font-bold text-[#EC407A]">{formatPrice(prod.price)}</span>
+                        </div>
+                        <ChevronRight className="w-4 h-4 text-[#777777] flex-shrink-0" />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ) : matchingCategories.length === 0 ? (
+                <div className="text-center py-4 text-xs text-[#777777]">
+                  No bouquets found for "{query}".
+                </div>
+              ) : null}
+            </div>
+          )}
 
           {/* Quick Category Shortcuts on Mobile */}
           <div className="grid grid-cols-2 gap-2 text-xs font-medium pt-2">
