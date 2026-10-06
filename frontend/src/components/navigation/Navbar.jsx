@@ -5,7 +5,6 @@ import {
   Search,
   User,
   ShoppingBag,
-  Heart,
   Menu,
   X,
   LogOut,
@@ -48,11 +47,9 @@ export default function Navbar({ onSearch, searchQuery = '' }) {
   const navigate = useNavigate();
 
   const { items: cartItems } = useSelector((state) => state.cart);
-  const wishlistItems = useSelector((state) => state.wishlist?.items || []);
   const { isAuthenticated, user } = useSelector((state) => state.auth);
 
   const totalCartCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
-  const totalWishlistCount = wishlistItems.length;
 
   // Sync with external searchQuery changes
   useEffect(() => {
@@ -534,26 +531,6 @@ export default function Navbar({ onSearch, searchQuery = '' }) {
               </Link>
             )}
           </div>
- 
-          {/* Wishlist Link & Counter */}
-          <Link
-            to="/account?tab=wishlist"
-            className="relative flex items-center justify-center w-9 h-9 rounded-full text-[#444444] hover:text-[#E11D48] hover:bg-[#FFF3F6] border border-transparent hover:border-[#FCC1C5] transition-all cursor-pointer"
-            aria-label="View Wishlist"
-            title="Saved in Wishlist"
-          >
-            <Heart
-              className={`w-4 h-4 transition-all duration-200 ${
-                totalWishlistCount > 0 ? 'text-[#E11D48] fill-[#E11D48]' : ''
-              }`}
-            />
-            {totalWishlistCount > 0 && (
-              <span className="absolute -top-1 -right-1 min-w-[17px] h-[17px] px-1 rounded-full bg-[#E11D48] text-white text-[10px] font-bold flex items-center justify-center font-mono shadow-xs">
-                {totalWishlistCount}
-              </span>
-            )}
-          </Link>
-
           {/* Cart Drawer Trigger */}
           <button
             type="button"
