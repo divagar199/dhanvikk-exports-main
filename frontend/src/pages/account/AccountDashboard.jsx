@@ -398,7 +398,7 @@ export default function AccountDashboard() {
 
       <div className="min-h-screen bg-[#FFFDF9] text-[#242124] selection:bg-[#EC407A]/20 selection:text-[#C2185B]">
         {/* Top Luxury Navigation Header */}
-        <header className="border-b border-[#F2ECE6] bg-white/95 backdrop-blur-md sticky top-0 z-30 px-6 py-4 flex items-center justify-between shadow-xs">
+        <header className="sticky-mobile-nav border-b border-[#F2ECE6] bg-white/95 backdrop-blur-md sticky top-0 z-50 px-6 py-4 flex items-center justify-between shadow-xs">
           <div className="flex items-center gap-4">
             <Logo />
           </div>

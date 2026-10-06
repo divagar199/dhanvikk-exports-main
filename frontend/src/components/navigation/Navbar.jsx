@@ -204,8 +204,8 @@ export default function Navbar({ onSearch, searchQuery = '' }) {
   const isAdmin = user?.role === 'admin' || user?.role === 'super_admin';
 
   return (
-    <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-[#F7F2ED] transition-all font-['Poppins']">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-4">
+    <header className="sticky-mobile-nav sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-[#F7F2ED] transition-all font-['Poppins'] shadow-xs">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between gap-4">
         {/* Mobile menu toggle & Brand Logo */}
         <div className="flex items-center gap-3">
           <button
@@ -549,7 +549,7 @@ export default function Navbar({ onSearch, searchQuery = '' }) {
 
       {/* Mobile Drawer Dropdown if toggled */}
       {mobileMenuOpen && (
-        <div ref={mobileSearchRef} className="lg:hidden border-t border-[#F7F2ED] bg-white px-4 py-4 space-y-3">
+        <div ref={mobileSearchRef} className="lg:hidden border-t border-[#F7F2ED] bg-white px-4 py-4 space-y-3 max-h-[calc(100dvh-4rem)] overflow-y-auto">
           <form onSubmit={handleSearchSubmit} className="relative w-full">
             <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#777777]" />
             <input

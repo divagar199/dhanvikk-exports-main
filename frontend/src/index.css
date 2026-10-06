@@ -26,14 +26,27 @@ h1, h2, h3, h4, h5, h6, .font-serif, [class*="Playfair"] {
   font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
 }
 
+html {
+  overflow-x: clip;
+}
+
 body {
   margin: 0;
   padding: 0;
   min-height: 100vh;
   min-height: 100dvh;
   background-color: #FFFDF9;
-  overflow-x: hidden;
+  overflow-x: clip;
   font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+}
+
+/* Ensure sticky navigation stays permanently fixed on mobile screens */
+.sticky-mobile-nav {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  will-change: transform;
 }
 
 #root {
