@@ -1,5 +1,10 @@
 import React from 'react';
 import { Globe, Plane, ShieldCheck, Sparkles } from 'lucide-react';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Autoplay, FreeMode } from 'swiper/modules';
+
+import 'swiper/css';
+import 'swiper/css/free-mode';
 
 export const SERVICEABLE_COUNTRIES = [
   {
@@ -90,7 +95,7 @@ export const SERVICEABLE_COUNTRIES = [
 
 export default function GlobalServiceableCountries() {
   // Seamless loop array (duplicated for infinite smooth animation)
-  const marqueeItems = [...SERVICEABLE_COUNTRIES, ...SERVICEABLE_COUNTRIES];
+  const marqueeItems = [...SERVICEABLE_COUNTRIES, ...SERVICEABLE_COUNTRIES, ...SERVICEABLE_COUNTRIES];
 
   return (
     <section className="w-full py-10 sm:py-14 bg-gradient-to-b from-[#FFFDF9] via-[#FAF7F2] to-[#FFFDF9] border-y border-[#F2ECE6] overflow-hidden relative">
@@ -113,46 +118,59 @@ export default function GlobalServiceableCountries() {
         </p>
       </div>
 
-      {/* Premium Ticker / Marquee Container */}
-      <div className="relative w-full overflow-hidden py-2">
+      {/* Premium Ticker / Carousel Container */}
+      <div className="relative w-full overflow-hidden py-2 px-2 sm:px-4">
         {/* Left & Right Soft Fade Gradients */}
-        <div className="pointer-events-none absolute inset-y-0 left-0 w-20 sm:w-36 bg-gradient-to-r from-[#FAF7F2] via-[#FAF7F2]/80 to-transparent z-10" />
-        <div className="pointer-events-none absolute inset-y-0 right-0 w-20 sm:w-36 bg-gradient-to-l from-[#FAF7F2] via-[#FAF7F2]/80 to-transparent z-10" />
+        <div className="pointer-events-none absolute inset-y-0 left-0 w-16 sm:w-28 bg-gradient-to-r from-[#FAF7F2] via-[#FAF7F2]/80 to-transparent z-10" />
+        <div className="pointer-events-none absolute inset-y-0 right-0 w-16 sm:w-28 bg-gradient-to-l from-[#FAF7F2] via-[#FAF7F2]/80 to-transparent z-10" />
 
-        {/* Endless Moving Track: Right to Left */}
-        <div className="animate-marquee-rtl flex items-center gap-3 sm:gap-4 py-1">
+        {/* Interactive Swiper with Free-mode & Autoplay */}
+        <Swiper
+          modules={[Autoplay, FreeMode]}
+          slidesPerView="auto"
+          spaceBetween={16}
+          loop={true}
+          grabCursor={true}
+          freeMode={{ enabled: true, momentum: true }}
+          autoplay={{
+            delay: 1500,
+            disableOnInteraction: false,
+            pauseOnMouseEnter: true,
+          }}
+          speed={900}
+          className="w-full !overflow-visible select-none py-1"
+        >
           {marqueeItems.map((country, index) => (
-            <div
-              key={`${country.code}-${index}`}
-              className="flex-shrink-0 flex items-center gap-3 px-5 py-2.5 sm:px-6 sm:py-3 bg-white/95 backdrop-blur-sm rounded-full border border-[#EFE7DE] hover:border-[#EC407A]/60 shadow-[0_2px_8px_rgba(36,33,36,0.03)] hover:shadow-[0_4px_16px_rgba(194,24,91,0.08)] transition-all duration-300 group select-none cursor-default"
-            >
-              {/* High-Resolution Crisp Flag */}
-              <div className="w-7 h-5 sm:w-8 sm:h-5.5 rounded-[3px] overflow-hidden shadow-2xs border border-black/10 flex-shrink-0 bg-gray-100 flex items-center justify-center">
-                <img
-                  src={country.flagUrl}
-                  alt={`${country.name} Flag - Dhanvikk Blooms Delivery Country`}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                  loading="lazy"
-                  decoding="async"
-                  width="32"
-                  height="22"
-                  onError={(e) => {
-                    e.currentTarget.style.display = 'none';
-                    if (e.currentTarget.nextSibling) {
-                      e.currentTarget.nextSibling.style.display = 'inline';
-                    }
-                  }}
-                />
-                <span className="text-base hidden">{country.emoji}</span>
-              </div>
+            <SwiperSlide key={`${country.code}-${index}`} className="!w-auto">
+              <div className="flex items-center gap-3 px-5 py-2.5 sm:px-6 sm:py-3 bg-white/95 backdrop-blur-sm rounded-full border border-[#EFE7DE] hover:border-[#EC407A]/60 shadow-[0_2px_8px_rgba(36,33,36,0.03)] hover:shadow-[0_4px_16px_rgba(194,24,91,0.08)] transition-all duration-300 group select-none cursor-grab active:cursor-grabbing">
+                {/* High-Resolution Crisp Flag */}
+                <div className="w-7 h-5 sm:w-8 sm:h-5.5 rounded-[3px] overflow-hidden shadow-2xs border border-black/10 flex-shrink-0 bg-gray-100 flex items-center justify-center">
+                  <img
+                    src={country.flagUrl}
+                    alt={`${country.name} Flag - Dhanvikk Blooms Delivery Country`}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    loading="lazy"
+                    decoding="async"
+                    width="32"
+                    height="22"
+                    onError={(e) => {
+                      e.currentTarget.style.display = 'none';
+                      if (e.currentTarget.nextSibling) {
+                        e.currentTarget.nextSibling.style.display = 'inline';
+                      }
+                    }}
+                  />
+                  <span className="text-base hidden">{country.emoji}</span>
+                </div>
 
-              {/* Country Name Only */}
-              <span className="text-xs sm:text-sm font-semibold tracking-wider text-[#242124] uppercase font-['Poppins'] group-hover:text-[#C2185B] transition-colors whitespace-nowrap">
-                {country.name}
-              </span>
-            </div>
+                {/* Country Name Only */}
+                <span className="text-xs sm:text-sm font-semibold tracking-wider text-[#242124] uppercase font-['Poppins'] group-hover:text-[#C2185B] transition-colors whitespace-nowrap">
+                  {country.name}
+                </span>
+              </div>
+            </SwiperSlide>
           ))}
-        </div>
+        </Swiper>
       </div>
 
       {/* Trust Reassurance Badges */}
