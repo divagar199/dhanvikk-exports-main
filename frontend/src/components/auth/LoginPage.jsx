@@ -56,15 +56,42 @@ export default function LoginPage() {
     try {
       const resultAction = await dispatch(loginWithGoogleThunk());
       if (loginWithGoogleThunk.fulfilled.match(resultAction)) {
-        toast.success('Signed in with Google 🌸');
+        const loggedUser = resultAction.payload?.user;
+        toast.success(`Welcome, ${loggedUser?.name || loggedUser?.email || 'Valued Customer'}! 🌸`);
         navigate(from || '/account', { replace: true });
       } else {
-        toast.error('Unable to sign in with Google. Please try again.');
+        const errMsg = resultAction.payload || 'Unable to sign in with Google. Please try again.';
+        if (errMsg.includes('canceled')) {
+          toast.info(errMsg);
+        } else {
+          toast.error(errMsg);
+        }
       }
     } catch {
       toast.error('Google sign-in could not be completed.');
     }
   };
+
+  // Check if returning from Google Redirect
+  React.useEffect(() => {
+    let isMounted = true;
+    (async () => {
+      try {
+        const { checkGoogleRedirectResult } = await import('../../config/firebase');
+        const res = await checkGoogleRedirectResult();
+        if (res && isMounted) {
+          const action = await dispatch(loginWithGoogleThunk(res.user));
+          if (loginWithGoogleThunk.fulfilled.match(action)) {
+            toast.success(`Welcome back, ${res.user.name || 'Customer'}! 🌸`);
+            navigate(from || '/account', { replace: true });
+          }
+        }
+      } catch (e) {
+        console.warn('Redirect result check note:', e);
+      }
+    })();
+    return () => { isMounted = false; };
+  }, [dispatch, from, navigate]);
 
   return (
     <div className="w-full max-w-[420px] sm:max-w-[440px] mx-auto flex flex-col justify-center py-4">

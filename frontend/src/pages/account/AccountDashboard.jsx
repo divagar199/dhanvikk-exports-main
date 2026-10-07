@@ -251,10 +251,14 @@ export default function AccountDashboard() {
       setAuthSubmitting(true);
       sessionStorage.removeItem('dhanvikk_logged_out');
       const res = await dispatch(loginWithGoogleThunk()).unwrap();
-      toast.success(`Welcome back, ${res.user?.name || 'Customer'}! 🌸`);
+      toast.success(`Welcome back, ${res.user?.name || res.user?.email || 'Valued Customer'}! 🌸`);
       await loadUserData();
     } catch (err) {
-      toast.error(err || 'Google sign-in could not be completed.');
+      if (typeof err === 'string' && err.includes('canceled')) {
+        toast.info(err);
+      } else {
+        toast.error(err || 'Google sign-in could not be completed.');
+      }
     } finally {
       setAuthSubmitting(false);
     }

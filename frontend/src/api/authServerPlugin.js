@@ -200,9 +200,22 @@ export function authServerPlugin() {
 
           // POST /api/auth/google
           if (url === '/api/auth/google' && req.method === 'POST') {
-            // Mock google verification flow
-            const googleUser = DEMO_USERS[0];
-            const token = generateJwt(googleUser);
+            const body = await getBody();
+            const { name, email, avatar, googleUid, phone } = body || {};
+
+            const cleanEmail = (email || '').trim().toLowerCase();
+            const targetName = name || (cleanEmail ? cleanEmail.split('@')[0] : 'Google Customer');
+            const targetId = googleUid || `usr_g_${Date.now()}`;
+
+            const realGoogleUser = {
+              id: targetId,
+              name: targetName,
+              email: cleanEmail,
+              role: 'customer',
+              phone: phone || '',
+              avatar: avatar || (cleanEmail ? `https://unavatar.io/google/${encodeURIComponent(cleanEmail)}` : ''),
+            };
+            const token = generateJwt(realGoogleUser);
 
             res.setHeader('Set-Cookie', [
               `dhanvikk_token=${token}; Path=/; HttpOnly; SameSite=Lax; Max-Age=604800`
@@ -212,14 +225,7 @@ export function authServerPlugin() {
             return res.end(JSON.stringify({
               success: true,
               message: 'Google login successful',
-              user: {
-                id: googleUser.id,
-                name: googleUser.name,
-                email: googleUser.email,
-                role: googleUser.role,
-                phone: googleUser.phone,
-                avatar: googleUser.avatar,
-              },
+              user: realGoogleUser,
               token,
             }));
           }

@@ -134,55 +134,87 @@ export const loginWithGoogleThunk = createAsyncThunk(
       let firebaseUser = null;
       let firebaseToken = null;
 
-      try {
-        const { signInWithGoogleFirebase } = await import('../../config/firebase');
-        const firebaseRes = await signInWithGoogleFirebase();
-        if (firebaseRes?.user) {
-          firebaseUser = firebaseRes.user;
-          firebaseToken = firebaseRes.token;
-          firebasePayload = {
-            ...firebasePayload,
-            name: firebaseRes.user.name,
-            email: firebaseRes.user.email,
-            avatar: firebaseRes.user.avatar,
-            googleUid: firebaseRes.user.id,
-          };
-        }
-      } catch (fbErr) {
-        console.warn('Firebase popup interaction note:', fbErr.message);
-        if (fbErr.code === 'auth/popup-closed-by-user') {
-          return rejectWithValue('Google sign-in was canceled.');
-        }
-        // Fallback demo user if popup blocked in preview
-        firebasePayload = {
-          ...firebasePayload,
-          name: 'Priya Sharma (Google)',
-          email: 'priya.sharma@gmail.com',
-          avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=200&q=80',
+      // If already authenticated via 1-click Google pre-fill in Register page
+      if (extraData?.googleUid && extraData?.email) {
+        firebaseUser = {
+          id: extraData.googleUid,
+          name: extraData.name || extraData.email.split('@')[0],
+          email: extraData.email,
+          avatar: extraData.avatar || '',
+          phone: extraData.phone || '',
+          role: 'customer',
         };
+        firebaseToken = localStorage.getItem('dhanvikk_auth_token') || `fb_${extraData.googleUid}`;
+      } else {
+        try {
+          const { signInWithGoogleFirebase } = await import('../../config/firebase');
+          const firebaseRes = await signInWithGoogleFirebase();
+          if (firebaseRes?.user) {
+            firebaseUser = firebaseRes.user;
+            firebaseToken = firebaseRes.token;
+            firebasePayload = {
+              ...firebasePayload,
+              name: firebaseRes.user.name,
+              email: firebaseRes.user.email,
+              avatar: firebaseRes.user.avatar,
+              phone: firebaseRes.user.phone || '',
+              googleUid: firebaseRes.user.id,
+            };
+          }
+        } catch (fbErr) {
+          console.error('Firebase Google Sign-In interaction:', fbErr);
+          const errorCode = fbErr?.code || '';
+          if (errorCode === 'auth/popup-closed-by-user' || errorCode === 'auth/cancelled-popup-request') {
+            return rejectWithValue('Google sign-in was canceled.');
+          }
+          if (errorCode === 'auth/popup-blocked') {
+            return rejectWithValue('Google sign-in popup was blocked by your browser. Please allow popups for this site and try again.');
+          }
+          if (errorCode === 'auth/unauthorized-domain') {
+            return rejectWithValue('This domain is not authorized in Firebase Auth. Please verify Authorized Domains in Firebase Console.');
+          }
+          if (errorCode === 'auth/network-request-failed') {
+            return rejectWithValue('Network connection error during Google sign-in. Please check your internet connection.');
+          }
+          return rejectWithValue(fbErr?.message || 'Google sign-in could not be completed.');
+        }
       }
 
+      if (!firebaseUser) {
+        return rejectWithValue('Google authentication was not completed.');
+      }
+
+      // Synchronize authenticated profile with backend API (creates/updates customer record)
       let data = null;
       try {
         data = await authService.loginWithGoogle(firebasePayload);
       } catch (apiErr) {
-        if (firebaseUser) {
-          data = {
-            success: true,
-            user: firebaseUser,
-            token: firebaseToken,
-          };
-        } else {
-          throw apiErr;
-        }
+        console.warn('Backend API note for Google login (using verified Firebase session):', apiErr.message);
+        // Fall back to verified Firebase authentication if backend API is temporarily slow/offline
+        data = {
+          success: true,
+          user: firebaseUser,
+          token: firebaseToken || `fb_token_${firebaseUser.id}`,
+        };
       }
 
       if (data?.success) {
-        const userObj = firebaseUser || data.user;
-        const tokenStr = firebaseToken || data.token;
+        const userObj = {
+          ...firebaseUser,
+          ...(data.user || {}),
+          // Ensure real Google credentials take precedence
+          id: firebaseUser.id || data.user?.id || data.user?._id,
+          name: firebaseUser.name || data.user?.name || firebaseUser.email.split('@')[0],
+          email: firebaseUser.email || data.user?.email,
+          avatar: firebaseUser.avatar || data.user?.avatar || '',
+          role: data.user?.role || firebaseUser.role || 'customer',
+        };
+        const tokenStr = firebaseToken || data.token || `dhanvikk_token_${userObj.id}`;
         sessionStorage.removeItem('dhanvikk_logged_out');
         localStorage.setItem('dhanvikk_auth_token', tokenStr);
         localStorage.setItem('dhanvikk_user', JSON.stringify(userObj));
+        sessionStorage.setItem('dhanvikk_auth_token', tokenStr);
+        sessionStorage.setItem('dhanvikk_user', JSON.stringify(userObj));
         return { success: true, user: userObj, token: tokenStr };
       }
       return rejectWithValue(data?.message || 'Google sign-in failed');

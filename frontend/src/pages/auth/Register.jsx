@@ -89,8 +89,12 @@ export default function Register() {
       }
     } catch (err) {
       console.warn('Google pre-fill notice:', err);
-      if (err.code !== 'auth/popup-closed-by-user') {
-        toast.error('Google connection could not be opened. You can enter details manually.');
+      if (err.code === 'auth/popup-closed-by-user' || err.code === 'auth/cancelled-popup-request') {
+        toast.info('Google sign-in was canceled.');
+      } else if (err.code === 'auth/popup-blocked') {
+        toast.error('Google sign-in popup was blocked by your browser. Please allow popups.');
+      } else {
+        toast.error(err?.message || 'Google connection could not be opened. You can enter details manually.');
       }
     } finally {
       setGoogleLoading(false);

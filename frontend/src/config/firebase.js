@@ -3,6 +3,8 @@ import {
   getAuth,
   GoogleAuthProvider,
   signInWithPopup,
+  signInWithRedirect,
+  getRedirectResult,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
   updateProfile,
@@ -49,18 +51,28 @@ export const syncUserWithFirestore = async (firebaseUser, additionalData = {}) =
 
   const userRef = doc(db, 'users', firebaseUser.uid);
   try {
+    let existingData = {};
+    try {
+      const snap = await getDoc(userRef);
+      if (snap.exists()) {
+        existingData = snap.data();
+      }
+    } catch {
+      // Proceed with fresh document if read is restricted
+    }
+
     const baseData = {
       uid: firebaseUser.uid,
-      email: firebaseUser.email || '',
-      displayName: firebaseUser.displayName || additionalData.name || 'Valued Customer',
-      photoURL: firebaseUser.photoURL || '',
-      phoneNumber: firebaseUser.phoneNumber || '',
+      email: firebaseUser.email || existingData.email || '',
+      displayName: firebaseUser.displayName || existingData.displayName || additionalData.name || 'Valued Customer',
+      photoURL: firebaseUser.photoURL || existingData.photoURL || '',
+      phoneNumber: firebaseUser.phoneNumber || existingData.phoneNumber || additionalData.phone || '',
       lastLoginAt: serverTimestamp(),
-      role: additionalData.role || 'customer',
+      role: existingData.role || additionalData.role || 'customer',
       ...additionalData,
     };
 
-    // Single atomic write with merge - eliminates multiple slow network roundtrips
+    // Single atomic write with merge
     await setDoc(userRef, baseData, { merge: true });
 
     return { id: firebaseUser.uid, ...baseData };
@@ -68,15 +80,17 @@ export const syncUserWithFirestore = async (firebaseUser, additionalData = {}) =
     console.warn('Firestore user profile sync warning (proceeding with auth session):', error.message);
     return {
       uid: firebaseUser.uid,
+      id: firebaseUser.uid,
       email: firebaseUser.email,
       displayName: firebaseUser.displayName || additionalData.name || 'Valued Customer',
+      photoURL: firebaseUser.photoURL || '',
       role: 'customer',
     };
   }
 };
 
 /**
- * Sign In with Google Popup (Optimized for instant response)
+ * Sign In with Google Popup (Authenticates with Google and syncs Firestore profile)
  */
 export const signInWithGoogleFirebase = async () => {
   try {
@@ -84,25 +98,74 @@ export const signInWithGoogleFirebase = async () => {
     const user = result.user;
     const token = await user.getIdToken();
 
-    // Background Firestore sync - do not block immediate UI transition
-    syncUserWithFirestore(user, {
-      provider: 'google',
-    }).catch((err) => console.warn('Background sync note:', err.message));
+    // Synchronize Firestore user profile
+    let profile = null;
+    try {
+      profile = await syncUserWithFirestore(user, {
+        provider: 'google',
+      });
+    } catch (err) {
+      console.warn('Background sync note:', err.message);
+    }
+
+    const cleanEmail = user.email || '';
+    const resolvedName = user.displayName || profile?.displayName || (cleanEmail ? cleanEmail.split('@')[0] : 'Google Customer');
+    const resolvedAvatar = user.photoURL || profile?.photoURL || (cleanEmail ? `https://unavatar.io/google/${encodeURIComponent(cleanEmail)}` : '');
 
     return {
       success: true,
       user: {
         id: user.uid,
-        name: user.displayName || 'Google Customer',
-        email: user.email,
-        avatar: user.photoURL || '',
-        role: 'customer',
+        name: resolvedName,
+        email: cleanEmail,
+        avatar: resolvedAvatar,
+        phone: user.phoneNumber || profile?.phoneNumber || '',
+        role: profile?.role || 'customer',
       },
       token,
     };
   } catch (error) {
-    console.error('Google Sign-In Error:', error);
+    console.error('Google Sign-In Error:', error.code, error.message);
     throw error;
+  }
+};
+
+/**
+ * Handle Google Redirect result if redirect authentication was used
+ */
+export const checkGoogleRedirectResult = async () => {
+  try {
+    const result = await getRedirectResult(auth);
+    if (!result?.user) return null;
+    const user = result.user;
+    const token = await user.getIdToken();
+
+    let profile = null;
+    try {
+      profile = await syncUserWithFirestore(user, { provider: 'google' });
+    } catch (err) {
+      console.warn('Redirect sync note:', err.message);
+    }
+
+    const cleanEmail = user.email || '';
+    const resolvedName = user.displayName || profile?.displayName || (cleanEmail ? cleanEmail.split('@')[0] : 'Google Customer');
+    const resolvedAvatar = user.photoURL || profile?.photoURL || (cleanEmail ? `https://unavatar.io/google/${encodeURIComponent(cleanEmail)}` : '');
+
+    return {
+      success: true,
+      user: {
+        id: user.uid,
+        name: resolvedName,
+        email: cleanEmail,
+        avatar: resolvedAvatar,
+        phone: user.phoneNumber || profile?.phoneNumber || '',
+        role: profile?.role || 'customer',
+      },
+      token,
+    };
+  } catch (error) {
+    console.warn('Redirect check notice:', error.message);
+    return null;
   }
 };
 
