@@ -1,0 +1,8 @@
+import * as SQLite from 'expo-sqlite';
+let promise:Promise<SQLite.SQLiteDatabase>|null=null;
+export function db(){if(!promise)promise=SQLite.openDatabaseAsync('dhanvikk.db');return promise;}
+export async function initOfflineDb(){const d=await db();await d.execAsync('PRAGMA journal_mode=WAL; CREATE TABLE IF NOT EXISTS products(id TEXT PRIMARY KEY,payload TEXT NOT NULL,updatedAt INTEGER NOT NULL); CREATE TABLE IF NOT EXISTS collections(kind TEXT NOT NULL,id TEXT NOT NULL,payload TEXT NOT NULL,updatedAt INTEGER NOT NULL,PRIMARY KEY(kind,id));');}
+export async function cacheProducts(items:any[]){const d=await db();for(const x of items){const id=String(x.id||x._id||x.slug);await d.runAsync('INSERT OR REPLACE INTO products VALUES (?,?,?)',id,JSON.stringify(x),Date.now());}}
+export async function cachedProducts(){const d=await db();const rows=await d.getAllAsync<{payload:string}>('SELECT payload FROM products ORDER BY updatedAt DESC');return rows.map(x=>JSON.parse(x.payload));}
+export async function cacheCollection(kind:'cart'|'wishlist',items:any[]){const d=await db();await d.runAsync('DELETE FROM collections WHERE kind=?',kind);for(const x of items){const id=String(x.id||x._id||x.slug);await d.runAsync('INSERT INTO collections VALUES (?,?,?,?)',kind,id,JSON.stringify(x),Date.now());}}
+export async function cachedCollection(kind:'cart'|'wishlist'){const d=await db();const rows=await d.getAllAsync<{payload:string}>('SELECT payload FROM collections WHERE kind=? ORDER BY updatedAt DESC',kind);return rows.map(x=>JSON.parse(x.payload));}
