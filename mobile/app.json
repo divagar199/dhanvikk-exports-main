@@ -1,8 +1,15 @@
 {
-  "expo":{"name":"Dhanvikk Blooms","slug":"dhanvikk-blooms","version":"1.0.0","orientation":"portrait","scheme":"dhanvikk","userInterfaceStyle":"light","newArchEnabled":true,
+  "expo":{
+    "name":"Dhanvikk Blooms",
+    "slug":"dhanvikk-blooms",
+    "version":"1.0.0",
+    "orientation":"portrait",
+    "scheme":"dhanvikk",
+    "userInterfaceStyle":"light",
+    "newArchEnabled":true,
     "ios":{"supportsTablet":true,"bundleIdentifier":"com.dhanvikk.blooms","infoPlist":{"NSLocationWhenInUseUsageDescription":"Dhanvikk uses your location to set your delivery area."}},
     "android":{"package":"com.dhanvikk.blooms","permissions":["ACCESS_COARSE_LOCATION","ACCESS_FINE_LOCATION"]},
-    "plugins":["expo-router","expo-location","expo-secure-store","expo-sqlite","expo-notifications",["react-native-maps",{"androidGoogleMapsApiKey":"$EXPO_PUBLIC_GOOGLE_MAPS_API_KEY","iosGoogleMapsApiKey":"$EXPO_PUBLIC_GOOGLE_MAPS_API_KEY"}]],
+    "plugins":["expo-router","expo-location","expo-secure-store","expo-sqlite","expo-notifications"],
     "extra":{"apiUrl":"https://dhanvikk-exports-api.onrender.com"}
   }
 }
