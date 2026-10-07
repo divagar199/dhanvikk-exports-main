@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ChevronDown, ArrowRight, Flower2 } from 'lucide-react';
+import { getProductImageUrl } from '../../utils/imageUrl';
 
 export default function SubNav() {
   const [activeMenu, setActiveMenu] = useState(null);
@@ -321,11 +322,15 @@ export default function SubNav() {
                   <div>
                     <div className="relative rounded-xl overflow-hidden mb-3 aspect-[16/10] bg-white shadow-xs">
                       <img
-                        src={activeMenuItem.featured.image}
+                        src={getProductImageUrl(activeMenuItem.featured.image)}
                         alt={`${activeMenuItem.featured.title} - Dhanvikk Luxury Floristry Featured Collection`}
                         className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
                         loading="lazy"
                         decoding="async"
+                        onError={(e) => {
+                          e.currentTarget.onerror = null;
+                          e.currentTarget.src = 'https://images.unsplash.com/photo-1561181286-d3fee7d55364?auto=format&fit=crop&w=500&q=80';
+                        }}
                       />
                       <span className="absolute top-2.5 left-2.5 px-2.5 py-0.5 rounded-full bg-[#242124]/85 text-white text-[9px] font-bold tracking-wider uppercase">
                         {activeMenuItem.featured.badge}

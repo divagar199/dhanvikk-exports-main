@@ -18,6 +18,7 @@ import { addItem } from '../../store/slices/cartSlice';
 import { toggleWishlist, isProductInWishlist } from '../../store/slices/wishlistSlice';
 import { toast } from 'sonner';
 import { useCurrency } from '../../context/CurrencyContext';
+import { getProductImageUrl } from '../../utils/imageUrl';
 
 export const BOTANICAL_PLANTS = [
   {
@@ -268,11 +269,15 @@ export default function BotanicalPlantsSection() {
               {/* Top Plant Image with Badges */}
               <div className="relative aspect-[4/3] overflow-hidden bg-[#F6F8F5]">
                 <img
-                  src={plant.image}
+                  src={getProductImageUrl(plant.image)}
                   alt={`${plant.name} - Living Botanical Plant in Ceramic Planter | Dhanvikk Blooms`}
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-108"
                   loading="lazy"
                   decoding="async"
+                  onError={(e) => {
+                    e.currentTarget.onerror = null;
+                    e.currentTarget.src = 'https://images.unsplash.com/photo-1545241047-6083a3684587?auto=format&fit=crop&w=600&q=80';
+                  }}
                 />
 
                 {/* Highlight Tag */}

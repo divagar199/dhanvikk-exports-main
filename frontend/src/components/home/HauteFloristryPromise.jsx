@@ -15,6 +15,7 @@ import {
   Play,
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { getProductImageUrl } from '../../utils/imageUrl';
 
 const PROMISES = [
   {
@@ -38,6 +39,7 @@ const PROMISES = [
     ctaLink: '/category/flowers',
     ctaBg: 'bg-[#EC407A] hover:bg-[#C2185B]',
     image: '/images/features/cold-chain.webp',
+    fallbackImage: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=800&q=80',
     imageAlt: 'Cold-Chain Temperature Controlled Floral Delivery in India',
     badges: [
       {
@@ -76,6 +78,7 @@ const PROMISES = [
     ctaLink: '/category/roses',
     ctaBg: 'bg-[#C2185B] hover:bg-[#A01349]',
     image: '/images/features/farm-sourcing.webp',
+    fallbackImage: 'https://images.unsplash.com/photo-1508615039623-a25605d2b022?auto=format&fit=crop&w=800&q=80',
     imageAlt: 'Direct Farm Sourcing in Nilgiris Ooty India',
     badges: [
       {
@@ -114,6 +117,7 @@ const PROMISES = [
     ctaLink: '/category/flower-boxes',
     ctaBg: 'bg-[#EC407A] hover:bg-[#C2185B]',
     image: '/images/features/razorpay-checkout.webp',
+    fallbackImage: 'https://images.unsplash.com/photo-1563013544-824ae1b704d3?auto=format&fit=crop&w=800&q=80',
     imageAlt: 'Razorpay Secure Checkout Indian Floral Boutique',
     badges: [
       {
@@ -258,8 +262,14 @@ export default function HauteFloristryPromise() {
               <div className="relative rounded-2xl sm:rounded-3xl overflow-hidden shadow-md border border-[#F2ECE6] bg-[#FAF7F2] aspect-[4/3] group/img">
                 <img
                   key={activePromise.image}
-                  src={activePromise.image}
+                  src={getProductImageUrl(activePromise.image)}
                   alt={activePromise.imageAlt}
+                  onError={(e) => {
+                    e.currentTarget.onerror = null;
+                    if (activePromise.fallbackImage) {
+                      e.currentTarget.src = activePromise.fallbackImage;
+                    }
+                  }}
                   className="w-full h-full object-cover transition-all duration-700 ease-out group-hover/img:scale-105 animate-in fade-in duration-500"
                   loading="lazy"
                 />
