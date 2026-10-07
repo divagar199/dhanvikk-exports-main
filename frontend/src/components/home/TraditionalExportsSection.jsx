@@ -34,7 +34,7 @@ export const PROMO_EXPORT_PRODUCTS = [
     originalAEDPerKg: 38,
     discount: '18% OFF',
     tag: 'BESTSELLER EXPORT',
-    image: '/images/exports/jasmine-string.jpg',
+    image: '/images/exports/jasmine-string.webp',
   },
   {
     id: 'promo-mullai',
@@ -45,7 +45,7 @@ export const PROMO_EXPORT_PRODUCTS = [
     originalAEDPerKg: 32,
     discount: '21% OFF',
     tag: 'FARM FRESH',
-    image: '/images/exports/mullai.jpg',
+    image: '/images/exports/mullai.webp',
   },
   {
     id: 'promo-lotus',
@@ -56,7 +56,7 @@ export const PROMO_EXPORT_PRODUCTS = [
     originalAEDPerKg: 26,
     discount: '18% OFF',
     tag: 'SACRED GRADE',
-    image: '/images/exports/lotus.jpg',
+    image: '/images/exports/lotus.webp',
   },
   {
     id: 'promo-marigold',
@@ -67,7 +67,7 @@ export const PROMO_EXPORT_PRODUCTS = [
     originalAEDPerKg: 12,
     discount: '28% OFF',
     tag: 'BULK FAVORITE',
-    image: '/images/exports/marigold.jpg',
+    image: '/images/exports/marigold.webp',
   },
   {
     id: 'promo-cut-roses',
@@ -78,7 +78,7 @@ export const PROMO_EXPORT_PRODUCTS = [
     originalAEDPerKg: 28,
     discount: '20% OFF',
     tag: 'PREMIUM STEMS',
-    image: '/images/exports/cut-roses.jpg',
+    image: '/images/exports/cut-roses.webp',
   },
   {
     id: 'promo-loose-chrysanthemum',
@@ -89,7 +89,7 @@ export const PROMO_EXPORT_PRODUCTS = [
     originalAEDPerKg: 16,
     discount: '25% OFF',
     tag: 'PUJA SPECIAL',
-    image: '/images/exports/loose-chrysanthemum.jpg',
+    image: '/images/exports/loose-chrysanthemum.webp',
   },
   {
     id: 'promo-betel-leaf',
@@ -100,7 +100,7 @@ export const PROMO_EXPORT_PRODUCTS = [
     originalAEDPerKg: 19,
     discount: '20% OFF',
     tag: 'FRESH HARVEST',
-    image: '/images/exports/betel-leaf.jpg',
+    image: '/images/exports/betel-leaf.webp',
   },
   {
     id: 'promo-garland',
@@ -111,7 +111,7 @@ export const PROMO_EXPORT_PRODUCTS = [
     originalAEDPerKg: 50,
     discount: '22% OFF',
     tag: 'CEREMONIAL',
-    image: '/images/exports/garland.jpg',
+    image: '/images/exports/garland.webp',
   },
   {
     id: 'promo-coconut-leaf-basket',
@@ -122,7 +122,7 @@ export const PROMO_EXPORT_PRODUCTS = [
     originalAEDPerKg: 21,
     discount: '22% OFF',
     tag: 'ECO ARTISAN',
-    image: '/images/exports/coconut-leaf-basket.jpg',
+    image: '/images/exports/coconut-leaf-basket.webp',
   },
 ];
 

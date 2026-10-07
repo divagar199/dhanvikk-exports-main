@@ -43,7 +43,7 @@ export const COLLECTIONS = [
     vaseLife: '10–14 Days with Flower Food',
     packaging: 'Luxe Embossed Wrap or Glass Flute',
     startingPriceINR: 2499,
-    image: '/images/collections/roses.jpg',
+    image: '/images/collections/roses.webp',
     fallbackImage: 'https://images.unsplash.com/photo-1518895949257-7621c3c786d7?auto=format&fit=crop&w=700&q=85',
     link: '/category/roses',
     details: 'Harvested at dawn from high-altitude equatorial slopes where intense sunlight yields extra-large blooms and ultra-thick velvety petals.'
@@ -63,7 +63,7 @@ export const COLLECTIONS = [
     vaseLife: '7–10 Days Farm Fresh',
     packaging: 'Water-Chambered Korean Silk Wraps',
     startingPriceINR: 1899,
-    image: '/images/collections/bouquets.jpg',
+    image: '/images/collections/bouquets.webp',
     fallbackImage: 'https://images.unsplash.com/photo-1561181286-d3fee7d55364?auto=format&fit=crop&w=700&q=85',
     link: '/category/hand-bouquets',
     details: 'Harmonious color blocking and asymmetric architectural spirals hand-tied by senior floral artisans with imported Parisian grosgrain ribbons.'
@@ -83,7 +83,7 @@ export const COLLECTIONS = [
     vaseLife: '8–12 Days Continuous Hydration',
     packaging: 'Velvet Cylinders with Gold Foil Seal',
     startingPriceINR: 3499,
-    image: '/images/collections/flower-boxes.jpg',
+    image: '/images/collections/flower-boxes.webp',
     fallbackImage: 'https://images.unsplash.com/photo-1582794543139-8ac9cb0f7b11?auto=format&fit=crop&w=700&q=85',
     link: '/category/flower-boxes',
     details: 'Hand-crafted reusable velvet hatbox containers featuring water-sealed acoustic floral bases so your stems never require trimming or re-vasing.'
@@ -103,7 +103,7 @@ export const COLLECTIONS = [
     vaseLife: '365+ Days (No Sunlight/Water Needed)',
     packaging: 'Acrylic Showcase & Gold Monogram Case',
     startingPriceINR: 3999,
-    image: '/images/collections/forever-roses.jpg',
+    image: '/images/collections/forever-roses.webp',
     fallbackImage: 'https://images.unsplash.com/photo-1526047932273-341f2a7631f9?auto=format&fit=crop&w=700&q=85',
     link: '/category/forever-roses',
     details: 'Natural Ecuadorian roses harvested at peak majesty, treated with non-toxic natural plant humectants to maintain softness and radiance for over a year.'
@@ -123,7 +123,7 @@ export const COLLECTIONS = [
     vaseLife: '14–21 Days Long Bloom',
     packaging: 'Ceramic Planter & Bamboo Support Sticks',
     startingPriceINR: 2999,
-    image: '/images/collections/orchids.jpg',
+    image: '/images/collections/orchids.webp',
     fallbackImage: 'https://images.unsplash.com/photo-1566908829550-e6551b00979b?auto=format&fit=crop&w=700&q=85',
     link: '/category/orchids',
     details: 'Exquisite multi-stem Phalaenopsis and Cymbidium orchids cultivated in specialized humidity-controlled greenhouses for magnificent longevity.'
@@ -143,7 +143,7 @@ export const COLLECTIONS = [
     vaseLife: 'Complete Sensory Experience',
     packaging: 'Embossed Gift Trunk with Satin Bow',
     startingPriceINR: 4499,
-    image: '/images/collections/gift-bundles.jpg',
+    image: '/images/collections/gift-bundles.webp',
     fallbackImage: 'https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=700&q=85',
     link: '/category/gift-bundles',
     details: 'Comprehensive luxury celebrations combining freshly sculpted stem arrangements with European artisanal confectionery and keepsake notes.'

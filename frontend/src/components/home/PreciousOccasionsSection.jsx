@@ -9,7 +9,7 @@ export const OCCASIONS = [
     subtitle: 'Vibrant celebratory blooms & confetti roses',
     link: '/category/birthday',
     bgColor: '#F5C2A0',
-    image: '/images/occasions/birthday_gift.jpg',
+    image: '/images/occasions/birthday_gift.webp',
     tag: 'Celebration',
   },
   {
@@ -18,7 +18,7 @@ export const OCCASIONS = [
     subtitle: 'Timeless ruby roses & grand romantic bouquets',
     link: '/category/anniversary',
     bgColor: '#F8B6C3',
-    image: '/images/occasions/anniversary_gift.jpg',
+    image: '/images/occasions/anniversary_gift.webp',
     tag: 'Everlasting Love',
   },
   {
@@ -27,7 +27,7 @@ export const OCCASIONS = [
     subtitle: 'Majestic lilies & triumph celebration stems',
     link: '/category/congratulations',
     bgColor: '#9EBED9',
-    image: '/images/occasions/congratulations_gift.jpg',
+    image: '/images/occasions/congratulations_gift.webp',
     tag: 'Milestones',
   },
   {
@@ -36,7 +36,7 @@ export const OCCASIONS = [
     subtitle: 'Healing orchids & uplifting fragrant florals',
     link: '/category/get-well',
     bgColor: '#D5C8F2',
-    image: '/images/occasions/best_wishes_gift.jpg',
+    image: '/images/occasions/best_wishes_gift.webp',
     tag: 'Thoughtful',
   },
   {
@@ -45,7 +45,7 @@ export const OCCASIONS = [
     subtitle: 'Gentle pastel carnations & baby celebration bundles',
     link: '/category/all?occasion=new-born',
     bgColor: '#FCE6A2',
-    image: '/images/occasions/newborn_gift.jpg',
+    image: '/images/occasions/newborn_gift.webp',
     tag: 'Pure Joy',
   },
   {
@@ -54,7 +54,7 @@ export const OCCASIONS = [
     subtitle: 'Velvet crimson blooms & eternal preserved stems',
     link: '/category/romance',
     bgColor: '#F7BCB4',
-    image: '/images/occasions/romance_gift.jpg',
+    image: '/images/occasions/romance_gift.webp',
     tag: 'Romantic Elegance',
   },
 ];

@@ -149,14 +149,22 @@ export const serveImage = (req, res) => {
       return res.status(403).json({ success: false, message: 'Access denied: Invalid image path' });
     }
 
-    if (!fs.existsSync(targetFile)) {
-      return res.status(404).json({
-        success: false,
-        message: `Image not found: ${cleanSubPath}`,
-      });
+    let finalFile = targetFile;
+    if (!fs.existsSync(finalFile)) {
+      // If .jpg or .png was requested, automatically check if .webp exists
+      const parsed = path.parse(finalFile);
+      const webpCandidate = path.join(parsed.dir, `${parsed.name}.webp`);
+      if (fs.existsSync(webpCandidate)) {
+        finalFile = webpCandidate;
+      } else {
+        return res.status(404).json({
+          success: false,
+          message: `Image not found: ${cleanSubPath}`,
+        });
+      }
     }
 
-    const ext = path.extname(targetFile).toLowerCase();
+    const ext = path.extname(finalFile).toLowerCase();
     const contentType = MIME_MAP[ext] || 'application/octet-stream';
 
     // Set high-performance caching and cross-origin headers
@@ -165,7 +173,7 @@ export const serveImage = (req, res) => {
     res.setHeader('Cross-Origin-Resource-Policy', 'cross-origin');
     res.setHeader('Access-Control-Allow-Origin', '*');
 
-    return res.sendFile(targetFile);
+    return res.sendFile(finalFile);
   } catch (error) {
     console.error('Error serving image:', error);
     return res.status(500).json({ success: false, message: 'Failed to stream image' });

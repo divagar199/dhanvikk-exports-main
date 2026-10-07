@@ -37,7 +37,7 @@ const PROMISES = [
     ctaText: 'Experience Chilled Freshness',
     ctaLink: '/category/flowers',
     ctaBg: 'bg-[#EC407A] hover:bg-[#C2185B]',
-    image: '/images/features/cold-chain.jpg',
+    image: '/images/features/cold-chain.webp',
     imageAlt: 'Cold-Chain Temperature Controlled Floral Delivery in India',
     badges: [
       {
@@ -75,7 +75,7 @@ const PROMISES = [
     ctaText: 'Browse Farm-Fresh Stems',
     ctaLink: '/category/roses',
     ctaBg: 'bg-[#C2185B] hover:bg-[#A01349]',
-    image: '/images/features/farm-sourcing.jpg',
+    image: '/images/features/farm-sourcing.webp',
     imageAlt: 'Direct Farm Sourcing in Nilgiris Ooty India',
     badges: [
       {
@@ -113,7 +113,7 @@ const PROMISES = [
     ctaText: 'Order with Confidence',
     ctaLink: '/category/flower-boxes',
     ctaBg: 'bg-[#EC407A] hover:bg-[#C2185B]',
-    image: '/images/features/razorpay-checkout.jpg',
+    image: '/images/features/razorpay-checkout.webp',
     imageAlt: 'Razorpay Secure Checkout Indian Floral Boutique',
     badges: [
       {

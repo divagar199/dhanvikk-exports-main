@@ -5,6 +5,7 @@ import helmet from 'helmet';
 import morgan from 'morgan';
 import dotenv from 'dotenv';
 import path from 'path';
+import fs from 'fs';
 import { fileURLToPath } from 'url';
 import rateLimit from 'express-rate-limit';
 import { connectDB } from './src/config/db.js';
@@ -41,8 +42,25 @@ app.use(
 // Serve locally uploaded files statically
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-// Serve stored botanical images statically
-app.use('/images', express.static(path.join(__dirname, 'public', 'images')));
+// Serve stored botanical images statically with automatic .webp format resolution
+const imagesStaticDir = path.join(__dirname, 'public', 'images');
+app.use('/images', (req, res, next) => {
+  const cleanPath = req.path.replace(/^\/+/, '');
+  const filePath = path.join(imagesStaticDir, cleanPath);
+  if (fs.existsSync(filePath)) {
+    return next();
+  }
+  // Auto-resolve .jpg or .png to modern .webp
+  const parsed = path.parse(filePath);
+  const webpCandidate = path.join(parsed.dir, `${parsed.name}.webp`);
+  if (fs.existsSync(webpCandidate)) {
+    res.setHeader('Content-Type', 'image/webp');
+    res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
+    return res.sendFile(webpCandidate);
+  }
+  next();
+});
+app.use('/images', express.static(imagesStaticDir));
 
 // Cross-Origin Resource Sharing
 const rawClientUrl = (process.env.CLIENT_URL || '').replace(/\/+$/, '');

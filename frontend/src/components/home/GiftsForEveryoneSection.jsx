@@ -12,61 +12,61 @@ const RECIPIENTS = [
   {
     id: 'him',
     title: 'Him',
-    image: '/images/gifts/him.png',
+    image: '/images/gifts/him.webp',
     link: '/category/flowers?recipient=For+Him'
   },
   {
     id: 'her',
     title: 'Her',
-    image: '/images/gifts/her.png',
+    image: '/images/gifts/her.webp',
     link: '/category/flowers?recipient=For+Her'
   },
   {
     id: 'kids',
     title: 'Kids',
-    image: '/images/gifts/kids.png',
+    image: '/images/gifts/kids.webp',
     link: '/category/flowers?recipient=Kids'
   },
   {
     id: 'friend',
     title: 'Friend',
-    image: '/images/gifts/friend.png',
+    image: '/images/gifts/friend.webp',
     link: '/category/flowers?recipient=Friends'
   },
   {
     id: 'wife',
     title: 'Wife',
-    image: '/images/gifts/wife.png',
+    image: '/images/gifts/wife.webp',
     link: '/category/flowers?recipient=For+Wife'
   },
   {
     id: 'husband',
     title: 'Husband',
-    image: '/images/gifts/husband.png',
+    image: '/images/gifts/husband.webp',
     link: '/category/flowers?recipient=For+Husband'
   },
   {
     id: 'girlfriend',
     title: 'Girlfriend',
-    image: '/images/gifts/her.png',
+    image: '/images/gifts/her.webp',
     link: '/category/flowers?recipient=For+Her'
   },
   {
     id: 'boyfriend',
     title: 'Boyfriend',
-    image: '/images/gifts/him.png',
+    image: '/images/gifts/him.webp',
     link: '/category/flowers?recipient=For+Him'
   },
   {
     id: 'parents',
     title: 'Parents',
-    image: '/images/gifts/wife.png',
+    image: '/images/gifts/wife.webp',
     link: '/category/flowers?recipient=Parents'
   },
   {
     id: 'family',
     title: 'Family',
-    image: '/images/gifts/friend.png',
+    image: '/images/gifts/friend.webp',
     link: '/category/flowers?recipient=Family'
   }
 ];
