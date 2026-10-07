@@ -1,1 +1,49 @@
-{"expo":{"name":"Dhanvikk Blooms","slug":"dhanvikk-blooms","version":"1.0.0","orientation":"portrait","scheme":"dhanvikk","userInterfaceStyle":"light","newArchEnabled":true,"plugins":["expo-router",["expo-location",{"locationWhenInUsePermission":"Dhanvikk uses your location to help select a delivery destination."}],["expo-notifications",{"color":"#E91E63"}]],"ios":{"supportsTablet":true,"bundleIdentifier":"com.dhanvikk.blooms","infoPlist":{"NSLocationWhenInUseUsageDescription":"Dhanvikk uses your location to help select a delivery destination."}},"android":{"package":"com.dhanvikk.blooms","permissions":["ACCESS_COARSE_LOCATION","ACCESS_FINE_LOCATION","POST_NOTIFICATIONS"]},"extra":{"apiUrl":"https://dhanvikk-exports-api.onrender.com"}}}
+{
+  "expo": {
+    "name": "Dhanvikk Blooms",
+    "slug": "dhanvikk-blooms",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "scheme": "dhanvikk",
+    "userInterfaceStyle": "light",
+    "newArchEnabled": true,
+    "plugins": [
+      "expo-router",
+      [
+        "expo-location",
+        {
+          "locationWhenInUsePermission": "Dhanvikk uses your location to help select a delivery destination."
+        }
+      ],
+      [
+        "expo-notifications",
+        {
+          "color": "#E91E63"
+        }
+      ]
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.dhanvikk.blooms",
+      "infoPlist": {
+        "NSLocationWhenInUseUsageDescription": "Dhanvikk uses your location to help select a delivery destination.",
+        "LSApplicationQueriesSchemes": [
+          "tez",
+          "phonepe",
+          "paytmmp"
+        ]
+      }
+    },
+    "android": {
+      "package": "com.dhanvikk.blooms",
+      "permissions": [
+        "ACCESS_COARSE_LOCATION",
+        "ACCESS_FINE_LOCATION",
+        "POST_NOTIFICATIONS"
+      ]
+    },
+    "extra": {
+      "apiUrl": "https://dhanvikk-exports-api.onrender.com"
+    }
+  }
+}
