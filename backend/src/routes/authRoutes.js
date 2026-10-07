@@ -1,17 +1,7 @@
 import express from 'express';
 import {
-  login,
-  googleLogin,
-  getMe,
-  logout,
-  register,
-  getProfileData,
-  updateProfile,
-  saveAddress,
-  deleteAddress,
-  toggleWishlistBouquet,
-  verifyPortalKey,
-  saveUserCart,
+  login, googleLogin, getMe, logout, register, getProfileData, updateProfile,
+  saveAddress, deleteAddress, toggleWishlistBouquet, verifyPortalKey, saveUserCart,
 } from '../controllers/authController.js';
 import { protect } from '../middleware/authMiddleware.js';
 
@@ -23,13 +13,12 @@ router.post('/register', register);
 router.post('/logout', logout);
 router.get('/me', protect, getMe);
 
-// Account Profile & Storage routes
-router.get('/profile-data', getProfileData);
-router.put('/profile', updateProfile);
-router.post('/addresses', saveAddress);
-router.delete('/addresses/:id', deleteAddress);
-router.post('/wishlist', toggleWishlistBouquet);
-router.post('/cart', saveUserCart);
+router.get('/profile-data', protect, getProfileData);
+router.put('/profile', protect, updateProfile);
+router.post('/addresses', protect, saveAddress);
+router.delete('/addresses/:id', protect, deleteAddress);
+router.post('/wishlist', protect, toggleWishlistBouquet);
+router.post('/cart', protect, saveUserCart);
 router.post('/verify-portal', verifyPortalKey);
 
 export default router;
