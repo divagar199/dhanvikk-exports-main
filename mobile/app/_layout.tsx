@@ -1,0 +1,4 @@
+import {Stack} from 'expo-router';import {SafeAreaProvider} from 'react-native-safe-area-context';import {QueryClient,QueryClientProvider} from '@tanstack/react-query';import {useEffect} from 'react';import {initOfflineDb,cachedCollection} from '@/lib/offline';import {useStore} from '@/store/useStore';import {getSession} from '@/lib/storage';
+const qc=new QueryClient({defaultOptions:{queries:{staleTime:60000,retry:1}}});
+function Bootstrap(){const hydrate=useStore(s=>s.hydrate);useEffect(()=>{(async()=>{await initOfflineDb().catch(()=>{});const s=await getSession();const c=await cachedCollection('cart').catch(()=>[]);const w=await cachedCollection('wishlist').catch(()=>[]);hydrate(c,w);if(s.token)useStore.setState({token:s.token,user:s.user});})();},[]);return <Stack screenOptions={{headerShown:false,animation:'fade'}}/>}
+export default function Layout(){return <SafeAreaProvider><QueryClientProvider client={qc}><Bootstrap/></QueryClientProvider></SafeAreaProvider>}
