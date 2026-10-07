@@ -3,6 +3,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { EffectCoverflow, Pagination, Navigation, Autoplay } from 'swiper/modules';
 import { ChevronLeft, ChevronRight, ArrowRight, Sparkles } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { getProductImageUrl } from '../../../utils/imageUrl';
 
 import 'swiper/css';
 import 'swiper/css/effect-coverflow';
@@ -97,7 +98,7 @@ export function Carousel_001({
               >
                 {/* Background Image with Depth Zoom */}
                 <img
-                  src={item.image}
+                  src={getProductImageUrl(item.image)}
                   alt={item.label}
                   className="w-full h-full object-cover object-bottom transition-transform duration-700 ease-out group-hover:scale-108"
                   loading="lazy"

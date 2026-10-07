@@ -42,6 +42,7 @@ import { addItem, openCart } from '../../store/slices/cartSlice';
 import { toggleWishlist, isProductInWishlist } from '../../store/slices/wishlistSlice';
 import { toast } from 'sonner';
 import { useCurrency } from '../../context/CurrencyContext';
+import { getProductImageUrl } from '../../utils/imageUrl';
 
 export default function ProductDetailPage() {
   const { formatPrice } = useCurrency();
@@ -303,11 +304,12 @@ export default function ProductDetailPage() {
     if (!product) {
       return ['https://images.unsplash.com/photo-1561181286-d3fee7d55364?auto=format&fit=crop&w=800&q=80'];
     }
-    return Array.isArray(product.images)
+    const rawList = Array.isArray(product.images)
       ? product.images
       : typeof product.images === 'string' && product.images.includes(' ')
       ? product.images.split(' ')
       : [product.images || product.image || 'https://images.unsplash.com/photo-1561181286-d3fee7d55364?auto=format&fit=crop&w=800&q=80'];
+    return rawList.map((img) => getProductImageUrl(img));
   }, [product]);
 
   const handleAddToCart = () => {
@@ -1483,9 +1485,11 @@ export default function ProductDetailPage() {
                 <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2.5 sm:gap-6">
                   {currentSlice.map((relItem) => {
                     const isRelPlant = relItem.category === 'Plants';
-                    const relImg = Array.isArray(relItem.images)
-                      ? relItem.images[0]
-                      : relItem.images || relItem.image;
+                    const relImg = getProductImageUrl(
+                      Array.isArray(relItem.images)
+                        ? relItem.images[0]
+                        : relItem.images || relItem.image
+                    );
                     const isRelSaved = isProductInWishlist(wishlistItems, relItem);
 
                     return (

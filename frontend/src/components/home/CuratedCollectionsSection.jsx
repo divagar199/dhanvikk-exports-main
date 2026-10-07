@@ -21,6 +21,7 @@ import {
   SlidersHorizontal
 } from 'lucide-react';
 import { useCurrency } from '../../context/CurrencyContext';
+import { getProductImageUrl } from '../../utils/imageUrl';
 
 // Official Swiper Styles
 import 'swiper/css';
@@ -352,7 +353,7 @@ export default function CuratedCollectionsSection() {
                   {/* Background Floral Imagery with Smooth Luxury Zoom */}
                   <div className="absolute inset-0 z-0 overflow-hidden">
                     <img
-                      src={col.image}
+                      src={getProductImageUrl(col.image)}
                       alt={`${col.name} - ${col.tagline || 'Luxury Botanical Collection'} | Dhanvikk Blooms`}
                       onError={(e) => {
                         e.target.onerror = null;

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
 import { ChevronRight, ChevronLeft } from 'lucide-react';
+import { getProductImageUrl } from '../../utils/imageUrl';
 
 import 'swiper/css';
 import 'swiper/css/navigation';
@@ -131,7 +132,7 @@ export default function GiftsForEveryoneSection() {
                 {/* 3D Illustrated Character Card */}
                 <div className="w-full aspect-[295/196] rounded-2xl sm:rounded-3xl overflow-hidden bg-[#FFF5F6] border border-[#FDE6E9] shadow-xs group-hover:shadow-md transition-all duration-300">
                   <img
-                    src={item.image}
+                    src={getProductImageUrl(item.image)}
                     alt={`Floral Gifts & Luxury Blooms for ${item.title} | Dhanvikk Blooms`}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                     loading="lazy"

@@ -22,6 +22,7 @@ import {
 import { addItem } from '../../store/slices/cartSlice';
 import { toast } from 'sonner';
 import { useCurrency } from '../../context/CurrencyContext';
+import { getProductImageUrl } from '../../utils/imageUrl';
 
 export const PROMO_EXPORT_PRODUCTS = [
   {
@@ -296,7 +297,7 @@ export default function TraditionalExportsSection() {
                   {/* Product Image */}
                   <div className="relative aspect-square overflow-hidden bg-[#FAF7F2]">
                     <img
-                      src={product.image}
+                      src={getProductImageUrl(product.image)}
                       alt={`${product.name} - GI-Tagged Temple & Export Flower per KG | Dhanvikk Blooms`}
                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                       loading="lazy"
@@ -400,7 +401,7 @@ export default function TraditionalExportsSection() {
             <div className="flex items-center gap-3 mb-4">
               <div className="w-16 h-16 rounded-2xl overflow-hidden bg-gray-100 flex-shrink-0">
                 <img
-                  src={inquiryModalItem.image}
+                  src={getProductImageUrl(inquiryModalItem.image)}
                   alt={`${inquiryModalItem.name} - Wholesale Export Flower Cargo | Dhanvikk Blooms`}
                   className="w-full h-full object-cover"
                   loading="lazy"

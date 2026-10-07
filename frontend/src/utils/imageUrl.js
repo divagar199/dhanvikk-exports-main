@@ -20,18 +20,32 @@ export function getProductImageUrl(img) {
     return img;
   }
 
-  // If stored locally in /uploads/
+  // Stored in backend /uploads/ or /images/
   const backendUrl = (import.meta.env.VITE_API_URL || '').replace(/\/+$/, '');
-  if (img.startsWith('/uploads')) {
-    return `${backendUrl}${img}`;
+  if (img.startsWith('/uploads') || img.startsWith('/images') || img.startsWith('/api/images')) {
+    return backendUrl ? `${backendUrl}${img}` : img;
   }
 
-  if (img.startsWith('uploads/')) {
-    return `${backendUrl}/${img}`;
+  if (img.startsWith('uploads/') || img.startsWith('images/')) {
+    return backendUrl ? `${backendUrl}/${img}` : `/${img}`;
   }
 
   return img;
 }
+
+/**
+ * Return the direct API endpoint URL for an image (e.g. /api/images/...)
+ */
+export function getBackendApiImageUrl(img) {
+  if (!img || typeof img !== 'string') return getProductImageUrl(img);
+  if (img.startsWith('http://') || img.startsWith('https://') || img.startsWith('data:')) return img;
+  const backendUrl = (import.meta.env.VITE_API_URL || '').replace(/\/+$/, '');
+  const cleanPath = img.replace(/^\/?(api\/images|images)\//, '').replace(/^\/+/, '');
+  const apiPath = `/api/images/${cleanPath}`;
+  return backendUrl ? `${backendUrl}${apiPath}` : apiPath;
+}
+
+export const getImageUrl = getProductImageUrl;
 
 /**
  * Resolve user profile image, prioritizing Google/Gmail profile pictures

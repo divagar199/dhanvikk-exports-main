@@ -13,6 +13,7 @@ import productRoutes from './src/routes/productRoutes.js';
 import orderRoutes from './src/routes/orderRoutes.js';
 import paymentRoutes from './src/routes/paymentRoutes.js';
 import adminRoutes from './src/routes/adminRoutes.js';
+import imageRoutes from './src/routes/imageRoutes.js';
 import { initializeProducts } from './src/controllers/productController.js';
 import { notFound, errorHandler } from './src/middleware/errorHandler.js';
 
@@ -39,6 +40,9 @@ app.use(
 
 // Serve locally uploaded files statically
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
+// Serve stored botanical images statically
+app.use('/images', express.static(path.join(__dirname, 'public', 'images')));
 
 // Cross-Origin Resource Sharing
 const rawClientUrl = (process.env.CLIENT_URL || '').replace(/\/+$/, '');
@@ -106,6 +110,7 @@ app.use('/api/products', productRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/payment', paymentRoutes);
 app.use('/api/admin', adminRoutes);
+app.use('/api/images', imageRoutes);
 
 // Error Middleware
 app.use(notFound);

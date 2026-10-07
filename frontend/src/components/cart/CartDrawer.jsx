@@ -6,6 +6,7 @@ import { closeCart, updateQuantity, removeItem } from '../../store/slices/cartSl
 import Button from '../common/Button';
 import { toast } from 'sonner';
 import { useCurrency } from '../../context/CurrencyContext';
+import { getProductImageUrl } from '../../utils/imageUrl';
 
 export default function CartDrawer() {
   const { formatPrice } = useCurrency();
@@ -95,7 +96,7 @@ export default function CartDrawer() {
                   className="flex gap-3 p-2.5 sm:p-3 bg-white rounded-2xl border border-[#F7F2ED] shadow-xs hover:border-[#FCC1C5] hover:shadow-sm transition-all duration-300"
                 >
                   <img
-                    src={item.image}
+                    src={getProductImageUrl(item.image)}
                     alt={`${item.name} floral bouquet in cart`}
                     className="w-16 h-16 sm:w-20 sm:h-20 rounded-xl object-cover flex-shrink-0 transition-transform duration-300 hover:scale-105"
                     loading="lazy"

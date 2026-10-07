@@ -25,6 +25,7 @@ import { addItem } from '../../store/slices/cartSlice';
 import { toggleWishlist, isProductInWishlist } from '../../store/slices/wishlistSlice';
 import { toast } from 'sonner';
 import { useCurrency } from '../../context/CurrencyContext';
+import { getProductImageUrl } from '../../utils/imageUrl';
 
 export default function CategoryPage() {
   const { formatPrice } = useCurrency();
@@ -879,9 +880,11 @@ export default function CategoryPage() {
                   {sortedProducts.map((product, index) => {
                     const prodId = product._id || product.id;
                     const isAdded = addedIds.includes(prodId);
-                    const displayImage = Array.isArray(product.images)
-                      ? product.images[0]
-                      : (product.images || product.image);
+                    const displayImage = getProductImageUrl(
+                      Array.isArray(product.images)
+                        ? product.images[0]
+                        : (product.images || product.image)
+                    );
 
                     return (
                       <div

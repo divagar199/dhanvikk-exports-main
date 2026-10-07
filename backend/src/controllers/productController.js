@@ -3,7 +3,11 @@ import { SEED_PRODUCTS } from '../data/seedProducts.js';
 import { getDBStatus } from '../config/db.js';
 import fs from 'fs';
 import path from 'path';
+import { fileURLToPath } from 'url';
 import { uploadsDir } from '../middleware/uploadMiddleware.js';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 let inMemoryProducts = [...SEED_PRODUCTS];
 
@@ -355,23 +359,40 @@ export const uploadProductImage = async (req, res) => {
  */
 export const getUploadedImages = async (req, res) => {
   try {
-    if (!fs.existsSync(uploadsDir)) {
-      return res.status(200).json({ success: true, count: 0, images: [] });
-    }
-    const files = fs.readdirSync(uploadsDir);
     const host = (typeof req.get === 'function' ? req.get('host') : null) || 'localhost:5000';
     const protocol = req.protocol || 'http';
+    let images = [];
 
-    const images = files
-      .filter((file) => /\.(jpg|jpeg|png|webp|gif|svg)$/i.test(file))
-      .map((file) => ({
-        filename: file,
-        relativeUrl: `/uploads/${file}`,
-        fullUrl: `${protocol}://${host}/uploads/${file}`,
-      }))
-      .reverse();
+    // 1. Files from uploadsDir
+    if (fs.existsSync(uploadsDir)) {
+      const files = fs.readdirSync(uploadsDir);
+      const uploadImages = files
+        .filter((file) => /\.(jpg|jpeg|png|webp|gif|svg)$/i.test(file))
+        .map((file) => ({
+          filename: file,
+          category: 'uploads',
+          relativeUrl: `/uploads/${file}`,
+          fullUrl: `${protocol}://${host}/uploads/${file}`,
+        }));
+      images = images.concat(uploadImages);
+    }
 
-    return res.status(200).json({ success: true, count: images.length, images });
+    // 2. Files from public/images/products
+    const publicProductsDir = path.resolve(__dirname, '../../public/images/products');
+    if (fs.existsSync(publicProductsDir)) {
+      const prodFiles = fs.readdirSync(publicProductsDir);
+      const prodImages = prodFiles
+        .filter((file) => /\.(jpg|jpeg|png|webp|gif|svg)$/i.test(file))
+        .map((file) => ({
+          filename: file,
+          category: 'products',
+          relativeUrl: `/images/products/${file}`,
+          fullUrl: `${protocol}://${host}/images/products/${file}`,
+        }));
+      images = images.concat(prodImages);
+    }
+
+    return res.status(200).json({ success: true, count: images.length, images: images.reverse() });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }

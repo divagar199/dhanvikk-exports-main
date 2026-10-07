@@ -26,6 +26,7 @@ import { authService } from '../../services/authService';
 import { clearCart } from '../../store/slices/cartSlice';
 import { toast } from 'sonner';
 import { useCurrency } from '../../context/CurrencyContext';
+import { getProductImageUrl } from '../../utils/imageUrl';
 import {
   COUNTRIES_LIST,
   STATES_BY_COUNTRY,
@@ -791,7 +792,7 @@ export default function CheckoutPage() {
                     {cartItems.map((item) => (
                       <div key={item.id} className="flex items-center gap-3">
                         <img
-                          src={item.image}
+                          src={getProductImageUrl(item.image)}
                           alt={`${item.name} luxury flower arrangement`}
                           className="w-14 h-14 rounded-2xl object-cover border border-[#F7F2ED]"
                           loading="lazy"
