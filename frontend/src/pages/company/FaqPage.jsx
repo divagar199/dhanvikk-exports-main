@@ -142,9 +142,23 @@ export default function FaqPage() {
   return (
     <>
       <SEO
-        title="Frequently Asked Questions (FAQ) & Flower Care Guide | Dhanvikk Blooms"
-        description="Find answers to common questions about Dhanvikk Blooms luxury flower delivery in Dubai & India, same-day delivery timings, stem freshness guarantee, and international air export."
+        title="Frequently Asked Questions (FAQ) & Floral Care Guide | Dhanvikk Blooms"
+        description="Find answers to common questions about Dhanvikk Blooms luxury flower delivery in Dubai & India, same-day delivery timings, hydra-chill freshness guarantee, and international air export."
         canonical="/faq"
+        breadcrumbs={[
+          { name: 'Home', url: '/' },
+          { name: 'Floral Care & Concierge FAQ', url: '/faq' },
+        ]}
+        keywords={[
+          'flower delivery FAQ',
+          'same day flower delivery timings',
+          'how to care for cut flowers',
+          'cold chain flower delivery Dubai',
+          'velvet flower box care',
+          'international flower export customs',
+          'luxury florist FAQ',
+        ]}
+        faq={FAQ_DATA}
       />
 
       <CartDrawer />

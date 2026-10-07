@@ -105,9 +105,10 @@ export default function ProfilePage() {
   return (
     <>
       <SEO
-        title="My VIP Profile | Luxury Florist Dhanvikk Blooms"
+        title="VIP Patron Profile & Account Settings | Dhanvikk Blooms"
         description="Manage your Dhanvikk Blooms luxury florist account, personal details, delivery preferences, and security settings."
         canonical="/profile"
+        noindex={true}
       />
 
       <CartDrawer />

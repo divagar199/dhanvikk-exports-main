@@ -65,6 +65,26 @@ let xml = `<?xml version="1.0" encoding="UTF-8"?>
       <image:caption>Haute couture luxury florist and international botanical export atelier</image:caption>
     </image:image>
   </url>
+
+  <!-- Editorial, Concierge & FAQ Pages -->
+  <url>
+    <loc>${BASE_URL}/about</loc>
+    <lastmod>${today}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>${BASE_URL}/contact</loc>
+    <lastmod>${today}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>${BASE_URL}/faq</loc>
+    <lastmod>${today}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+  </url>
 `;
 
 // Categories

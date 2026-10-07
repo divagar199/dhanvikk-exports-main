@@ -61,9 +61,82 @@ export default function ContactPage() {
   return (
     <>
       <SEO
-        title="Contact Our VIP Floral Concierge | Dhanvikk Blooms"
-        description="Connect with Dhanvikk Blooms luxury florist concierge for bespoke wedding flowers, corporate gifting, international air cargo inquiries, or live order assistance."
+        title="Contact VIP Floral Concierge & Atelier | Dhanvikk Blooms"
+        description="Connect with Dhanvikk Blooms luxury florist concierge for bespoke wedding flowers, corporate gifting, international air cargo inquiries, or live order assistance. Direct VIP Line: +91 91089 16328."
         canonical="/contact"
+        breadcrumbs={[
+          { name: 'Home', url: '/' },
+          { name: 'Contact Concierge', url: '/contact' },
+        ]}
+        keywords={[
+          'contact Dhanvikk Blooms',
+          'florist customer support Bangalore',
+          'luxury flower delivery Dubai contact',
+          'WhatsApp florist concierge',
+          'bespoke wedding flowers inquiry',
+          'bulk flower export contact',
+          'same day flower concierge',
+        ]}
+        geo={{
+          region: 'IN-KA',
+          placename: 'Bengaluru, Karnataka, India',
+          position: '12.9467;77.6006',
+          icbm: '12.9467, 77.6006',
+        }}
+        jsonLd={{
+          '@context': 'https://schema.org',
+          '@type': 'ContactPage',
+          name: 'Contact Dhanvikk Blooms VIP Concierge',
+          url: 'https://dhanvikkexports.com/contact',
+          description:
+            'Dedicated luxury florist concierge for bespoke floristry, bridal styling, corporate exports, and same-day delivery coordination.',
+          mainEntity: {
+            '@type': 'Florist',
+            name: 'Dhanvikk Blooms',
+            telephone: '+91 91089 16328',
+            email: 'concierge@dhanvikkexports.com',
+            priceRange: '$$$$',
+            address: {
+              '@type': 'PostalAddress',
+              streetAddress: 'MG Road Floristry Pavilion, Indiranagar',
+              addressLocality: 'Bengaluru',
+              addressRegion: 'Karnataka',
+              postalCode: '560001',
+              addressCountry: 'IN',
+            },
+            contactPoint: [
+              {
+                '@type': 'ContactPoint',
+                telephone: '+91 91089 16328',
+                contactType: 'VIP Concierge Desk',
+                availableLanguage: ['English', 'Hindi', 'Tamil', 'Kannada'],
+                contactOption: 'TollFree',
+              },
+              {
+                '@type': 'ContactPoint',
+                telephone: '+971 50 123 4567',
+                contactType: 'Dubai Atelier & UAE Dispatch',
+                availableLanguage: ['English', 'Arabic'],
+              },
+            ],
+            openingHoursSpecification: [
+              {
+                '@type': 'OpeningHoursSpecification',
+                dayOfWeek: [
+                  'Monday',
+                  'Tuesday',
+                  'Wednesday',
+                  'Thursday',
+                  'Friday',
+                  'Saturday',
+                  'Sunday',
+                ],
+                opens: '08:00',
+                closes: '23:30',
+              },
+            ],
+          },
+        }}
       />
 
       <CartDrawer />

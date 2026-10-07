@@ -146,6 +146,7 @@ export default function OrdersPage() {
         title="My Orders & Live Floral Delivery Tracking | Dhanvikk Blooms"
         description="Track your luxury flower bouquets, view temperature-controlled delivery status, download official tax receipts, and manage recent orders."
         canonical="/orders"
+        noindex={true}
       />
 
       <CartDrawer />

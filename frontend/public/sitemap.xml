@@ -13,6 +13,26 @@
       <image:caption>Haute couture luxury florist and international botanical export atelier</image:caption>
     </image:image>
   </url>
+
+  <!-- Editorial, Concierge & FAQ Pages -->
+  <url>
+    <loc>https://dhanvikkexports.com/about</loc>
+    <lastmod>2026-10-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://dhanvikkexports.com/contact</loc>
+    <lastmod>2026-10-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://dhanvikkexports.com/faq</loc>
+    <lastmod>2026-10-07</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+  </url>
   <url>
     <loc>https://dhanvikkexports.com/category/flowers</loc>
     <lastmod>2026-10-07</lastmod>

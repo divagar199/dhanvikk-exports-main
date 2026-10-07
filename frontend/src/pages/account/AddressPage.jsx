@@ -248,6 +248,7 @@ export default function AddressPage() {
         title="Delivery Address Book | Dhanvikk Blooms Luxury Florist"
         description="Manage your saved doorstep delivery destinations across Dubai, UAE, India and global destinations for seamless checkout."
         canonical="/address"
+        noindex={true}
       />
 
       <CartDrawer />

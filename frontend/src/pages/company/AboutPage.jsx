@@ -27,9 +27,74 @@ export default function AboutPage() {
   return (
     <>
       <SEO
-        title="About Dhanvikk Blooms | Luxury Haute Floristry Atelier & Global Cold-Chain Export"
+        title="About Us - Haute Floristry Atelier & Botanical Exports | Dhanvikk Blooms"
         description="Discover the heritage of Dhanvikk Blooms. Handcrafted Parisian velvet flower boxes, high-altitude Ecuadorian roses, unbroken 2°C–4°C cold-chain logistics, and official phytosanitary export across Dubai, UAE & international destinations."
         canonical="/about"
+        ogType="article"
+        breadcrumbs={[
+          { name: 'Home', url: '/' },
+          { name: 'About Dhanvikk Blooms', url: '/about' },
+        ]}
+        keywords={[
+          'about Dhanvikk Blooms',
+          'luxury florist Bangalore',
+          'botanical exports Dubai',
+          'cold chain flower delivery',
+          'Ecuadorian roses India',
+          'haute floristry atelier',
+          'Madurai jasmine export',
+          'premium floral gifting',
+          'sustainable floral packaging',
+        ]}
+        geo={{
+          region: 'IN-KA',
+          placename: 'Bengaluru, Karnataka, India',
+          position: '12.9467;77.6006',
+          icbm: '12.9467, 77.6006',
+        }}
+        jsonLd={{
+          '@context': 'https://schema.org',
+          '@type': ['Florist', 'Organization'],
+          '@id': 'https://dhanvikkexports.com/#organization',
+          name: 'Dhanvikk Blooms & Botanical Exports',
+          alternateName: 'Dhanvikk Blooms',
+          url: 'https://dhanvikkexports.com/about',
+          logo: 'https://dhanvikkexports.com/dhanvikk-brand-logo.png',
+          image: 'https://dhanvikkexports.com/dhanvikk-brand-logo.png',
+          description:
+            'Haute couture luxury florist and international botanical export atelier specializing in unbroken 2°C–4°C cold-chain delivery.',
+          foundingDate: '2024',
+          priceRange: '$$$$',
+          telephone: '+91 91089 16328',
+          email: 'concierge@dhanvikkexports.com',
+          address: {
+            '@type': 'PostalAddress',
+            streetAddress: 'Atelier Suites, MG Road & Indiranagar',
+            addressLocality: 'Bengaluru',
+            addressRegion: 'Karnataka',
+            postalCode: '560001',
+            addressCountry: 'IN',
+          },
+          areaServed: [
+            { '@type': 'Country', name: 'United Arab Emirates' },
+            { '@type': 'Country', name: 'India' },
+            { '@type': 'Country', name: 'United States' },
+            { '@type': 'Country', name: 'United Kingdom' },
+            { '@type': 'Country', name: 'Singapore' },
+          ],
+          sameAs: [
+            'https://www.instagram.com/dhanvikkblooms',
+            'https://www.facebook.com/dhanvikkblooms',
+          ],
+          knowsAbout: [
+            'Luxury Flower Arrangements',
+            'Cold-Chain Floral Export',
+            'Ecuadorian Long-Stemmed Roses',
+            'Preserved Forever Roses',
+            'Fresh Sacred Jasmine Garlands',
+            'Handcrafted Parisian Velvet Boxes',
+          ],
+        }}
       />
 
       <CartDrawer />
