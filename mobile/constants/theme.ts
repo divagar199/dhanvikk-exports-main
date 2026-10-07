@@ -1,0 +1,2 @@
+export const COLORS={primary:'#EC407A',primaryDark:'#C2185B',accent:'#FCC1C5',gold:'#FFB400',blush:'#FFF3F6',soft:'#FCE4EC',ink:'#241D20',muted:'#766A6F',line:'#EDE3E6',white:'#FFFFFF',success:'#16866A',danger:'#C94058',background:'#FFFCFD'} as const;
+export const RADIUS={sm:10,md:16,lg:22,xl:30,pill:999} as const;
