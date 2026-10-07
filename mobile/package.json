@@ -1,11 +1,26 @@
 {
-  "name": "dhanvikk-mobile",
-  "version": "1.0.0",
-  "private": true,
-  "main": "expo-router/entry",
-  "scripts": {"start":"expo start","android":"expo run:android","ios":"expo run:ios","web":"expo start --web","typecheck":"tsc --noEmit"},
-  "dependencies": {
-    "@tanstack/react-query":"^5.90.0","axios":"^1.20.0","expo":"^55.0.0","expo-haptics":"~14.1.0","expo-image":"~3.0.0","expo-location":"~19.0.0","expo-notifications":"~0.31.0","expo-router":"~5.1.0","expo-secure-store":"~14.2.0","expo-sqlite":"~15.2.0","expo-status-bar":"~2.2.3","react":"19.1.0","react-native":"0.81.0","react-native-gesture-handler":"~2.28.0","react-native-maps":"1.27.2","react-native-reanimated":"~4.1.0","react-native-safe-area-context":"5.6.0","react-native-screens":"~4.16.0","zustand":"^5.0.8"
+  "name":"dhanvikk-mobile",
+  "version":"1.0.0",
+  "private":true,
+  "main":"expo-router/entry",
+  "scripts":{"start":"expo start","android":"expo run:android","ios":"expo run:ios","web":"expo start --web","typecheck":"tsc --noEmit"},
+  "dependencies":{
+    "@tanstack/react-query":"^5.90.0",
+    "axios":"^1.20.0",
+    "expo":"^57.0.0",
+    "expo-image":"~57.0.5",
+    "expo-location":"~57.0.20",
+    "expo-router":"~57.0.21",
+    "expo-secure-store":"~57.0.4",
+    "expo-sqlite":"~57.0.3",
+    "react":"19.2.3",
+    "react-native":"0.86.0",
+    "react-native-gesture-handler":"~2.28.0",
+    "react-native-maps":"1.27.2",
+    "react-native-reanimated":"~4.1.0",
+    "react-native-safe-area-context":"~5.6.0",
+    "react-native-screens":"~4.16.0",
+    "zustand":"^5.0.8"
   },
-  "devDependencies":{"@types/react":"~19.1.10","typescript":"~5.9.2"}
+  "devDependencies":{"@types/react":"~19.2.0","typescript":"~5.9.2"}
 }
