@@ -644,18 +644,17 @@ export default function HomePage() {
             </div>
           </div>
         </section>
+        {/* 7.6. Global Serviceable Countries Marquee Ticker (USA, UK, UAE, Canada, Russia, Singapore, Malaysia, Australia) */}
+        <GlobalServiceableCountries />
 
         {/* 6.5. Gifts for Everyone (By Recipient 3D Avatars) */}
         <GiftsForEveryoneSection />
 
-        {/* 7. Curated Collections - Haute Floristry Formats */}
-        <CuratedCollectionsSection />
-
         {/* 7.5. Highlighted Heritage & Sacred Floral Exports (9 Highlighted Items) */}
         <TraditionalExportsSection />
-
-        {/* 7.6. Global Serviceable Countries Marquee Ticker (USA, UK, UAE, Canada, Russia, Singapore, Malaysia, Australia) */}
-        <GlobalServiceableCountries />
+ {/* 7. Curated Collections - Haute Floristry Formats */}
+        <CuratedCollectionsSection />
+        
 
         {/* Live Search Results Section (Shown dynamically when a search query is entered) */}
         {searchQuery.trim() && (

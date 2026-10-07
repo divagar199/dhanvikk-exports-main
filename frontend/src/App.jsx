@@ -21,6 +21,12 @@ const AdminDashboard = lazy(() => import('./pages/admin/AdminDashboard'));
 const CheckoutPage = lazy(() => import('./pages/checkout/CheckoutPage'));
 const CategoryPage = lazy(() => import('./pages/category/CategoryPage'));
 const ProductDetailPage = lazy(() => import('./pages/product/ProductDetailPage'));
+const ProfilePage = lazy(() => import('./pages/account/ProfilePage'));
+const OrdersPage = lazy(() => import('./pages/account/OrdersPage'));
+const AddressPage = lazy(() => import('./pages/account/AddressPage'));
+const AboutPage = lazy(() => import('./pages/company/AboutPage'));
+const ContactPage = lazy(() => import('./pages/company/ContactPage'));
+const FaqPage = lazy(() => import('./pages/company/FaqPage'));
 
 function RouteFallback() {
   return (
@@ -90,6 +96,20 @@ export default function App() {
                 }
               />
               <Route path="/account/:encryptedKey" element={<AccountDashboard />} />
+              <Route path="/profile" element={<ProfilePage />} />
+              <Route path="/orders" element={<OrdersPage />} />
+              <Route path="/my-orders" element={<Navigate to="/orders" replace />} />
+              <Route path="/address" element={<AddressPage />} />
+              <Route path="/addresses" element={<Navigate to="/address" replace />} />
+
+              {/* Company & Information Pages */}
+              <Route path="/about" element={<AboutPage />} />
+              <Route path="/about-us" element={<Navigate to="/about" replace />} />
+              <Route path="/contact" element={<ContactPage />} />
+              <Route path="/contact-us" element={<Navigate to="/contact" replace />} />
+              <Route path="/faq" element={<FaqPage />} />
+              <Route path="/faqs" element={<Navigate to="/faq" replace />} />
+
               <Route
                 path="/checkout"
                 element={

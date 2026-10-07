@@ -19,6 +19,9 @@ import {
   Layers,
   ArrowUpRight,
   ChevronRight,
+  MapPin,
+  Phone,
+  HelpCircle,
 } from 'lucide-react';
 import Logo from '../common/Logo';
 import { openCart } from '../../store/slices/cartSlice';
@@ -63,6 +66,7 @@ export default function Navbar({ onSearch, searchQuery = '' }) {
 
   const searchContainerRef = useRef(null);
   const mobileSearchRef = useRef(null);
+  const userDropdownRef = useRef(null);
   const inputRef = useRef(null);
 
   const dispatch = useDispatch();
@@ -108,6 +112,12 @@ export default function Navbar({ onSearch, searchQuery = '' }) {
         (!mobileSearchRef.current || !mobileSearchRef.current.contains(e.target))
       ) {
         setIsSearchFocused(false);
+      }
+      if (
+        userDropdownRef.current &&
+        !userDropdownRef.current.contains(e.target)
+      ) {
+        setUserDropdownOpen(false);
       }
     };
 
@@ -513,47 +523,116 @@ export default function Navbar({ onSearch, searchQuery = '' }) {
           </div>
 
           {/* Customer / Admin Dropdown */}
-          <div className="relative">
-            {isAuthenticated ? (
-              <div>
-                <button
-                  type="button"
-                  onClick={() => setUserDropdownOpen(!userDropdownOpen)}
-                  className="luxury-touch-press flex items-center gap-2 p-1.5 sm:px-2.5 sm:py-1.5 rounded-full hover:bg-[#FAF7F2] border border-transparent hover:border-[#E8E1DA] transition-all cursor-pointer"
-                >
-                  <span className="w-7 h-7 rounded-full bg-[#FFF0F4] border border-[#FCC1C5] text-[#C2185B] flex items-center justify-center font-bold text-xs shadow-2xs">
-                    {user?.name ? user.name.charAt(0).toUpperCase() : <User className="w-3.5 h-3.5" />}
-                  </span>
-                  <span className="hidden sm:inline text-xs font-semibold text-[#242124] max-w-[85px] truncate">
-                    {user?.name?.split(' ')[0]}
-                  </span>
-                  <ChevronDown className={`w-3.5 h-3.5 text-[#888888] transition-transform duration-200 ${userDropdownOpen ? 'rotate-180' : ''}`} />
-                </button>
+          <div className="relative" ref={userDropdownRef}>
+            <button
+              type="button"
+              onClick={() => setUserDropdownOpen(!userDropdownOpen)}
+              className="luxury-touch-press flex items-center gap-1.5 sm:gap-2 p-1.5 sm:px-3 sm:py-1.5 rounded-full hover:bg-[#FAF7F2] border border-transparent hover:border-[#E8E1DA] transition-all cursor-pointer"
+              aria-label="User account and atelier menu"
+              aria-expanded={userDropdownOpen}
+            >
+              <span className="w-7 h-7 rounded-full bg-[#FFF0F4] border border-[#FCC1C5] text-[#C2185B] flex items-center justify-center font-bold text-xs shadow-2xs">
+                {isAuthenticated && user?.name ? user.name.charAt(0).toUpperCase() : <User className="w-3.5 h-3.5 text-[#EC407A]" />}
+              </span>
+              <span className="hidden sm:inline text-xs font-semibold text-[#242124] max-w-[90px] truncate">
+                {isAuthenticated ? (user?.name?.split(' ')[0] || 'Account') : 'Account'}
+              </span>
+              <ChevronDown className={`w-3.5 h-3.5 text-[#888888] transition-transform duration-200 ${userDropdownOpen ? 'rotate-180' : ''}`} />
+            </button>
 
-                {userDropdownOpen && (
-                  <div className="absolute right-0 top-full mt-2 w-56 bg-white rounded-2xl shadow-xl border border-[#F0EBE5] py-2 z-50 animate-modal-pop">
-                    <div className="px-4 py-2 border-b border-[#F7F2ED]">
-                      <p className="text-xs font-semibold text-[#242124] truncate">{user?.name}</p>
-                      <p className="text-[11px] text-[#777777] truncate">{user?.email}</p>
-                      <span className="inline-block mt-1 text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#FFF0F4] text-[#C2185B] uppercase tracking-wider">
-                        {user?.role}
-                      </span>
-                    </div>
-
+            {userDropdownOpen && (
+              <div className="absolute right-0 top-full mt-2 w-64 bg-white rounded-3xl shadow-2xl border border-[#F0EBE5] py-2.5 z-50 animate-modal-pop">
+                {isAuthenticated ? (
+                  <div className="px-4 py-2.5 border-b border-[#F7F2ED]">
+                    <p className="text-xs font-bold text-[#242124] truncate">{user?.name || 'Valued Patron'}</p>
+                    <p className="text-[11px] text-[#777777] truncate">{user?.email}</p>
+                    <span className="inline-block mt-1 text-[9.5px] font-bold px-2 py-0.5 rounded-full bg-[#FFF0F4] text-[#C2185B] uppercase tracking-wider">
+                      {user?.role === 'admin' ? 'Atelier Admin' : 'VIP Member'}
+                    </span>
+                  </div>
+                ) : (
+                  <div className="px-4 py-3 border-b border-[#F7F2ED] bg-gradient-to-r from-[#FFF0F4] to-[#FFFDF9] rounded-t-3xl -mt-2.5 mb-1">
+                    <p className="text-xs font-bold text-[#242124]">Welcome to Dhanvikk</p>
+                    <p className="text-[10px] text-[#777777] mb-2 leading-relaxed">Sign in for live order tracking & saved addresses.</p>
                     <Link
-                      to="/account"
+                      to="/login"
                       onClick={() => setUserDropdownOpen(false)}
-                      className="flex items-center gap-2.5 px-4 py-2.5 text-xs text-[#242124] hover:bg-[#FFF3F6] hover:text-[#EC407A] transition-colors"
+                      className="w-full inline-flex items-center justify-center gap-1.5 py-1.5 px-3 rounded-full bg-[#EC407A] hover:bg-[#C2185B] text-white text-[11px] font-bold shadow-xs transition-all"
                     >
-                      <Package className="w-4 h-4 text-[#777777]" />
-                      <span>My Orders & Address</span>
+                      <User className="w-3 h-3" />
+                      <span>Sign In / Register</span>
                     </Link>
+                  </div>
+                )}
 
+                {/* 1. Account Portal Navigation Links */}
+                <div className="py-1">
+                  <Link
+                    to="/profile"
+                    onClick={() => setUserDropdownOpen(false)}
+                    className="flex items-center gap-2.5 px-4 py-2 text-xs text-[#242124] hover:bg-[#FFF3F6] hover:text-[#EC407A] transition-colors"
+                  >
+                    <User className="w-4 h-4 text-[#EC407A]" />
+                    <span className="font-medium">Profile</span>
+                  </Link>
+
+                  <Link
+                    to="/orders"
+                    onClick={() => setUserDropdownOpen(false)}
+                    className="flex items-center gap-2.5 px-4 py-2 text-xs text-[#242124] hover:bg-[#FFF3F6] hover:text-[#EC407A] transition-colors"
+                  >
+                    <Package className="w-4 h-4 text-[#EC407A]" />
+                    <span className="font-medium">My Orders</span>
+                  </Link>
+
+                  <Link
+                    to="/address"
+                    onClick={() => setUserDropdownOpen(false)}
+                    className="flex items-center gap-2.5 px-4 py-2 text-xs text-[#242124] hover:bg-[#FFF3F6] hover:text-[#EC407A] transition-colors"
+                  >
+                    <MapPin className="w-4 h-4 text-[#EC407A]" />
+                    <span className="font-medium">Address</span>
+                  </Link>
+                </div>
+
+                {/* 2. Atelier Information Links */}
+                <div className="border-t border-[#F7F2ED] py-1 my-1">
+                  <Link
+                    to="/about"
+                    onClick={() => setUserDropdownOpen(false)}
+                    className="flex items-center gap-2.5 px-4 py-2 text-xs text-[#242124] hover:bg-[#FFF3F6] hover:text-[#EC407A] transition-colors"
+                  >
+                    <Sparkles className="w-4 h-4 text-[#EC407A]" />
+                    <span className="font-medium">About</span>
+                  </Link>
+
+                  <Link
+                    to="/contact"
+                    onClick={() => setUserDropdownOpen(false)}
+                    className="flex items-center gap-2.5 px-4 py-2 text-xs text-[#242124] hover:bg-[#FFF3F6] hover:text-[#EC407A] transition-colors"
+                  >
+                    <Phone className="w-4 h-4 text-[#EC407A]" />
+                    <span className="font-medium">Contact Us</span>
+                  </Link>
+
+                  <Link
+                    to="/faq"
+                    onClick={() => setUserDropdownOpen(false)}
+                    className="flex items-center gap-2.5 px-4 py-2 text-xs text-[#242124] hover:bg-[#FFF3F6] hover:text-[#EC407A] transition-colors"
+                  >
+                    <HelpCircle className="w-4 h-4 text-[#EC407A]" />
+                    <span className="font-medium">FAQ</span>
+                  </Link>
+                </div>
+
+                {/* 3. Admin Portal (if admin) & Sign Out */}
+                {isAuthenticated && (
+                  <div className="border-t border-[#F7F2ED] pt-1">
                     {isAdmin && (
                       <Link
                         to="/admin/dashboard"
                         onClick={() => setUserDropdownOpen(false)}
-                        className="flex items-center gap-2.5 px-4 py-2.5 text-xs text-[#C2185B] font-semibold bg-[#FFF3F6]/50 hover:bg-[#FFF3F6] transition-colors"
+                        className="flex items-center gap-2.5 px-4 py-2 text-xs text-[#C2185B] font-semibold bg-[#FFF3F6]/50 hover:bg-[#FFF3F6] transition-colors"
                       >
                         <Shield className="w-4 h-4 text-[#EC407A]" />
                         <span>Admin Console & Stock</span>
@@ -562,8 +641,11 @@ export default function Navbar({ onSearch, searchQuery = '' }) {
 
                     <button
                       type="button"
-                      onClick={handleLogout}
-                      className="w-full flex items-center gap-2.5 px-4 py-2.5 text-xs text-red-600 hover:bg-red-50 transition-colors text-left cursor-pointer"
+                      onClick={() => {
+                        setUserDropdownOpen(false);
+                        handleLogout();
+                      }}
+                      className="w-full flex items-center gap-2.5 px-4 py-2 text-xs text-rose-600 hover:bg-rose-50 transition-colors text-left cursor-pointer"
                     >
                       <LogOut className="w-4 h-4" />
                       <span>Sign Out</span>
@@ -571,14 +653,6 @@ export default function Navbar({ onSearch, searchQuery = '' }) {
                   </div>
                 )}
               </div>
-            ) : (
-              <Link
-                to="/login"
-                className="luxury-touch-press inline-flex items-center gap-1.5 px-3 py-1.5 sm:py-2 rounded-full text-xs font-semibold text-[#EC407A] hover:text-[#C2185B] hover:bg-[#FAF7F2] border border-transparent hover:border-[#E8E1DA] transition-all"
-              >
-                <User className="w-4 h-4 text-[#C2185B]" />
-                <span className="hidden sm:inline">Sign In</span>
-              </Link>
             )}
           </div>
 
@@ -730,6 +804,66 @@ export default function Navbar({ onSearch, searchQuery = '' }) {
             >
               ✨ Forever Roses
             </Link>
+          </div>
+
+          {/* Mobile Account & Atelier Quick Links */}
+          <div className="pt-3 border-t border-[#F7F2ED] space-y-1.5">
+            <span className="text-[10px] font-bold uppercase tracking-wider text-[#C2185B] px-1 block">
+              Account & Concierge
+            </span>
+            <div className="grid grid-cols-3 gap-1.5 text-xs">
+              <Link
+                to="/profile"
+                onClick={() => setMobileMenuOpen(false)}
+                className="p-2.5 rounded-2xl bg-white border border-[#EAE4DD] text-center hover:bg-[#FFF3F6] hover:text-[#EC407A] transition-colors shadow-2xs"
+              >
+                <User className="w-4 h-4 mx-auto mb-1 text-[#EC407A]" />
+                <span className="text-[11px] font-semibold block truncate">Profile</span>
+              </Link>
+              <Link
+                to="/orders"
+                onClick={() => setMobileMenuOpen(false)}
+                className="p-2.5 rounded-2xl bg-white border border-[#EAE4DD] text-center hover:bg-[#FFF3F6] hover:text-[#EC407A] transition-colors shadow-2xs"
+              >
+                <Package className="w-4 h-4 mx-auto mb-1 text-[#EC407A]" />
+                <span className="text-[11px] font-semibold block truncate">My Orders</span>
+              </Link>
+              <Link
+                to="/address"
+                onClick={() => setMobileMenuOpen(false)}
+                className="p-2.5 rounded-2xl bg-white border border-[#EAE4DD] text-center hover:bg-[#FFF3F6] hover:text-[#EC407A] transition-colors shadow-2xs"
+              >
+                <MapPin className="w-4 h-4 mx-auto mb-1 text-[#EC407A]" />
+                <span className="text-[11px] font-semibold block truncate">Address</span>
+              </Link>
+            </div>
+
+            <div className="grid grid-cols-3 gap-1.5 text-xs pt-0.5">
+              <Link
+                to="/about"
+                onClick={() => setMobileMenuOpen(false)}
+                className="p-2.5 rounded-2xl bg-white border border-[#EAE4DD] text-center hover:bg-[#FFF3F6] hover:text-[#EC407A] transition-colors shadow-2xs"
+              >
+                <Sparkles className="w-4 h-4 mx-auto mb-1 text-[#EC407A]" />
+                <span className="text-[11px] font-semibold block truncate">About</span>
+              </Link>
+              <Link
+                to="/contact"
+                onClick={() => setMobileMenuOpen(false)}
+                className="p-2.5 rounded-2xl bg-white border border-[#EAE4DD] text-center hover:bg-[#FFF3F6] hover:text-[#EC407A] transition-colors shadow-2xs"
+              >
+                <Phone className="w-4 h-4 mx-auto mb-1 text-[#EC407A]" />
+                <span className="text-[11px] font-semibold block truncate">Contact</span>
+              </Link>
+              <Link
+                to="/faq"
+                onClick={() => setMobileMenuOpen(false)}
+                className="p-2.5 rounded-2xl bg-white border border-[#EAE4DD] text-center hover:bg-[#FFF3F6] hover:text-[#EC407A] transition-colors shadow-2xs"
+              >
+                <HelpCircle className="w-4 h-4 mx-auto mb-1 text-[#EC407A]" />
+                <span className="text-[11px] font-semibold block truncate">FAQ</span>
+              </Link>
+            </div>
           </div>
 
           {/* Mobile Currency Switcher */}

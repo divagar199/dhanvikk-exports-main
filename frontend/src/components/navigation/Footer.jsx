@@ -221,23 +221,33 @@ export default function Footer() {
             </h4>
             <ul className="space-y-2.5 text-xs text-[#555555]">
               <li>
-                <Link to="/login" className="hover:text-[#C2185B] hover:translate-x-1.5 inline-block transition-all">
-                  Customer Account Login
-                </Link>
-              </li>
-              <li>
-                <Link to="/register" className="hover:text-[#C2185B] hover:translate-x-1.5 inline-block transition-all">
-                  Create New Account
-                </Link>
-              </li>
-              <li>
-                <Link to="/account" className="hover:text-[#C2185B] hover:translate-x-1.5 inline-block transition-all">
+                <Link to="/orders" className="hover:text-[#C2185B] hover:translate-x-1.5 inline-block transition-all">
                   Track Active Orders
                 </Link>
               </li>
               <li>
-                <Link to="/checkout" className="hover:text-[#C2185B] hover:translate-x-1.5 inline-block transition-all">
-                  Direct Razorpay Checkout
+                <Link to="/profile" className="hover:text-[#C2185B] hover:translate-x-1.5 inline-block transition-all">
+                  My VIP Profile
+                </Link>
+              </li>
+              <li>
+                <Link to="/address" className="hover:text-[#C2185B] hover:translate-x-1.5 inline-block transition-all">
+                  Delivery Address Book
+                </Link>
+              </li>
+              <li>
+                <Link to="/about" className="hover:text-[#C2185B] hover:translate-x-1.5 inline-block transition-all">
+                  About Haute Floristry
+                </Link>
+              </li>
+              <li>
+                <Link to="/contact" className="hover:text-[#C2185B] hover:translate-x-1.5 inline-block transition-all">
+                  Contact Floral Concierge
+                </Link>
+              </li>
+              <li>
+                <Link to="/faq" className="hover:text-[#C2185B] hover:translate-x-1.5 inline-block transition-all">
+                  FAQ & Care Protocol
                 </Link>
               </li>
               <li>
@@ -248,7 +258,7 @@ export default function Footer() {
                   className="text-[#128C7E] font-semibold hover:underline inline-flex items-center gap-1.5"
                 >
                   <Plane className="w-3.5 h-3.5" />
-                  <span>International Cargo Wholesale Inquiry</span>
+                  <span>Wholesale Air Cargo Export</span>
                 </a>
               </li>
               <li className="pt-1.5">
