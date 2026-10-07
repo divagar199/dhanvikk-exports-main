@@ -1,7 +1,15 @@
 import axios from 'axios';
 
-// Centralized Axios instance
-const normalizedBaseURL = (import.meta.env.VITE_API_URL || '').replace(/\/+$/, '');
+// Centralized Axios instance with automatic fallback for Vercel production
+const defaultProductionApi = 'https://dhanvikk-exports-api.onrender.com';
+const isLocalhost =
+  typeof window !== 'undefined' &&
+  (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1');
+
+const normalizedBaseURL = (
+  import.meta.env.VITE_API_URL ||
+  (!isLocalhost ? defaultProductionApi : '')
+).replace(/\/+$/, '');
 
 const api = axios.create({
   baseURL: normalizedBaseURL,

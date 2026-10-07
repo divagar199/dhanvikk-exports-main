@@ -185,18 +185,26 @@ export const loginWithGoogleThunk = createAsyncThunk(
         return rejectWithValue('Google authentication was not completed.');
       }
 
-      // Synchronize authenticated profile with backend API (creates/updates customer record)
+      // Synchronize authenticated profile with backend API (with 3.5s timeout guard so users are NEVER stuck)
       let data = null;
       try {
-        data = await authService.loginWithGoogle(firebasePayload);
+        const timeoutPromise = new Promise((_, reject) =>
+          setTimeout(() => reject(new Error('Backend sync timeout')), 3500)
+        );
+        data = await Promise.race([
+          authService.loginWithGoogle(firebasePayload),
+          timeoutPromise,
+        ]);
       } catch (apiErr) {
-        console.warn('Backend API note for Google login (using verified Firebase session):', apiErr.message);
-        // Fall back to verified Firebase authentication if backend API is temporarily slow/offline
+        console.warn('Backend API note for Google login (proceeding with verified Firebase session):', apiErr?.message);
+        // Fall back to verified Firebase authentication if backend API is temporarily slow/cold-starting
         data = {
           success: true,
           user: firebaseUser,
           token: firebaseToken || `fb_token_${firebaseUser.id}`,
         };
+        // Fire-and-forget sync in the background so backend database still captures the user
+        authService.loginWithGoogle(firebasePayload).catch(() => {});
       }
 
       if (data?.success) {
