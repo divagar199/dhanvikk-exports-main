@@ -228,6 +228,167 @@ export default function HomePage() {
 
         {/* 3. Sub-Nav Bar (Flowers, Occasion, Gift Bundles, Flower Boxes, Plants, Forever Roses - NO CAKES) */}
         <SubNav />
+         {/* 8. Live Best Sellers & Defined Categories Split Catalog */}
+         {/* Live Search Results Section (Shown dynamically when a search query is entered) */}
+        {searchQuery.trim() && (
+          <section
+            id="search-results"
+            ref={searchResultsRef}
+            className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10 w-full animate-in fade-in slide-in-from-top-4 duration-300 scroll-mt-24"
+          >
+            <div className="bg-gradient-to-br from-[#FFF5F7] via-[#FFFDF9] to-[#FAF7F2] border border-[#F2D7DE] rounded-3xl p-6 sm:p-8 shadow-sm">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-[#F4ECE4]">
+                <div className="space-y-1">
+                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#EC407A]/10 text-[#C2185B] text-xs font-bold uppercase tracking-wider">
+                    <Search className="w-3.5 h-3.5 text-[#EC407A]" />
+                    <span>Live Search Filter</span>
+                  </div>
+                  <h2 className="text-2xl sm:text-3xl font-extrabold text-[#242124]">
+                    Curations matching <span className="text-[#EC407A]">"{searchQuery}"</span>
+                  </h2>
+                  <p className="text-xs sm:text-sm text-[#777777]">
+                    Found <span className="font-bold text-[#242124]">{displayedSearchResults.length}</span> {displayedSearchResults.length === 1 ? 'curation' : 'curations'} matching your query
+                  </p>
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => {
+                      setSearchQuery('');
+                      setSearchCategoryFilter('All');
+                    }}
+                    className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-white hover:bg-[#FFF0F4] border border-[#FCC1C5] text-xs font-bold text-[#C2185B] transition-all shadow-xs cursor-pointer active:scale-95"
+                  >
+                    <X className="w-3.5 h-3.5" />
+                    <span>Clear Search</span>
+                  </button>
+                </div>
+              </div>
+
+              {/* Matched Categories Filter Chips */}
+              {availableSearchCategories.length > 1 && (
+                <div className="py-4 flex items-center gap-2 overflow-x-auto scrollbar-none border-b border-[#F4ECE4]/60">
+                  <span className="text-xs text-[#888888] font-semibold whitespace-nowrap flex items-center gap-1">
+                    <SlidersHorizontal className="w-3.5 h-3.5" />
+                    <span>Filter by Category:</span>
+                  </span>
+                  {availableSearchCategories.map((cat) => {
+                    const count = cat === 'All' 
+                      ? filteredProducts.length 
+                      : filteredProducts.filter((p) => p.category === cat).length;
+                    const isSelected = searchCategoryFilter === cat;
+
+                    return (
+                      <button
+                        key={cat}
+                        onClick={() => setSearchCategoryFilter(cat)}
+                        className={`px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all cursor-pointer flex items-center gap-1.5 ${
+                          isSelected
+                            ? 'bg-[#EC407A] text-white shadow-xs scale-102'
+                            : 'bg-white hover:bg-[#FFF3F6] text-[#555555] hover:text-[#EC407A] border border-[#EAE2D8]'
+                        }`}
+                      >
+                        <span>{cat}</span>
+                        <span className={`text-[10px] px-1.5 py-0.2 rounded-full ${isSelected ? 'bg-white/20 text-white' : 'bg-[#F2ECE6] text-[#777777]'}`}>
+                          {count}
+                        </span>
+                      </button>
+                    );
+                  })}
+                </div>
+              )}
+
+              {/* Product Results Grid */}
+              {displayedSearchResults.length > 0 ? (
+                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 mt-6">
+                  {displayedSearchResults.map((product) => {
+                    const prodId = product._id || product.id;
+                    const imgUrl = getProductImageUrl(product.images || product.image);
+                    const isAdded = addedIds.includes(prodId);
+
+                    return (
+                      <div
+                        key={prodId}
+                        className="group flex flex-col justify-between bg-white rounded-2xl sm:rounded-3xl border border-[#F4ECE4] hover:border-[#EC407A]/50 shadow-xs hover:shadow-xl transition-all duration-300 overflow-hidden"
+                      >
+                        <div className="relative aspect-square overflow-hidden bg-[#FAF7F2]">
+                          <img
+                            src={imgUrl}
+                            alt={`${product.name} - Luxury ${product.category || 'Flower Arrangement'} | Dhanvikk Blooms`}
+                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                            loading="lazy"
+                            decoding="async"
+                          />
+                          {product.tag && (
+                            <span className="absolute top-2.5 left-2.5 px-2.5 py-0.5 rounded-full bg-[#242124]/85 backdrop-blur-xs text-white text-[10px] font-bold tracking-wider uppercase">
+                              {product.tag}
+                            </span>
+                          )}
+                          <Link to={`/product/${prodId}`} className="absolute inset-0 z-5" />
+                        </div>
+
+                        <div className="p-3.5 sm:p-4 flex-1 flex flex-col justify-between space-y-3">
+                          <div className="space-y-1">
+                            <span className="text-[10px] uppercase font-bold tracking-wider text-[#EC407A] block truncate">
+                              {product.category || 'Luxury Floristry'}
+                            </span>
+                            <Link to={`/product/${prodId}`}>
+                              <h3 className="text-xs sm:text-sm font-bold text-[#242124] hover:text-[#EC407A] transition-colors line-clamp-1">
+                                {product.name}
+                              </h3>
+                            </Link>
+                          </div>
+
+                          <div className="pt-2 border-t border-[#F7F2ED] flex items-center justify-between gap-1">
+                            <div>
+                              <span className="text-sm sm:text-base font-extrabold text-[#C2185B] font-mono">
+                                {formatPrice(product.price)}
+                              </span>
+                              {product.originalPrice && product.originalPrice > product.price && (
+                                <span className="text-[11px] text-[#999999] line-through font-mono ml-1.5 hidden sm:inline">
+                                  {formatPrice(product.originalPrice)}
+                                </span>
+                              )}
+                            </div>
+
+                            <button
+                              type="button"
+                              onClick={() => handleAddToCart(product)}
+                              className={`px-3.5 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer ${
+                                isAdded
+                                  ? 'bg-emerald-600 text-white'
+                                  : 'bg-[#EC407A] hover:bg-[#C2185B] text-white shadow-xs'
+                              }`}
+                            >
+                              {isAdded ? 'Added ✓' : 'Add'}
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              ) : (
+                <div className="py-12 text-center space-y-3">
+                  <Flower2 className="w-12 h-12 text-[#FCC1C5] mx-auto" />
+                  <h3 className="text-base font-bold text-[#242124]">
+                    No curations found in category "{searchCategoryFilter}" for "{searchQuery}"
+                  </h3>
+                  <p className="text-xs text-[#777777] max-w-sm mx-auto">
+                    Try switching back to "All Categories" or search for broader botanical names like "Roses", "Bouquets", or "Hatboxes".
+                  </p>
+                  <button
+                    onClick={() => setSearchCategoryFilter('All')}
+                    className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-[#EC407A] hover:bg-[#C2185B] text-white text-xs font-bold transition-all shadow-sm cursor-pointer"
+                  >
+                    <span>View All Matching Items ({filteredProducts.length})</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </button>
+                </div>
+              )}
+              </div>
+            </section>
+          )}
 
         {/* 4. Editorial Hero Banners (Dhanvikk 3-Column Layout) */}
         {/* 4. Editorial Hero Banners (Dhanvikk 3-Place Layout with Skiper51 Creative Carousels) */}
@@ -652,184 +813,22 @@ export default function HomePage() {
 
         {/* 7.5. Highlighted Heritage & Sacred Floral Exports (9 Highlighted Items) */}
         <TraditionalExportsSection />
- {/* 7. Curated Collections - Haute Floristry Formats */}
+
+        {/* 10. Haute Floristry Promise - 3 Zigzag Editorial Sections with Indian Visuals */}
+        <HauteFloristryPromise />
+
+        {/* 7. Curated Collections - Haute Floristry Formats */}
         <CuratedCollectionsSection />
         
 
-        {/* Live Search Results Section (Shown dynamically when a search query is entered) */}
-        {searchQuery.trim() && (
-          <section
-            id="search-results"
-            ref={searchResultsRef}
-            className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10 w-full animate-in fade-in slide-in-from-top-4 duration-300 scroll-mt-24"
-          >
-            <div className="bg-gradient-to-br from-[#FFF5F7] via-[#FFFDF9] to-[#FAF7F2] border border-[#F2D7DE] rounded-3xl p-6 sm:p-8 shadow-sm">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-[#F4ECE4]">
-                <div className="space-y-1">
-                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#EC407A]/10 text-[#C2185B] text-xs font-bold uppercase tracking-wider">
-                    <Search className="w-3.5 h-3.5 text-[#EC407A]" />
-                    <span>Live Search Filter</span>
-                  </div>
-                  <h2 className="text-2xl sm:text-3xl font-extrabold text-[#242124]">
-                    Curations matching <span className="text-[#EC407A]">"{searchQuery}"</span>
-                  </h2>
-                  <p className="text-xs sm:text-sm text-[#777777]">
-                    Found <span className="font-bold text-[#242124]">{displayedSearchResults.length}</span> {displayedSearchResults.length === 1 ? 'curation' : 'curations'} matching your query
-                  </p>
-                </div>
-
-                <div className="flex items-center gap-2">
-                  <button
-                    onClick={() => {
-                      setSearchQuery('');
-                      setSearchCategoryFilter('All');
-                    }}
-                    className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-white hover:bg-[#FFF0F4] border border-[#FCC1C5] text-xs font-bold text-[#C2185B] transition-all shadow-xs cursor-pointer active:scale-95"
-                  >
-                    <X className="w-3.5 h-3.5" />
-                    <span>Clear Search</span>
-                  </button>
-                </div>
-              </div>
-
-              {/* Matched Categories Filter Chips */}
-              {availableSearchCategories.length > 1 && (
-                <div className="py-4 flex items-center gap-2 overflow-x-auto scrollbar-none border-b border-[#F4ECE4]/60">
-                  <span className="text-xs text-[#888888] font-semibold whitespace-nowrap flex items-center gap-1">
-                    <SlidersHorizontal className="w-3.5 h-3.5" />
-                    <span>Filter by Category:</span>
-                  </span>
-                  {availableSearchCategories.map((cat) => {
-                    const count = cat === 'All' 
-                      ? filteredProducts.length 
-                      : filteredProducts.filter((p) => p.category === cat).length;
-                    const isSelected = searchCategoryFilter === cat;
-
-                    return (
-                      <button
-                        key={cat}
-                        onClick={() => setSearchCategoryFilter(cat)}
-                        className={`px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all cursor-pointer flex items-center gap-1.5 ${
-                          isSelected
-                            ? 'bg-[#EC407A] text-white shadow-xs scale-102'
-                            : 'bg-white hover:bg-[#FFF3F6] text-[#555555] hover:text-[#EC407A] border border-[#EAE2D8]'
-                        }`}
-                      >
-                        <span>{cat}</span>
-                        <span className={`text-[10px] px-1.5 py-0.2 rounded-full ${isSelected ? 'bg-white/20 text-white' : 'bg-[#F2ECE6] text-[#777777]'}`}>
-                          {count}
-                        </span>
-                      </button>
-                    );
-                  })}
-                </div>
-              )}
-
-              {/* Product Results Grid */}
-              {displayedSearchResults.length > 0 ? (
-                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 mt-6">
-                  {displayedSearchResults.map((product) => {
-                    const prodId = product._id || product.id;
-                    const imgUrl = getProductImageUrl(product.images || product.image);
-                    const isAdded = addedIds.includes(prodId);
-
-                    return (
-                      <div
-                        key={prodId}
-                        className="group flex flex-col justify-between bg-white rounded-2xl sm:rounded-3xl border border-[#F4ECE4] hover:border-[#EC407A]/50 shadow-xs hover:shadow-xl transition-all duration-300 overflow-hidden"
-                      >
-                        <div className="relative aspect-square overflow-hidden bg-[#FAF7F2]">
-                          <img
-                            src={imgUrl}
-                            alt={`${product.name} - Luxury ${product.category || 'Flower Arrangement'} | Dhanvikk Blooms`}
-                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                            loading="lazy"
-                            decoding="async"
-                          />
-                          {product.tag && (
-                            <span className="absolute top-2.5 left-2.5 px-2.5 py-0.5 rounded-full bg-[#242124]/85 backdrop-blur-xs text-white text-[10px] font-bold tracking-wider uppercase">
-                              {product.tag}
-                            </span>
-                          )}
-                          <Link to={`/product/${prodId}`} className="absolute inset-0 z-5" />
-                        </div>
-
-                        <div className="p-3.5 sm:p-4 flex-1 flex flex-col justify-between space-y-3">
-                          <div className="space-y-1">
-                            <span className="text-[10px] uppercase font-bold tracking-wider text-[#EC407A] block truncate">
-                              {product.category || 'Luxury Floristry'}
-                            </span>
-                            <Link to={`/product/${prodId}`}>
-                              <h3 className="text-xs sm:text-sm font-bold text-[#242124] hover:text-[#EC407A] transition-colors line-clamp-1">
-                                {product.name}
-                              </h3>
-                            </Link>
-                          </div>
-
-                          <div className="pt-2 border-t border-[#F7F2ED] flex items-center justify-between gap-1">
-                            <div>
-                              <span className="text-sm sm:text-base font-extrabold text-[#C2185B] font-mono">
-                                {formatPrice(product.price)}
-                              </span>
-                              {product.originalPrice && product.originalPrice > product.price && (
-                                <span className="text-[11px] text-[#999999] line-through font-mono ml-1.5 hidden sm:inline">
-                                  {formatPrice(product.originalPrice)}
-                                </span>
-                              )}
-                            </div>
-
-                            <button
-                              type="button"
-                              onClick={() => handleAddToCart(product)}
-                              className={`px-3.5 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer ${
-                                isAdded
-                                  ? 'bg-emerald-600 text-white'
-                                  : 'bg-[#EC407A] hover:bg-[#C2185B] text-white shadow-xs'
-                              }`}
-                            >
-                              {isAdded ? 'Added ✓' : 'Add'}
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              ) : (
-                <div className="py-12 text-center space-y-3">
-                  <Flower2 className="w-12 h-12 text-[#FCC1C5] mx-auto" />
-                  <h3 className="text-base font-bold text-[#242124]">
-                    No curations found in category "{searchCategoryFilter}" for "{searchQuery}"
-                  </h3>
-                  <p className="text-xs text-[#777777] max-w-sm mx-auto">
-                    Try switching back to "All Categories" or search for broader botanical names like "Roses", "Bouquets", or "Hatboxes".
-                  </p>
-                  <button
-                    onClick={() => setSearchCategoryFilter('All')}
-                    className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-[#EC407A] hover:bg-[#C2185B] text-white text-xs font-bold transition-all shadow-sm cursor-pointer"
-                  >
-                    <span>View All Matching Items ({filteredProducts.length})</span>
-                    <ArrowRight className="w-3.5 h-3.5" />
-                  </button>
-                </div>
-              )}
-            </div>
-          </section>
-        )}
-
-        {/* 8. Live Best Sellers & Defined Categories Split Catalog */}
-        <main className="w-full flex-1">
-          <CategorySplitShowcase products={products} loading={loading} />
-        </main>
-
-        {/* 9. Flowers For Every Precious Occasion - Exact Reference Design with Themed Pastel Cards */}
+       
+         {/* 9. Flowers For Every Precious Occasion - Exact Reference Design with Themed Pastel Cards */}
         <PreciousOccasionsSection />
 
         {/* 9.5. Living Botanical Plants & Indoor Greens Section */}
         <BotanicalPlantsSection />
 
-        {/* 10. Haute Floristry Promise - 3 Zigzag Editorial Sections with Indian Visuals */}
-        <HauteFloristryPromise />
+        
 
         {/* 10.5 Botanical FAQ & Geographic Service Corridors (AEO & GEO Powerhouse) */}
         <FaqAndGeoSection />
