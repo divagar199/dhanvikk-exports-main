@@ -171,7 +171,8 @@ export const loginWithGoogleThunk = createAsyncThunk(
             return rejectWithValue('Google sign-in popup was blocked by your browser. Please allow popups for this site and try again.');
           }
           if (errorCode === 'auth/unauthorized-domain') {
-            return rejectWithValue('This domain is not authorized in Firebase Auth. Please verify Authorized Domains in Firebase Console.');
+            const currentHost = typeof window !== 'undefined' ? window.location.hostname : 'current domain';
+            return rejectWithValue(`The domain "${currentHost}" is not authorized in Firebase Auth. Please verify Authorized Domains in Firebase Console.`);
           }
           if (errorCode === 'auth/network-request-failed') {
             return rejectWithValue('Network connection error during Google sign-in. Please check your internet connection.');
