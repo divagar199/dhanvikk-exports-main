@@ -99,7 +99,7 @@ export function Carousel_005({
             ref={prevRef}
             type="button"
             aria-label="Previous Slide"
-            className="absolute left-3 top-1/2 -translate-y-1/2 z-20 w-9 h-9 rounded-full bg-white/90 backdrop-blur-md text-[#242124] shadow-md border border-white/60 hover:text-[#EC407A] hover:scale-105 active:scale-95 transition-all flex items-center justify-center cursor-pointer"
+            className="absolute left-3 top-1/2 -translate-y-1/2 z-20 w-9 h-9 rounded-full bg-white/90 backdrop-blur-md text-[#EC407A] shadow-md border border-white/60 hover:text-[#C2185B] hover:scale-105 active:scale-95 transition-all flex items-center justify-center cursor-pointer"
           >
             <ChevronLeft className="w-4 h-4" />
           </button>
@@ -107,7 +107,7 @@ export function Carousel_005({
             ref={nextRef}
             type="button"
             aria-label="Next Slide"
-            className="absolute right-3 top-1/2 -translate-y-1/2 z-20 w-9 h-9 rounded-full bg-white/90 backdrop-blur-md text-[#242124] shadow-md border border-white/60 hover:text-[#EC407A] hover:scale-105 active:scale-95 transition-all flex items-center justify-center cursor-pointer"
+            className="absolute right-3 top-1/2 -translate-y-1/2 z-20 w-9 h-9 rounded-full bg-white/90 backdrop-blur-md text-[#EC407A] shadow-md border border-white/60 hover:text-[#C2185B] hover:scale-105 active:scale-95 transition-all flex items-center justify-center cursor-pointer"
           >
             <ChevronRight className="w-4 h-4" />
           </button>

@@ -34,7 +34,7 @@ export default function RoleRoute({ children, allowedRoles = [] }) {
           </a>
           <a
             href="/"
-            className="px-5 py-2.5 border border-[#E5E1E2] text-[#242124] rounded-xl text-sm font-medium hover:bg-[#FFF3F6] transition-colors"
+            className="px-5 py-2.5 border border-[#E5E1E2] text-[#EC407A] rounded-xl text-sm font-medium hover:bg-[#FFF3F6] hover:border-[#FCC1C5] transition-colors"
           >
             Back to Store
           </a>

@@ -234,7 +234,7 @@ export default function CuratedCollectionsSection() {
               className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-200 border ${
                 isBeginning 
                   ? 'border-[#EAE0D6] text-[#BBBBBB] bg-[#FAFAF7] cursor-not-allowed opacity-60' 
-                  : 'border-[#E0D0C4] text-[#242124] bg-white hover:bg-[#FFF3F6] hover:border-[#EC407A] hover:text-[#EC407A] shadow-xs active:scale-95'
+                  : 'border-[#E0D0C4] text-[#EC407A] bg-white hover:bg-[#FFF3F6] hover:border-[#EC407A] hover:text-[#C2185B] shadow-xs active:scale-95'
               }`}
             >
               <ChevronLeft className="w-4 h-4" />
@@ -247,7 +247,7 @@ export default function CuratedCollectionsSection() {
               className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-200 border ${
                 isEnd 
                   ? 'border-[#EAE0D6] text-[#BBBBBB] bg-[#FAFAF7] cursor-not-allowed opacity-60' 
-                  : 'border-[#E0D0C4] text-[#242124] bg-white hover:bg-[#FFF3F6] hover:border-[#EC407A] hover:text-[#EC407A] shadow-xs active:scale-95'
+                  : 'border-[#E0D0C4] text-[#EC407A] bg-white hover:bg-[#FFF3F6] hover:border-[#EC407A] hover:text-[#C2185B] shadow-xs active:scale-95'
               }`}
             >
               <ChevronRight className="w-4 h-4" />
@@ -257,7 +257,7 @@ export default function CuratedCollectionsSection() {
           {/* Explore All Formats CTA */}
           <Link
             to="/category/flowers"
-            className="group inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#242124] hover:bg-[#C2185B] text-white text-xs font-bold transition-all duration-300 shadow-sm hover:shadow-md hover:shadow-[#C2185B]/20 whitespace-nowrap"
+            className="group inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#EC407A] hover:bg-[#C2185B] text-white text-xs font-bold transition-all duration-300 shadow-sm hover:shadow-md hover:shadow-[#C2185B]/20 whitespace-nowrap"
           >
             <span>Explore All Formats</span>
             <ArrowUpRight className="w-3.5 h-3.5 text-white/80 group-hover:text-white group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
@@ -277,7 +277,7 @@ export default function CuratedCollectionsSection() {
                 className={`px-4 py-2 rounded-full text-xs font-semibold transition-all duration-300 flex items-center gap-2 border whitespace-nowrap ${
                   isActive
                     ? 'bg-gradient-to-r from-[#EC407A] to-[#C2185B] text-white border-transparent shadow-sm shadow-[#EC407A]/30 scale-102'
-                    : 'bg-white hover:bg-[#FFF7F9] text-[#555555] hover:text-[#242124] border-[#E8DFD7] hover:border-[#EC407A]/40'
+                    : 'bg-white hover:bg-[#FFF7F9] text-[#555555] hover:text-[#EC407A] border-[#E8DFD7] hover:border-[#EC407A]/40'
                 }`}
               >
                 {tab.id === 'all' && <Sparkles className={`w-3.5 h-3.5 ${isActive ? 'text-white' : 'text-[#EC407A]'}`} />}

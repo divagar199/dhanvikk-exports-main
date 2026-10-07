@@ -1225,7 +1225,7 @@ export default function AdminDashboard() {
           <button
             type="button"
             onClick={() => setMobileSidebarOpen(false)}
-            className="p-1.5 rounded-full hover:bg-[#FAF7F2] text-[#666] hover:text-[#242124] border border-[#EFE7DE] cursor-pointer"
+            className="p-1.5 rounded-full hover:bg-[#FAF7F2] text-[#666] hover:text-[#EC407A] border border-[#EFE7DE] cursor-pointer"
             aria-label="Close menu drawer"
           >
             <X className="w-4 h-4" />
@@ -1374,10 +1374,10 @@ export default function AdminDashboard() {
             <button
               type="button"
               onClick={() => setMobileSidebarOpen(true)}
-              className="lg:hidden p-1.5 rounded-xl text-[#242124] hover:bg-[#FAF7F2] border border-[#EFE7DE] transition-colors cursor-pointer mr-0.5 shrink-0"
+              className="lg:hidden p-1.5 rounded-xl text-[#EC407A] hover:bg-[#FAF7F2] border border-[#EFE7DE] transition-colors cursor-pointer mr-0.5 shrink-0"
               aria-label="Open Admin Navigation Menu"
             >
-              <Menu className="w-5 h-5 text-[#242124]" />
+              <Menu className="w-5 h-5 text-[#EC407A]" />
             </button>
 
             <Logo size="sm" linkTo="/admin/dashboard" className="mr-0.5 sm:mr-1 shrink-0" />
@@ -1401,7 +1401,7 @@ export default function AdminDashboard() {
           <div className="flex items-center gap-1.5 sm:gap-3 shrink-0">
             <Link
               to="/"
-              className="text-xs text-[#555555] hover:text-[#242124] border border-[#EFE7DE] px-3 py-1.5 rounded-full transition-colors hidden sm:inline-flex items-center gap-1.5 hover:bg-[#FAF7F2]"
+              className="text-xs text-[#555555] hover:text-[#EC407A] border border-[#EFE7DE] px-3 py-1.5 rounded-full transition-colors hidden sm:inline-flex items-center gap-1.5 hover:bg-[#FAF7F2]"
             >
               <span>← View Storefront</span>
             </Link>
@@ -1409,7 +1409,7 @@ export default function AdminDashboard() {
             <button
               onClick={fetchDashboardData}
               disabled={loading}
-              className="p-1.5 sm:p-2 text-[#666666] hover:text-[#242124] border border-[#EFE7DE] rounded-full transition-colors hover:bg-[#FAF7F2] cursor-pointer"
+              className="p-1.5 sm:p-2 text-[#666666] hover:text-[#EC407A] border border-[#EFE7DE] rounded-full transition-colors hover:bg-[#FAF7F2] cursor-pointer"
               title="Refresh Live Data"
             >
               <RefreshCw className={`w-3.5 h-3.5 sm:w-4 sm:h-4 ${loading ? 'animate-spin text-[#C2185B]' : ''}`} />
@@ -1419,7 +1419,7 @@ export default function AdminDashboard() {
               variant="outline"
               size="sm"
               onClick={handleLogout}
-              className="bg-transparent border-[#EFE7DE] text-[#242124] hover:bg-rose-50 hover:text-rose-600 hover:border-rose-200 text-[11px] sm:text-xs py-1 sm:py-1.5 px-2.5 sm:px-3"
+              className="bg-transparent border-[#EFE7DE] text-[#EC407A] hover:bg-rose-50 hover:text-rose-600 hover:border-rose-200 text-[11px] sm:text-xs py-1 sm:py-1.5 px-2.5 sm:px-3"
             >
               <LogOut className="w-3 h-3 sm:w-3.5 sm:h-3.5" /> <span className="hidden sm:inline">Sign Out</span>
             </Button>
@@ -1472,7 +1472,7 @@ export default function AdminDashboard() {
                 <button
                   onClick={fetchDashboardData}
                   disabled={loading}
-                  className="px-2.5 py-1 text-xs text-[#555] hover:text-[#242124] border border-[#EFE7DE] rounded-lg hover:bg-[#FAF7F2] transition-colors flex items-center gap-1.5 cursor-pointer shadow-2xs"
+                  className="px-2.5 py-1 text-xs text-[#555] hover:text-[#EC407A] border border-[#EFE7DE] rounded-lg hover:bg-[#FAF7F2] transition-colors flex items-center gap-1.5 cursor-pointer shadow-2xs"
                   title="Refresh Live Data"
                 >
                   <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin text-[#C2185B]' : ''}`} />
@@ -1676,7 +1676,7 @@ export default function AdminDashboard() {
                   <button
                     onClick={() => setStockFilter('all')}
                     className={`px-2.5 py-1 rounded-lg transition-colors cursor-pointer shrink-0 ${
-                      stockFilter === 'all' ? 'bg-[#C2185B] text-white font-bold' : 'text-[#666666] hover:text-[#242124]'
+                      stockFilter === 'all' ? 'bg-[#C2185B] text-white font-bold' : 'text-[#666666] hover:text-[#EC407A]'
                     }`}
                   >
                     All
@@ -1684,7 +1684,7 @@ export default function AdminDashboard() {
                   <button
                     onClick={() => setStockFilter('in_stock')}
                     className={`px-2.5 py-1 rounded-lg transition-colors cursor-pointer shrink-0 ${
-                      stockFilter === 'in_stock' ? 'bg-emerald-600 text-white font-bold' : 'text-[#666666] hover:text-[#242124]'
+                      stockFilter === 'in_stock' ? 'bg-emerald-600 text-white font-bold' : 'text-[#666666] hover:text-[#EC407A]'
                     }`}
                   >
                     In Stock
@@ -1692,7 +1692,7 @@ export default function AdminDashboard() {
                   <button
                     onClick={() => setStockFilter('low_stock')}
                     className={`px-2.5 py-1 rounded-lg transition-colors cursor-pointer shrink-0 ${
-                      stockFilter === 'low_stock' ? 'bg-amber-600 text-white font-bold' : 'text-[#666666] hover:text-[#242124]'
+                      stockFilter === 'low_stock' ? 'bg-amber-600 text-white font-bold' : 'text-[#666666] hover:text-[#EC407A]'
                     }`}
                   >
                     Low Stock
@@ -1700,7 +1700,7 @@ export default function AdminDashboard() {
                   <button
                     onClick={() => setStockFilter('out_of_stock')}
                     className={`px-2.5 py-1 rounded-lg transition-colors cursor-pointer shrink-0 ${
-                      stockFilter === 'out_of_stock' ? 'bg-rose-600 text-white font-bold' : 'text-[#666666] hover:text-[#242124]'
+                      stockFilter === 'out_of_stock' ? 'bg-rose-600 text-white font-bold' : 'text-[#666666] hover:text-[#EC407A]'
                     }`}
                   >
                     Sold Out
@@ -1825,7 +1825,7 @@ export default function AdminDashboard() {
                                 {/* Decrement 1 */}
                                 <button
                                   onClick={() => handleStockAdjust(prod, -1)}
-                                  className="w-7 h-7 rounded-lg bg-[#FAF7F2] hover:bg-[#C2185B] hover:text-white text-[#242124] border border-[#EFE7DE] flex items-center justify-center font-bold text-sm cursor-pointer transition-colors"
+                                  className="w-7 h-7 rounded-lg bg-[#FAF7F2] hover:bg-[#C2185B] hover:text-white text-[#EC407A] border border-[#EFE7DE] flex items-center justify-center font-bold text-sm cursor-pointer transition-colors"
                                   title="Decrease stock by 1"
                                 >
                                   -
@@ -1867,7 +1867,7 @@ export default function AdminDashboard() {
                                 {/* Increment 1 */}
                                 <button
                                   onClick={() => handleStockAdjust(prod, 1)}
-                                  className="w-7 h-7 rounded-lg bg-[#FAF7F2] hover:bg-[#C2185B] hover:text-white text-[#242124] border border-[#EFE7DE] flex items-center justify-center font-bold text-sm cursor-pointer transition-colors"
+                                  className="w-7 h-7 rounded-lg bg-[#FAF7F2] hover:bg-[#C2185B] hover:text-white text-[#EC407A] border border-[#EFE7DE] flex items-center justify-center font-bold text-sm cursor-pointer transition-colors"
                                   title="Increase stock by 1"
                                 >
                                   +
@@ -1877,14 +1877,14 @@ export default function AdminDashboard() {
                                 <div className="hidden sm:flex items-center gap-1 ml-1.5 pl-1.5 border-l border-[#EFE7DE]">
                                   <button
                                     onClick={() => handleStockAdjust(prod, 10)}
-                                    className="px-1.5 py-1 text-[10px] font-mono rounded bg-[#FAF7F2] hover:bg-[#F2ECE6] text-[#555555] hover:text-[#242124] border border-[#EFE7DE] cursor-pointer"
+                                    className="px-1.5 py-1 text-[10px] font-mono rounded bg-[#FAF7F2] hover:bg-[#F2ECE6] text-[#555555] hover:text-[#EC407A] border border-[#EFE7DE] cursor-pointer"
                                     title="Batch Restock +10"
                                   >
                                     +10
                                   </button>
                                   <button
                                     onClick={() => handleStockAdjust(prod, 25)}
-                                    className="px-1.5 py-1 text-[10px] font-mono rounded bg-[#FAF7F2] hover:bg-[#F2ECE6] text-[#555555] hover:text-[#242124] border border-[#EFE7DE] cursor-pointer"
+                                    className="px-1.5 py-1 text-[10px] font-mono rounded bg-[#FAF7F2] hover:bg-[#F2ECE6] text-[#555555] hover:text-[#EC407A] border border-[#EFE7DE] cursor-pointer"
                                     title="Batch Restock +25"
                                   >
                                     +25
@@ -1915,7 +1915,7 @@ export default function AdminDashboard() {
                               <div className="flex items-center justify-end gap-1.5">
                                 <button
                                   onClick={() => handleDuplicateProduct(prod)}
-                                  className="p-1.5 rounded-lg bg-[#FAF7F2] hover:bg-[#F2ECE6] text-[#666666] hover:text-[#242124] border border-[#EFE7DE] cursor-pointer transition-colors"
+                                  className="p-1.5 rounded-lg bg-[#FAF7F2] hover:bg-[#F2ECE6] text-[#666666] hover:text-[#EC407A] border border-[#EFE7DE] cursor-pointer transition-colors"
                                   title="Duplicate / Clone Product"
                                 >
                                   <Copy className="w-3.5 h-3.5" />
@@ -1944,7 +1944,7 @@ export default function AdminDashboard() {
                                     });
                                     setShowProductModal(true);
                                   }}
-                                  className="p-1.5 rounded-lg bg-[#FAF7F2] hover:bg-[#F2ECE6] text-[#666666] hover:text-[#242124] border border-[#EFE7DE] cursor-pointer transition-colors"
+                                  className="p-1.5 rounded-lg bg-[#FAF7F2] hover:bg-[#F2ECE6] text-[#666666] hover:text-[#EC407A] border border-[#EFE7DE] cursor-pointer transition-colors"
                                   title="Edit Product"
                                 >
                                   <Edit3 className="w-3.5 h-3.5" />
@@ -2098,7 +2098,7 @@ export default function AdminDashboard() {
                             <button
                               type="button"
                               onClick={() => handleOpenCategoryModal(cat)}
-                              className="p-2 rounded-xl bg-[#FAF7F2] hover:bg-[#F2ECE6] text-[#666] hover:text-[#242124] border border-[#EFE7DE] transition-colors cursor-pointer"
+                              className="p-2 rounded-xl bg-[#FAF7F2] hover:bg-[#F2ECE6] text-[#666] hover:text-[#EC407A] border border-[#EFE7DE] transition-colors cursor-pointer"
                               title="Edit Category"
                             >
                               <Edit3 className="w-3.5 h-3.5" />
@@ -2145,7 +2145,7 @@ export default function AdminDashboard() {
                     localStorage.removeItem('dhanvikk_admin_currencies');
                     toast.success('Reset exchange rates to default financial standards.');
                   }}
-                  className="px-3.5 sm:px-4 py-2 rounded-xl border border-[#EFE7DE] bg-white text-xs text-[#666] hover:text-[#242124] hover:bg-[#FAF7F2] transition-colors cursor-pointer"
+                  className="px-3.5 sm:px-4 py-2 rounded-xl border border-[#EFE7DE] bg-white text-xs text-[#666] hover:text-[#EC407A] hover:bg-[#FAF7F2] transition-colors cursor-pointer"
                 >
                   Reset Standard Rates
                 </button>
@@ -2309,7 +2309,7 @@ export default function AdminDashboard() {
                 <button
                   type="button"
                   onClick={handleResetHeroSettings}
-                  className="px-3.5 sm:px-4 py-2 rounded-xl border border-[#EFE7DE] bg-white text-xs text-[#666] hover:text-[#242124] hover:bg-[#FAF7F2] transition-colors cursor-pointer"
+                  className="px-3.5 sm:px-4 py-2 rounded-xl border border-[#EFE7DE] bg-white text-xs text-[#666] hover:text-[#EC407A] hover:bg-[#FAF7F2] transition-colors cursor-pointer"
                 >
                   Reset Defaults
                 </button>
@@ -2654,7 +2654,7 @@ export default function AdminDashboard() {
                       className={`px-2.5 py-1 rounded-lg transition-colors cursor-pointer whitespace-nowrap shrink-0 flex items-center gap-1.5 ${
                         orderStatusFilter === label
                           ? 'bg-[#C2185B] text-white font-bold'
-                          : 'text-[#666666] hover:text-[#242124]'
+                          : 'text-[#666666] hover:text-[#EC407A]'
                       }`}
                     >
                       <span>{label}</span>
@@ -2763,7 +2763,7 @@ export default function AdminDashboard() {
                           {/* Inspect Modal Trigger */}
                           <button
                             onClick={() => setSelectedOrderModal(order)}
-                            className="p-1.5 rounded-lg bg-[#FAF7F2] hover:bg-[#F2ECE6] text-[#666666] hover:text-[#242124] border border-[#EFE7DE] cursor-pointer transition-colors"
+                            className="p-1.5 rounded-lg bg-[#FAF7F2] hover:bg-[#F2ECE6] text-[#666666] hover:text-[#EC407A] border border-[#EFE7DE] cursor-pointer transition-colors"
                             title="View Full Packing Slip & Items"
                           >
                             <Eye className="w-4 h-4" />
@@ -2872,7 +2872,7 @@ export default function AdminDashboard() {
                     document.body.removeChild(link);
                     toast.success('Downloaded financial payment ledger CSV.');
                   }}
-                  className="px-3.5 sm:px-4 py-2 rounded-xl border border-[#EFE7DE] bg-white text-xs font-semibold text-[#242124] hover:bg-[#FAF7F2] transition-colors cursor-pointer flex items-center gap-1.5 shadow-2xs"
+                  className="px-3.5 sm:px-4 py-2 rounded-xl border border-[#EFE7DE] bg-white text-xs font-semibold text-[#EC407A] hover:bg-[#FAF7F2] transition-colors cursor-pointer flex items-center gap-1.5 shadow-2xs"
                 >
                   <FileText className="w-3.5 h-3.5 text-[#C2185B]" />
                   <span>Export Financial Report</span>
@@ -3153,7 +3153,7 @@ export default function AdminDashboard() {
                           <button
                             type="button"
                             onClick={() => handleOpenStaffModal(staff1)}
-                            className="px-3 py-1.5 rounded-xl bg-[#FAF7F2] hover:bg-[#F2ECE6] text-[#242124] border border-[#EFE7DE] text-xs font-semibold cursor-pointer inline-flex items-center gap-1"
+                            className="px-3 py-1.5 rounded-xl bg-[#FAF7F2] hover:bg-[#F2ECE6] text-[#EC407A] border border-[#EFE7DE] text-xs font-semibold cursor-pointer inline-flex items-center gap-1"
                           >
                             <Edit3 className="w-3 h-3 text-[#C2185B]" />
                             <span>Edit Staff</span>
@@ -3229,7 +3229,7 @@ export default function AdminDashboard() {
                           <button
                             type="button"
                             onClick={() => handleOpenStaffModal(staff2)}
-                            className="px-3 py-1.5 rounded-xl bg-[#FAF7F2] hover:bg-[#F2ECE6] text-[#242124] border border-[#EFE7DE] text-xs font-semibold cursor-pointer inline-flex items-center gap-1"
+                            className="px-3 py-1.5 rounded-xl bg-[#FAF7F2] hover:bg-[#F2ECE6] text-[#EC407A] border border-[#EFE7DE] text-xs font-semibold cursor-pointer inline-flex items-center gap-1"
                           >
                             <Edit3 className="w-3 h-3 text-[#C2185B]" />
                             <span>Edit Staff</span>
@@ -3366,7 +3366,7 @@ export default function AdminDashboard() {
                               <button
                                 type="button"
                                 onClick={() => handleOpenStaffModal(st)}
-                                className="p-2 rounded-xl bg-[#FAF7F2] hover:bg-[#F2ECE6] text-[#666666] hover:text-[#242124] border border-[#EFE7DE] transition-colors cursor-pointer"
+                                className="p-2 rounded-xl bg-[#FAF7F2] hover:bg-[#F2ECE6] text-[#666666] hover:text-[#EC407A] border border-[#EFE7DE] transition-colors cursor-pointer"
                                 title="Edit staff details"
                               >
                                 <Edit3 className="w-3.5 h-3.5" />
@@ -3588,7 +3588,7 @@ export default function AdminDashboard() {
                 </div>
                 <button
                   onClick={() => setShowProductModal(false)}
-                  className="w-8 h-8 rounded-full bg-[#FAF7F2] hover:bg-[#F2ECE6] flex items-center justify-center text-[#666666] hover:text-[#242124] border border-[#EFE7DE] cursor-pointer"
+                  className="w-8 h-8 rounded-full bg-[#FAF7F2] hover:bg-[#F2ECE6] flex items-center justify-center text-[#666666] hover:text-[#EC407A] border border-[#EFE7DE] cursor-pointer"
                 >
                   <X className="w-4 h-4" />
                 </button>
@@ -3943,7 +3943,7 @@ export default function AdminDashboard() {
                   <button
                     type="button"
                     onClick={() => setShowProductModal(false)}
-                    className="px-4 py-2 rounded-xl bg-[#FAF7F2] hover:bg-[#F2ECE6] text-[#666666] hover:text-[#242124] text-xs font-semibold border border-[#EFE7DE] transition-all cursor-pointer"
+                    className="px-4 py-2 rounded-xl bg-[#FAF7F2] hover:bg-[#F2ECE6] text-[#666666] hover:text-[#EC407A] text-xs font-semibold border border-[#EFE7DE] transition-all cursor-pointer"
                   >
                     Cancel
                   </button>
@@ -3975,7 +3975,7 @@ export default function AdminDashboard() {
                 </div>
                 <button
                   onClick={() => setSelectedOrderModal(null)}
-                  className="w-8 h-8 rounded-full bg-[#FAF7F2] hover:bg-[#F2ECE6] flex items-center justify-center text-[#666666] hover:text-[#242124] border border-[#EFE7DE] cursor-pointer"
+                  className="w-8 h-8 rounded-full bg-[#FAF7F2] hover:bg-[#F2ECE6] flex items-center justify-center text-[#666666] hover:text-[#EC407A] border border-[#EFE7DE] cursor-pointer"
                 >
                   <X className="w-4 h-4" />
                 </button>
@@ -4098,7 +4098,7 @@ export default function AdminDashboard() {
                   <button
                     type="button"
                     onClick={() => setSelectedOrderModal(null)}
-                    className="px-4 py-2 rounded-xl bg-[#FAF7F2] hover:bg-[#F2ECE6] text-[#666666] hover:text-[#242124] border border-[#EFE7DE] text-xs font-semibold transition-all cursor-pointer"
+                    className="px-4 py-2 rounded-xl bg-[#FAF7F2] hover:bg-[#F2ECE6] text-[#666666] hover:text-[#EC407A] border border-[#EFE7DE] text-xs font-semibold transition-all cursor-pointer"
                   >
                     Close
                   </button>
@@ -4128,7 +4128,7 @@ export default function AdminDashboard() {
                 </div>
                 <button
                   onClick={() => setShowStaffModal(false)}
-                  className="w-8 h-8 rounded-full bg-[#FAF7F2] hover:bg-[#F2ECE6] flex items-center justify-center text-[#666666] hover:text-[#242124] border border-[#EFE7DE] cursor-pointer"
+                  className="w-8 h-8 rounded-full bg-[#FAF7F2] hover:bg-[#F2ECE6] flex items-center justify-center text-[#666666] hover:text-[#EC407A] border border-[#EFE7DE] cursor-pointer"
                 >
                   <X className="w-4 h-4" />
                 </button>
@@ -4243,7 +4243,7 @@ export default function AdminDashboard() {
                   <button
                     type="button"
                     onClick={() => setShowStaffModal(false)}
-                    className="px-4 py-2 rounded-xl bg-[#FAF7F2] hover:bg-[#F2ECE6] text-[#666666] hover:text-[#242124] text-xs font-semibold border border-[#EFE7DE] transition-all cursor-pointer"
+                    className="px-4 py-2 rounded-xl bg-[#FAF7F2] hover:bg-[#F2ECE6] text-[#666666] hover:text-[#EC407A] text-xs font-semibold border border-[#EFE7DE] transition-all cursor-pointer"
                   >
                     Cancel
                   </button>
@@ -4279,7 +4279,7 @@ export default function AdminDashboard() {
                 </div>
                 <button
                   onClick={() => setShowCategoryModal(false)}
-                  className="w-8 h-8 rounded-full bg-[#FAF7F2] hover:bg-[#F2ECE6] flex items-center justify-center text-[#666666] hover:text-[#242124] border border-[#EFE7DE] cursor-pointer"
+                  className="w-8 h-8 rounded-full bg-[#FAF7F2] hover:bg-[#F2ECE6] flex items-center justify-center text-[#666666] hover:text-[#EC407A] border border-[#EFE7DE] cursor-pointer"
                 >
                   <X className="w-4 h-4" />
                 </button>
@@ -4413,7 +4413,7 @@ export default function AdminDashboard() {
                   <button
                     type="button"
                     onClick={() => setShowCategoryModal(false)}
-                    className="px-4 py-2 rounded-xl bg-[#FAF7F2] hover:bg-[#F2ECE6] text-[#666666] hover:text-[#242124] text-xs font-semibold border border-[#EFE7DE] transition-all cursor-pointer"
+                    className="px-4 py-2 rounded-xl bg-[#FAF7F2] hover:bg-[#F2ECE6] text-[#666666] hover:text-[#EC407A] text-xs font-semibold border border-[#EFE7DE] transition-all cursor-pointer"
                   >
                     Cancel
                   </button>
@@ -4449,7 +4449,7 @@ export default function AdminDashboard() {
                 </div>
                 <button
                   onClick={() => setShowCurrencyModal(false)}
-                  className="w-8 h-8 rounded-full bg-[#FAF7F2] hover:bg-[#F2ECE6] flex items-center justify-center text-[#666666] hover:text-[#242124] border border-[#EFE7DE] cursor-pointer"
+                  className="w-8 h-8 rounded-full bg-[#FAF7F2] hover:bg-[#F2ECE6] flex items-center justify-center text-[#666666] hover:text-[#EC407A] border border-[#EFE7DE] cursor-pointer"
                 >
                   <X className="w-4 h-4" />
                 </button>
@@ -4538,7 +4538,7 @@ export default function AdminDashboard() {
                 </div>
                 <button
                   onClick={() => setSelectedPaymentReceipt(null)}
-                  className="w-8 h-8 rounded-full bg-[#FAF7F2] hover:bg-[#F2ECE6] flex items-center justify-center text-[#666666] hover:text-[#242124] border border-[#EFE7DE] cursor-pointer"
+                  className="w-8 h-8 rounded-full bg-[#FAF7F2] hover:bg-[#F2ECE6] flex items-center justify-center text-[#666666] hover:text-[#EC407A] border border-[#EFE7DE] cursor-pointer"
                 >
                   <X className="w-4 h-4" />
                 </button>

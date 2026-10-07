@@ -24,9 +24,9 @@ export default function Button({
     secondary:
       'bg-[#FFF3F6] text-[#C2185B] hover:bg-[#FCC1C5]/40 hover:-translate-y-0.5 active:translate-y-0 focus-visible:ring-[#EC407A]',
     outline:
-      'bg-white text-[#242124] border border-[#E5E1E2] hover:border-[#FCC1C5] hover:bg-[#FFFDF9] hover:shadow-sm hover:-translate-y-0.5 active:translate-y-0 focus-visible:ring-[#EC407A]',
+      'bg-white text-[#EC407A] border border-[#E5E1E2] hover:border-[#FCC1C5] hover:bg-[#FFFDF9] hover:shadow-sm hover:-translate-y-0.5 active:translate-y-0 focus-visible:ring-[#EC407A]',
     ghost:
-      'bg-transparent text-[#242124] hover:bg-[#FFF3F6] hover:text-[#C2185B] active:scale-[0.96] focus-visible:ring-[#EC407A]',
+      'bg-transparent text-[#EC407A] hover:bg-[#FFF3F6] hover:text-[#C2185B] active:scale-[0.96] focus-visible:ring-[#EC407A]',
   };
 
   const sizes = {

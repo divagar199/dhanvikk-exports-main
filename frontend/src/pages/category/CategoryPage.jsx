@@ -525,7 +525,7 @@ export default function CategoryPage() {
                   className={`lg:hidden flex items-center gap-2 px-3.5 py-1.5 rounded-full border text-xs font-bold transition-all shadow-2xs cursor-pointer luxury-touch-press ${
                     mobileFiltersOpen
                       ? 'bg-[#FFF0F4] border-[#EC407A] text-[#C2185B]'
-                      : 'bg-white border-[#E9E2E5] text-[#242124] hover:border-[#EC407A]'
+                      : 'bg-white border-[#E9E2E5] text-[#EC407A] hover:border-[#EC407A]'
                   }`}
                   aria-expanded={mobileFiltersOpen}
                   aria-label="Toggle Filter Selection"
@@ -604,7 +604,7 @@ export default function CategoryPage() {
                   <button
                     type="button"
                     onClick={() => setMobileFiltersOpen(false)}
-                    className="p-2 rounded-full text-[#777777] hover:text-[#242124] hover:bg-[#FAF7F2] transition-colors cursor-pointer luxury-touch-press"
+                    className="p-2 rounded-full text-[#777777] hover:text-[#EC407A] hover:bg-[#FAF7F2] transition-colors cursor-pointer luxury-touch-press"
                     aria-label="Close Filter Selection"
                   >
                     <X className="w-5 h-5" />
@@ -683,7 +683,7 @@ export default function CategoryPage() {
                       setSelectedFlower('All');
                       setSelectedPrice('All');
                     }}
-                    className="flex-1 py-3 rounded-2xl border border-[#E9E2E5] text-xs font-semibold text-[#777777] hover:text-[#242124] hover:bg-[#FAF7F2] transition-colors cursor-pointer text-center"
+                    className="flex-1 py-3 rounded-2xl border border-[#E9E2E5] text-xs font-semibold text-[#777777] hover:text-[#EC407A] hover:bg-[#FAF7F2] transition-colors cursor-pointer text-center"
                   >
                     Reset Filters
                   </button>
@@ -785,7 +785,7 @@ export default function CategoryPage() {
                     setSelectedFlower('All');
                     setSelectedPrice('All');
                   }}
-                  className="w-full py-2.5 rounded-xl border border-[#E9E2E5] text-xs font-semibold text-[#777777] hover:text-[#242124] hover:bg-[#FAF7F2] transition-colors cursor-pointer text-center"
+                  className="w-full py-2.5 rounded-xl border border-[#E9E2E5] text-xs font-semibold text-[#777777] hover:text-[#EC407A] hover:bg-[#FAF7F2] transition-colors cursor-pointer text-center"
                 >
                   Reset Filters
                 </button>

@@ -434,7 +434,7 @@ export function CountrySelectDialog({
                   <button
                     type="button"
                     onClick={handleModalClose}
-                    className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-[#FAF7F2] hover:bg-[#F2ECE6] text-[#777777] hover:text-[#242124] flex items-center justify-center transition-colors cursor-pointer shrink-0"
+                    className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-[#FAF7F2] hover:bg-[#F2ECE6] text-[#777777] hover:text-[#EC407A] flex items-center justify-center transition-colors cursor-pointer shrink-0"
                     aria-label="Close modal"
                   >
                     <X className="w-4 h-4" />

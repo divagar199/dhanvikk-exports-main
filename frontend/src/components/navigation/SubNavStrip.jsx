@@ -27,11 +27,11 @@ export default function SubNavStrip({ activeFilter, onSelectFilter }) {
               onClick={() => onSelectFilter && onSelectFilter(pill.query)}
               className={`px-3.5 py-1.5 rounded-full text-[11px] font-semibold tracking-wider whitespace-nowrap inline-flex items-center gap-1.5 transition-all cursor-pointer ${
                 isActive
-                  ? 'bg-[#242124] text-white shadow-xs'
-                  : 'bg-white text-[#242124] border border-[#E9E2E5] hover:border-[#FCC1C5] hover:bg-[#FFF3F6] hover:text-[#C2185B]'
+                  ? 'bg-[#EC407A] text-white shadow-xs'
+                  : 'bg-white text-[#EC407A] border border-[#E9E2E5] hover:border-[#FCC1C5] hover:bg-[#FFF3F6] hover:text-[#C2185B]'
               }`}
             >
-              <Icon className={`w-3 h-3 ${isActive ? 'text-[#FCC1C5]' : 'text-[#EC407A]'}`} />
+              <Icon className={`w-3 h-3 ${isActive ? 'text-white' : 'text-[#EC407A]'}`} />
               <span>{pill.label}</span>
             </button>
           );

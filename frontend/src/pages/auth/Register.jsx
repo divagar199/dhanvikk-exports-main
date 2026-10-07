@@ -281,7 +281,7 @@ export default function Register() {
                   type="button"
                   onClick={handleGooglePreFill}
                   disabled={googleLoading || authLoading}
-                  className="w-full flex items-center justify-center gap-3 py-3 px-4 rounded-2xl bg-white border border-[#E5DFD9] hover:border-[#EC407A] hover:bg-[#FAF8F5] text-[#242124] text-xs sm:text-[13.5px] font-medium transition-all shadow-xs hover:shadow-sm cursor-pointer group"
+                  className="w-full flex items-center justify-center gap-3 py-3 px-4 rounded-2xl bg-white border border-[#E5DFD9] hover:border-[#EC407A] hover:bg-[#FAF8F5] text-[#EC407A] text-xs sm:text-[13.5px] font-medium transition-all shadow-xs hover:shadow-sm cursor-pointer group"
                 >
                   {googleLoading ? (
                     <span className="inline-flex items-center gap-2">
@@ -423,7 +423,7 @@ export default function Register() {
                       <button
                         type="button"
                         onClick={() => setShowPassword(!showPassword)}
-                        className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#888888] hover:text-[#242124] transition-colors"
+                        className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#888888] hover:text-[#EC407A] transition-colors"
                       >
                         {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                       </button>

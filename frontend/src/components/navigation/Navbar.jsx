@@ -267,7 +267,7 @@ export default function Navbar({ onSearch, searchQuery = '' }) {
               <button
                 type="button"
                 onClick={handleClearSearch}
-                className="absolute right-18 top-1/2 -translate-y-1/2 p-1 text-[#888888] hover:text-[#242124] rounded-full hover:bg-black/5 transition-colors"
+                className="absolute right-18 top-1/2 -translate-y-1/2 p-1 text-[#888888] hover:text-[#EC407A] rounded-full hover:bg-black/5 transition-colors"
                 title="Clear query"
               >
                 <X className="w-3.5 h-3.5" />
@@ -277,7 +277,7 @@ export default function Navbar({ onSearch, searchQuery = '' }) {
             {/* Submit Button */}
             <button
               type="submit"
-              className="absolute right-1 top-1/2 -translate-y-1/2 px-3.5 py-1.5 rounded-full bg-[#242124] hover:bg-[#C2185B] text-white text-[11px] font-semibold transition-colors cursor-pointer shadow-2xs"
+              className="absolute right-1 top-1/2 -translate-y-1/2 px-3.5 py-1.5 rounded-full bg-[#EC407A] hover:bg-[#C2185B] text-white text-[11px] font-semibold transition-colors cursor-pointer shadow-2xs"
             >
               Search
             </button>
@@ -492,7 +492,7 @@ export default function Navbar({ onSearch, searchQuery = '' }) {
                 setIsRegionDialogOpen(true);
                 openCurrencyDialog();
               }}
-              className="luxury-touch-press group inline-flex items-center gap-1 sm:gap-2 px-2 sm:px-3 py-1.5 rounded-full bg-[#FAF7F2] hover:bg-white border border-[#E8E1DA] hover:border-[#D0C6BD] text-xs font-semibold text-[#242124] transition-all shadow-2xs hover:shadow-xs cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#C2185B]/20"
+              className="luxury-touch-press group inline-flex items-center gap-1 sm:gap-2 px-2 sm:px-3 py-1.5 rounded-full bg-[#FAF7F2] hover:bg-white border border-[#E8E1DA] hover:border-[#D0C6BD] text-xs font-semibold text-[#EC407A] transition-all shadow-2xs hover:shadow-xs cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#C2185B]/20"
               title="Select Delivery Region & Auto-change Currency"
               aria-label={`Current delivery region: ${currentCountryObj.name}, currency: ${currency}. Click to change.`}
             >
@@ -502,13 +502,13 @@ export default function Navbar({ onSearch, searchQuery = '' }) {
                 flag={currentCountryObj.flag}
                 className="w-5 h-3.5 rounded-[2px] object-cover shrink-0 shadow-2xs"
               />
-              <span className="font-bold text-[#242124] group-hover:text-[#C2185B] transition-colors tracking-tight">
+              <span className="font-bold text-[#EC407A] group-hover:text-[#C2185B] transition-colors tracking-tight">
                 {currency}
               </span>
               <span className="text-[10px] text-[#777777] font-medium hidden md:inline">
                 ({currentCountryObj.currencySymbol})
               </span>
-              <ChevronDown className="w-3.5 h-3.5 text-[#888888] group-hover:text-[#242124] transition-transform duration-200 group-hover:translate-y-0.5 flex-shrink-0" />
+              <ChevronDown className="w-3.5 h-3.5 text-[#888888] group-hover:text-[#EC407A] transition-transform duration-200 group-hover:translate-y-0.5 flex-shrink-0" />
             </button>
           </div>
 
@@ -574,7 +574,7 @@ export default function Navbar({ onSearch, searchQuery = '' }) {
             ) : (
               <Link
                 to="/login"
-                className="luxury-touch-press inline-flex items-center gap-1.5 px-3 py-1.5 sm:py-2 rounded-full text-xs font-semibold text-[#242124] hover:text-[#C2185B] hover:bg-[#FAF7F2] border border-transparent hover:border-[#E8E1DA] transition-all"
+                className="luxury-touch-press inline-flex items-center gap-1.5 px-3 py-1.5 sm:py-2 rounded-full text-xs font-semibold text-[#EC407A] hover:text-[#C2185B] hover:bg-[#FAF7F2] border border-transparent hover:border-[#E8E1DA] transition-all"
               >
                 <User className="w-4 h-4 text-[#C2185B]" />
                 <span className="hidden sm:inline">Sign In</span>
@@ -586,7 +586,7 @@ export default function Navbar({ onSearch, searchQuery = '' }) {
           <button
             type="button"
             onClick={() => dispatch(openCart())}
-            className="luxury-touch-press relative inline-flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-4 py-1.5 sm:py-2 rounded-full bg-[#242124] hover:bg-[#C2185B] text-white transition-all shadow-2xs hover:shadow-xs cursor-pointer group"
+            className="luxury-touch-press relative inline-flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-4 py-1.5 sm:py-2 rounded-full bg-[#EC407A] hover:bg-[#C2185B] text-white transition-all shadow-2xs hover:shadow-xs cursor-pointer group"
             aria-label="View shopping cart"
           >
             <ShoppingBag className="w-4 h-4 group-hover:scale-105 transition-transform" />
@@ -624,7 +624,7 @@ export default function Navbar({ onSearch, searchQuery = '' }) {
             )}
             <button
               type="submit"
-              className="absolute right-1 top-1/2 -translate-y-1/2 px-2.5 py-1 rounded-full bg-[#242124] text-white text-[10px] font-semibold"
+              className="absolute right-1 top-1/2 -translate-y-1/2 px-2.5 py-1 rounded-full bg-[#EC407A] hover:bg-[#C2185B] text-white text-[10px] font-semibold transition-colors shadow-2xs"
             >
               Go
             </button>
@@ -743,7 +743,7 @@ export default function Navbar({ onSearch, searchQuery = '' }) {
                 setIsRegionDialogOpen(true);
                 openCurrencyDialog();
               }}
-              className="flex items-center gap-2 bg-[#FAF7F2] hover:bg-[#FFF3F6] border border-[#E9E2E5] hover:border-[#FCC1C5] px-3 py-1.5 rounded-xl text-xs font-bold text-[#242124] transition-all cursor-pointer shadow-2xs"
+              className="flex items-center gap-2 bg-[#FAF7F2] hover:bg-[#FFF3F6] border border-[#E9E2E5] hover:border-[#FCC1C5] px-3 py-1.5 rounded-xl text-xs font-bold text-[#EC407A] transition-all cursor-pointer shadow-2xs"
             >
               <CountryFlag
                 code={currentCountryObj.code}

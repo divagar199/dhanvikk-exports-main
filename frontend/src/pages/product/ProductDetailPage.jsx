@@ -656,7 +656,7 @@ export default function ProductDetailPage() {
                       }}
                       className={`py-2.5 px-2 rounded-2xl text-center border transition-all cursor-pointer ${
                         quickDate === 'today'
-                          ? 'border-[#EC407A] bg-[#FFF0F5] text-[#242124] shadow-xs ring-1 ring-[#EC407A]'
+                          ? 'border-[#EC407A] bg-[#FFF0F5] text-[#EC407A] shadow-xs ring-1 ring-[#EC407A]'
                           : 'border-[#EAE4DD] bg-white text-[#555] hover:border-[#D6CCC2] hover:bg-[#FAF7F2]'
                       }`}
                     >
@@ -672,7 +672,7 @@ export default function ProductDetailPage() {
                       }}
                       className={`py-2.5 px-2 rounded-2xl text-center border transition-all cursor-pointer ${
                         quickDate === 'tomorrow'
-                          ? 'border-[#EC407A] bg-[#FFF0F5] text-[#242124] shadow-xs ring-1 ring-[#EC407A]'
+                          ? 'border-[#EC407A] bg-[#FFF0F5] text-[#EC407A] shadow-xs ring-1 ring-[#EC407A]'
                           : 'border-[#EAE4DD] bg-white text-[#555] hover:border-[#D6CCC2] hover:bg-[#FAF7F2]'
                       }`}
                     >
@@ -685,7 +685,7 @@ export default function ProductDetailPage() {
                       onClick={() => setQuickDate('custom')}
                       className={`py-2.5 px-2 rounded-2xl text-center border transition-all cursor-pointer ${
                         quickDate === 'custom'
-                          ? 'border-[#EC407A] bg-[#FFF0F5] text-[#242124] shadow-xs ring-1 ring-[#EC407A]'
+                          ? 'border-[#EC407A] bg-[#FFF0F5] text-[#EC407A] shadow-xs ring-1 ring-[#EC407A]'
                           : 'border-[#EAE4DD] bg-white text-[#555] hover:border-[#D6CCC2] hover:bg-[#FAF7F2]'
                       }`}
                     >
@@ -772,7 +772,7 @@ export default function ProductDetailPage() {
                         onClick={() => setDeliverySlot(item.slot)}
                         className={`luxury-touch-press p-2.5 rounded-xl text-left border transition-all cursor-pointer ${
                           deliverySlot === item.slot
-                            ? 'border-[#EC407A] bg-[#FFF0F5] text-[#242124] ring-1 ring-[#EC407A]'
+                            ? 'border-[#EC407A] bg-[#FFF0F5] text-[#EC407A] ring-1 ring-[#EC407A]'
                             : 'border-[#EAE4DD] bg-white text-[#555] hover:bg-[#FAF7F2]'
                         }`}
                       >
@@ -827,7 +827,7 @@ export default function ProductDetailPage() {
                       type="button"
                       disabled={quantity <= 1}
                       onClick={() => setQuantity((prev) => Math.max(1, prev - 1))}
-                      className="luxury-touch-press w-8 h-8 rounded-xl flex items-center justify-center text-[#242124] hover:bg-[#FAF7F2] disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+                      className="luxury-touch-press w-8 h-8 rounded-xl flex items-center justify-center text-[#EC407A] hover:bg-[#FAF7F2] disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
                       aria-label="Decrease quantity"
                     >
                       <Minus className="w-3.5 h-3.5" />
@@ -839,7 +839,7 @@ export default function ProductDetailPage() {
                       type="button"
                       disabled={quantity >= (product.stock || 99)}
                       onClick={() => setQuantity((prev) => prev + 1)}
-                      className="luxury-touch-press w-8 h-8 rounded-xl flex items-center justify-center text-[#242124] hover:bg-[#FAF7F2] disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+                      className="luxury-touch-press w-8 h-8 rounded-xl flex items-center justify-center text-[#EC407A] hover:bg-[#FAF7F2] disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
                       aria-label="Increase quantity"
                     >
                       <Plus className="w-3.5 h-3.5" />
@@ -895,7 +895,7 @@ export default function ProductDetailPage() {
                   onClick={() => setDetailsOpen(!detailsOpen)}
                   className="w-full flex items-center justify-between text-left cursor-pointer group"
                 >
-                  <h3 className="text-base sm:text-lg font-bold text-[#242124] group-hover:text-[#EC407A] transition-colors">
+                  <h3 className="text-base sm:text-lg font-bold text-[#EC407A] group-hover:text-[#C2185B] transition-colors">
                     Product Details
                   </h3>
                   <ChevronDown
@@ -1461,7 +1461,7 @@ export default function ProductDetailPage() {
                         type="button"
                         onClick={() => setCarouselPage((prev) => Math.max(0, prev - 1))}
                         disabled={carouselPage === 0}
-                        className="w-10 h-10 rounded-full border border-[#E0D8D0] bg-white flex items-center justify-center text-[#242124] hover:bg-[#FAF7F2] hover:border-[#EC407A] disabled:opacity-30 disabled:cursor-not-allowed shadow-2xs transition-all"
+                        className="w-10 h-10 rounded-full border border-[#E0D8D0] bg-white flex items-center justify-center text-[#EC407A] hover:bg-[#FAF7F2] hover:border-[#EC407A] disabled:opacity-30 disabled:cursor-not-allowed shadow-2xs transition-all"
                         aria-label="Previous related products"
                       >
                         <ChevronLeft className="w-5 h-5" />
@@ -1470,7 +1470,7 @@ export default function ProductDetailPage() {
                         type="button"
                         onClick={() => setCarouselPage((prev) => Math.min(totalPages - 1, prev + 1))}
                         disabled={carouselPage >= totalPages - 1}
-                        className="w-10 h-10 rounded-full border border-[#E0D8D0] bg-white flex items-center justify-center text-[#242124] hover:bg-[#FAF7F2] hover:border-[#EC407A] disabled:opacity-30 disabled:cursor-not-allowed shadow-2xs transition-all"
+                        className="w-10 h-10 rounded-full border border-[#E0D8D0] bg-white flex items-center justify-center text-[#EC407A] hover:bg-[#FAF7F2] hover:border-[#EC407A] disabled:opacity-30 disabled:cursor-not-allowed shadow-2xs transition-all"
                         aria-label="Next related products"
                       >
                         <ChevronRight className="w-5 h-5" />

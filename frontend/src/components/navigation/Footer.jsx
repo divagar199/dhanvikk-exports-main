@@ -355,20 +355,20 @@ export default function Footer() {
           <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-4 text-center sm:text-left">
             <span>© {new Date().getFullYear()} Dhanvikk Blooms And Exports. All rights reserved.</span>
             <span className="hidden sm:inline text-[#DCD5CD]">•</span>
-            <span className="font-mono text-[#888888] text-[11px]">Govt. Reg. No: 14/146/S/0010/2026</span>
+            <span className="text-bold text-[12px] text-[##858584]">Developed by <a href="https://haznox.com" target="_blank" rel="noopener noreferrer" className="font-semibold text-[#C2185B]">Haznox.</a></span>
           </div>
 
           {/* Trust Pillars */}
           <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-5 text-[11px]">
-            <span className="flex items-center gap-1.5 text-[#059669] font-medium">
+            <span className="flex items-center gap-1.5 font-medium">
               <ShieldCheck className="w-3.5 h-3.5" /> Razorpay Verified 256-Bit SSL
             </span>
             <span className="text-[#DCD5CD]">•</span>
-            <span className="flex items-center gap-1.5 text-[#C2185B] font-medium">
+            <span className="flex items-center gap-1.5 font-medium">
               <Flower2 className="w-3.5 h-3.5" /> 100% Farm Fresh Guarantee
             </span>
             <span className="text-[#DCD5CD]">•</span>
-            <span className="flex items-center gap-1.5 text-[#0284C7] font-medium">
+            <span className="flex items-center gap-1.5 font-medium">
               <Plane className="w-3.5 h-3.5" /> Daily Cold-Chain Air Cargo
             </span>
           </div>

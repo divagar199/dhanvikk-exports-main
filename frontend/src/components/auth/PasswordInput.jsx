@@ -25,7 +25,7 @@ const PasswordInput = forwardRef(function PasswordInput(
       type="button"
       onClick={toggleVisibility}
       aria-label={showPassword ? 'Hide password' : 'Show password'}
-      className="p-1 rounded-md text-[#777777] hover:text-[#242124] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#EC407A] transition-colors cursor-pointer"
+      className="p-1 rounded-md text-[#777777] hover:text-[#EC407A] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#EC407A] transition-colors cursor-pointer"
     >
       {showPassword ? (
         <EyeOff className="w-4 h-4" aria-hidden="true" />

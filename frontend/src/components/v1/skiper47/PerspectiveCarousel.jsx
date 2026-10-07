@@ -130,7 +130,7 @@ export function Carousel_001({
                     <span className="text-xs font-semibold text-[#242124] truncate mr-2">
                       {item.subtitle || 'Explore Curated Bouquets'}
                     </span>
-                    <div className="w-7 h-7 rounded-xl bg-[#242124] text-white flex items-center justify-center group-hover:bg-[#EC407A] transition-colors shrink-0">
+                    <div className="w-7 h-7 rounded-xl bg-[#EC407A] text-white flex items-center justify-center group-hover:bg-[#C2185B] transition-colors shrink-0">
                       <ArrowRight className="w-3.5 h-3.5" />
                     </div>
                   </div>
@@ -148,7 +148,7 @@ export function Carousel_001({
             ref={prevRef}
             type="button"
             aria-label="Previous Occasion"
-            className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full bg-white/95 backdrop-blur-md text-[#242124] shadow-xl border border-[#EAE4DD] hover:border-[#FCC1C5] hover:text-[#EC407A] hover:scale-105 active:scale-95 transition-all flex items-center justify-center cursor-pointer"
+            className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full bg-white/95 backdrop-blur-md text-[#EC407A] shadow-xl border border-[#EAE4DD] hover:border-[#FCC1C5] hover:text-[#C2185B] hover:scale-105 active:scale-95 transition-all flex items-center justify-center cursor-pointer"
           >
             <ChevronLeft className="w-5 h-5" />
           </button>
@@ -156,7 +156,7 @@ export function Carousel_001({
             ref={nextRef}
             type="button"
             aria-label="Next Occasion"
-            className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full bg-white/95 backdrop-blur-md text-[#242124] shadow-xl border border-[#EAE4DD] hover:border-[#FCC1C5] hover:text-[#EC407A] hover:scale-105 active:scale-95 transition-all flex items-center justify-center cursor-pointer"
+            className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full bg-white/95 backdrop-blur-md text-[#EC407A] shadow-xl border border-[#EAE4DD] hover:border-[#FCC1C5] hover:text-[#C2185B] hover:scale-105 active:scale-95 transition-all flex items-center justify-center cursor-pointer"
           >
             <ChevronRight className="w-5 h-5" />
           </button>

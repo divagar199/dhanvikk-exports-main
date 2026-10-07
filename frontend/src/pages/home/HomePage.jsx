@@ -270,7 +270,7 @@ export default function HomePage() {
 
                         <Link
                           to={heroSettings.secondaryButtonLink || '/category/occasions'}
-                          className="px-6 py-3 rounded-full bg-white hover:bg-[#FFF3F6] text-[#242124] hover:text-[#C2185B] text-xs sm:text-sm font-semibold border border-[#E9E2E5] transition-all"
+                          className="px-6 py-3 rounded-full bg-white hover:bg-[#FFF3F6] text-[#EC407A] hover:text-[#C2185B] text-xs sm:text-sm font-semibold border border-[#E9E2E5] transition-all"
                         >
                           <span>{heroSettings.secondaryButtonText || 'Browse Occasions'}</span>
                         </Link>
@@ -312,7 +312,7 @@ export default function HomePage() {
                       <div className="pt-2 flex flex-wrap items-center gap-3">
                         <Link
                           to="/category/flowers"
-                          className="px-6 py-3 rounded-full bg-[#242124] hover:bg-[#EC407A] text-white text-xs sm:text-sm font-semibold transition-all shadow-md hover:shadow-lg flex items-center gap-2 group"
+                          className="px-6 py-3 rounded-full bg-[#EC407A] hover:bg-[#C2185B] text-white text-xs sm:text-sm font-semibold transition-all shadow-md hover:shadow-lg flex items-center gap-2 group"
                         >
                           <span>Explore New Harvest</span>
                           <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
@@ -320,7 +320,7 @@ export default function HomePage() {
 
                         <Link
                           to="/category/all"
-                          className="px-6 py-3 rounded-full bg-white hover:bg-[#FFF3F6] text-[#242124] hover:text-[#C2185B] text-xs sm:text-sm font-semibold border border-[#E9E2E5] transition-all"
+                          className="px-6 py-3 rounded-full bg-white hover:bg-[#FFF3F6] text-[#EC407A] hover:text-[#C2185B] text-xs sm:text-sm font-semibold border border-[#E9E2E5] transition-all"
                         >
                           <span>Curated Bouquets</span>
                         </Link>
@@ -370,7 +370,7 @@ export default function HomePage() {
 
                         <Link
                           to="/category/gifts"
-                          className="px-6 py-3 rounded-full bg-white hover:bg-[#FFF3F6] text-[#242124] hover:text-[#C2185B] text-xs sm:text-sm font-semibold border border-[#E9E2E5] transition-all"
+                          className="px-6 py-3 rounded-full bg-white hover:bg-[#FFF3F6] text-[#EC407A] hover:text-[#C2185B] text-xs sm:text-sm font-semibold border border-[#E9E2E5] transition-all"
                         >
                           <span>Reserve Gift Bundles</span>
                         </Link>
@@ -712,8 +712,8 @@ export default function HomePage() {
                         onClick={() => setSearchCategoryFilter(cat)}
                         className={`px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all cursor-pointer flex items-center gap-1.5 ${
                           isSelected
-                            ? 'bg-[#242124] text-white shadow-xs scale-102'
-                            : 'bg-white hover:bg-[#FFF3F6] text-[#555555] hover:text-[#242124] border border-[#EAE2D8]'
+                            ? 'bg-[#EC407A] text-white shadow-xs scale-102'
+                            : 'bg-white hover:bg-[#FFF3F6] text-[#555555] hover:text-[#EC407A] border border-[#EAE2D8]'
                         }`}
                       >
                         <span>{cat}</span>
@@ -785,7 +785,7 @@ export default function HomePage() {
                               className={`px-3.5 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer ${
                                 isAdded
                                   ? 'bg-emerald-600 text-white'
-                                  : 'bg-[#242124] hover:bg-[#EC407A] text-white shadow-xs'
+                                  : 'bg-[#EC407A] hover:bg-[#C2185B] text-white shadow-xs'
                               }`}
                             >
                               {isAdded ? 'Added ✓' : 'Add'}

@@ -36,7 +36,7 @@ const PROMISES = [
     ],
     ctaText: 'Experience Chilled Freshness',
     ctaLink: '/category/flowers',
-    ctaBg: 'bg-[#242124] hover:bg-[#C2185B]',
+    ctaBg: 'bg-[#EC407A] hover:bg-[#C2185B]',
     image: '/images/features/cold-chain.jpg',
     imageAlt: 'Cold-Chain Temperature Controlled Floral Delivery in India',
     badges: [
@@ -346,7 +346,7 @@ export default function HauteFloristryPromise() {
                   <button
                     type="button"
                     onClick={handlePrev}
-                    className="w-9 h-9 rounded-full bg-[#FAF7F2] hover:bg-[#F2ECE6] text-[#242124] flex items-center justify-center transition-colors cursor-pointer border border-[#EAE4DD]"
+                    className="w-9 h-9 rounded-full bg-[#FAF7F2] hover:bg-[#FFF0F4] text-[#EC407A] flex items-center justify-center transition-colors cursor-pointer border border-[#EAE4DD] hover:border-[#FCC1C5]"
                     aria-label="Previous guarantee"
                   >
                     <ChevronLeft className="w-4 h-4" />
@@ -354,7 +354,7 @@ export default function HauteFloristryPromise() {
                   <button
                     type="button"
                     onClick={handleNext}
-                    className="w-9 h-9 rounded-full bg-[#FAF7F2] hover:bg-[#F2ECE6] text-[#242124] flex items-center justify-center transition-colors cursor-pointer border border-[#EAE4DD]"
+                    className="w-9 h-9 rounded-full bg-[#FAF7F2] hover:bg-[#FFF0F4] text-[#EC407A] flex items-center justify-center transition-colors cursor-pointer border border-[#EAE4DD] hover:border-[#FCC1C5]"
                     aria-label="Next guarantee"
                   >
                     <ChevronRight className="w-4 h-4" />
