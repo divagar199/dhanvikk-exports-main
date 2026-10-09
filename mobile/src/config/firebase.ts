@@ -46,7 +46,7 @@ export const firebaseConfig = {
   appId:
     Platform.OS === 'android'
       ? '1:972583680950:android:1acf4d8ff8331adc205f17'
-      : '1:972583680950:web:207e65c929b731f0205f17',
+      : '1:972583680950:web:16d5c7b51f8b08a9205f17',
 };
 
 

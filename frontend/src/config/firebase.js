@@ -1,4 +1,5 @@
 import { initializeApp, getApps } from 'firebase/app';
+import { getAnalytics, isSupported } from 'firebase/analytics';
 import {
   getAuth,
   GoogleAuthProvider,
@@ -27,15 +28,27 @@ const firebaseConfig = {
   projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID || 'auth-checker-diva',
   storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET || 'auth-checker-diva.firebasestorage.app',
   messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID || '972583680950',
-  appId: import.meta.env.VITE_FIREBASE_APP_ID || '1:972583680950:web:207e65c929b731f0205f17',
+  appId: import.meta.env.VITE_FIREBASE_APP_ID || '1:972583680950:web:16d5c7b51f8b08a9205f17',
+  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID || 'G-9ZW01S27GN',
 };
 
 // Initialize Firebase App
 const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
 
+// Initialize Analytics safely
+let analytics = null;
+if (typeof window !== 'undefined') {
+  isSupported().then((supported) => {
+    if (supported) {
+      analytics = getAnalytics(app);
+    }
+  }).catch(() => {});
+}
+
 // Initialize Services
 export const auth = getAuth(app);
 export const db = getFirestore(app);
+export { analytics };
 export const googleProvider = new GoogleAuthProvider();
 
 // Custom parameters for Google OAuth
