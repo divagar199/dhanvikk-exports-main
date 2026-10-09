@@ -21,15 +21,15 @@ import {
   serverTimestamp,
 } from 'firebase/firestore';
 
-// Firebase configuration for project: auth-checker-diva
+// Firebase configuration for project: auth-checker-1-main
 const firebaseConfig = {
-  apiKey: import.meta.env.VITE_FIREBASE_API_KEY || 'AIzaSyDwLPDUMXVPwGY4LtVxpG1YnTNQMHyPeW8',
-  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN || 'auth-checker-diva.firebaseapp.com',
-  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID || 'auth-checker-diva',
-  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET || 'auth-checker-diva.firebasestorage.app',
-  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID || '972583680950',
-  appId: import.meta.env.VITE_FIREBASE_APP_ID || '1:972583680950:web:16d5c7b51f8b08a9205f17',
-  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID || 'G-9ZW01S27GN',
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY || 'AIzaSyC1hipp0dBNuKNRcT11fb-yj9KHZjFAQdE',
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN || 'auth-checker-1-main.firebaseapp.com',
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID || 'auth-checker-1-main',
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET || 'auth-checker-1-main.firebasestorage.app',
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID || '160660053649',
+  appId: import.meta.env.VITE_FIREBASE_APP_ID || '1:160660053649:web:3133a668cc3085163e6930',
+  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID || 'G-0Q9KCWM5N5',
 };
 
 // Initialize Firebase App

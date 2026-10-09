@@ -32,21 +32,21 @@ import { Platform } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const GOOGLE_CLIENT_ID =
-  '972583680950-7ang94u09kol0u5f5sndskkcr913nqc2.apps.googleusercontent.com';
+  '160660053649-1ar8vvfbirn6jgd9bnukihvk0frgluv6.apps.googleusercontent.com';
 
 export const GOOGLE_WEB_CLIENT_ID = GOOGLE_CLIENT_ID;
 export const GOOGLE_OAUTH_CLIENT_ID = GOOGLE_CLIENT_ID;
 
 export const firebaseConfig = {
-  apiKey: 'AIzaSyALogd47c0ZlzLQNX-Uw03V7HZsea4lDjY',
-  authDomain: 'auth-checker-diva.firebaseapp.com',
-  projectId: 'auth-checker-diva',
-  storageBucket: 'auth-checker-diva.firebasestorage.app',
-  messagingSenderId: '972583680950',
+  apiKey: 'AIzaSyC1hipp0dBNuKNRcT11fb-yj9KHZjFAQdE',
+  authDomain: 'auth-checker-1-main.firebaseapp.com',
+  projectId: 'auth-checker-1-main',
+  storageBucket: 'auth-checker-1-main.firebasestorage.app',
+  messagingSenderId: '160660053649',
   appId:
     Platform.OS === 'android'
-      ? '1:972583680950:android:1acf4d8ff8331adc205f17'
-      : '1:972583680950:web:16d5c7b51f8b08a9205f17',
+      ? '1:160660053649:android:1acf4d8ff8331adc205f17'
+      : '1:160660053649:web:3133a668cc3085163e6930',
 };
 
 

@@ -305,8 +305,8 @@ export const logoutUser = createAsyncThunk(
 const authSlice = createSlice({
   name: 'auth',
   initialState: {
-    user: savedUser || DEFAULT_GUEST_USER,
-    isAuthenticated: true,
+    user: savedUser,
+    isAuthenticated: Boolean(savedToken && savedUser),
     loading: false,
     error: null,
   },
@@ -315,8 +315,8 @@ const authSlice = createSlice({
       state.error = null;
     },
     logoutImmediate: (state) => {
-      state.user = DEFAULT_GUEST_USER;
-      state.isAuthenticated = true;
+      state.user = null;
+      state.isAuthenticated = false;
       state.loading = false;
       state.error = null;
       localStorage.removeItem('dhanvikk_auth_token');
@@ -324,6 +324,7 @@ const authSlice = createSlice({
       localStorage.removeItem('dhanvikk_remember_email');
       sessionStorage.removeItem('dhanvikk_auth_token');
       sessionStorage.removeItem('dhanvikk_user');
+      sessionStorage.setItem('dhanvikk_logged_out', 'true');
     },
     setUserProfile: (state, action) => {
       sessionStorage.removeItem('dhanvikk_logged_out');
