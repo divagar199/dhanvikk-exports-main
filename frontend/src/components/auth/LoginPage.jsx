@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useLocation, useNavigate, Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'sonner';
+import { AlertTriangle, ExternalLink, Sparkles } from 'lucide-react';
 import Logo from '../common/Logo';
 import LoginForm from './LoginForm';
 import SocialLogin from './SocialLogin';
@@ -15,6 +16,7 @@ export default function LoginPage() {
   const location = useLocation();
 
   const { isAuthenticated, user, loading, error: authError } = useSelector((state) => state.auth);
+  const [googleLoading, setGoogleLoading] = useState(false);
 
   // Target destination redirect (e.g. /checkout or /account)
   const rawFrom =
@@ -73,6 +75,7 @@ export default function LoginPage() {
   const handleGoogleLogin = async () => {
     dispatch(clearAuthError());
     sessionStorage.removeItem('dhanvikk_logged_out');
+    setGoogleLoading(true);
     try {
       const resultAction = await dispatch(loginWithGoogleThunk());
       if (loginWithGoogleThunk.fulfilled.match(resultAction)) {
@@ -93,7 +96,18 @@ export default function LoginPage() {
       }
     } catch {
       toast.error('Google sign-in could not be completed.');
+    } finally {
+      setGoogleLoading(false);
     }
+  };
+
+  // Quick Demo Account Auto-Fill / Sign In
+  const handleDemoSignIn = async () => {
+    handleLoginSubmit({
+      email: 'customer@dhanvikk.com',
+      password: 'password123',
+      rememberMe: true,
+    });
   };
 
   // Check if returning from Google Redirect
@@ -117,6 +131,8 @@ export default function LoginPage() {
     return () => { isMounted = false; };
   }, [dispatch, destination, navigate]);
 
+  const isDomainError = Boolean(authError && authError.includes('authorized in Firebase Auth'));
+
   return (
     <div className="w-full max-w-[420px] sm:max-w-[440px] mx-auto flex flex-col justify-center py-4">
       {/* Main Luxury White Card Container */}
@@ -139,9 +155,52 @@ export default function LoginPage() {
           </p>
         </div>
 
+        {/* Actionable Authorized Domain Guide Banner if Firebase rejected domain */}
+        {isDomainError && (
+          <div className="mb-4 p-3.5 rounded-2xl bg-amber-50/95 border border-amber-300 text-left text-xs text-amber-950 space-y-2 shadow-xs">
+            <div className="flex items-center gap-1.5 font-bold text-amber-900">
+              <AlertTriangle className="w-4 h-4 text-amber-600 flex-shrink-0" />
+              <span>Authorize Domain in Firebase Console</span>
+            </div>
+            <p className="text-[11.5px] text-amber-800 leading-relaxed">
+              Google Sign-In requires adding this domain to your Firebase Authorized Domains whitelist:
+            </p>
+            <div className="p-2 rounded-xl bg-white/90 border border-amber-200 font-mono text-[11px] font-semibold text-[#242124] select-all break-all">
+              {typeof window !== 'undefined' ? window.location.hostname : 'dhanvikk-exports-main.vercel.app'}
+            </div>
+            <div className="pt-1 flex flex-col gap-1.5">
+              <a
+                href="https://console.firebase.google.com/project/auth-checker-1-main/authentication/settings"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center gap-1.5 w-full py-2 px-3 rounded-xl bg-[#EC407A] hover:bg-[#D81B60] text-white font-semibold text-xs transition-colors shadow-xs"
+              >
+                <span>Add Domain in Firebase Console</span>
+                <ExternalLink className="w-3.5 h-3.5" />
+              </a>
+              <span className="text-[10.5px] text-amber-700 text-center">
+                Firebase Console → Authentication → Settings → Authorized domains → Add domain
+              </span>
+            </div>
+          </div>
+        )}
+
         {/* 1-Click Google Sign-In */}
         <div className="mb-4">
-          <SocialLogin onGoogleLogin={handleGoogleLogin} loading={loading} />
+          <SocialLogin onGoogleLogin={handleGoogleLogin} loading={googleLoading || loading} />
+        </div>
+
+        {/* Fast Demo Account Helper */}
+        <div className="mb-3">
+          <button
+            type="button"
+            onClick={handleDemoSignIn}
+            disabled={loading || googleLoading}
+            className="w-full py-2 px-3 rounded-xl border border-dashed border-[#E0D8D0] bg-[#FAF8F5] hover:bg-[#F5EFEA] hover:border-[#D0C5BA] text-[12px] font-medium text-[#555555] transition-all flex items-center justify-center gap-1.5 cursor-pointer disabled:opacity-50"
+          >
+            <Sparkles className="w-3.5 h-3.5 text-[#EC407A]" />
+            <span>1-Click Demo Customer Sign In</span>
+          </button>
         </div>
 
         {/* Elegant Divider */}
@@ -151,10 +210,11 @@ export default function LoginPage() {
         <div className="w-full">
           <LoginForm
             onSubmit={handleLoginSubmit}
-            loading={loading}
-            serverError={authError}
+            loading={loading || googleLoading}
+            serverError={!isDomainError ? authError : null}
           />
         </div>
+
 
 
         {/* Register CTA Link */}

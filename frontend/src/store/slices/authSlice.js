@@ -206,8 +206,8 @@ export const loginWithGoogleThunk = createAsyncThunk(
             const currentHost = typeof window !== 'undefined' ? window.location.hostname : 'current domain';
             return rejectWithValue(`The domain "${currentHost}" is not authorized in Firebase Auth. Please verify Authorized Domains in Firebase Console.`);
           }
-          if (errorCode === 'auth/network-request-failed') {
-            return rejectWithValue('Network connection error during Google sign-in. Please check your internet connection.');
+          if (errorCode === 'auth/timeout') {
+            return rejectWithValue('Google sign-in timed out. Please try again or sign in with your email & password.');
           }
           return rejectWithValue(fbErr?.message || 'Google sign-in could not be completed.');
         }
@@ -379,11 +379,10 @@ const authSlice = createSlice({
         state.error = null;
       })
       .addCase(loginWithGoogleThunk.fulfilled, (state, action) => {
+        state.loading = false;
         if (action.payload?.redirecting) {
-          state.loading = true;
           return;
         }
-        state.loading = false;
         state.isAuthenticated = true;
         state.user = action.payload.user;
         state.error = null;

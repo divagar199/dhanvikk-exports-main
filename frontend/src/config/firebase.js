@@ -109,7 +109,20 @@ export const signInWithGoogleFirebase = async (preferRedirect = false) => {
   }
 
   try {
-    const result = await signInWithPopup(auth, googleProvider);
+    // 15-second safeguard timeout so the UI never hangs indefinitely if popup is blocked or hangs
+    const timeoutPromise = new Promise((_, reject) => {
+      setTimeout(() => {
+        const timeoutErr = new Error('Google Sign-In popup timed out. Please try again or sign in with email.');
+        timeoutErr.code = 'auth/timeout';
+        reject(timeoutErr);
+      }, 15000);
+    });
+
+    const result = await Promise.race([
+      signInWithPopup(auth, googleProvider),
+      timeoutPromise,
+    ]);
+
     const user = result.user;
     const token = await user.getIdToken();
 
@@ -134,6 +147,12 @@ export const signInWithGoogleFirebase = async (preferRedirect = false) => {
     };
   } catch (error) {
     console.warn('Google Sign-In interaction:', error?.code, error?.message);
+
+    // If domain is not authorized in Firebase Console, do NOT redirect (redirect will also fail with same error)
+    if (error?.code === 'auth/unauthorized-domain') {
+      throw error;
+    }
+
     // Automatic fallback: If browser blocks popups, initiate seamless redirect flow
     if (error?.code === 'auth/popup-blocked' || error?.code === 'auth/cancelled-popup-request') {
       console.info('Popup blocked by browser. Automatically switching to Google redirect sign-in flow...');
@@ -148,6 +167,7 @@ export const signInWithGoogleFirebase = async (preferRedirect = false) => {
     throw error;
   }
 };
+
 
 /**
  * Direct Google Redirect Sign-In (Guaranteed to bypass all browser popup blockers)
