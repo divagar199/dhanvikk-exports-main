@@ -2,6 +2,8 @@ import express from 'express';
 import {
   login,
   googleLogin,
+  initiateGoogleOAuth,
+  googleOAuthCallback,
   getMe,
   logout,
   register,
@@ -12,6 +14,7 @@ import {
   toggleWishlistBouquet,
   verifyPortalKey,
   saveUserCart,
+  firebaseLogin,
 } from '../controllers/authController.js';
 import { protect } from '../middleware/authMiddleware.js';
 
@@ -19,7 +22,11 @@ const router = express.Router();
 
 router.post('/login', login);
 router.post('/google', googleLogin);
+router.get('/google/login', initiateGoogleOAuth);
+router.get('/google/callback', googleOAuthCallback);
+router.post('/firebase-login', firebaseLogin);
 router.post('/register', register);
+
 router.post('/logout', logout);
 router.get('/me', protect, getMe);
 

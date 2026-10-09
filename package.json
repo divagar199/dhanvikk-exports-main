@@ -5,13 +5,17 @@
   "description": "Dhanvikk Blooms & Exports - E-Commerce Platform",
   "scripts": {
     "dev": "concurrently -n \"BACKEND,FRONTEND\" -c \"blue,magenta\" \"npm run dev:backend\" \"npm run dev:frontend\"",
-    "dev:all": "concurrently -n \"BACKEND,FRONTEND\" -c \"blue,magenta\" \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "dev:all": "concurrently -n \"BACKEND,FRONTEND,MOBILE\" -c \"blue,magenta,green\" \"npm run dev:backend\" \"npm run dev:frontend\" \"npm run dev:mobile\"",
     "dev:frontend": "npm run dev --prefix frontend",
     "dev:backend": "npm run dev --prefix backend",
+    "dev:mobile": "npm run start --prefix mobile",
+    "mobile:android": "npm run android --prefix mobile",
+    "mobile:ios": "npm run ios --prefix mobile",
+    "mobile:web": "npm run web --prefix mobile",
     "build:frontend": "npm run build --prefix frontend",
     "start:backend": "npm run start --prefix backend",
     "seed:catalog": "python backend/scripts/build_final_products_files.py",
-    "install:all": "npm install --prefix frontend && npm install --prefix backend"
+    "install:all": "npm install --prefix frontend && npm install --prefix backend && npm install --prefix mobile"
   },
   "devDependencies": {
     "concurrently": "^9.1.2"

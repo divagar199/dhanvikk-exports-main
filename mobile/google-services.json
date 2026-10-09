@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "972583680950",
+    "project_id": "auth-checker-diva",
+    "storage_bucket": "auth-checker-diva.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:972583680950:android:1acf4d8ff8331adc205f17",
+        "android_client_info": {
+          "package_name": "com.dhanvikk.blooms"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "972583680950-7ang94u09kol0u5f5sndskkcr913nqc2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyALogd47c0ZlzLQNX-Uw03V7HZsea4lDjY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "972583680950-7ang94u09kol0u5f5sndskkcr913nqc2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
