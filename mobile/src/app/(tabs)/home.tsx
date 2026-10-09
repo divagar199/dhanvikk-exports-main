@@ -194,13 +194,17 @@ export default function HomeScreen() {
   const [scrolled, setScrolled] = useState(false);
   const [activeHeroIndex, setActiveHeroIndex] = useState(0);
 
-  const { width, height, isLandscape, gridItemWidth } = useResponsive();
+  const { width, height, isLandscape, isTablet, isSmallPhone, gridItemWidth, containerStyle, screenPadding } = useResponsive();
 
-  // Responsive Hero Banner sizing (proportioned for both portrait & landscape)
-  const heroCardWidth = isLandscape
-    ? Math.min(Math.round(height * 0.55 * (16 / 9)), width - Spacing.screenPadding * 2)
-    : Math.min(width - Spacing.screenPadding * 2, 720);
-  const heroCardHeight = isLandscape
+  // Responsive Hero Banner sizing (proportioned for portrait, landscape & tablets)
+  const heroCardWidth = isTablet
+    ? Math.min(Math.round(width * 0.72), 860)
+    : isLandscape
+    ? Math.min(Math.round(height * 0.55 * (16 / 9)), width - screenPadding * 2)
+    : Math.min(width - screenPadding * 2, 720);
+  const heroCardHeight = isTablet
+    ? 290
+    : isLandscape
     ? Math.min(Math.round(height * 0.55), 260)
     : Math.min(Math.round((heroCardWidth * 9) / 16), 340);
 
@@ -307,23 +311,15 @@ export default function HomeScreen() {
   return (
     <SafeAreaView style={styles.safeArea} edges={['top']}>
       {/* 1. Flipkart-style Top App Bar / Navbar */}
-      <View style={[styles.headerContainer, scrolled && styles.headerScrolled]}>
-        {/* Row 1: Brand Logo + Assured Badge + Location Picker + Actions */}
+      <View style={[styles.headerContainer, scrolled && styles.headerScrolled, isTablet && containerStyle]}>
+        {/* Row 1: Brand Logo + Location Picker + Actions */}
         <View style={styles.headerTopRow}>
-          <View style={styles.brandWithBadge}>
-            <GrandLogo
-              layout="horizontal"
-              size="sm"
-              subtitleText="EXPORTS"
-              onPress={() => router.push('/(tabs)/home')}
-            />
-            <View style={styles.assuredBadge}>
-              <Sparkles size={9} color={Colors.gold} />
-              <AppText variant="caption" color={Colors.white} weight="bold" style={styles.assuredBadgeText}>
-                Assured
-              </AppText>
-            </View>
-          </View>
+          <GrandLogo
+            layout="horizontal"
+            size="sm"
+            subtitleText="EXPORTS"
+            onPress={() => router.push('/(tabs)/home')}
+          />
 
           {/* Right Group: Location Pill + Action Buttons */}
           <View style={styles.headerRightGroup}>
@@ -335,7 +331,7 @@ export default function HomeScreen() {
               accessibilityLabel={`Deliver to ${deliveryLocation}`}
             >
               <MapPin size={12} color={Colors.primary} />
-              <View style={styles.locationTextWrap}>
+              <View style={[styles.locationTextWrap, isTablet && { maxWidth: 220 }]}>
                 <AppText variant="caption" color={Colors.textSecondary} style={styles.deliverToCaption}>
                   Deliver to
                 </AppText>
@@ -441,7 +437,7 @@ export default function HomeScreen() {
 
       <ScrollView
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.scrollContent}
+        contentContainerStyle={[styles.scrollContent, isTablet && containerStyle]}
         onScroll={handleScroll}
         scrollEventThrottle={16}
         refreshControl={
@@ -828,7 +824,7 @@ export default function HomeScreen() {
             title="The Editorial Spread"
             kicker="Curated Perspectives"
           />
-          <View style={[styles.editorialSpreadContainer, isLandscape && { flexDirection: 'row', gap: 16 }]}>
+          <View style={[styles.editorialSpreadContainer, (isLandscape || isTablet) && { flexDirection: 'row', gap: 16 }]}>
             {/* For Her */}
             <TouchableOpacity
               activeOpacity={0.92}
@@ -838,7 +834,7 @@ export default function HomeScreen() {
                   params: { recipient: 'For Her' },
                 })
               }
-              style={[styles.editorialCard, isLandscape && { flex: 1 }]}
+              style={[styles.editorialCard, (isLandscape || isTablet) && { flex: 1 }]}
             >
               <Image
                 source={{
@@ -872,7 +868,7 @@ export default function HomeScreen() {
                   params: { recipient: 'For Him' },
                 })
               }
-              style={[styles.editorialCard, isLandscape ? { flex: 1 } : { marginTop: 16 }]}
+              style={[styles.editorialCard, (isLandscape || isTablet) ? { flex: 1 } : { marginTop: 16 }]}
             >
               <Image
                 source={{
@@ -972,7 +968,7 @@ export default function HomeScreen() {
         </View>
 
         {/* 11. Dhanvikk Trust Reassurance Pillars */}
-        <View style={styles.trustGridContainer}>
+        <View style={[styles.trustGridContainer, isTablet && { justifyContent: 'space-around', maxWidth: 840, alignSelf: 'center', width: '100%' }]}>
           <View style={styles.trustItem}>
             <View style={styles.trustIconCircle}>
               <Flower2 size={18} color={Colors.primary} />

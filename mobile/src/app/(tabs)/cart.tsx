@@ -21,11 +21,13 @@ import { EmptyState } from '../../components/EmptyState';
 import { useCartStore } from '../../store/cartStore';
 import { useWishlistStore } from '../../store/wishlistStore';
 import { getProductImageUrl } from '../../utils/imageUrl';
+import { useResponsive } from '../../hooks/useResponsive';
 import { CartItem } from '../../types';
 
 export default function CartScreen() {
   const router = useRouter();
   const insets = useSafeAreaInsets();
+  const { isTablet, containerStyle } = useResponsive();
   const {
     items,
     addToCart,
@@ -122,7 +124,7 @@ export default function CartScreen() {
   return (
     <SafeAreaView style={styles.safeArea} edges={['top']}>
       {/* Header */}
-      <View style={styles.header}>
+      <View style={[styles.header, isTablet && containerStyle]}>
         <AppText variant="h1" serif={true} color={Colors.text}>
           Your Bag
         </AppText>
@@ -133,7 +135,7 @@ export default function CartScreen() {
 
       <ScrollView
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.scrollContent}
+        contentContainerStyle={[styles.scrollContent, isTablet && containerStyle]}
       >
         {/* Cart Item Rows (simple rows, no nested cards) */}
         <View style={styles.itemsList}>
@@ -294,7 +296,13 @@ export default function CartScreen() {
       )}
 
       {/* Sticky Bottom Checkout Bar showing total in label */}
-      <View style={[styles.stickyFooter, { paddingBottom: Math.max(insets.bottom, 16) }]}>
+      <View
+        style={[
+          styles.stickyFooter,
+          { paddingBottom: Math.max(insets.bottom, 16) },
+          isTablet && { maxWidth: 640, alignSelf: 'center', width: '100%', borderRadius: 20, marginBottom: 12 },
+        ]}
+      >
         <View style={styles.securityRow}>
           <ShieldCheck size={16} color={Colors.success} />
           <AppText variant="caption" color={Colors.textSecondary}>

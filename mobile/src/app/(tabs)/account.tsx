@@ -36,9 +36,11 @@ import { useAuthStore } from '../../store/authStore';
 import { useWishlistStore } from '../../store/wishlistStore';
 import { useUIStore } from '../../store/uiStore';
 import { getUserAvatarUrl } from '../../utils/imageUrl';
+import { useResponsive } from '../../hooks/useResponsive';
 
 export default function AccountScreen() {
   const router = useRouter();
+  const { isTablet, containerStyle } = useResponsive();
   const { user, setAuth, logout, syncUserData } = useAuthStore();
   const { items: wishlistItems } = useWishlistStore();
   const { showToast } = useUIStore();
@@ -84,7 +86,7 @@ export default function AccountScreen() {
     <SafeAreaView style={styles.safeArea} edges={['top']}>
       <ScrollView
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.scrollContent}
+        contentContainerStyle={[styles.scrollContent, isTablet && containerStyle]}
       >
         {/* Profile Card Header */}
         <View style={styles.profileHeader}>

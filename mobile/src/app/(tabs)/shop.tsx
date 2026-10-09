@@ -41,7 +41,7 @@ const SORT_OPTIONS: { label: string; value: 'recommended' | 'price-low' | 'price
 export default function ShopScreen() {
   const router = useRouter();
   const params = useLocalSearchParams<{ category?: string; occasion?: string; query?: string }>();
-  const { gridItemWidth } = useResponsive();
+  const { gridItemWidth, isTablet, containerStyle, gridGap } = useResponsive();
 
   const [selectedCategory, setSelectedCategory] = useState<string>(params.category || 'All');
   const [selectedSort, setSelectedSort] = useState<'recommended' | 'price-low' | 'price-high' | 'rating'>('recommended');
@@ -77,7 +77,7 @@ export default function ShopScreen() {
   return (
     <SafeAreaView style={styles.safeArea} edges={['top']}>
       {/* Header */}
-      <View style={styles.header}>
+      <View style={[styles.header, isTablet && containerStyle]}>
         <View style={styles.headerLeft}>
           <TouchableOpacity
             style={styles.backButton}
@@ -111,7 +111,7 @@ export default function ShopScreen() {
       </View>
 
       {/* Horizontal Category Chips */}
-      <View style={styles.chipsContainer}>
+      <View style={[styles.chipsContainer, isTablet && containerStyle]}>
         <ScrollView
           horizontal
           showsHorizontalScrollIndicator={false}
@@ -130,7 +130,7 @@ export default function ShopScreen() {
       </View>
 
       {/* Count & Sort Bar */}
-      <View style={styles.subBar}>
+      <View style={[styles.subBar, isTablet && containerStyle]}>
         <AppText variant="caption" color={Colors.textSecondary} style={{ fontVariant: ['tabular-nums'] }}>
           Showing {products.length} {products.length === 1 ? 'bloom' : 'blooms'}
         </AppText>
@@ -164,7 +164,7 @@ export default function ShopScreen() {
       {/* Product Grid */}
       <ScrollView
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.scrollContent}
+        contentContainerStyle={[styles.scrollContent, isTablet && containerStyle]}
         refreshControl={
           <RefreshControl
             refreshing={isRefetching}
@@ -174,7 +174,7 @@ export default function ShopScreen() {
         }
       >
         {isLoading ? (
-          <View style={styles.grid}>
+          <View style={[styles.grid, isTablet && { gap: gridGap }]}>
             {[1, 2, 3, 4, 5, 6].map((idx) => (
               <View key={idx} style={[styles.gridItem, { width: gridItemWidth }]}>
                 <ProductCardSkeleton />
@@ -189,7 +189,7 @@ export default function ShopScreen() {
             onAction={() => setSelectedCategory('All')}
           />
         ) : (
-          <View style={styles.grid}>
+          <View style={[styles.grid, isTablet && { gap: gridGap }]}>
             {products.map((product) => (
               <View
                 key={product.id || product._id}

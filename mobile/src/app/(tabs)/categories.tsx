@@ -67,11 +67,13 @@ const CATEGORY_ITEMS = [
 
 export default function CategoriesScreen() {
   const router = useRouter();
-  const { isTablet, isLandscape, width, screenPadding } = useResponsive();
+  const { isTablet, isLandscape, width, screenPadding, containerStyle } = useResponsive();
   const isMultiCol = isTablet || isLandscape;
-  const cardGap = 16;
-  const colWidth = isMultiCol
-    ? Math.floor((width - screenPadding * 2 - cardGap) / 2)
+  const cardGap = isTablet ? 20 : 16;
+  const numCategoryCols = width >= 900 ? 3 : isMultiCol ? 2 : 1;
+  const contentWidth = Math.min(width, 1140);
+  const colWidth = numCategoryCols > 1
+    ? Math.floor((contentWidth - screenPadding * 2 - (numCategoryCols - 1) * cardGap) / numCategoryCols)
     : '100%';
 
   const handleCategoryPress = (categorySlug: string) => {
@@ -92,7 +94,7 @@ export default function CategoriesScreen() {
   return (
     <SafeAreaView style={styles.safeArea} edges={['top']}>
       {/* Header */}
-      <View style={styles.header}>
+      <View style={[styles.header, isTablet && containerStyle]}>
         <View style={styles.headerLeft}>
           <TouchableOpacity
             style={styles.backButton}
@@ -111,6 +113,7 @@ export default function CategoriesScreen() {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={[
           styles.scrollContent,
+          isTablet && containerStyle,
           isMultiCol && { flexDirection: 'row', flexWrap: 'wrap', gap: cardGap },
         ]}
       >
@@ -121,7 +124,7 @@ export default function CategoriesScreen() {
             onPress={() => handleCategoryPress(item.slug)}
             style={[
               styles.card,
-              isMultiCol && { width: colWidth, height: 200 },
+              isMultiCol && { width: colWidth, height: isTablet ? 230 : 200 },
             ]}
           >
             <Image

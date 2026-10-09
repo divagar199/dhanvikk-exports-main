@@ -11,11 +11,13 @@ import {
 } from 'lucide-react-native';
 import { Colors, Typography, Motion } from '../../theme';
 import { AppText } from '../../components/AppText';
+import { useResponsive } from '../../hooks/useResponsive';
 import { useCartStore } from '../../store/cartStore';
 
 export default function TabLayout() {
   const insets = useSafeAreaInsets();
   const bottomInset = insets?.bottom ?? 0;
+  const { isTablet } = useResponsive();
   const { getItemCount } = useCartStore();
   const cartCount = getItemCount();
 
@@ -53,8 +55,9 @@ export default function TabLayout() {
         tabBarStyle: [
           styles.tabBar,
           {
-            height: 60 + bottomInset,
-            paddingBottom: bottomInset > 0 ? bottomInset : 8,
+            height: (isTablet ? 68 : 60) + bottomInset,
+            paddingBottom: bottomInset > 0 ? bottomInset : (isTablet ? 10 : 8),
+            paddingHorizontal: isTablet ? '15%' : 0,
           },
         ],
         tabBarLabelStyle: styles.tabLabel,
