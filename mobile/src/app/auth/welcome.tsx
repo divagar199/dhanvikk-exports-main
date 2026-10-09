@@ -60,7 +60,7 @@ export default function WelcomeScreen() {
               size="lg"
               light={false}
               showSubtitle={true}
-              subtitleText="BLOOMS & EXPORTS"
+              subtitleText="Blooms & Exports"
             />
           </View>
         </View>

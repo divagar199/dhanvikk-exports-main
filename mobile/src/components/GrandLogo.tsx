@@ -42,7 +42,7 @@ export const GrandLogo: React.FC<GrandLogoProps> = ({
   width,
   onPress,
   showSubtitle = true,
-  subtitleText = 'BLOOMS',
+  subtitleText = 'Blooms & Exports',
   light = false,
   style,
 }) => {
@@ -171,7 +171,7 @@ const styles = StyleSheet.create({
     lineHeight: 18,
   },
   brandSubtitle: {
-    letterSpacing: 2.2,
+    letterSpacing: 1.2,
     lineHeight: 12,
     marginTop: 1,
   },
@@ -180,7 +180,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   verticalSubtitle: {
-    letterSpacing: 2.4,
+    letterSpacing: 1.4,
     fontSize: 10,
     marginTop: 4,
     textAlign: 'center',

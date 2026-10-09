@@ -88,7 +88,7 @@ export default function RegisterScreen() {
             <GrandLogo
               size="lg"
               showSubtitle={true}
-              subtitleText="HAUTE FLORISTRY"
+              subtitleText="Blooms & Exports"
             />
             <AppText variant="h1" align="center" style={{ marginTop: 14 }}>
               Create Your Account

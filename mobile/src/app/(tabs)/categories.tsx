@@ -105,7 +105,7 @@ export default function CategoriesScreen() {
           >
             <ArrowLeft size={19} color={Colors.text} strokeWidth={2} />
           </TouchableOpacity>
-          <GrandLogo layout="horizontal" size="xs" subtitleText="BLOOMS" />
+          <GrandLogo layout="horizontal" size="xs" subtitleText="Blooms & Exports" />
         </View>
       </View>
 

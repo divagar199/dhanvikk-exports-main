@@ -346,7 +346,7 @@ export default function AccountScreen() {
           <GrandLogo
             size="sm"
             showSubtitle={true}
-            subtitleText="BLOOMS & EXPORTS"
+            subtitleText="Blooms & Exports"
             style={{ marginBottom: 12 }}
           />
           <AppText variant="caption" color={Colors.textSecondary} align="center">

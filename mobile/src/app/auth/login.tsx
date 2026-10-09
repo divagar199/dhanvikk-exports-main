@@ -156,7 +156,7 @@ export default function LoginScreen() {
             <GrandLogo
               size="lg"
               showSubtitle={true}
-              subtitleText="HAUTE FLORISTRY"
+              subtitleText="Blooms & Exports"
             />
             <AppText variant="h1" align="center" style={styles.title}>
               Welcome Back

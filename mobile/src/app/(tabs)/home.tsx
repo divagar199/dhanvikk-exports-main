@@ -316,7 +316,7 @@ export default function HomeScreen() {
           <GrandLogo
             layout="horizontal"
             size="sm"
-            subtitleText="EXPORTS"
+            subtitleText="Blooms & Exports"
             onPress={() => router.push('/(tabs)/home')}
           />
 

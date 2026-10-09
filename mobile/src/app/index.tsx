@@ -82,7 +82,7 @@ export default function SplashScreenComponent() {
       >
         {/* 2. Grand Brand Logo */}
         <View style={styles.logoWrapper}>
-          <GrandLogo layout="vertical" size="lg" subtitleText="EXPORTS" />
+          <GrandLogo layout="vertical" size="lg" subtitleText="Blooms & Exports" />
         </View>
 
         {/* 3. Dhanvikk Assured Badge */}
