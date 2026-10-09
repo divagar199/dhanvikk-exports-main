@@ -21,7 +21,7 @@ let _toastTimeout: ReturnType<typeof setTimeout> | null = null;
 
 export const useUIStore = create<UIState>((set) => ({
   toast: null,
-  deliveryLocation: 'Dubai, UAE',
+  deliveryLocation: 'Chennai 600001',
   hasCompletedOnboarding: true,
 
   showToast: (message: string, type: 'success' | 'error' | 'info' = 'info') => {

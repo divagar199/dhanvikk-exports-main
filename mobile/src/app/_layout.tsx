@@ -112,23 +112,21 @@ export default function RootLayout() {
   }, [initAuth]);
 
   useEffect(() => {
-    if (fontsLoaded || fontError) {
-      setAppReady(true);
-      SplashScreen.hideAsync().catch(() => {});
-    }
+    setAppReady(true);
+    SplashScreen.hideAsync().catch(() => {});
   }, [fontsLoaded, fontError]);
 
-  // Safety fallback: Never stay stuck on splash screen for more than 750ms
+  // Instant fallback: Hide native splash within 350ms regardless of font loader
   useEffect(() => {
     const timer = setTimeout(() => {
       setAppReady(true);
       SplashScreen.hideAsync().catch(() => {});
-    }, 750);
+    }, 350);
     return () => clearTimeout(timer);
   }, []);
 
-  if (!appReady && !fontsLoaded) {
-    return <Animated.View style={{ flex: 1, backgroundColor: Colors.palePink }} />;
+  if (!appReady && !fontsLoaded && !fontError) {
+    return <Animated.View style={{ flex: 1, backgroundColor: '#FFF7F9' }} />;
   }
 
   return (

@@ -145,7 +145,7 @@ export default function OnboardingScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.text,
+    backgroundColor: '#FFF7F9',
   },
   slider: {
     position: 'absolute',
@@ -156,6 +156,7 @@ const styles = StyleSheet.create({
   },
   slide: {
     position: 'relative',
+    backgroundColor: '#FFF7F9',
   },
   slideImage: {
     width: '100%',
@@ -167,7 +168,7 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
-    backgroundColor: 'rgba(36, 27, 31, 0.55)',
+    backgroundColor: 'rgba(36, 27, 31, 0.35)',
   },
   overlay: {
     flex: 1,
