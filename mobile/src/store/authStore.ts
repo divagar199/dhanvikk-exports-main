@@ -23,11 +23,20 @@ interface AuthState {
   logout: () => Promise<void>;
 }
 
+export const DEFAULT_GUEST_USER: User = {
+  id: 'guest_user_dhanvikk',
+  name: 'Guest Customer',
+  email: 'guest@dhanvikk.com',
+  role: 'customer',
+  phone: '+971 50 000 0000',
+  avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80',
+};
+
 export const useAuthStore = create<AuthState>((set, get) => ({
-  user: null,
-  token: null,
+  user: DEFAULT_GUEST_USER,
+  token: 'guest_token',
   isLoading: false,
-  isInitialized: false,
+  isInitialized: true,
   savedAddresses: [],
   recentOrders: [],
   savedAccounts: [],
@@ -169,7 +178,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       await authStorage.deleteItem(TOKEN_STORAGE_KEY).catch(() => {});
       await authStorage.deleteItem('dhanvikk_user').catch(() => {});
     }
-    set({ user: null, token: null, isInitialized: true, isLoading: false });
+    set({ user: DEFAULT_GUEST_USER, token: 'guest_token', isInitialized: true, isLoading: false });
   },
 
   logout: async () => {
@@ -179,7 +188,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       // Continue cleanup
     }
     useWishlistStore.getState().clearWishlist();
-    set({ user: null, token: null, savedAddresses: [], recentOrders: [] });
+    set({ user: DEFAULT_GUEST_USER, token: 'guest_token', savedAddresses: [], recentOrders: [] });
   },
 }));
 

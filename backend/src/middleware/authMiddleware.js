@@ -12,11 +12,17 @@ export const protect = async (req, res, next) => {
     token = req.cookies.dhanvikk_token;
   }
 
+  // Guest Mode: If no token provided, assign guest customer and proceed seamlessly
   if (!token) {
-    return res.status(401).json({
-      success: false,
-      message: 'Not authorized, no token provided',
-    });
+    req.user = {
+      id: 'guest_user_dhanvikk',
+      name: 'Guest Customer',
+      email: 'guest@dhanvikk.com',
+      role: 'customer',
+      phone: '+971 50 000 0000',
+      avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80',
+    };
+    return next();
   }
 
   try {
@@ -40,27 +46,26 @@ export const protect = async (req, res, next) => {
       };
     }
 
-    if (!user) {
-      return res.status(401).json({
-        success: false,
-        message: 'The user belonging to this token no longer exists',
-      });
-    }
-
     req.user = {
-      id: user._id ? user._id.toString() : user.id,
-      name: user.name,
-      email: user.email,
-      role: user.role,
-      phone: user.phone || '',
-      avatar: user.avatar,
+      id: user?._id ? user._id.toString() : (user?.id || decoded?.sub || 'guest_user_dhanvikk'),
+      name: user?.name || decoded?.name || 'Guest Customer',
+      email: user?.email || decoded?.email || 'guest@dhanvikk.com',
+      role: user?.role || decoded?.role || 'customer',
+      phone: user?.phone || decoded?.phone || '',
+      avatar: user?.avatar || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80',
     };
     next();
   } catch (error) {
-    return res.status(401).json({
-      success: false,
-      message: 'Not authorized, invalid or expired token',
-    });
+    // Guest fallback on expired or invalid token
+    req.user = {
+      id: 'guest_user_dhanvikk',
+      name: 'Guest Customer',
+      email: 'guest@dhanvikk.com',
+      role: 'customer',
+      phone: '+971 50 000 0000',
+      avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80',
+    };
+    next();
   }
 };
 

@@ -1511,3 +1511,17 @@ export const firebaseLogin = async (req, res, next) => {
   }
 };
 
+export const getMe = (req, res) => {
+  return res.status(200).json({
+    success: true,
+    user: req.user || {
+      id: 'guest_user_dhanvikk',
+      name: 'Guest Customer',
+      email: 'guest@dhanvikk.com',
+      role: 'customer',
+      phone: '+971 50 000 0000',
+      avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80',
+    },
+  });
+};
+

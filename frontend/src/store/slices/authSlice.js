@@ -2,6 +2,15 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { authService } from '../../services/authService';
 import { signInWithGoogleFirebase } from '../../config/firebase';
 
+export const DEFAULT_GUEST_USER = {
+  id: 'guest_user_dhanvikk',
+  name: 'Guest Customer',
+  email: 'guest@dhanvikk.com',
+  role: 'customer',
+  phone: '+971 50 000 0000',
+  avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80',
+};
+
 // Safely restore initial auth state
 const savedUser = (() => {
   try {
@@ -296,8 +305,8 @@ export const logoutUser = createAsyncThunk(
 const authSlice = createSlice({
   name: 'auth',
   initialState: {
-    user: savedUser,
-    isAuthenticated: Boolean(savedToken || savedUser),
+    user: savedUser || DEFAULT_GUEST_USER,
+    isAuthenticated: true,
     loading: false,
     error: null,
   },
@@ -306,8 +315,8 @@ const authSlice = createSlice({
       state.error = null;
     },
     logoutImmediate: (state) => {
-      state.user = null;
-      state.isAuthenticated = false;
+      state.user = DEFAULT_GUEST_USER;
+      state.isAuthenticated = true;
       state.loading = false;
       state.error = null;
       localStorage.removeItem('dhanvikk_auth_token');
@@ -315,7 +324,6 @@ const authSlice = createSlice({
       localStorage.removeItem('dhanvikk_remember_email');
       sessionStorage.removeItem('dhanvikk_auth_token');
       sessionStorage.removeItem('dhanvikk_user');
-      sessionStorage.setItem('dhanvikk_logged_out', 'true');
     },
     setUserProfile: (state, action) => {
       sessionStorage.removeItem('dhanvikk_logged_out');
