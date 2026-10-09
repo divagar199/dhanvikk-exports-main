@@ -98,14 +98,14 @@ const HERO_SLIDES = [
 
 // Flipkart-style Circular Category Bubbles
 const QUICK_CATEGORIES = [
-  { id: '1', name: 'All Blooms', query: '', badge: 'All', image: 'https://images.unsplash.com/photo-1561181286-d3fee7d55364?auto=format&fit=crop&w=300&q=80' },
-  { id: '2', name: 'Roses', query: 'Roses', badge: 'Hot', image: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=300&q=80' },
-  { id: '3', name: 'Bouquets', query: 'Hand Bouquets', badge: 'Popular', image: 'https://images.unsplash.com/photo-1582794543139-8ac9cb0f7b11?auto=format&fit=crop&w=300&q=80' },
-  { id: '4', name: 'Garlands', query: 'Flowers', badge: 'Weddings', image: 'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=300&q=80' },
-  { id: '5', name: 'Forever 365', query: 'Forever Roses', badge: 'Luxury', image: 'https://images.unsplash.com/photo-1518895949257-7621c3c786d7?auto=format&fit=crop&w=300&q=80' },
-  { id: '6', name: 'Flower Boxes', query: 'Flower Boxes', badge: 'Best', image: 'https://images.unsplash.com/photo-1513151233558-d860c5398176?auto=format&fit=crop&w=300&q=80' },
-  { id: '7', name: 'Lilies', query: 'Lilies', badge: 'Rare', image: 'https://images.unsplash.com/photo-1533616688419-b7a585564566?auto=format&fit=crop&w=300&q=80' },
-  { id: '8', name: 'Plants', query: 'Plants', badge: 'Green', image: 'https://images.unsplash.com/photo-1485955900006-10f4d324d411?auto=format&fit=crop&w=300&q=80' },
+  { id: '1', name: 'All Blooms', query: '', image: 'https://images.unsplash.com/photo-1561181286-d3fee7d55364?auto=format&fit=crop&w=300&q=80' },
+  { id: '2', name: 'Roses', query: 'Roses', image: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=300&q=80' },
+  { id: '3', name: 'Bouquets', query: 'Hand Bouquets', image: 'https://images.unsplash.com/photo-1582794543139-8ac9cb0f7b11?auto=format&fit=crop&w=300&q=80' },
+  { id: '4', name: 'Garlands', query: 'Flowers', image: 'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=300&q=80' },
+  { id: '5', name: 'Forever 365', query: 'Forever Roses', image: 'https://images.unsplash.com/photo-1518895949257-7621c3c786d7?auto=format&fit=crop&w=300&q=80' },
+  { id: '6', name: 'Flower Boxes', query: 'Flower Boxes', image: 'https://images.unsplash.com/photo-1513151233558-d860c5398176?auto=format&fit=crop&w=300&q=80' },
+  { id: '7', name: 'Lilies', query: 'Lilies', image: 'https://images.unsplash.com/photo-1533616688419-b7a585564566?auto=format&fit=crop&w=300&q=80' },
+  { id: '8', name: 'Plants', query: 'Plants', image: 'https://images.unsplash.com/photo-1485955900006-10f4d324d411?auto=format&fit=crop&w=300&q=80' },
 ];
 
 // Flipkart-style 2x2 Feature Tile Collections
@@ -493,13 +493,6 @@ export default function HomeScreen() {
                       style={styles.categoryStoryImage}
                       contentFit="cover"
                     />
-                    {cat.badge ? (
-                      <View style={styles.categoryBadgeChip}>
-                        <AppText variant="caption" color={Colors.white} weight="bold" style={styles.categoryBadgeText}>
-                          {cat.badge}
-                        </AppText>
-                      </View>
-                    ) : null}
                   </View>
                   <AppText
                     variant="caption"
@@ -1257,21 +1250,6 @@ const styles = StyleSheet.create({
     borderWidth: 2.5,
     backgroundColor: Colors.blush,
     transform: [{ scale: 1.05 }],
-  },
-  categoryBadgeChip: {
-    position: 'absolute',
-    bottom: -4,
-    alignSelf: 'center',
-    backgroundColor: Colors.primaryDeep,
-    paddingHorizontal: 5,
-    paddingVertical: 1,
-    borderRadius: Radius.chip,
-    borderWidth: 1,
-    borderColor: Colors.white,
-  },
-  categoryBadgeText: {
-    fontSize: 8,
-    letterSpacing: 0.3,
   },
   categoryStoryImage: {
     width: '100%',
