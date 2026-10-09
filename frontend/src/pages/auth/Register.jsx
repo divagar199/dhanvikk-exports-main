@@ -84,16 +84,29 @@ export default function Register() {
             name: prev.name || res.user.name || '',
             email: res.user.email || prev.email,
           }));
-          toast.success(`Google Account Connected: ${res.user.name || res.user.email} 🌸`);
+          const actionResult = await dispatch(
+            loginWithGoogleThunk({
+              googleUid: res.user.id,
+              name: res.user.name,
+              email: res.user.email,
+              avatar: res.user.avatar,
+              phone: res.user.phone || '',
+              isNewRegistration: true,
+            })
+          );
+          if (loginWithGoogleThunk.fulfilled.match(actionResult)) {
+            toast.success(`🌸 Welcome to Dhanvikk Blooms, ${res.user.name || 'Valued Customer'}!`);
+            navigate('/account', { replace: true });
+          }
         }
       } catch (e) {
         console.warn('Register redirect check note:', e);
       }
     })();
     return () => { isMounted = false; };
-  }, []);
+  }, [dispatch, navigate]);
 
-  // Fast Google Sign-In on Create Account page
+  // Fast Google Sign-In & Registration on Create Account page
   const handleGooglePreFill = async () => {
     dispatch(clearAuthError());
     setGoogleLoading(true);
@@ -110,7 +123,26 @@ export default function Register() {
           name: prev.name || fbRes.user.name || '',
           email: fbRes.user.email || prev.email,
         }));
-        toast.success(`Google Account Connected: ${fbRes.user.name || fbRes.user.email} 🌸`);
+
+        // Immediately complete Google Sign Up & Login
+        const actionResult = await dispatch(
+          loginWithGoogleThunk({
+            googleUid: fbRes.user.id,
+            name: fbRes.user.name,
+            email: fbRes.user.email,
+            avatar: fbRes.user.avatar,
+            phone: fbRes.user.phone || '',
+            isNewRegistration: true,
+          })
+        );
+
+        if (loginWithGoogleThunk.fulfilled.match(actionResult)) {
+          toast.success(`🌸 Welcome to Dhanvikk Blooms, ${fbRes.user.name || 'Valued Customer'}!`);
+          navigate('/account', { replace: true });
+          return;
+        } else {
+          toast.error(actionResult.payload || 'Google sign-up could not be completed.');
+        }
       }
     } catch (err) {
       console.warn('Google pre-fill notice:', err);
