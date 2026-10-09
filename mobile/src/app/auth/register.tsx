@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Image } from 'expo-image';
-import { ArrowLeft, Flower2, Mail, Lock, User, Phone, MapPin } from 'lucide-react-native';
+import { ArrowLeft, Mail, Lock, User, Phone, MapPin } from 'lucide-react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Colors, Spacing, Radius, Shadows } from '../../theme';
 import { AppText } from '../../components/AppText';

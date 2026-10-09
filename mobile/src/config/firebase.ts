@@ -10,9 +10,11 @@ import {
   GoogleAuthProvider,
   signInWithCredential,
   updateProfile,
+  initializeAuth,
 } from 'firebase/auth';
-// @ts-ignore - getReactNativePersistence is exported by @firebase/auth in React Native
-import { initializeAuth, getReactNativePersistence } from 'firebase/auth';
+// eslint-disable-next-line import/no-duplicates
+// @ts-ignore
+import { getReactNativePersistence } from 'firebase/auth';
 import {
   getFirestore,
   Firestore,

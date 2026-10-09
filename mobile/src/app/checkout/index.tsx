@@ -118,16 +118,19 @@ export default function CheckoutScreen() {
 
   useEffect(() => {
     if (storeSavedAddresses && storeSavedAddresses.length > 0 && savedAddresses.length === 0) {
-      setSavedAddresses(storeSavedAddresses);
-      const defaultAddr = storeSavedAddresses.find((a: Address) => a.isDefault) || storeSavedAddresses[0];
-      if (defaultAddr) {
-        setStreetAddress((prev) => prev || defaultAddr.street);
-        setCity((prev) => (prev === 'Chennai' ? defaultAddr.city : prev));
-        setState((prev) => (prev === 'Tamil Nadu, India' ? `${defaultAddr.state}, ${defaultAddr.country}` : prev));
-        if (defaultAddr.postalCode) setPincode((prev) => (prev === '600001' ? defaultAddr.postalCode : prev));
-      }
+      const timer = setTimeout(() => {
+        setSavedAddresses(storeSavedAddresses);
+        const defaultAddr = storeSavedAddresses.find((a: Address) => a.isDefault) || storeSavedAddresses[0];
+        if (defaultAddr) {
+          setStreetAddress((prev) => prev || defaultAddr.street);
+          setCity((prev) => (prev === 'Chennai' ? defaultAddr.city : prev));
+          setState((prev) => (prev === 'Tamil Nadu, India' ? `${defaultAddr.state}, ${defaultAddr.country}` : prev));
+          if (defaultAddr.postalCode) setPincode((prev) => (prev === '600001' ? defaultAddr.postalCode : prev));
+        }
+      }, 0);
+      return () => clearTimeout(timer);
     }
-  }, [storeSavedAddresses]);
+  }, [storeSavedAddresses, savedAddresses.length]);
 
   useEffect(() => {
     if (user?.email) {

@@ -42,7 +42,7 @@ import { useResponsive } from '../../hooks/useResponsive';
 export default function AccountScreen() {
   const router = useRouter();
   const { isTablet, containerStyle } = useResponsive();
-  const { user, setAuth, logout, syncUserData, savedAddresses, recentOrders } = useAuthStore();
+  const { user, logout, syncUserData, savedAddresses, recentOrders } = useAuthStore();
   const { items: wishlistItems } = useWishlistStore();
   const { showToast } = useUIStore();
 

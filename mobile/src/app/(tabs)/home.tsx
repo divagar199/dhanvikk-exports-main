@@ -14,7 +14,6 @@ import { Image } from 'expo-image';
 import {
   MapPin,
   Search,
-  Bell,
   Flower2,
   ArrowRight,
   ShieldCheck,
@@ -26,7 +25,6 @@ import {
   Clock,
   Tag,
   Zap,
-  CheckCircle2,
 } from 'lucide-react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Colors, Spacing, Radius, Shadows } from '../../theme';
@@ -193,7 +191,7 @@ export default function HomeScreen() {
   const [scrolled, setScrolled] = useState(false);
   const [activeHeroIndex, setActiveHeroIndex] = useState(0);
 
-  const { width, height, isLandscape, isTablet, isSmallPhone, gridItemWidth, containerStyle, screenPadding } = useResponsive();
+  const { width, height, isLandscape, isTablet, gridItemWidth, containerStyle, screenPadding } = useResponsive();
 
   // Responsive Hero Banner sizing (proportioned for portrait, landscape & tablets)
   const heroCardWidth = isTablet
@@ -239,9 +237,12 @@ export default function HomeScreen() {
     queryFn: () => productService.getProducts(),
   });
 
-  const products = data?.products || [];
-  const bestSellers = products.filter((p) => p.isBestSeller || (p.rating && p.rating >= 4.8)).slice(0, 8);
-  const flashDeals = products.slice(0, 6);
+  const products = React.useMemo(() => data?.products || [], [data?.products]);
+  const bestSellers = React.useMemo(
+    () => products.filter((p) => p.isBestSeller || (p.rating && p.rating >= 4.8)).slice(0, 8),
+    [products]
+  );
+  const flashDeals = React.useMemo(() => products.slice(0, 6), [products]);
 
   // Flipkart-style interactive filtered product feed
   const displayedProducts = React.useMemo(() => {

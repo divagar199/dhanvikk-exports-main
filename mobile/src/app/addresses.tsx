@@ -100,7 +100,10 @@ export default function AddressesScreen() {
   // Sync addresses when savedAddresses in store changes
   useEffect(() => {
     if (savedAddresses && savedAddresses.length > 0) {
-      setAddresses(savedAddresses);
+      const timer = setTimeout(() => {
+        setAddresses(savedAddresses);
+      }, 0);
+      return () => clearTimeout(timer);
     }
   }, [savedAddresses]);
 
@@ -116,7 +119,7 @@ export default function AddressesScreen() {
         }
       })
       .catch(() => {});
-  }, [user]);
+  }, [user, setSavedAddresses]);
 
   const handleSelectAddress = (addr: Address) => {
     const loc = `${addr.city}, ${addr.country === 'India' ? 'India' : 'UAE'}`;

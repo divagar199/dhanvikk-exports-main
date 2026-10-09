@@ -24,7 +24,6 @@ import {
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Colors, Spacing, Radius, Shadows } from '../../theme';
 import { AppText } from '../../components/AppText';
-import { AppButton } from '../../components/AppButton';
 import { AppChip } from '../../components/AppChip';
 import { Price } from '../../components/Price';
 import { Rating } from '../../components/Rating';

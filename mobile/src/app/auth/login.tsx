@@ -25,7 +25,7 @@ import {
 } from 'lucide-react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import * as Haptics from 'expo-haptics';
-import { Colors, Spacing, Radius, Shadows, Typography } from '../../theme';
+import { Colors, Spacing, Radius, Shadows } from '../../theme';
 import { AppText } from '../../components/AppText';
 import { AppButton } from '../../components/AppButton';
 import { AppInput } from '../../components/AppInput';
@@ -53,7 +53,7 @@ export default function LoginScreen() {
     if (user) {
       router.replace('/(tabs)/account');
     }
-  }, [user]);
+  }, [user, router]);
 
   // 1. Google 1-Tap Account Chooser Sign-In Handler
   const handleGoogleSignIn = () => {
