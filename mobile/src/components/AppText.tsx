@@ -49,7 +49,7 @@ export const AppText: React.FC<AppTextProps> = ({
     color,
     fontFamily,
     textAlign: align,
-    fontStyle: italic || serif ? 'italic' : 'normal',
+    fontStyle: italic ? 'italic' : 'normal',
   };
 
   return (

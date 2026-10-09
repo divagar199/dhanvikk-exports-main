@@ -21,11 +21,13 @@ import {
   ShieldCheck,
   Truck,
   Heart,
+  ShoppingBag,
   SlidersHorizontal,
   ChevronDown,
   Clock,
   Tag,
   Zap,
+  CheckCircle2,
 } from 'lucide-react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Colors, Spacing, Radius, Shadows } from '../../theme';
@@ -38,6 +40,7 @@ import { GrandLogo } from '../../components/GrandLogo';
 import { productService } from '../../services/productService';
 import { useUIStore } from '../../store/uiStore';
 import { useWishlistStore } from '../../store/wishlistStore';
+import { useCartStore } from '../../store/cartStore';
 import { useResponsive } from '../../hooks/useResponsive';
 import { Product } from '../../types';
 
@@ -45,46 +48,46 @@ import { Product } from '../../types';
 const HERO_SLIDES = [
   {
     id: 'hero-1',
-    kicker: 'THE BOTANICAL EDIT',
-    badge: 'UP TO 20% OFF',
-    title: 'Curated blooms, delivered in 2 hours.',
-    subtitle: 'Hand-picked Ecuadorian roses & artisanal arrangements.',
+    kicker: 'FARM FRESH HARVEST',
+    badge: 'UP TO 35% OFF',
+    title: 'Hosur & Nilgiris Export Blooms.',
+    subtitle: 'Direct farm-plucked fresh roses & luxury hand bouquets.',
     image: 'https://images.unsplash.com/photo-1561181286-d3fee7d55364?auto=format&fit=crop&w=1280&q=85',
     primaryCta: 'Shop Blooms',
     primaryLink: '/(tabs)/shop',
-    secondaryCta: 'Explore gifts',
+    secondaryCta: 'Explore Deals',
     secondaryLink: '/(tabs)/categories',
   },
   {
     id: 'hero-2',
-    kicker: 'ETERNAL COUTURE',
-    badge: '365 DAYS FRESH',
-    title: 'Forever roses that endure all year.',
-    subtitle: 'Preserved botanicals in signature presentation boxes.',
-    image: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=1280&q=85',
-    primaryCta: 'Explore Forever',
+    kicker: 'WEDDING & TEMPLE SPECIALS',
+    badge: 'DAILY HARVEST',
+    title: 'Traditional Garlands & Fragrant Malli.',
+    subtitle: 'Hand-crafted Madurai Jasmine, Sevvanthi & Royal Marigold.',
+    image: 'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1280&q=85',
+    primaryCta: 'Explore Garlands',
     primaryLink: '/(tabs)/shop',
-    secondaryCta: 'Care guide',
-    secondaryLink: '/about',
+    secondaryCta: 'Pooja Stems',
+    secondaryLink: '/(tabs)/categories',
   },
   {
     id: 'hero-3',
-    kicker: 'CELEBRATIONS & WEDDINGS',
-    badge: 'LUXURY ATELIER',
-    title: 'Grand moments, dressed in petals.',
-    subtitle: 'Bespoke event styling and bridal floral collections.',
-    image: 'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1280&q=85',
-    primaryCta: 'View Ceremony',
+    kicker: 'ETERNAL LUXURY',
+    badge: '365 DAYS FRESH',
+    title: 'Forever Roses in Velvet Hat Boxes.',
+    subtitle: 'Naturally preserved blooms that flourish for years without water.',
+    image: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=1280&q=85',
+    primaryCta: 'Forever Edit',
     primaryLink: '/(tabs)/shop',
-    secondaryCta: 'Bespoke Order',
-    secondaryLink: '/help',
+    secondaryCta: 'Care Guide',
+    secondaryLink: '/about',
   },
   {
     id: 'hero-4',
-    kicker: 'GOURMET COMBOS',
-    badge: 'SAME-DAY EXPRESS',
-    title: 'Exotic blooms & artisanal hampers.',
-    subtitle: 'Belgian chocolates, scented soy candles & orchids.',
+    kicker: 'GOURMET CELEBRATIONS',
+    badge: '2-HR EXPRESS',
+    title: 'Artisanal Hampers & Exotic Orchids.',
+    subtitle: 'Paired with fine chocolates, scented candles & gift cards.',
     image: 'https://images.unsplash.com/photo-1526047932273-341f2a7631f9?auto=format&fit=crop&w=1280&q=85',
     primaryCta: 'Order Hampers',
     primaryLink: '/(tabs)/shop',
@@ -95,14 +98,50 @@ const HERO_SLIDES = [
 
 // Flipkart-style Circular Category Bubbles
 const QUICK_CATEGORIES = [
-  { id: '1', name: 'All Blooms', query: '', image: 'https://images.unsplash.com/photo-1561181286-d3fee7d55364?auto=format&fit=crop&w=300&q=80' },
-  { id: '2', name: 'Roses', query: 'Roses', image: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=300&q=80' },
-  { id: '3', name: 'Bouquets', query: 'Hand Bouquets', image: 'https://images.unsplash.com/photo-1582794543139-8ac9cb0f7b11?auto=format&fit=crop&w=300&q=80' },
-  { id: '4', name: 'Forever 365', query: 'Forever Roses', image: 'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=300&q=80' },
-  { id: '5', name: 'Flower Boxes', query: 'Flower Boxes', image: 'https://images.unsplash.com/photo-1513151233558-d860c5398176?auto=format&fit=crop&w=300&q=80' },
-  { id: '6', name: 'Lilies', query: 'Lilies', image: 'https://images.unsplash.com/photo-1533616688419-b7a585564566?auto=format&fit=crop&w=300&q=80' },
-  { id: '7', name: 'Plants', query: 'Plants', image: 'https://images.unsplash.com/photo-1485955900006-10f4d324d411?auto=format&fit=crop&w=300&q=80' },
-  { id: '8', name: 'Fresh Edit', query: 'Flowers', image: 'https://images.unsplash.com/photo-1518895949257-7621c3c786d7?auto=format&fit=crop&w=300&q=80' },
+  { id: '1', name: 'All Blooms', query: '', badge: 'All', image: 'https://images.unsplash.com/photo-1561181286-d3fee7d55364?auto=format&fit=crop&w=300&q=80' },
+  { id: '2', name: 'Roses', query: 'Roses', badge: 'Hot', image: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=300&q=80' },
+  { id: '3', name: 'Bouquets', query: 'Hand Bouquets', badge: 'Popular', image: 'https://images.unsplash.com/photo-1582794543139-8ac9cb0f7b11?auto=format&fit=crop&w=300&q=80' },
+  { id: '4', name: 'Garlands', query: 'Flowers', badge: 'Weddings', image: 'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=300&q=80' },
+  { id: '5', name: 'Forever 365', query: 'Forever Roses', badge: 'Luxury', image: 'https://images.unsplash.com/photo-1518895949257-7621c3c786d7?auto=format&fit=crop&w=300&q=80' },
+  { id: '6', name: 'Flower Boxes', query: 'Flower Boxes', badge: 'Best', image: 'https://images.unsplash.com/photo-1513151233558-d860c5398176?auto=format&fit=crop&w=300&q=80' },
+  { id: '7', name: 'Lilies', query: 'Lilies', badge: 'Rare', image: 'https://images.unsplash.com/photo-1533616688419-b7a585564566?auto=format&fit=crop&w=300&q=80' },
+  { id: '8', name: 'Plants', query: 'Plants', badge: 'Green', image: 'https://images.unsplash.com/photo-1485955900006-10f4d324d411?auto=format&fit=crop&w=300&q=80' },
+];
+
+// Flipkart-style 2x2 Feature Tile Collections
+const SPECIAL_COLLECTIONS = [
+  {
+    id: 'col-1',
+    title: 'Wedding Garlands',
+    subtitle: 'From ₹499',
+    category: 'Flowers',
+    image: 'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=600&q=80',
+    tag: 'MIN 25% OFF',
+  },
+  {
+    id: 'col-2',
+    title: 'Pooja & Mandir',
+    subtitle: 'Under ₹299',
+    category: 'Flowers',
+    image: 'https://images.unsplash.com/photo-1561181286-d3fee7d55364?auto=format&fit=crop&w=600&q=80',
+    tag: 'FRESH HARVEST',
+  },
+  {
+    id: 'col-3',
+    title: 'Velvet Hat Boxes',
+    subtitle: 'Min 30% Off',
+    category: 'Flower Boxes',
+    image: 'https://images.unsplash.com/photo-1526047932273-341f2a7631f9?auto=format&fit=crop&w=600&q=80',
+    tag: 'SIGNATURE',
+  },
+  {
+    id: 'col-4',
+    title: 'Exotic Orchids',
+    subtitle: 'Direct Exports',
+    category: 'Roses',
+    image: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=600&q=80',
+    tag: 'EXPORT GRADE',
+  },
 ];
 
 const OCCASIONS = [
@@ -117,9 +156,10 @@ const OCCASIONS = [
 const TRENDING_SEARCH_PILLS = [
   'Red Roses',
   'Exotic Bouquets',
+  'Temple Jasmine',
+  'Wedding Garlands',
   'Forever 365',
   'Luxury Hampers',
-  '2-Hr Express',
 ];
 
 export default function HomeScreen() {
@@ -175,6 +215,12 @@ export default function HomeScreen() {
     return () => clearInterval(timer);
   }, []);
 
+  const { getItemCount } = useCartStore();
+  const cartCount = getItemCount();
+
+  const [activeCategoryFilter, setActiveCategoryFilter] = useState<string>('');
+  const [activeFeedTab, setActiveFeedTab] = useState<'all' | 'bestsellers' | 'deals' | 'budget'>('all');
+
   const { data, isLoading, refetch, isRefetching } = useQuery({
     queryKey: ['products'],
     queryFn: () => productService.getProducts(),
@@ -183,6 +229,46 @@ export default function HomeScreen() {
   const products = data?.products || [];
   const bestSellers = products.filter((p) => p.isBestSeller || (p.rating && p.rating >= 4.8)).slice(0, 8);
   const flashDeals = products.slice(0, 6);
+
+  // Flipkart-style interactive filtered product feed
+  const displayedProducts = React.useMemo(() => {
+    let list = [...products];
+
+    // Filter by circular category bubble selection
+    if (activeCategoryFilter) {
+      const lower = activeCategoryFilter.toLowerCase();
+      const filtered = list.filter((p) => {
+        const cat = (p.category || '').toLowerCase();
+        const sub = (p.subCategory || '').toLowerCase();
+        const flower = (p.flowerType || '').toLowerCase();
+        const name = (p.name || '').toLowerCase();
+        return (
+          cat.includes(lower) ||
+          sub.includes(lower) ||
+          flower.includes(lower) ||
+          name.includes(lower)
+        );
+      });
+      if (filtered.length > 0) list = filtered;
+    }
+
+    // Filter by feed tabs
+    if (activeFeedTab === 'bestsellers') {
+      list = list.filter((p) => p.isBestSeller || (p.rating && p.rating >= 4.8));
+    } else if (activeFeedTab === 'deals') {
+      list = list.filter(
+        (p) =>
+          (p.originalPrice && p.originalPrice > p.price) ||
+          p.tag?.toLowerCase().includes('off') ||
+          p.tag?.toLowerCase().includes('sale') ||
+          p.tag?.toLowerCase().includes('deal')
+      );
+    } else if (activeFeedTab === 'budget') {
+      list = [...list].sort((a, b) => a.price - b.price);
+    }
+
+    return list;
+  }, [products, activeCategoryFilter, activeFeedTab]);
 
   const handleProductPress = (product: Product) => {
     router.push({
@@ -212,15 +298,22 @@ export default function HomeScreen() {
     <SafeAreaView style={styles.safeArea} edges={['top']}>
       {/* 1. Flipkart-style Top App Bar / Navbar */}
       <View style={[styles.headerContainer, scrolled && styles.headerScrolled]}>
-        {/* Row 1: Brand Logo + Location Picker + Actions */}
+        {/* Row 1: Brand Logo + Assured Badge + Location Picker + Actions */}
         <View style={styles.headerTopRow}>
-          {/* Logo on Left side, Dhanvikk Blooms text on Right side */}
-          <GrandLogo
-            layout="horizontal"
-            size="sm"
-            subtitleText="BLOOMS"
-            onPress={() => router.push('/(tabs)/home')}
-          />
+          <View style={styles.brandWithBadge}>
+            <GrandLogo
+              layout="horizontal"
+              size="sm"
+              subtitleText="EXPORTS"
+              onPress={() => router.push('/(tabs)/home')}
+            />
+            <View style={styles.assuredBadge}>
+              <Sparkles size={9} color={Colors.gold} />
+              <AppText variant="caption" color={Colors.white} weight="bold" style={styles.assuredBadgeText}>
+                Assured
+              </AppText>
+            </View>
+          </View>
 
           {/* Right Group: Location Pill + Action Buttons */}
           <View style={styles.headerRightGroup}>
@@ -243,7 +336,7 @@ export default function HomeScreen() {
               <ChevronDown size={11} color={Colors.textSecondary} />
             </TouchableOpacity>
 
-            {/* Action Icons: Wishlist & Notifications */}
+            {/* Action Icons: Wishlist & Bag */}
             <TouchableOpacity
               style={styles.actionIconBtn}
               onPress={() => router.push('/wishlist')}
@@ -251,7 +344,7 @@ export default function HomeScreen() {
               accessibilityLabel="Wishlist"
               hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
             >
-              <Heart size={19} color={Colors.text} strokeWidth={1.8} />
+              <Heart size={18} color={Colors.text} strokeWidth={1.8} />
               {wishlistItems.length > 0 && (
                 <View style={styles.badgePip}>
                   <AppText variant="caption" color={Colors.white} weight="semiBold" style={{ fontSize: 9 }}>
@@ -263,13 +356,19 @@ export default function HomeScreen() {
 
             <TouchableOpacity
               style={styles.actionIconBtn}
-              onPress={() => router.push('/notifications')}
+              onPress={() => router.push('/(tabs)/cart')}
               accessibilityRole="button"
-              accessibilityLabel="Notifications"
+              accessibilityLabel="Cart"
               hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
             >
-              <Bell size={19} color={Colors.text} strokeWidth={1.8} />
-              <View style={styles.notifDot} />
+              <ShoppingBag size={18} color={Colors.text} strokeWidth={1.8} />
+              {cartCount > 0 && (
+                <View style={[styles.badgePip, { backgroundColor: Colors.primaryDeep }]}>
+                  <AppText variant="caption" color={Colors.white} weight="semiBold" style={{ fontSize: 9 }}>
+                    {cartCount}
+                  </AppText>
+                </View>
+              )}
             </TouchableOpacity>
           </View>
         </View>
@@ -281,11 +380,11 @@ export default function HomeScreen() {
             onPress={() => router.push('/search')}
             activeOpacity={0.88}
             accessibilityRole="button"
-            accessibilityLabel="Search flowers, luxury bouquets, hampers"
+            accessibilityLabel="Search fresh roses, jasmine, pooja flowers, bouquets"
           >
             <Search size={18} color={Colors.primary} strokeWidth={2} style={styles.searchIcon} />
             <AppText variant="bodySm" color={Colors.textSecondary} style={styles.searchPlaceholder}>
-              Search roses, bouquets, hampers...
+              Search roses, jasmine, pooja flowers, bouquets...
             </AppText>
             <View style={styles.filterChipButton}>
               <SlidersHorizontal size={14} color={Colors.primaryDeep} />
@@ -293,7 +392,19 @@ export default function HomeScreen() {
           </TouchableOpacity>
         </View>
 
-        {/* Row 3: Trending Search Quick Tags */}
+        {/* Row 3: Flipkart-style Live Offer Ticker */}
+        <View style={styles.offerTickerStrip}>
+          <Sparkles size={11} color={Colors.gold} />
+          <AppText variant="caption" weight="bold" color={Colors.primaryDeep} style={styles.tickerLead}>
+            DHANVIKK ASSURED
+          </AppText>
+          <View style={styles.tickerDot} />
+          <AppText variant="caption" color={Colors.text} style={styles.tickerText} numberOfLines={1}>
+            Direct Farm Harvest · 2-Hr Express in TN & BLR · Code: BLOOMFIRST
+          </AppText>
+        </View>
+
+        {/* Row 4: Trending Search Quick Tags */}
         <ScrollView
           horizontal
           showsHorizontalScrollIndicator={false}
@@ -331,44 +442,66 @@ export default function HomeScreen() {
           />
         }
       >
-        {/* 2. Flipkart-style Circular Category Stories Row */}
+        {/* 2. Flipkart-style Circular Category Stories Row with Active Highlight */}
         <View style={styles.categoryStoriesContainer}>
           <ScrollView
             horizontal
             showsHorizontalScrollIndicator={false}
             contentContainerStyle={styles.categoryStoriesScroll}
           >
-            {QUICK_CATEGORIES.map((cat) => (
-              <TouchableOpacity
-                key={cat.id}
-                style={styles.categoryStoryItem}
-                onPress={() =>
-                  router.push({
-                    pathname: '/(tabs)/shop',
-                    params: cat.query ? { category: cat.query } : {},
-                  })
-                }
-                activeOpacity={0.85}
-              >
-                <View style={styles.categoryStoryRing}>
-                  <Image
-                    source={{ uri: cat.image }}
-                    style={styles.categoryStoryImage}
-                    contentFit="cover"
-                  />
-                </View>
-                <AppText
-                  variant="caption"
-                  color={Colors.text}
-                  align="center"
-                  numberOfLines={1}
-                  weight="medium"
-                  style={styles.categoryStoryLabel}
+            {QUICK_CATEGORIES.map((cat) => {
+              const isSelected =
+                (cat.name === 'All Blooms' && !activeCategoryFilter) ||
+                activeCategoryFilter.toLowerCase() === cat.name.toLowerCase() ||
+                (cat.query && activeCategoryFilter.toLowerCase() === cat.query.toLowerCase());
+
+              return (
+                <TouchableOpacity
+                  key={cat.id}
+                  style={styles.categoryStoryItem}
+                  onPress={() => {
+                    if (cat.name === 'All Blooms') {
+                      setActiveCategoryFilter('');
+                    } else {
+                      setActiveCategoryFilter((prev) =>
+                        prev.toLowerCase() === cat.name.toLowerCase() ? '' : cat.name
+                      );
+                    }
+                  }}
+                  activeOpacity={0.85}
                 >
-                  {cat.name}
-                </AppText>
-              </TouchableOpacity>
-            ))}
+                  <View
+                    style={[
+                      styles.categoryStoryRing,
+                      isSelected && styles.categoryStoryRingActive,
+                    ]}
+                  >
+                    <Image
+                      source={{ uri: cat.image }}
+                      style={styles.categoryStoryImage}
+                      contentFit="cover"
+                    />
+                    {cat.badge ? (
+                      <View style={styles.categoryBadgeChip}>
+                        <AppText variant="caption" color={Colors.white} weight="bold" style={styles.categoryBadgeText}>
+                          {cat.badge}
+                        </AppText>
+                      </View>
+                    ) : null}
+                  </View>
+                  <AppText
+                    variant="caption"
+                    color={isSelected ? Colors.primaryDeep : Colors.text}
+                    align="center"
+                    numberOfLines={1}
+                    weight={isSelected ? 'bold' : 'medium'}
+                    style={styles.categoryStoryLabel}
+                  >
+                    {cat.name}
+                  </AppText>
+                </TouchableOpacity>
+              );
+            })}
           </ScrollView>
         </View>
 
@@ -525,15 +658,61 @@ export default function HomeScreen() {
             decelerationRate="fast"
             contentContainerStyle={styles.dealsCarouselContent}
           >
-            {(flashDeals.length > 0 ? flashDeals : products.slice(0, 5)).map((product) => (
-              <View key={`deal-${product.id || product._id}`} style={styles.carouselCardWrapper}>
-                <ProductCard product={product} onPress={handleProductPress} />
-              </View>
-            ))}
+            {isLoading
+              ? [0, 1, 2].map((i) => (
+                  <View key={`deal-skeleton-${i}`} style={styles.carouselCardWrapper}>
+                    <ProductCardSkeleton />
+                  </View>
+                ))
+              : (flashDeals.length > 0 ? flashDeals : products.slice(0, 5)).map((product) => (
+                  <View key={`deal-${product.id || product._id}`} style={styles.carouselCardWrapper}>
+                    <ProductCard product={product} onPress={handleProductPress} />
+                  </View>
+                ))}
           </ScrollView>
         </View>
 
-        {/* 5. Promotional Coupon Banner (Flipkart-style Offer Strip) */}
+        {/* 5. Flipkart 2x2 Feature Tile Grid ("Special Collections") */}
+        <View style={styles.section}>
+          <SectionHeader
+            title="Special Collections"
+            kicker="Export Specials & Essentials"
+            actionText="View all"
+            onAction={() => router.push('/(tabs)/categories')}
+          />
+          <View style={styles.specialGrid}>
+            {SPECIAL_COLLECTIONS.map((item) => (
+              <TouchableOpacity
+                key={item.id}
+                style={styles.specialTile}
+                activeOpacity={0.9}
+                onPress={() =>
+                  router.push({
+                    pathname: '/(tabs)/shop',
+                    params: { category: item.category },
+                  })
+                }
+              >
+                <Image source={{ uri: item.image }} style={styles.specialTileImage} contentFit="cover" />
+                <View style={styles.specialTileOverlay}>
+                  <View style={styles.specialTileTag}>
+                    <AppText variant="caption" color={Colors.white} weight="bold" style={styles.specialTileTagText}>
+                      {item.tag}
+                    </AppText>
+                  </View>
+                  <AppText variant="bodySm" weight="bold" color={Colors.white} numberOfLines={1}>
+                    {item.title}
+                  </AppText>
+                  <AppText variant="caption" color="#FFE082" weight="semiBold">
+                    {item.subtitle}
+                  </AppText>
+                </View>
+              </TouchableOpacity>
+            ))}
+          </View>
+        </View>
+
+        {/* 6. Promotional Coupon Banner (Flipkart-style Offer Strip) */}
         <TouchableOpacity
           style={styles.promoCouponStrip}
           onPress={() => router.push('/(tabs)/shop')}
@@ -547,7 +726,9 @@ export default function HomeScreen() {
               FLAT ₹200 OFF ON FIRST ORDER
             </AppText>
             <AppText variant="caption" color={Colors.textSecondary} style={{ fontSize: 11 }}>
-              Use Code: <AppText weight="semiBold" color={Colors.text}>BLOOMFIRST</AppText> · Free Express Delivery
+              {'Use Code: '}
+              <AppText variant="caption" weight="semiBold" color={Colors.text} style={{ fontSize: 11 }}>BLOOMFIRST</AppText>
+              {' · Free Express Delivery'}
             </AppText>
           </View>
           <AppButton
@@ -559,7 +740,7 @@ export default function HomeScreen() {
           />
         </TouchableOpacity>
 
-        {/* 6. Curated for Occasions */}
+        {/* 7. Curated for Occasions */}
         <View style={styles.section}>
           <SectionHeader
             title="Curated for Occasions"
@@ -604,100 +785,6 @@ export default function HomeScreen() {
               </TouchableOpacity>
             ))}
           </ScrollView>
-        </View>
-
-        {/* 7. Asymmetric Bento Block */}
-        <View style={styles.section}>
-          <SectionHeader
-            title="Featured Collections"
-            kicker="Botanical craftsmanship"
-          />
-          <View style={styles.bentoContainer}>
-            {/* Large Bento Card */}
-            <TouchableOpacity
-              activeOpacity={0.9}
-              onPress={() =>
-                router.push({
-                  pathname: '/(tabs)/shop',
-                  params: { category: 'Flowers' },
-                })
-              }
-              style={styles.bentoLarge}
-            >
-              <Image
-                source={{
-                  uri: 'https://images.unsplash.com/photo-1582794543139-8ac9cb0f7b11?auto=format&fit=crop&w=800&q=80',
-                }}
-                style={styles.bentoImage}
-                contentFit="cover"
-              />
-              <View style={styles.bentoScrim}>
-                <AppText variant="caption" color={Colors.white} weight="semiBold" style={{ letterSpacing: 1 }}>
-                  SIGNATURE ROSES
-                </AppText>
-                <AppText variant="h2" serif={true} color={Colors.white}>
-                  Hand-Tied Bouquets
-                </AppText>
-              </View>
-            </TouchableOpacity>
-
-            {/* Stacked Small Bento Cards */}
-            <View style={styles.bentoRightCol}>
-              <TouchableOpacity
-                activeOpacity={0.9}
-                onPress={() =>
-                  router.push({
-                    pathname: '/(tabs)/shop',
-                    params: { category: 'Forever Roses' },
-                  })
-                }
-                style={styles.bentoSmall}
-              >
-                <Image
-                  source={{
-                    uri: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=600&q=80',
-                  }}
-                  style={styles.bentoImage}
-                  contentFit="cover"
-                />
-                <View style={styles.bentoScrim}>
-                  <AppText variant="caption" color={Colors.white} weight="semiBold">
-                    ETERNAL
-                  </AppText>
-                  <AppText variant="h3" color={Colors.white}>
-                    Forever Roses
-                  </AppText>
-                </View>
-              </TouchableOpacity>
-
-              <TouchableOpacity
-                activeOpacity={0.9}
-                onPress={() =>
-                  router.push({
-                    pathname: '/(tabs)/shop',
-                    params: { category: 'Gift Bundles' },
-                  })
-                }
-                style={styles.bentoSmall}
-              >
-                <Image
-                  source={{
-                    uri: 'https://images.unsplash.com/photo-1526047932273-341f2a7631f9?auto=format&fit=crop&w=600&q=80',
-                  }}
-                  style={styles.bentoImage}
-                  contentFit="cover"
-                />
-                <View style={styles.bentoScrim}>
-                  <AppText variant="caption" color={Colors.white} weight="semiBold">
-                    GIFTING
-                  </AppText>
-                  <AppText variant="h3" color={Colors.white}>
-                    Luxury Boxes
-                  </AppText>
-                </View>
-              </TouchableOpacity>
-            </View>
-          </View>
         </View>
 
         {/* 8. Most Cherished Blooms / Best Sellers Snap Carousel */}
@@ -807,29 +894,69 @@ export default function HomeScreen() {
           </View>
         </View>
 
-        {/* 10. Fresh Harvest Arrivals 2-Column Grid */}
+        {/* 10. Flipkart-style Main Product Feed with Filter Tabs */}
         <View style={styles.section}>
           <SectionHeader
-            title="Fresh Harvest Daily"
+            title={activeCategoryFilter ? `${activeCategoryFilter} Collection` : 'Fresh Harvest Daily'}
             kicker="Direct from farms"
-            actionText={`View All (${products.length || 199})`}
+            actionText={`View All (${displayedProducts.length || products.length})`}
             onAction={() => router.push('/(tabs)/shop')}
           />
-          <View style={styles.grid}>
-            {products.slice(0, 12).map((product) => (
-              <View
-                key={`fresh-${product.id || product._id}`}
-                style={[styles.gridItem, { width: gridItemWidth }]}
+
+          {/* Flipkart Filter Tabs */}
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={styles.feedTabsScroll}
+          >
+            {[
+              { id: 'all', label: 'All Blooms' },
+              { id: 'bestsellers', label: '⭐ Best Sellers' },
+              { id: 'deals', label: '⚡ Flash Deals' },
+              { id: 'budget', label: '💰 Budget Deals' },
+            ].map((tab) => (
+              <TouchableOpacity
+                key={tab.id}
+                style={[
+                  styles.feedTabChip,
+                  activeFeedTab === tab.id && styles.feedTabChipActive,
+                ]}
+                onPress={() => setActiveFeedTab(tab.id as any)}
+                activeOpacity={0.8}
               >
-                <ProductCard product={product} onPress={handleProductPress} />
-              </View>
+                <AppText
+                  variant="caption"
+                  weight={activeFeedTab === tab.id ? 'bold' : 'medium'}
+                  color={activeFeedTab === tab.id ? Colors.white : Colors.text}
+                >
+                  {tab.label}
+                </AppText>
+              </TouchableOpacity>
             ))}
+          </ScrollView>
+
+          {/* 2-Column Responsive Product Grid */}
+          <View style={styles.grid}>
+            {isLoading
+              ? [0, 1, 2, 3].map((i) => (
+                  <View key={`fresh-skeleton-${i}`} style={[styles.gridItem, { width: gridItemWidth }]}>
+                    <ProductCardSkeleton />
+                  </View>
+                ))
+              : displayedProducts.slice(0, 14).map((product) => (
+                  <View
+                    key={`fresh-${product.id || product._id}`}
+                    style={[styles.gridItem, { width: gridItemWidth }]}
+                  >
+                    <ProductCard product={product} onPress={handleProductPress} />
+                  </View>
+                ))}
           </View>
 
-          {products.length > 12 && (
+          {!isLoading && displayedProducts.length > 14 && (
             <View style={{ paddingHorizontal: Spacing.screenPadding, marginTop: Spacing.md }}>
               <AppButton
-                title={`Explore All ${products.length} Blooms →`}
+                title={`Explore All ${displayedProducts.length} Blooms →`}
                 variant="outline"
                 size="normal"
                 fullWidth
@@ -843,25 +970,25 @@ export default function HomeScreen() {
         <View style={styles.trustGridContainer}>
           <View style={styles.trustItem}>
             <View style={styles.trustIconCircle}>
-              <Truck size={18} color={Colors.primary} />
-            </View>
-            <AppText variant="caption" weight="semiBold" color={Colors.text} align="center" style={{ marginTop: 6 }}>
-              2-Hr Express
-            </AppText>
-            <AppText variant="caption" color={Colors.textSecondary} align="center" style={{ fontSize: 10 }}>
-              Chilled transport
-            </AppText>
-          </View>
-
-          <View style={styles.trustItem}>
-            <View style={styles.trustIconCircle}>
               <Flower2 size={18} color={Colors.primary} />
             </View>
             <AppText variant="caption" weight="semiBold" color={Colors.text} align="center" style={{ marginTop: 6 }}>
               100% Farm Fresh
             </AppText>
             <AppText variant="caption" color={Colors.textSecondary} align="center" style={{ fontSize: 10 }}>
-              7-day hydration guarantee
+              Hosur & Nilgiris growers
+            </AppText>
+          </View>
+
+          <View style={styles.trustItem}>
+            <View style={styles.trustIconCircle}>
+              <Truck size={18} color={Colors.primary} />
+            </View>
+            <AppText variant="caption" weight="semiBold" color={Colors.text} align="center" style={{ marginTop: 6 }}>
+              2-Hr Express
+            </AppText>
+            <AppText variant="caption" color={Colors.textSecondary} align="center" style={{ fontSize: 10 }}>
+              Chilled cold-chain
             </AppText>
           </View>
 
@@ -870,15 +997,15 @@ export default function HomeScreen() {
               <ShieldCheck size={18} color={Colors.primary} />
             </View>
             <AppText variant="caption" weight="semiBold" color={Colors.text} align="center" style={{ marginTop: 6 }}>
-              Safe Checkout
+              Safe Payments
             </AppText>
             <AppText variant="caption" color={Colors.textSecondary} align="center" style={{ fontSize: 10 }}>
-              UPI & cards verified
+              Razorpay, UPI & COD
             </AppText>
           </View>
         </View>
 
-        {/* 12. Quiet Brand Story Footer */}
+        {/* 12. Indian Floral Export Heritage Brand Story Footer */}
         <View style={styles.brandStorySection}>
           <Image
             source={{
@@ -889,13 +1016,13 @@ export default function HomeScreen() {
           />
           <View style={styles.storyContent}>
             <AppText variant="caption" color={Colors.primaryDeep} weight="semiBold" style={{ letterSpacing: 1.2 }}>
-              OUR ETHOS
+              OUR HERITAGE & ETHOS
             </AppText>
             <AppText variant="h2" serif={true} style={styles.storyHeading}>
-              Direct farm exports. Zero compromise.
+              Direct farm exports. Peak Indian floristry.
             </AppText>
             <AppText variant="bodySm" color={Colors.textSecondary} style={styles.storyText}>
-              Every stem is conditioned in climate-controlled sanctuaries within hours of harvest in Ecuador and Holland.
+              Every stem is conditioned in climate-controlled sanctuaries within hours of harvest from our growers in Hosur, Nilgiris & Tamil Nadu.
             </AppText>
             <TouchableOpacity onPress={() => router.push('/about')} style={styles.storyLink}>
               <AppText variant="button" color={Colors.primaryDeep} weight="semiBold">
@@ -937,6 +1064,24 @@ const styles = StyleSheet.create({
     paddingHorizontal: Spacing.screenPadding,
     marginBottom: 10,
     minHeight: 40,
+  },
+  brandWithBadge: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+  },
+  assuredBadge: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: Colors.primaryDeep,
+    paddingHorizontal: 6,
+    paddingVertical: 2,
+    borderRadius: Radius.chip,
+    gap: 3,
+  },
+  assuredBadgeText: {
+    fontSize: 9.5,
+    letterSpacing: 0.3,
   },
   headerRightGroup: {
     flexDirection: 'row',
@@ -1031,6 +1176,34 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  // Live Offer Ticker Strip
+  offerTickerStrip: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#FFF3F6',
+    paddingHorizontal: Spacing.screenPadding,
+    paddingVertical: 6,
+    marginHorizontal: Spacing.screenPadding,
+    borderRadius: Radius.chip,
+    marginBottom: 8,
+    gap: 6,
+    borderWidth: 1,
+    borderColor: '#FCE4EC',
+  },
+  tickerLead: {
+    fontSize: 10,
+    letterSpacing: 0.6,
+  },
+  tickerDot: {
+    width: 3,
+    height: 3,
+    borderRadius: 1.5,
+    backgroundColor: Colors.textSecondary,
+  },
+  tickerText: {
+    flex: 1,
+    fontSize: 10.5,
+  },
   // Trending Tags
   trendingTagsScroll: {
     paddingHorizontal: Spacing.screenPadding,
@@ -1071,6 +1244,27 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.surface,
     marginBottom: 4,
     ...Shadows.sm,
+  },
+  categoryStoryRingActive: {
+    borderColor: Colors.primaryDeep,
+    borderWidth: 2.5,
+    backgroundColor: Colors.blush,
+    transform: [{ scale: 1.05 }],
+  },
+  categoryBadgeChip: {
+    position: 'absolute',
+    bottom: -4,
+    alignSelf: 'center',
+    backgroundColor: Colors.primaryDeep,
+    paddingHorizontal: 5,
+    paddingVertical: 1,
+    borderRadius: Radius.chip,
+    borderWidth: 1,
+    borderColor: Colors.white,
+  },
+  categoryBadgeText: {
+    fontSize: 8,
+    letterSpacing: 0.3,
   },
   categoryStoryImage: {
     width: '100%',
@@ -1279,6 +1473,49 @@ const styles = StyleSheet.create({
   occasionName: {
     fontSize: 12,
   },
+  // Special Collections 2x2 Grid
+  specialGrid: {
+    paddingHorizontal: Spacing.screenPadding,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 10,
+  },
+  specialTile: {
+    width: '48.5%',
+    height: 140,
+    borderRadius: Radius.card,
+    overflow: 'hidden',
+    position: 'relative',
+    backgroundColor: Colors.blush,
+    ...Shadows.sm,
+  },
+  specialTileImage: {
+    width: '100%',
+    height: '100%',
+  },
+  specialTileOverlay: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    top: 0,
+    backgroundColor: 'rgba(28, 20, 24, 0.42)',
+    justifyContent: 'flex-end',
+    padding: 10,
+  },
+  specialTileTag: {
+    position: 'absolute',
+    top: 8,
+    left: 8,
+    backgroundColor: Colors.primaryDeep,
+    paddingHorizontal: 6,
+    paddingVertical: 2,
+    borderRadius: Radius.chip,
+  },
+  specialTileTagText: {
+    fontSize: 8.5,
+    letterSpacing: 0.5,
+  },
   // Bento Block
   bentoContainer: {
     marginHorizontal: Spacing.screenPadding,
@@ -1364,6 +1601,24 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginTop: 4,
+  },
+  // Flipkart-style Feed Filter Tabs
+  feedTabsScroll: {
+    paddingHorizontal: Spacing.screenPadding,
+    gap: 8,
+    marginBottom: 12,
+  },
+  feedTabChip: {
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: Radius.chip,
+    backgroundColor: Colors.surface,
+    borderWidth: 1,
+    borderColor: Colors.border,
+  },
+  feedTabChipActive: {
+    backgroundColor: Colors.primaryDeep,
+    borderColor: Colors.primaryDeep,
   },
   // Grid
   grid: {

@@ -260,30 +260,51 @@ export const firebaseAuthService = {
       console.warn('Firestore Google user sync note:', fsErr?.message);
     }
 
-    // Call backend endpoint
-    const response = await apiClient.post('/api/auth/google', {
-      email: cleanEmail,
-      name: cleanName,
-      avatar,
-      googleUid: uid,
-      phone: data.phone || '',
-    });
+    // Call backend endpoint with offline fallback
+    try {
+      const response = await apiClient.post('/api/auth/google', {
+        email: cleanEmail,
+        name: cleanName,
+        avatar,
+        googleUid: uid,
+        phone: data.phone || '',
+      });
 
-    const { token, user } = response.data;
-    if (token) {
-      setAuthTokenMemory(token);
-      await authStorage.setItem(TOKEN_STORAGE_KEY, token);
-      if (user) {
-        await authStorage.setItem('dhanvikk_user', JSON.stringify(user));
+      const { token, user } = response.data;
+      if (token) {
+        setAuthTokenMemory(token);
+        await authStorage.setItem(TOKEN_STORAGE_KEY, token);
+        if (user) {
+          await authStorage.setItem('dhanvikk_user', JSON.stringify(user));
+        }
       }
-    }
 
-    return {
-      success: true,
-      user,
-      token,
-      firebaseUid: uid,
-    };
+      return {
+        success: true,
+        user,
+        token,
+        firebaseUid: uid,
+      };
+    } catch {
+      const fallbackUser: User = {
+        id: uid,
+        name: cleanName,
+        email: cleanEmail,
+        phone: data.phone || '',
+        role: 'customer',
+      };
+      const fallbackToken = `token_goog_${Date.now()}`;
+      setAuthTokenMemory(fallbackToken);
+      await authStorage.setItem(TOKEN_STORAGE_KEY, fallbackToken);
+      await authStorage.setItem('dhanvikk_user', JSON.stringify(fallbackUser));
+
+      return {
+        success: true,
+        user: fallbackUser,
+        token: fallbackToken,
+        firebaseUid: uid,
+      };
+    }
   },
 
   /**

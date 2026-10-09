@@ -7,11 +7,13 @@
     "icon": "./assets/images/logo.png",
     "scheme": "dhanvikk",
     "userInterfaceStyle": "light",
+    "backgroundColor": "#FFFAFC",
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.dhanvikk.blooms"
     },
     "android": {
+      "backgroundColor": "#FFFAFC",
       "package": "com.dhanvikk.blooms",
       "googleServicesFile": "./google-services.json",
       "adaptiveIcon": {

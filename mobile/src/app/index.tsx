@@ -98,22 +98,26 @@ export default function SplashScreenComponent() {
     ]).start(() => {
       // 5. Elegant dissolve into app
       timeoutId = setTimeout(() => {
-        Animated.timing(screenOpacity, {
-          toValue: 0,
-          duration: 320,
-          useNativeDriver: useDriver,
-        }).start(() => {
-          if (!hasCompletedOnboarding) {
-            router.replace('/onboarding');
-          } else {
-            router.replace('/(tabs)/home');
-          }
-        });
-      }, 400);
+        if (!hasCompletedOnboarding) {
+          router.replace('/onboarding');
+        } else {
+          router.replace('/(tabs)/home');
+        }
+      }, 350);
     });
+
+    // Guaranteed fallback timer: Never get stuck on opening splash screen
+    const safetyTimer = setTimeout(() => {
+      if (!hasCompletedOnboarding) {
+        router.replace('/onboarding');
+      } else {
+        router.replace('/(tabs)/home');
+      }
+    }, 1500);
 
     return () => {
       if (timeoutId) clearTimeout(timeoutId);
+      clearTimeout(safetyTimer);
     };
   }, [
     hasCompletedOnboarding,
@@ -201,7 +205,7 @@ export default function SplashScreenComponent() {
             weight="bold"
             style={styles.atelierPillText}
           >
-            HAUTE FLORAL ATELIER
+            DHANVIKK FLORAL EXPORTS
           </AppText>
         </View>
 
@@ -213,12 +217,12 @@ export default function SplashScreenComponent() {
 
         <AppText
           variant="bodySm"
-          color="rgba(255, 255, 255, 0.92)"
+          color="rgba(255, 255, 255, 0.95)"
           align="center"
-          weight="medium"
+          weight="semiBold"
           style={styles.tagline}
         >
-          Curated Ecuadorian Blooms & Luxury Exports
+          Farm-Fresh Blooms · Premium Flower Exports
         </AppText>
       </Animated.View>
     </Animated.View>
@@ -228,7 +232,7 @@ export default function SplashScreenComponent() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#1E1018',
+    backgroundColor: Colors.palePink,
     alignItems: 'center',
     justifyContent: 'center',
     overflow: 'hidden',

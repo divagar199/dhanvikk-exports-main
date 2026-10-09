@@ -107,9 +107,9 @@ export default function CheckoutScreen() {
   const setPhone = (val: string) => setManualPhone(val);
 
   const [streetAddress, setStreetAddress] = useState('');
-  const [city, setCity] = useState('Dubai');
-  const [state, setState] = useState('Dubai, UAE');
-  const [pincode, setPincode] = useState('00000');
+  const [city, setCity] = useState('Chennai');
+  const [state, setState] = useState('Tamil Nadu, India');
+  const [pincode, setPincode] = useState('600001');
   const [deliveryNotes, setDeliveryNotes] = useState('');
   const [detectingGps, setDetectingGps] = useState(false);
   const [savedAddresses, setSavedAddresses] = useState<Address[]>([]);
@@ -124,9 +124,9 @@ export default function CheckoutScreen() {
             const defaultAddr = data.savedAddresses.find((a) => a.isDefault) || data.savedAddresses[0];
             if (defaultAddr) {
               setStreetAddress((prev) => prev || defaultAddr.street);
-              setCity((prev) => (prev === 'Dubai' ? defaultAddr.city : prev));
-              setState((prev) => (prev === 'Dubai, UAE' ? `${defaultAddr.state}, ${defaultAddr.country}` : prev));
-              if (defaultAddr.postalCode) setPincode((prev) => (prev === '00000' ? defaultAddr.postalCode : prev));
+              setCity((prev) => (prev === 'Chennai' ? defaultAddr.city : prev));
+              setState((prev) => (prev === 'Tamil Nadu, India' ? `${defaultAddr.state}, ${defaultAddr.country}` : prev));
+              if (defaultAddr.postalCode) setPincode((prev) => (prev === '600001' ? defaultAddr.postalCode : prev));
               if (defaultAddr.recipientName) {
                 setManualFullName((prev) => (prev === null ? defaultAddr.recipientName : prev));
               }
@@ -265,7 +265,7 @@ export default function CheckoutScreen() {
             city,
             state,
             postalCode: pincode,
-            country: 'United Arab Emirates',
+            country: state.toLowerCase().includes('uae') || state.toLowerCase().includes('dubai') ? 'United Arab Emirates' : 'India',
             isDefault: false,
           })
           .catch(() => {});

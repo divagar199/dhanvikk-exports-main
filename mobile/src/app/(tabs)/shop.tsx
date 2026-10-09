@@ -40,18 +40,19 @@ const SORT_OPTIONS: { label: string; value: 'recommended' | 'price-low' | 'price
 
 export default function ShopScreen() {
   const router = useRouter();
-  const params = useLocalSearchParams<{ category?: string; occasion?: string }>();
+  const params = useLocalSearchParams<{ category?: string; occasion?: string; query?: string }>();
   const { gridItemWidth } = useResponsive();
 
   const [selectedCategory, setSelectedCategory] = useState<string>(params.category || 'All');
   const [selectedSort, setSelectedSort] = useState<'recommended' | 'price-low' | 'price-high' | 'rating'>('recommended');
 
   const { data, isLoading, refetch, isRefetching } = useQuery({
-    queryKey: ['products', selectedCategory, selectedSort, params.occasion],
+    queryKey: ['products', selectedCategory, selectedSort, params.occasion, params.query],
     queryFn: () =>
       productService.getProducts({
         category: selectedCategory === 'All' ? undefined : selectedCategory,
         occasion: params.occasion,
+        search: params.query,
         sort: selectedSort,
       }),
   });

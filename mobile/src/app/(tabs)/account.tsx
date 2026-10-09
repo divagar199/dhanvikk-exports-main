@@ -202,7 +202,7 @@ export default function AccountScreen() {
               {/* Register Option Below */}
               <View style={styles.guestRegisterRow}>
                 <AppText variant="caption" color={Colors.textSecondary}>
-                  Don&apos;t have an account?{' '}
+                  {"Don't have an account?"}{' '}
                 </AppText>
                 <TouchableOpacity
                   onPress={() => router.push('/auth/register')}

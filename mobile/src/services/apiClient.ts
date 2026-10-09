@@ -1,6 +1,7 @@
 import axios from 'axios';
 import * as SecureStore from 'expo-secure-store';
 import { Platform } from 'react-native';
+import Constants from 'expo-constants';
 
 export const TOKEN_STORAGE_KEY = 'dhanvikk_auth_token';
 
@@ -33,7 +34,7 @@ export const authStorage = {
       await SecureStore.setItemAsync(key, value);
     } catch {}
   },
-  async deleteItem(key: string): Promise<void> {
+  async removeItem(key: string): Promise<void> {
     if (Platform.OS === 'web') {
       try {
         if (typeof window !== 'undefined' && window.localStorage) {
@@ -46,26 +47,38 @@ export const authStorage = {
       await SecureStore.deleteItemAsync(key);
     } catch {}
   },
+  async deleteItem(key: string): Promise<void> {
+    return this.removeItem(key);
+  },
 };
 
 // Centralized API configuration with local & production fallbacks
 export const DEFAULT_PRODUCTION_API = 'https://dhanvikk-exports-api.onrender.com';
 
-// For local testing on Android emulator use 10.0.2.2, for iOS/Web use localhost
+// For local testing on physical devices (via host IP) or emulator (10.0.2.2)
 export const getLocalhostUrl = () => {
+  const hostUri = Constants.expoConfig?.hostUri;
+  if (hostUri) {
+    const ip = hostUri.split(':')[0];
+    if (ip && ip !== 'localhost' && ip !== '127.0.0.1') {
+      return `http://${ip}:5000`;
+    }
+  }
   if (Platform.OS === 'android') {
     return 'http://10.0.2.2:5000';
   }
   return 'http://localhost:5000';
 };
 
+// In development, prefer local server if hostUri is available, else Render production API
 export const API_BASE_URL =
-  (typeof process !== 'undefined' && process.env?.EXPO_PUBLIC_API_URL) || DEFAULT_PRODUCTION_API;
+  (typeof process !== 'undefined' && process.env?.EXPO_PUBLIC_API_URL) ||
+  (__DEV__ && Constants.expoConfig?.hostUri ? getLocalhostUrl() : DEFAULT_PRODUCTION_API);
 
 // eslint-disable-next-line import/no-named-as-default-member
 export const apiClient = axios.create({
   baseURL: API_BASE_URL,
-  timeout: 15000,
+  timeout: 8000,
   headers: {
     'Content-Type': 'application/json',
     Accept: 'application/json',
@@ -98,10 +111,25 @@ apiClient.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-// Response interceptor for consistent, user-friendly error formatting
+// Response interceptor for consistent, user-friendly error formatting and automatic fallback retry
 apiClient.interceptors.response.use(
   (response) => response,
-  (error) => {
+  async (error) => {
+    const originalRequest = error.config;
+    // Auto-retry once on alternative server (Local <-> Render) if network drops or times out
+    if (originalRequest && !originalRequest._retriedAlternative && (!error.response || error.code === 'ECONNABORTED')) {
+      originalRequest._retriedAlternative = true;
+      const currentBase = originalRequest.baseURL || API_BASE_URL;
+      const alternativeBase = currentBase.includes('localhost') || currentBase.includes('10.0.2.2')
+        ? DEFAULT_PRODUCTION_API
+        : getLocalhostUrl();
+
+      try {
+        originalRequest.baseURL = alternativeBase;
+        return await axios(originalRequest);
+      } catch {}
+    }
+
     let friendlyMessage = 'An unexpected error occurred. Please try again.';
 
     if (!error.response) {

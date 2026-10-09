@@ -18,6 +18,8 @@ import {
   Flower2,
   Check,
   Info,
+  ShoppingBag,
+  Zap,
 } from 'lucide-react-native';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Colors, Spacing, Radius, Shadows } from '../../theme';
@@ -105,6 +107,14 @@ export default function ProductDetailScreen() {
     setTimeout(() => {
       setAddedAnimation(false);
     }, 1200);
+  };
+
+  const handleBuyNow = () => {
+    if (!product) return;
+    if (!inCart) {
+      addToCart(product, 1, selectedDate, selectedSlot);
+    }
+    router.push('/checkout');
   };
 
   const handleShare = async () => {
@@ -442,34 +452,48 @@ export default function ProductDetailScreen() {
         </View>
       </ScrollView>
 
-      {/* Sticky Bottom Bar: price left, "Add to bag" right, safe-area padding, hairline top shadow */}
-      <View style={[styles.stickyBar, { paddingBottom: Math.max(insets.bottom, 16) }]}>
-        <View>
+      {/* Sticky Bottom Bar: price left, Flipkart dual action buttons right */}
+      <View style={[styles.stickyBar, { paddingBottom: Math.max(insets.bottom, 12) }]}>
+        <View style={styles.priceContainer}>
           <AppText variant="caption" color={Colors.textSecondary}>
             Total Price
           </AppText>
-          <AppText variant="h2" weight="semiBold" color={Colors.primaryDeep} style={{ fontVariant: ['tabular-nums'] }}>
+          <AppText variant="h3" weight="semiBold" color={Colors.primaryDeep} style={{ fontVariant: ['tabular-nums'] }}>
             ₹{product.price.toLocaleString()}
           </AppText>
         </View>
 
-        <AppButton
-          title={
-            addedAnimation
-              ? 'Added to Bag!'
-              : inCart
-              ? `In Bag (${cartItem?.quantity || 1}) · Add More`
-              : 'Add to Bag'
-          }
-          onPress={handleAddToCart}
-          variant={addedAnimation || inCart ? 'secondary' : 'primary'}
-          icon={
-            addedAnimation || inCart ? (
-              <Check size={18} color={Colors.primaryDeep} strokeWidth={2.5} />
-            ) : undefined
-          }
-          style={styles.addBtn}
-        />
+        <View style={styles.actionButtonGroup}>
+          <TouchableOpacity
+            style={[styles.addCartBtn, (addedAnimation || inCart) && styles.addCartBtnActive]}
+            onPress={handleAddToCart}
+            activeOpacity={0.8}
+            accessibilityRole="button"
+            accessibilityLabel="Add to Bag"
+          >
+            {addedAnimation || inCart ? (
+              <Check size={16} color={Colors.primaryDeep} strokeWidth={2.5} />
+            ) : (
+              <ShoppingBag size={16} color={Colors.primaryDeep} />
+            )}
+            <AppText variant="caption" weight="bold" color={Colors.primaryDeep} numberOfLines={1}>
+              {addedAnimation ? 'Added' : inCart ? `In Bag (${cartItem?.quantity || 1})` : 'Add to Bag'}
+            </AppText>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.buyNowBtn}
+            onPress={handleBuyNow}
+            activeOpacity={0.85}
+            accessibilityRole="button"
+            accessibilityLabel="Buy Now"
+          >
+            <Zap size={16} color={Colors.white} fill={Colors.gold} />
+            <AppText variant="caption" weight="bold" color={Colors.white}>
+              Buy Now
+            </AppText>
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
   );
@@ -656,7 +680,7 @@ const styles = StyleSheet.create({
     right: 0,
     backgroundColor: Colors.white,
     paddingHorizontal: Spacing.screenPadding,
-    paddingTop: 12,
+    paddingTop: 10,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
@@ -664,7 +688,45 @@ const styles = StyleSheet.create({
     borderTopColor: Colors.border,
     ...Shadows.lg,
   },
-  addBtn: {
-    minWidth: 180,
+  priceContainer: {
+    justifyContent: 'center',
+    marginRight: 6,
+  },
+  actionButtonGroup: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    justifyContent: 'flex-end',
+  },
+  addCartBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 4,
+    backgroundColor: Colors.blush,
+    paddingHorizontal: 10,
+    paddingVertical: 10,
+    borderRadius: Radius.button,
+    borderWidth: 1,
+    borderColor: '#F8BBD0',
+    flex: 1,
+    maxWidth: 135,
+  },
+  addCartBtnActive: {
+    backgroundColor: '#FCE4EC',
+  },
+  buyNowBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 4,
+    backgroundColor: Colors.primaryDeep,
+    paddingHorizontal: 12,
+    paddingVertical: 10,
+    borderRadius: Radius.button,
+    flex: 1,
+    maxWidth: 125,
+    ...Shadows.sm,
   },
 });

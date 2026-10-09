@@ -347,7 +347,7 @@ export default function LoginScreen() {
           {/* Footer: Register Navigation */}
           <View style={styles.footerRow}>
             <AppText variant="bodySm" color={Colors.textSecondary}>
-              Don&apos;t have an account yet?
+              {"Don't have an account yet?"}
             </AppText>
             <TouchableOpacity
               onPress={() => router.push('/auth/register')}
