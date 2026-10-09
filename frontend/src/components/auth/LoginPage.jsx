@@ -26,12 +26,16 @@ export default function LoginPage() {
 
   // Automatically redirect away from /login if already authenticated or session token exists
   React.useEffect(() => {
+    const isLoggedOut =
+      typeof window !== 'undefined' && sessionStorage.getItem('dhanvikk_logged_out') === 'true';
+    if (isLoggedOut) return;
+
     const token =
       typeof window !== 'undefined'
         ? localStorage.getItem('dhanvikk_auth_token') || sessionStorage.getItem('dhanvikk_auth_token')
         : null;
 
-    if (isAuthenticated || (user && token)) {
+    if (isAuthenticated && user && token) {
       navigate(destination, { replace: true });
     }
   }, [isAuthenticated, user, destination, navigate]);
@@ -103,7 +107,7 @@ export default function LoginPage() {
           const action = await dispatch(loginWithGoogleThunk(res.user));
           if (loginWithGoogleThunk.fulfilled.match(action)) {
             toast.success(`Welcome back, ${res.user.name || 'Customer'}! 🌸`);
-            navigate(from || '/account', { replace: true });
+            navigate(destination, { replace: true });
           }
         }
       } catch (e) {
@@ -111,7 +115,7 @@ export default function LoginPage() {
       }
     })();
     return () => { isMounted = false; };
-  }, [dispatch, from, navigate]);
+  }, [dispatch, destination, navigate]);
 
   return (
     <div className="w-full max-w-[420px] sm:max-w-[440px] mx-auto flex flex-col justify-center py-4">
