@@ -22,7 +22,8 @@ import {
   ShieldCheck,
   RefreshCw,
   UserCheck,
-  Sparkles,
+  Crown,
+  Flower2,
   User,
   LogIn,
 } from 'lucide-react-native';
@@ -110,7 +111,7 @@ export default function AccountScreen() {
                       {user.name}
                     </AppText>
                     <View style={styles.vipTierBadge}>
-                      <Sparkles size={11} color={Colors.primary} />
+                      <Crown size={11} color={Colors.gold} />
                       <AppText variant="caption" color={Colors.primaryDeep} weight="bold" style={{ fontSize: 9 }}>
                         VIP
                       </AppText>
@@ -169,7 +170,7 @@ export default function AccountScreen() {
                 </View>
                 <View style={styles.guestInfo}>
                   <View style={styles.guestKickerRow}>
-                    <Sparkles size={12} color={Colors.primary} />
+                    <Flower2 size={12} color={Colors.primaryDeep} />
                     <AppText variant="caption" color={Colors.primaryDeep} weight="bold" style={styles.guestKicker}>
                       DHANVIKK ATELIER
                     </AppText>

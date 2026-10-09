@@ -19,7 +19,7 @@ import {
   EyeOff,
   ShieldCheck,
   AlertCircle,
-  Sparkles,
+  Zap,
   Flower2,
   UserPlus,
 } from 'lucide-react-native';
@@ -224,7 +224,7 @@ export default function LoginScreen() {
             </TouchableOpacity>
 
             <View style={styles.googleHintRow}>
-              <Sparkles size={12} color={Colors.gold} />
+              <Zap size={12} color={Colors.gold} />
               <AppText variant="caption" color={Colors.textSecondary} style={{ fontSize: 11.5, marginLeft: 5 }}>
                 1-Tap authentication with Google or Gmail
               </AppText>

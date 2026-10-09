@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import { useRouter } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
-import { Sparkles, Flower2 } from 'lucide-react-native';
+import { ShieldCheck, Flower2 } from 'lucide-react-native';
 import { Colors, Spacing, Radius, Shadows } from '../theme';
 import { AppText } from '../components/AppText';
 import { GrandLogo } from '../components/GrandLogo';
@@ -87,7 +87,7 @@ export default function SplashScreenComponent() {
 
         {/* 3. Dhanvikk Assured Badge */}
         <View style={styles.assuredPill}>
-          <Sparkles size={12} color={Colors.gold} />
+          <ShieldCheck size={12} color={Colors.gold} />
           <AppText
             variant="caption"
             color={Colors.primaryDeep}

@@ -16,7 +16,6 @@ import {
   Search,
   Bell,
   Flower2,
-  Sparkles,
   ArrowRight,
   ShieldCheck,
   Truck,
@@ -406,7 +405,7 @@ export default function HomeScreen() {
 
         {/* Row 3: Flipkart-style Live Offer Ticker */}
         <View style={styles.offerTickerStrip}>
-          <Sparkles size={11} color={Colors.gold} />
+          <ShieldCheck size={12} color={Colors.primaryDeep} />
           <AppText variant="caption" weight="bold" color={Colors.primaryDeep} style={styles.tickerLead}>
             DHANVIKK ASSURED
           </AppText>
@@ -543,7 +542,7 @@ export default function HomeScreen() {
                   {/* Top Badge Tag */}
                   <View style={styles.heroTopRow}>
                     <View style={styles.heroBadge}>
-                      <Sparkles size={11} color={Colors.gold} />
+                      <Flower2 size={11} color={Colors.gold} />
                       <AppText
                         variant="caption"
                         color={Colors.white}

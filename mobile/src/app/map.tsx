@@ -28,7 +28,6 @@ import {
   Briefcase,
   CheckCircle2,
   Map as MapIcon,
-  Sparkles,
 } from 'lucide-react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Colors, Spacing, Radius, Shadows } from '../theme';
@@ -492,7 +491,7 @@ export default function MapScreen() {
         {/* Fully Analyzed Location Details Card */}
         <View style={styles.detailsCard}>
           <View style={styles.cardHeaderBadge}>
-            <Sparkles size={14} color={Colors.primary} />
+            <CheckCircle2 size={14} color={Colors.primary} />
             <AppText variant="caption" color={Colors.primaryDeep} weight="semiBold" style={{ marginLeft: 4 }}>
               FULLY ANALYZED ADDRESS BREAKDOWN
             </AppText>
