@@ -386,11 +386,17 @@ export default function HomeScreen() {
             onPress={() => router.push('/search')}
             activeOpacity={0.88}
             accessibilityRole="button"
-            accessibilityLabel="Search fresh roses, jasmine, pooja flowers, bouquets"
+            accessibilityLabel="Search flowers, bouquets, pooja"
           >
             <Search size={18} color={Colors.primary} strokeWidth={2} style={styles.searchIcon} />
-            <AppText variant="bodySm" color={Colors.textSecondary} style={styles.searchPlaceholder}>
-              Search roses, jasmine, pooja flowers, bouquets...
+            <AppText
+              variant="bodySm"
+              color={Colors.textSecondary}
+              style={styles.searchPlaceholder}
+              numberOfLines={1}
+              ellipsizeMode="tail"
+            >
+              Search flowers, bouquets, pooja...
             </AppText>
             <View style={styles.filterChipButton}>
               <SlidersHorizontal size={14} color={Colors.primaryDeep} />
