@@ -81,9 +81,14 @@ export const syncUserWithFirestore = async (firebaseUser, additionalData = {}) =
 };
 
 /**
- * Sign In with Google Popup (Instant authentication with zero blocking)
+ * Sign In with Google (Popup first for speed; automatic redirect fallback if blocked by browser)
  */
-export const signInWithGoogleFirebase = async () => {
+export const signInWithGoogleFirebase = async (preferRedirect = false) => {
+  if (preferRedirect) {
+    await signInWithRedirect(auth, googleProvider);
+    return { redirecting: true };
+  }
+
   try {
     const result = await signInWithPopup(auth, googleProvider);
     const user = result.user;
@@ -109,7 +114,31 @@ export const signInWithGoogleFirebase = async () => {
       token,
     };
   } catch (error) {
-    console.error('Google Sign-In Error:', error.code, error.message);
+    console.warn('Google Sign-In interaction:', error?.code, error?.message);
+    // Automatic fallback: If browser blocks popups, initiate seamless redirect flow
+    if (error?.code === 'auth/popup-blocked' || error?.code === 'auth/cancelled-popup-request') {
+      console.info('Popup blocked by browser. Automatically switching to Google redirect sign-in flow...');
+      try {
+        await signInWithRedirect(auth, googleProvider);
+        return { redirecting: true };
+      } catch (redirectErr) {
+        console.error('Redirect sign-in fallback failed:', redirectErr);
+        throw redirectErr;
+      }
+    }
+    throw error;
+  }
+};
+
+/**
+ * Direct Google Redirect Sign-In (Guaranteed to bypass all browser popup blockers)
+ */
+export const signInWithGoogleRedirectFirebase = async () => {
+  try {
+    await signInWithRedirect(auth, googleProvider);
+    return { redirecting: true };
+  } catch (error) {
+    console.error('Google Redirect Error:', error?.code, error?.message);
     throw error;
   }
 };

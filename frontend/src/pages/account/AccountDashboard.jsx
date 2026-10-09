@@ -145,6 +145,22 @@ export default function AccountDashboard() {
       setIsLoading(false);
       return;
     }
+
+    // Check if returning from Google Redirect
+    (async () => {
+      try {
+        const { checkGoogleRedirectResult } = await import('../../config/firebase');
+        const res = await checkGoogleRedirectResult();
+        if (res?.user) {
+          sessionStorage.removeItem('dhanvikk_logged_out');
+          await dispatch(loginWithGoogleThunk(res.user));
+          return;
+        }
+      } catch (e) {
+        console.warn('Account redirect check note:', e);
+      }
+    })();
+
     const params = new URLSearchParams(location.search);
     const key = encryptedKey || params.get('portalKey') || params.get('key');
     if (key) {
@@ -251,6 +267,10 @@ export default function AccountDashboard() {
       setAuthSubmitting(true);
       sessionStorage.removeItem('dhanvikk_logged_out');
       const res = await dispatch(loginWithGoogleThunk()).unwrap();
+      if (res?.redirecting) {
+        toast.info('Opening Google sign-in...');
+        return;
+      }
       toast.success(`Welcome back, ${res.user?.name || res.user?.email || 'Valued Customer'}! 🌸`);
       await loadUserData();
     } catch (err) {

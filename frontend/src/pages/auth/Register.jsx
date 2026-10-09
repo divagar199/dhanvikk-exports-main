@@ -23,9 +23,8 @@ import AuthLayout from '../../components/auth/AuthLayout';
 import Logo from '../../components/common/Logo';
 import AuthTrustMessage from '../../components/auth/AuthTrustMessage';
 import AuthBrandPanel from '../../components/auth/AuthBrandPanel';
-import Spinner from '../../components/common/Spinner';
 import { registerUser, loginWithGoogleThunk, clearAuthError } from '../../store/slices/authSlice';
-import { signInWithGoogleFirebase } from '../../config/firebase';
+import { signInWithGoogleFirebase, checkGoogleRedirectResult } from '../../config/firebase';
 
 const COUNTRY_CODES = [
   { code: '+971', country: 'UAE', flag: '🇦🇪' },
@@ -72,12 +71,38 @@ export default function Register() {
 
   const [formErrors, setFormErrors] = useState({});
 
+  // Check if returning from Google Redirect
+  React.useEffect(() => {
+    let isMounted = true;
+    (async () => {
+      try {
+        const res = await checkGoogleRedirectResult();
+        if (res?.user && isMounted) {
+          setGoogleUser(res.user);
+          setFormData((prev) => ({
+            ...prev,
+            name: prev.name || res.user.name || '',
+            email: res.user.email || prev.email,
+          }));
+          toast.success(`Google Account Connected: ${res.user.name || res.user.email} 🌸`);
+        }
+      } catch (e) {
+        console.warn('Register redirect check note:', e);
+      }
+    })();
+    return () => { isMounted = false; };
+  }, []);
+
   // Fast Google Sign-In on Create Account page
   const handleGooglePreFill = async () => {
     dispatch(clearAuthError());
     setGoogleLoading(true);
     try {
       const fbRes = await signInWithGoogleFirebase();
+      if (fbRes?.redirecting) {
+        toast.info('Opening Google sign-in...');
+        return;
+      }
       if (fbRes?.user) {
         setGoogleUser(fbRes.user);
         setFormData((prev) => ({
@@ -92,7 +117,7 @@ export default function Register() {
       if (err.code === 'auth/popup-closed-by-user' || err.code === 'auth/cancelled-popup-request') {
         toast.info('Google sign-in was canceled.');
       } else if (err.code === 'auth/popup-blocked') {
-        toast.error('Google sign-in popup was blocked by your browser. Please allow popups.');
+        toast.error('Google sign-in popup was blocked. Please allow popups or enter details manually.');
       } else {
         toast.error(err?.message || 'Google connection could not be opened. You can enter details manually.');
       }

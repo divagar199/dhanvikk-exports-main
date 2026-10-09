@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { authService } from '../../services/authService';
+import { signInWithGoogleFirebase } from '../../config/firebase';
 
 // Safely restore initial auth state
 const savedUser = (() => {
@@ -134,21 +135,37 @@ export const loginWithGoogleThunk = createAsyncThunk(
       let firebaseUser = null;
       let firebaseToken = null;
 
-      // If already authenticated via 1-click Google pre-fill in Register page
-      if (extraData?.googleUid && extraData?.email) {
+      // Extract candidate user if passed from redirect, pre-fill, or direct auth result
+      const candidateUser = extraData?.user || extraData;
+      const uid = candidateUser?.googleUid || candidateUser?.id || candidateUser?.uid;
+      const candidateEmail = candidateUser?.email;
+
+      // If already authenticated via 1-click Google pre-fill in Register page or returning from redirect
+      if (uid && candidateEmail) {
         firebaseUser = {
-          id: extraData.googleUid,
-          name: extraData.name || extraData.email.split('@')[0],
-          email: extraData.email,
-          avatar: extraData.avatar || '',
-          phone: extraData.phone || '',
-          role: 'customer',
+          id: uid,
+          name: candidateUser.name || candidateUser.displayName || candidateEmail.split('@')[0],
+          email: candidateEmail,
+          avatar: candidateUser.avatar || candidateUser.photoURL || '',
+          phone: candidateUser.phone || candidateUser.phoneNumber || '',
+          role: candidateUser.role || 'customer',
         };
-        firebaseToken = localStorage.getItem('dhanvikk_auth_token') || `fb_${extraData.googleUid}`;
+        firebaseToken = extraData?.token || localStorage.getItem('dhanvikk_auth_token') || `fb_${uid}`;
+        firebasePayload = {
+          ...firebasePayload,
+          googleUid: uid,
+          name: firebaseUser.name,
+          email: firebaseUser.email,
+          avatar: firebaseUser.avatar,
+          phone: firebaseUser.phone,
+        };
       } else {
         try {
-          const { signInWithGoogleFirebase } = await import('../../config/firebase');
+          // Direct invocation preserves the browser's user-gesture activation token so popups are NOT blocked
           const firebaseRes = await signInWithGoogleFirebase();
+          if (firebaseRes?.redirecting) {
+            return { redirecting: true };
+          }
           if (firebaseRes?.user) {
             firebaseUser = firebaseRes.user;
             firebaseToken = firebaseRes.token;
@@ -168,7 +185,7 @@ export const loginWithGoogleThunk = createAsyncThunk(
             return rejectWithValue('Google sign-in was canceled.');
           }
           if (errorCode === 'auth/popup-blocked') {
-            return rejectWithValue('Google sign-in popup was blocked by your browser. Please allow popups for this site and try again.');
+            return rejectWithValue('Google sign-in popup was blocked by your browser. Please allow popups or use email sign-in.');
           }
           if (errorCode === 'auth/unauthorized-domain') {
             const currentHost = typeof window !== 'undefined' ? window.location.hostname : 'current domain';
@@ -347,6 +364,10 @@ const authSlice = createSlice({
         state.error = null;
       })
       .addCase(loginWithGoogleThunk.fulfilled, (state, action) => {
+        if (action.payload?.redirecting) {
+          state.loading = true;
+          return;
+        }
         state.loading = false;
         state.isAuthenticated = true;
         state.user = action.payload.user;

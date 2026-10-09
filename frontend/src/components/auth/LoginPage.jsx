@@ -56,6 +56,10 @@ export default function LoginPage() {
     try {
       const resultAction = await dispatch(loginWithGoogleThunk());
       if (loginWithGoogleThunk.fulfilled.match(resultAction)) {
+        if (resultAction.payload?.redirecting) {
+          toast.info('Opening Google sign-in...');
+          return;
+        }
         const loggedUser = resultAction.payload?.user;
         toast.success(`Welcome, ${loggedUser?.name || loggedUser?.email || 'Valued Customer'}! 🌸`);
         navigate(from || '/account', { replace: true });
@@ -79,7 +83,7 @@ export default function LoginPage() {
       try {
         const { checkGoogleRedirectResult } = await import('../../config/firebase');
         const res = await checkGoogleRedirectResult();
-        if (res && isMounted) {
+        if (res?.user && isMounted) {
           const action = await dispatch(loginWithGoogleThunk(res.user));
           if (loginWithGoogleThunk.fulfilled.match(action)) {
             toast.success(`Welcome back, ${res.user.name || 'Customer'}! 🌸`);
