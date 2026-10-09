@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import { useRouter } from 'expo-router';
+import * as SplashScreen from 'expo-splash-screen';
 import { Sparkles, Flower2 } from 'lucide-react-native';
 import { Colors, Spacing, Radius, Shadows } from '../theme';
 import { AppText } from '../components/AppText';
@@ -28,6 +29,7 @@ export default function SplashScreenComponent() {
   }, [router]);
 
   useEffect(() => {
+    SplashScreen.hideAsync().catch(() => {});
     const useDriver = Platform.OS !== 'web';
 
     // Elegant, gentle blooming spring motion

@@ -162,6 +162,30 @@ const TRENDING_SEARCH_PILLS = [
   'Luxury Hampers',
 ];
 
+const CountdownBadge = React.memo(function CountdownBadge() {
+  const [timeLeft, setTimeLeft] = useState({ hours: 2, minutes: 47, seconds: 19 });
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setTimeLeft((prev) => {
+        if (prev.seconds > 0) return { ...prev, seconds: prev.seconds - 1 };
+        if (prev.minutes > 0) return { ...prev, minutes: prev.minutes - 1, seconds: 59 };
+        if (prev.hours > 0) return { hours: prev.hours - 1, minutes: 59, seconds: 59 };
+        return { hours: 3, minutes: 0, seconds: 0 };
+      });
+    }, 1000);
+    return () => clearInterval(timer);
+  }, []);
+
+  return (
+    <View style={styles.timerRow}>
+      <Clock size={12} color={Colors.primaryDeep} />
+      <AppText variant="caption" color={Colors.primaryDeep} weight="semiBold" style={{ marginLeft: 4 }}>
+        Ends in {String(timeLeft.hours).padStart(2, '0')}h : {String(timeLeft.minutes).padStart(2, '0')}m : {String(timeLeft.seconds).padStart(2, '0')}s
+      </AppText>
+    </View>
+  );
+});
+
 export default function HomeScreen() {
   const router = useRouter();
   const { deliveryLocation } = useUIStore();
@@ -200,20 +224,6 @@ export default function HomeScreen() {
       if (autoPlayTimerRef.current) clearInterval(autoPlayTimerRef.current);
     };
   }, [heroCardWidth]);
-
-  // Flash deal live countdown timer
-  const [timeLeft, setTimeLeft] = useState({ hours: 2, minutes: 47, seconds: 19 });
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setTimeLeft((prev) => {
-        if (prev.seconds > 0) return { ...prev, seconds: prev.seconds - 1 };
-        if (prev.minutes > 0) return { ...prev, minutes: prev.minutes - 1, seconds: 59 };
-        if (prev.hours > 0) return { hours: prev.hours - 1, minutes: 59, seconds: 59 };
-        return { hours: 3, minutes: 0, seconds: 0 };
-      });
-    }, 1000);
-    return () => clearInterval(timer);
-  }, []);
 
   const { getItemCount } = useCartStore();
   const cartCount = getItemCount();
@@ -631,12 +641,7 @@ export default function HomeScreen() {
                 <AppText variant="h3" weight="semiBold" color={Colors.text}>
                   Deals of the Day
                 </AppText>
-                <View style={styles.timerRow}>
-                  <Clock size={12} color={Colors.primaryDeep} />
-                  <AppText variant="caption" color={Colors.primaryDeep} weight="semiBold" style={{ marginLeft: 4 }}>
-                    Ends in {String(timeLeft.hours).padStart(2, '0')}h : {String(timeLeft.minutes).padStart(2, '0')}m : {String(timeLeft.seconds).padStart(2, '0')}s
-                  </AppText>
-                </View>
+                <CountdownBadge />
               </View>
             </View>
 

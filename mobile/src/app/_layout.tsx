@@ -25,7 +25,6 @@ LogBox.ignoreLogs([
   'VirtualizedLists should never be nested',
 ]);
 
-SplashScreen.preventAutoHideAsync().catch(() => {});
 SystemUI.setBackgroundColorAsync(Colors.background).catch(() => {});
 
 const queryClient = new QueryClient({
@@ -111,22 +110,10 @@ export default function RootLayout() {
   }, [initAuth]);
 
   useEffect(() => {
-    if (fontsLoaded || fontError) {
-      SplashScreen.hideAsync().catch(() => {});
-    }
-  }, [fontsLoaded, fontError]);
-
-  // Instant fallback: Hide native splash within 350ms regardless of font loader
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      SplashScreen.hideAsync().catch(() => {});
-    }, 350);
-    return () => clearTimeout(timer);
+    SplashScreen.hideAsync().catch(() => {});
   }, []);
 
-  if (!fontsLoaded && !fontError) {
-    return <Animated.View style={{ flex: 1, backgroundColor: '#FFF7F9' }} />;
-  }
+
 
   return (
     <SafeAreaProvider>
