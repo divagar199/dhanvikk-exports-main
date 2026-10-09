@@ -9,12 +9,12 @@ import {
   User as FirebaseUser,
   GoogleAuthProvider,
   signInWithCredential,
+  signInWithCustomToken,
   updateProfile,
   initializeAuth,
+  // @ts-ignore
+  getReactNativePersistence,
 } from 'firebase/auth';
-// eslint-disable-next-line import/no-duplicates
-// @ts-ignore
-import { getReactNativePersistence } from 'firebase/auth';
 import {
   getFirestore,
   Firestore,
@@ -31,10 +31,11 @@ import {
 import { Platform } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export const GOOGLE_OAUTH_CLIENT_ID =
+export const GOOGLE_CLIENT_ID =
   '972583680950-7ang94u09kol0u5f5sndskkcr913nqc2.apps.googleusercontent.com';
 
-export const GOOGLE_WEB_CLIENT_ID = GOOGLE_OAUTH_CLIENT_ID;
+export const GOOGLE_WEB_CLIENT_ID = GOOGLE_CLIENT_ID;
+export const GOOGLE_OAUTH_CLIENT_ID = GOOGLE_CLIENT_ID;
 
 export const firebaseConfig = {
   apiKey: 'AIzaSyALogd47c0ZlzLQNX-Uw03V7HZsea4lDjY',
@@ -90,6 +91,7 @@ export {
   FirebaseUser,
   GoogleAuthProvider,
   signInWithCredential,
+  signInWithCustomToken,
   updateProfile,
   doc,
   getDoc,

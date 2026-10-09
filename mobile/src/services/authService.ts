@@ -96,7 +96,7 @@ export const authService = {
         };
       }
     } catch (fbErr) {
-      console.warn('Firebase Google login attempt notice, falling back to direct endpoint:', fbErr);
+      console.log('Firebase Google login attempt notice, falling back to direct endpoint:', fbErr);
     }
 
     const response = await apiClient.post('/api/auth/google', data);

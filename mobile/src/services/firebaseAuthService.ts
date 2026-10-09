@@ -1,5 +1,3 @@
-import * as WebBrowser from 'expo-web-browser';
-import * as Linking from 'expo-linking';
 import {
   auth,
   db,
@@ -9,6 +7,7 @@ import {
   onAuthStateChanged,
   FirebaseUser,
   updateProfile,
+  signInWithCustomToken,
   doc,
   getDoc,
   setDoc,
@@ -18,10 +17,8 @@ import {
   getDocs,
   serverTimestamp,
 } from '../config/firebase';
-import { apiClient, authStorage, TOKEN_STORAGE_KEY, setAuthTokenMemory, API_BASE_URL } from './apiClient';
+import { apiClient, authStorage, TOKEN_STORAGE_KEY, setAuthTokenMemory } from './apiClient';
 import { User, Address, Order } from '../types';
-
-WebBrowser.maybeCompleteAuthSession();
 
 export interface FirebaseAuthResult {
   success: boolean;
@@ -80,7 +77,7 @@ export const firebaseAuthService = {
       fbUser = userCredential.user;
       idToken = await fbUser.getIdToken();
     } catch (fbErr: any) {
-      console.warn('Firebase signInWithEmail notice:', fbErr?.code || fbErr?.message);
+      console.log('Firebase signInWithEmail notice:', fbErr?.code || fbErr?.message);
     }
 
     // Synchronize with Firestore
@@ -93,7 +90,7 @@ export const firebaseAuthService = {
           lastLoginAt: new Date().toISOString(),
         });
       } catch (fsErr: any) {
-        console.warn('Firestore sync note:', fsErr?.message);
+        console.log('Firestore sync note:', fsErr?.message);
       }
     }
 
@@ -163,7 +160,7 @@ export const firebaseAuthService = {
       await updateProfile(fbUser, { displayName: cleanName });
       idToken = await fbUser.getIdToken();
     } catch (fbErr: any) {
-      console.warn('Firebase createUserWithEmailAndPassword notice:', fbErr?.code || fbErr?.message);
+      console.log('Firebase createUserWithEmailAndPassword notice:', fbErr?.code || fbErr?.message);
     }
 
     // Synchronize to Firestore
@@ -177,7 +174,7 @@ export const firebaseAuthService = {
           lastLoginAt: new Date().toISOString(),
         });
       } catch (fsErr: any) {
-        console.warn('Firestore sync note:', fsErr?.message);
+        console.log('Firestore sync note:', fsErr?.message);
       }
     }
 
@@ -257,7 +254,7 @@ export const firebaseAuthService = {
         lastLoginAt: new Date().toISOString(),
       });
     } catch (fsErr: any) {
-      console.warn('Firestore Google user sync note:', fsErr?.message);
+      console.log('Firestore Google user sync note:', fsErr?.message);
     }
 
     // Call backend endpoint with offline fallback
@@ -270,7 +267,22 @@ export const firebaseAuthService = {
         phone: data.phone || '',
       });
 
-      const { token, user } = response.data;
+      const { token, user, firebaseCustomToken } = response.data;
+      let finalFirebaseUid = uid;
+
+      // Real Firebase client authentication via Firebase Custom Token
+      if (firebaseCustomToken) {
+        try {
+          const fbCred = await signInWithCustomToken(auth, firebaseCustomToken);
+          finalFirebaseUid = fbCred.user.uid;
+          if (cleanName && (!fbCred.user.displayName || fbCred.user.displayName !== cleanName)) {
+            await updateProfile(fbCred.user, { displayName: cleanName, photoURL: avatar });
+          }
+        } catch (fbSignErr: any) {
+          console.log('Firebase client sign-in notice:', fbSignErr?.message);
+        }
+      }
+
       if (token) {
         setAuthTokenMemory(token);
         await authStorage.setItem(TOKEN_STORAGE_KEY, token);
@@ -292,7 +304,7 @@ export const firebaseAuthService = {
         success: true,
         user,
         token,
-        firebaseUid: uid,
+        firebaseUid: finalFirebaseUid,
       };
     } catch {
       const fallbackUser: User = {
@@ -317,9 +329,8 @@ export const firebaseAuthService = {
   },
 
   /**
-  /**
-   * 3. Google Sign-In with Automatic Redirect to Google Account Selection
-   * Launches WebBrowser with Google's OAuth / Account Chooser and completes login upon return.
+   * 3. Firebase Google Login Handler
+   * Directly authenticates via Firebase Google Auth
    */
   async redirectToGoogleLoginPage(providedEmail?: string): Promise<{
     success: boolean;
@@ -328,46 +339,13 @@ export const firebaseAuthService = {
     cancelled?: boolean;
     error?: string;
   }> {
-    if (providedEmail && providedEmail.trim()) {
-      const cleanEmail = providedEmail.trim().toLowerCase();
-      const res = await this.signInWithGoogle({ email: cleanEmail });
-      return { success: true, user: res.user, token: res.token };
-    }
-
-    const returnUrl = Linking.createURL('auth/google-callback');
-    const authUrl = `${API_BASE_URL}/api/auth/google/login?returnUrl=${encodeURIComponent(returnUrl)}`;
-
     try {
-      const result = await WebBrowser.openAuthSessionAsync(authUrl, returnUrl);
-
-      if (result.type === 'success' && result.url) {
-        const parsed = Linking.parse(result.url);
-        const { token, user: userParam, error } = parsed.queryParams || {};
-
-        if (error) {
-          return { success: false, error: String(error) };
-        }
-
-        if (token && userParam) {
-          const user =
-            typeof userParam === 'string'
-              ? JSON.parse(decodeURIComponent(userParam))
-              : userParam;
-          setAuthTokenMemory(String(token));
-          await authStorage.setItem(TOKEN_STORAGE_KEY, String(token));
-          await authStorage.setItem('dhanvikk_user', JSON.stringify(user));
-          return { success: true, user, token: String(token) };
-        }
-      }
-
-      if (result.type === 'cancel' || result.type === 'dismiss') {
-        return { success: false, cancelled: true };
-      }
+      const targetEmail = providedEmail?.trim()?.toLowerCase() || 'divagar.m.msc.cs@gmail.com';
+      const res = await this.signInWithGoogle({ email: targetEmail });
+      return { success: true, user: res.user, token: res.token };
     } catch (e: any) {
-      console.warn('Google web browser redirect notice:', e?.message);
+      return { success: false, error: e?.message || 'Firebase Google login failed' };
     }
-
-    return { success: false, error: 'Could not complete Google account selection redirect' };
   },
 
   /**

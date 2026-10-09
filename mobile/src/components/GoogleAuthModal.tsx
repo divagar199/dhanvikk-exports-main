@@ -504,7 +504,7 @@ export default function GoogleAuthModal({
                 color="#5F6368"
                 style={{ fontSize: 11, marginLeft: 6 }}
               >
-                Secured with Google OAuth 2.0 & Cloud Firestore
+                Secured with Firebase Google Login & Cloud Firestore
               </AppText>
             </View>
           </ScrollView>

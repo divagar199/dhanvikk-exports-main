@@ -468,6 +468,20 @@ export const googleLogin = async (req, res, next) => {
       userAgent: req.headers['user-agent'] || 'Firebase Auth / Google',
     }).catch((err) => console.warn('Google login notification email note:', err.message));
 
+    let firebaseCustomToken = null;
+    if (firebaseAuth) {
+      try {
+        const userUid = user._id ? user._id.toString() : String(user.id || `goog_${Date.now()}`);
+        firebaseCustomToken = await firebaseAuth.createCustomToken(userUid, {
+          email: user.email,
+          name: user.name,
+          role: user.role,
+        });
+      } catch (fbTokenErr) {
+        console.warn('Firebase custom token generation note:', fbTokenErr.message);
+      }
+    }
+
     return res.status(200).json({
       success: true,
       message: isCreatedNew ? 'Account activated with Google! 🌸' : 'Google sign-in successful',
@@ -481,6 +495,7 @@ export const googleLogin = async (req, res, next) => {
         encryptedPortalKey,
       },
       token,
+      firebaseCustomToken,
     });
   } catch (error) {
     next(error);
