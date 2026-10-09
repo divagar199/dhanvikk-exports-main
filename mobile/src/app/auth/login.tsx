@@ -21,6 +21,7 @@ import {
   AlertCircle,
   Sparkles,
   Flower2,
+  UserPlus,
 } from 'lucide-react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import * as Haptics from 'expo-haptics';
@@ -54,42 +55,15 @@ export default function LoginScreen() {
     }
   }, [user]);
 
-  // 1. Google Automatic Redirect Sign-In Handler
-  const handleGoogleSignIn = async () => {
+  // 1. Google 1-Tap Account Chooser Sign-In Handler
+  const handleGoogleSignIn = () => {
     Keyboard.dismiss();
     setErrorMsg('');
     if (Platform.OS !== 'web') {
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light).catch(() => {});
     }
-
-    try {
-      setLoading(true);
-      setAuthStatus('Redirecting to Google account page...');
-
-      const res = await authService.redirectToGoogleLoginPage();
-      if (res.success && res.user && res.token) {
-        setAuth(res.user, res.token);
-        setLoading(false);
-        setAuthStatus('');
-        showToast(`Welcome back, ${res.user.name}! 🌸`, 'success');
-        router.replace('/(tabs)/account');
-        return;
-      }
-
-      setLoading(false);
-      setAuthStatus('');
-
-      if (res.cancelled) {
-        return;
-      }
-
-      // Seamless fallback to 1-Tap Google sheet if browser redirect had issues
-      setShowGoogleModal(true);
-    } catch {
-      setLoading(false);
-      setAuthStatus('');
-      setShowGoogleModal(true);
-    }
+    // Directly present Google account selection options synced with Firebase & database
+    setShowGoogleModal(true);
   };
 
   // 2. Email & Password Sign-In Handler
@@ -229,13 +203,13 @@ export default function LoginScreen() {
               </View>
             ) : null}
 
-            {/* Prominent Google Sign-In Button */}
+            {/* TOP: Prominent Google Sign-In Button */}
             <TouchableOpacity
               style={[styles.googleBtn, loading && { opacity: 0.6 }]}
               activeOpacity={0.88}
               onPress={handleGoogleSignIn}
               disabled={loading}
-              accessibilityLabel="Continue with Google"
+              accessibilityLabel="Sign in with Google"
             >
               <Image
                 source={{
@@ -244,23 +218,23 @@ export default function LoginScreen() {
                 style={styles.googleIcon}
                 contentFit="contain"
               />
-              <AppText variant="body" weight="semiBold" color={Colors.text}>
-                Continue with Google
+              <AppText variant="body" weight="bold" color={Colors.text}>
+                Sign in with Google
               </AppText>
             </TouchableOpacity>
 
             <View style={styles.googleHintRow}>
-              <Sparkles size={12} color={Colors.primary} />
-              <AppText variant="caption" color={Colors.textSecondary} style={{ fontSize: 11, marginLeft: 5 }}>
+              <Sparkles size={12} color={Colors.gold} />
+              <AppText variant="caption" color={Colors.textSecondary} style={{ fontSize: 11.5, marginLeft: 5 }}>
                 1-Tap authentication with Google or Gmail
               </AppText>
             </View>
 
-            {/* Editorial Divider */}
+            {/* MIDDLE: Editorial Divider */}
             <View style={styles.dividerRow}>
               <View style={styles.dividerLine} />
               <AppText variant="caption" color={Colors.textSecondary} style={styles.dividerText}>
-                or sign in with email
+                or sign in with email & password
               </AppText>
               <View style={styles.dividerLine} />
             </View>
@@ -331,6 +305,28 @@ export default function LoginScreen() {
               style={styles.submitBtn}
             />
 
+            {/* BOTTOM: Create Account Section */}
+            <View style={styles.createAccountDividerRow}>
+              <View style={styles.dividerLine} />
+              <AppText variant="caption" color={Colors.textSecondary} style={styles.dividerText}>
+                New to Dhanvikk Atelier?
+              </AppText>
+              <View style={styles.dividerLine} />
+            </View>
+
+            <TouchableOpacity
+              style={styles.createAccountBtn}
+              onPress={() => router.push('/auth/register')}
+              activeOpacity={0.88}
+              disabled={loading}
+              accessibilityLabel="Create Account"
+            >
+              <UserPlus size={18} color={Colors.primaryDeep} />
+              <AppText variant="body" weight="bold" color={Colors.primaryDeep} style={{ marginLeft: 8 }}>
+                Create Account
+              </AppText>
+            </TouchableOpacity>
+
             {/* Security Footnote */}
             <View style={styles.securityBadge}>
               <ShieldCheck size={13} color={Colors.success} />
@@ -342,21 +338,6 @@ export default function LoginScreen() {
                 Secured by Firebase & Google Identity
               </AppText>
             </View>
-          </View>
-
-          {/* Footer: Register Navigation */}
-          <View style={styles.footerRow}>
-            <AppText variant="bodySm" color={Colors.textSecondary}>
-              {"Don't have an account yet?"}
-            </AppText>
-            <TouchableOpacity
-              onPress={() => router.push('/auth/register')}
-              hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
-            >
-              <AppText variant="bodySm" color={Colors.primaryDeep} weight="bold">
-                Register
-              </AppText>
-            </TouchableOpacity>
           </View>
 
           {/* Guest Access Link */}
@@ -521,6 +502,24 @@ const styles = StyleSheet.create({
   submitBtn: {
     marginTop: Spacing.xs,
   },
+  createAccountDividerRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: Spacing.xl,
+    marginBottom: Spacing.md,
+  },
+  createAccountBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: Colors.palePink,
+    borderWidth: 1.5,
+    borderColor: Colors.blush,
+    borderRadius: Radius.button,
+    paddingVertical: 14,
+    paddingHorizontal: 16,
+    ...Shadows.sm,
+  },
   securityBadge: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -529,13 +528,6 @@ const styles = StyleSheet.create({
     paddingTop: Spacing.sm,
     borderTopWidth: 1,
     borderTopColor: Colors.border,
-  },
-  footerRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 6,
-    marginTop: Spacing.xl,
   },
   guestLink: {
     alignSelf: 'center',

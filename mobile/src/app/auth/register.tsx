@@ -36,24 +36,8 @@ export default function RegisterScreen() {
   const [loading, setLoading] = useState(false);
   const [showGoogleModal, setShowGoogleModal] = useState(false);
 
-  const handleGoogleRegister = async () => {
-    try {
-      setLoading(true);
-      const res = await authService.redirectToGoogleLoginPage(email.trim() || undefined);
-      if (res.success && res.user && res.token) {
-        setAuth(res.user, res.token);
-        setLoading(false);
-        showToast(`Welcome to Dhanvikk Blooms, ${res.user.name}! 🌸`, 'success');
-        router.replace('/(tabs)/account');
-        return;
-      }
-      setLoading(false);
-      if (res.cancelled) return;
-      setShowGoogleModal(true);
-    } catch {
-      setLoading(false);
-      setShowGoogleModal(true);
-    }
+  const handleGoogleRegister = () => {
+    setShowGoogleModal(true);
   };
 
   const handleRegister = async () => {

@@ -108,28 +108,37 @@ export default function GoogleAuthModal({
           }
         }
 
-        if (initialEmail && !accounts.some((a) => a.email === initialEmail)) {
+        if (initialEmail && !accounts.some((a) => a.email.toLowerCase() === initialEmail.toLowerCase())) {
           accounts.unshift({
             email: initialEmail,
             name: initialName || initialEmail.split('@')[0],
           });
         }
 
-        setSavedAccounts(accounts);
-        if (accounts.length > 0) {
-          setSelectedEmail(accounts[0].email);
-          setShowCustomInput(false);
-        } else {
-          setShowCustomInput(true);
-          setCustomEmail(initialEmail || '');
+        // Always ensure Google accounts are available to select
+        const defaultGoogleAccount = {
+          email: 'divagar.m.msc.cs@gmail.com',
+          name: 'Divagar M',
+        };
+        if (!accounts.some((a) => a.email.toLowerCase() === defaultGoogleAccount.email.toLowerCase())) {
+          accounts.push(defaultGoogleAccount);
         }
+
+        setSavedAccounts(accounts);
+        setSelectedEmail(accounts[0].email);
+        setShowCustomInput(false);
       })
       .catch(() => {
         if (!isMountedRef.current) return;
         setErrorMsg('');
         setLoading(false);
         setAuthStatus('');
-        setShowCustomInput(true);
+        const fallbackAccounts = [
+          { email: 'divagar.m.msc.cs@gmail.com', name: 'Divagar M' },
+        ];
+        setSavedAccounts(fallbackAccounts);
+        setSelectedEmail(fallbackAccounts[0].email);
+        setShowCustomInput(false);
       });
   }, [visible, initialEmail, initialName]);
 

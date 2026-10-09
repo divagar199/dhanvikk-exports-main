@@ -18,7 +18,7 @@ import {
   getDocs,
   serverTimestamp,
 } from '../config/firebase';
-import { apiClient, authStorage, TOKEN_STORAGE_KEY, setAuthTokenMemory } from './apiClient';
+import { apiClient, authStorage, TOKEN_STORAGE_KEY, setAuthTokenMemory, API_BASE_URL } from './apiClient';
 import { User, Address, Order } from '../types';
 
 WebBrowser.maybeCompleteAuthSession();
@@ -326,7 +326,7 @@ export const firebaseAuthService = {
     }
 
     const returnUrl = Linking.createURL('auth/google-callback');
-    const authUrl = `https://dhanvikk-exports-api.onrender.com/api/auth/google/login`;
+    const authUrl = `${API_BASE_URL}/api/auth/google/login?returnUrl=${encodeURIComponent(returnUrl)}`;
 
     try {
       const result = await WebBrowser.openAuthSessionAsync(authUrl, returnUrl);
