@@ -58,11 +58,15 @@ export default function LoginPage() {
       if (loginUser.fulfilled.match(resultAction)) {
         toast.success('Welcome back to Dhanvikk Blooms & Exports 🌸');
         const userObj = resultAction.payload.user;
-        if (userObj?.role === 'admin' || userObj?.role === 'super_admin') {
-          navigate('/admin/dashboard', { replace: true });
-        } else {
-          navigate(destination, { replace: true });
-        }
+        const targetPath = (userObj?.role === 'admin' || userObj?.role === 'super_admin')
+          ? '/admin/dashboard'
+          : destination;
+        navigate(targetPath, { replace: true });
+        setTimeout(() => {
+          if (typeof window !== 'undefined' && window.location.pathname === '/login') {
+            window.location.replace(targetPath);
+          }
+        }, 120);
       } else {
         toast.error(resultAction.payload || 'Unable to sign in. Please check your credentials.');
       }
@@ -86,6 +90,11 @@ export default function LoginPage() {
         const loggedUser = resultAction.payload?.user;
         toast.success(`Welcome, ${loggedUser?.name || loggedUser?.email || 'Valued Customer'}! 🌸`);
         navigate(destination, { replace: true });
+        setTimeout(() => {
+          if (typeof window !== 'undefined' && window.location.pathname === '/login') {
+            window.location.replace(destination);
+          }
+        }, 120);
       } else {
         const errMsg = resultAction.payload || 'Unable to sign in with Google. Please try again.';
         if (errMsg.includes('canceled')) {
@@ -100,6 +109,7 @@ export default function LoginPage() {
       setGoogleLoading(false);
     }
   };
+
 
   // Quick Demo Account Auto-Fill / Sign In
   const handleDemoSignIn = async () => {

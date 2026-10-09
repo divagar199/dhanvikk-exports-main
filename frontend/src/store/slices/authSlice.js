@@ -27,9 +27,11 @@ export const loginUser = createAsyncThunk(
   'auth/loginUser',
   async ({ email, password, rememberMe }, { rejectWithValue }) => {
     try {
-      // 1. Authenticate with Firebase Email/Password
       let firebaseUser = null;
       let firebaseToken = null;
+      let firebaseAuthFailed = false;
+
+      // 1. Authenticate with Firebase Email/Password
       try {
         const { signInWithEmailPasswordFirebase } = await import('../../config/firebase');
         const fbRes = await signInWithEmailPasswordFirebase(email, password);
@@ -37,16 +39,13 @@ export const loginUser = createAsyncThunk(
         firebaseToken = fbRes.token;
       } catch (fbErr) {
         console.warn('Firebase email/password sign-in note:', fbErr.message);
-        // If Firebase error is invalid credentials, propagate cleanly
-        if (fbErr.code === 'auth/wrong-password' || fbErr.code === 'auth/user-not-found' || fbErr.code === 'auth/invalid-credential') {
-          return rejectWithValue('Invalid email or password. Please try again.');
-        }
+        firebaseAuthFailed = true;
         if (fbErr.code === 'auth/operation-not-allowed') {
-          return rejectWithValue('Email/Password sign-in is not yet enabled in Firebase Console for auth-checker-diva. Please enable it under Authentication > Sign-in method.');
+          return rejectWithValue('Email/Password sign-in is not yet enabled in Firebase Console. Please enable it under Authentication > Sign-in method.');
         }
       }
 
-      // 2. Synchronize with Backend API (if available)
+      // 2. Synchronize with Backend API (which validates or auto-onboards user)
       let data = null;
       try {
         data = await authService.login({ email, password });
@@ -59,13 +58,25 @@ export const loginUser = createAsyncThunk(
             token: firebaseToken,
           };
         } else {
-          throw apiErr;
+          const errMsg = apiErr?.userMessage || apiErr?.response?.data?.message || 'Invalid email or password. Please try again.';
+          return rejectWithValue(errMsg);
         }
       }
 
       if (data?.success) {
         const userObj = firebaseUser || data.user;
         const tokenStr = firebaseToken || data.token;
+
+        // If user logged into backend successfully but doesn't exist on new Firebase project yet, auto-provision on Firebase
+        if (firebaseAuthFailed && password && password.length >= 6) {
+          (async () => {
+            try {
+              const { signUpWithEmailPassword } = await import('../../config/firebase');
+              await signUpWithEmailPassword(email, password, userObj.name || email.split('@')[0]);
+            } catch {}
+          })();
+        }
+
         sessionStorage.removeItem('dhanvikk_logged_out');
         localStorage.setItem('dhanvikk_auth_token', tokenStr);
         localStorage.setItem('dhanvikk_user', JSON.stringify(userObj));
@@ -84,6 +95,7 @@ export const loginUser = createAsyncThunk(
     }
   }
 );
+
 
 export const registerUser = createAsyncThunk(
   'auth/registerUser',
