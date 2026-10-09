@@ -202,6 +202,29 @@ export default function AccountScreen() {
                 <ChevronRight size={18} color={Colors.white} style={{ marginLeft: 'auto' }} />
               </TouchableOpacity>
 
+              {/* Continue with Google Option */}
+              <TouchableOpacity
+                style={styles.guestGoogleBtn}
+                activeOpacity={0.88}
+                onPress={() => {
+                  if (Platform.OS !== 'web') {
+                    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light).catch(() => {});
+                  }
+                  setShowGoogleModal(true);
+                }}
+              >
+                <Image
+                  source={{
+                    uri: 'https://www.gstatic.com/images/branding/product/2x/googleg_48dp.png',
+                  }}
+                  style={{ width: 18, height: 18, marginRight: 8 }}
+                  contentFit="contain"
+                />
+                <AppText variant="body" weight="medium" color={Colors.text}>
+                  Continue with Google
+                </AppText>
+              </TouchableOpacity>
+
               {/* Register Option Below */}
               <View style={styles.guestRegisterRow}>
                 <AppText variant="caption" color={Colors.textSecondary}>
@@ -522,11 +545,25 @@ const styles = StyleSheet.create({
     borderRadius: Radius.md,
     ...Shadows.sm,
   },
+  guestGoogleBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: Colors.white,
+    paddingVertical: 13,
+    paddingHorizontal: 16,
+    borderRadius: Radius.md,
+    borderWidth: 1,
+    borderColor: Colors.border,
+    marginTop: 10,
+    ...Shadows.sm,
+  },
   guestRegisterRow: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    paddingTop: 2,
+    paddingTop: 4,
+    marginTop: 4,
   },
   menuGroup: {
     backgroundColor: Colors.surface,

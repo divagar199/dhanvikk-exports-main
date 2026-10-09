@@ -3,40 +3,28 @@ import {
   View,
   StyleSheet,
   TouchableOpacity,
+  Platform,
 } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Image } from 'expo-image';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Flower2 } from 'lucide-react-native';
+import * as Haptics from 'expo-haptics';
 import { Colors, Spacing, Radius, Shadows } from '../../theme';
 import { AppText } from '../../components/AppText';
 import { AppButton } from '../../components/AppButton';
 import { GrandLogo } from '../../components/GrandLogo';
 import GoogleAuthModal from '../../components/GoogleAuthModal';
-import { authService } from '../../services/authService';
-import { useAuthStore } from '../../store/authStore';
-import { useUIStore } from '../../store/uiStore';
 
 export default function WelcomeScreen() {
   const router = useRouter();
-  const { setAuth } = useAuthStore();
-  const { showToast } = useUIStore();
   const [showGoogleModal, setShowGoogleModal] = useState(false);
 
-  const handleGoogleWelcomeLogin = async () => {
-    try {
-      const res = await authService.redirectToGoogleLoginPage();
-      if (res.success && res.user && res.token) {
-        setAuth(res.user, res.token);
-        showToast(`Welcome to Dhanvikk Blooms, ${res.user.name}! 🌸`, 'success');
-        router.replace('/(tabs)/account');
-        return;
-      }
-      if (res.cancelled) return;
-      setShowGoogleModal(true);
-    } catch {
-      setShowGoogleModal(true);
+  const handleGoogleWelcomeLogin = () => {
+    if (Platform.OS !== 'web') {
+      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light).catch(() => {});
     }
+    setShowGoogleModal(true);
   };
 
   return (

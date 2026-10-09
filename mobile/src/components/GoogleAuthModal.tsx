@@ -27,6 +27,7 @@ import { authService } from '../services/authService';
 import { useAuthStore } from '../store/authStore';
 import { useUIStore } from '../store/uiStore';
 import { useResponsive } from '../hooks/useResponsive';
+import { useRouter } from 'expo-router';
 import { authStorage } from '../services/apiClient';
 import { User } from '../types';
 
@@ -61,6 +62,7 @@ export default function GoogleAuthModal({
 
   const { setAuth, syncUserData, addSavedAccount } = useAuthStore();
   const { showToast } = useUIStore();
+  const router = useRouter();
   const { isTablet, isLandscape } = useResponsive();
   const isSheet = !isTablet && !isLandscape;
   const isMountedRef = useRef(true);
@@ -198,8 +200,12 @@ export default function GoogleAuthModal({
       }
 
       showToast(`Welcome back, ${googleRes.user.name}! 🌸`, 'success');
-      if (onSuccess) onSuccess(googleRes.user);
       onClose();
+      if (onSuccess) {
+        onSuccess(googleRes.user);
+      } else {
+        router.replace('/(tabs)/account');
+      }
     } catch (err: any) {
       if (!isMountedRef.current) return;
       setLoading(false);
