@@ -76,8 +76,10 @@ const CATEGORY_TAGS = [
 export default function AddressesScreen() {
   const router = useRouter();
   const { setDeliveryLocation, deliveryLocation, showToast } = useUIStore();
-  const { user } = useAuthStore();
-  const [addresses, setAddresses] = useState<Address[]>(INITIAL_ADDRESSES);
+  const { user, savedAddresses, setSavedAddresses } = useAuthStore();
+  const [addresses, setAddresses] = useState<Address[]>(
+    savedAddresses && savedAddresses.length > 0 ? savedAddresses : INITIAL_ADDRESSES
+  );
   const [detectingGps, setDetectingGps] = useState(false);
 
   // Modal and Form States
@@ -95,6 +97,13 @@ export default function AddressesScreen() {
   const [isDefault, setIsDefault] = useState(true);
   const [errors, setErrors] = useState<Record<string, string>>({});
 
+  // Sync addresses when savedAddresses in store changes
+  useEffect(() => {
+    if (savedAddresses && savedAddresses.length > 0) {
+      setAddresses(savedAddresses);
+    }
+  }, [savedAddresses]);
+
   // Load saved addresses from backend on mount and user change
   useEffect(() => {
     const targetEmail = user?.email || 'customer@dhanvikk.com';
@@ -103,6 +112,7 @@ export default function AddressesScreen() {
       .then((data) => {
         if (data?.savedAddresses && data.savedAddresses.length > 0) {
           setAddresses(data.savedAddresses);
+          setSavedAddresses(data.savedAddresses);
         }
       })
       .catch(() => {});

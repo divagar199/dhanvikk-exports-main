@@ -42,7 +42,7 @@ import { useResponsive } from '../../hooks/useResponsive';
 export default function AccountScreen() {
   const router = useRouter();
   const { isTablet, containerStyle } = useResponsive();
-  const { user, setAuth, logout, syncUserData } = useAuthStore();
+  const { user, setAuth, logout, syncUserData, savedAddresses, recentOrders } = useAuthStore();
   const { items: wishlistItems } = useWishlistStore();
   const { showToast } = useUIStore();
 
@@ -238,7 +238,14 @@ export default function AccountScreen() {
                 My Orders
               </AppText>
             </View>
-            <ChevronRight size={18} color={Colors.textSecondary} />
+            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
+              {recentOrders.length > 0 && (
+                <AppText variant="caption" color={Colors.primaryDeep} weight="semiBold">
+                  {recentOrders.length}
+                </AppText>
+              )}
+              <ChevronRight size={18} color={Colors.textSecondary} />
+            </View>
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -275,7 +282,14 @@ export default function AccountScreen() {
                 Delivery Addresses
               </AppText>
             </View>
-            <ChevronRight size={18} color={Colors.textSecondary} />
+            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
+              {savedAddresses.length > 0 && (
+                <AppText variant="caption" color={Colors.primaryDeep} weight="semiBold">
+                  {savedAddresses.length}
+                </AppText>
+              )}
+              <ChevronRight size={18} color={Colors.textSecondary} />
+            </View>
           </TouchableOpacity>
         </View>
 

@@ -24,12 +24,16 @@ const STATUS_TABS = ['All', 'Preparing', 'Out for Delivery', 'Delivered'];
 
 export default function OrdersListScreen() {
   const router = useRouter();
-  const { user } = useAuthStore();
+  const { user, recentOrders } = useAuthStore();
   const [activeTab, setActiveTab] = useState('All');
 
   const { data, isLoading, refetch, isRefetching } = useQuery({
     queryKey: ['myOrders', user?.email],
     queryFn: () => orderService.getMyOrders(user?.email || 'customer@dhanvikk.com'),
+    initialData:
+      recentOrders && recentOrders.length > 0
+        ? { success: true, count: recentOrders.length, orders: recentOrders as Order[] }
+        : undefined,
   });
 
   const orders: Order[] = data?.orders || [];

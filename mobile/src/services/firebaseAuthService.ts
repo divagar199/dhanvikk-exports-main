@@ -277,6 +277,15 @@ export const firebaseAuthService = {
         if (user) {
           await authStorage.setItem('dhanvikk_user', JSON.stringify(user));
         }
+        // Permanently preserve account in device saved accounts list
+        try {
+          const raw = await authStorage.getItem('dhanvikk_saved_accounts');
+          let accounts: { email: string; name: string }[] = raw ? JSON.parse(raw) : [];
+          if (!Array.isArray(accounts)) accounts = [];
+          const filtered = accounts.filter((a) => a.email.toLowerCase() !== cleanEmail);
+          filtered.unshift({ email: cleanEmail, name: cleanName });
+          await authStorage.setItem('dhanvikk_saved_accounts', JSON.stringify(filtered.slice(0, 8)));
+        } catch {}
       }
 
       return {

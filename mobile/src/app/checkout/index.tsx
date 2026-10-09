@@ -73,7 +73,7 @@ const generateFallbackDisplayOrderId = () => `DHN-${new Date().getFullYear()}-89
 export default function CheckoutScreen() {
   const router = useRouter();
   const insets = useSafeAreaInsets();
-  const { user } = useAuthStore();
+  const { user, savedAddresses: storeSavedAddresses } = useAuthStore();
   const {
     items,
     getSubtotal,
@@ -112,7 +112,22 @@ export default function CheckoutScreen() {
   const [pincode, setPincode] = useState('600001');
   const [deliveryNotes, setDeliveryNotes] = useState('');
   const [detectingGps, setDetectingGps] = useState(false);
-  const [savedAddresses, setSavedAddresses] = useState<Address[]>([]);
+  const [savedAddresses, setSavedAddresses] = useState<Address[]>(
+    storeSavedAddresses && storeSavedAddresses.length > 0 ? storeSavedAddresses : []
+  );
+
+  useEffect(() => {
+    if (storeSavedAddresses && storeSavedAddresses.length > 0 && savedAddresses.length === 0) {
+      setSavedAddresses(storeSavedAddresses);
+      const defaultAddr = storeSavedAddresses.find((a: Address) => a.isDefault) || storeSavedAddresses[0];
+      if (defaultAddr) {
+        setStreetAddress((prev) => prev || defaultAddr.street);
+        setCity((prev) => (prev === 'Chennai' ? defaultAddr.city : prev));
+        setState((prev) => (prev === 'Tamil Nadu, India' ? `${defaultAddr.state}, ${defaultAddr.country}` : prev));
+        if (defaultAddr.postalCode) setPincode((prev) => (prev === '600001' ? defaultAddr.postalCode : prev));
+      }
+    }
+  }, [storeSavedAddresses]);
 
   useEffect(() => {
     if (user?.email) {

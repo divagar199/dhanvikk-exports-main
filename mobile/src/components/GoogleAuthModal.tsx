@@ -59,7 +59,7 @@ export default function GoogleAuthModal({
   const [authStatus, setAuthStatus] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
 
-  const { setAuth } = useAuthStore();
+  const { setAuth, syncUserData, addSavedAccount } = useAuthStore();
   const { showToast } = useUIStore();
   const { isTablet, isLandscape } = useResponsive();
   const isSheet = !isTablet && !isLandscape;
@@ -84,30 +84,43 @@ export default function GoogleAuthModal({
   useEffect(() => {
     if (!visible) return;
 
-    // Look up existing user from storage to offer 1-tap sign in
-    authStorage
-      .getItem('dhanvikk_user')
-      .then((raw) => {
+    Promise.all([
+      authStorage.getItem('dhanvikk_saved_accounts'),
+      authStorage.getItem('dhanvikk_user'),
+    ])
+      .then(([savedAccountsRaw, userRaw]) => {
         if (!isMountedRef.current) return;
         setErrorMsg('');
         setLoading(false);
         setAuthStatus('');
 
         const accounts: { email: string; name: string }[] = [];
-        if (raw) {
+
+        // 1. Add persistent saved accounts from device
+        if (savedAccountsRaw) {
           try {
-            const parsed = JSON.parse(raw);
-            if (parsed?.email) {
-              accounts.push({
-                email: parsed.email,
-                name: parsed.name || parsed.email.split('@')[0],
-              });
+            const list = JSON.parse(savedAccountsRaw);
+            if (Array.isArray(list)) {
+              for (const a of list) {
+                if (a?.email && !accounts.some((x) => x.email.toLowerCase() === a.email.toLowerCase())) {
+                  accounts.push({ email: a.email, name: a.name || a.email.split('@')[0] });
+                }
+              }
             }
-          } catch {
-            // Ignore parse error
-          }
+          } catch {}
         }
 
+        // 2. Add last active user from storage
+        if (userRaw) {
+          try {
+            const parsed = JSON.parse(userRaw);
+            if (parsed?.email && !accounts.some((x) => x.email.toLowerCase() === parsed.email.toLowerCase())) {
+              accounts.unshift({ email: parsed.email, name: parsed.name || parsed.email.split('@')[0] });
+            }
+          } catch {}
+        }
+
+        // 3. Add initial passed account if any
         if (initialEmail && !accounts.some((a) => a.email.toLowerCase() === initialEmail.toLowerCase())) {
           accounts.unshift({
             email: initialEmail,
@@ -115,7 +128,7 @@ export default function GoogleAuthModal({
           });
         }
 
-        // Always ensure Google accounts are available to select
+        // 4. Always ensure the primary device Google account is selectable
         const defaultGoogleAccount = {
           email: 'divagar.m.msc.cs@gmail.com',
           name: 'Divagar M',
@@ -125,7 +138,7 @@ export default function GoogleAuthModal({
         }
 
         setSavedAccounts(accounts);
-        setSelectedEmail(accounts[0].email);
+        setSelectedEmail(accounts[0]?.email || defaultGoogleAccount.email);
         setShowCustomInput(false);
       })
       .catch(() => {
@@ -175,6 +188,8 @@ export default function GoogleAuthModal({
       if (!isMountedRef.current) return;
 
       setAuth(googleRes.user, googleRes.token);
+      await addSavedAccount(cleanEmail, googleRes.user.name);
+      await syncUserData(cleanEmail);
       setLoading(false);
       setAuthStatus('');
 
