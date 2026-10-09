@@ -508,7 +508,9 @@ export const googleLogin = async (req, res, next) => {
  * @access  Public
  */
 export const initiateGoogleOAuth = (req, res) => {
-  const clientId = process.env.GOOGLE_CLIENT_ID || '972583680950-7ang94u09kol0u5f5sndskkcr913nqc2.apps.googleusercontent.com';
+  const clientId =
+    process.env.GOOGLE_CLIENT_ID ||
+    '160660053649-1ar8vvfbirn6jgd9bnukihvk0frgluv6.apps.googleusercontent.com';
   const callbackUrl = encodeURIComponent(`${req.protocol}://${req.get('host')}/api/auth/google/callback`);
   const scope = encodeURIComponent('openid profile email');
   const googleAuthUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${clientId}&redirect_uri=${callbackUrl}&response_type=code&scope=${scope}&prompt=select_account`;
@@ -527,7 +529,9 @@ export const googleOAuthCallback = async (req, res) => {
       return res.redirect(`dhanvikk://auth/google-callback?error=${encodeURIComponent(error || 'cancelled')}`);
     }
 
-    const clientId = process.env.GOOGLE_CLIENT_ID || '972583680950-7ang94u09kol0u5f5sndskkcr913nqc2.apps.googleusercontent.com';
+    const clientId =
+      process.env.GOOGLE_CLIENT_ID ||
+      '160660053649-1ar8vvfbirn6jgd9bnukihvk0frgluv6.apps.googleusercontent.com';
     const clientSecret = process.env.GOOGLE_CLIENT_SECRET || '';
     const redirectUri = `${req.protocol}://${req.get('host')}/api/auth/google/callback`;
 
@@ -600,18 +604,27 @@ export const googleOAuthCallback = async (req, res) => {
  * @access  Private
  */
 export const getMe = async (req, res) => {
-  const resolvedAvatar = resolveGoogleAvatar(req.user?.email, req.user?.avatar, req.user?.name);
+  const user = req.user || {
+    id: 'guest_user_dhanvikk',
+    name: 'Guest Customer',
+    email: 'guest@dhanvikk.com',
+    role: 'customer',
+    phone: '+971 50 000 0000',
+    avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80',
+  };
+
+  const resolvedAvatar = resolveGoogleAvatar(user.email, user.avatar, user.name);
   const encryptedPortalKey = generateEncryptedPortalKey({
-    id: req.user?.id,
-    name: req.user?.name,
-    email: req.user?.email,
-    phone: req.user?.phone || '',
+    id: user.id || user._id,
+    name: user.name,
+    email: user.email,
+    phone: user.phone || '',
   });
 
   return res.status(200).json({
     success: true,
     user: {
-      ...req.user,
+      ...user,
       avatar: resolvedAvatar,
       encryptedPortalKey,
     },
@@ -1509,19 +1522,5 @@ export const firebaseLogin = async (req, res, next) => {
   } catch (error) {
     next(error);
   }
-};
-
-export const getMe = (req, res) => {
-  return res.status(200).json({
-    success: true,
-    user: req.user || {
-      id: 'guest_user_dhanvikk',
-      name: 'Guest Customer',
-      email: 'guest@dhanvikk.com',
-      role: 'customer',
-      phone: '+971 50 000 0000',
-      avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80',
-    },
-  });
 };
 

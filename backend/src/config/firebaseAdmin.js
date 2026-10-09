@@ -20,13 +20,13 @@ try {
     firebaseAdminApp = getApps().length === 0
       ? initializeApp({
           credential: cert(serviceAccount),
-          projectId: serviceAccount.project_id || 'auth-checker-diva',
+          projectId: serviceAccount.project_id || 'auth-checker-1-main',
         })
       : getApps()[0];
 
     firestoreDb = getFirestore(firebaseAdminApp);
     firebaseAuth = getAuth(firebaseAdminApp);
-    console.log('✅ Firebase Admin SDK initialized successfully for project: auth-checker-diva');
+    console.log(`✅ Firebase Admin SDK initialized successfully for project: ${serviceAccount.project_id || 'auth-checker-1-main'}`);
   } else {
     console.warn('⚠️ Firebase service account file not found at:', serviceAccountPath);
   }
