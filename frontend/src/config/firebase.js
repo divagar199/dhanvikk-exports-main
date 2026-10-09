@@ -20,6 +20,12 @@ import {
   getDoc,
   serverTimestamp,
 } from 'firebase/firestore';
+import {
+  getMessaging,
+  getToken,
+  onMessage,
+  isSupported as isMessagingSupported,
+} from 'firebase/messaging';
 
 // Firebase configuration for project: auth-checker-1-main
 const firebaseConfig = {
@@ -276,6 +282,92 @@ export const resetPasswordFirebase = async (email) => {
     console.error('Password Reset Error:', error);
     throw error;
   }
+};
+
+/**
+ * Firebase Cloud Messaging (Web Push Notifications)
+ */
+export const VAPID_KEY =
+  import.meta.env.VITE_FIREBASE_VAPID_KEY ||
+  'BNlvUCAgAqOsezsRlff-rUp7_5QeImOtpwYU9clbli2brUvrSkYmwg6KGpWAT4DdsoArJmV0CXaW5HB_vgCjZmg';
+
+let messagingInstance = null;
+
+export const getFirebaseMessaging = async () => {
+  if (typeof window !== 'undefined' && 'serviceWorker' in navigator) {
+    try {
+      const supported = await isMessagingSupported();
+      if (supported) {
+        if (!messagingInstance) {
+          messagingInstance = getMessaging(app);
+        }
+        return messagingInstance;
+      }
+    } catch (e) {
+      console.warn('Firebase Messaging not supported:', e);
+    }
+  }
+  return null;
+};
+
+/**
+ * Request notification permissions and fetch FCM Push Token
+ */
+export const requestPushNotificationPermission = async () => {
+  try {
+    if (typeof window === 'undefined' || !('Notification' in window)) {
+      return { success: false, error: 'Push notifications are not supported in this browser' };
+    }
+
+    const permission = await Notification.requestPermission();
+    if (permission !== 'granted') {
+      return { success: false, error: 'Push notification permission was denied', permission };
+    }
+
+    const msg = await getFirebaseMessaging();
+    if (!msg) {
+      return { success: false, error: 'Web messaging could not be initialized' };
+    }
+
+    let registration;
+    if ('serviceWorker' in navigator) {
+      try {
+        registration = await navigator.serviceWorker.register('/firebase-messaging-sw.js');
+      } catch (swErr) {
+        console.warn('Service worker registration note:', swErr);
+      }
+    }
+
+    const token = await getToken(msg, {
+      vapidKey: VAPID_KEY,
+      serviceWorkerRegistration: registration,
+    });
+
+    if (token) {
+      localStorage.setItem('dhanvikk_fcm_token', token);
+      return { success: true, token };
+    }
+
+    return { success: false, error: 'Failed to retrieve notification token' };
+  } catch (error) {
+    console.error('Error requesting push notification permission:', error);
+    return { success: false, error: error?.message || 'Error requesting notification permission' };
+  }
+};
+
+/**
+ * Foreground Push Notification Listener
+ */
+export const onForegroundMessageListener = (callback) => {
+  getFirebaseMessaging().then((msg) => {
+    if (msg) {
+      onMessage(msg, (payload) => {
+        if (typeof callback === 'function') {
+          callback(payload);
+        }
+      });
+    }
+  });
 };
 
 export { onAuthStateChanged };

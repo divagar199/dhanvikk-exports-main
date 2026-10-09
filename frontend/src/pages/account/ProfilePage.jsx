@@ -30,9 +30,11 @@ import {
   Heart,
   Clock,
   ExternalLink,
-  ChevronRight
+  ChevronRight,
+  Bell,
 } from 'lucide-react';
 import { toast } from 'sonner';
+import { requestPushNotificationPermission } from '../../config/firebase';
 
 export default function ProfilePage() {
   const { user, isAuthenticated } = useSelector((state) => state.auth);
@@ -42,6 +44,37 @@ export default function ProfilePage() {
 
   const [isEditing, setIsEditing] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [pushLoading, setPushLoading] = useState(false);
+  const [pushEnabled, setPushEnabled] = useState(() => {
+    return Boolean(typeof window !== 'undefined' && localStorage.getItem('dhanvikk_fcm_token'));
+  });
+
+  const handleTogglePush = async (e) => {
+    const willEnable = e.target.checked;
+    if (!willEnable) {
+      localStorage.removeItem('dhanvikk_fcm_token');
+      setPushEnabled(false);
+      toast.info('Browser push notifications disabled.');
+      return;
+    }
+
+    setPushLoading(true);
+    try {
+      const res = await requestPushNotificationPermission();
+      if (res?.success && res?.token) {
+        setPushEnabled(true);
+        toast.success('Push notifications active! Device token linked to Firebase Cloud Messaging.');
+      } else {
+        setPushEnabled(false);
+        toast.error(res?.error || 'Could not enable push notifications.');
+      }
+    } catch {
+      setPushEnabled(false);
+      toast.error('Failed to enable push notifications.');
+    } finally {
+      setPushLoading(false);
+    }
+  };
   const [formData, setFormData] = useState({
     name: user?.name || '',
     phone: user?.phone || '',
@@ -445,6 +478,23 @@ export default function ProfilePage() {
                           type="checkbox"
                           defaultChecked
                           className="w-4 h-4 text-[#EC407A] rounded accent-[#EC407A] cursor-pointer"
+                        />
+                      </label>
+
+                      <label className="flex items-center justify-between p-3 rounded-xl bg-[#FAF7F2] border border-[#EFE7DE] cursor-pointer">
+                        <div className="pr-2">
+                          <div className="flex items-center gap-1.5">
+                            <Bell className="w-3.5 h-3.5 text-[#EC407A]" />
+                            <span className="font-semibold text-[#242124] block">Browser Web Push Notifications</span>
+                          </div>
+                          <span className="text-[11px] text-[#777777]">Instant delivery milestones & courier tracking on this browser</span>
+                        </div>
+                        <input
+                          type="checkbox"
+                          checked={pushEnabled}
+                          disabled={pushLoading}
+                          onChange={handleTogglePush}
+                          className="w-4 h-4 text-[#EC407A] rounded accent-[#EC407A] cursor-pointer disabled:opacity-50"
                         />
                       </label>
                     </div>

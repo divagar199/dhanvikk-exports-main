@@ -1,14 +1,15 @@
-import React, { lazy, Suspense } from 'react';
+import React, { lazy, Suspense, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { HelmetProvider } from 'react-helmet-async';
-import { Toaster } from 'sonner';
+import { Toaster, toast } from 'sonner';
 import { store } from './store';
 import { CurrencyProvider } from './context/CurrencyContext';
 import ProtectedRoute from './components/routes/ProtectedRoute';
 import RoleRoute from './components/routes/RoleRoute';
 import AdminEntryRoute from './components/routes/AdminEntryRoute';
 import Spinner from './components/common/Spinner';
+import { onForegroundMessageListener } from './config/firebase';
 
 // Lazy-loaded routes for performance & fast LCP
 const Home = lazy(() => import('./pages/home/HomePage'));
@@ -40,11 +41,22 @@ function RouteFallback() {
 }
 
 export default function App() {
+  useEffect(() => {
+    onForegroundMessageListener((payload) => {
+      const title = payload.notification?.title || payload.data?.title || 'Dhanvikk Blooms Update';
+      const body = payload.notification?.body || payload.data?.body || 'New order status notification.';
+      toast.info(title, {
+        description: body,
+      });
+    });
+  }, []);
+
   return (
     <Provider store={store}>
       <CurrencyProvider>
         <HelmetProvider>
           <BrowserRouter>
+
           {/* Sonner Toast Notifications */}
           <Toaster
             position="top-center"
