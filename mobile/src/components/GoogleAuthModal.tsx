@@ -19,7 +19,6 @@ import {
   ChevronRight,
   UserCheck,
   PlusCircle,
-  ExternalLink,
 } from 'lucide-react-native';
 import * as Haptics from 'expo-haptics';
 import { Colors, Spacing, Radius, Shadows } from '../theme';
@@ -29,7 +28,6 @@ import { useAuthStore } from '../store/authStore';
 import { useUIStore } from '../store/uiStore';
 import { useResponsive } from '../hooks/useResponsive';
 import { authStorage } from '../services/apiClient';
-import { GOOGLE_OAUTH_CLIENT_ID } from '../config/firebase';
 import { User } from '../types';
 
 const GOOGLE_G_LOGO =
@@ -54,7 +52,7 @@ export default function GoogleAuthModal({
   const [customEmail, setCustomEmail] = useState('');
   const [showCustomInput, setShowCustomInput] = useState(false);
   const [savedAccounts, setSavedAccounts] = useState<
-    Array<{ email: string; name: string }>
+    { email: string; name: string }[]
   >([]);
 
   const [loading, setLoading] = useState(false);
@@ -74,52 +72,65 @@ export default function GoogleAuthModal({
     };
   }, []);
 
+  const handleDismiss = () => {
+    if (loading) return;
+    setErrorMsg('');
+    setLoading(false);
+    setAuthStatus('');
+    onClose();
+  };
+
   // Load saved user email or initialize modal state
   useEffect(() => {
-    if (visible) {
-      setErrorMsg('');
-      setLoading(false);
-      setAuthStatus('');
+    if (!visible) return;
 
-      // Look up existing user from storage to offer 1-tap sign in
-      authStorage
-        .getItem('dhanvikk_user')
-        .then((raw) => {
-          const accounts: Array<{ email: string; name: string }> = [];
-          if (raw) {
-            try {
-              const parsed = JSON.parse(raw);
-              if (parsed?.email) {
-                accounts.push({
-                  email: parsed.email,
-                  name: parsed.name || parsed.email.split('@')[0],
-                });
-              }
-            } catch {
-              // Ignore parse error
+    // Look up existing user from storage to offer 1-tap sign in
+    authStorage
+      .getItem('dhanvikk_user')
+      .then((raw) => {
+        if (!isMountedRef.current) return;
+        setErrorMsg('');
+        setLoading(false);
+        setAuthStatus('');
+
+        const accounts: { email: string; name: string }[] = [];
+        if (raw) {
+          try {
+            const parsed = JSON.parse(raw);
+            if (parsed?.email) {
+              accounts.push({
+                email: parsed.email,
+                name: parsed.name || parsed.email.split('@')[0],
+              });
             }
+          } catch {
+            // Ignore parse error
           }
+        }
 
-          if (initialEmail && !accounts.some((a) => a.email === initialEmail)) {
-            accounts.unshift({
-              email: initialEmail,
-              name: initialName || initialEmail.split('@')[0],
-            });
-          }
+        if (initialEmail && !accounts.some((a) => a.email === initialEmail)) {
+          accounts.unshift({
+            email: initialEmail,
+            name: initialName || initialEmail.split('@')[0],
+          });
+        }
 
-          setSavedAccounts(accounts);
-          if (accounts.length > 0) {
-            setSelectedEmail(accounts[0].email);
-            setShowCustomInput(false);
-          } else {
-            setShowCustomInput(true);
-            setCustomEmail(initialEmail || '');
-          }
-        })
-        .catch(() => {
+        setSavedAccounts(accounts);
+        if (accounts.length > 0) {
+          setSelectedEmail(accounts[0].email);
+          setShowCustomInput(false);
+        } else {
           setShowCustomInput(true);
-        });
-    }
+          setCustomEmail(initialEmail || '');
+        }
+      })
+      .catch(() => {
+        if (!isMountedRef.current) return;
+        setErrorMsg('');
+        setLoading(false);
+        setAuthStatus('');
+        setShowCustomInput(true);
+      });
   }, [visible, initialEmail, initialName]);
 
   // Execute Google Authentication with Firebase & Cloud Firestore
@@ -196,9 +207,7 @@ export default function GoogleAuthModal({
       visible={visible}
       transparent
       animationType={isSheet ? 'slide' : 'fade'}
-      onRequestClose={() => {
-        if (!loading) onClose();
-      }}
+      onRequestClose={handleDismiss}
     >
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
@@ -207,9 +216,7 @@ export default function GoogleAuthModal({
         <TouchableOpacity
           style={styles.backdrop}
           activeOpacity={1}
-          onPress={() => {
-            if (!loading) onClose();
-          }}
+          onPress={handleDismiss}
         />
 
         <View
@@ -244,7 +251,7 @@ export default function GoogleAuthModal({
             </View>
 
             <TouchableOpacity
-              onPress={onClose}
+              onPress={handleDismiss}
               style={styles.closeBtn}
               hitSlop={{ top: 12, bottom: 12, left: 12, right: 12 }}
               disabled={loading}
