@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
 import {
   View,
   StyleSheet,
@@ -17,15 +17,15 @@ export default function SplashScreenComponent() {
   const navigatedRef = useRef(false);
 
   // Animated values initialized to full visibility - zero black screen latency
-  const logoScale = useRef(new Animated.Value(0.85)).current;
-  const haloScale = useRef(new Animated.Value(0.9)).current;
-  const contentOpacity = useRef(new Animated.Value(1)).current;
+  const [logoScale] = useState(() => new Animated.Value(0.85));
+  const [haloScale] = useState(() => new Animated.Value(0.9));
+  const [contentOpacity] = useState(() => new Animated.Value(1));
 
-  const navigateToHome = () => {
+  const navigateToHome = useCallback(() => {
     if (navigatedRef.current) return;
     navigatedRef.current = true;
     router.replace('/(tabs)/home');
-  };
+  }, [router]);
 
   useEffect(() => {
     const useDriver = Platform.OS !== 'web';
@@ -51,7 +51,7 @@ export default function SplashScreenComponent() {
     }, 750);
 
     return () => clearTimeout(timer);
-  }, []);
+  }, [logoScale, haloScale, navigateToHome]);
 
   return (
     <TouchableOpacity

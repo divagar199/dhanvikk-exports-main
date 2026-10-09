@@ -54,7 +54,7 @@ function ToastNotification() {
     } else {
       Animated.timing(anim, { toValue: 0, duration: 180, useNativeDriver: Platform.OS !== 'web' }).start();
     }
-  }, [toast]);
+  }, [toast, anim, translateY]);
 
   if (!toast) return null;
 
@@ -104,7 +104,6 @@ export default function RootLayout() {
     'Poppins-Bold': Poppins_700Bold,
   });
 
-  const [appReady, setAppReady] = useState(false);
   const { initAuth } = useAuthStore();
 
   useEffect(() => {
@@ -112,20 +111,20 @@ export default function RootLayout() {
   }, [initAuth]);
 
   useEffect(() => {
-    setAppReady(true);
-    SplashScreen.hideAsync().catch(() => {});
+    if (fontsLoaded || fontError) {
+      SplashScreen.hideAsync().catch(() => {});
+    }
   }, [fontsLoaded, fontError]);
 
   // Instant fallback: Hide native splash within 350ms regardless of font loader
   useEffect(() => {
     const timer = setTimeout(() => {
-      setAppReady(true);
       SplashScreen.hideAsync().catch(() => {});
     }, 350);
     return () => clearTimeout(timer);
   }, []);
 
-  if (!appReady && !fontsLoaded && !fontError) {
+  if (!fontsLoaded && !fontError) {
     return <Animated.View style={{ flex: 1, backgroundColor: '#FFF7F9' }} />;
   }
 
