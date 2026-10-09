@@ -32,6 +32,9 @@ export const loginUser = createAsyncThunk(
         if (fbErr.code === 'auth/wrong-password' || fbErr.code === 'auth/user-not-found' || fbErr.code === 'auth/invalid-credential') {
           return rejectWithValue('Invalid email or password. Please try again.');
         }
+        if (fbErr.code === 'auth/operation-not-allowed') {
+          return rejectWithValue('Email/Password sign-in is not yet enabled in Firebase Console for auth-checker-diva. Please enable it under Authentication > Sign-in method.');
+        }
       }
 
       // 2. Synchronize with Backend API (if available)
@@ -93,6 +96,9 @@ export const registerUser = createAsyncThunk(
         }
         if (fbErr.code === 'auth/weak-password') {
           return rejectWithValue('Password must be at least 6 characters.');
+        }
+        if (fbErr.code === 'auth/operation-not-allowed') {
+          return rejectWithValue('Email/Password registration is not yet enabled in Firebase Console for auth-checker-diva. Please enable it under Authentication > Sign-in method.');
         }
       }
 
