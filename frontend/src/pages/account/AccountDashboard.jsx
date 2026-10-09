@@ -140,8 +140,17 @@ export default function AccountDashboard() {
 
   // Check for session/token verification or load data on account page
   useEffect(() => {
+    const token =
+      typeof window !== 'undefined'
+        ? localStorage.getItem('dhanvikk_auth_token') || sessionStorage.getItem('dhanvikk_auth_token')
+        : null;
+
+    if (isAuthenticated || user || token) {
+      sessionStorage.removeItem('dhanvikk_logged_out');
+    }
+
     const isExplicitlyLoggedOut = sessionStorage.getItem('dhanvikk_logged_out') === 'true';
-    if (isExplicitlyLoggedOut) {
+    if (isExplicitlyLoggedOut && !isAuthenticated && !token) {
       setIsLoading(false);
       return;
     }
@@ -165,7 +174,7 @@ export default function AccountDashboard() {
     const key = encryptedKey || params.get('portalKey') || params.get('key');
     if (key) {
       handlePortalVerification(key);
-    } else if (isAuthenticated) {
+    } else if (isAuthenticated || token) {
       loadUserData();
     } else {
       setIsLoading(false);
@@ -405,7 +414,12 @@ export default function AccountDashboard() {
   }
 
   const activeUser = user || profileData;
-  if (!activeUser || !isAuthenticated) {
+  const token =
+    typeof window !== 'undefined'
+      ? localStorage.getItem('dhanvikk_auth_token') || sessionStorage.getItem('dhanvikk_auth_token')
+      : null;
+
+  if (!activeUser && !isAuthenticated && !token) {
     return <Navigate to="/login" state={{ from: location }} replace />;
   }
 

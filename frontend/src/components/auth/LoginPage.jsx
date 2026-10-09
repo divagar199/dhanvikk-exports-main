@@ -14,17 +14,32 @@ export default function LoginPage() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const { loading, error: authError } = useSelector((state) => state.auth);
+  const { isAuthenticated, user, loading, error: authError } = useSelector((state) => state.auth);
 
   // Target destination redirect (e.g. /checkout or /account)
-  const from =
+  const rawFrom =
     typeof location.state?.from === 'string'
       ? location.state.from
       : location.state?.from?.pathname || '/account';
 
+  const destination = (rawFrom && rawFrom !== '/login' && rawFrom !== '/register') ? rawFrom : '/account';
+
+  // Automatically redirect away from /login if already authenticated or session token exists
+  React.useEffect(() => {
+    const token =
+      typeof window !== 'undefined'
+        ? localStorage.getItem('dhanvikk_auth_token') || sessionStorage.getItem('dhanvikk_auth_token')
+        : null;
+
+    if (isAuthenticated || (user && token)) {
+      navigate(destination, { replace: true });
+    }
+  }, [isAuthenticated, user, destination, navigate]);
+
   // Form submission handler
   const handleLoginSubmit = async (data) => {
     dispatch(clearAuthError());
+    sessionStorage.removeItem('dhanvikk_logged_out');
     try {
       const resultAction = await dispatch(
         loginUser({
@@ -36,11 +51,11 @@ export default function LoginPage() {
 
       if (loginUser.fulfilled.match(resultAction)) {
         toast.success('Welcome back to Dhanvikk Blooms & Exports 🌸');
-        const user = resultAction.payload.user;
-        if (user.role === 'admin' || user.role === 'super_admin') {
+        const userObj = resultAction.payload.user;
+        if (userObj?.role === 'admin' || userObj?.role === 'super_admin') {
           navigate('/admin/dashboard', { replace: true });
         } else {
-          navigate(from || '/account', { replace: true });
+          navigate(destination, { replace: true });
         }
       } else {
         toast.error(resultAction.payload || 'Unable to sign in. Please check your credentials.');
@@ -53,6 +68,7 @@ export default function LoginPage() {
   // Google OAuth flow (instant)
   const handleGoogleLogin = async () => {
     dispatch(clearAuthError());
+    sessionStorage.removeItem('dhanvikk_logged_out');
     try {
       const resultAction = await dispatch(loginWithGoogleThunk());
       if (loginWithGoogleThunk.fulfilled.match(resultAction)) {
@@ -62,7 +78,7 @@ export default function LoginPage() {
         }
         const loggedUser = resultAction.payload?.user;
         toast.success(`Welcome, ${loggedUser?.name || loggedUser?.email || 'Valued Customer'}! 🌸`);
-        navigate(from || '/account', { replace: true });
+        navigate(destination, { replace: true });
       } else {
         const errMsg = resultAction.payload || 'Unable to sign in with Google. Please try again.';
         if (errMsg.includes('canceled')) {
