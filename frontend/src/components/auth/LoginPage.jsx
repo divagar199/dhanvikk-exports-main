@@ -68,12 +68,24 @@ export default function LoginPage() {
           }
         }, 120);
       } else {
-        toast.error(resultAction.payload || 'Unable to sign in. Please check your credentials.');
+        const payload = resultAction.payload;
+        if (
+          payload?.code === 'USER_NOT_FOUND' ||
+          (typeof payload === 'string' && (payload.toLowerCase().includes('not found') || payload.toLowerCase().includes('register')))
+        ) {
+          toast.info('Account not found in our database. Redirecting you to register... 🌸', { duration: 3500 });
+          setTimeout(() => {
+            navigate('/register', { state: { prefillEmail: data.email } });
+          }, 800);
+          return;
+        }
+        toast.error(typeof payload === 'string' ? payload : (payload?.message || 'Unable to sign in. Please check your credentials.'));
       }
     } catch {
       toast.error('An unexpected error occurred. Please try again.');
     }
   };
+
 
   // Google OAuth flow (instant)
   const handleGoogleLogin = async () => {

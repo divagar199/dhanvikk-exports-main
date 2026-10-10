@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import SEO from '../../components/common/SEO';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'sonner';
 import {
@@ -46,6 +46,8 @@ const PRESET_CITIES = {
 export default function Register() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
+  const prefillEmail = location.state?.prefillEmail || new URLSearchParams(location.search).get('email') || '';
   const { isAuthenticated, user, loading: authLoading, error: authError } = useSelector((state) => state.auth);
 
   // Automatically redirect away from /register if already authenticated
@@ -68,7 +70,7 @@ export default function Register() {
 
   const [formData, setFormData] = useState({
     name: '',
-    email: '',
+    email: prefillEmail,
     password: '',
     countryCode: '+971',
     phone: '',
@@ -80,6 +82,15 @@ export default function Register() {
     postalCode: '',
     addressType: 'Primary Residence',
   });
+
+  React.useEffect(() => {
+    if (prefillEmail) {
+      setFormData((prev) => ({
+        ...prev,
+        email: prev.email || prefillEmail,
+      }));
+    }
+  }, [prefillEmail]);
 
   const [formErrors, setFormErrors] = useState({});
 

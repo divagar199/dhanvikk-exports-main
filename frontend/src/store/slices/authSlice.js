@@ -58,10 +58,24 @@ export const loginUser = createAsyncThunk(
             token: firebaseToken,
           };
         } else {
-          const errMsg = apiErr?.userMessage || apiErr?.response?.data?.message || 'Invalid email or password. Please try again.';
+          const isUserNotFound =
+            apiErr?.response?.data?.code === 'USER_NOT_FOUND' ||
+            apiErr?.response?.status === 404 ||
+            (apiErr?.response?.data?.message && apiErr.response.data.message.toLowerCase().includes('register'));
+
+          if (isUserNotFound) {
+            return rejectWithValue({
+              code: 'USER_NOT_FOUND',
+              message: 'Account not found in database. Please register to create your account.',
+              email,
+            });
+          }
+
+          const errMsg = apiErr?.response?.data?.message || apiErr?.userMessage || 'Invalid email or password. Please try again.';
           return rejectWithValue(errMsg);
         }
       }
+
 
       if (data?.success) {
         const userObj = firebaseUser || data.user;

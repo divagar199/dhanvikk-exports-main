@@ -105,6 +105,14 @@ export default function LoginScreen() {
     } catch (err: any) {
       setLoading(false);
       setAuthStatus('');
+      if (err?.response?.data?.code === 'USER_NOT_FOUND') {
+        showToast('Account not found in our database. Redirecting to Register...', 'info');
+        router.push({
+          pathname: '/auth/register',
+          params: { email: cleanEmail },
+        });
+        return;
+      }
       const friendly =
         err?.response?.data?.message ||
         err?.friendlyMessage ||

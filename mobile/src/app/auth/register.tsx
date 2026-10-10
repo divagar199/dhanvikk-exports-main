@@ -8,7 +8,7 @@ import {
   KeyboardAvoidingView,
   Platform,
 } from 'react-native';
-import { useRouter } from 'expo-router';
+import { useRouter, useLocalSearchParams } from 'expo-router';
 import { Image } from 'expo-image';
 import { ArrowLeft, Mail, Lock, User, Phone, MapPin } from 'lucide-react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -24,11 +24,12 @@ import { useUIStore } from '../../store/uiStore';
 
 export default function RegisterScreen() {
   const router = useRouter();
+  const params = useLocalSearchParams<{ email?: string }>();
   const { setAuth } = useAuthStore();
   const { showToast } = useUIStore();
 
   const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState(params.email || '');
   const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
   const [street, setStreet] = useState('');
