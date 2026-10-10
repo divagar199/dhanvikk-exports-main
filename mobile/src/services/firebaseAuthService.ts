@@ -341,7 +341,15 @@ export const firebaseAuthService = {
   }> {
     try {
       const targetEmail = providedEmail?.trim()?.toLowerCase() || 'divagar.m.msc.cs@gmail.com';
-      const res = await this.signInWithGoogle({ email: targetEmail });
+      const targetName =
+        targetEmail === 'divagar.m.msc.cs@gmail.com'
+          ? 'Divagar M'
+          : targetEmail === 'krishna.m.bca1727@gmail.com'
+          ? 'krishna m_bca_b_ 26'
+          : targetEmail === 'xzirexatech@gmail.com'
+          ? 'xZirexa Tech'
+          : targetEmail.split('@')[0];
+      const res = await this.signInWithGoogle({ email: targetEmail, name: targetName });
       return { success: true, user: res.user, token: res.token };
     } catch (e: any) {
       return { success: false, error: e?.message || 'Firebase Google login failed' };

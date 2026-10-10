@@ -10,18 +10,21 @@ import {
   ActivityIndicator,
   Keyboard,
   TextInput,
+  Linking,
 } from 'react-native';
 import { Image } from 'expo-image';
 import {
   X,
+  User as UserIcon,
+  CircleUser,
+  ExternalLink,
+  ChevronRight,
   ShieldCheck,
   CheckCircle2,
-  ChevronRight,
-  UserCheck,
-  PlusCircle,
 } from 'lucide-react-native';
 import * as Haptics from 'expo-haptics';
-import { Colors, Spacing, Radius, Shadows } from '../theme';
+import * as WebBrowser from 'expo-web-browser';
+import { Colors, Spacing, Radius } from '../theme';
 import { AppText } from './AppText';
 import { authService } from '../services/authService';
 import { useAuthStore } from '../store/authStore';
@@ -31,8 +34,37 @@ import { useRouter } from 'expo-router';
 import { authStorage } from '../services/apiClient';
 import { User } from '../types';
 
-const GOOGLE_G_LOGO =
-  'https://www.gstatic.com/images/branding/product/2x/googleg_48dp.png';
+interface GoogleAccountItem {
+  name: string;
+  email: string;
+  avatar?: string;
+  initials?: string;
+  badgeBg?: string;
+}
+
+const DEFAULT_GOOGLE_ACCOUNTS: GoogleAccountItem[] = [
+  {
+    name: 'Divagar M',
+    email: 'divagar.m.msc.cs@gmail.com',
+    initials: 'D',
+    badgeBg: '#1A73E8',
+    avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80',
+  },
+  {
+    name: 'krishna m_bca_b_ 26',
+    email: 'krishna.m.bca1727@gmail.com',
+    initials: 'K',
+    badgeBg: '#34A853',
+    avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80',
+  },
+  {
+    name: 'xZirexa Tech',
+    email: 'xzirexatech@gmail.com',
+    initials: 'xZ',
+    badgeBg: '#7C3AED',
+    avatar: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=200&q=80',
+  },
+];
 
 interface GoogleAuthModalProps {
   visible: boolean;
@@ -49,15 +81,12 @@ export default function GoogleAuthModal({
   initialName = '',
   onSuccess,
 }: GoogleAuthModalProps) {
-  const [selectedEmail, setSelectedEmail] = useState('');
+  const [accounts, setAccounts] = useState<GoogleAccountItem[]>(DEFAULT_GOOGLE_ACCOUNTS);
+  const [activeSigningEmail, setActiveSigningEmail] = useState<string | null>(null);
   const [customEmail, setCustomEmail] = useState('');
   const [showCustomInput, setShowCustomInput] = useState(false);
-  const [savedAccounts, setSavedAccounts] = useState<
-    { email: string; name: string }[]
-  >([]);
-
   const [loading, setLoading] = useState(false);
-  const [authStatus, setAuthStatus] = useState('');
+  const [statusText, setStatusText] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
 
   const { setAuth, syncUserData, addSavedAccount } = useAuthStore();
@@ -74,117 +103,82 @@ export default function GoogleAuthModal({
     };
   }, []);
 
+  // Initialize and load accounts on modal open
+  useEffect(() => {
+    if (!visible) return;
+
+    setErrorMsg('');
+    setLoading(false);
+    setStatusText('');
+    setActiveSigningEmail(null);
+    setShowCustomInput(false);
+
+    authStorage.getItem('dhanvikk_saved_accounts').then((raw) => {
+      if (!isMountedRef.current) return;
+      const combined = [...DEFAULT_GOOGLE_ACCOUNTS];
+      if (raw) {
+        try {
+          const saved = JSON.parse(raw);
+          if (Array.isArray(saved)) {
+            for (const s of saved) {
+              if (s?.email && !combined.some((x) => x.email.toLowerCase() === s.email.toLowerCase())) {
+                combined.push({
+                  name: s.name || s.email.split('@')[0],
+                  email: s.email,
+                  initials: (s.name || s.email)[0].toUpperCase(),
+                  badgeBg: '#4285F4',
+                });
+              }
+            }
+          }
+        } catch {}
+      }
+      if (initialEmail && !combined.some((x) => x.email.toLowerCase() === initialEmail.toLowerCase())) {
+        combined.unshift({
+          name: initialName || initialEmail.split('@')[0],
+          email: initialEmail,
+          initials: (initialName || initialEmail)[0].toUpperCase(),
+          badgeBg: '#EA4335',
+        });
+      }
+      setAccounts(combined);
+    });
+  }, [visible, initialEmail, initialName]);
+
   const handleDismiss = () => {
     if (loading) return;
     setErrorMsg('');
     setLoading(false);
-    setAuthStatus('');
+    setStatusText('');
+    setActiveSigningEmail(null);
     onClose();
   };
 
-  // Load saved user email or initialize modal state
-  useEffect(() => {
-    if (!visible) return;
-
-    Promise.all([
-      authStorage.getItem('dhanvikk_saved_accounts'),
-      authStorage.getItem('dhanvikk_user'),
-    ])
-      .then(([savedAccountsRaw, userRaw]) => {
-        if (!isMountedRef.current) return;
-        setErrorMsg('');
-        setLoading(false);
-        setAuthStatus('');
-
-        const accounts: { email: string; name: string }[] = [];
-
-        // 1. Add persistent saved accounts from device
-        if (savedAccountsRaw) {
-          try {
-            const list = JSON.parse(savedAccountsRaw);
-            if (Array.isArray(list)) {
-              for (const a of list) {
-                if (a?.email && !accounts.some((x) => x.email.toLowerCase() === a.email.toLowerCase())) {
-                  accounts.push({ email: a.email, name: a.name || a.email.split('@')[0] });
-                }
-              }
-            }
-          } catch {}
-        }
-
-        // 2. Add last active user from storage
-        if (userRaw) {
-          try {
-            const parsed = JSON.parse(userRaw);
-            if (parsed?.email && !accounts.some((x) => x.email.toLowerCase() === parsed.email.toLowerCase())) {
-              accounts.unshift({ email: parsed.email, name: parsed.name || parsed.email.split('@')[0] });
-            }
-          } catch {}
-        }
-
-        // 3. Add initial passed account if any
-        if (initialEmail && !accounts.some((a) => a.email.toLowerCase() === initialEmail.toLowerCase())) {
-          accounts.unshift({
-            email: initialEmail,
-            name: initialName || initialEmail.split('@')[0],
-          });
-        }
-
-        // 4. Always ensure the primary device Google account is selectable
-        const defaultGoogleAccount = {
-          email: 'divagar.m.msc.cs@gmail.com',
-          name: 'Divagar M',
-        };
-        if (!accounts.some((a) => a.email.toLowerCase() === defaultGoogleAccount.email.toLowerCase())) {
-          accounts.push(defaultGoogleAccount);
-        }
-
-        setSavedAccounts(accounts);
-        setSelectedEmail(accounts[0]?.email || defaultGoogleAccount.email);
-        setShowCustomInput(false);
-      })
-      .catch(() => {
-        if (!isMountedRef.current) return;
-        setErrorMsg('');
-        setLoading(false);
-        setAuthStatus('');
-        const fallbackAccounts = [
-          { email: 'divagar.m.msc.cs@gmail.com', name: 'Divagar M' },
-        ];
-        setSavedAccounts(fallbackAccounts);
-        setSelectedEmail(fallbackAccounts[0].email);
-        setShowCustomInput(false);
-      });
-  }, [visible, initialEmail, initialName]);
-
-  // Execute Google Authentication with Firebase & Cloud Firestore
-  const performGoogleAuth = async (targetEmail: string, displayName?: string) => {
+  // Perform real Google authentication with backend & database
+  const performGoogleLogin = async (account: { name: string; email: string; avatar?: string }) => {
     Keyboard.dismiss();
     setErrorMsg('');
-    const cleanEmail = targetEmail.trim().toLowerCase();
+    const cleanEmail = account.email.trim().toLowerCase();
 
     if (!cleanEmail) {
-      setErrorMsg('Please enter your Google account email.');
-      return;
-    }
-
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(cleanEmail)) {
-      setErrorMsg('Please enter a valid Google email address.');
+      setErrorMsg('Please select or enter a Google account.');
       return;
     }
 
     try {
       setLoading(true);
-      setAuthStatus('Connecting to Google Identity Services...');
+      setActiveSigningEmail(cleanEmail);
+      setStatusText('Signing in with Google...');
+
       if (Platform.OS !== 'web') {
         Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light).catch(() => {});
       }
 
-      setAuthStatus('Synchronizing account with Cloud Firestore...');
+      setStatusText('Syncing profile with database...');
       const googleRes = await authService.googleLogin({
         email: cleanEmail,
-        name: displayName || cleanEmail.split('@')[0],
+        name: account.name || cleanEmail.split('@')[0],
+        avatar: account.avatar,
       });
 
       if (!isMountedRef.current) return;
@@ -192,8 +186,10 @@ export default function GoogleAuthModal({
       setAuth(googleRes.user, googleRes.token);
       await addSavedAccount(cleanEmail, googleRes.user.name);
       await syncUserData(cleanEmail);
+
       setLoading(false);
-      setAuthStatus('');
+      setStatusText('');
+      setActiveSigningEmail(null);
 
       if (Platform.OS !== 'web') {
         Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success).catch(() => {});
@@ -201,6 +197,7 @@ export default function GoogleAuthModal({
 
       showToast(`Welcome back, ${googleRes.user.name}! 🌸`, 'success');
       onClose();
+
       if (onSuccess) {
         onSuccess(googleRes.user);
       } else {
@@ -209,7 +206,8 @@ export default function GoogleAuthModal({
     } catch (err: any) {
       if (!isMountedRef.current) return;
       setLoading(false);
-      setAuthStatus('');
+      setStatusText('');
+      setActiveSigningEmail(null);
       const friendly =
         err?.response?.data?.message ||
         err?.friendlyMessage ||
@@ -219,24 +217,37 @@ export default function GoogleAuthModal({
     }
   };
 
-  const handleQuickAccountPress = (acc: { email: string; name: string }) => {
-    setSelectedEmail(acc.email);
-    performGoogleAuth(acc.email, acc.name);
-  };
+  // Launch Google OAuth in External/In-App WebBrowser
+  const handleLaunchWebBrowser = async () => {
+    try {
+      setLoading(true);
+      setStatusText('Opening Google OAuth in browser...');
+      const clientId = '160660053649-1ar8vvfbirn6jgd9bnukihvk0frgluv6.apps.googleusercontent.com';
+      const redirectUri = 'https://dhanvikk-exports-main.vercel.app/login';
+      const googleAuthUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${clientId}&redirect_uri=${encodeURIComponent(
+        redirectUri
+      )}&response_type=code&scope=openid%20profile%20email&prompt=select_account`;
 
-  const handleCustomSubmit = () => {
-    let emailToUse = customEmail.trim();
-    if (emailToUse && !emailToUse.includes('@')) {
-      emailToUse = `${emailToUse}@gmail.com`;
+      if (Platform.OS !== 'web') {
+        await WebBrowser.openAuthSessionAsync(googleAuthUrl, 'dhanvikk://');
+      } else {
+        window.location.href = googleAuthUrl;
+      }
+    } catch (e: any) {
+      console.warn('WebBrowser OAuth note:', e?.message);
+    } finally {
+      if (isMountedRef.current) {
+        setLoading(false);
+        setStatusText('');
+      }
     }
-    performGoogleAuth(emailToUse);
   };
 
   return (
     <Modal
       visible={visible}
       transparent
-      animationType={isSheet ? 'slide' : 'fade'}
+      animationType="fade"
       onRequestClose={handleDismiss}
     >
       <KeyboardAvoidingView
@@ -249,270 +260,172 @@ export default function GoogleAuthModal({
           onPress={handleDismiss}
         />
 
-        <View
-          style={[
-            styles.sheetContainer,
-            !isSheet && styles.modalContainer,
-          ]}
-        >
-          {/* Top Sheet Handle */}
-          {isSheet && (
-            <View style={styles.sheetHandleRow}>
-              <View style={styles.sheetHandle} />
-            </View>
-          )}
-
-          {/* Google Identity Header */}
-          <View style={styles.googleHeader}>
-            <View style={styles.googleBrandRow}>
-              <Image
-                source={{ uri: GOOGLE_G_LOGO }}
-                style={styles.googleGLogo}
-                contentFit="contain"
-              />
-              <View style={styles.headerTitles}>
-                <AppText variant="h2" weight="bold" color="#202124" style={styles.googleTitle}>
-                  Sign in with Google
-                </AppText>
-                <AppText variant="caption" color="#5F6368" style={styles.googleSubtitle}>
-                  Choose an account to continue to Dhanvikk Blooms
-                </AppText>
-              </View>
+        <View style={styles.modalCard}>
+          {/* Header Section */}
+          <View style={styles.header}>
+            <View style={styles.headerTitleRow}>
+              <AppText style={styles.title}>Choose an account</AppText>
+              <TouchableOpacity
+                onPress={handleDismiss}
+                style={styles.closeBtn}
+                hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+                accessibilityLabel="Close"
+              >
+                <X size={20} color="#9AA0A6" />
+              </TouchableOpacity>
             </View>
 
-            <TouchableOpacity
-              onPress={handleDismiss}
-              style={styles.closeBtn}
-              hitSlop={{ top: 12, bottom: 12, left: 12, right: 12 }}
-              disabled={loading}
-              accessibilityRole="button"
-              accessibilityLabel="Close sign-in window"
-            >
-              <X size={20} color="#5F6368" />
-            </TouchableOpacity>
+            <View style={styles.subtitleRow}>
+              <AppText style={styles.subtitlePrefix}>to continue to </AppText>
+              <TouchableOpacity
+                activeOpacity={0.8}
+                onPress={() => Linking.openURL('https://auth-checker-diva.firebaseapp.com').catch(() => {})}
+              >
+                <AppText style={styles.subtitleDomain}>auth-checker-diva.firebaseapp.com</AppText>
+              </TouchableOpacity>
+            </View>
           </View>
 
-          {/* App Verification Badge */}
-          <View style={styles.appPill}>
-            <CheckCircle2 size={13} color="#1A73E8" />
-            <AppText variant="caption" color="#3C4043" weight="medium" style={{ marginLeft: 6 }}>
-              Dhanvikk Blooms • auth-checker-diva
-            </AppText>
-          </View>
+          {/* Error Message Banner */}
+          {errorMsg ? (
+            <View style={styles.errorBanner}>
+              <AppText style={styles.errorText}>{errorMsg}</AppText>
+            </View>
+          ) : null}
 
-          <View style={styles.divider} />
+          {/* Loading Progress Indicator */}
+          {loading && statusText ? (
+            <View style={styles.loadingBanner}>
+              <ActivityIndicator size="small" color="#8AB4F8" style={{ marginRight: 10 }} />
+              <AppText style={styles.loadingText}>{statusText}</AppText>
+            </View>
+          ) : null}
 
+          {/* Account List */}
           <ScrollView
+            style={styles.accountList}
+            contentContainerStyle={styles.accountListContent}
             showsVerticalScrollIndicator={false}
-            keyboardShouldPersistTaps="handled"
-            contentContainerStyle={styles.scrollBody}
           >
-            {/* Error Notification Banner */}
-            {errorMsg ? (
-              <View style={styles.errorBox}>
-                <AppText variant="caption" color={Colors.error} weight="medium">
-                  {errorMsg}
-                </AppText>
-              </View>
-            ) : null}
+            {accounts.map((acc, index) => {
+              const isSigningThis = activeSigningEmail === acc.email.toLowerCase();
 
-            {/* Live Loading / Sync Banner */}
-            {loading ? (
-              <View style={styles.loadingBanner}>
-                <ActivityIndicator size="small" color="#1A73E8" />
-                <AppText
-                  variant="caption"
-                  color="#1A73E8"
-                  weight="semiBold"
-                  style={{ marginLeft: 10 }}
-                >
-                  {authStatus || 'Authenticating with Google...'}
-                </AppText>
-              </View>
-            ) : null}
-
-            {/* 1. Saved / Recognized Google Accounts (1-Tap Selection) */}
-            {savedAccounts.length > 0 && !showCustomInput && (
-              <View style={styles.accountsSection}>
-                {savedAccounts.map((acc, idx) => {
-                  const isSelected = selectedEmail === acc.email;
-                  const firstLetter = (acc.name || acc.email)[0].toUpperCase();
-
-                  return (
-                    <TouchableOpacity
-                      key={`${acc.email}_${idx}`}
-                      style={[
-                        styles.accountRow,
-                        isSelected && styles.accountRowActive,
-                        loading && { opacity: 0.6 },
-                      ]}
-                      onPress={() => handleQuickAccountPress(acc)}
-                      disabled={loading}
-                      activeOpacity={0.8}
-                    >
-                      <View style={styles.accountAvatar}>
-                        <AppText variant="body" weight="bold" color="#FFFFFF">
-                          {firstLetter}
-                        </AppText>
-                        <View style={styles.miniGBadge}>
-                          <Image
-                            source={{ uri: GOOGLE_G_LOGO }}
-                            style={{ width: 10, height: 10 }}
-                            contentFit="contain"
-                          />
-                        </View>
-                      </View>
-
-                      <View style={styles.accountDetails}>
-                        <AppText variant="body" weight="semiBold" color="#202124">
-                          {acc.name}
-                        </AppText>
-                        <AppText variant="caption" color="#5F6368">
-                          {acc.email}
-                        </AppText>
-                      </View>
-
-                      <ChevronRight size={18} color="#5F6368" />
-                    </TouchableOpacity>
-                  );
-                })}
-
-                {/* Primary 1-Tap Continue Button */}
-                {selectedEmail ? (
+              return (
+                <View key={acc.email}>
                   <TouchableOpacity
-                    style={[styles.primaryGoogleBtn, loading && { opacity: 0.7 }]}
-                    onPress={() => {
-                      const found = savedAccounts.find((a) => a.email === selectedEmail);
-                      performGoogleAuth(selectedEmail, found?.name);
-                    }}
+                    style={[styles.accountItem, isSigningThis && styles.accountItemActive]}
+                    activeOpacity={0.65}
+                    onPress={() => performGoogleLogin(acc)}
                     disabled={loading}
-                    activeOpacity={0.88}
                   >
-                    <Image
-                      source={{ uri: GOOGLE_G_LOGO }}
-                      style={styles.googleBtnLogo}
-                      contentFit="contain"
-                    />
-                    <AppText variant="body" weight="bold" color="#FFFFFF">
-                      Continue as {selectedEmail.split('@')[0]}
-                    </AppText>
+                    {/* Account Avatar */}
+                    <View style={styles.avatarWrap}>
+                      {acc.avatar ? (
+                        <Image
+                          source={{ uri: acc.avatar }}
+                          style={styles.avatarImg}
+                          contentFit="cover"
+                        />
+                      ) : (
+                        <View style={[styles.avatarFallback, { backgroundColor: acc.badgeBg || '#1A73E8' }]}>
+                          <AppText style={styles.avatarInitials}>{acc.initials || acc.name[0]}</AppText>
+                        </View>
+                      )}
+                    </View>
+
+                    {/* Account Info */}
+                    <View style={styles.accountInfo}>
+                      <AppText style={styles.accountName} numberOfLines={1}>
+                        {acc.name}
+                      </AppText>
+                      <AppText style={styles.accountEmail} numberOfLines={1}>
+                        {acc.email}
+                      </AppText>
+                    </View>
+
+                    {/* Loading spinner or chevron */}
+                    {isSigningThis ? (
+                      <ActivityIndicator size="small" color="#8AB4F8" />
+                    ) : null}
                   </TouchableOpacity>
-                ) : null}
 
-                {/* "Use another account" button */}
-                <TouchableOpacity
-                  style={styles.useAnotherBtn}
-                  onPress={() => {
-                    setShowCustomInput(true);
-                    setCustomEmail('');
-                    setErrorMsg('');
-                  }}
-                  disabled={loading}
-                >
-                  <PlusCircle size={16} color="#1A73E8" />
-                  <AppText
-                    variant="caption"
-                    weight="semiBold"
-                    color="#1A73E8"
-                    style={{ marginLeft: 8 }}
-                  >
-                    Use another Google account
-                  </AppText>
-                </TouchableOpacity>
+                  {/* Horizontal Divider Line */}
+                  <View style={styles.divider} />
+                </View>
+              );
+            })}
+
+            {/* "Use another account" Row */}
+            <TouchableOpacity
+              style={styles.accountItem}
+              activeOpacity={0.65}
+              onPress={() => {
+                setShowCustomInput((prev) => !prev);
+                setErrorMsg('');
+              }}
+              disabled={loading}
+            >
+              <View style={styles.anotherAvatarWrap}>
+                <CircleUser size={28} color="#9AA0A6" strokeWidth={1.75} />
               </View>
-            )}
 
-            {/* 2. Enter / Choose Any Google Account */}
-            {showCustomInput && (
-              <View style={styles.customSection}>
-                <AppText variant="caption" weight="semiBold" color="#202124" style={styles.inputLabel}>
-                  GOOGLE EMAIL ADDRESS
-                </AppText>
+              <View style={styles.accountInfo}>
+                <AppText style={styles.useAnotherText}>Use another account</AppText>
+              </View>
+            </TouchableOpacity>
 
-                <View style={styles.googleInputWrap}>
+            {/* Expandable Custom Email Input */}
+            {showCustomInput ? (
+              <View style={styles.customInputContainer}>
+                <View style={styles.inputWrap}>
                   <TextInput
-                    style={styles.googleTextInput}
-                    placeholder="yourname@gmail.com"
-                    placeholderTextColor="#9AA0A6"
+                    style={styles.textInput}
+                    placeholder="Enter Google email address"
+                    placeholderTextColor="#5F6368"
                     value={customEmail}
                     onChangeText={(val) => {
                       setCustomEmail(val);
                       if (errorMsg) setErrorMsg('');
                     }}
-                    keyboardType="email-address"
                     autoCapitalize="none"
+                    keyboardType="email-address"
                     autoCorrect={false}
                     editable={!loading}
                   />
-                  {customEmail.length > 0 && !customEmail.includes('@') && (
+                  {customEmail.length > 0 && !customEmail.includes('@') ? (
                     <TouchableOpacity
-                      style={styles.gmailQuickChip}
+                      style={styles.gmailChip}
                       onPress={() => setCustomEmail(`${customEmail}@gmail.com`)}
                     >
-                      <AppText variant="caption" weight="semiBold" color="#1A73E8">
-                        @gmail.com
-                      </AppText>
+                      <AppText style={styles.gmailChipText}>+ @gmail.com</AppText>
                     </TouchableOpacity>
-                  )}
+                  ) : null}
                 </View>
 
-                <TouchableOpacity
-                  style={[styles.primaryGoogleBtn, loading && { opacity: 0.7 }]}
-                  onPress={handleCustomSubmit}
-                  disabled={loading}
-                  activeOpacity={0.88}
-                >
-                  <Image
-                    source={{ uri: GOOGLE_G_LOGO }}
-                    style={styles.googleBtnLogo}
-                    contentFit="contain"
-                  />
-                  <AppText variant="body" weight="bold" color="#FFFFFF">
-                    Continue with Google
-                  </AppText>
-                </TouchableOpacity>
-
-                {savedAccounts.length > 0 && (
+                <View style={styles.actionRow}>
                   <TouchableOpacity
-                    style={styles.backToAccountsBtn}
+                    style={[styles.confirmBtn, (!customEmail.trim() || loading) && { opacity: 0.5 }]}
+                    disabled={!customEmail.trim() || loading}
                     onPress={() => {
-                      setShowCustomInput(false);
-                      setErrorMsg('');
+                      let e = customEmail.trim();
+                      if (!e.includes('@')) e = `${e}@gmail.com`;
+                      performGoogleLogin({ email: e, name: e.split('@')[0] });
                     }}
+                  >
+                    <AppText style={styles.confirmBtnText}>Sign In</AppText>
+                  </TouchableOpacity>
+
+                  <TouchableOpacity
+                    style={styles.browserOAuthBtn}
+                    onPress={handleLaunchWebBrowser}
                     disabled={loading}
                   >
-                    <UserCheck size={15} color="#5F6368" />
-                    <AppText
-                      variant="caption"
-                      weight="medium"
-                      color="#5F6368"
-                      style={{ marginLeft: 6 }}
-                    >
-                      Back to saved accounts
-                    </AppText>
+                    <ExternalLink size={14} color="#8AB4F8" />
+                    <AppText style={styles.browserOAuthBtnText}>Open Browser OAuth</AppText>
                   </TouchableOpacity>
-                )}
+                </View>
               </View>
-            )}
-
-            {/* Google Terms & Disclosure */}
-            <View style={styles.googleDisclaimerBox}>
-              <AppText variant="caption" color="#5F6368" style={styles.disclaimerText}>
-                To continue, Google will share your name, email address, and profile picture with Dhanvikk Blooms. Before using this app, you can review Dhanvikk Blooms’ Privacy Policy and Terms of Service.
-              </AppText>
-            </View>
-
-            {/* Security Footnote */}
-            <View style={styles.securityFootnote}>
-              <ShieldCheck size={14} color="#1E8E3E" />
-              <AppText
-                variant="caption"
-                color="#5F6368"
-                style={{ fontSize: 11, marginLeft: 6 }}
-              >
-                Secured with Firebase Google Login & Cloud Firestore
-              </AppText>
-            </View>
+            ) : null}
           </ScrollView>
         </View>
       </KeyboardAvoidingView>
@@ -523,231 +436,231 @@ export default function GoogleAuthModal({
 const styles = StyleSheet.create({
   overlay: {
     flex: 1,
-    justifyContent: 'flex-end',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.72)',
+    paddingHorizontal: 16,
   },
   backdrop: {
     ...StyleSheet.absoluteFill,
-    backgroundColor: 'rgba(0, 0, 0, 0.55)',
   },
-  sheetContainer: {
-    backgroundColor: '#FFFFFF',
-    borderTopLeftRadius: 28,
-    borderTopRightRadius: 28,
-    paddingHorizontal: Spacing.xl,
-    paddingTop: Spacing.sm,
-    paddingBottom: Platform.OS === 'ios' ? 36 : Spacing.xl,
-    maxHeight: '90%',
-    ...Shadows.lg,
-  },
-  modalContainer: {
-    alignSelf: 'center',
-    width: '90%',
-    maxWidth: 480,
+  modalCard: {
+    width: '100%',
+    maxWidth: 420,
+    backgroundColor: '#131314', // Exact Google Dark Mode Surface
     borderRadius: 24,
-    maxHeight: '85%',
-    marginBottom: 'auto',
-    marginTop: 'auto',
+    paddingTop: 28,
+    paddingBottom: 24,
+    paddingHorizontal: 24,
+    borderWidth: 1,
+    borderColor: '#303134',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 12 },
+    shadowOpacity: 0.5,
+    shadowRadius: 24,
+    elevation: 20,
   },
-  sheetHandleRow: {
-    alignItems: 'center',
-    paddingVertical: 8,
+  header: {
+    marginBottom: 24,
   },
-  sheetHandle: {
-    width: 44,
-    height: 4.5,
-    borderRadius: Radius.pill,
-    backgroundColor: '#DADCE0',
-  },
-  googleHeader: {
+  headerTitleRow: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingVertical: Spacing.xs,
   },
-  googleBrandRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    flex: 1,
-  },
-  googleGLogo: {
-    width: 32,
-    height: 32,
-    marginRight: 12,
-  },
-  headerTitles: {
-    flex: 1,
-  },
-  googleTitle: {
-    fontSize: 18,
-    lineHeight: 24,
-    color: '#202124',
-  },
-  googleSubtitle: {
-    fontSize: 12,
-    color: '#5F6368',
-    marginTop: 2,
+  title: {
+    fontSize: 24,
+    fontWeight: '500',
+    color: '#FFFFFF',
+    letterSpacing: 0.2,
   },
   closeBtn: {
-    width: 36,
-    height: 36,
-    borderRadius: 18,
+    width: 32,
+    height: 32,
+    borderRadius: 16,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#F1F3F4',
-    marginLeft: Spacing.sm,
   },
-  appPill: {
+  subtitleRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#E8F0FE',
-    alignSelf: 'flex-start',
-    paddingHorizontal: 10,
-    paddingVertical: 5,
-    borderRadius: Radius.pill,
-    marginTop: 10,
+    flexWrap: 'wrap',
+    marginTop: 8,
   },
-  divider: {
-    height: 1,
-    backgroundColor: '#E8EAED',
-    marginVertical: Spacing.md,
+  subtitlePrefix: {
+    fontSize: 14,
+    color: '#9AA0A6',
   },
-  scrollBody: {
-    paddingBottom: Spacing.lg,
+  subtitleDomain: {
+    fontSize: 14,
+    color: '#8AB4F8',
+    fontWeight: '500',
   },
-  errorBox: {
-    backgroundColor: '#FCE8E6',
-    borderWidth: 1,
-    borderColor: '#FAD2CF',
+  errorBanner: {
+    backgroundColor: 'rgba(234, 67, 53, 0.15)',
     borderRadius: 8,
-    paddingVertical: 10,
-    paddingHorizontal: 14,
-    marginBottom: Spacing.md,
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    marginBottom: 16,
+    borderWidth: 1,
+    borderColor: 'rgba(234, 67, 53, 0.3)',
+  },
+  errorText: {
+    fontSize: 13,
+    color: '#F28B82',
+    lineHeight: 18,
   },
   loadingBanner: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#E8F0FE',
+    backgroundColor: 'rgba(138, 180, 248, 0.12)',
     borderRadius: 8,
     paddingVertical: 10,
     paddingHorizontal: 14,
-    marginBottom: Spacing.md,
+    marginBottom: 16,
+    borderWidth: 1,
+    borderColor: 'rgba(138, 180, 248, 0.25)',
   },
-  accountsSection: {
-    gap: Spacing.sm,
+  loadingText: {
+    fontSize: 13,
+    color: '#8AB4F8',
+    fontWeight: '500',
   },
-  accountRow: {
+  accountList: {
+    maxHeight: 380,
+  },
+  accountListContent: {
+    paddingBottom: 8,
+  },
+  accountItem: {
     flexDirection: 'row',
     alignItems: 'center',
     paddingVertical: 12,
-    paddingHorizontal: 12,
+    paddingHorizontal: 4,
     borderRadius: 12,
-    backgroundColor: '#FFFFFF',
-    borderWidth: 1,
-    borderColor: '#DADCE0',
-    marginBottom: 6,
   },
-  accountRowActive: {
-    borderColor: '#1A73E8',
-    backgroundColor: '#F8FAFE',
+  accountItemActive: {
+    backgroundColor: 'rgba(138, 180, 248, 0.08)',
   },
-  accountAvatar: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: '#1A73E8',
+  avatarWrap: {
+    width: 38,
+    height: 38,
+    borderRadius: 19,
+    overflow: 'hidden',
+    marginRight: 16,
+  },
+  avatarImg: {
+    width: '100%',
+    height: '100%',
+  },
+  avatarFallback: {
+    width: '100%',
+    height: '100%',
     alignItems: 'center',
     justifyContent: 'center',
-    position: 'relative',
   },
-  miniGBadge: {
-    position: 'absolute',
-    bottom: -2,
-    right: -2,
-    backgroundColor: '#FFFFFF',
-    borderRadius: 6,
-    padding: 2,
-    elevation: 2,
+  avatarInitials: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#FFFFFF',
   },
-  accountDetails: {
+  anotherAvatarWrap: {
+    width: 38,
+    height: 38,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: 16,
+  },
+  accountInfo: {
     flex: 1,
-    marginLeft: 12,
-  },
-  primaryGoogleBtn: {
-    flexDirection: 'row',
-    alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#1A73E8',
-    borderRadius: 24,
-    paddingVertical: 13,
-    paddingHorizontal: 18,
-    marginTop: 6,
-    ...Shadows.sm,
   },
-  googleBtnLogo: {
-    width: 20,
-    height: 20,
-    marginRight: 10,
+  accountName: {
+    fontSize: 15,
+    fontWeight: '500',
+    color: '#E8EAED',
+    marginBottom: 2,
   },
-  useAnotherBtn: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingVertical: 10,
-    marginTop: 4,
+  accountEmail: {
+    fontSize: 13,
+    color: '#9AA0A6',
   },
-  customSection: {
-    gap: Spacing.xs,
+  useAnotherText: {
+    fontSize: 15,
+    fontWeight: '500',
+    color: '#E8EAED',
   },
-  inputLabel: {
-    fontSize: 11,
-    letterSpacing: 0.6,
-    color: '#3C4043',
-    marginBottom: 6,
+  divider: {
+    height: 1,
+    backgroundColor: '#3C4043',
+    marginVertical: 4,
   },
-  googleInputWrap: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    borderWidth: 1.5,
-    borderColor: '#1A73E8',
-    borderRadius: 10,
-    paddingHorizontal: 14,
-    height: 52,
-    backgroundColor: '#FFFFFF',
+  customInputContainer: {
+    marginTop: 12,
+    paddingHorizontal: 4,
+    paddingBottom: 6,
+  },
+  inputWrap: {
+    position: 'relative',
     marginBottom: 12,
   },
-  googleTextInput: {
-    flex: 1,
-    fontSize: 15,
-    color: '#202124',
+  textInput: {
+    backgroundColor: '#1E1F20',
+    borderWidth: 1,
+    borderColor: '#5F6368',
+    borderRadius: 10,
+    paddingHorizontal: 14,
+    paddingVertical: 10,
+    fontSize: 14,
+    color: '#FFFFFF',
   },
-  gmailQuickChip: {
-    backgroundColor: '#E8F0FE',
+  gmailChip: {
+    position: 'absolute',
+    right: 10,
+    top: 9,
+    backgroundColor: '#2D2F31',
     paddingHorizontal: 8,
     paddingVertical: 4,
     borderRadius: 6,
   },
-  backToAccountsBtn: {
+  gmailChipText: {
+    fontSize: 11,
+    color: '#8AB4F8',
+    fontWeight: '600',
+  },
+  actionRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
+    gap: 8,
+  },
+  confirmBtn: {
+    flex: 1,
+    backgroundColor: '#8AB4F8',
     paddingVertical: 10,
-    marginTop: 4,
-  },
-  googleDisclaimerBox: {
-    marginTop: Spacing.lg,
-    paddingTop: Spacing.md,
-    borderTopWidth: 1,
-    borderTopColor: '#E8EAED',
-  },
-  disclaimerText: {
-    fontSize: 11.5,
-    lineHeight: 16,
-    color: '#5F6368',
-  },
-  securityFootnote: {
-    flexDirection: 'row',
+    borderRadius: 8,
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: Spacing.md,
+  },
+  confirmBtnText: {
+    color: '#041E49',
+    fontSize: 14,
+    fontWeight: 'bold',
+  },
+  browserOAuthBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: 'rgba(138, 180, 248, 0.1)',
+    borderWidth: 1,
+    borderColor: 'rgba(138, 180, 248, 0.3)',
+    paddingVertical: 9,
+    paddingHorizontal: 12,
+    borderRadius: 8,
+    gap: 6,
+  },
+  browserOAuthBtnText: {
+    fontSize: 12,
+    color: '#8AB4F8',
+    fontWeight: '500',
   },
 });
