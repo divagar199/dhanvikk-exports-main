@@ -23,6 +23,7 @@ import AuthLayout from '../../components/auth/AuthLayout';
 import Logo from '../../components/common/Logo';
 import AuthTrustMessage from '../../components/auth/AuthTrustMessage';
 import AuthBrandPanel from '../../components/auth/AuthBrandPanel';
+import Spinner from '../../components/common/Spinner';
 import { registerUser, loginWithGoogleThunk, clearAuthError } from '../../store/slices/authSlice';
 import { signInWithGoogleFirebase, checkGoogleRedirectResult } from '../../config/firebase';
 
