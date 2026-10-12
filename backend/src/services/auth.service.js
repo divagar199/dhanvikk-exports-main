@@ -391,7 +391,10 @@ export const loginWithFirebase = async ({
   }
 
   const verifiedEmail = decodedToken?.email;
-  if (!verifiedEmail || decodedToken.email_verified !== true) {
+  if (!verifiedEmail) {
+    throw new ApiError(401, 'Firebase authentication token does not contain an email address.');
+  }
+  if (authMethod === 'google' && decodedToken.email_verified !== true) {
     throw new ApiError(401, 'Google sign-in requires a verified email address.');
   }
   if (authMethod === 'google' && decodedToken.firebase?.sign_in_provider !== 'google.com') {
