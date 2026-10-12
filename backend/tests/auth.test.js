@@ -210,4 +210,21 @@ describe('Authentication & Security Audit Tests', () => {
       }
     );
   });
+
+  test('11. Google sign-in rejects a client-supplied email without an ID token', async () => {
+    await assert.rejects(
+      async () => {
+        await loginWithFirebase({
+          email: 'attacker@example.com',
+          name: 'Unverified User',
+          authMethod: 'google',
+        });
+      },
+      (err) => {
+        assert.ok(err instanceof ApiError);
+        assert.equal(err.statusCode, 401);
+        return true;
+      }
+    );
+  });
 });
