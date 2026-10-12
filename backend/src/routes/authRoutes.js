@@ -4,6 +4,7 @@ import {
   googleLogin,
   initiateGoogleOAuth,
   googleOAuthCallback,
+  exchangeGoogleOAuthCode,
   firebaseLogin,
   logout,
   register,
@@ -39,6 +40,7 @@ router.post('/register', validate(registerSchema), register);
 router.post('/google', validate(googleLoginSchema), googleLogin);
 router.get('/google/login', initiateGoogleOAuth);
 router.get('/google/callback', googleOAuthCallback);
+router.post('/google/exchange', exchangeGoogleOAuthCode);
 router.post('/firebase-login', validate(firebaseLoginSchema), firebaseLogin);
 router.post('/logout', logout);
 router.get('/me', protect, getMe);
