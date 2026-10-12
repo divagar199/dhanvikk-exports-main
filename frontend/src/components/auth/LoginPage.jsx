@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useLocation, useNavigate, Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'sonner';
@@ -17,6 +17,7 @@ import {
 import Logo from '../common/Logo';
 import LoginForm from './LoginForm';
 import SocialLogin from './SocialLogin';
+import { authService } from '../../services/authService';
 import AuthDivider from './AuthDivider';
 import AuthTrustMessage from './AuthTrustMessage';
 import {
@@ -24,6 +25,7 @@ import {
   loginWithGoogleThunk,
   clearAuthError,
   setCredentials,
+  logoutImmediate,
 } from '../../store/slices/authSlice';
 
 export default function LoginPage() {
@@ -44,7 +46,9 @@ export default function LoginPage() {
   const destination =
     rawFrom && rawFrom !== '/login' && rawFrom !== '/register' ? rawFrom : '/account';
 
-  // Automatically redirect away from /login if already authenticated or session token exists
+  // Validate persisted sessions with the backend before redirecting.
+  // This clears legacy Firebase/mock tokens that are not backend application JWTs.
+  const validationAttemptRef = useRef(null);
   useEffect(() => {
     const isLoggedOut =
       typeof window !== 'undefined' && sessionStorage.getItem('dhanvikk_logged_out') === 'true';
@@ -54,13 +58,37 @@ export default function LoginPage() {
       typeof window !== 'undefined'
         ? localStorage.getItem('dhanvikk_auth_token') || sessionStorage.getItem('dhanvikk_auth_token')
         : null;
+    if (!token || !user || validationAttemptRef.current === token) return;
 
-    if ((isAuthenticated && user) || (user && token)) {
-      const targetPath =
-        user?.role === 'admin' || user?.role === 'super_admin' ? '/admin/dashboard' : destination;
-      navigate(targetPath, { replace: true });
-    }
-  }, [isAuthenticated, user, destination, navigate]);
+    validationAttemptRef.current = token;
+    let cancelled = false;
+
+    authService.getCurrentUser()
+      .then((response) => {
+        if (cancelled) return;
+        if (!response?.success || !response?.user) {
+          throw new Error('The saved session is no longer valid.');
+        }
+        dispatch(setCredentials({ user: response.user, token }));
+        const targetPath =
+          response.user.role === 'admin' || response.user.role === 'super_admin'
+            ? '/admin/dashboard'
+            : destination;
+        navigate(targetPath, { replace: true });
+      })
+      .catch(() => {
+        if (cancelled) return;
+        localStorage.removeItem('dhanvikk_auth_token');
+        localStorage.removeItem('dhanvikk_user');
+        sessionStorage.removeItem('dhanvikk_auth_token');
+        sessionStorage.removeItem('dhanvikk_user');
+        dispatch(logoutImmediate());
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [dispatch, user, destination, navigate]);
 
   // Form submission handler for email + password
   const handleLoginSubmit = async (data) => {
