@@ -376,32 +376,26 @@ export const loginWithFirebase = async ({
   ip = '127.0.0.1',
   userAgent = '',
 }) => {
-  let decodedToken = null;
-  if (idToken) {
-    if (firebaseAuth) {
-      try {
-        decodedToken = await firebaseAuth.verifyIdToken(idToken);
-      } catch (err) {
-        throw new ApiError(401, `Invalid or expired Firebase ID token: ${err.message}`);
-      }
-    } else if (process.env.NODE_ENV === 'production') {
-      throw new ApiError(503, 'Firebase authentication service is not configured on this server.');
-    } else if (idToken.startsWith('mock_') || idToken.startsWith('test_')) {
-      // Test-only mock token for development test suites
-      decodedToken = {
-        email: reqEmail || 'customer@dhanvikk.com',
-        name: reqName || 'Test Customer',
-        uid: 'test_firebase_uid_123',
-      };
-    } else {
-      throw new ApiError(401, 'Firebase server verification is unconfigured to authenticate live ID tokens.');
-    }
+  if (!idToken || typeof idToken !== 'string') {
+    throw new ApiError(401, 'A Firebase ID token is required. Please complete Google sign-in and try again.');
+  }
+  if (!firebaseAuth) {
+    throw new ApiError(503, 'Firebase token verification is not configured on the server. Configure FIREBASE_SERVICE_ACCOUNT_KEY.');
   }
 
-  const verifiedEmail = decodedToken?.email || (process.env.NODE_ENV !== 'production' ? reqEmail : null);
+  let decodedToken;
+  try {
+    decodedToken = await firebaseAuth.verifyIdToken(idToken);
+  } catch {
+    throw new ApiError(401, 'Invalid or expired Firebase ID token. Please sign in again.');
+  }
 
-  if (!verifiedEmail) {
-    throw new ApiError(401, 'Firebase authentication requires a verified token containing an email address.');
+  const verifiedEmail = decodedToken?.email;
+  if (!verifiedEmail || decodedToken.email_verified !== true) {
+    throw new ApiError(401, 'Google sign-in requires a verified email address.');
+  }
+  if (authMethod === 'google' && decodedToken.firebase?.sign_in_provider !== 'google.com') {
+    throw new ApiError(401, 'The provided credentials are not a verified Google sign-in.');
   }
 
   const email = verifiedEmail.toLowerCase().trim();
