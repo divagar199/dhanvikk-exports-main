@@ -22,6 +22,7 @@ import { Colors, Spacing, Radius, Shadows } from '../../theme';
 import { AppText } from '../../components/AppText';
 import { orderService } from '../../services/orderService';
 import { useAuthStore } from '../../store/authStore';
+import { getProductImageUrl } from '../../utils/imageUrl';
 import { Order } from '../../types';
 
 const TIMELINE_STEPS = [
@@ -262,9 +263,10 @@ export default function OrderDetailScreen() {
             {order.items.map((it: any, i: number) => (
               <View key={i} style={styles.itemRow}>
                 <Image
-                  source={{ uri: it.image || 'https://images.unsplash.com/photo-1561181286-d3fee7d55364?auto=format&fit=crop&w=300&q=80' }}
+                  source={{ uri: getProductImageUrl(it.image) }}
                   style={styles.itemThumb}
                   contentFit="cover"
+                  cachePolicy="memory-disk"
                 />
                 <View style={{ flex: 1 }}>
                   <AppText variant="bodySm" weight="medium">

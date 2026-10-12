@@ -13,7 +13,7 @@ import { Heart, Plus, Check } from 'lucide-react-native';
 import * as Haptics from 'expo-haptics';
 import { Colors, Radius, Shadows, Motion } from '../theme';
 import { Product } from '../types';
-import { getProductImageUrl } from '../utils/imageUrl';
+import { getProductImageUrl, getCategoryFallbackImage } from '../utils/imageUrl';
 import { AppText } from './AppText';
 import { Price } from './Price';
 import { Rating } from './Rating';
@@ -51,7 +51,21 @@ export const ProductCard: React.FC<ProductCardProps> = ({
   const [btnScale] = useState(() => new Animated.Value(1));
 
   const isFav = isInWishlist(prodId);
-  const imageSource = getProductImageUrl(product.images?.[0]);
+  const fallbackUri = getCategoryFallbackImage(product.category);
+  const resolvedUri = getProductImageUrl(product.images?.[0], product.category);
+  const [imgUri, setImgUri] = useState(resolvedUri);
+
+  React.useEffect(() => {
+    setImgUri(getProductImageUrl(product.images?.[0], product.category));
+  }, [product.images, product.category]);
+
+  const handleImageError = () => {
+    if (imgUri !== fallbackUri) {
+      setImgUri(fallbackUri);
+    }
+  };
+
+  const imageSource = imgUri;
   const isChecked = inCart || justAdded;
 
   const handlePressIn = () => {
@@ -154,9 +168,11 @@ export const ProductCard: React.FC<ProductCardProps> = ({
           >
             <Image
               source={{ uri: imageSource }}
+              onError={handleImageError}
               style={styles.image}
               contentFit="cover"
-              transition={300}
+              transition={200}
+              cachePolicy="memory-disk"
             />
           </Pressable>
 

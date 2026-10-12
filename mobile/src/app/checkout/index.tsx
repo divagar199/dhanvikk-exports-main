@@ -395,9 +395,11 @@ export default function CheckoutScreen() {
               {items.map((it) => (
                 <View key={it.product.id || it.product._id} style={styles.expandedItemRow}>
                   <Image
-                    source={{ uri: getProductImageUrl(it.product.images?.[0]) }}
+                    source={{ uri: getProductImageUrl(it.product.images?.[0], it.product.category) }}
                     style={styles.expandedThumbnail}
                     contentFit="cover"
+                    transition={200}
+                    cachePolicy="memory-disk"
                   />
                   <View style={{ flex: 1, marginLeft: 10 }}>
                     <AppText variant="caption" weight="medium" numberOfLines={1}>

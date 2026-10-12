@@ -179,6 +179,8 @@ export default function OrdersListScreen() {
                       }}
                       style={styles.orderThumb}
                       contentFit="cover"
+                      transition={200}
+                      cachePolicy="memory-disk"
                     />
 
                     <View style={{ flex: 1, justifyContent: 'center' }}>

@@ -33,7 +33,7 @@ import { SectionHeader } from '../../components/SectionHeader';
 import { Skeleton } from '../../components/Skeleton';
 import { ErrorState } from '../../components/ErrorState';
 import { productService } from '../../services/productService';
-import { getProductImageUrl } from '../../utils/imageUrl';
+import { getProductImageUrl, getCategoryFallbackImage } from '../../utils/imageUrl';
 import { useCartStore } from '../../store/cartStore';
 import { useWishlistStore } from '../../store/wishlistStore';
 import { useUIStore } from '../../store/uiStore';
@@ -197,9 +197,11 @@ export default function ProductDetailScreen() {
             {images.map((imgUri: string, idx: number) => (
               <Image
                 key={idx}
-                source={{ uri: getProductImageUrl(imgUri) }}
+                source={{ uri: getProductImageUrl(imgUri, product?.category) }}
                 style={[styles.galleryImage, { width }]}
                 contentFit="cover"
+                transition={200}
+                cachePolicy="memory-disk"
               />
             ))}
           </ScrollView>

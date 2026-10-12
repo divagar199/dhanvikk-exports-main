@@ -143,7 +143,7 @@ export default function CartScreen() {
             const prod = item.product;
             const prodId = (prod.id || prod._id || '') as string;
             const isFav = isInWishlist(prodId);
-            const imageUri = getProductImageUrl(prod.images?.[0]);
+            const imageUri = getProductImageUrl(prod.images?.[0], prod.category);
 
             return (
               <View key={prodId} style={styles.itemRow}>
@@ -152,6 +152,8 @@ export default function CartScreen() {
                   source={{ uri: imageUri }}
                   style={styles.thumbnail}
                   contentFit="cover"
+                  transition={200}
+                  cachePolicy="memory-disk"
                 />
 
                 {/* Info Column */}
