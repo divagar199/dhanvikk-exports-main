@@ -1,3 +1,4 @@
+import { randomBytes, timingSafeEqual } from 'node:crypto';
 import {
   loginWithEmailPassword,
   registerUser,
@@ -107,68 +108,151 @@ export const firebaseLogin = async (req, res, next) => {
   }
 };
 
+const GOOGLE_STATE_COOKIE = 'dhanvikk_google_oauth_state';
+const GOOGLE_OAUTH_CODES = new Map();
+
+const googleOAuthConfig = (req) => ({
+  clientId: process.env.GOOGLE_CLIENT_ID,
+  clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+  redirectUri: process.env.GOOGLE_OAUTH_CALLBACK_URL ||
+    (process.env.NODE_ENV !== 'production'
+      ? `${req.protocol}://${req.get('host')}/api/auth/google/callback`
+      : ''),
+  mobileRedirectUri: process.env.GOOGLE_OAUTH_MOBILE_REDIRECT_URI || 'dhanvikk://auth/google-callback',
+});
+
+const redirectToMobileAuth = (res, redirectUri, params) => {
+  const url = new URL(redirectUri);
+  for (const [key, value] of Object.entries(params)) url.searchParams.set(key, value);
+  return res.redirect(url.toString());
+};
+
 export const initiateGoogleOAuth = (req, res) => {
-  const clientId =
-    process.env.GOOGLE_CLIENT_ID ||
-    '160660053649-1ar8vvfbirn6jgd9bnukihvk0frgluv6.apps.googleusercontent.com';
-  const callbackUrl = encodeURIComponent(`${req.protocol}://${req.get('host')}/api/auth/google/callback`);
-  const scope = encodeURIComponent('openid profile email');
-  const googleAuthUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${clientId}&redirect_uri=${callbackUrl}&response_type=code&scope=${scope}&prompt=select_account`;
-  return res.redirect(googleAuthUrl);
+  const { clientId, clientSecret, redirectUri } = googleOAuthConfig(req);
+  if (!clientId || !clientSecret || !redirectUri) {
+    return res.status(503).json({
+      success: false,
+      message: 'Google OAuth is not configured on the server. Configure GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET and GOOGLE_OAUTH_CALLBACK_URL.',
+    });
+  }
+
+  const state = randomBytes(32).toString('hex');
+  res.cookie(GOOGLE_STATE_COOKIE, state, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'lax',
+    maxAge: 10 * 60 * 1000,
+    path: '/api/auth/google',
+  });
+
+  const params = new URLSearchParams({
+    client_id: clientId,
+    redirect_uri: redirectUri,
+    response_type: 'code',
+    scope: 'openid email profile',
+    state,
+    prompt: 'select_account',
+  });
+  return res.redirect(`https://accounts.google.com/o/oauth2/v2/auth?${params.toString()}`);
 };
 
 export const googleOAuthCallback = async (req, res) => {
+  const { mobileRedirectUri, clientId, clientSecret, redirectUri } = googleOAuthConfig(req);
+  const cookieState = req.cookies?.[GOOGLE_STATE_COOKIE] || '';
+  const queryState = typeof req.query.state === 'string' ? req.query.state : '';
+  const stateValid = cookieState.length > 0 &&
+    cookieState.length === queryState.length &&
+    timingSafeEqual(Buffer.from(cookieState), Buffer.from(queryState));
+
+  res.clearCookie(GOOGLE_STATE_COOKIE, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'lax',
+    path: '/api/auth/google',
+  });
+
+  if (!stateValid) {
+    return redirectToMobileAuth(res, mobileRedirectUri, { error: 'oauth_state_invalid' });
+  }
+
+  if (req.query.error || typeof req.query.code !== 'string' || !req.query.code) {
+    return redirectToMobileAuth(res, mobileRedirectUri, { error: 'google_sign_in_cancelled' });
+  }
+
   try {
-    const { code, error } = req.query;
-    if (error || !code) {
-      return res.redirect(`dhanvikk://auth/google-callback?error=${encodeURIComponent(error || 'cancelled')}`);
+    if (!clientId || !clientSecret || !redirectUri) {
+      throw new Error('Google OAuth is not configured on the server.');
     }
 
-    const clientId =
-      process.env.GOOGLE_CLIENT_ID ||
-      '160660053649-1ar8vvfbirn6jgd9bnukihvk0frgluv6.apps.googleusercontent.com';
-    const clientSecret = process.env.GOOGLE_CLIENT_SECRET || '';
-    const redirectUri = `${req.protocol}://${req.get('host')}/api/auth/google/callback`;
-
-    const tokenRes = await fetch('https://oauth2.googleapis.com/token', {
+    const tokenResponse = await fetch('https://oauth2.googleapis.com/token', {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       body: new URLSearchParams({
-        code,
+        code: req.query.code,
         client_id: clientId,
         client_secret: clientSecret,
         redirect_uri: redirectUri,
         grant_type: 'authorization_code',
       }),
     });
-
-    const tokenData = await tokenRes.json();
-    if (!tokenData.access_token) {
-      throw new Error(tokenData.error_description || 'Failed to exchange token with Google');
+    const tokenData = await tokenResponse.json().catch(() => ({}));
+    if (!tokenResponse.ok || !tokenData.access_token) {
+      throw new Error('Google authorization code exchange failed.');
     }
 
-    const userRes = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
+    const profileResponse = await fetch('https://openidconnect.googleapis.com/v1/userinfo', {
       headers: { Authorization: `Bearer ${tokenData.access_token}` },
     });
-    const profile = await userRes.json();
-    const cleanEmail = (profile.email || '').toLowerCase().trim();
+    const profile = await profileResponse.json().catch(() => ({}));
+    if (!profileResponse.ok || !profile.sub || !profile.email || profile.email_verified !== true) {
+      throw new Error('Google did not return a verified user profile.');
+    }
 
     const result = await loginWithGooglePayload({
-      email: cleanEmail,
+      email: profile.email,
       name: profile.name,
       avatar: profile.picture,
       ip: req.ip,
       userAgent: 'Google OAuth Redirect',
     });
 
-    const redirectUrl = `dhanvikk://auth/google-callback?token=${encodeURIComponent(
-      result.token
-    )}&user=${encodeURIComponent(JSON.stringify(result.user))}`;
-    return res.redirect(redirectUrl);
+    const now = Date.now();
+    for (const [storedCode, entry] of GOOGLE_OAUTH_CODES.entries()) {
+      if (entry.expiresAt <= now) GOOGLE_OAUTH_CODES.delete(storedCode);
+    }
+    const exchangeCode = randomBytes(32).toString('hex');
+    GOOGLE_OAUTH_CODES.set(exchangeCode, {
+      token: result.token,
+      user: result.user,
+      expiresAt: now + 60 * 1000,
+    });
+
+    return redirectToMobileAuth(res, mobileRedirectUri, { code: exchangeCode });
   } catch (err) {
-    console.error('Google OAuth callback error:', err.message);
-    return res.redirect(`dhanvikk://auth/google-callback?error=${encodeURIComponent(err.message || 'auth_failed')}`);
+    console.error('Google OAuth callback failed:', err.message);
+    return redirectToMobileAuth(res, mobileRedirectUri, { error: 'google_sign_in_failed' });
   }
+};
+
+export const exchangeGoogleOAuthCode = (req, res) => {
+  const code = typeof req.body?.code === 'string' ? req.body.code.trim() : '';
+  if (!code) {
+    return res.status(400).json({ success: false, message: 'Google sign-in code is required.' });
+  }
+
+  const entry = GOOGLE_OAUTH_CODES.get(code);
+  GOOGLE_OAUTH_CODES.delete(code);
+  if (!entry || entry.expiresAt <= Date.now()) {
+    return res.status(401).json({ success: false, message: 'Google sign-in code expired or already used. Please sign in again.' });
+  }
+
+  setAuthCookie(res, entry.token);
+  return res.status(200).json({
+    success: true,
+    message: 'Google sign-in successful.',
+    user: entry.user,
+    token: entry.token,
+  });
 };
 
 export const logout = async (req, res) => {
