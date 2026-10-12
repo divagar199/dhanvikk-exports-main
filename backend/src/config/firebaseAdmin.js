@@ -16,13 +16,13 @@ try {
 
   let serviceAccount = null;
 
-  if (process.env.FIREBASE_SERVICE_ACCOUNT_KEY || process.env.FIREBASE_SERVICE_ACCOUNT) {
+  const rawEnv = process.env.FIREBASE_SERVICE_ACCOUNT_KEY || process.env.FIREBASE_SERVICE_ACCOUNT;
+  if (rawEnv) {
     try {
-      const rawEnv = process.env.FIREBASE_SERVICE_ACCOUNT_KEY || process.env.FIREBASE_SERVICE_ACCOUNT;
       serviceAccount = JSON.parse(rawEnv.trim());
     } catch {
       try {
-        const decoded = Buffer.from(rawEnv, 'base64').toString('utf8');
+        const decoded = Buffer.from(rawEnv.trim(), 'base64').toString('utf8');
         serviceAccount = JSON.parse(decoded);
       } catch (parseErr) {
         console.warn('⚠️ Could not parse FIREBASE_SERVICE_ACCOUNT from environment:', parseErr.message);

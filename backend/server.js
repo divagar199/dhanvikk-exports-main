@@ -69,24 +69,36 @@ const allowedOrigins = [
   rawClientUrl,
   'http://127.0.0.1:5173',
   'http://localhost:5173',
+  'http://localhost:8081',
+  'http://localhost:19006',
   'http://localhost:3000',
+  'https://dhanvikk-exports-main.vercel.app',
+  'https://dhanvikk-blooms.vercel.app',
 ].filter(Boolean);
 
 app.use(
   cors({
     origin: (origin, callback) => {
+      // Allow requests with no origin (like mobile apps, curl, uptime bots)
       if (!origin) return callback(null, true);
-      if (
+
+      // Allow all whitelisted domains, Vercel deployments, Render frontends, or any local dev
+      const isAllowed =
         allowedOrigins.includes(origin) ||
         origin.endsWith('.vercel.app') ||
         origin.includes('dhanvikk') ||
-        process.env.NODE_ENV !== 'production'
-      ) {
+        origin.includes('localhost') ||
+        origin.includes('127.0.0.1') ||
+        process.env.NODE_ENV !== 'production';
+
+      if (isAllowed) {
         return callback(null, true);
       }
-      return callback(null, origin);
+      return callback(null, true);
     },
     credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept'],
   })
 );
 
@@ -114,12 +126,17 @@ const authLimiter = rateLimit({
 
 app.use('/api/auth', authLimiter);
 
-// Health Check Endpoint
-app.get('/api/health', (req, res) => {
+// Root & Health Check Endpoints (Resolves Render uptime checks and direct browser visits)
+app.all(['/', '/health', '/api/health'], (req, res) => {
   res.status(200).json({
     status: 'healthy',
+    uptime: Math.floor(process.uptime()),
     timestamp: new Date().toISOString(),
-    service: 'Dhanvikk Blooms Backend API (Dhanvikk Luxury Floristry Engine)',
+    service: 'Dhanvikk Blooms Backend API',
+    endpoints: {
+      health: '/api/health',
+      products: '/api/products',
+    },
   });
 });
 
