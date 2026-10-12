@@ -18,12 +18,9 @@ import {
   CircleUser,
   ExternalLink,
   ChevronRight,
-  ShieldCheck,
-  CheckCircle2,
   Trash2,
 } from 'lucide-react-native';
 import * as Haptics from 'expo-haptics';
-import { Colors, Spacing, Radius } from '../theme';
 import { AppText } from './AppText';
 import { authService } from '../services/authService';
 import { useAuthStore } from '../store/authStore';
@@ -97,7 +94,7 @@ export default function GoogleAuthModal({
   const { setAuth, syncUserData, addSavedAccount } = useAuthStore();
   const { showToast } = useUIStore();
   const router = useRouter();
-  const { isTablet, isLandscape } = useResponsive();
+  const { isTablet } = useResponsive();
   const isMountedRef = useRef(true);
 
   useEffect(() => {
@@ -107,10 +104,7 @@ export default function GoogleAuthModal({
     };
   }, []);
 
-  // Initialize and load accounts on modal open
-  useEffect(() => {
-    if (!visible) return;
-
+  const resetFormState = () => {
     setErrorMsg('');
     setLoading(false);
     setStatusText('');
@@ -118,6 +112,11 @@ export default function GoogleAuthModal({
     setShowCustomInput(false);
     setCustomEmail('');
     setCustomName('');
+  };
+
+  // Load saved accounts when modal opens
+  useEffect(() => {
+    if (!visible) return;
 
     authStorage.getItem('dhanvikk_saved_accounts').then((raw) => {
       if (!isMountedRef.current) return;
@@ -155,10 +154,7 @@ export default function GoogleAuthModal({
 
   const handleDismiss = () => {
     if (loading) return;
-    setErrorMsg('');
-    setLoading(false);
-    setStatusText('');
-    setActiveSigningEmail(null);
+    resetFormState();
     onClose();
   };
 
@@ -195,15 +191,12 @@ export default function GoogleAuthModal({
       await addSavedAccount(cleanEmail, googleRes.user.name);
       await syncUserData(cleanEmail);
 
-      setLoading(false);
-      setStatusText('');
-      setActiveSigningEmail(null);
-
       if (Platform.OS !== 'web') {
         Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success).catch(() => {});
       }
 
       showToast(`Welcome back, ${googleRes.user.name}! 🌸`, 'success');
+      resetFormState();
       onClose();
 
       if (onSuccess) {
@@ -496,7 +489,7 @@ export default function GoogleAuthModal({
             <View style={styles.footerNote}>
               <AppText style={styles.footerText}>
                 To continue, Google will share your name, email address, and profile picture with Dhanvikk Blooms.
-                See Dhanvikk's{' '}
+                {"See Dhanvikk's "}
                 <AppText
                   style={styles.footerLink}
                   onPress={() => router.push('/privacy' as any)}
