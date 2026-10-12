@@ -86,55 +86,25 @@ export const authService = {
     avatar?: string;
     googleUid?: string;
     phone?: string;
-    idToken?: string;
+    idToken: string;
   }): Promise<{ success: boolean; user: User; token: string }> {
-    // If we have a Firebase idToken (from web popup), use firebase-login for server verification
-    if (data.idToken) {
-      try {
-        const response = await apiClient.post('/api/auth/firebase-login', {
-          idToken: data.idToken,
-          email: data.email,
-          name: data.name,
-          avatar: data.avatar,
-          authMethod: 'google',
-        });
-        const { token, user } = response.data;
-        if (token) {
-          setAuthTokenMemory(token);
-          await authStorage.setItem(TOKEN_STORAGE_KEY, token);
-          if (user) {
-            await authStorage.setItem('dhanvikk_user', JSON.stringify(user));
-          }
-        }
-        return response.data;
-      } catch (tokenErr) {
-        console.warn('firebase-login endpoint note, trying /api/auth/google fallback:', tokenErr);
-      }
+    if (!data.idToken) {
+      throw new Error('A real Firebase ID token is required. Complete Google sign-in first.');
     }
 
-    // Try full Firebase OAuth flow (native mobile)
-    try {
-      const fbResult = await firebaseAuthService.signInWithGoogle(data);
-      if (fbResult.success && fbResult.user) {
-        return {
-          success: true,
-          user: fbResult.user,
-          token: fbResult.token,
-        };
-      }
-    } catch (fbErr) {
-      console.log('Firebase Google login attempt notice, falling back to direct endpoint:', fbErr);
+    const response = await apiClient.post('/api/auth/firebase-login', {
+      idToken: data.idToken,
+      authMethod: 'google',
+    });
+
+    const { token, user, success } = response.data || {};
+    if (!success || !token || !user) {
+      throw new Error('The server did not establish a verified Google session.');
     }
 
-    const response = await apiClient.post('/api/auth/google', data);
-    const { token, user } = response.data;
-    if (token) {
-      setAuthTokenMemory(token);
-      await authStorage.setItem(TOKEN_STORAGE_KEY, token);
-      if (user) {
-        await authStorage.setItem('dhanvikk_user', JSON.stringify(user));
-      }
-    }
+    setAuthTokenMemory(token);
+    await authStorage.setItem(TOKEN_STORAGE_KEY, token);
+    await authStorage.setItem('dhanvikk_user', JSON.stringify(user));
     return response.data;
   },
 
