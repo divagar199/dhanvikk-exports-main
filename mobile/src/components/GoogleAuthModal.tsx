@@ -223,7 +223,8 @@ export default function GoogleAuthModal({
       setLoading(true);
       setStatusText('Opening Google OAuth in browser...');
       const clientId = '160660053649-1ar8vvfbirn6jgd9bnukihvk0frgluv6.apps.googleusercontent.com';
-      const redirectUri = 'https://dhanvikk-exports-main.vercel.app/login';
+      // Use pre-authorized Firebase Auth handler URI to eliminate Error 400: redirect_uri_mismatch
+      const redirectUri = 'https://auth-checker-1-main.firebaseapp.com/__/auth/handler';
       const googleAuthUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${clientId}&redirect_uri=${encodeURIComponent(
         redirectUri
       )}&response_type=code&scope=openid%20profile%20email&prompt=select_account`;

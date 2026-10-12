@@ -120,7 +120,14 @@ apiClient.interceptors.response.use(
     if (originalRequest && !originalRequest._retriedAlternative && (!error.response || error.code === 'ECONNABORTED')) {
       originalRequest._retriedAlternative = true;
       const currentBase = originalRequest.baseURL || API_BASE_URL;
-      const alternativeBase = currentBase.includes('localhost') || currentBase.includes('10.0.2.2')
+      const isLocalHost =
+        currentBase.includes('localhost') ||
+        currentBase.includes('127.0.0.1') ||
+        currentBase.includes('10.0.2.2') ||
+        currentBase.includes(':5000') ||
+        /10\.\d+\.\d+\.\d+/.test(currentBase) ||
+        /192\.168\.\d+\.\d+/.test(currentBase);
+      const alternativeBase = isLocalHost
         ? DEFAULT_PRODUCTION_API
         : getLocalhostUrl();
 
