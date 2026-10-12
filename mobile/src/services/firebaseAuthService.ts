@@ -237,118 +237,28 @@ export const firebaseAuthService = {
     phone?: string;
     idToken?: string;
   }): Promise<FirebaseAuthResult> {
-    const cleanEmail = data.email.trim().toLowerCase();
-    const cleanName = data.name?.trim() || cleanEmail.split('@')[0];
-    const uid = data.googleUid || `goog_${Date.now()}`;
-    const avatar =
-      data.avatar ||
-      `https://ui-avatars.com/api/?name=${encodeURIComponent(cleanName)}&background=0F3D2E&color=fff&size=150`;
-
-    // Sync user data to Firestore
-    try {
-      await this.syncUserToFirestore(uid, {
-        email: cleanEmail,
-        displayName: cleanName,
-        avatar,
-        phone: data.phone || '',
-        provider: 'google.com',
-        lastLoginAt: new Date().toISOString(),
-      });
-    } catch (fsErr: any) {
-      console.log('Firestore Google user sync note:', fsErr?.message);
+    if (!data.idToken) {
+      throw new Error('A real Firebase ID token is required. Email or profile details alone cannot authenticate with Google.');
     }
 
-    // If we have a real Firebase idToken, use firebase-login for server-side verification
-    if (data.idToken) {
-      try {
-        const response = await apiClient.post('/api/auth/firebase-login', {
-          idToken: data.idToken,
-          email: cleanEmail,
-          name: cleanName,
-          avatar,
-          authMethod: 'google',
-        });
-        const { token, user } = response.data;
-        if (token) {
-          setAuthTokenMemory(token);
-          await authStorage.setItem(TOKEN_STORAGE_KEY, token);
-          if (user) await authStorage.setItem('dhanvikk_user', JSON.stringify(user));
-        }
-        return { success: true, user, token, firebaseUid: user?.id || uid };
-      } catch (tokenErr: any) {
-        console.warn('firebase-login note, falling back to /api/auth/google:', tokenErr?.message);
-      }
+    const response = await apiClient.post('/api/auth/firebase-login', {
+      idToken: data.idToken,
+      authMethod: 'google',
+    });
+    const { success, user, token } = response.data || {};
+    if (!success || !user || !token) {
+      throw new Error('The server did not establish a verified Google session.');
     }
 
-    // Call backend endpoint with offline fallback
-    try {
-      const response = await apiClient.post('/api/auth/google', {
-        email: cleanEmail,
-        name: cleanName,
-        avatar,
-        googleUid: uid,
-        phone: data.phone || '',
-      });
-
-      const { token, user, firebaseCustomToken } = response.data;
-      let finalFirebaseUid = uid;
-
-      // Real Firebase client authentication via Firebase Custom Token
-      if (firebaseCustomToken) {
-        try {
-          const fbCred = await signInWithCustomToken(auth, firebaseCustomToken);
-          finalFirebaseUid = fbCred.user.uid;
-          if (cleanName && (!fbCred.user.displayName || fbCred.user.displayName !== cleanName)) {
-            await updateProfile(fbCred.user, { displayName: cleanName, photoURL: avatar });
-          }
-        } catch (fbSignErr: any) {
-          console.log('Firebase client sign-in notice:', fbSignErr?.message);
-        }
-      }
-
-      if (token) {
-        setAuthTokenMemory(token);
-        await authStorage.setItem(TOKEN_STORAGE_KEY, token);
-        if (user) {
-          await authStorage.setItem('dhanvikk_user', JSON.stringify(user));
-        }
-        // Permanently preserve account in device saved accounts list
-        try {
-          const raw = await authStorage.getItem('dhanvikk_saved_accounts');
-          let accounts: { email: string; name: string }[] = raw ? JSON.parse(raw) : [];
-          if (!Array.isArray(accounts)) accounts = [];
-          const filtered = accounts.filter((a) => a.email.toLowerCase() !== cleanEmail);
-          filtered.unshift({ email: cleanEmail, name: cleanName });
-          await authStorage.setItem('dhanvikk_saved_accounts', JSON.stringify(filtered.slice(0, 8)));
-        } catch {}
-      }
-
-      return {
-        success: true,
-        user,
-        token,
-        firebaseUid: finalFirebaseUid,
-      };
-    } catch {
-      const fallbackUser: User = {
-        id: uid,
-        name: cleanName,
-        email: cleanEmail,
-        phone: data.phone || '',
-        role: 'customer',
-      };
-      const fallbackToken = `token_goog_${Date.now()}`;
-      setAuthTokenMemory(fallbackToken);
-      await authStorage.setItem(TOKEN_STORAGE_KEY, fallbackToken);
-      await authStorage.setItem('dhanvikk_user', JSON.stringify(fallbackUser));
-
-      return {
-        success: true,
-        user: fallbackUser,
-        token: fallbackToken,
-        firebaseUid: uid,
-      };
-    }
+    setAuthTokenMemory(token);
+    await authStorage.setItem(TOKEN_STORAGE_KEY, token);
+    await authStorage.setItem('dhanvikk_user', JSON.stringify(user));
+    return {
+      success: true,
+      user,
+      token,
+      firebaseUid: user.id,
+    };
   },
 
   /**
@@ -363,17 +273,17 @@ export const firebaseAuthService = {
     error?: string;
     requiresEmailConfirm?: boolean;
   }> {
-    try {
-      if (!providedEmail) {
-        return { success: false, requiresEmailConfirm: true, error: 'Please enter a Google email address to sign in.' };
-      }
-      const targetEmail = providedEmail.trim().toLowerCase();
-      const targetName = targetEmail.split('@')[0];
-      const res = await this.signInWithGoogle({ email: targetEmail, name: targetName });
-      return { success: true, user: res.user, token: res.token };
-    } catch (e: any) {
-      return { success: false, error: e?.message || 'Firebase Google login failed' };
+    if (!providedEmail) {
+      return {
+        success: false,
+        requiresEmailConfirm: true,
+        error: 'Complete Google sign-in using the Google account chooser. An email address alone cannot authenticate you.',
+      };
     }
+    return {
+      success: false,
+      error: 'An email address alone cannot authenticate with Google. Please use the Google sign-in button.',
+    };
   },
 
   /**
