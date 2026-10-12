@@ -205,6 +205,7 @@ export const loginWithGoogleThunk = createAsyncThunk(
       let firebasePayload = { ...extraData };
       let firebaseUser = null;
       let firebaseToken = null;
+      let firebaseIdToken = null; // Raw Firebase ID token for server-side verification
 
       // Extract candidate user if passed from redirect, pre-fill, or direct auth result
       const candidateUser = extraData?.user || extraData;
@@ -240,6 +241,7 @@ export const loginWithGoogleThunk = createAsyncThunk(
           if (firebaseRes?.user) {
             firebaseUser = firebaseRes.user;
             firebaseToken = firebaseRes.token;
+            firebaseIdToken = firebaseRes.idToken || null;
             firebasePayload = {
               ...firebasePayload,
               name: firebaseRes.user.name,
@@ -247,6 +249,7 @@ export const loginWithGoogleThunk = createAsyncThunk(
               avatar: firebaseRes.user.avatar,
               phone: firebaseRes.user.phone || '',
               googleUid: firebaseRes.user.id,
+              ...(firebaseIdToken ? { idToken: firebaseIdToken } : {}),
             };
           }
         } catch (fbErr) {
@@ -273,16 +276,30 @@ export const loginWithGoogleThunk = createAsyncThunk(
         return rejectWithValue('Google authentication was not completed.');
       }
 
-      // Synchronize authenticated profile with backend API (with 3.5s timeout guard so users are NEVER stuck)
+      // Synchronize authenticated profile with backend API
+      // Prefer /firebase-login if we have an idToken for secure server-side verification
       let data = null;
       try {
         const timeoutPromise = new Promise((_, reject) =>
-          setTimeout(() => reject(new Error('Backend sync timeout')), 3500)
+          setTimeout(() => reject(new Error('Backend sync timeout')), 4000)
         );
-        data = await Promise.race([
-          authService.loginWithGoogle(firebasePayload),
-          timeoutPromise,
-        ]);
+
+        const backendCall = firebaseIdToken
+          ? (async () => {
+              const { default: api } = await import('../../services/api');
+              const res = await api.post('/api/auth/firebase-login', {
+                idToken: firebaseIdToken,
+                email: firebaseUser.email,
+                name: firebaseUser.name,
+                avatar: firebaseUser.avatar,
+                uid: firebaseUser.id,
+                authMethod: 'google',
+              });
+              return res.data;
+            })()
+          : authService.loginWithGoogle(firebasePayload);
+
+        data = await Promise.race([backendCall, timeoutPromise]);
       } catch (apiErr) {
         console.warn('Backend API note for Google login (proceeding with verified Firebase session):', apiErr?.message);
         // Fall back to verified Firebase authentication if backend API is temporarily slow/cold-starting
@@ -300,13 +317,14 @@ export const loginWithGoogleThunk = createAsyncThunk(
           ...firebaseUser,
           ...(data.user || {}),
           // Ensure real Google credentials take precedence
-          id: firebaseUser.id || data.user?.id || data.user?._id,
-          name: firebaseUser.name || data.user?.name || firebaseUser.email.split('@')[0],
-          email: firebaseUser.email || data.user?.email,
-          avatar: firebaseUser.avatar || data.user?.avatar || '',
+          id: data.user?.id || data.user?._id || firebaseUser.id,
+          name: data.user?.name || firebaseUser.name || firebaseUser.email.split('@')[0],
+          email: data.user?.email || firebaseUser.email,
+          avatar: data.user?.avatar || firebaseUser.avatar || '',
+          // Backend role always wins (critical for admin access control)
           role: data.user?.role || firebaseUser.role || 'customer',
         };
-        const tokenStr = firebaseToken || data.token || `dhanvikk_token_${userObj.id}`;
+        const tokenStr = data.token || firebaseToken || `dhanvikk_token_${userObj.id}`;
         sessionStorage.removeItem('dhanvikk_logged_out');
         localStorage.setItem('dhanvikk_auth_token', tokenStr);
         localStorage.setItem('dhanvikk_user', JSON.stringify(userObj));

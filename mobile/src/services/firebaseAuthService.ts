@@ -235,6 +235,7 @@ export const firebaseAuthService = {
     avatar?: string;
     googleUid?: string;
     phone?: string;
+    idToken?: string;
   }): Promise<FirebaseAuthResult> {
     const cleanEmail = data.email.trim().toLowerCase();
     const cleanName = data.name?.trim() || cleanEmail.split('@')[0];
@@ -255,6 +256,28 @@ export const firebaseAuthService = {
       });
     } catch (fsErr: any) {
       console.log('Firestore Google user sync note:', fsErr?.message);
+    }
+
+    // If we have a real Firebase idToken, use firebase-login for server-side verification
+    if (data.idToken) {
+      try {
+        const response = await apiClient.post('/api/auth/firebase-login', {
+          idToken: data.idToken,
+          email: cleanEmail,
+          name: cleanName,
+          avatar,
+          authMethod: 'google',
+        });
+        const { token, user } = response.data;
+        if (token) {
+          setAuthTokenMemory(token);
+          await authStorage.setItem(TOKEN_STORAGE_KEY, token);
+          if (user) await authStorage.setItem('dhanvikk_user', JSON.stringify(user));
+        }
+        return { success: true, user, token, firebaseUid: user?.id || uid };
+      } catch (tokenErr: any) {
+        console.warn('firebase-login note, falling back to /api/auth/google:', tokenErr?.message);
+      }
     }
 
     // Call backend endpoint with offline fallback
@@ -338,17 +361,14 @@ export const firebaseAuthService = {
     token?: string;
     cancelled?: boolean;
     error?: string;
+    requiresEmailConfirm?: boolean;
   }> {
     try {
-      const targetEmail = providedEmail?.trim()?.toLowerCase() || 'divagar.m.msc.cs@gmail.com';
-      const targetName =
-        targetEmail === 'divagar.m.msc.cs@gmail.com'
-          ? 'Divagar M'
-          : targetEmail === 'krishna.m.bca1727@gmail.com'
-          ? 'krishna m_bca_b_ 26'
-          : targetEmail === 'xzirexatech@gmail.com'
-          ? 'xZirexa Tech'
-          : targetEmail.split('@')[0];
+      if (!providedEmail) {
+        return { success: false, requiresEmailConfirm: true, error: 'Please enter a Google email address to sign in.' };
+      }
+      const targetEmail = providedEmail.trim().toLowerCase();
+      const targetName = targetEmail.split('@')[0];
       const res = await this.signInWithGoogle({ email: targetEmail, name: targetName });
       return { success: true, user: res.user, token: res.token };
     } catch (e: any) {

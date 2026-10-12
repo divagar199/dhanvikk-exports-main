@@ -195,6 +195,7 @@ export const signInWithGoogleFirebase = async (preferRedirect = false) => {
         role: 'customer',
       },
       token,
+      idToken: token, // Expose raw Firebase ID token for secure backend verification
     };
   } catch (error) {
     console.error('Google Sign-In interaction error:', error?.code, error?.message);
@@ -243,6 +244,7 @@ export const checkGoogleRedirectResult = async () => {
         role: 'customer',
       },
       token,
+      idToken: token, // Expose raw Firebase ID token for secure backend verification
     };
   } catch (error) {
     console.warn('Redirect check notice:', error.message);

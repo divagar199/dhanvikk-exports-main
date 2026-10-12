@@ -78,6 +78,7 @@ export const authService = {
 
   /**
    * Google Sign-in via Firebase Auth
+   * @param data.idToken - Firebase ID token (required for web OAuth popup flow)
    */
   async googleLogin(data: {
     name?: string;
@@ -85,7 +86,33 @@ export const authService = {
     avatar?: string;
     googleUid?: string;
     phone?: string;
+    idToken?: string;
   }): Promise<{ success: boolean; user: User; token: string }> {
+    // If we have a Firebase idToken (from web popup), use firebase-login for server verification
+    if (data.idToken) {
+      try {
+        const response = await apiClient.post('/api/auth/firebase-login', {
+          idToken: data.idToken,
+          email: data.email,
+          name: data.name,
+          avatar: data.avatar,
+          authMethod: 'google',
+        });
+        const { token, user } = response.data;
+        if (token) {
+          setAuthTokenMemory(token);
+          await authStorage.setItem(TOKEN_STORAGE_KEY, token);
+          if (user) {
+            await authStorage.setItem('dhanvikk_user', JSON.stringify(user));
+          }
+        }
+        return response.data;
+      } catch (tokenErr) {
+        console.warn('firebase-login endpoint note, trying /api/auth/google fallback:', tokenErr);
+      }
+    }
+
+    // Try full Firebase OAuth flow (native mobile)
     try {
       const fbResult = await firebaseAuthService.signInWithGoogle(data);
       if (fbResult.success && fbResult.user) {

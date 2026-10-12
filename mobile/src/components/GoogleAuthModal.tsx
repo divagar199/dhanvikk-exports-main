@@ -40,29 +40,7 @@ interface GoogleAccountItem {
   isCustom?: boolean;
 }
 
-const DEFAULT_GOOGLE_ACCOUNTS: GoogleAccountItem[] = [
-  {
-    name: 'Divagar M',
-    email: 'divagar.m.msc.cs@gmail.com',
-    initials: 'D',
-    badgeBg: '#1A73E8',
-    avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80',
-  },
-  {
-    name: 'krishna m_bca_b_ 26',
-    email: 'krishna.m.bca1727@gmail.com',
-    initials: 'K',
-    badgeBg: '#34A853',
-    avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80',
-  },
-  {
-    name: 'xZirexa Tech',
-    email: 'xzirexatech@gmail.com',
-    initials: 'xZ',
-    badgeBg: '#7C3AED',
-    avatar: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=200&q=80',
-  },
-];
+const DEFAULT_GOOGLE_ACCOUNTS: GoogleAccountItem[] = [];
 
 const GOOGLE_G_LOGO = 'https://www.gstatic.com/images/branding/product/2x/googleg_48dp.png';
 const FIREBASE_AUTH_DOMAIN = 'auth-checker-1-main.firebaseapp.com';
@@ -159,7 +137,7 @@ export default function GoogleAuthModal({
   };
 
   // Perform Google authentication with backend & database
-  const performGoogleLogin = async (account: { name: string; email: string; avatar?: string }) => {
+  const performGoogleLogin = async (account: { name: string; email: string; avatar?: string; idToken?: string }) => {
     Keyboard.dismiss();
     setErrorMsg('');
     const cleanEmail = account.email.trim().toLowerCase();
@@ -183,6 +161,7 @@ export default function GoogleAuthModal({
         email: cleanEmail,
         name: account.name || cleanEmail.split('@')[0],
         avatar: account.avatar || `https://unavatar.io/google/${encodeURIComponent(cleanEmail)}`,
+        ...(account.idToken ? { idToken: account.idToken } : {}),
       });
 
       if (!isMountedRef.current) return;
@@ -232,13 +211,15 @@ export default function GoogleAuthModal({
         const cleanEmail = fbUser.email || '';
         const name = fbUser.displayName || cleanEmail.split('@')[0];
         const avatar = fbUser.photoURL || '';
+        // Get Firebase idToken for secure backend verification
+        const idToken = await fbUser.getIdToken();
 
-        await performGoogleLogin({ email: cleanEmail, name, avatar });
+        await performGoogleLogin({ email: cleanEmail, name, avatar, idToken });
       } catch (err: any) {
         if (!isMountedRef.current) return;
         setLoading(false);
         setStatusText('');
-        if (err?.code !== 'auth/popup-closed-by-user') {
+        if (err?.code !== 'auth/popup-closed-by-user' && err?.code !== 'auth/cancelled-popup-request') {
           setErrorMsg(err?.message || 'Google sign-in popup encountered an error.');
         }
       }

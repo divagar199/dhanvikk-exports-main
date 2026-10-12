@@ -178,7 +178,7 @@ export default function LoginPage() {
           console.warn('Redirect check note:', redirectErr);
         }
 
-        // 2. onAuthStateChanged hook: triggers automatically when account is selected in Google OAuth
+        // 2. onAuthStateChanged: fires when Google OAuth popup/redirect completes
         unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
           if (!firebaseUser || !isMounted) return;
 
@@ -186,25 +186,59 @@ export default function LoginPage() {
             typeof window !== 'undefined' && sessionStorage.getItem('dhanvikk_logged_out') === 'true';
           if (isLoggedOut) return;
 
+          // Skip if already have a valid session — prevents redirect loops on page load
+          const existingToken =
+            typeof window !== 'undefined'
+              ? localStorage.getItem('dhanvikk_auth_token') || sessionStorage.getItem('dhanvikk_auth_token')
+              : null;
+          const existingUser =
+            typeof window !== 'undefined'
+              ? localStorage.getItem('dhanvikk_user') || sessionStorage.getItem('dhanvikk_user')
+              : null;
+          if (existingToken && existingUser) return;
+
           try {
-            const token = await firebaseUser.getIdToken();
+            const idToken = await firebaseUser.getIdToken();
             const cleanEmail = firebaseUser.email || '';
             const resolvedName = firebaseUser.displayName || (cleanEmail ? cleanEmail.split('@')[0] : 'Google Customer');
             const resolvedAvatar = firebaseUser.photoURL || (cleanEmail ? `https://unavatar.io/google/${encodeURIComponent(cleanEmail)}` : '');
 
-            const userObj = {
+            // Build baseline user object from Firebase
+            let finalUser = {
               id: firebaseUser.uid,
               name: resolvedName,
               email: cleanEmail,
               avatar: resolvedAvatar,
               role: 'customer',
             };
+            let finalToken = idToken;
+
+            // Sync with backend to get role, DB user ID, and a proper JWT
+            try {
+              const { default: api } = await import('../../services/api');
+              const syncRes = await api.post('/api/auth/firebase-login', {
+                idToken,
+                email: cleanEmail,
+                name: resolvedName,
+                avatar: resolvedAvatar,
+                uid: firebaseUser.uid,
+                authMethod: 'google',
+              });
+              if (syncRes.data?.success && syncRes.data.user) {
+                finalUser = { ...finalUser, ...syncRes.data.user };
+                finalToken = syncRes.data.token || idToken;
+              }
+            } catch (apiErr) {
+              console.warn('Backend sync note (using Firebase session):', apiErr?.message);
+            }
 
             sessionStorage.removeItem('dhanvikk_logged_out');
-            dispatch(setCredentials({ user: userObj, token }));
-            toast.success(`Signed in as ${resolvedName} 🌸`);
+            dispatch(setCredentials({ user: finalUser, token: finalToken }));
+            toast.success(`Signed in as ${finalUser.name} 🌸`);
 
-            const targetPath = destination;
+            const targetPath = (finalUser.role === 'admin' || finalUser.role === 'super_admin')
+              ? '/admin/dashboard'
+              : destination;
             navigate(targetPath, { replace: true });
 
             setTimeout(() => {
@@ -319,7 +353,7 @@ export default function LoginPage() {
 
         {/* Register CTA Link */}
         <div className="mt-4 pt-3.5 border-t border-[#F2ECE6] text-center text-xs text-[#666666]">
-          Don't have an account?{' '}
+          Don&apos;t have an account?{' '}
           <Link
             to="/register"
             className="font-bold text-[#C2185B] hover:text-[#EC407A] ml-1 transition-colors hover:underline"
