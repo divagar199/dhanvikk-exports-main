@@ -534,8 +534,11 @@ export default function ProductDetailPage() {
                 <img
                   src={images[activeImageIndex] || images[0]}
                   alt={`${product.name} - Luxury ${product.category || 'Floral Arrangement'} by Dhanvikk Blooms`}
-                  className="w-full h-full object-cover transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-105"
-                  loading="lazy"
+                  width="600"
+                  height="600"
+                  className="w-full h-full aspect-square object-cover transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-105"
+                  loading="eager"
+                  fetchPriority="high"
                   decoding="async"
                 />
 
@@ -578,7 +581,9 @@ export default function ProductDetailPage() {
                       <img
                         src={img}
                         alt={`${product.name} - Botanical Gallery Detail View ${idx + 1}`}
-                        className="w-full h-full object-cover transition-transform duration-300 hover:scale-110"
+                        width="80"
+                        height="80"
+                        className="w-full h-full aspect-square object-cover transition-transform duration-300 hover:scale-110"
                         loading="lazy"
                         decoding="async"
                       />
@@ -1503,8 +1508,11 @@ export default function ProductDetailPage() {
                             <img
                               src={relImg}
                               alt={relItem.name}
-                              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                              width="300"
+                              height="300"
+                              className="w-full h-full aspect-square object-cover group-hover:scale-105 transition-transform duration-500"
                               loading="lazy"
+                              decoding="async"
                             />
                           </Link>
 

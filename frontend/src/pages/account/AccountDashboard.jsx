@@ -3,6 +3,7 @@ import SEO from '../../components/common/SEO';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate, useLocation, useParams, Link, Navigate } from 'react-router-dom';
 import { logoutUser, logoutImmediate, setUserProfile, loginUser, loginWithGoogleThunk } from '../../store/slices/authSlice';
+import { signInWithGoogleFirebase } from '../../config/firebase';
 import { addItem, setUserCart } from '../../store/slices/cartSlice';
 import { removeFromWishlist, setWishlist } from '../../store/slices/wishlistSlice';
 import { useCurrency } from '../../context/CurrencyContext';
@@ -275,7 +276,27 @@ export default function AccountDashboard() {
     try {
       setAuthSubmitting(true);
       sessionStorage.removeItem('dhanvikk_logged_out');
-      const res = await dispatch(loginWithGoogleThunk()).unwrap();
+      // Direct invocation preserves active user gesture
+      const fbRes = await signInWithGoogleFirebase();
+      if (fbRes?.redirecting) {
+        toast.info('Opening Google sign-in...');
+        return;
+      }
+      if (fbRes?.canceled) {
+        setAuthSubmitting(false);
+        return;
+      }
+      if (fbRes?.popupBlocked) {
+        toast.error('Google sign-in popup was blocked by browser. Please allow popups or use email sign-in.');
+        setAuthSubmitting(false);
+        return;
+      }
+      if (!fbRes?.user) {
+        setAuthSubmitting(false);
+        return;
+      }
+
+      const res = await dispatch(loginWithGoogleThunk(fbRes)).unwrap();
       if (res?.redirecting) {
         toast.info('Opening Google sign-in...');
         return;
@@ -286,7 +307,7 @@ export default function AccountDashboard() {
       if (typeof err === 'string' && err.includes('canceled')) {
         toast.info(err);
       } else {
-        toast.error(err || 'Google sign-in could not be completed.');
+        toast.error(err?.message || err || 'Google sign-in could not be completed.');
       }
     } finally {
       setAuthSubmitting(false);
@@ -462,7 +483,7 @@ export default function AccountDashboard() {
               >
                 <span className="w-5 h-5 rounded-full bg-[#FFF0F4] border border-[#F2D7DE] text-[#C2185B] flex items-center justify-center text-[10px] font-bold overflow-hidden flex-shrink-0">
                   {activeUser.avatar ? (
-                    <img src={activeUser.avatar} alt="" className="w-full h-full object-cover rounded-full" />
+                    <img src={activeUser.avatar} alt="" width="20" height="20" className="w-full h-full object-cover rounded-full" />
                   ) : activeUser.name ? (
                     activeUser.name.charAt(0).toUpperCase()
                   ) : (
@@ -519,6 +540,8 @@ export default function AccountDashboard() {
                       <img
                         src={activeUser.avatar}
                         alt={activeUser.name || 'User Avatar'}
+                        width="80"
+                        height="80"
                         className="w-full h-full object-cover rounded-2xl"
                         onError={(e) => {
                           e.target.style.display = 'none';
@@ -828,7 +851,9 @@ export default function AccountDashboard() {
                             <img
                               src={getProductImageUrl(item.image || 'https://images.unsplash.com/photo-1561181286-d3fee7d55364?auto=format&fit=crop&w=400&q=80')}
                               alt={`${item.name} order item`}
-                              className="w-14 h-14 object-cover rounded-xl border border-[#FCC1C5]"
+                              width="56"
+                              height="56"
+                              className="w-14 h-14 aspect-square object-cover rounded-xl border border-[#FCC1C5]"
                               loading="lazy"
                               decoding="async"
                             />
@@ -917,7 +942,9 @@ export default function AccountDashboard() {
                           <img
                             src={getProductImageUrl(item.image)}
                             alt={`${item.name} saved in wishlist`}
-                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                            width="300"
+                            height="176"
+                            className="w-full h-full aspect-[300/176] object-cover group-hover:scale-105 transition-transform duration-500"
                             loading="lazy"
                             decoding="async"
                           />

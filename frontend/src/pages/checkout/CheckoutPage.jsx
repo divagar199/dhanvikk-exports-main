@@ -798,7 +798,9 @@ export default function CheckoutPage() {
                         <img
                           src={getProductImageUrl(item.image)}
                           alt={`${item.name} luxury flower arrangement`}
-                          className="w-14 h-14 rounded-2xl object-cover border border-[#F7F2ED]"
+                          width="56"
+                          height="56"
+                          className="w-14 h-14 aspect-square rounded-2xl object-cover border border-[#F7F2ED]"
                           loading="lazy"
                           decoding="async"
                         />

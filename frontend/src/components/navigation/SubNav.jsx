@@ -324,7 +324,9 @@ export default function SubNav() {
                       <img
                         src={getProductImageUrl(activeMenuItem.featured.image)}
                         alt={`${activeMenuItem.featured.title} - Dhanvikk Luxury Floristry Featured Collection`}
-                        className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+                        width="400"
+                        height="250"
+                        className="w-full h-full aspect-[16/10] object-cover transition-transform duration-500 hover:scale-105"
                         loading="lazy"
                         decoding="async"
                         onError={(e) => {

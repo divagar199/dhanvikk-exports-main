@@ -299,7 +299,9 @@ export default function TraditionalExportsSection() {
                     <img
                       src={getProductImageUrl(product.image)}
                       alt={`${product.name} - GI-Tagged Temple & Export Flower per KG | Dhanvikk Blooms`}
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      width="400"
+                      height="400"
+                      className="w-full h-full aspect-square object-cover transition-transform duration-500 group-hover:scale-105"
                       loading="lazy"
                       decoding="async"
                     />
@@ -403,7 +405,9 @@ export default function TraditionalExportsSection() {
                 <img
                   src={getProductImageUrl(inquiryModalItem.image)}
                   alt={`${inquiryModalItem.name} - Wholesale Export Flower Cargo | Dhanvikk Blooms`}
-                  className="w-full h-full object-cover"
+                  width="64"
+                  height="64"
+                  className="w-full h-full aspect-square object-cover"
                   loading="lazy"
                   decoding="async"
                 />

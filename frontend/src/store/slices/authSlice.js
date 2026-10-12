@@ -228,6 +228,7 @@ export const loginWithGoogleThunk = createAsyncThunk(
           role: candidateUser.role || 'customer',
         };
         firebaseToken = extraData?.token || localStorage.getItem('dhanvikk_auth_token') || `fb_${uid}`;
+        firebaseIdToken = extraData?.idToken || (extraData?.token && !extraData.token.startsWith('fb_') ? extraData.token : null);
         firebasePayload = {
           ...firebasePayload,
           googleUid: uid,
@@ -235,6 +236,7 @@ export const loginWithGoogleThunk = createAsyncThunk(
           email: firebaseUser.email,
           avatar: firebaseUser.avatar,
           phone: firebaseUser.phone,
+          ...(firebaseIdToken ? { idToken: firebaseIdToken } : {}),
         };
       } else {
         try {
@@ -242,6 +244,12 @@ export const loginWithGoogleThunk = createAsyncThunk(
           const firebaseRes = await signInWithGoogleFirebase();
           if (firebaseRes?.redirecting) {
             return { redirecting: true };
+          }
+          if (firebaseRes?.canceled) {
+            return rejectWithValue('Google sign-in was canceled.');
+          }
+          if (firebaseRes?.popupBlocked) {
+            return rejectWithValue('Google sign-in popup was blocked by your browser. Please allow popups or use email sign-in.');
           }
           if (firebaseRes?.user) {
             firebaseUser = firebaseRes.user;

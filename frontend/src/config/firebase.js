@@ -125,50 +125,30 @@ export const signInWithGoogleFirebase = async (preferRedirect = false) => {
         throw popupErr;
       }
 
-      // If browser blocked the popup from opening at all, trigger redirect
-      if (popupErr?.code === 'auth/popup-blocked') {
-        console.info('Popup blocked by browser. Automatically switching to Google redirect flow...');
-        await signInWithRedirect(auth, googleProvider);
-        return { redirecting: true };
-      }
-
-      // If popup closed or COOP severed window.closed/postMessage, check if user actually completed auth
+      // If user intentionally closed or cancelled the popup, do NOT force redirect!
       if (
         popupErr?.code === 'auth/popup-closed-by-user' ||
-        popupErr?.code === 'auth/cancelled-popup-request' ||
-        popupErr?.code === 'auth/timeout'
+        popupErr?.code === 'auth/cancelled-popup-request'
       ) {
-        // Check current authenticated user in Firebase Auth
         if (auth.currentUser) {
           firebaseUser = auth.currentUser;
         } else {
-          // Wait briefly (up to 2s) for Firebase auth state to sync in case Chrome COOP delayed the event
-          firebaseUser = await new Promise((resolve) => {
-            let unsub = null;
-            const timer = setTimeout(() => {
-              if (unsub) unsub();
-              resolve(null);
-            }, 2000);
-            unsub = onAuthStateChanged(auth, (u) => {
-              if (u) {
-                clearTimeout(timer);
-                if (unsub) unsub();
-                resolve(u);
-              }
-            });
-          });
+          return { canceled: true };
         }
       }
 
-      // If still not authenticated, fallback to redirect flow so user is NEVER stuck
+      // If browser blocked the popup, notify caller without triggering unprompted redirect chain
+      if (popupErr?.code === 'auth/popup-blocked') {
+        return { popupBlocked: true, error: popupErr };
+      }
+
+      if (popupErr?.code === 'auth/timeout') {
+        throw popupErr;
+      }
+
+      // If still not authenticated and not canceled/blocked, rethrow error
       if (!firebaseUser) {
-        console.info('Popup could not complete credentials exchange. Falling back to redirect flow...');
-        try {
-          await signInWithRedirect(auth, googleProvider);
-          return { redirecting: true };
-        } catch {
-          throw popupErr;
-        }
+        throw popupErr;
       }
     }
 

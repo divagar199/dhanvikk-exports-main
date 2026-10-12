@@ -355,11 +355,13 @@ export default function CuratedCollectionsSection() {
                     <img
                       src={getProductImageUrl(col.image)}
                       alt={`${col.name} - ${col.tagline || 'Luxury Botanical Collection'} | Dhanvikk Blooms`}
+                      width="320"
+                      height="460"
                       onError={(e) => {
                         e.target.onerror = null;
                         e.target.src = col.fallbackImage;
                       }}
-                      className="w-full h-full object-cover object-center group-hover:scale-108 transition-transform duration-700 ease-out"
+                      className="w-full h-full aspect-[320/460] object-cover object-center group-hover:scale-108 transition-transform duration-700 ease-out"
                       loading="lazy"
                       decoding="async"
                     />

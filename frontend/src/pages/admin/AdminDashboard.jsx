@@ -1775,7 +1775,9 @@ export default function AdminDashboard() {
                                 <img
                                   src={getProductImageUrl(image)}
                                   alt={`${prod.name} product thumbnail`}
-                                  className="w-12 h-12 rounded-xl object-cover border border-[#EFE7DE] flex-shrink-0 bg-[#FAF7F2]"
+                                  width="48"
+                                  height="48"
+                                  className="w-12 h-12 aspect-square rounded-xl object-cover border border-[#EFE7DE] flex-shrink-0 bg-[#FAF7F2]"
                                   loading="lazy"
                                   decoding="async"
                                   onError={(e) => {

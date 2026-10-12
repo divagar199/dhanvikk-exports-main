@@ -25,6 +25,10 @@ import {
   clearAuthError,
   setCredentials,
 } from '../../store/slices/authSlice';
+import {
+  signInWithGoogleFirebase,
+  signInWithGoogleRedirectFirebase,
+} from '../../config/firebase';
 
 export default function LoginPage() {
   const dispatch = useDispatch();
@@ -114,13 +118,34 @@ export default function LoginPage() {
     }
   };
 
-  // Google OAuth flow (instant popup with backend sync)
+  // Google OAuth flow (instant popup with active user gesture and backend sync)
   const handleGoogleLogin = async () => {
     dispatch(clearAuthError());
     sessionStorage.removeItem('dhanvikk_logged_out');
     setGoogleLoading(true);
     try {
-      const resultAction = await dispatch(loginWithGoogleThunk());
+      // 1. Invoke directly during user gesture so browser never blocks the popup
+      const fbRes = await signInWithGoogleFirebase();
+      if (fbRes?.redirecting) {
+        toast.info('Opening Google sign-in...');
+        return;
+      }
+      if (fbRes?.canceled) {
+        setGoogleLoading(false);
+        return;
+      }
+      if (fbRes?.popupBlocked) {
+        toast.error('Google sign-in popup was blocked by browser. Please allow popups or click below for full-page sign-in.');
+        setGoogleLoading(false);
+        return;
+      }
+      if (!fbRes?.user) {
+        setGoogleLoading(false);
+        return;
+      }
+
+      // 2. Synchronize authenticated result with Redux and backend API
+      const resultAction = await dispatch(loginWithGoogleThunk(fbRes));
       if (loginWithGoogleThunk.fulfilled.match(resultAction)) {
         if (resultAction.payload?.redirecting) {
           toast.info('Opening Google sign-in...');
@@ -146,8 +171,14 @@ export default function LoginPage() {
           toast.error(errMsg);
         }
       }
-    } catch {
-      toast.error('Google sign-in could not be completed.');
+    } catch (err) {
+      if (err?.code === 'auth/popup-closed-by-user' || err?.code === 'auth/cancelled-popup-request') {
+        toast.info('Google sign-in was canceled.');
+      } else if (err?.code === 'auth/popup-blocked') {
+        toast.error('Google sign-in popup was blocked by browser. Please allow popups or click below for full-page sign-in.');
+      } else {
+        toast.error(err?.message || 'Google sign-in could not be completed.');
+      }
     } finally {
       setGoogleLoading(false);
     }
@@ -159,7 +190,6 @@ export default function LoginPage() {
     sessionStorage.removeItem('dhanvikk_logged_out');
     setGoogleLoading(true);
     try {
-      const { signInWithGoogleRedirectFirebase } = await import('../../config/firebase');
       await signInWithGoogleRedirectFirebase();
     } catch {
       toast.error('Could not initiate Google sign-in redirect.');

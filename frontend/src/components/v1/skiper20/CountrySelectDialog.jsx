@@ -226,7 +226,10 @@ export function CountryFlag({
       src={`https://flagcdn.com/w40/${codeLower}.png`}
       srcSet={`https://flagcdn.com/w80/${codeLower}.png 2x`}
       alt={`${name || code} flag`}
+      width="26"
+      height="18"
       loading="lazy"
+      decoding="async"
       className={className}
       onError={() => setError(true)}
     />

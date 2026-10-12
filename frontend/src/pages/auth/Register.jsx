@@ -352,7 +352,9 @@ export default function Register() {
                       <img
                         src={googleUser.avatar}
                         alt={`${googleUser.name || 'User'} Google Profile Avatar`}
-                        className="w-8 h-8 rounded-full border border-emerald-300 object-cover"
+                        width="32"
+                        height="32"
+                        className="w-8 h-8 aspect-square rounded-full border border-emerald-300 object-cover"
                         loading="lazy"
                         decoding="async"
                       />

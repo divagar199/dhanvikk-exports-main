@@ -260,7 +260,9 @@ export default function CategorySplitShowcase({ products = [], loading = false }
             <img
               src={displayImage}
               alt={`${product.name} - Handcrafted ${product.category || 'Luxury Floristry'} | Dhanvikk Blooms`}
-              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+              width="400"
+              height="300"
+              className="w-full h-full aspect-[4/3] object-cover transition-transform duration-500 group-hover:scale-105"
               loading="lazy"
               decoding="async"
               onError={(e) => {

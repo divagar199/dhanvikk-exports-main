@@ -270,8 +270,11 @@ export default function HauteFloristryPromise() {
                       e.currentTarget.src = activePromise.fallbackImage;
                     }
                   }}
-                  className="w-full h-full object-cover transition-all duration-700 ease-out group-hover/img:scale-105 animate-in fade-in duration-500"
+                  width="600"
+                  height="450"
+                  className="w-full h-full aspect-[4/3] object-cover transition-all duration-700 ease-out group-hover/img:scale-105 animate-in fade-in duration-500"
                   loading="lazy"
+                  decoding="async"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-transparent to-transparent pointer-events-none" />
 
