@@ -163,7 +163,7 @@ export const registerUser = createAsyncThunk(
           return rejectWithValue('Password must be at least 6 characters.');
         }
         if (fbErr.code === 'auth/operation-not-allowed') {
-          return rejectWithValue('Email/Password registration is not yet enabled in Firebase Console for auth-checker-diva. Please enable it under Authentication > Sign-in method.');
+          return rejectWithValue('Email/Password registration is not yet enabled in Firebase Console for auth-checker-1-main. Please enable it under Authentication > Sign-in method.');
         }
       }
 

@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "972583680950",
-    "project_id": "auth-checker-diva",
-    "storage_bucket": "auth-checker-diva.firebasestorage.app"
+    "project_number": "160660053649",
+    "project_id": "auth-checker-1-main",
+    "storage_bucket": "auth-checker-1-main.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:972583680950:android:1acf4d8ff8331adc205f17",
+        "mobilesdk_app_id": "1:160660053649:android:1acf4d8ff8331adc205f17",
         "android_client_info": {
           "package_name": "com.dhanvikk.blooms"
         }
       },
       "oauth_client": [
         {
-          "client_id": "972583680950-7ang94u09kol0u5f5sndskkcr913nqc2.apps.googleusercontent.com",
+          "client_id": "160660053649-1ar8vvfbirn6jgd9bnukihvk0frgluv6.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyALogd47c0ZlzLQNX-Uw03V7HZsea4lDjY"
+          "current_key": "AIzaSyC1hipp0dBNuKNRcT11fb-yj9KHZjFAQdE"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "972583680950-7ang94u09kol0u5f5sndskkcr913nqc2.apps.googleusercontent.com",
+              "client_id": "160660053649-1ar8vvfbirn6jgd9bnukihvk0frgluv6.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

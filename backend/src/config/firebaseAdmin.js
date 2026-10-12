@@ -14,9 +14,27 @@ try {
   const __dirname = path.dirname(__filename);
   const serviceAccountPath = path.resolve(__dirname, '../../config/firebase-service-account.json');
 
-  if (fs.existsSync(serviceAccountPath)) {
-    const serviceAccount = JSON.parse(fs.readFileSync(serviceAccountPath, 'utf8'));
-    
+  let serviceAccount = null;
+
+  if (process.env.FIREBASE_SERVICE_ACCOUNT_KEY || process.env.FIREBASE_SERVICE_ACCOUNT) {
+    try {
+      const rawEnv = process.env.FIREBASE_SERVICE_ACCOUNT_KEY || process.env.FIREBASE_SERVICE_ACCOUNT;
+      serviceAccount = JSON.parse(rawEnv.trim());
+    } catch {
+      try {
+        const decoded = Buffer.from(rawEnv, 'base64').toString('utf8');
+        serviceAccount = JSON.parse(decoded);
+      } catch (parseErr) {
+        console.warn('⚠️ Could not parse FIREBASE_SERVICE_ACCOUNT from environment:', parseErr.message);
+      }
+    }
+  }
+
+  if (!serviceAccount && fs.existsSync(serviceAccountPath)) {
+    serviceAccount = JSON.parse(fs.readFileSync(serviceAccountPath, 'utf8'));
+  }
+
+  if (serviceAccount) {
     firebaseAdminApp = getApps().length === 0
       ? initializeApp({
           credential: cert(serviceAccount),
@@ -28,7 +46,7 @@ try {
     firebaseAuth = getAuth(firebaseAdminApp);
     console.log(`✅ Firebase Admin SDK initialized successfully for project: ${serviceAccount.project_id || 'auth-checker-1-main'}`);
   } else {
-    console.warn('⚠️ Firebase service account file not found at:', serviceAccountPath);
+    console.warn('⚠️ Firebase service account not found in env or at:', serviceAccountPath);
   }
 } catch (error) {
   console.error('❌ Failed to initialize Firebase Admin SDK:', error.message);

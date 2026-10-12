@@ -280,9 +280,9 @@ export default function GoogleAuthModal({
               <AppText style={styles.subtitlePrefix}>to continue to </AppText>
               <TouchableOpacity
                 activeOpacity={0.8}
-                onPress={() => Linking.openURL('https://auth-checker-diva.firebaseapp.com').catch(() => {})}
+                onPress={() => Linking.openURL('https://auth-checker-1-main.firebaseapp.com').catch(() => {})}
               >
-                <AppText style={styles.subtitleDomain}>auth-checker-diva.firebaseapp.com</AppText>
+                <AppText style={styles.subtitleDomain}>auth-checker-1-main.firebaseapp.com</AppText>
               </TouchableOpacity>
             </View>
           </View>
