@@ -147,6 +147,16 @@ export default function Register() {
         toast.info('Opening Google sign-in...');
         return;
       }
+      if (fbRes?.canceled) {
+        setGoogleLoading(false);
+        return;
+      }
+      if (fbRes?.popupBlocked) {
+        toast.info('Popup blocked by browser. Automatically opening full-page Google sign-in...');
+        const { signInWithGoogleRedirectFirebase } = await import('../../config/firebase');
+        await signInWithGoogleRedirectFirebase();
+        return;
+      }
       if (fbRes?.user) {
         setGoogleUser(fbRes.user);
         setFormData((prev) => ({
@@ -180,7 +190,12 @@ export default function Register() {
       if (err.code === 'auth/popup-closed-by-user' || err.code === 'auth/cancelled-popup-request') {
         toast.info('Google sign-in was canceled.');
       } else if (err.code === 'auth/popup-blocked') {
-        toast.error('Google sign-in popup was blocked. Please allow popups or enter details manually.');
+        toast.info('Popup blocked by browser. Automatically opening full-page Google sign-in...');
+        try {
+          const { signInWithGoogleRedirectFirebase } = await import('../../config/firebase');
+          await signInWithGoogleRedirectFirebase();
+          return;
+        } catch {}
       } else {
         toast.error(err?.message || 'Google connection could not be opened. You can enter details manually.');
       }

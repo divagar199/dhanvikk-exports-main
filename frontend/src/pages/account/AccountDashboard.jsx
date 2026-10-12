@@ -287,8 +287,9 @@ export default function AccountDashboard() {
         return;
       }
       if (fbRes?.popupBlocked) {
-        toast.error('Google sign-in popup was blocked by browser. Please allow popups or use email sign-in.');
-        setAuthSubmitting(false);
+        toast.info('Popup blocked by browser. Automatically opening full-page Google sign-in...');
+        const { signInWithGoogleRedirectFirebase } = await import('../../config/firebase');
+        await signInWithGoogleRedirectFirebase();
         return;
       }
       if (!fbRes?.user) {
@@ -306,6 +307,13 @@ export default function AccountDashboard() {
     } catch (err) {
       if (typeof err === 'string' && err.includes('canceled')) {
         toast.info(err);
+      } else if (err?.code === 'auth/popup-blocked') {
+        toast.info('Popup blocked by browser. Automatically opening full-page Google sign-in...');
+        try {
+          const { signInWithGoogleRedirectFirebase } = await import('../../config/firebase');
+          await signInWithGoogleRedirectFirebase();
+          return;
+        } catch {}
       } else {
         toast.error(err?.message || err || 'Google sign-in could not be completed.');
       }

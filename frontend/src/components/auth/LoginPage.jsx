@@ -135,8 +135,8 @@ export default function LoginPage() {
         return;
       }
       if (fbRes?.popupBlocked) {
-        toast.error('Google sign-in popup was blocked by browser. Please allow popups or click below for full-page sign-in.');
-        setGoogleLoading(false);
+        toast.info('Popup blocked by browser. Automatically opening full-page Google sign-in...');
+        await signInWithGoogleRedirectFirebase();
         return;
       }
       if (!fbRes?.user) {
@@ -175,7 +175,11 @@ export default function LoginPage() {
       if (err?.code === 'auth/popup-closed-by-user' || err?.code === 'auth/cancelled-popup-request') {
         toast.info('Google sign-in was canceled.');
       } else if (err?.code === 'auth/popup-blocked') {
-        toast.error('Google sign-in popup was blocked by browser. Please allow popups or click below for full-page sign-in.');
+        toast.info('Popup blocked by browser. Automatically opening full-page Google sign-in...');
+        try {
+          await signInWithGoogleRedirectFirebase();
+          return;
+        } catch {}
       } else {
         toast.error(err?.message || 'Google sign-in could not be completed.');
       }
