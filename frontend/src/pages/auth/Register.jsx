@@ -117,6 +117,7 @@ export default function Register() {
           }));
           const actionResult = await dispatch(
             loginWithGoogleThunk({
+              idToken: res.idToken,
               googleUid: res.user.id,
               name: res.user.name,
               email: res.user.email,
@@ -158,6 +159,7 @@ export default function Register() {
         // Immediately complete Google Sign Up & Login
         const actionResult = await dispatch(
           loginWithGoogleThunk({
+            idToken: fbRes.idToken,
             googleUid: fbRes.user.id,
             name: fbRes.user.name,
             email: fbRes.user.email,
