@@ -143,9 +143,6 @@ export default function LoginPage() {
         toast.warning('Google sign-in popup was blocked by browser. Please allow popups or click below for full-page sign-in.', {
           duration: 7000,
         });
-        try {
-          await signInWithGoogleRedirectFirebase();
-        } catch {}
         return;
       }
       if (!fbRes?.user) {
@@ -192,9 +189,6 @@ export default function LoginPage() {
         toast.warning('Google sign-in popup was blocked by browser. Please allow popups or click below for full-page sign-in.', {
           duration: 7000,
         });
-        try {
-          await signInWithGoogleRedirectFirebase();
-        } catch {}
         return;
       } else {
         toast.error(err?.message || 'Google sign-in could not be completed.');

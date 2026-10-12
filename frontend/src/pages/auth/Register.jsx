@@ -159,10 +159,6 @@ export default function Register() {
         toast.warning('Google sign-in popup was blocked by browser. Please allow popups or click below for full-page sign-in.', {
           duration: 7000,
         });
-        try {
-          const { signInWithGoogleRedirectFirebase } = await import('../../config/firebase');
-          await signInWithGoogleRedirectFirebase();
-        } catch {}
         return;
       }
       if (fbRes?.user) {
@@ -209,10 +205,6 @@ export default function Register() {
         toast.warning('Google sign-in popup was blocked by browser. Please allow popups or click below for full-page sign-in.', {
           duration: 7000,
         });
-        try {
-          const { signInWithGoogleRedirectFirebase } = await import('../../config/firebase');
-          await signInWithGoogleRedirectFirebase();
-        } catch {}
         return;
       } else {
         toast.error(err?.message || 'Google connection could not be opened. You can enter details manually.');

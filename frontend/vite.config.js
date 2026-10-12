@@ -30,6 +30,12 @@ export default defineConfig({
         changeOrigin: true,
         secure: false,
       },
+      // Proxies Firebase Auth helper requests to prevent third-party bounce tracking warnings
+      '/__/auth': {
+        target: 'https://auth-checker-1-main.firebaseapp.com',
+        changeOrigin: true,
+        secure: true,
+      },
     },
   },
 })
