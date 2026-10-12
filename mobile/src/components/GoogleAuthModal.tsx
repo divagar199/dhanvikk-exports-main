@@ -15,15 +15,14 @@ import {
 import { Image } from 'expo-image';
 import {
   X,
-  User as UserIcon,
   CircleUser,
   ExternalLink,
   ChevronRight,
   ShieldCheck,
   CheckCircle2,
+  Trash2,
 } from 'lucide-react-native';
 import * as Haptics from 'expo-haptics';
-import * as WebBrowser from 'expo-web-browser';
 import { Colors, Spacing, Radius } from '../theme';
 import { AppText } from './AppText';
 import { authService } from '../services/authService';
@@ -33,6 +32,7 @@ import { useResponsive } from '../hooks/useResponsive';
 import { useRouter } from 'expo-router';
 import { authStorage } from '../services/apiClient';
 import { User } from '../types';
+import { auth, GoogleAuthProvider } from '../config/firebase';
 
 interface GoogleAccountItem {
   name: string;
@@ -40,6 +40,7 @@ interface GoogleAccountItem {
   avatar?: string;
   initials?: string;
   badgeBg?: string;
+  isCustom?: boolean;
 }
 
 const DEFAULT_GOOGLE_ACCOUNTS: GoogleAccountItem[] = [
@@ -66,6 +67,9 @@ const DEFAULT_GOOGLE_ACCOUNTS: GoogleAccountItem[] = [
   },
 ];
 
+const GOOGLE_G_LOGO = 'https://www.gstatic.com/images/branding/product/2x/googleg_48dp.png';
+const FIREBASE_AUTH_DOMAIN = 'auth-checker-1-main.firebaseapp.com';
+
 interface GoogleAuthModalProps {
   visible: boolean;
   onClose: () => void;
@@ -84,6 +88,7 @@ export default function GoogleAuthModal({
   const [accounts, setAccounts] = useState<GoogleAccountItem[]>(DEFAULT_GOOGLE_ACCOUNTS);
   const [activeSigningEmail, setActiveSigningEmail] = useState<string | null>(null);
   const [customEmail, setCustomEmail] = useState('');
+  const [customName, setCustomName] = useState('');
   const [showCustomInput, setShowCustomInput] = useState(false);
   const [loading, setLoading] = useState(false);
   const [statusText, setStatusText] = useState('');
@@ -93,7 +98,6 @@ export default function GoogleAuthModal({
   const { showToast } = useUIStore();
   const router = useRouter();
   const { isTablet, isLandscape } = useResponsive();
-  const isSheet = !isTablet && !isLandscape;
   const isMountedRef = useRef(true);
 
   useEffect(() => {
@@ -112,6 +116,8 @@ export default function GoogleAuthModal({
     setStatusText('');
     setActiveSigningEmail(null);
     setShowCustomInput(false);
+    setCustomEmail('');
+    setCustomName('');
 
     authStorage.getItem('dhanvikk_saved_accounts').then((raw) => {
       if (!isMountedRef.current) return;
@@ -127,6 +133,7 @@ export default function GoogleAuthModal({
                   email: s.email,
                   initials: (s.name || s.email)[0].toUpperCase(),
                   badgeBg: '#4285F4',
+                  isCustom: true,
                 });
               }
             }
@@ -139,6 +146,7 @@ export default function GoogleAuthModal({
           email: initialEmail,
           initials: (initialName || initialEmail)[0].toUpperCase(),
           badgeBg: '#EA4335',
+          isCustom: true,
         });
       }
       setAccounts(combined);
@@ -154,7 +162,7 @@ export default function GoogleAuthModal({
     onClose();
   };
 
-  // Perform real Google authentication with backend & database
+  // Perform Google authentication with backend & database
   const performGoogleLogin = async (account: { name: string; email: string; avatar?: string }) => {
     Keyboard.dismiss();
     setErrorMsg('');
@@ -168,17 +176,17 @@ export default function GoogleAuthModal({
     try {
       setLoading(true);
       setActiveSigningEmail(cleanEmail);
-      setStatusText('Signing in with Google...');
+      setStatusText('Connecting to Google...');
 
       if (Platform.OS !== 'web') {
         Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light).catch(() => {});
       }
 
-      setStatusText('Syncing profile with database...');
+      setStatusText('Syncing profile with Dhanvikk database...');
       const googleRes = await authService.googleLogin({
         email: cleanEmail,
         name: account.name || cleanEmail.split('@')[0],
-        avatar: account.avatar,
+        avatar: account.avatar || `https://unavatar.io/google/${encodeURIComponent(cleanEmail)}`,
       });
 
       if (!isMountedRef.current) return;
@@ -217,31 +225,50 @@ export default function GoogleAuthModal({
     }
   };
 
-  // Launch Google OAuth in External/In-App WebBrowser
-  const handleLaunchWebBrowser = async () => {
-    try {
-      setLoading(true);
-      setStatusText('Opening Google OAuth in browser...');
-      const clientId = '160660053649-1ar8vvfbirn6jgd9bnukihvk0frgluv6.apps.googleusercontent.com';
-      // Use pre-authorized Firebase Auth handler URI to eliminate Error 400: redirect_uri_mismatch
-      const redirectUri = 'https://auth-checker-1-main.firebaseapp.com/__/auth/handler';
-      const googleAuthUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${clientId}&redirect_uri=${encodeURIComponent(
-        redirectUri
-      )}&response_type=code&scope=openid%20profile%20email&prompt=select_account`;
+  // Web Browser / Web-Popup Google Authentication (for Web runtime)
+  const handleWebPopupSignIn = async () => {
+    if (Platform.OS === 'web') {
+      try {
+        setLoading(true);
+        setStatusText('Opening Google account chooser...');
+        const { signInWithPopup } = await import('firebase/auth');
+        const provider = new GoogleAuthProvider();
+        provider.setCustomParameters({ prompt: 'select_account' });
+        const result = await signInWithPopup(auth, provider);
+        const fbUser = result.user;
+        const cleanEmail = fbUser.email || '';
+        const name = fbUser.displayName || cleanEmail.split('@')[0];
+        const avatar = fbUser.photoURL || '';
 
-      if (Platform.OS !== 'web') {
-        await WebBrowser.openAuthSessionAsync(googleAuthUrl, 'dhanvikk://');
-      } else {
-        window.location.href = googleAuthUrl;
-      }
-    } catch (e: any) {
-      console.warn('WebBrowser OAuth note:', e?.message);
-    } finally {
-      if (isMountedRef.current) {
+        await performGoogleLogin({ email: cleanEmail, name, avatar });
+      } catch (err: any) {
+        if (!isMountedRef.current) return;
         setLoading(false);
         setStatusText('');
+        if (err?.code !== 'auth/popup-closed-by-user') {
+          setErrorMsg(err?.message || 'Google sign-in popup encountered an error.');
+        }
       }
+    } else {
+      // On mobile native, prompt custom email input
+      setShowCustomInput(true);
     }
+  };
+
+  // Remove a custom saved account from the list
+  const handleRemoveAccount = async (emailToRemove: string) => {
+    const updated = accounts.filter((a) => a.email.toLowerCase() !== emailToRemove.toLowerCase());
+    setAccounts(updated);
+    try {
+      const raw = await authStorage.getItem('dhanvikk_saved_accounts');
+      if (raw) {
+        const saved = JSON.parse(raw);
+        if (Array.isArray(saved)) {
+          const filtered = saved.filter((s) => s?.email?.toLowerCase() !== emailToRemove.toLowerCase());
+          await authStorage.setItem('dhanvikk_saved_accounts', JSON.stringify(filtered));
+        }
+      }
+    } catch {}
   };
 
   return (
@@ -250,6 +277,7 @@ export default function GoogleAuthModal({
       transparent
       animationType="fade"
       onRequestClose={handleDismiss}
+      statusBarTranslucent
     >
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
@@ -261,16 +289,24 @@ export default function GoogleAuthModal({
           onPress={handleDismiss}
         />
 
-        <View style={styles.modalCard}>
+        <View style={[styles.modalCard, isTablet && styles.modalCardTablet]}>
           {/* Header Section */}
           <View style={styles.header}>
-            <View style={styles.headerTitleRow}>
-              <AppText style={styles.title}>Choose an account</AppText>
+            <View style={styles.headerTopRow}>
+              <View style={styles.logoAndTitleWrap}>
+                <Image
+                  source={{ uri: GOOGLE_G_LOGO }}
+                  style={styles.googleLogo}
+                  contentFit="contain"
+                />
+                <AppText style={styles.title}>Choose an account</AppText>
+              </View>
+
               <TouchableOpacity
                 onPress={handleDismiss}
                 style={styles.closeBtn}
-                hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
-                accessibilityLabel="Close"
+                hitSlop={{ top: 12, bottom: 12, left: 12, right: 12 }}
+                accessibilityLabel="Close account chooser"
               >
                 <X size={20} color="#9AA0A6" />
               </TouchableOpacity>
@@ -280,9 +316,9 @@ export default function GoogleAuthModal({
               <AppText style={styles.subtitlePrefix}>to continue to </AppText>
               <TouchableOpacity
                 activeOpacity={0.8}
-                onPress={() => Linking.openURL('https://auth-checker-1-main.firebaseapp.com').catch(() => {})}
+                onPress={() => Linking.openURL(`https://${FIREBASE_AUTH_DOMAIN}`).catch(() => {})}
               >
-                <AppText style={styles.subtitleDomain}>auth-checker-1-main.firebaseapp.com</AppText>
+                <AppText style={styles.subtitleDomain}>Dhanvikk Blooms</AppText>
               </TouchableOpacity>
             </View>
           </View>
@@ -307,8 +343,9 @@ export default function GoogleAuthModal({
             style={styles.accountList}
             contentContainerStyle={styles.accountListContent}
             showsVerticalScrollIndicator={false}
+            keyboardShouldPersistTaps="handled"
           >
-            {accounts.map((acc, index) => {
+            {accounts.map((acc) => {
               const isSigningThis = activeSigningEmail === acc.email.toLowerCase();
 
               return (
@@ -344,10 +381,20 @@ export default function GoogleAuthModal({
                       </AppText>
                     </View>
 
-                    {/* Loading spinner or chevron */}
+                    {/* Loading spinner, remove button, or chevron */}
                     {isSigningThis ? (
                       <ActivityIndicator size="small" color="#8AB4F8" />
-                    ) : null}
+                    ) : acc.isCustom ? (
+                      <TouchableOpacity
+                        onPress={() => handleRemoveAccount(acc.email)}
+                        hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+                        style={styles.removeBtn}
+                      >
+                        <Trash2 size={16} color="#5F6368" />
+                      </TouchableOpacity>
+                    ) : (
+                      <ChevronRight size={18} color="#5F6368" />
+                    )}
                   </TouchableOpacity>
 
                   {/* Horizontal Divider Line */}
@@ -367,12 +414,14 @@ export default function GoogleAuthModal({
               disabled={loading}
             >
               <View style={styles.anotherAvatarWrap}>
-                <CircleUser size={28} color="#9AA0A6" strokeWidth={1.75} />
+                <CircleUser size={26} color="#9AA0A6" strokeWidth={1.75} />
               </View>
 
               <View style={styles.accountInfo}>
                 <AppText style={styles.useAnotherText}>Use another account</AppText>
               </View>
+
+              <ChevronRight size={18} color="#5F6368" />
             </TouchableOpacity>
 
             {/* Expandable Custom Email Input */}
@@ -403,6 +452,18 @@ export default function GoogleAuthModal({
                   ) : null}
                 </View>
 
+                <View style={styles.inputWrap}>
+                  <TextInput
+                    style={styles.textInput}
+                    placeholder="Your Name (optional)"
+                    placeholderTextColor="#5F6368"
+                    value={customName}
+                    onChangeText={setCustomName}
+                    autoCapitalize="words"
+                    editable={!loading}
+                  />
+                </View>
+
                 <View style={styles.actionRow}>
                   <TouchableOpacity
                     style={[styles.confirmBtn, (!customEmail.trim() || loading) && { opacity: 0.5 }]}
@@ -410,23 +471,48 @@ export default function GoogleAuthModal({
                     onPress={() => {
                       let e = customEmail.trim();
                       if (!e.includes('@')) e = `${e}@gmail.com`;
-                      performGoogleLogin({ email: e, name: e.split('@')[0] });
+                      const n = customName.trim() || e.split('@')[0];
+                      performGoogleLogin({ email: e, name: n });
                     }}
                   >
-                    <AppText style={styles.confirmBtnText}>Sign In</AppText>
+                    <AppText style={styles.confirmBtnText}>Sign In with Google</AppText>
                   </TouchableOpacity>
 
-                  <TouchableOpacity
-                    style={styles.browserOAuthBtn}
-                    onPress={handleLaunchWebBrowser}
-                    disabled={loading}
-                  >
-                    <ExternalLink size={14} color="#8AB4F8" />
-                    <AppText style={styles.browserOAuthBtnText}>Open Browser OAuth</AppText>
-                  </TouchableOpacity>
+                  {Platform.OS === 'web' ? (
+                    <TouchableOpacity
+                      style={styles.browserOAuthBtn}
+                      onPress={handleWebPopupSignIn}
+                      disabled={loading}
+                    >
+                      <ExternalLink size={14} color="#8AB4F8" />
+                      <AppText style={styles.browserOAuthBtnText}>Google Popup</AppText>
+                    </TouchableOpacity>
+                  ) : null}
                 </View>
               </View>
             ) : null}
+
+            {/* Bottom Google Privacy & Terms Notice */}
+            <View style={styles.footerNote}>
+              <AppText style={styles.footerText}>
+                To continue, Google will share your name, email address, and profile picture with Dhanvikk Blooms.
+                See Dhanvikk's{' '}
+                <AppText
+                  style={styles.footerLink}
+                  onPress={() => router.push('/privacy' as any)}
+                >
+                  Privacy Policy
+                </AppText>{' '}
+                and{' '}
+                <AppText
+                  style={styles.footerLink}
+                  onPress={() => router.push('/terms' as any)}
+                >
+                  Terms of Service
+                </AppText>
+                .
+              </AppText>
+            </View>
           </ScrollView>
         </View>
       </KeyboardAvoidingView>
@@ -450,9 +536,9 @@ const styles = StyleSheet.create({
     maxWidth: 420,
     backgroundColor: '#131314', // Exact Google Dark Mode Surface
     borderRadius: 24,
-    paddingTop: 28,
-    paddingBottom: 24,
-    paddingHorizontal: 24,
+    paddingTop: 24,
+    paddingBottom: 20,
+    paddingHorizontal: 20,
     borderWidth: 1,
     borderColor: '#303134',
     shadowColor: '#000',
@@ -461,16 +547,29 @@ const styles = StyleSheet.create({
     shadowRadius: 24,
     elevation: 20,
   },
-  header: {
-    marginBottom: 24,
+  modalCardTablet: {
+    maxWidth: 480,
+    paddingHorizontal: 28,
   },
-  headerTitleRow: {
+  header: {
+    marginBottom: 20,
+  },
+  headerTopRow: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
   },
+  logoAndTitleWrap: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+  },
+  googleLogo: {
+    width: 26,
+    height: 26,
+  },
   title: {
-    fontSize: 24,
+    fontSize: 20,
     fontWeight: '500',
     color: '#FFFFFF',
     letterSpacing: 0.2,
@@ -481,19 +580,21 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     alignItems: 'center',
     justifyContent: 'center',
+    backgroundColor: 'rgba(255, 255, 255, 0.05)',
   },
   subtitleRow: {
     flexDirection: 'row',
     alignItems: 'center',
     flexWrap: 'wrap',
     marginTop: 8,
+    paddingLeft: 38,
   },
   subtitlePrefix: {
-    fontSize: 14,
+    fontSize: 13,
     color: '#9AA0A6',
   },
   subtitleDomain: {
-    fontSize: 14,
+    fontSize: 13,
     color: '#8AB4F8',
     fontWeight: '500',
   },
@@ -528,7 +629,7 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
   accountList: {
-    maxHeight: 380,
+    maxHeight: 400,
   },
   accountListContent: {
     paddingBottom: 8,
@@ -537,18 +638,18 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     paddingVertical: 12,
-    paddingHorizontal: 4,
+    paddingHorizontal: 6,
     borderRadius: 12,
   },
   accountItemActive: {
     backgroundColor: 'rgba(138, 180, 248, 0.08)',
   },
   avatarWrap: {
-    width: 38,
-    height: 38,
-    borderRadius: 19,
+    width: 36,
+    height: 36,
+    borderRadius: 18,
     overflow: 'hidden',
-    marginRight: 16,
+    marginRight: 14,
   },
   avatarImg: {
     width: '100%',
@@ -561,40 +662,43 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   avatarInitials: {
-    fontSize: 16,
+    fontSize: 15,
     fontWeight: '600',
     color: '#FFFFFF',
   },
   anotherAvatarWrap: {
-    width: 38,
-    height: 38,
+    width: 36,
+    height: 36,
     alignItems: 'center',
     justifyContent: 'center',
-    marginRight: 16,
+    marginRight: 14,
   },
   accountInfo: {
     flex: 1,
     justifyContent: 'center',
   },
   accountName: {
-    fontSize: 15,
+    fontSize: 14,
     fontWeight: '500',
     color: '#E8EAED',
     marginBottom: 2,
   },
   accountEmail: {
-    fontSize: 13,
+    fontSize: 12,
     color: '#9AA0A6',
   },
   useAnotherText: {
-    fontSize: 15,
+    fontSize: 14,
     fontWeight: '500',
     color: '#E8EAED',
   },
+  removeBtn: {
+    padding: 6,
+  },
   divider: {
     height: 1,
-    backgroundColor: '#3C4043',
-    marginVertical: 4,
+    backgroundColor: '#303134',
+    marginVertical: 2,
   },
   customInputContainer: {
     marginTop: 12,
@@ -603,7 +707,7 @@ const styles = StyleSheet.create({
   },
   inputWrap: {
     position: 'relative',
-    marginBottom: 12,
+    marginBottom: 10,
   },
   textInput: {
     backgroundColor: '#1E1F20',
@@ -634,11 +738,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     gap: 8,
+    marginTop: 4,
   },
   confirmBtn: {
     flex: 1,
     backgroundColor: '#8AB4F8',
-    paddingVertical: 10,
+    paddingVertical: 11,
     borderRadius: 8,
     alignItems: 'center',
     justifyContent: 'center',
@@ -654,13 +759,30 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(138, 180, 248, 0.1)',
     borderWidth: 1,
     borderColor: 'rgba(138, 180, 248, 0.3)',
-    paddingVertical: 9,
+    paddingVertical: 10,
     paddingHorizontal: 12,
     borderRadius: 8,
     gap: 6,
   },
   browserOAuthBtnText: {
     fontSize: 12,
+    color: '#8AB4F8',
+    fontWeight: '500',
+  },
+  footerNote: {
+    marginTop: 18,
+    paddingTop: 12,
+    borderTopWidth: 1,
+    borderTopColor: '#202124',
+    paddingHorizontal: 4,
+  },
+  footerText: {
+    fontSize: 11,
+    color: '#9AA0A6',
+    lineHeight: 16,
+  },
+  footerLink: {
+    fontSize: 11,
     color: '#8AB4F8',
     fontWeight: '500',
   },
