@@ -4,6 +4,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'sonner';
 import {
   AlertTriangle,
+  AlertCircle,
+  ArrowRight,
   ExternalLink,
   Sparkles,
   ShieldCheck,
@@ -37,6 +39,7 @@ export default function LoginPage() {
 
   const { isAuthenticated, user, loading, error: authError } = useSelector((state) => state.auth);
   const [googleLoading, setGoogleLoading] = useState(false);
+  const [popupBlocked, setPopupBlocked] = useState(false);
   const [activeAuthTab, setActiveAuthTab] = useState('google'); // 'google' | 'email'
 
   // Target destination redirect: defaults to /account unless user came from a specific page like /checkout
@@ -135,8 +138,14 @@ export default function LoginPage() {
         return;
       }
       if (fbRes?.popupBlocked) {
-        toast.info('Popup blocked by browser. Automatically opening full-page Google sign-in...');
-        await signInWithGoogleRedirectFirebase();
+        setPopupBlocked(true);
+        setGoogleLoading(false);
+        toast.warning('Google sign-in popup was blocked by browser. Please allow popups or click below for full-page sign-in.', {
+          duration: 7000,
+        });
+        try {
+          await signInWithGoogleRedirectFirebase();
+        } catch {}
         return;
       }
       if (!fbRes?.user) {
@@ -167,6 +176,9 @@ export default function LoginPage() {
         const errMsg = resultAction.payload || 'Unable to sign in with Google. Please try again.';
         if (errMsg.includes('canceled')) {
           toast.info(errMsg);
+        } else if (errMsg.includes('popup was blocked')) {
+          setPopupBlocked(true);
+          toast.warning(errMsg, { duration: 7000 });
         } else {
           toast.error(errMsg);
         }
@@ -174,12 +186,16 @@ export default function LoginPage() {
     } catch (err) {
       if (err?.code === 'auth/popup-closed-by-user' || err?.code === 'auth/cancelled-popup-request') {
         toast.info('Google sign-in was canceled.');
-      } else if (err?.code === 'auth/popup-blocked') {
-        toast.info('Popup blocked by browser. Automatically opening full-page Google sign-in...');
+      } else if (err?.code === 'auth/popup-blocked' || (typeof err === 'string' && err.includes('popup was blocked'))) {
+        setPopupBlocked(true);
+        setGoogleLoading(false);
+        toast.warning('Google sign-in popup was blocked by browser. Please allow popups or click below for full-page sign-in.', {
+          duration: 7000,
+        });
         try {
           await signInWithGoogleRedirectFirebase();
-          return;
         } catch {}
+        return;
       } else {
         toast.error(err?.message || 'Google sign-in could not be completed.');
       }
@@ -192,7 +208,9 @@ export default function LoginPage() {
   const handleGoogleRedirectLogin = async () => {
     dispatch(clearAuthError());
     sessionStorage.removeItem('dhanvikk_logged_out');
+    setPopupBlocked(false);
     setGoogleLoading(true);
+    toast.info('Opening full-page Google sign-in...');
     try {
       await signInWithGoogleRedirectFirebase();
     } catch {
@@ -435,6 +453,31 @@ export default function LoginPage() {
         {/* TAB 1: 1-Tap Google Authentication */}
         {activeAuthTab === 'google' && (
           <div className="space-y-3.5 mb-4 animate-in fade-in duration-200">
+            {(popupBlocked || (authError && authError.includes('popup was blocked'))) && (
+              <div className="p-3.5 rounded-2xl bg-amber-50/95 border border-amber-200/90 flex flex-col gap-2.5 shadow-xs animate-in fade-in slide-in-from-top-1 duration-200">
+                <div className="flex items-start gap-2.5">
+                  <AlertCircle className="w-4 h-4 text-amber-600 mt-0.5 flex-shrink-0" />
+                  <div className="flex-1">
+                    <p className="text-xs font-semibold text-amber-900 leading-snug">
+                      Google sign-in popup was blocked by browser.
+                    </p>
+                    <p className="text-[11.5px] text-amber-800 mt-0.5 leading-relaxed">
+                      Please allow popups or click below for full-page sign-in:
+                    </p>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  onClick={handleGoogleRedirectLogin}
+                  disabled={googleLoading}
+                  className="w-full py-2.5 px-3 rounded-xl bg-[#4285F4] hover:bg-[#3367D6] text-white font-semibold text-xs transition-all flex items-center justify-center gap-2 shadow-xs active:scale-[0.99] cursor-pointer"
+                >
+                  <span>Sign in with Google (Full-Page)</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </button>
+              </div>
+            )}
+
             <SocialLogin
               onGoogleLogin={handleGoogleLogin}
               onGoogleRedirectLogin={handleGoogleRedirectLogin}

@@ -249,7 +249,7 @@ export const loginWithGoogleThunk = createAsyncThunk(
             return rejectWithValue('Google sign-in was canceled.');
           }
           if (firebaseRes?.popupBlocked) {
-            return rejectWithValue('Google sign-in popup was blocked by your browser. Please allow popups or use email sign-in.');
+            return rejectWithValue('Google sign-in popup was blocked by browser. Please allow popups or click below for full-page sign-in.');
           }
           if (firebaseRes?.user) {
             firebaseUser = firebaseRes.user;
@@ -272,7 +272,7 @@ export const loginWithGoogleThunk = createAsyncThunk(
             return rejectWithValue('Google sign-in was canceled.');
           }
           if (errorCode === 'auth/popup-blocked') {
-            return rejectWithValue('Google sign-in popup was blocked by your browser. Please allow popups or use email sign-in.');
+            return rejectWithValue('Google sign-in popup was blocked by browser. Please allow popups or click below for full-page sign-in.');
           }
           if (errorCode === 'auth/unauthorized-domain') {
             const currentHost = typeof window !== 'undefined' ? window.location.hostname : 'current domain';

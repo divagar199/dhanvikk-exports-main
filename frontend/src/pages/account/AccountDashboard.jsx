@@ -287,7 +287,9 @@ export default function AccountDashboard() {
         return;
       }
       if (fbRes?.popupBlocked) {
-        toast.info('Popup blocked by browser. Automatically opening full-page Google sign-in...');
+        toast.warning('Google sign-in popup was blocked by browser. Please allow popups or click below for full-page sign-in.', {
+          duration: 7000,
+        });
         const { signInWithGoogleRedirectFirebase } = await import('../../config/firebase');
         await signInWithGoogleRedirectFirebase();
         return;
@@ -307,8 +309,10 @@ export default function AccountDashboard() {
     } catch (err) {
       if (typeof err === 'string' && err.includes('canceled')) {
         toast.info(err);
-      } else if (err?.code === 'auth/popup-blocked') {
-        toast.info('Popup blocked by browser. Automatically opening full-page Google sign-in...');
+      } else if (err?.code === 'auth/popup-blocked' || (typeof err === 'string' && err.includes('popup was blocked'))) {
+        toast.warning('Google sign-in popup was blocked by browser. Please allow popups or click below for full-page sign-in.', {
+          duration: 7000,
+        });
         try {
           const { signInWithGoogleRedirectFirebase } = await import('../../config/firebase');
           await signInWithGoogleRedirectFirebase();

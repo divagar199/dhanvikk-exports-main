@@ -58,9 +58,9 @@ export default function SocialLogin({
           type="button"
           onClick={onGoogleRedirectLogin}
           disabled={disabled}
-          className="text-[11.5px] text-[#777777] hover:text-[#4285F4] transition-colors underline cursor-pointer text-center py-0.5"
+          className="text-[11.5px] text-[#666666] hover:text-[#4285F4] transition-colors underline cursor-pointer text-center py-0.5"
         >
-          Having trouble with popups? Try full-page Google sign-in →
+          Having trouble with popups? Click here for full-page sign-in →
         </button>
       )}
     </div>
