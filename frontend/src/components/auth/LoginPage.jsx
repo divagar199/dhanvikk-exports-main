@@ -143,10 +143,12 @@ export default function LoginPage() {
         const { checkGoogleRedirectResult } = await import('../../config/firebase');
         const res = await checkGoogleRedirectResult();
         if (res?.user && isMounted) {
-          const action = await dispatch(loginWithGoogleThunk(res.user));
+          const action = await dispatch(loginWithGoogleThunk(res));
           if (loginWithGoogleThunk.fulfilled.match(action)) {
             toast.success(`Welcome back, ${res.user.name || 'Customer'}! 🌸`);
             navigate(destination, { replace: true });
+          } else {
+            toast.error(action.payload || 'Google sign-in could not be completed.');
           }
         }
       } catch (e) {
