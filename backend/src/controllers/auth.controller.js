@@ -66,20 +66,18 @@ export const googleLogin = async (req, res, next) => {
   try {
     const ip = req.ip || req.headers['x-forwarded-for'] || '127.0.0.1';
     const userAgent = req.headers['user-agent'] || 'Google Auth';
-
-    const result = await loginWithGooglePayload({
+    const result = await loginWithFirebase({
       ...req.body,
+      authMethod: 'google',
       ip,
       userAgent,
     });
     setAuthCookie(res, result.token);
-
     return res.status(200).json({
       success: true,
-      message: result.isCreated ? 'Account activated with Google! 🌸' : 'Google sign-in successful',
+      message: result.isNew ? 'Google account connected successfully.' : 'Google sign-in successful.',
       user: result.user,
       token: result.token,
-      firebaseCustomToken: result.firebaseCustomToken,
     });
   } catch (error) {
     next(error);
