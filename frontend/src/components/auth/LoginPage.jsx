@@ -24,7 +24,7 @@ export default function LoginPage() {
       ? location.state.from
       : location.state?.from?.pathname;
 
-  const destination = (rawFrom && rawFrom !== '/login' && rawFrom !== '/register') ? rawFrom : '/';
+  const destination = (rawFrom && rawFrom !== '/login' && rawFrom !== '/register') ? rawFrom : '/account';
 
   // Automatically redirect away from /login if already authenticated or session token exists
   React.useEffect(() => {
@@ -125,6 +125,20 @@ export default function LoginPage() {
     }
   };
 
+  // Direct Google Redirect flow (guaranteed bypass of popup/COOP blockers)
+  const handleGoogleRedirectLogin = async () => {
+    dispatch(clearAuthError());
+    sessionStorage.removeItem('dhanvikk_logged_out');
+    setGoogleLoading(true);
+    try {
+      const { signInWithGoogleRedirectFirebase } = await import('../../config/firebase');
+      await signInWithGoogleRedirectFirebase();
+    } catch {
+      toast.error('Could not initiate Google sign-in redirect.');
+      setGoogleLoading(false);
+    }
+  };
+
 
   // Quick Demo Account Auto-Fill / Sign In
   const handleDemoSignIn = async () => {
@@ -146,8 +160,17 @@ export default function LoginPage() {
           sessionStorage.removeItem('dhanvikk_logged_out');
           const action = await dispatch(loginWithGoogleThunk(res));
           if (loginWithGoogleThunk.fulfilled.match(action)) {
-            toast.success(`Welcome back, ${res.user.name || 'Customer'}! 🌸`);
-            navigate(destination, { replace: true });
+            const loggedUser = action.payload?.user;
+            const targetPath = (loggedUser?.role === 'admin' || loggedUser?.role === 'super_admin')
+              ? '/admin/dashboard'
+              : destination;
+            toast.success(`Welcome back, ${loggedUser?.name || res.user.name || 'Customer'}! 🌸`);
+            navigate(targetPath, { replace: true });
+            setTimeout(() => {
+              if (typeof window !== 'undefined' && window.location.pathname === '/login') {
+                window.location.replace(targetPath);
+              }
+            }, 120);
           } else {
             toast.error(action.payload || 'Google sign-in could not be completed.');
           }
@@ -215,7 +238,11 @@ export default function LoginPage() {
 
         {/* 1-Click Google Sign-In */}
         <div className="mb-4">
-          <SocialLogin onGoogleLogin={handleGoogleLogin} loading={googleLoading || loading} />
+          <SocialLogin
+            onGoogleLogin={handleGoogleLogin}
+            onGoogleRedirectLogin={handleGoogleRedirectLogin}
+            loading={googleLoading || loading}
+          />
         </div>
 
         {/* Fast Demo Account Helper */}

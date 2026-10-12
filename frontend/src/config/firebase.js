@@ -109,79 +109,95 @@ export const signInWithGoogleFirebase = async (preferRedirect = false) => {
   }
 
   try {
-    // 120-second safeguard timeout so users have ample time to complete Google sign-in and 2FA
-    const timeoutPromise = new Promise((_, reject) => {
-      setTimeout(() => {
-        const timeoutErr = new Error('Google Sign-In popup timed out. Please try again or sign in with email.');
-        timeoutErr.code = 'auth/timeout';
-        reject(timeoutErr);
-      }, 120000);
-    });
+    let firebaseUser = null;
 
-    // Fallback: Listen to onAuthStateChanged in case Chrome Cross-Origin-Opener-Policy blocks window.closed/postMessage
-    let unsubscribeAuth = null;
-    const authStatePromise = new Promise((resolve) => {
-      unsubscribeAuth = onAuthStateChanged(auth, (authUser) => {
-        if (authUser) {
-          resolve({ user: authUser });
-        }
-      });
-    });
-
-    let result;
     try {
-      result = await Promise.race([
-        signInWithPopup(auth, googleProvider),
-        authStatePromise,
-        timeoutPromise,
-      ]);
-    } finally {
-      if (typeof unsubscribeAuth === 'function') {
-        unsubscribeAuth();
+      // 1. Primary Attempt: Standard fast popup flow
+      const popupResult = await signInWithPopup(auth, googleProvider);
+      if (popupResult?.user) {
+        firebaseUser = popupResult.user;
+      }
+    } catch (popupErr) {
+      console.warn('Popup attempt notice:', popupErr?.code, popupErr?.message);
+
+      // If domain not authorized, don't fallback to redirect
+      if (popupErr?.code === 'auth/unauthorized-domain') {
+        throw popupErr;
+      }
+
+      // If browser blocked the popup from opening at all, trigger redirect
+      if (popupErr?.code === 'auth/popup-blocked') {
+        console.info('Popup blocked by browser. Automatically switching to Google redirect flow...');
+        await signInWithRedirect(auth, googleProvider);
+        return { redirecting: true };
+      }
+
+      // If popup closed or COOP severed window.closed/postMessage, check if user actually completed auth
+      if (
+        popupErr?.code === 'auth/popup-closed-by-user' ||
+        popupErr?.code === 'auth/cancelled-popup-request' ||
+        popupErr?.code === 'auth/timeout'
+      ) {
+        // Check current authenticated user in Firebase Auth
+        if (auth.currentUser) {
+          firebaseUser = auth.currentUser;
+        } else {
+          // Wait briefly (up to 2s) for Firebase auth state to sync in case Chrome COOP delayed the event
+          firebaseUser = await new Promise((resolve) => {
+            let unsub = null;
+            const timer = setTimeout(() => {
+              if (unsub) unsub();
+              resolve(null);
+            }, 2000);
+            unsub = onAuthStateChanged(auth, (u) => {
+              if (u) {
+                clearTimeout(timer);
+                if (unsub) unsub();
+                resolve(u);
+              }
+            });
+          });
+        }
+      }
+
+      // If still not authenticated, fallback to redirect flow so user is NEVER stuck
+      if (!firebaseUser) {
+        console.info('Popup could not complete credentials exchange. Falling back to redirect flow...');
+        try {
+          await signInWithRedirect(auth, googleProvider);
+          return { redirecting: true };
+        } catch {
+          throw popupErr;
+        }
       }
     }
 
-    const user = result.user;
-    const token = await user.getIdToken();
+    if (!firebaseUser) {
+      throw new Error('Google authentication was not completed.');
+    }
 
-    const cleanEmail = user.email || '';
-    const resolvedName = user.displayName || (cleanEmail ? cleanEmail.split('@')[0] : 'Google Customer');
-    const resolvedAvatar = user.photoURL || (cleanEmail ? `https://unavatar.io/google/${encodeURIComponent(cleanEmail)}` : '');
+    const token = await firebaseUser.getIdToken();
+    const cleanEmail = firebaseUser.email || '';
+    const resolvedName = firebaseUser.displayName || (cleanEmail ? cleanEmail.split('@')[0] : 'Google Customer');
+    const resolvedAvatar = firebaseUser.photoURL || (cleanEmail ? `https://unavatar.io/google/${encodeURIComponent(cleanEmail)}` : '');
 
     // Non-blocking background sync attempt
-    syncUserWithFirestore(user, { provider: 'google' }).catch(() => {});
+    syncUserWithFirestore(firebaseUser, { provider: 'google' }).catch(() => {});
 
     return {
       success: true,
       user: {
-        id: user.uid,
+        id: firebaseUser.uid,
         name: resolvedName,
         email: cleanEmail,
         avatar: resolvedAvatar,
-        phone: user.phoneNumber || '',
+        phone: firebaseUser.phoneNumber || '',
         role: 'customer',
       },
       token,
     };
   } catch (error) {
-    console.warn('Google Sign-In interaction:', error?.code, error?.message);
-
-    // If domain is not authorized in Firebase Console, do NOT redirect (redirect will also fail with same error)
-    if (error?.code === 'auth/unauthorized-domain') {
-      throw error;
-    }
-
-    // Automatic fallback: If browser blocks popups, initiate seamless redirect flow
-    if (error?.code === 'auth/popup-blocked' || error?.code === 'auth/cancelled-popup-request') {
-      console.info('Popup blocked by browser. Automatically switching to Google redirect sign-in flow...');
-      try {
-        await signInWithRedirect(auth, googleProvider);
-        return { redirecting: true };
-      } catch (redirectErr) {
-        console.error('Redirect sign-in fallback failed:', redirectErr);
-        throw redirectErr;
-      }
-    }
+    console.error('Google Sign-In interaction error:', error?.code, error?.message);
     throw error;
   }
 };

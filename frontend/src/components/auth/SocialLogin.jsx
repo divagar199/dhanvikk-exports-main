@@ -1,9 +1,15 @@
 import React from 'react';
 import Spinner from '../common/Spinner';
 
-export default function SocialLogin({ onGoogleLogin, loading = false, disabled = false, className = '' }) {
+export default function SocialLogin({
+  onGoogleLogin,
+  onGoogleRedirectLogin,
+  loading = false,
+  disabled = false,
+  className = '',
+}) {
   return (
-    <div className={`w-full flex flex-col gap-3 ${className}`}>
+    <div className={`w-full flex flex-col gap-2.5 ${className}`}>
       <button
         type="button"
         onClick={onGoogleLogin}
@@ -44,6 +50,17 @@ export default function SocialLogin({ onGoogleLogin, loading = false, disabled =
           </span>
         )}
       </button>
+
+      {onGoogleRedirectLogin && !loading && (
+        <button
+          type="button"
+          onClick={onGoogleRedirectLogin}
+          disabled={disabled}
+          className="text-[11.5px] text-[#777777] hover:text-[#EC407A] transition-colors underline cursor-pointer text-center py-0.5"
+        >
+          Having trouble with popups? Continue with Google Page Redirect →
+        </button>
+      )}
     </div>
   );
 }
