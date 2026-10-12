@@ -1,9 +1,10 @@
 import React, { lazy, Suspense, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import { Provider } from 'react-redux';
+import { Provider, useDispatch } from 'react-redux';
 import { HelmetProvider } from 'react-helmet-async';
 import { Toaster, toast } from 'sonner';
 import { store } from './store';
+import { setCredentials } from './store/slices/authSlice';
 import { CurrencyProvider } from './context/CurrencyContext';
 import ProtectedRoute from './components/routes/ProtectedRoute';
 import RoleRoute from './components/routes/RoleRoute';
@@ -40,6 +41,48 @@ function RouteFallback() {
   );
 }
 
+function FirebaseAuthWatcher() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    let unsubscribe = null;
+    (async () => {
+      try {
+        const { auth, onAuthStateChanged } = await import('./config/firebase');
+        unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
+          if (!firebaseUser) return;
+          const isLoggedOut =
+            typeof window !== 'undefined' && sessionStorage.getItem('dhanvikk_logged_out') === 'true';
+          if (isLoggedOut) return;
+
+          try {
+            const token = await firebaseUser.getIdToken();
+            const cleanEmail = firebaseUser.email || '';
+            const name = firebaseUser.displayName || (cleanEmail ? cleanEmail.split('@')[0] : 'Google Customer');
+            const avatar = firebaseUser.photoURL || (cleanEmail ? `https://unavatar.io/google/${encodeURIComponent(cleanEmail)}` : '');
+
+            const userObj = {
+              id: firebaseUser.uid,
+              name,
+              email: cleanEmail,
+              avatar,
+              role: 'customer',
+            };
+
+            dispatch(setCredentials({ user: userObj, token }));
+          } catch {}
+        });
+      } catch {}
+    })();
+
+    return () => {
+      if (unsubscribe) unsubscribe();
+    };
+  }, [dispatch]);
+
+  return null;
+}
+
 export default function App() {
   useEffect(() => {
     onForegroundMessageListener((payload) => {
@@ -56,6 +99,7 @@ export default function App() {
       <CurrencyProvider>
         <HelmetProvider>
           <BrowserRouter>
+            <FirebaseAuthWatcher />
 
           {/* Sonner Toast Notifications */}
           <Toaster

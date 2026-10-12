@@ -8,7 +8,7 @@ import LoginForm from './LoginForm';
 import SocialLogin from './SocialLogin';
 import AuthDivider from './AuthDivider';
 import AuthTrustMessage from './AuthTrustMessage';
-import { loginUser, loginWithGoogleThunk, clearAuthError } from '../../store/slices/authSlice';
+import { loginUser, loginWithGoogleThunk, clearAuthError, setCredentials } from '../../store/slices/authSlice';
 
 export default function LoginPage() {
   const dispatch = useDispatch();
@@ -149,37 +149,82 @@ export default function LoginPage() {
     });
   };
 
-  // Check if returning from Google Redirect
+  // Real-time Firebase Auth State Listener & Google Redirect Result Handler
   React.useEffect(() => {
     let isMounted = true;
+    let unsubscribe = null;
+
     (async () => {
       try {
-        const { checkGoogleRedirectResult } = await import('../../config/firebase');
-        const res = await checkGoogleRedirectResult();
-        if (res?.user && isMounted) {
-          sessionStorage.removeItem('dhanvikk_logged_out');
-          const action = await dispatch(loginWithGoogleThunk(res));
-          if (loginWithGoogleThunk.fulfilled.match(action)) {
-            const loggedUser = action.payload?.user;
-            const targetPath = (loggedUser?.role === 'admin' || loggedUser?.role === 'super_admin')
-              ? '/admin/dashboard'
-              : destination;
-            toast.success(`Welcome back, ${loggedUser?.name || res.user.name || 'Customer'}! 🌸`);
+        const { auth, onAuthStateChanged, checkGoogleRedirectResult } = await import('../../config/firebase');
+
+        // 1. Process explicit redirect result if returning from a full-page redirect
+        try {
+          const res = await checkGoogleRedirectResult();
+          if (res?.user && isMounted) {
+            sessionStorage.removeItem('dhanvikk_logged_out');
+            const action = await dispatch(loginWithGoogleThunk(res));
+            if (loginWithGoogleThunk.fulfilled.match(action)) {
+              const loggedUser = action.payload?.user;
+              const targetPath = (loggedUser?.role === 'admin' || loggedUser?.role === 'super_admin')
+                ? '/admin/dashboard'
+                : destination;
+              toast.success(`Welcome back, ${loggedUser?.name || res.user.name || 'Customer'}! 🌸`);
+              navigate(targetPath, { replace: true });
+              return;
+            }
+          }
+        } catch (redirectErr) {
+          console.warn('Redirect check note:', redirectErr);
+        }
+
+        // 2. onAuthStateChanged hook: triggers automatically when account is selected in Google OAuth
+        unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
+          if (!firebaseUser || !isMounted) return;
+
+          const isLoggedOut =
+            typeof window !== 'undefined' && sessionStorage.getItem('dhanvikk_logged_out') === 'true';
+          if (isLoggedOut) return;
+
+          try {
+            const token = await firebaseUser.getIdToken();
+            const cleanEmail = firebaseUser.email || '';
+            const resolvedName = firebaseUser.displayName || (cleanEmail ? cleanEmail.split('@')[0] : 'Google Customer');
+            const resolvedAvatar = firebaseUser.photoURL || (cleanEmail ? `https://unavatar.io/google/${encodeURIComponent(cleanEmail)}` : '');
+
+            const userObj = {
+              id: firebaseUser.uid,
+              name: resolvedName,
+              email: cleanEmail,
+              avatar: resolvedAvatar,
+              role: 'customer',
+            };
+
+            sessionStorage.removeItem('dhanvikk_logged_out');
+            dispatch(setCredentials({ user: userObj, token }));
+            toast.success(`Signed in as ${resolvedName} 🌸`);
+
+            const targetPath = destination;
             navigate(targetPath, { replace: true });
+
             setTimeout(() => {
               if (typeof window !== 'undefined' && window.location.pathname === '/login') {
                 window.location.replace(targetPath);
               }
-            }, 120);
-          } else {
-            toast.error(action.payload || 'Google sign-in could not be completed.');
+            }, 100);
+          } catch (syncErr) {
+            console.warn('Firebase user sync note:', syncErr);
           }
-        }
+        });
       } catch (e) {
-        console.warn('Redirect result check note:', e);
+        console.warn('Auth listener init note:', e);
       }
     })();
-    return () => { isMounted = false; };
+
+    return () => {
+      isMounted = false;
+      if (unsubscribe) unsubscribe();
+    };
   }, [dispatch, destination, navigate]);
 
   const isDomainError = Boolean(authError && authError.includes('authorized in Firebase Auth'));

@@ -388,6 +388,21 @@ const authSlice = createSlice({
       state.isAuthenticated = true;
       localStorage.setItem('dhanvikk_user', JSON.stringify(state.user));
     },
+    setCredentials: (state, action) => {
+      sessionStorage.removeItem('dhanvikk_logged_out');
+      state.user = action.payload.user;
+      state.isAuthenticated = true;
+      state.loading = false;
+      state.error = null;
+      if (action.payload.token) {
+        localStorage.setItem('dhanvikk_auth_token', action.payload.token);
+        sessionStorage.setItem('dhanvikk_auth_token', action.payload.token);
+      }
+      if (action.payload.user) {
+        localStorage.setItem('dhanvikk_user', JSON.stringify(action.payload.user));
+        sessionStorage.setItem('dhanvikk_user', JSON.stringify(action.payload.user));
+      }
+    },
   },
   extraReducers: (builder) => {
     // loginUser
@@ -476,5 +491,5 @@ const authSlice = createSlice({
   },
 });
 
-export const { clearAuthError, setUserProfile, logoutImmediate } = authSlice.actions;
+export const { clearAuthError, setUserProfile, logoutImmediate, setCredentials } = authSlice.actions;
 export default authSlice.reducer;
