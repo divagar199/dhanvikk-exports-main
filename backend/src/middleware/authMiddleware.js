@@ -2,6 +2,7 @@ import { verifyToken } from '../config/jwt.js';
 import { USERS } from '../data/users.js';
 import { UserModel } from '../models/User.js';
 import { getDBStatus } from '../config/db.js';
+import { inMemoryUsers } from '../services/auth.service.js';
 
 export const protect = async (req, res, next) => {
   let token;
@@ -45,7 +46,8 @@ export const protect = async (req, res, next) => {
     }
 
     if (!user) {
-      user = USERS.find((u) => u.id === decoded.sub || u.email === decoded.email);
+      const emailLower = (decoded.email || '').toLowerCase().trim();
+      user = inMemoryUsers.get(emailLower) || USERS.find((u) => u.id === decoded.sub || u.email.toLowerCase() === emailLower);
     }
 
     if (!user && decoded.email) {

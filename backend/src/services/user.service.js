@@ -2,8 +2,26 @@ import { UserModel } from '../models/User.js';
 import { OrderModel } from '../models/Order.js';
 import { ApiError } from '../utils/apiError.js';
 import { resolveGoogleAvatar, formatUserResponse, inMemoryUsers } from './auth.service.js';
+import { inMemoryOrders } from './order.service.js';
 import { USERS } from '../data/users.js';
 import { getDBStatus } from '../config/db.js';
+
+/**
+ * Safely persists user changes in MongoDB if available, and keeps inMemoryUsers updated.
+ */
+export const safeSaveUser = async (user) => {
+  if (!user) return;
+  if (typeof user.save === 'function') {
+    try {
+      await user.save();
+    } catch (saveErr) {
+      console.warn('user.save note:', saveErr.message);
+    }
+  }
+  if (user.email) {
+    inMemoryUsers.set(user.email.toLowerCase(), user);
+  }
+};
 
 export const getUserByIdOrEmail = async (identifier) => {
   if (!identifier) return null;
@@ -67,6 +85,17 @@ export const getUserProfileData = async (identifier) => {
     } catch {}
   }
 
+  // Fallback to inMemoryOrders if MongoDB returned empty or offline
+  if (!recentOrders || recentOrders.length === 0) {
+    const userEmailLower = (user.email || '').toLowerCase().trim();
+    const userIdStr = (user._id || user.id || '').toString();
+    recentOrders = inMemoryOrders.filter((o) => {
+      const ordEmail = (o.user?.email || '').toLowerCase().trim();
+      const ordUserId = (o.user?.id || '').toString();
+      return (userEmailLower && ordEmail === userEmailLower) || (userIdStr && ordUserId === userIdStr);
+    });
+  }
+
   return {
     user: formatUserResponse(user),
     savedAddresses: user.savedAddresses || [],
@@ -89,7 +118,7 @@ export const updateUserProfile = async (identifier, { name, phone, avatar }) => 
   if (phone !== undefined) user.phone = phone;
   if (avatar) user.avatar = avatar;
 
-  await user.save();
+  await safeSaveUser(user);
   return formatUserResponse(user);
 };
 
@@ -141,7 +170,7 @@ export const saveUserAddress = async (identifier, addressData) => {
     user.savedAddresses.push(newAddress);
   }
 
-  await user.save();
+  await safeSaveUser(user);
   return {
     address: newAddress,
     savedAddresses: user.savedAddresses,
@@ -158,7 +187,7 @@ export const deleteUserAddress = async (identifier, addressId) => {
   }
 
   user.savedAddresses = user.savedAddresses.filter((a) => a.id !== addressId);
-  await user.save();
+  await safeSaveUser(user);
 
   return {
     savedAddresses: user.savedAddresses,
@@ -200,7 +229,7 @@ export const toggleWishlistBouquet = async (identifier, bouquet) => {
     isSaved = true;
   }
 
-  await user.save();
+  await safeSaveUser(user);
   return {
     isSaved,
     savedBouquets: user.savedBouquets,
@@ -218,7 +247,7 @@ export const saveCart = async (identifier, cartItems) => {
 
   const safeCart = Array.isArray(cartItems) ? cartItems : [];
   user.cart = safeCart;
-  await user.save();
+  await safeSaveUser(user);
 
   return {
     cart: user.cart,

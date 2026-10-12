@@ -24,6 +24,21 @@ USERS.forEach((u) => {
 });
 
 /**
+ * Resolves user role based on configured super admin / admin emails or existing role
+ */
+export const resolveUserRole = (email = '', currentRole = 'customer') => {
+  const cleanEmail = (email || '').toLowerCase().trim();
+  const superAdmin = (process.env.SUPER_ADMIN_EMAIL || 'divagar.m.msc.cs@gmail.com').toLowerCase().trim();
+  if (cleanEmail === superAdmin || cleanEmail === 'admin@dhanvikk.com') {
+    return 'admin';
+  }
+  if (cleanEmail === 'manager@dhanvikk.com') {
+    return 'manager';
+  }
+  return currentRole || 'customer';
+};
+
+/**
  * Resolves avatar URL with high-res Google or UI-Avatar fallback
  */
 export const resolveGoogleAvatar = (email = '', currentAvatar = '', name = '') => {
@@ -378,6 +393,7 @@ export const loginWithFirebase = async ({
 
   let user = null;
   let isNew = false;
+  const initialRole = resolveUserRole(email);
 
   if (getDBStatus()) {
     try {
@@ -389,7 +405,7 @@ export const loginWithFirebase = async ({
           email,
           phone,
           passwordHash: bcrypt.hashSync(`firebase_${Date.now()}`, 10),
-          role: 'customer',
+          role: initialRole,
           avatar,
           loginHistory: [
             {
@@ -401,6 +417,8 @@ export const loginWithFirebase = async ({
           ],
         });
       } else {
+        const expectedRole = resolveUserRole(email, user.role);
+        if (user.role !== expectedRole) user.role = expectedRole;
         if (phone && !user.phone) user.phone = phone;
         if (avatar && !user.avatar) user.avatar = avatar;
         user.loginHistory.push({
@@ -428,7 +446,7 @@ export const loginWithFirebase = async ({
         email,
         phone,
         passwordHash: bcrypt.hashSync(`firebase_${Date.now()}`, 10),
-        role: 'customer',
+        role: initialRole,
         avatar,
         savedAddresses: [],
         savedBouquets: [],
@@ -442,6 +460,10 @@ export const loginWithFirebase = async ({
           },
         ],
       };
+      inMemoryUsers.set(email, user);
+    } else {
+      const expectedRole = resolveUserRole(email, user.role);
+      user.role = expectedRole;
       inMemoryUsers.set(email, user);
     }
   }
@@ -480,6 +502,7 @@ export const loginWithGooglePayload = async ({
 
   let user = null;
   let isCreated = false;
+  const initialGoogleRole = resolveUserRole(targetEmail);
 
   if (getDBStatus()) {
     try {
@@ -491,7 +514,7 @@ export const loginWithGooglePayload = async ({
           email: targetEmail,
           phone,
           passwordHash: bcrypt.hashSync(`google_${Date.now()}`, 10),
-          role: 'customer',
+          role: initialGoogleRole,
           avatar: targetAvatar,
           loginHistory: [
             {
@@ -503,6 +526,8 @@ export const loginWithGooglePayload = async ({
           ],
         });
       } else {
+        const expectedRole = resolveUserRole(targetEmail, user.role);
+        if (user.role !== expectedRole) user.role = expectedRole;
         if (phone && !user.phone) user.phone = phone;
         user.loginHistory.push({
           timestamp: new Date(),
@@ -529,7 +554,7 @@ export const loginWithGooglePayload = async ({
         email: targetEmail,
         phone,
         passwordHash: bcrypt.hashSync(`google_${Date.now()}`, 10),
-        role: 'customer',
+        role: initialGoogleRole,
         avatar: targetAvatar,
         savedAddresses: [],
         savedBouquets: [],
@@ -543,6 +568,10 @@ export const loginWithGooglePayload = async ({
           },
         ],
       };
+      inMemoryUsers.set(targetEmail, user);
+    } else {
+      const expectedRole = resolveUserRole(targetEmail, user.role);
+      user.role = expectedRole;
       inMemoryUsers.set(targetEmail, user);
     }
   }

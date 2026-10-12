@@ -122,6 +122,34 @@ export default function LoginScreen() {
     }
   };
 
+  // Fast 1-Click Demo Login Handler
+  const handleDemoSignIn = async (demoEmail: string, demoPass: string) => {
+    Keyboard.dismiss();
+    setErrorMsg('');
+    setEmail(demoEmail);
+    setPassword(demoPass);
+    try {
+      setLoading(true);
+      setAuthStatus('Signing into demo account...');
+      if (Platform.OS !== 'web') {
+        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light).catch(() => {});
+      }
+      const res = await authService.login(demoEmail, demoPass);
+      setAuth(res.user, res.token);
+      setLoading(false);
+      setAuthStatus('');
+      if (Platform.OS !== 'web') {
+        Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success).catch(() => {});
+      }
+      showToast(`Welcome back, ${res.user.name}! 🌸`, 'success');
+      router.replace('/(tabs)/account');
+    } catch (err: any) {
+      setLoading(false);
+      setAuthStatus('');
+      setErrorMsg(err?.message || 'Demo authentication failed');
+    }
+  };
+
   return (
     <SafeAreaView style={styles.safeArea} edges={['top']}>
       <KeyboardAvoidingView
@@ -312,6 +340,50 @@ export default function LoginScreen() {
               fullWidth
               style={styles.submitBtn}
             />
+
+            {/* Fast 1-Click Demo Accounts */}
+            <View style={styles.demoSection}>
+              <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
+                <AppText variant="caption" weight="bold" color={Colors.textSecondary} style={{ fontSize: 10.5, letterSpacing: 0.8 }}>
+                  FAST 1-CLICK DEMO TEST
+                </AppText>
+                <View style={styles.demoBadge}>
+                  <AppText variant="caption" weight="bold" color={Colors.primaryDeep} style={{ fontSize: 9.5 }}>
+                    READY
+                  </AppText>
+                </View>
+              </View>
+
+              <View style={{ flexDirection: 'row', gap: 8 }}>
+                <TouchableOpacity
+                  style={[styles.demoBtn, loading && { opacity: 0.5 }]}
+                  disabled={loading}
+                  onPress={() => handleDemoSignIn('customer@dhanvikk.com', 'password123')}
+                  activeOpacity={0.8}
+                >
+                  <AppText variant="caption" weight="bold" color={Colors.primaryDeep} style={{ fontSize: 11 }}>
+                    🌸 Patron Client
+                  </AppText>
+                  <AppText variant="caption" color={Colors.textSecondary} style={{ fontSize: 9.5, marginTop: 2 }}>
+                    customer@dhanvikk.com
+                  </AppText>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                  style={[styles.demoBtn, loading && { opacity: 0.5 }]}
+                  disabled={loading}
+                  onPress={() => handleDemoSignIn('admin@dhanvikk.com', 'AdminBloom@2026')}
+                  activeOpacity={0.8}
+                >
+                  <AppText variant="caption" weight="bold" color={Colors.gold} style={{ fontSize: 11 }}>
+                    👑 Store Admin
+                  </AppText>
+                  <AppText variant="caption" color={Colors.textSecondary} style={{ fontSize: 9.5, marginTop: 2 }}>
+                    admin@dhanvikk.com
+                  </AppText>
+                </TouchableOpacity>
+              </View>
+            </View>
 
             {/* BOTTOM: Create Account Section */}
             <View style={styles.createAccountDividerRow}>
@@ -541,5 +613,28 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     marginTop: Spacing.md,
     paddingVertical: 4,
+  },
+  demoSection: {
+    marginTop: Spacing.md,
+    paddingTop: Spacing.sm,
+    borderTopWidth: 1,
+    borderTopColor: Colors.border,
+  },
+  demoBadge: {
+    backgroundColor: Colors.palePink,
+    paddingHorizontal: 8,
+    paddingVertical: 2,
+    borderRadius: Radius.pill,
+    borderWidth: 1,
+    borderColor: Colors.blush,
+  },
+  demoBtn: {
+    flex: 1,
+    backgroundColor: Colors.white,
+    borderWidth: 1,
+    borderColor: Colors.border,
+    borderRadius: Radius.card,
+    padding: 10,
+    ...Shadows.sm,
   },
 });

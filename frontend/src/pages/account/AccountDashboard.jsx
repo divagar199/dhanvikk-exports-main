@@ -460,8 +460,14 @@ export default function AccountDashboard() {
                 }}
                 className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#FAF7F2] hover:bg-[#F2ECE6] border border-[#E8DFD5] transition-all text-xs"
               >
-                <span className="w-5 h-5 rounded-full bg-[#FFF0F4] border border-[#F2D7DE] text-[#C2185B] flex items-center justify-center text-[10px] font-bold">
-                  {activeUser.name ? activeUser.name.charAt(0).toUpperCase() : <User className="w-3 h-3" />}
+                <span className="w-5 h-5 rounded-full bg-[#FFF0F4] border border-[#F2D7DE] text-[#C2185B] flex items-center justify-center text-[10px] font-bold overflow-hidden flex-shrink-0">
+                  {activeUser.avatar ? (
+                    <img src={activeUser.avatar} alt="" className="w-full h-full object-cover rounded-full" />
+                  ) : activeUser.name ? (
+                    activeUser.name.charAt(0).toUpperCase()
+                  ) : (
+                    <User className="w-3 h-3" />
+                  )}
                 </span>
                 <span className="font-medium text-[#242124] max-w-[100px] sm:max-w-[150px] truncate">
                   {activeUser.name?.split(' ')[0]}
@@ -508,10 +514,21 @@ export default function AccountDashboard() {
               {/* Profile Avatar and Details */}
               <div className="flex items-center gap-5">
                 <div className="relative group flex-shrink-0">
-                  <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-gradient-to-br from-[#FFF0F4] to-[#FAF7F2] border-2 border-[#F2D7DE] flex items-center justify-center shadow-xs">
-                    <span className="text-2xl sm:text-3xl font-extrabold font-['Poppins'] text-[#C2185B]">
-                      {activeUser.name ? activeUser.name.charAt(0).toUpperCase() : 'D'}
-                    </span>
+                  <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-gradient-to-br from-[#FFF0F4] to-[#FAF7F2] border-2 border-[#F2D7DE] flex items-center justify-center shadow-xs overflow-hidden">
+                    {activeUser.avatar ? (
+                      <img
+                        src={activeUser.avatar}
+                        alt={activeUser.name || 'User Avatar'}
+                        className="w-full h-full object-cover rounded-2xl"
+                        onError={(e) => {
+                          e.target.style.display = 'none';
+                        }}
+                      />
+                    ) : (
+                      <span className="text-2xl sm:text-3xl font-extrabold font-['Poppins'] text-[#C2185B]">
+                        {activeUser.name ? activeUser.name.charAt(0).toUpperCase() : 'D'}
+                      </span>
+                    )}
                   </div>
                   <button
                     onClick={() => {

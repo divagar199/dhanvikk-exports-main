@@ -1,14 +1,30 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate, Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'sonner';
-import { AlertTriangle, ExternalLink, Sparkles } from 'lucide-react';
+import {
+  AlertTriangle,
+  ExternalLink,
+  Sparkles,
+  ShieldCheck,
+  Lock,
+  Mail,
+  Zap,
+  CheckCircle2,
+  Crown,
+  UserCheck,
+} from 'lucide-react';
 import Logo from '../common/Logo';
 import LoginForm from './LoginForm';
 import SocialLogin from './SocialLogin';
 import AuthDivider from './AuthDivider';
 import AuthTrustMessage from './AuthTrustMessage';
-import { loginUser, loginWithGoogleThunk, clearAuthError, setCredentials } from '../../store/slices/authSlice';
+import {
+  loginUser,
+  loginWithGoogleThunk,
+  clearAuthError,
+  setCredentials,
+} from '../../store/slices/authSlice';
 
 export default function LoginPage() {
   const dispatch = useDispatch();
@@ -17,17 +33,19 @@ export default function LoginPage() {
 
   const { isAuthenticated, user, loading, error: authError } = useSelector((state) => state.auth);
   const [googleLoading, setGoogleLoading] = useState(false);
+  const [activeAuthTab, setActiveAuthTab] = useState('google'); // 'google' | 'email'
 
-  // Target destination redirect: defaults to home page ('/') unless user came from a specific page like /checkout
+  // Target destination redirect: defaults to /account unless user came from a specific page like /checkout
   const rawFrom =
     typeof location.state?.from === 'string'
       ? location.state.from
       : location.state?.from?.pathname;
 
-  const destination = (rawFrom && rawFrom !== '/login' && rawFrom !== '/register') ? rawFrom : '/account';
+  const destination =
+    rawFrom && rawFrom !== '/login' && rawFrom !== '/register' ? rawFrom : '/account';
 
   // Automatically redirect away from /login if already authenticated or session token exists
-  React.useEffect(() => {
+  useEffect(() => {
     const isLoggedOut =
       typeof window !== 'undefined' && sessionStorage.getItem('dhanvikk_logged_out') === 'true';
     if (isLoggedOut) return;
@@ -38,11 +56,13 @@ export default function LoginPage() {
         : null;
 
     if ((isAuthenticated && user) || (user && token)) {
-      navigate(destination, { replace: true });
+      const targetPath =
+        user?.role === 'admin' || user?.role === 'super_admin' ? '/admin/dashboard' : destination;
+      navigate(targetPath, { replace: true });
     }
   }, [isAuthenticated, user, destination, navigate]);
 
-  // Form submission handler
+  // Form submission handler for email + password
   const handleLoginSubmit = async (data) => {
     dispatch(clearAuthError());
     sessionStorage.removeItem('dhanvikk_logged_out');
@@ -58,9 +78,10 @@ export default function LoginPage() {
       if (loginUser.fulfilled.match(resultAction)) {
         toast.success('Welcome back to Dhanvikk Blooms & Exports 🌸');
         const userObj = resultAction.payload.user;
-        const targetPath = (userObj?.role === 'admin' || userObj?.role === 'super_admin')
-          ? '/admin/dashboard'
-          : destination;
+        const targetPath =
+          userObj?.role === 'admin' || userObj?.role === 'super_admin'
+            ? '/admin/dashboard'
+            : destination;
         navigate(targetPath, { replace: true });
         setTimeout(() => {
           if (typeof window !== 'undefined' && window.location.pathname === '/login') {
@@ -71,23 +92,29 @@ export default function LoginPage() {
         const payload = resultAction.payload;
         if (
           payload?.code === 'USER_NOT_FOUND' ||
-          (typeof payload === 'string' && (payload.toLowerCase().includes('not found') || payload.toLowerCase().includes('register')))
+          (typeof payload === 'string' &&
+            (payload.toLowerCase().includes('not found') || payload.toLowerCase().includes('register')))
         ) {
-          toast.info('Account not found in our database. Redirecting you to register... 🌸', { duration: 3500 });
+          toast.info('Account not found in our database. Redirecting you to register... 🌸', {
+            duration: 3500,
+          });
           setTimeout(() => {
             navigate('/register', { state: { prefillEmail: data.email } });
           }, 800);
           return;
         }
-        toast.error(typeof payload === 'string' ? payload : (payload?.message || 'Unable to sign in. Please check your credentials.'));
+        toast.error(
+          typeof payload === 'string'
+            ? payload
+            : payload?.message || 'Unable to sign in. Please check your credentials.'
+        );
       }
     } catch {
       toast.error('An unexpected error occurred. Please try again.');
     }
   };
 
-
-  // Google OAuth flow (instant)
+  // Google OAuth flow (instant popup with backend sync)
   const handleGoogleLogin = async () => {
     dispatch(clearAuthError());
     sessionStorage.removeItem('dhanvikk_logged_out');
@@ -100,9 +127,10 @@ export default function LoginPage() {
           return;
         }
         const loggedUser = resultAction.payload?.user;
-        const targetPath = (loggedUser?.role === 'admin' || loggedUser?.role === 'super_admin')
-          ? '/admin/dashboard'
-          : destination;
+        const targetPath =
+          loggedUser?.role === 'admin' || loggedUser?.role === 'super_admin'
+            ? '/admin/dashboard'
+            : destination;
         toast.success(`Welcome, ${loggedUser?.name || loggedUser?.email || 'Valued Customer'}! 🌸`);
         navigate(targetPath, { replace: true });
         setTimeout(() => {
@@ -139,9 +167,8 @@ export default function LoginPage() {
     }
   };
 
-
-  // Quick Demo Account Auto-Fill / Sign In
-  const handleDemoSignIn = async () => {
+  // Fast Demo Customer Sign In
+  const handleDemoCustomerSignIn = async () => {
     handleLoginSubmit({
       email: 'customer@dhanvikk.com',
       password: 'password123',
@@ -149,14 +176,25 @@ export default function LoginPage() {
     });
   };
 
+  // Fast Demo Admin Sign In
+  const handleDemoAdminSignIn = async () => {
+    handleLoginSubmit({
+      email: 'admin@dhanvikk.com',
+      password: 'AdminBloom@2026',
+      rememberMe: true,
+    });
+  };
+
   // Real-time Firebase Auth State Listener & Google Redirect Result Handler
-  React.useEffect(() => {
+  useEffect(() => {
     let isMounted = true;
     let unsubscribe = null;
 
     (async () => {
       try {
-        const { auth, onAuthStateChanged, checkGoogleRedirectResult } = await import('../../config/firebase');
+        const { auth, onAuthStateChanged, checkGoogleRedirectResult } = await import(
+          '../../config/firebase'
+        );
 
         // 1. Process explicit redirect result if returning from a full-page redirect
         try {
@@ -166,9 +204,10 @@ export default function LoginPage() {
             const action = await dispatch(loginWithGoogleThunk(res));
             if (loginWithGoogleThunk.fulfilled.match(action)) {
               const loggedUser = action.payload?.user;
-              const targetPath = (loggedUser?.role === 'admin' || loggedUser?.role === 'super_admin')
-                ? '/admin/dashboard'
-                : destination;
+              const targetPath =
+                loggedUser?.role === 'admin' || loggedUser?.role === 'super_admin'
+                  ? '/admin/dashboard'
+                  : destination;
               toast.success(`Welcome back, ${loggedUser?.name || res.user.name || 'Customer'}! 🌸`);
               navigate(targetPath, { replace: true });
               return;
@@ -186,7 +225,7 @@ export default function LoginPage() {
             typeof window !== 'undefined' && sessionStorage.getItem('dhanvikk_logged_out') === 'true';
           if (isLoggedOut) return;
 
-          // Skip if already have a valid session — prevents redirect loops on page load
+          // Skip if already have a valid session to avoid loops on page load
           const existingToken =
             typeof window !== 'undefined'
               ? localStorage.getItem('dhanvikk_auth_token') || sessionStorage.getItem('dhanvikk_auth_token')
@@ -200,8 +239,11 @@ export default function LoginPage() {
           try {
             const idToken = await firebaseUser.getIdToken();
             const cleanEmail = firebaseUser.email || '';
-            const resolvedName = firebaseUser.displayName || (cleanEmail ? cleanEmail.split('@')[0] : 'Google Customer');
-            const resolvedAvatar = firebaseUser.photoURL || (cleanEmail ? `https://unavatar.io/google/${encodeURIComponent(cleanEmail)}` : '');
+            const resolvedName =
+              firebaseUser.displayName || (cleanEmail ? cleanEmail.split('@')[0] : 'Google Customer');
+            const resolvedAvatar =
+              firebaseUser.photoURL ||
+              (cleanEmail ? `https://unavatar.io/google/${encodeURIComponent(cleanEmail)}` : '');
 
             // Build baseline user object from Firebase
             let finalUser = {
@@ -213,7 +255,7 @@ export default function LoginPage() {
             };
             let finalToken = idToken;
 
-            // Sync with backend to get role, DB user ID, and a proper JWT
+            // Sync with backend to get role (e.g. admin vs customer) and database session JWT
             try {
               const { default: api } = await import('../../services/api');
               const syncRes = await api.post('/api/auth/firebase-login', {
@@ -236,9 +278,10 @@ export default function LoginPage() {
             dispatch(setCredentials({ user: finalUser, token: finalToken }));
             toast.success(`Signed in as ${finalUser.name} 🌸`);
 
-            const targetPath = (finalUser.role === 'admin' || finalUser.role === 'super_admin')
-              ? '/admin/dashboard'
-              : destination;
+            const targetPath =
+              finalUser.role === 'admin' || finalUser.role === 'super_admin'
+                ? '/admin/dashboard'
+                : destination;
             navigate(targetPath, { replace: true });
 
             setTimeout(() => {
@@ -264,28 +307,38 @@ export default function LoginPage() {
   const isDomainError = Boolean(authError && authError.includes('authorized in Firebase Auth'));
 
   return (
-    <div className="w-full max-w-[420px] sm:max-w-[440px] mx-auto flex flex-col justify-center py-4">
-      {/* Main Luxury White Card Container */}
-      <div className="relative w-full bg-white border border-[#EFE7DE] rounded-3xl p-6 sm:p-8 text-center shadow-[0_16px_48px_rgba(194,24,91,0.06)]">
-        {/* Subtle Top Rose Hairline Gradient Accent */}
-        <div className="absolute inset-x-10 top-0 h-[2.5px] bg-gradient-to-r from-transparent via-[#EC407A] to-transparent pointer-events-none" />
+    <div className="w-full max-w-[430px] sm:max-w-[450px] mx-auto flex flex-col justify-center py-4">
+      {/* Main Luxury Card Container */}
+      <div className="relative w-full bg-white/95 backdrop-blur-xl border border-[#EFE7DE] rounded-3xl p-6 sm:p-8 text-center shadow-[0_20px_60px_rgba(194,24,91,0.08)] overflow-hidden transition-all duration-300">
+        {/* Top Rose-Gold Shimmer Border Accent */}
+        <div className="absolute inset-x-8 top-0 h-[2.5px] bg-gradient-to-r from-transparent via-[#EC407A] to-transparent pointer-events-none" />
 
-        {/* Logo Section */}
+        {/* Ambient Top Glow */}
+        <div className="absolute -top-12 left-1/2 -translate-x-1/2 w-48 h-20 bg-[#EC407A]/10 rounded-full blur-2xl pointer-events-none" />
+
+        {/* Brand Logo Header */}
         <div className="pt-1 mb-3.5 flex justify-center">
           <Logo />
         </div>
 
         {/* Welcome Section */}
         <div className="mb-5 text-center">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#FFF0F4] border border-[#F2D7DE] text-[#C2185B] mb-2.5 shadow-2xs">
+            <Sparkles className="w-3 h-3 text-[#EC407A]" />
+            <span className="text-[10.5px] font-bold tracking-[0.18em] uppercase">
+              Private Client Sanctuary
+            </span>
+          </div>
+
           <h1 className="text-2xl sm:text-[26px] font-bold text-[#1F191D] tracking-tight font-['Poppins']">
             Welcome Back
           </h1>
           <p className="mt-1 text-xs sm:text-[13px] text-[#666666] font-normal leading-relaxed max-w-[320px] mx-auto">
-            Sign in to track orders, manage saved addresses & rewards.
+            Sign in to track orders, manage bespoke addresses & curated floral deliveries.
           </p>
         </div>
 
-        {/* Actionable Authorized Domain Guide Banner if Firebase rejected domain */}
+        {/* Actionable Firebase Authorized Domain Warning Banner if Domain not Whitelisted */}
         {isDomainError && (
           <div className="mb-4 p-3.5 rounded-2xl bg-amber-50/95 border border-amber-300 text-left text-xs text-amber-950 space-y-2 shadow-xs">
             <div className="flex items-center gap-1.5 font-bold text-amber-900">
@@ -293,10 +346,11 @@ export default function LoginPage() {
               <span>Authorize Domain in Firebase Console</span>
             </div>
             <p className="text-[11.5px] text-amber-800 leading-relaxed">
-              Google Sign-In requires adding this domain to your Firebase Authorized Domains whitelist:
+              Google Sign-In requires whitelisting this domain in Firebase project{' '}
+              <strong className="font-semibold font-mono">auth-checker-1-main</strong>:
             </p>
             <div className="p-2 rounded-xl bg-white/90 border border-amber-200 font-mono text-[11px] font-semibold text-[#242124] select-all break-all">
-              {typeof window !== 'undefined' ? window.location.hostname : 'dhanvikk-exports-main.vercel.app'}
+              {typeof window !== 'undefined' ? window.location.hostname : 'localhost'}
             </div>
             <div className="pt-1 flex flex-col gap-1.5">
               <a
@@ -315,41 +369,105 @@ export default function LoginPage() {
           </div>
         )}
 
-        {/* 1-Click Google Sign-In */}
-        <div className="mb-4">
-          <SocialLogin
-            onGoogleLogin={handleGoogleLogin}
-            onGoogleRedirectLogin={handleGoogleRedirectLogin}
-            loading={googleLoading || loading}
-          />
-        </div>
-
-        {/* Fast Demo Account Helper */}
-        <div className="mb-3">
+        {/* Elegant Mode Segmented Control Switcher */}
+        <div className="mb-4 p-1 rounded-2xl bg-[#F8F5F0] border border-[#EFE7DE] flex items-center gap-1">
           <button
             type="button"
-            onClick={handleDemoSignIn}
-            disabled={loading || googleLoading}
-            className="w-full py-2 px-3 rounded-xl border border-dashed border-[#E0D8D0] bg-[#FAF8F5] hover:bg-[#F5EFEA] hover:border-[#D0C5BA] text-[12px] font-medium text-[#555555] transition-all flex items-center justify-center gap-1.5 cursor-pointer disabled:opacity-50"
+            onClick={() => setActiveAuthTab('google')}
+            className={`flex-1 py-2 px-3 rounded-xl text-xs font-semibold transition-all duration-200 flex items-center justify-center gap-1.5 cursor-pointer ${
+              activeAuthTab === 'google'
+                ? 'bg-white text-[#1F191D] shadow-[0_2px_8px_rgba(0,0,0,0.06)] border border-[#E8DFD8]'
+                : 'text-[#777777] hover:text-[#1F191D]'
+            }`}
           >
-            <Sparkles className="w-3.5 h-3.5 text-[#EC407A]" />
-            <span>1-Click Demo Customer Sign In</span>
+            <Zap className="w-3.5 h-3.5 text-[#F59E0B]" />
+            <span>1-Tap Google</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setActiveAuthTab('email')}
+            className={`flex-1 py-2 px-3 rounded-xl text-xs font-semibold transition-all duration-200 flex items-center justify-center gap-1.5 cursor-pointer ${
+              activeAuthTab === 'email'
+                ? 'bg-white text-[#1F191D] shadow-[0_2px_8px_rgba(0,0,0,0.06)] border border-[#E8DFD8]'
+                : 'text-[#777777] hover:text-[#1F191D]'
+            }`}
+          >
+            <Mail className="w-3.5 h-3.5 text-[#EC407A]" />
+            <span>Email & Password</span>
           </button>
         </div>
 
-        {/* Elegant Divider */}
-        <AuthDivider text="OR CONTINUE WITH EMAIL" className="my-3" />
+        {/* TAB 1: 1-Tap Google Authentication */}
+        {activeAuthTab === 'google' && (
+          <div className="space-y-3.5 mb-4 animate-in fade-in duration-200">
+            <SocialLogin
+              onGoogleLogin={handleGoogleLogin}
+              onGoogleRedirectLogin={handleGoogleRedirectLogin}
+              loading={googleLoading || loading}
+            />
 
-        {/* Login Form */}
-        <div className="w-full">
-          <LoginForm
-            onSubmit={handleLoginSubmit}
-            loading={loading || googleLoading}
-            serverError={!isDomainError ? authError : null}
-          />
+            <div className="flex items-center justify-center gap-2 text-[11px] text-[#7A7476]">
+              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
+              <span>Instant sync with Firebase & MongoDB</span>
+            </div>
+          </div>
+        )}
+
+        {/* TAB 2: Email & Password Form */}
+        {activeAuthTab === 'email' && (
+          <div className="w-full mb-3 animate-in fade-in duration-200">
+            <LoginForm
+              onSubmit={handleLoginSubmit}
+              loading={loading || googleLoading}
+              serverError={!isDomainError ? authError : null}
+            />
+          </div>
+        )}
+
+        {/* Fast Test Drive Accounts Drawer */}
+        <div className="mt-4 pt-3.5 border-t border-[#F2ECE6]">
+          <div className="flex items-center justify-between mb-2 px-1">
+            <span className="text-[11px] font-bold text-[#888888] uppercase tracking-wider">
+              Fast 1-Click Demo Accounts
+            </span>
+            <span className="text-[10px] text-emerald-700 font-semibold bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
+              Ready to test
+            </span>
+          </div>
+
+          <div className="grid grid-cols-2 gap-2">
+            <button
+              type="button"
+              onClick={handleDemoCustomerSignIn}
+              disabled={loading || googleLoading}
+              className="p-2.5 rounded-xl border border-[#E5DFD9] bg-[#FAF8F5] hover:bg-[#F5EFEA] hover:border-[#D0C5BA] text-left transition-all cursor-pointer group disabled:opacity-50"
+            >
+              <div className="flex items-center gap-1.5 text-xs font-bold text-[#1F191D]">
+                <UserCheck className="w-3.5 h-3.5 text-[#C2185B]" />
+                <span>Patron Client</span>
+              </div>
+              <p className="text-[10px] text-[#777777] mt-0.5 truncate">
+                customer@dhanvikk.com
+              </p>
+            </button>
+
+            <button
+              type="button"
+              onClick={handleDemoAdminSignIn}
+              disabled={loading || googleLoading}
+              className="p-2.5 rounded-xl border border-[#E5DFD9] bg-[#FAF8F5] hover:bg-[#F5EFEA] hover:border-[#D0C5BA] text-left transition-all cursor-pointer group disabled:opacity-50"
+            >
+              <div className="flex items-center gap-1.5 text-xs font-bold text-[#1F191D]">
+                <Crown className="w-3.5 h-3.5 text-[#F59E0B]" />
+                <span>Store Admin</span>
+              </div>
+              <p className="text-[10px] text-[#777777] mt-0.5 truncate">
+                admin@dhanvikk.com
+              </p>
+            </button>
+          </div>
         </div>
-
-
 
         {/* Register CTA Link */}
         <div className="mt-4 pt-3.5 border-t border-[#F2ECE6] text-center text-xs text-[#666666]">
@@ -362,7 +480,7 @@ export default function LoginPage() {
           </Link>
         </div>
 
-        {/* Trust Badges */}
+        {/* Trust Badges Footnote */}
         <div className="mt-3.5 pt-2 text-center border-t border-[#F2ECE6]">
           <AuthTrustMessage />
         </div>

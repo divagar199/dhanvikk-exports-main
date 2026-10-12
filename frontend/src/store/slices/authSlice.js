@@ -108,8 +108,13 @@ export const loginUser = createAsyncThunk(
 
 
       if (data?.success) {
-        const userObj = firebaseUser || data.user;
-        const tokenStr = firebaseToken || data.token;
+        const userObj = {
+          ...(firebaseUser || {}),
+          ...(data.user || {}),
+          id: data.user?.id || data.user?._id || firebaseUser?.id,
+          role: data.user?.role || firebaseUser?.role || 'customer',
+        };
+        const tokenStr = data.token || firebaseToken;
 
         // If user logged into backend successfully but doesn't exist on new Firebase project yet, auto-provision on Firebase
         if (firebaseAuthFailed && password && password.length >= 6) {
