@@ -28,13 +28,19 @@ USERS.forEach((u) => {
  */
 export const resolveUserRole = (email = '', currentRole = 'customer') => {
   const cleanEmail = (email || '').toLowerCase().trim();
-  const superAdmin = (process.env.SUPER_ADMIN_EMAIL || 'divagar.m.msc.cs@gmail.com').toLowerCase().trim();
-  if (cleanEmail === superAdmin || cleanEmail === 'admin@dhanvikk.com') {
+  const superAdmin = (process.env.SUPER_ADMIN_EMAIL || '').toLowerCase().trim();
+
+  // Explicit super admin email from environment
+  if (superAdmin && cleanEmail === superAdmin) {
     return 'admin';
   }
-  if (cleanEmail === 'manager@dhanvikk.com') {
-    return 'manager';
+
+  // Demo accounts are restricted to non-production environments
+  if (process.env.NODE_ENV !== 'production') {
+    if (cleanEmail === 'admin@dhanvikk.com') return 'admin';
+    if (cleanEmail === 'manager@dhanvikk.com') return 'manager';
   }
+
   return currentRole || 'customer';
 };
 
@@ -371,22 +377,34 @@ export const loginWithFirebase = async ({
   userAgent = '',
 }) => {
   let decodedToken = null;
-  if (idToken && firebaseAuth) {
-    try {
-      decodedToken = await firebaseAuth.verifyIdToken(idToken);
-    } catch (err) {
-      console.warn('Firebase verifyIdToken fallback note:', err.message);
+  if (idToken) {
+    if (firebaseAuth) {
+      try {
+        decodedToken = await firebaseAuth.verifyIdToken(idToken);
+      } catch (err) {
+        throw new ApiError(401, `Invalid or expired Firebase ID token: ${err.message}`);
+      }
+    } else if (process.env.NODE_ENV === 'production') {
+      throw new ApiError(503, 'Firebase authentication service is not configured on this server.');
+    } else if (idToken.startsWith('mock_') || idToken.startsWith('test_')) {
+      // Test-only mock token for development test suites
+      decodedToken = {
+        email: reqEmail || 'customer@dhanvikk.com',
+        name: reqName || 'Test Customer',
+        uid: 'test_firebase_uid_123',
+      };
+    } else {
+      throw new ApiError(401, 'Firebase server verification is unconfigured to authenticate live ID tokens.');
     }
   }
 
-  const email = (
-    decodedToken?.email ||
-    reqEmail ||
-    (decodedToken?.phone_number ? `${decodedToken.phone_number.replace(/\D/g, '')}@dhanvikk.com` : 'customer@dhanvikk.com')
-  )
-    .toLowerCase()
-    .trim();
+  const verifiedEmail = decodedToken?.email || (process.env.NODE_ENV !== 'production' ? reqEmail : null);
 
+  if (!verifiedEmail) {
+    throw new ApiError(401, 'Firebase authentication requires a verified token containing an email address.');
+  }
+
+  const email = verifiedEmail.toLowerCase().trim();
   const name = decodedToken?.name || reqName || email.split('@')[0] || 'Valued Client';
   const phone = decodedToken?.phone_number || reqPhone || '';
   const avatar = decodedToken?.picture || reqAvatar || resolveGoogleAvatar(email, '', name);

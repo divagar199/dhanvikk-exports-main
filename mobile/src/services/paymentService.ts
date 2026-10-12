@@ -3,89 +3,60 @@ import { RazorpayOrderResponse } from '../types';
 
 export const paymentService = {
   /**
-   * Request Razorpay Order ID from backend with automatic resilient fallback
+   * Request genuine Razorpay Order from backend
    */
   async createRazorpayOrder(amount: number, currency = 'INR', receipt?: string): Promise<RazorpayOrderResponse> {
     const numericAmount = Math.max(1, Math.round(amount));
     const upperCurrency = (currency || 'INR').toUpperCase();
-    const resolvedReceipt = receipt || `rcpt_mob_${Date.now()}`;
+    const resolvedReceipt = (receipt || `rcpt_mob_${Date.now()}`).slice(0, 40);
 
-    try {
-      const response = await apiClient.post('/api/payment/create-order', {
-        amount: numericAmount,
-        currency: upperCurrency,
-        receipt: resolvedReceipt,
-      });
+    const response = await apiClient.post('/api/payment/create-order', {
+      amount: numericAmount,
+      currency: upperCurrency,
+      receipt: resolvedReceipt,
+    });
 
-      if (response.data && response.data.order) {
-        return response.data;
-      }
-    } catch (err) {
-      console.warn('Backend createRazorpayOrder warning, using auto-approved order fallback:', err);
+    if (response.data && response.data.success) {
+      return response.data;
     }
 
-    // Resilient simulated order fallback if server is offline or waking up
-    const fallbackOrderId = `order_rzp_${Date.now()}`;
-    return {
-      success: true,
-      keyId: 'rzp_test_TEtZK7VCto8PM1',
-      order: {
-        id: fallbackOrderId,
-        entity: 'order',
-        amount: numericAmount * 100,
-        amount_paid: numericAmount * 100,
-        amount_due: 0,
-        currency: upperCurrency,
-        receipt: resolvedReceipt,
-        status: 'created',
-        created_at: Math.floor(Date.now() / 1000),
-      },
-    };
+    throw new Error(response.data?.message || 'Failed to initialize payment order');
   },
 
   /**
-   * Verify Razorpay Payment Signature and Guarantee Automatic Approval
+   * Verify Razorpay Payment Signature through backend
    */
   async verifyRazorpayPayment(payload: {
     razorpay_order_id: string;
     razorpay_payment_id: string;
-    razorpay_signature?: string;
-    autoApprove?: boolean;
+    razorpay_signature: string;
+    expectedAmount?: number;
+    expectedCurrency?: string;
   }): Promise<{
     success: boolean;
-    approved: boolean;
-    autoApproved?: boolean;
+    status: string;
     message: string;
     paymentId: string;
     orderId: string;
+    isReplay?: boolean;
   }> {
-    const requestPayload = {
-      ...payload,
-      autoApprove: true,
-      razorpay_signature: payload.razorpay_signature || 'simulated_valid_auto_approved_sig',
-    };
-
-    try {
-      const response = await apiClient.post('/api/payment/verify-payment', requestPayload);
-      if (response.data && response.data.success) {
-        return {
-          ...response.data,
-          approved: true,
-        };
-      }
-    } catch (err) {
-      console.warn('Backend verifyRazorpayPayment warning, applying guaranteed auto-approval:', err);
+    if (!payload.razorpay_order_id || !payload.razorpay_payment_id || !payload.razorpay_signature) {
+      throw new Error('Incomplete payment verification credentials.');
     }
 
-    // Guaranteed automatic payment approval fallback
-    return {
-      success: true,
-      approved: true,
-      autoApproved: true,
-      message: 'Payment automatically approved and verified via Razorpay',
-      paymentId: payload.razorpay_payment_id || `pay_rzp_${Date.now()}`,
-      orderId: payload.razorpay_order_id || `order_rzp_${Date.now()}`,
-    };
+    const response = await apiClient.post('/api/payment/verify-payment', {
+      razorpay_order_id: payload.razorpay_order_id,
+      razorpay_payment_id: payload.razorpay_payment_id,
+      razorpay_signature: payload.razorpay_signature,
+      expectedAmount: payload.expectedAmount,
+      expectedCurrency: payload.expectedCurrency,
+    });
+
+    if (response.data && response.data.success) {
+      return response.data;
+    }
+
+    throw new Error(response.data?.message || 'Payment signature verification failed.');
   },
 };
 

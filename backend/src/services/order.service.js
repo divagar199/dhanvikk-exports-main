@@ -53,12 +53,15 @@ export const createOrderWithInventoryLock = async ({
       greetingCardMessage,
       paymentInfo: {
         method: paymentInfo.method || 'Razorpay',
-        status: paymentInfo.status || 'Paid',
+        razorpayOrderId: paymentInfo.razorpayOrderId || '',
+        razorpayPaymentId: paymentInfo.razorpayPaymentId || '',
+        razorpaySignature: paymentInfo.razorpaySignature || '',
+        status: paymentInfo.status === 'Paid' ? 'Paid' : 'Pending',
       },
       subtotal: Number(subtotal !== undefined ? subtotal : totalAmount),
       deliveryFee: Number(deliveryFee || 0),
       totalAmount: Number(totalAmount),
-      status: 'Confirmed',
+      status: paymentInfo.status === 'Paid' ? 'Confirmed' : 'Pending',
       createdAt: new Date(),
     };
     inMemoryOrders.unshift(memoryOrder);
@@ -149,12 +152,12 @@ export const createOrderWithInventoryLock = async ({
         razorpayOrderId: paymentInfo.razorpayOrderId || '',
         razorpayPaymentId: paymentInfo.razorpayPaymentId || '',
         razorpaySignature: paymentInfo.razorpaySignature || '',
-        status: paymentInfo.status || 'Paid',
+        status: paymentInfo.status === 'Paid' ? 'Paid' : 'Pending',
       },
       subtotal: Number(subtotal !== undefined ? subtotal : totalAmount),
       deliveryFee: Number(deliveryFee || 0),
       totalAmount: Number(totalAmount),
-      status: 'Confirmed',
+      status: paymentInfo.status === 'Paid' ? 'Confirmed' : 'Pending',
     };
 
     let createdOrderDoc;
@@ -180,8 +183,8 @@ export const createOrderWithInventoryLock = async ({
       }).catch((addrErr) => console.warn('Address sync note:', addrErr.message));
     }
 
-    // 4. Asynchronously send Order Confirmation Email
-    if (customerEmail) {
+    // 4. Send Order Confirmation Email only when payment is verified
+    if (customerEmail && paymentInfo.status === 'Paid') {
       sendOrderConfirmationEmail({
         email: customerEmail,
         order: createdOrderDoc,
@@ -308,4 +311,45 @@ export const updateStatusOfOrder = async (orderId, newStatus) => {
     throw new ApiError(404, `Order with ID ${orderId} not found`);
   }
 };
+
+export const confirmOrderPayment = async (razorpayOrderId, { paymentId, signature } = {}) => {
+  const updatePayload = {
+    'paymentInfo.status': 'Paid',
+    'paymentInfo.razorpayPaymentId': paymentId || '',
+    'paymentInfo.razorpaySignature': signature || '',
+    status: 'Confirmed',
+  };
+
+  if (!getDBStatus()) {
+    const memOrder = inMemoryOrders.find(
+      (o) => o.paymentInfo?.razorpayOrderId === razorpayOrderId || o.orderId === razorpayOrderId
+    );
+    if (memOrder) {
+      memOrder.paymentInfo.status = 'Paid';
+      memOrder.paymentInfo.razorpayPaymentId = paymentId || '';
+      memOrder.paymentInfo.razorpaySignature = signature || '';
+      memOrder.status = 'Confirmed';
+      return memOrder;
+    }
+    return null;
+  }
+
+  try {
+    const order = await OrderModel.findOneAndUpdate(
+      {
+        $or: [
+          { 'paymentInfo.razorpayOrderId': razorpayOrderId },
+          { orderId: razorpayOrderId },
+        ],
+      },
+      { $set: updatePayload },
+      { new: true }
+    );
+    return order;
+  } catch (err) {
+    console.warn('confirmOrderPayment DB warning:', err.message);
+    return null;
+  }
+};
+
 

@@ -40,13 +40,11 @@ export const createOrder = async (req, res, next) => {
       pincode: postalCode || deliveryAddress?.postalCode || '',
     };
 
-    const customerEmail =
-      req.body.email ||
-      req.body.user?.email ||
-      shippingAddress?.email ||
+    const customerEmail = (
       req.user?.email ||
-      process.env.SMTP_USER ||
-      'divagar.m.msc.cs@gmail.com';
+      shippingAddress?.email ||
+      ''
+    ).toLowerCase().trim();
 
     const customerName =
       resolvedShippingAddress.fullName ||
@@ -54,11 +52,18 @@ export const createOrder = async (req, res, next) => {
       req.user?.name ||
       'Valued Client';
 
-    const resolvedPaymentInfo = paymentInfo || {
-      method: paymentMethod || 'Razorpay',
-      razorpayOrderId: razorpayOrderId || '',
-      razorpayPaymentId: razorpayPaymentId || '',
-      status: 'Paid',
+    // Payment status must reflect genuine verification, never defaulting unverified orders to 'Paid'
+    const isPaymentVerified =
+      paymentInfo?.status === 'Paid' &&
+      Boolean(paymentInfo?.razorpayPaymentId) &&
+      Boolean(paymentInfo?.razorpaySignature || paymentInfo?.razorpayOrderId);
+
+    const resolvedPaymentInfo = {
+      method: paymentInfo?.method || paymentMethod || 'Razorpay',
+      razorpayOrderId: paymentInfo?.razorpayOrderId || razorpayOrderId || '',
+      razorpayPaymentId: paymentInfo?.razorpayPaymentId || razorpayPaymentId || '',
+      razorpaySignature: paymentInfo?.razorpaySignature || '',
+      status: isPaymentVerified ? 'Paid' : (paymentInfo?.status || 'Pending'),
     };
 
     const order = await createOrderWithInventoryLock({
@@ -88,16 +93,16 @@ export const createOrder = async (req, res, next) => {
 
 export const getMyOrders = async (req, res, next) => {
   try {
-    const userEmail = (
-      req.user?.email ||
-      req.headers['x-user-email'] ||
-      req.query.email ||
-      ''
-    )
-      .toLowerCase()
-      .trim();
+    const userEmail = (req.user?.email || '').toLowerCase().trim();
+    const userId = (req.user?._id || req.user?.id || '').toString();
 
-    const userId = req.user?._id || req.user?.id;
+    if (!userEmail && !userId) {
+      return res.status(401).json({
+        success: false,
+        message: 'Authentication required to view order history',
+      });
+    }
+
     const orders = await getUserOrders(userEmail, userId);
 
     return res.status(200).json({

@@ -63,38 +63,53 @@ app.use('/images', (req, res, next) => {
 });
 app.use('/images', express.static(imagesStaticDir));
 
+// Validate required environment configuration
+if (process.env.NODE_ENV === 'production') {
+  const requiredProductionVars = ['JWT_SECRET', 'RAZORPAY_KEY_ID', 'RAZORPAY_KEY_SECRET'];
+  const missing = requiredProductionVars.filter((v) => !process.env[v]);
+  if (missing.length > 0) {
+    console.error(`FATAL: Missing mandatory production environment variables: ${missing.join(', ')}`);
+    process.exit(1);
+  }
+}
+
 // Cross-Origin Resource Sharing
 const rawClientUrl = (process.env.CLIENT_URL || '').replace(/\/+$/, '');
-const allowedOrigins = [
-  rawClientUrl,
-  'http://127.0.0.1:5173',
-  'http://localhost:5173',
-  'http://localhost:8081',
-  'http://localhost:19006',
-  'http://localhost:3000',
-  'https://dhanvikk-exports-main.vercel.app',
-  'https://dhanvikk-blooms.vercel.app',
-].filter(Boolean);
+const allowedOrigins = new Set(
+  [
+    rawClientUrl,
+    'http://localhost:5173',
+    'http://127.0.0.1:5173',
+    'http://localhost:8081',
+    'http://localhost:19006',
+    'http://localhost:3000',
+    'https://dhanvikk-exports-main.vercel.app',
+    'https://dhanvikk-blooms.vercel.app',
+    'https://dhanvikk.vercel.app',
+  ].filter(Boolean)
+);
+
+const isDevLocalhost = (origin) => {
+  if (process.env.NODE_ENV === 'production') return false;
+  try {
+    const url = new URL(origin);
+    return url.hostname === 'localhost' || url.hostname === '127.0.0.1';
+  } catch {
+    return false;
+  }
+};
 
 app.use(
   cors({
     origin: (origin, callback) => {
-      // Allow requests with no origin (like mobile apps, curl, uptime bots)
+      // Allow requests with no origin (mobile apps native HTTP, curl, server-to-server)
       if (!origin) return callback(null, true);
 
-      // Allow all whitelisted domains, Vercel deployments, Render frontends, or any local dev
-      const isAllowed =
-        allowedOrigins.includes(origin) ||
-        origin.endsWith('.vercel.app') ||
-        origin.includes('dhanvikk') ||
-        origin.includes('localhost') ||
-        origin.includes('127.0.0.1') ||
-        process.env.NODE_ENV !== 'production';
-
-      if (isAllowed) {
+      if (allowedOrigins.has(origin) || isDevLocalhost(origin)) {
         return callback(null, true);
       }
-      return callback(null, true);
+
+      return callback(new Error(`CORS policy violation: origin '${origin}' is not allowed.`));
     },
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
@@ -154,9 +169,14 @@ app.use(notFound);
 app.use(errorHandler);
 
 // Start Server
-app.listen(PORT, () => {
-  console.log(`🌸 Dhanvikk Blooms Backend listening on http://localhost:${PORT}`);
-  console.log(`📡 CORS allowed for: ${CLIENT_URL}`);
-});
+let server = null;
+if (process.env.NODE_ENV !== 'test') {
+  server = app.listen(PORT, () => {
+    console.log(`🌸 Dhanvikk Blooms Backend listening on http://localhost:${PORT}`);
+    console.log(`📡 CORS allowed for: ${CLIENT_URL}`);
+  });
+}
 
+export { server };
 export default app;
+

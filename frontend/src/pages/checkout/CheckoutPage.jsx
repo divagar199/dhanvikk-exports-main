@@ -215,11 +215,15 @@ export default function CheckoutPage() {
         },
         handler: async function (response) {
           try {
+            if (!response.razorpay_payment_id || !response.razorpay_signature) {
+              throw new Error('Incomplete payment authentication received from Razorpay gateway.');
+            }
+
             // 4. Verify payment signature on backend
             const verifyRes = await paymentService.verifyPayment({
               razorpay_order_id: response.razorpay_order_id || order.id,
-              razorpay_payment_id: response.razorpay_payment_id || `pay_${Date.now()}`,
-              razorpay_signature: response.razorpay_signature || 'simulated_valid_signature',
+              razorpay_payment_id: response.razorpay_payment_id,
+              razorpay_signature: response.razorpay_signature,
             });
 
             if (verifyRes.success) {

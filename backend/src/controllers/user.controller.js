@@ -15,9 +15,7 @@ const resolveIdentifier = (req) => {
     req.user?._id?.toString() ||
     req.user?.id ||
     req.user?.email ||
-    req.body?.email ||
-    req.query?.email ||
-    req.headers['x-user-email']
+    null
   );
 };
 

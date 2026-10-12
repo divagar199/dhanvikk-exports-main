@@ -15,17 +15,12 @@ export const protect = async (req, res, next) => {
     token = req.cookies.dhanvikk_token;
   }
 
-  // Guest Mode: If no token provided, assign guest customer and proceed seamlessly
+  // Strict check: Protected endpoints must reject unauthenticated requests
   if (!token) {
-    req.user = {
-      id: 'guest_user_dhanvikk',
-      name: 'Guest Customer',
-      email: 'guest@dhanvikk.com',
-      role: 'customer',
-      phone: '+971 50 000 0000',
-      avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80',
-    };
-    return next();
+    return res.status(401).json({
+      success: false,
+      message: 'Authentication required. No authorization token provided.',
+    });
   }
 
   try {
@@ -41,7 +36,7 @@ export const protect = async (req, res, next) => {
           user = await UserModel.findOne({ email: decoded.email.toLowerCase() });
         }
       } catch (dbErr) {
-        console.warn('protect db lookup note:', dbErr.message);
+        console.warn('protect db lookup warning:', dbErr.message);
       }
     }
 
@@ -50,38 +45,29 @@ export const protect = async (req, res, next) => {
       user = inMemoryUsers.get(emailLower) || USERS.find((u) => u.id === decoded.sub || u.email.toLowerCase() === emailLower);
     }
 
-    if (!user && decoded.email) {
-      user = {
-        id: decoded.sub,
-        name: decoded.name || 'Valued Customer',
-        email: decoded.email,
-        role: decoded.role || 'customer',
-        phone: decoded.phone || '',
-        avatar: decoded.avatar || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80',
-      };
+    if (!user) {
+      return res.status(401).json({
+        success: false,
+        message: 'Authenticated user account was not found or has been revoked.',
+      });
     }
 
     req.user = {
-      _id: user?._id,
-      id: user?._id ? user._id.toString() : (user?.id || decoded?.sub || 'guest_user_dhanvikk'),
-      name: user?.name || decoded?.name || 'Guest Customer',
-      email: user?.email || decoded?.email || 'guest@dhanvikk.com',
-      role: user?.role || decoded?.role || 'customer',
-      phone: user?.phone || decoded?.phone || '',
-      avatar: user?.avatar || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80',
+      _id: user._id,
+      id: user._id ? user._id.toString() : (user.id || decoded.sub),
+      name: user.name || decoded.name || 'Valued Customer',
+      email: (user.email || decoded.email || '').toLowerCase().trim(),
+      role: user.role || decoded.role || 'customer',
+      phone: user.phone || decoded.phone || '',
+      avatar: user.avatar || decoded.avatar || '',
     };
     next();
   } catch (error) {
-    // Guest fallback on expired or invalid token
-    req.user = {
-      id: 'guest_user_dhanvikk',
-      name: 'Guest Customer',
-      email: 'guest@dhanvikk.com',
-      role: 'customer',
-      phone: '+971 50 000 0000',
-      avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80',
-    };
-    next();
+    return res.status(401).json({
+      success: false,
+      message: 'Invalid or expired authentication token. Please sign in again.',
+      error: process.env.NODE_ENV === 'development' ? error.message : undefined,
+    });
   }
 };
 
@@ -90,9 +76,10 @@ export const authorize = (...roles) => {
     if (!req.user || !roles.includes(req.user.role)) {
       return res.status(403).json({
         success: false,
-        message: `Role (${req.user?.role || 'anonymous'}) is not permitted to access this resource`,
+        message: `Forbidden: role '${req.user?.role || 'unauthenticated'}' is not authorized to access this resource.`,
       });
     }
     next();
   };
 };
+

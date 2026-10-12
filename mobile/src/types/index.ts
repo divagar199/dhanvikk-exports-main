@@ -119,6 +119,7 @@ export interface ProductFilters {
 export interface RazorpayOrderResponse {
   success: boolean;
   keyId: string;
+  message?: string;
   order: {
     id: string;
     entity: string;

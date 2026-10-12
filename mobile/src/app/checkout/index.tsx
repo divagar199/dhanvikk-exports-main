@@ -65,8 +65,6 @@ const TIME_SLOTS = [
   'Evening (5 PM - 9 PM)',
 ];
 
-const generateMockPaymentId = () => `pay_rzp_mob_${Date.now()}`;
-const generateMockOrderId = () => `order_rzp_${Date.now()}`;
 const generateFallbackUserId = () => `usr_${Date.now()}`;
 const generateFallbackDisplayOrderId = () => `DHN-${new Date().getFullYear()}-8941`;
 
@@ -211,25 +209,17 @@ export default function CheckoutScreen() {
         Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light).catch(() => {});
       }
 
-      // 1. Create Razorpay order on server
+      // 1. Create genuine Razorpay order on server
       const razorpayOrderRes = await paymentService.createRazorpayOrder(totalAmount, 'INR');
+      if (!razorpayOrderRes?.order?.id) {
+        throw new Error(razorpayOrderRes?.message || 'Failed to initialize payment with Razorpay gateway.');
+      }
 
-      const resolvedPaymentId = generateMockPaymentId();
-      const resolvedOrderId = razorpayOrderRes.order?.id || generateMockOrderId();
+      const gatewayOrderId = razorpayOrderRes.order.id;
 
-      setRzpStatus('2. Verifying & Auto-Approving Payment via Razorpay...');
+      setRzpStatus('2. Registering luxury botanical order...');
 
-      // 2. Verify Razorpay Payment Signature with guaranteed auto-approval
-      await paymentService.verifyRazorpayPayment({
-        razorpay_order_id: resolvedOrderId,
-        razorpay_payment_id: resolvedPaymentId,
-        razorpay_signature: 'auto_approved_valid_sig',
-        autoApprove: true,
-      });
-
-      setRzpStatus('3. Securing Order Confirmation...');
-
-      // 3. Create Floral Order in Backend
+      // 2. Create Floral Order in Backend with pending payment confirmation
       const orderPayload = {
         items: items.map((it) => ({
           product: (it.product.id || it.product._id || '') as string,
@@ -254,20 +244,12 @@ export default function CheckoutScreen() {
         greetingCardMessage,
         paymentInfo: {
           method: 'Razorpay',
-          razorpayOrderId: resolvedOrderId,
-          razorpayPaymentId: resolvedPaymentId,
-          status: 'Paid',
+          razorpayOrderId: gatewayOrderId,
+          status: 'Pending',
         },
         subtotal,
         deliveryFee,
         totalAmount,
-        email: user?.email || 'customer@dhanvikk.com',
-        user: {
-          id: (user?.id || user?._id || generateFallbackUserId()) as string,
-          name: fullName,
-          email: user?.email || 'customer@dhanvikk.com',
-          phone,
-        },
       };
 
       const createdOrder = await orderService.createOrder(orderPayload);
