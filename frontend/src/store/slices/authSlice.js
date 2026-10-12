@@ -207,139 +207,59 @@ export const loginWithGoogleThunk = createAsyncThunk(
   'auth/loginWithGoogle',
   async (extraData = {}, { rejectWithValue }) => {
     try {
-      let firebasePayload = { ...extraData };
-      let firebaseUser = null;
-      let firebaseToken = null;
-      let firebaseIdToken = null; // Raw Firebase ID token for server-side verification
-
-      // Extract candidate user if passed from redirect, pre-fill, or direct auth result
-      const candidateUser = extraData?.user || extraData;
-      const uid = candidateUser?.googleUid || candidateUser?.id || candidateUser?.uid;
-      const candidateEmail = candidateUser?.email;
-
-      // If already authenticated via 1-click Google pre-fill in Register page or returning from redirect
-      if (uid && candidateEmail) {
-        firebaseUser = {
-          id: uid,
-          name: candidateUser.name || candidateUser.displayName || candidateEmail.split('@')[0],
-          email: candidateEmail,
-          avatar: candidateUser.avatar || candidateUser.photoURL || '',
-          phone: candidateUser.phone || candidateUser.phoneNumber || '',
-          role: candidateUser.role || 'customer',
-        };
-        firebaseToken = extraData?.token || localStorage.getItem('dhanvikk_auth_token') || `fb_${uid}`;
-        firebasePayload = {
-          ...firebasePayload,
-          googleUid: uid,
-          name: firebaseUser.name,
-          email: firebaseUser.email,
-          avatar: firebaseUser.avatar,
-          phone: firebaseUser.phone,
-        };
-      } else {
-        try {
-          // Direct invocation preserves the browser's user-gesture activation token so popups are NOT blocked
-          const firebaseRes = await signInWithGoogleFirebase();
-          if (firebaseRes?.redirecting) {
-            return { redirecting: true };
-          }
-          if (firebaseRes?.user) {
-            firebaseUser = firebaseRes.user;
-            firebaseToken = firebaseRes.token;
-            firebaseIdToken = firebaseRes.idToken || null;
-            firebasePayload = {
-              ...firebasePayload,
-              name: firebaseRes.user.name,
-              email: firebaseRes.user.email,
-              avatar: firebaseRes.user.avatar,
-              phone: firebaseRes.user.phone || '',
-              googleUid: firebaseRes.user.id,
-              ...(firebaseIdToken ? { idToken: firebaseIdToken } : {}),
-            };
-          }
-        } catch (fbErr) {
-          console.error('Firebase Google Sign-In interaction:', fbErr);
-          const errorCode = fbErr?.code || '';
-          if (errorCode === 'auth/popup-closed-by-user' || errorCode === 'auth/cancelled-popup-request') {
-            return rejectWithValue('Google sign-in was canceled.');
-          }
-          if (errorCode === 'auth/popup-blocked') {
-            return rejectWithValue('Google sign-in popup was blocked by your browser. Please allow popups or use email sign-in.');
-          }
-          if (errorCode === 'auth/unauthorized-domain') {
-            const currentHost = typeof window !== 'undefined' ? window.location.hostname : 'current domain';
-            return rejectWithValue(`The domain "${currentHost}" is not authorized in Firebase Auth. Please verify Authorized Domains in Firebase Console.`);
-          }
-          if (errorCode === 'auth/timeout') {
-            return rejectWithValue('Google sign-in timed out. Please try again or sign in with your email & password.');
-          }
-          return rejectWithValue(fbErr?.message || 'Google sign-in could not be completed.');
-        }
+      if (extraData?.redirecting) {
+        return { redirecting: true };
       }
 
-      if (!firebaseUser) {
-        return rejectWithValue('Google authentication was not completed.');
+      let firebaseResult = extraData;
+      if (!firebaseResult?.idToken) {
+        firebaseResult = await signInWithGoogleFirebase();
+      }
+      if (firebaseResult?.redirecting) {
+        return { redirecting: true };
       }
 
-      // Synchronize authenticated profile with backend API
-      // Prefer /firebase-login if we have an idToken for secure server-side verification
-      let data = null;
-      try {
-        const timeoutPromise = new Promise((_, reject) =>
-          setTimeout(() => reject(new Error('Backend sync timeout')), 4000)
-        );
-
-        const backendCall = firebaseIdToken
-          ? (async () => {
-              const { default: api } = await import('../../services/api');
-              const res = await api.post('/api/auth/firebase-login', {
-                idToken: firebaseIdToken,
-                email: firebaseUser.email,
-                name: firebaseUser.name,
-                avatar: firebaseUser.avatar,
-                uid: firebaseUser.id,
-                authMethod: 'google',
-              });
-              return res.data;
-            })()
-          : authService.loginWithGoogle(firebasePayload);
-
-        data = await Promise.race([backendCall, timeoutPromise]);
-      } catch (apiErr) {
-        console.warn('Backend API note for Google login (proceeding with verified Firebase session):', apiErr?.message);
-        // Fall back to verified Firebase authentication if backend API is temporarily slow/cold-starting
-        data = {
-          success: true,
-          user: firebaseUser,
-          token: firebaseToken || `fb_token_${firebaseUser.id}`,
-        };
-        // Fire-and-forget sync in the background so backend database still captures the user
-        authService.loginWithGoogle(firebasePayload).catch(() => {});
+      const idToken = firebaseResult?.idToken;
+      if (!idToken || typeof idToken !== 'string') {
+        return rejectWithValue('Google sign-in did not return a valid Firebase ID token. Please try again.');
       }
 
-      if (data?.success) {
-        const userObj = {
-          ...firebaseUser,
-          ...(data.user || {}),
-          // Ensure real Google credentials take precedence
-          id: data.user?.id || data.user?._id || firebaseUser.id,
-          name: data.user?.name || firebaseUser.name || firebaseUser.email.split('@')[0],
-          email: data.user?.email || firebaseUser.email,
-          avatar: data.user?.avatar || firebaseUser.avatar || '',
-          // Backend role always wins (critical for admin access control)
-          role: data.user?.role || firebaseUser.role || 'customer',
-        };
-        const tokenStr = data.token || firebaseToken || `dhanvikk_token_${userObj.id}`;
-        sessionStorage.removeItem('dhanvikk_logged_out');
-        localStorage.setItem('dhanvikk_auth_token', tokenStr);
-        localStorage.setItem('dhanvikk_user', JSON.stringify(userObj));
-        sessionStorage.setItem('dhanvikk_auth_token', tokenStr);
-        sessionStorage.setItem('dhanvikk_user', JSON.stringify(userObj));
-        return { success: true, user: userObj, token: tokenStr };
+      const { default: api } = await import('../../services/api');
+      const response = await api.post('/api/auth/firebase-login', {
+        idToken,
+        authMethod: 'google',
+      });
+      const data = response.data;
+      if (!data?.success || !data?.user || !data?.token) {
+        return rejectWithValue('The server could not establish a verified Google session.');
       }
-      return rejectWithValue(data?.message || 'Google sign-in failed');
+
+      const userObj = data.user;
+      const tokenStr = data.token;
+      sessionStorage.removeItem('dhanvikk_logged_out');
+      localStorage.setItem('dhanvikk_auth_token', tokenStr);
+      localStorage.setItem('dhanvikk_user', JSON.stringify(userObj));
+      sessionStorage.setItem('dhanvikk_auth_token', tokenStr);
+      sessionStorage.setItem('dhanvikk_user', JSON.stringify(userObj));
+      return { success: true, user: userObj, token: tokenStr };
     } catch (error) {
-      return rejectWithValue(error.userMessage || error.message || 'Google sign-in failed. Please try again.');
+      const code = error?.code || '';
+      if (code === 'auth/popup-closed-by-user' || code === 'auth/cancelled-popup-request') {
+        return rejectWithValue('Google sign-in was canceled.');
+      }
+      if (code === 'auth/unauthorized-domain') {
+        const currentHost = typeof window !== 'undefined' ? window.location.hostname : 'this domain';
+        return rejectWithValue(`The domain "${currentHost}" is not authorized in Firebase Authentication. Add it under Authentication → Settings → Authorized domains.`);
+      }
+      if (code === 'auth/popup-blocked') {
+        return rejectWithValue('Your browser blocked the Google sign-in popup. Allow popups and try again.');
+      }
+      return rejectWithValue(
+        error?.response?.data?.message ||
+        error?.userMessage ||
+        error?.message ||
+        'Google sign-in failed. Please try again.'
+      );
     }
   }
 );
