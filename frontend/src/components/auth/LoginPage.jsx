@@ -18,13 +18,13 @@ export default function LoginPage() {
   const { isAuthenticated, user, loading, error: authError } = useSelector((state) => state.auth);
   const [googleLoading, setGoogleLoading] = useState(false);
 
-  // Target destination redirect (e.g. /checkout or /account)
+  // Target destination redirect: defaults to home page ('/') unless user came from a specific page like /checkout
   const rawFrom =
     typeof location.state?.from === 'string'
       ? location.state.from
-      : location.state?.from?.pathname || '/account';
+      : location.state?.from?.pathname;
 
-  const destination = (rawFrom && rawFrom !== '/login' && rawFrom !== '/register') ? rawFrom : '/account';
+  const destination = (rawFrom && rawFrom !== '/login' && rawFrom !== '/register') ? rawFrom : '/';
 
   // Automatically redirect away from /login if already authenticated or session token exists
   React.useEffect(() => {

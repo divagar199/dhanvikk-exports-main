@@ -51,6 +51,13 @@ export default function Register() {
   const prefillEmail = location.state?.prefillEmail || new URLSearchParams(location.search).get('email') || '';
   const { isAuthenticated, user, loading: authLoading, error: authError } = useSelector((state) => state.auth);
 
+  const rawFrom =
+    typeof location.state?.from === 'string'
+      ? location.state.from
+      : location.state?.from?.pathname;
+
+  const destination = (rawFrom && rawFrom !== '/login' && rawFrom !== '/register') ? rawFrom : '/';
+
   // Automatically redirect away from /register if already authenticated
   React.useEffect(() => {
     const token =
@@ -59,9 +66,9 @@ export default function Register() {
         : null;
 
     if (isAuthenticated || (user && token)) {
-      navigate('/account', { replace: true });
+      navigate(destination, { replace: true });
     }
-  }, [isAuthenticated, user, navigate]);
+  }, [isAuthenticated, user, destination, navigate]);
 
   // Form states
   const [googleUser, setGoogleUser] = useState(null);
@@ -120,7 +127,7 @@ export default function Register() {
           );
           if (loginWithGoogleThunk.fulfilled.match(actionResult)) {
             toast.success(`🌸 Welcome to Dhanvikk Blooms, ${res.user.name || 'Valued Customer'}!`);
-            navigate('/account', { replace: true });
+            navigate(destination, { replace: true });
           }
         }
       } catch (e) {
@@ -128,7 +135,7 @@ export default function Register() {
       }
     })();
     return () => { isMounted = false; };
-  }, [dispatch, navigate]);
+  }, [dispatch, destination, navigate]);
 
   // Fast Google Sign-In & Registration on Create Account page
   const handleGooglePreFill = async () => {
@@ -162,7 +169,7 @@ export default function Register() {
 
         if (loginWithGoogleThunk.fulfilled.match(actionResult)) {
           toast.success(`🌸 Welcome to Dhanvikk Blooms, ${fbRes.user.name || 'Valued Customer'}!`);
-          navigate('/account', { replace: true });
+          navigate(destination, { replace: true });
           return;
         } else {
           toast.error(actionResult.payload || 'Google sign-up could not be completed.');
@@ -296,7 +303,7 @@ export default function Register() {
         loginWithGoogleThunk.fulfilled.match(actionResult)
       ) {
         toast.success('🌸 Welcome to Dhanvikk Blooms! Account created.');
-        navigate('/account');
+        navigate(destination, { replace: true });
       } else {
         toast.error(actionResult.payload || 'Account creation failed. Please check your inputs.');
       }
