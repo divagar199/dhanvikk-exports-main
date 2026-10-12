@@ -26,6 +26,7 @@ export const registerSchema = z.object({
 
 export const googleLoginSchema = z.object({
   body: z.object({
+    idToken: z.string().min(1, { message: 'Firebase ID token is required' }),
     email: z.string().trim().email().optional(),
     name: z.string().optional(),
     avatar: z.string().optional(),
