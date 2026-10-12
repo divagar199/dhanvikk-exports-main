@@ -55,8 +55,14 @@ export const authStorage = {
 // Centralized API configuration with local & production fallbacks
 export const DEFAULT_PRODUCTION_API = 'https://dhanvikk-exports-api.onrender.com';
 
-// For local testing on physical devices (via host IP) or emulator (10.0.2.2)
+// For local testing on physical devices (via host IP) or emulator (10.0.2.2) or Web (localhost:5000)
 export const getLocalhostUrl = () => {
+  if (Platform.OS === 'web') {
+    if (typeof window !== 'undefined' && window.location.hostname && window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+      return `http://${window.location.hostname}:5000`;
+    }
+    return 'http://localhost:5000';
+  }
   const hostUri = Constants.expoConfig?.hostUri;
   if (hostUri) {
     const ip = hostUri.split(':')[0];
@@ -70,15 +76,15 @@ export const getLocalhostUrl = () => {
   return 'http://localhost:5000';
 };
 
-// In development, prefer local server if hostUri is available, else Render production API
+// In development, prefer local server, else Render production API
 export const API_BASE_URL =
   (typeof process !== 'undefined' && process.env?.EXPO_PUBLIC_API_URL) ||
-  (__DEV__ && Constants.expoConfig?.hostUri ? getLocalhostUrl() : DEFAULT_PRODUCTION_API);
+  (__DEV__ ? getLocalhostUrl() : DEFAULT_PRODUCTION_API);
 
 // eslint-disable-next-line import/no-named-as-default-member
 export const apiClient = axios.create({
   baseURL: API_BASE_URL,
-  timeout: 8000,
+  timeout: 15000,
   headers: {
     'Content-Type': 'application/json',
     Accept: 'application/json',
