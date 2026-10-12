@@ -160,16 +160,23 @@ export const useAuthStore = create<AuthState>((set, get) => ({
           set({ user, token: savedToken, isInitialized: true, isLoading: false });
           get().syncUserData(user.email);
           return;
-        } catch {
-          // If offline or dormant backend waking up, restore cached user
-          const cachedUserStr = await authStorage.getItem('dhanvikk_user');
-          if (cachedUserStr) {
-            try {
-              const cachedUser = JSON.parse(cachedUserStr);
-              set({ user: cachedUser, token: savedToken, isInitialized: true, isLoading: false });
-              get().syncUserData(cachedUser.email);
-              return;
-            } catch {}
+        } catch (error: any) {
+          // Invalid legacy/mock tokens must be cleared instead of restoring a false session.
+          const status = error?.response?.status;
+          if (status === 401 || status === 403) {
+            setAuthTokenMemory(null);
+            await authStorage.deleteItem(TOKEN_STORAGE_KEY);
+            await authStorage.deleteItem('dhanvikk_user');
+          } else {
+            // A transient network issue may still show cached profile UI, but it must not mint a token.
+            const cachedUserStr = await authStorage.getItem('dhanvikk_user');
+            if (cachedUserStr) {
+              try {
+                const cachedUser = JSON.parse(cachedUserStr);
+                set({ user: cachedUser, token: savedToken, isInitialized: true, isLoading: false });
+                return;
+              } catch {}
+            }
           }
         }
       }
