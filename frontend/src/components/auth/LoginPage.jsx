@@ -37,7 +37,7 @@ export default function LoginPage() {
         ? localStorage.getItem('dhanvikk_auth_token') || sessionStorage.getItem('dhanvikk_auth_token')
         : null;
 
-    if (isAuthenticated && user && token) {
+    if ((isAuthenticated && user) || (user && token)) {
       navigate(destination, { replace: true });
     }
   }, [isAuthenticated, user, destination, navigate]);
@@ -100,11 +100,14 @@ export default function LoginPage() {
           return;
         }
         const loggedUser = resultAction.payload?.user;
+        const targetPath = (loggedUser?.role === 'admin' || loggedUser?.role === 'super_admin')
+          ? '/admin/dashboard'
+          : destination;
         toast.success(`Welcome, ${loggedUser?.name || loggedUser?.email || 'Valued Customer'}! 🌸`);
-        navigate(destination, { replace: true });
+        navigate(targetPath, { replace: true });
         setTimeout(() => {
           if (typeof window !== 'undefined' && window.location.pathname === '/login') {
-            window.location.replace(destination);
+            window.location.replace(targetPath);
           }
         }, 120);
       } else {

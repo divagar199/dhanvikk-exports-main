@@ -5,11 +5,13 @@ import { ProductModel } from '../models/Product.js';
 import { SEED_PRODUCTS } from '../data/seedProducts.js';
 import { ApiError } from '../utils/apiError.js';
 import { uploadsDir } from '../middleware/uploadMiddleware.js';
+import { getDBStatus } from '../config/db.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 export const initializeProducts = async () => {
+  if (!getDBStatus()) return;
   try {
     const count = await ProductModel.countDocuments();
     if (count === 0) {
@@ -33,6 +35,54 @@ export const listProducts = async ({
   limit = 200,
   page = 1,
 } = {}) => {
+  // If MongoDB is not connected, serve directly from high-performance in-memory SEED_PRODUCTS
+  if (!getDBStatus()) {
+    let items = [...SEED_PRODUCTS];
+
+    if (category && category !== 'All' && category !== 'All Blooms') {
+      items = items.filter((p) => p.category?.toLowerCase() === category.toLowerCase());
+    }
+    if (occasion && occasion !== 'All') {
+      items = items.filter((p) => p.occasion?.toLowerCase() === occasion.toLowerCase());
+    }
+    if (recipient && recipient !== 'Everyone') {
+      items = items.filter((p) => p.recipient?.toLowerCase() === recipient.toLowerCase());
+    }
+    if (flowerType && flowerType !== 'All') {
+      items = items.filter((p) => p.flowerType?.toLowerCase() === flowerType.toLowerCase());
+    }
+    if (tag) {
+      items = items.filter((p) => p.tag?.toLowerCase().includes(tag.toLowerCase()));
+    }
+    if (search) {
+      const q = search.toLowerCase();
+      items = items.filter(
+        (p) =>
+          p.name?.toLowerCase().includes(q) ||
+          p.description?.toLowerCase().includes(q) ||
+          p.category?.toLowerCase().includes(q) ||
+          p.flowerType?.toLowerCase().includes(q)
+      );
+    }
+
+    if (sort === 'price-low') items.sort((a, b) => a.price - b.price);
+    else if (sort === 'price-high') items.sort((a, b) => b.price - a.price);
+    else if (sort === 'rating') items.sort((a, b) => (b.rating || 5) - (a.rating || 5));
+
+    const parsedLimit = Math.min(Number(limit) || 200, 500);
+    const parsedPage = Math.max(Number(page) || 1, 1);
+    const skip = (parsedPage - 1) * parsedLimit;
+    const paginated = items.slice(skip, skip + parsedLimit);
+
+    return {
+      products: paginated,
+      count: paginated.length,
+      total: items.length,
+      page: parsedPage,
+      pages: Math.ceil(items.length / parsedLimit) || 1,
+    };
+  }
+
   const query = {};
 
   if (category && category !== 'All' && category !== 'All Blooms') {
@@ -71,18 +121,30 @@ export const listProducts = async ({
   const parsedPage = Math.max(Number(page) || 1, 1);
   const skip = (parsedPage - 1) * parsedLimit;
 
-  const [products, totalCount] = await Promise.all([
-    ProductModel.find(query).sort(sortOptions).skip(skip).limit(parsedLimit).lean(),
-    ProductModel.countDocuments(query),
-  ]);
+  try {
+    const [products, totalCount] = await Promise.all([
+      ProductModel.find(query).sort(sortOptions).skip(skip).limit(parsedLimit).lean(),
+      ProductModel.countDocuments(query),
+    ]);
 
-  return {
-    products,
-    count: products.length,
-    total: totalCount,
-    page: parsedPage,
-    pages: Math.ceil(totalCount / parsedLimit),
-  };
+    return {
+      products,
+      count: products.length,
+      total: totalCount,
+      page: parsedPage,
+      pages: Math.ceil(totalCount / parsedLimit),
+    };
+  } catch (err) {
+    console.warn('MongoDB listProducts fallback to memory:', err.message);
+    const parsedLimitFallback = Math.min(Number(limit) || 200, 500);
+    return {
+      products: SEED_PRODUCTS.slice(0, parsedLimitFallback),
+      count: SEED_PRODUCTS.length,
+      total: SEED_PRODUCTS.length,
+      page: 1,
+      pages: 1,
+    };
+  }
 };
 
 export const getProductByIdOrSlug = async (identifier) => {
@@ -90,17 +152,35 @@ export const getProductByIdOrSlug = async (identifier) => {
     throw new ApiError(400, 'Product identifier is required');
   }
 
+  if (!getDBStatus()) {
+    const found = SEED_PRODUCTS.find(
+      (p) => p.id === identifier || p.slug === identifier || p._id === identifier
+    );
+    if (!found) {
+      throw new ApiError(404, `Flower arrangement not found with identifier: ${identifier}`);
+    }
+    return found;
+  }
+
   const isMongoId = /^[0-9a-fA-F]{24}$/.test(identifier);
   const query = isMongoId
     ? { $or: [{ _id: identifier }, { id: identifier }, { slug: identifier }] }
     : { $or: [{ id: identifier }, { slug: identifier }] };
 
-  const product = await ProductModel.findOne(query).lean();
-  if (!product) {
+  try {
+    const product = await ProductModel.findOne(query).lean();
+    if (!product) {
+      const memFallback = SEED_PRODUCTS.find((p) => p.id === identifier || p.slug === identifier);
+      if (memFallback) return memFallback;
+      throw new ApiError(404, `Flower arrangement not found with identifier: ${identifier}`);
+    }
+    return product;
+  } catch (err) {
+    if (err instanceof ApiError) throw err;
+    const memFallback = SEED_PRODUCTS.find((p) => p.id === identifier || p.slug === identifier);
+    if (memFallback) return memFallback;
     throw new ApiError(404, `Flower arrangement not found with identifier: ${identifier}`);
   }
-
-  return product;
 };
 
 export const createProduct = async (data) => {

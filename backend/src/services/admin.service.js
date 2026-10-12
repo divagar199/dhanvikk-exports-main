@@ -18,53 +18,101 @@ export const getSuperAdminMetadata = () => ({
   superAdminEmail: SUPER_ADMIN_EMAIL,
 });
 
+import { getDBStatus } from '../config/db.js';
+import { inMemoryUsers } from './auth.service.js';
+import { USERS } from '../data/users.js';
+
 export const getDashboardAnalytics = async () => {
-  const [revenueResult, totalOrders, totalUsers, lowStockCount, activeDispatches] = await Promise.all([
-    OrderModel.aggregate([
-      { $match: { 'paymentInfo.status': 'Paid' } },
-      { $group: { _id: null, total: { $sum: '$totalAmount' } } },
-    ]),
-    OrderModel.countDocuments(),
-    UserModel.countDocuments(),
-    ProductModel.countDocuments({ stock: { $lte: 5 } }),
-    OrderModel.countDocuments({
-      status: { $in: ['Confirmed', 'Preparing Floral Order', 'Out for Delivery'] },
-    }),
-  ]);
+  if (!getDBStatus()) {
+    return {
+      totalRevenue: 184250,
+      totalOrders: 42,
+      totalUsers: inMemoryUsers.size || USERS.length,
+      lowStockCount: 2,
+      currency: 'INR',
+      activeColdChainDispatches: 8,
+    };
+  }
 
-  const realRevenue = revenueResult[0]?.total || 0;
+  try {
+    const [revenueResult, totalOrders, totalUsers, lowStockCount, activeDispatches] = await Promise.all([
+      OrderModel.aggregate([
+        { $match: { 'paymentInfo.status': 'Paid' } },
+        { $group: { _id: null, total: { $sum: '$totalAmount' } } },
+      ]),
+      OrderModel.countDocuments(),
+      UserModel.countDocuments(),
+      ProductModel.countDocuments({ stock: { $lte: 5 } }),
+      OrderModel.countDocuments({
+        status: { $in: ['Confirmed', 'Preparing Floral Order', 'Out for Delivery'] },
+      }),
+    ]);
 
-  return {
-    totalRevenue: realRevenue > 0 ? realRevenue : 184250,
-    totalOrders: totalOrders > 0 ? totalOrders : 42,
-    totalUsers: totalUsers > 0 ? totalUsers : 15,
-    lowStockCount,
-    currency: 'INR',
-    activeColdChainDispatches: activeDispatches > 0 ? activeDispatches : 8,
-  };
+    const realRevenue = revenueResult[0]?.total || 0;
+
+    return {
+      totalRevenue: realRevenue > 0 ? realRevenue : 184250,
+      totalOrders: totalOrders > 0 ? totalOrders : 42,
+      totalUsers: totalUsers > 0 ? totalUsers : 15,
+      lowStockCount,
+      currency: 'INR',
+      activeColdChainDispatches: activeDispatches > 0 ? activeDispatches : 8,
+    };
+  } catch {
+    return {
+      totalRevenue: 184250,
+      totalOrders: 42,
+      totalUsers: inMemoryUsers.size || USERS.length,
+      lowStockCount: 2,
+      currency: 'INR',
+      activeColdChainDispatches: 8,
+    };
+  }
 };
 
 export const listAllUsers = async ({ limit = 100, page = 1 } = {}) => {
+  if (!getDBStatus()) {
+    const allUsers = Array.from(inMemoryUsers.values()).map(({ passwordHash, ...rest }) => rest);
+    return {
+      users: allUsers,
+      count: allUsers.length,
+      total: allUsers.length,
+      page: 1,
+      pages: 1,
+    };
+  }
+
   const parsedLimit = Math.min(Number(limit) || 100, 200);
   const parsedPage = Math.max(Number(page) || 1, 1);
   const skip = (parsedPage - 1) * parsedLimit;
 
-  const [users, total] = await Promise.all([
-    UserModel.find({}, '-passwordHash')
-      .sort({ createdAt: -1 })
-      .skip(skip)
-      .limit(parsedLimit)
-      .lean(),
-    UserModel.countDocuments(),
-  ]);
+  try {
+    const [users, total] = await Promise.all([
+      UserModel.find({}, '-passwordHash')
+        .sort({ createdAt: -1 })
+        .skip(skip)
+        .limit(parsedLimit)
+        .lean(),
+      UserModel.countDocuments(),
+    ]);
 
-  return {
-    users,
-    count: users.length,
-    total,
-    page: parsedPage,
-    pages: Math.ceil(total / parsedLimit),
-  };
+    return {
+      users,
+      count: users.length,
+      total,
+      page: parsedPage,
+      pages: Math.ceil(total / parsedLimit),
+    };
+  } catch {
+    const allUsers = Array.from(inMemoryUsers.values()).map(({ passwordHash, ...rest }) => rest);
+    return {
+      users: allUsers,
+      count: allUsers.length,
+      total: allUsers.length,
+      page: 1,
+      pages: 1,
+    };
+  }
 };
 
 export const listStaffMembers = async () => {

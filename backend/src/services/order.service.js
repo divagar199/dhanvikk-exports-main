@@ -4,6 +4,9 @@ import { ProductModel } from '../models/Product.js';
 import { sendOrderConfirmationEmail } from './emailService.js';
 import { saveUserAddress } from './user.service.js';
 import { ApiError } from '../utils/apiError.js';
+import { getDBStatus } from '../config/db.js';
+
+export const inMemoryOrders = [];
 
 export const createOrderWithInventoryLock = async ({
   items,
@@ -25,6 +28,42 @@ export const createOrderWithInventoryLock = async ({
 
   const orderYear = new Date().getFullYear();
   const orderId = `DHN-${orderYear}-${Math.floor(1000 + Math.random() * 9000)}`;
+
+  // If MongoDB is offline, record order in in-memory storage immediately
+  if (!getDBStatus()) {
+    const memoryOrder = {
+      _id: `ord_${Date.now()}`,
+      orderId,
+      user: {
+        id: user.id || user._id?.toString() || 'guest',
+        name: customerName,
+        email: customerEmail,
+        phone: shippingAddress.phone || user.phone || '',
+      },
+      items: items.map((i) => ({
+        product: i.product || i.id || 'flw_custom',
+        name: i.name || 'Floral Arrangement',
+        price: Number(i.price) || 0,
+        quantity: Number(i.quantity) || 1,
+        image: i.image || 'https://images.unsplash.com/photo-1561181286-d3fee7d55364?auto=format&fit=crop&w=400&q=80',
+      })),
+      shippingAddress,
+      deliveryDate,
+      timeSlot,
+      greetingCardMessage,
+      paymentInfo: {
+        method: paymentInfo.method || 'Razorpay',
+        status: paymentInfo.status || 'Paid',
+      },
+      subtotal: Number(subtotal !== undefined ? subtotal : totalAmount),
+      deliveryFee: Number(deliveryFee || 0),
+      totalAmount: Number(totalAmount),
+      status: 'Confirmed',
+      createdAt: new Date(),
+    };
+    inMemoryOrders.unshift(memoryOrder);
+    return memoryOrder;
+  }
 
   // Check whether MongoDB is a replica set (e.g. MongoDB Atlas) or standalone (local dev)
   let session = null;
@@ -169,6 +208,14 @@ export const getUserOrders = async (email, userId) => {
     return [];
   }
 
+  if (!getDBStatus()) {
+    return inMemoryOrders.filter(
+      (o) =>
+        (cleanEmail && (o.user?.email === cleanEmail || o.customerEmail === cleanEmail)) ||
+        (userId && (o.user?.id === userId || o.userId === userId))
+    );
+  }
+
   const query = {
     $or: [{ 'user.email': cleanEmail }, { email: cleanEmail }],
   };
@@ -176,11 +223,29 @@ export const getUserOrders = async (email, userId) => {
     query.$or.push({ 'user.id': userId.toString() });
   }
 
-  const orders = await OrderModel.find(query).sort({ createdAt: -1 }).lean();
-  return orders;
+  try {
+    const orders = await OrderModel.find(query).sort({ createdAt: -1 }).lean();
+    return orders;
+  } catch {
+    return inMemoryOrders.filter((o) => o.user?.email === cleanEmail);
+  }
 };
 
 export const listAllOrders = async ({ limit = 100, page = 1, status } = {}) => {
+  if (!getDBStatus()) {
+    let filtered = inMemoryOrders;
+    if (status && status !== 'All') {
+      filtered = filtered.filter((o) => o.status === status);
+    }
+    return {
+      orders: filtered,
+      count: filtered.length,
+      total: filtered.length,
+      page: 1,
+      pages: 1,
+    };
+  }
+
   const query = {};
   if (status && status !== 'All') {
     query.status = status;
@@ -190,28 +255,57 @@ export const listAllOrders = async ({ limit = 100, page = 1, status } = {}) => {
   const parsedPage = Math.max(Number(page) || 1, 1);
   const skip = (parsedPage - 1) * parsedLimit;
 
-  const [orders, total] = await Promise.all([
-    OrderModel.find(query).sort({ createdAt: -1 }).skip(skip).limit(parsedLimit).lean(),
-    OrderModel.countDocuments(query),
-  ]);
+  try {
+    const [orders, total] = await Promise.all([
+      OrderModel.find(query).sort({ createdAt: -1 }).skip(skip).limit(parsedLimit).lean(),
+      OrderModel.countDocuments(query),
+    ]);
 
-  return {
-    orders,
-    count: orders.length,
-    total,
-    page: parsedPage,
-    pages: Math.ceil(total / parsedLimit),
-  };
+    return {
+      orders,
+      count: orders.length,
+      total,
+      page: parsedPage,
+      pages: Math.ceil(total / parsedLimit),
+    };
+  } catch {
+    return {
+      orders: inMemoryOrders,
+      count: inMemoryOrders.length,
+      total: inMemoryOrders.length,
+      page: 1,
+      pages: 1,
+    };
+  }
 };
 
 export const updateStatusOfOrder = async (orderId, newStatus) => {
+  if (!getDBStatus()) {
+    const order = inMemoryOrders.find((o) => o.orderId === orderId || o.id === orderId);
+    if (!order) {
+      throw new ApiError(404, `Order with ID ${orderId} not found`);
+    }
+    order.status = newStatus;
+    return order;
+  }
+
   const isMongoId = /^[0-9a-fA-F]{24}$/.test(orderId);
   const query = isMongoId ? { $or: [{ orderId }, { _id: orderId }] } : { orderId };
 
-  const order = await OrderModel.findOneAndUpdate(query, { status: newStatus }, { new: true });
-  if (!order) {
+  try {
+    const order = await OrderModel.findOneAndUpdate(query, { status: newStatus }, { new: true });
+    if (!order) {
+      throw new ApiError(404, `Order with ID ${orderId} not found`);
+    }
+    return order;
+  } catch (err) {
+    if (err instanceof ApiError) throw err;
+    const memOrder = inMemoryOrders.find((o) => o.orderId === orderId || o.id === orderId);
+    if (memOrder) {
+      memOrder.status = newStatus;
+      return memOrder;
+    }
     throw new ApiError(404, `Order with ID ${orderId} not found`);
   }
-
-  return order;
 };
+

@@ -1,19 +1,46 @@
 import { UserModel } from '../models/User.js';
 import { OrderModel } from '../models/Order.js';
 import { ApiError } from '../utils/apiError.js';
-import { resolveGoogleAvatar, formatUserResponse } from './auth.service.js';
+import { resolveGoogleAvatar, formatUserResponse, inMemoryUsers } from './auth.service.js';
+import { USERS } from '../data/users.js';
+import { getDBStatus } from '../config/db.js';
 
 export const getUserByIdOrEmail = async (identifier) => {
   if (!identifier) return null;
   const clean = identifier.toString().trim();
   let user = null;
-  if (clean.includes('@')) {
-    user = await UserModel.findOne({ email: clean.toLowerCase() });
-  } else {
+
+  if (getDBStatus()) {
     try {
-      user = await UserModel.findById(clean);
-    } catch {
-      user = await UserModel.findOne({ email: clean.toLowerCase() });
+      if (clean.includes('@')) {
+        user = await UserModel.findOne({ email: clean.toLowerCase() });
+      } else {
+        try {
+          user = await UserModel.findById(clean);
+        } catch {
+          user = await UserModel.findOne({ email: clean.toLowerCase() });
+        }
+      }
+      if (user) return user;
+    } catch (err) {
+      console.warn('MongoDB getUserByIdOrEmail fallback:', err.message);
+    }
+  }
+
+  // Memory fallback
+  const lower = clean.toLowerCase();
+  user = inMemoryUsers.get(lower);
+  if (!user) {
+    const seed = USERS.find((u) => u.email.toLowerCase() === lower || u.id === clean);
+    if (seed) {
+      user = {
+        ...seed,
+        _id: seed.id,
+        savedAddresses: seed.savedAddresses || [],
+        savedBouquets: seed.savedBouquets || [],
+        cart: seed.cart || [],
+      };
+      inMemoryUsers.set(lower, user);
     }
   }
   return user;
@@ -28,13 +55,17 @@ export const getUserProfileData = async (identifier) => {
     throw new ApiError(404, 'User account not found');
   }
 
-  // Fetch real order history from MongoDB
-  const recentOrders = await OrderModel.find({
-    $or: [{ 'user.email': user.email }, { 'user.id': user._id.toString() }],
-  })
-    .sort({ createdAt: -1 })
-    .limit(20)
-    .lean();
+  let recentOrders = [];
+  if (getDBStatus()) {
+    try {
+      recentOrders = await OrderModel.find({
+        $or: [{ 'user.email': user.email }, { 'user.id': user._id.toString() }],
+      })
+        .sort({ createdAt: -1 })
+        .limit(20)
+        .lean();
+    } catch {}
+  }
 
   return {
     user: formatUserResponse(user),

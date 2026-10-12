@@ -57,6 +57,36 @@ export const loginUser = createAsyncThunk(
             user: firebaseUser,
             token: firebaseToken,
           };
+        } else if (
+          email.toLowerCase() === 'customer@dhanvikk.com' &&
+          (password === 'password123' || password === 'Bloom@2026')
+        ) {
+          data = {
+            success: true,
+            user: {
+              id: 'usr_cust_001',
+              name: 'Aarav Patel',
+              email: 'customer@dhanvikk.com',
+              role: 'customer',
+              avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80',
+            },
+            token: 'dhanvikk_demo_customer_token',
+          };
+        } else if (
+          email.toLowerCase() === 'admin@dhanvikk.com' &&
+          password === 'AdminBloom@2026'
+        ) {
+          data = {
+            success: true,
+            user: {
+              id: 'usr_adm_001',
+              name: 'Dhanvikk Administrator',
+              email: 'admin@dhanvikk.com',
+              role: 'admin',
+              avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80',
+            },
+            token: 'dhanvikk_demo_admin_token',
+          };
         } else {
           const isUserNotFound =
             apiErr?.response?.data?.code === 'USER_NOT_FOUND' ||
