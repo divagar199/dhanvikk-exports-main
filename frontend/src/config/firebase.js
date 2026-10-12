@@ -109,19 +109,37 @@ export const signInWithGoogleFirebase = async (preferRedirect = false) => {
   }
 
   try {
-    // 15-second safeguard timeout so the UI never hangs indefinitely if popup is blocked or hangs
+    // 120-second safeguard timeout so users have ample time to complete Google sign-in and 2FA
     const timeoutPromise = new Promise((_, reject) => {
       setTimeout(() => {
         const timeoutErr = new Error('Google Sign-In popup timed out. Please try again or sign in with email.');
         timeoutErr.code = 'auth/timeout';
         reject(timeoutErr);
-      }, 15000);
+      }, 120000);
     });
 
-    const result = await Promise.race([
-      signInWithPopup(auth, googleProvider),
-      timeoutPromise,
-    ]);
+    // Fallback: Listen to onAuthStateChanged in case Chrome Cross-Origin-Opener-Policy blocks window.closed/postMessage
+    let unsubscribeAuth = null;
+    const authStatePromise = new Promise((resolve) => {
+      unsubscribeAuth = onAuthStateChanged(auth, (authUser) => {
+        if (authUser) {
+          resolve({ user: authUser });
+        }
+      });
+    });
+
+    let result;
+    try {
+      result = await Promise.race([
+        signInWithPopup(auth, googleProvider),
+        authStatePromise,
+        timeoutPromise,
+      ]);
+    } finally {
+      if (typeof unsubscribeAuth === 'function') {
+        unsubscribeAuth();
+      }
+    }
 
     const user = result.user;
     const token = await user.getIdToken();

@@ -143,6 +143,7 @@ export default function LoginPage() {
         const { checkGoogleRedirectResult } = await import('../../config/firebase');
         const res = await checkGoogleRedirectResult();
         if (res?.user && isMounted) {
+          sessionStorage.removeItem('dhanvikk_logged_out');
           const action = await dispatch(loginWithGoogleThunk(res));
           if (loginWithGoogleThunk.fulfilled.match(action)) {
             toast.success(`Welcome back, ${res.user.name || 'Customer'}! 🌸`);
