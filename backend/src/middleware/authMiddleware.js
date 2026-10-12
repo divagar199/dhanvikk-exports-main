@@ -1,5 +1,7 @@
 import { verifyToken } from '../config/jwt.js';
 import { USERS } from '../data/users.js';
+import { UserModel } from '../models/User.js';
+import { getDBStatus } from '../config/db.js';
 
 export const protect = async (req, res, next) => {
   let token;
@@ -27,12 +29,23 @@ export const protect = async (req, res, next) => {
 
   try {
     const decoded = verifyToken(token);
-    let user = USERS.find((u) => u.id === decoded.sub || u.email === decoded.email);
+    let user = null;
 
-    if (!user && getDBStatus()) {
+    if (getDBStatus()) {
       try {
-        user = await UserModel.findOne({ $or: [{ _id: decoded.sub }, { email: decoded.email }] });
-      } catch {}
+        if (decoded.sub && decoded.sub.length === 24) {
+          user = await UserModel.findById(decoded.sub);
+        }
+        if (!user && decoded.email) {
+          user = await UserModel.findOne({ email: decoded.email.toLowerCase() });
+        }
+      } catch (dbErr) {
+        console.warn('protect db lookup note:', dbErr.message);
+      }
+    }
+
+    if (!user) {
+      user = USERS.find((u) => u.id === decoded.sub || u.email === decoded.email);
     }
 
     if (!user && decoded.email) {
@@ -47,6 +60,7 @@ export const protect = async (req, res, next) => {
     }
 
     req.user = {
+      _id: user?._id,
       id: user?._id ? user._id.toString() : (user?.id || decoded?.sub || 'guest_user_dhanvikk'),
       name: user?.name || decoded?.name || 'Guest Customer',
       email: user?.email || decoded?.email || 'guest@dhanvikk.com',

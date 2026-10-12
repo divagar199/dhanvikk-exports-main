@@ -2,7 +2,7 @@ import { OrderModel } from '../models/Order.js';
 import { ProductModel } from '../models/Product.js';
 import { getDBStatus } from '../config/db.js';
 import { sendOrderConfirmationEmail } from '../services/emailService.js';
-import { recordUserOrder, recordUserAddress } from './authController.js';
+import { recordUserOrder, recordUserAddress } from '../services/user.service.js';
 
 export let inMemoryOrders = [
   {

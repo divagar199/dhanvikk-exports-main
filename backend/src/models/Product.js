@@ -2,6 +2,10 @@ import mongoose from 'mongoose';
 
 const productSchema = new mongoose.Schema(
   {
+    id: {
+      type: String,
+      default: () => `flw-${Date.now()}`,
+    },
     name: {
       type: String,
       required: true,
@@ -105,5 +109,11 @@ const productSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+
+// Performance & search indexes
+productSchema.index({ name: 'text', description: 'text', category: 'text' });
+productSchema.index({ category: 1, inStock: 1, price: 1 });
+productSchema.index({ occasion: 1, flowerType: 1 });
+productSchema.index({ createdAt: -1 });
 
 export const ProductModel = mongoose.models.Product || mongoose.model('Product', productSchema);

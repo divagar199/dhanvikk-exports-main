@@ -10,12 +10,13 @@ import { fileURLToPath } from 'url';
 import rateLimit from 'express-rate-limit';
 import { connectDB } from './src/config/db.js';
 import authRoutes from './src/routes/authRoutes.js';
+import userRoutes from './src/routes/userRoutes.js';
 import productRoutes from './src/routes/productRoutes.js';
 import orderRoutes from './src/routes/orderRoutes.js';
 import paymentRoutes from './src/routes/paymentRoutes.js';
 import adminRoutes from './src/routes/adminRoutes.js';
 import imageRoutes from './src/routes/imageRoutes.js';
-import { initializeProducts } from './src/controllers/productController.js';
+import { initializeProducts } from './src/services/product.service.js';
 import { notFound, errorHandler } from './src/middleware/errorHandler.js';
 
 dotenv.config();
@@ -124,6 +125,7 @@ app.get('/api/health', (req, res) => {
 
 // API Routes
 app.use('/api/auth', authRoutes);
+app.use('/api/users', userRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/payment', paymentRoutes);
