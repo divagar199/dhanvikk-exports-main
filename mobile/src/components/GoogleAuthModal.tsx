@@ -27,7 +27,8 @@ import { useAuthStore } from '../store/authStore';
 import { useUIStore } from '../store/uiStore';
 import { useResponsive } from '../hooks/useResponsive';
 import { useRouter } from 'expo-router';
-import { authStorage } from '../services/apiClient';
+import { API_BASE_URL, apiClient, authStorage } from '../services/apiClient';
+import * as WebBrowser from 'expo-web-browser';
 import { User } from '../types';
 import { auth, GoogleAuthProvider } from '../config/firebase';
 
@@ -136,45 +137,69 @@ export default function GoogleAuthModal({
     onClose();
   };
 
-  // Perform Google authentication with backend & database
-  const performGoogleLogin = async (account: { name: string; email: string; avatar?: string; idToken?: string }) => {
+  // Complete a real Google sign-in and only accept a backend-issued session.
+  const performGoogleLogin = async (_account?: { name: string; email: string; avatar?: string; idToken?: string }) => {
     Keyboard.dismiss();
     setErrorMsg('');
-    const cleanEmail = account.email.trim().toLowerCase();
-
-    if (!cleanEmail) {
-      setErrorMsg('Please select or enter a Google account.');
-      return;
-    }
+    setLoading(true);
+    setActiveSigningEmail(_account?.email?.toLowerCase() || null);
 
     try {
-      setLoading(true);
-      setActiveSigningEmail(cleanEmail);
-      setStatusText('Connecting to Google...');
+      setStatusText(Platform.OS === 'web' ? 'Opening Google account chooser...' : 'Opening secure Google sign-in...');
 
-      if (Platform.OS !== 'web') {
-        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light).catch(() => {});
+      let googleRes: { success: boolean; user: User; token: string };
+
+      if (Platform.OS === 'web') {
+        const { signInWithPopup } = await import('firebase/auth');
+        const provider = new GoogleAuthProvider();
+        provider.setCustomParameters({ prompt: 'select_account' });
+        const result = await signInWithPopup(auth, provider);
+        const firebaseUser = result.user;
+        const idToken = await firebaseUser.getIdToken();
+
+        googleRes = await authService.googleLogin({
+          email: firebaseUser.email || '',
+          name: firebaseUser.displayName || undefined,
+          avatar: firebaseUser.photoURL || undefined,
+          idToken,
+        });
+      } else {
+        const callbackUrl = 'dhanvikk://auth/google-callback';
+        const authUrl = `${API_BASE_URL.replace(/\/+$/, '')}/api/auth/google/login`;
+        const browserResult = await WebBrowser.openAuthSessionAsync(authUrl, callbackUrl);
+
+        if (browserResult.type !== 'success' || !browserResult.url) {
+          throw new Error(browserResult.type === 'cancel' ? 'Google sign-in was cancelled.' : 'Google sign-in did not complete. Please try again.');
+        }
+
+        const callback = Linking.parse(browserResult.url);
+        const params = callback.queryParams || {};
+        if (typeof params.error === 'string') {
+          throw new Error('Google sign-in failed. Please check the server OAuth configuration and try again.');
+        }
+        const code = typeof params.code === 'string' ? params.code : '';
+        if (!code) {
+          throw new Error('Google did not return a sign-in code. Please try again.');
+        }
+
+        const response = await apiClient.post('/api/auth/google/exchange', { code });
+        googleRes = response.data;
       }
 
-      setStatusText('Syncing profile with Dhanvikk database...');
-      const googleRes = await authService.googleLogin({
-        email: cleanEmail,
-        name: account.name || cleanEmail.split('@')[0],
-        avatar: account.avatar || `https://unavatar.io/google/${encodeURIComponent(cleanEmail)}`,
-        ...(account.idToken ? { idToken: account.idToken } : {}),
-      });
+      if (!googleRes?.success || !googleRes.user || !googleRes.token) {
+        throw new Error('Google sign-in could not establish a secure session. Please try again.');
+      }
 
       if (!isMountedRef.current) return;
-
       setAuth(googleRes.user, googleRes.token);
-      await addSavedAccount(cleanEmail, googleRes.user.name);
-      await syncUserData(cleanEmail);
+      await addSavedAccount(googleRes.user.email, googleRes.user.name);
+      await syncUserData(googleRes.user.email);
 
       if (Platform.OS !== 'web') {
         Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success).catch(() => {});
       }
 
-      showToast(`Welcome back, ${googleRes.user.name}! 🌸`, 'success');
+      showToast(`Welcome, ${googleRes.user.name}! 🌸`, 'success');
       resetFormState();
       onClose();
 
@@ -188,46 +213,22 @@ export default function GoogleAuthModal({
       setLoading(false);
       setStatusText('');
       setActiveSigningEmail(null);
-      const friendly =
-        err?.response?.data?.message ||
-        err?.friendlyMessage ||
-        err?.message ||
-        'Could not complete Google authentication. Please try again.';
-      setErrorMsg(friendly);
-    }
-  };
 
-  // Web Browser / Web-Popup Google Authentication (for Web runtime)
-  const handleWebPopupSignIn = async () => {
-    if (Platform.OS === 'web') {
-      try {
-        setLoading(true);
-        setStatusText('Opening Google account chooser...');
-        const { signInWithPopup } = await import('firebase/auth');
-        const provider = new GoogleAuthProvider();
-        provider.setCustomParameters({ prompt: 'select_account' });
-        const result = await signInWithPopup(auth, provider);
-        const fbUser = result.user;
-        const cleanEmail = fbUser.email || '';
-        const name = fbUser.displayName || cleanEmail.split('@')[0];
-        const avatar = fbUser.photoURL || '';
-        // Get Firebase idToken for secure backend verification
-        const idToken = await fbUser.getIdToken();
-
-        await performGoogleLogin({ email: cleanEmail, name, avatar, idToken });
-      } catch (err: any) {
-        if (!isMountedRef.current) return;
-        setLoading(false);
-        setStatusText('');
-        if (err?.code !== 'auth/popup-closed-by-user' && err?.code !== 'auth/cancelled-popup-request') {
-          setErrorMsg(err?.message || 'Google sign-in popup encountered an error.');
-        }
+      const code = err?.code || err?.response?.data?.code;
+      let friendly = err?.response?.data?.message || err?.friendlyMessage || err?.message;
+      if (code === 'auth/unauthorized-domain') {
+        friendly = 'This website domain is not authorized in Firebase. Add the exact domain under Firebase Console → Authentication → Settings → Authorized domains.';
+      } else if (code === 'auth/popup-blocked') {
+        friendly = 'Your browser blocked the Google sign-in popup. Allow popups for this website and try again.';
+      } else if (code === 'auth/popup-closed-by-user' || code === 'auth/cancelled-popup-request') {
+        friendly = 'Google sign-in was cancelled.';
       }
-    } else {
-      // On mobile native, prompt custom email input
-      setShowCustomInput(true);
+      setErrorMsg(friendly || 'Could not complete Google authentication. Please try again.');
     }
   };
+
+  // Route every account-row or alternate-account action through real OAuth.
+  const handleWebPopupSignIn = async () => performGoogleLogin();
 
   // Remove a custom saved account from the list
   const handleRemoveAccount = async (emailToRemove: string) => {
