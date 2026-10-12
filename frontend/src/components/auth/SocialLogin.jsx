@@ -9,18 +9,18 @@ export default function SocialLogin({
   className = '',
 }) {
   return (
-    <div className={`w-full flex flex-col gap-2.5 ${className}`}>
+    <div className={`w-full flex flex-col gap-2 ${className}`}>
       <button
         type="button"
         onClick={onGoogleLogin}
         disabled={disabled || loading}
-        className="relative flex items-center justify-center w-full h-[48px] sm:h-[50px] bg-white border border-[#DADCE0] hover:border-[#4285F4] rounded-2xl text-[14px] sm:text-[14.5px] font-semibold text-[#1F191D] hover:bg-[#F8FAFF] shadow-[0_2px_8px_rgba(66,133,244,0.08)] hover:shadow-[0_4px_16px_rgba(66,133,244,0.16)] active:scale-[0.99] transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#4285F4] disabled:opacity-60 disabled:pointer-events-none cursor-pointer group"
+        className="relative flex items-center justify-center w-full h-[50px] bg-white border border-[#DADCE0] hover:border-[#4285F4] rounded-2xl text-[14.5px] font-semibold text-[#1F191D] hover:bg-[#F8FAFF] shadow-[0_2px_8px_rgba(66,133,244,0.06)] hover:shadow-[0_4px_16px_rgba(66,133,244,0.14)] active:scale-[0.99] transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#4285F4] disabled:opacity-60 disabled:pointer-events-none cursor-pointer group"
       >
         {loading ? (
           <span className="inline-flex items-center gap-2.5">
             <Spinner size="sm" color="#4285F4" />
-            <span className="text-[#555555] font-medium text-xs sm:text-sm">
-              Connecting with Google Identity...
+            <span className="text-[#555555] font-medium text-sm">
+              Connecting with Google...
             </span>
           </span>
         ) : (
@@ -47,7 +47,7 @@ export default function SocialLogin({
               </svg>
             </div>
             <span className="font-semibold tracking-tight text-[#1F191D]">
-              Sign in with Google
+              Continue with Google
             </span>
           </span>
         )}
@@ -58,9 +58,9 @@ export default function SocialLogin({
           type="button"
           onClick={onGoogleRedirectLogin}
           disabled={disabled}
-          className="text-[11.5px] text-[#666666] hover:text-[#4285F4] transition-colors underline cursor-pointer text-center py-0.5"
+          className="text-[11.5px] text-[#777777] hover:text-[#4285F4] transition-colors underline cursor-pointer text-center py-0.5"
         >
-          Having trouble with popups? Click here for full-page sign-in →
+          Having trouble with popups? Select Google account directly →
         </button>
       )}
     </div>

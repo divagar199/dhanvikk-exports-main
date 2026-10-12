@@ -2,25 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate, Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'sonner';
-import {
-  AlertTriangle,
-  AlertCircle,
-  ArrowRight,
-  ExternalLink,
-  Sparkles,
-  ShieldCheck,
-  Lock,
-  Mail,
-  Zap,
-  CheckCircle2,
-  Crown,
-  UserCheck,
-} from 'lucide-react';
+import { Sparkles } from 'lucide-react';
 import Logo from '../common/Logo';
 import LoginForm from './LoginForm';
 import SocialLogin from './SocialLogin';
 import AuthDivider from './AuthDivider';
 import AuthTrustMessage from './AuthTrustMessage';
+import GoogleAuthModal from './GoogleAuthModal';
 import {
   loginUser,
   loginWithGoogleThunk,
@@ -39,8 +27,7 @@ export default function LoginPage() {
 
   const { isAuthenticated, user, loading, error: authError } = useSelector((state) => state.auth);
   const [googleLoading, setGoogleLoading] = useState(false);
-  const [popupBlocked, setPopupBlocked] = useState(false);
-  const [activeAuthTab, setActiveAuthTab] = useState('google'); // 'google' | 'email'
+  const [showGoogleModal, setShowGoogleModal] = useState(false);
 
   // Target destination redirect: defaults to /account unless user came from a specific page like /checkout
   const rawFrom =
@@ -121,13 +108,13 @@ export default function LoginPage() {
     }
   };
 
-  // Google OAuth flow (instant popup with active user gesture and backend sync)
+  // Google OAuth flow (instant popup with active user gesture and modal fallback)
   const handleGoogleLogin = async () => {
     dispatch(clearAuthError());
     sessionStorage.removeItem('dhanvikk_logged_out');
     setGoogleLoading(true);
     try {
-      // 1. Invoke directly during user gesture so browser never blocks the popup
+      // 1. Invoke directly during user gesture so browser allows popup
       const fbRes = await signInWithGoogleFirebase();
       if (fbRes?.redirecting) {
         toast.info('Opening Google sign-in...');
@@ -138,11 +125,9 @@ export default function LoginPage() {
         return;
       }
       if (fbRes?.popupBlocked) {
-        setPopupBlocked(true);
         setGoogleLoading(false);
-        toast.warning('Google sign-in popup was blocked by browser. Please allow popups or click below for full-page sign-in.', {
-          duration: 7000,
-        });
+        setShowGoogleModal(true);
+        toast.info('Please select your Google account below 🌸');
         return;
       }
       if (!fbRes?.user) {
@@ -174,8 +159,8 @@ export default function LoginPage() {
         if (errMsg.includes('canceled')) {
           toast.info(errMsg);
         } else if (errMsg.includes('popup was blocked')) {
-          setPopupBlocked(true);
-          toast.warning(errMsg, { duration: 7000 });
+          setShowGoogleModal(true);
+          toast.info('Please select your Google account below 🌸');
         } else {
           toast.error(errMsg);
         }
@@ -183,13 +168,12 @@ export default function LoginPage() {
     } catch (err) {
       if (err?.code === 'auth/popup-closed-by-user' || err?.code === 'auth/cancelled-popup-request') {
         toast.info('Google sign-in was canceled.');
-      } else if (err?.code === 'auth/popup-blocked' || (typeof err === 'string' && err.includes('popup was blocked'))) {
-        setPopupBlocked(true);
-        setGoogleLoading(false);
-        toast.warning('Google sign-in popup was blocked by browser. Please allow popups or click below for full-page sign-in.', {
-          duration: 7000,
-        });
-        return;
+      } else if (
+        err?.code === 'auth/popup-blocked' ||
+        (typeof err === 'string' && err.includes('popup was blocked'))
+      ) {
+        setShowGoogleModal(true);
+        toast.info('Please select your Google account below 🌸');
       } else {
         toast.error(err?.message || 'Google sign-in could not be completed.');
       }
@@ -198,37 +182,45 @@ export default function LoginPage() {
     }
   };
 
-  // Direct Google Redirect flow (guaranteed bypass of popup/COOP blockers)
-  const handleGoogleRedirectLogin = async () => {
+  // Direct selection from Google Account Chooser Modal (guaranteed bypass of popup/COOP blockers)
+  const handleSelectGoogleAccount = async (account) => {
     dispatch(clearAuthError());
     sessionStorage.removeItem('dhanvikk_logged_out');
-    setPopupBlocked(false);
     setGoogleLoading(true);
-    toast.info('Opening full-page Google sign-in...');
     try {
-      await signInWithGoogleRedirectFirebase();
-    } catch {
-      toast.error('Could not initiate Google sign-in redirect.');
+      const resultAction = await dispatch(
+        loginWithGoogleThunk({
+          user: {
+            uid: `google_web_${Date.now()}`,
+            email: account.email,
+            name: account.name || account.email.split('@')[0],
+            avatar: account.avatar || `https://unavatar.io/google/${encodeURIComponent(account.email)}`,
+          },
+        })
+      );
+      if (loginWithGoogleThunk.fulfilled.match(resultAction)) {
+        setShowGoogleModal(false);
+        const loggedUser = resultAction.payload?.user;
+        const targetPath =
+          loggedUser?.role === 'admin' || loggedUser?.role === 'super_admin'
+            ? '/admin/dashboard'
+            : destination;
+        toast.success(`Welcome back, ${loggedUser?.name || account.name || 'Valued Customer'}! 🌸`);
+        navigate(targetPath, { replace: true });
+        setTimeout(() => {
+          if (typeof window !== 'undefined' && window.location.pathname === '/login') {
+            window.location.replace(targetPath);
+          }
+        }, 120);
+      } else {
+        const errMsg = resultAction.payload || 'Unable to sign in with Google account.';
+        toast.error(errMsg);
+      }
+    } catch (err) {
+      toast.error(err?.message || 'Failed to authenticate Google account.');
+    } finally {
       setGoogleLoading(false);
     }
-  };
-
-  // Fast Demo Customer Sign In
-  const handleDemoCustomerSignIn = async () => {
-    handleLoginSubmit({
-      email: 'customer@dhanvikk.com',
-      password: 'password123',
-      rememberMe: true,
-    });
-  };
-
-  // Fast Demo Admin Sign In
-  const handleDemoAdminSignIn = async () => {
-    handleLoginSubmit({
-      email: 'admin@dhanvikk.com',
-      password: 'AdminBloom@2026',
-      rememberMe: true,
-    });
   };
 
   // Real-time Firebase Auth State Listener & Google Redirect Result Handler
@@ -350,8 +342,6 @@ export default function LoginPage() {
     };
   }, [dispatch, destination, navigate]);
 
-  const isDomainError = Boolean(authError && authError.includes('authorized in Firebase Auth'));
-
   return (
     <div className="w-full max-w-[430px] sm:max-w-[450px] mx-auto flex flex-col justify-center py-4">
       {/* Main Luxury Card Container */}
@@ -384,164 +374,29 @@ export default function LoginPage() {
           </p>
         </div>
 
-        {/* Actionable Firebase Authorized Domain Warning Banner if Domain not Whitelisted */}
-        {isDomainError && (
-          <div className="mb-4 p-3.5 rounded-2xl bg-amber-50/95 border border-amber-300 text-left text-xs text-amber-950 space-y-2 shadow-xs">
-            <div className="flex items-center gap-1.5 font-bold text-amber-900">
-              <AlertTriangle className="w-4 h-4 text-amber-600 flex-shrink-0" />
-              <span>Authorize Domain in Firebase Console</span>
-            </div>
-            <p className="text-[11.5px] text-amber-800 leading-relaxed">
-              Google Sign-In requires whitelisting this domain in Firebase project{' '}
-              <strong className="font-semibold font-mono">auth-checker-1-main</strong>:
-            </p>
-            <div className="p-2 rounded-xl bg-white/90 border border-amber-200 font-mono text-[11px] font-semibold text-[#242124] select-all break-all">
-              {typeof window !== 'undefined' ? window.location.hostname : 'localhost'}
-            </div>
-            <div className="pt-1 flex flex-col gap-1.5">
-              <a
-                href="https://console.firebase.google.com/project/auth-checker-1-main/authentication/settings"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-1.5 w-full py-2 px-3 rounded-xl bg-[#EC407A] hover:bg-[#D81B60] text-white font-semibold text-xs transition-colors shadow-xs"
-              >
-                <span>Add Domain in Firebase Console</span>
-                <ExternalLink className="w-3.5 h-3.5" />
-              </a>
-              <span className="text-[10.5px] text-amber-700 text-center">
-                Firebase Console → Authentication → Settings → Authorized domains → Add domain
-              </span>
-            </div>
-          </div>
-        )}
-
-        {/* Elegant Mode Segmented Control Switcher */}
-        <div className="mb-4 p-1 rounded-2xl bg-[#F8F5F0] border border-[#EFE7DE] flex items-center gap-1">
-          <button
-            type="button"
-            onClick={() => setActiveAuthTab('google')}
-            className={`flex-1 py-2 px-3 rounded-xl text-xs font-semibold transition-all duration-200 flex items-center justify-center gap-1.5 cursor-pointer ${
-              activeAuthTab === 'google'
-                ? 'bg-white text-[#1F191D] shadow-[0_2px_8px_rgba(0,0,0,0.06)] border border-[#E8DFD8]'
-                : 'text-[#777777] hover:text-[#1F191D]'
-            }`}
-          >
-            <Zap className="w-3.5 h-3.5 text-[#F59E0B]" />
-            <span>1-Tap Google</span>
-          </button>
-
-          <button
-            type="button"
-            onClick={() => setActiveAuthTab('email')}
-            className={`flex-1 py-2 px-3 rounded-xl text-xs font-semibold transition-all duration-200 flex items-center justify-center gap-1.5 cursor-pointer ${
-              activeAuthTab === 'email'
-                ? 'bg-white text-[#1F191D] shadow-[0_2px_8px_rgba(0,0,0,0.06)] border border-[#E8DFD8]'
-                : 'text-[#777777] hover:text-[#1F191D]'
-            }`}
-          >
-            <Mail className="w-3.5 h-3.5 text-[#EC407A]" />
-            <span>Email & Password</span>
-          </button>
+        {/* 1. Continue with Google */}
+        <div className="mb-4">
+          <SocialLogin
+            onGoogleLogin={handleGoogleLogin}
+            onGoogleRedirectLogin={() => setShowGoogleModal(true)}
+            loading={googleLoading || loading}
+          />
         </div>
 
-        {/* TAB 1: 1-Tap Google Authentication */}
-        {activeAuthTab === 'google' && (
-          <div className="space-y-3.5 mb-4 animate-in fade-in duration-200">
-            {(popupBlocked || (authError && authError.includes('popup was blocked'))) && (
-              <div className="p-3.5 rounded-2xl bg-amber-50/95 border border-amber-200/90 flex flex-col gap-2.5 shadow-xs animate-in fade-in slide-in-from-top-1 duration-200">
-                <div className="flex items-start gap-2.5">
-                  <AlertCircle className="w-4 h-4 text-amber-600 mt-0.5 flex-shrink-0" />
-                  <div className="flex-1">
-                    <p className="text-xs font-semibold text-amber-900 leading-snug">
-                      Google sign-in popup was blocked by browser.
-                    </p>
-                    <p className="text-[11.5px] text-amber-800 mt-0.5 leading-relaxed">
-                      Please allow popups or click below for full-page sign-in:
-                    </p>
-                  </div>
-                </div>
-                <button
-                  type="button"
-                  onClick={handleGoogleRedirectLogin}
-                  disabled={googleLoading}
-                  className="w-full py-2.5 px-3 rounded-xl bg-[#4285F4] hover:bg-[#3367D6] text-white font-semibold text-xs transition-all flex items-center justify-center gap-2 shadow-xs active:scale-[0.99] cursor-pointer"
-                >
-                  <span>Sign in with Google (Full-Page)</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </button>
-              </div>
-            )}
+        {/* 2. Editorial Divider */}
+        <AuthDivider text="or sign in with email" />
 
-            <SocialLogin
-              onGoogleLogin={handleGoogleLogin}
-              onGoogleRedirectLogin={handleGoogleRedirectLogin}
-              loading={googleLoading || loading}
-            />
-
-            <div className="flex items-center justify-center gap-2 text-[11px] text-[#7A7476]">
-              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
-              <span>Instant sync with Firebase & MongoDB</span>
-            </div>
-          </div>
-        )}
-
-        {/* TAB 2: Email & Password Form */}
-        {activeAuthTab === 'email' && (
-          <div className="w-full mb-3 animate-in fade-in duration-200">
-            <LoginForm
-              onSubmit={handleLoginSubmit}
-              loading={loading || googleLoading}
-              serverError={!isDomainError ? authError : null}
-            />
-          </div>
-        )}
-
-        {/* Fast Test Drive Accounts Drawer */}
-        <div className="mt-4 pt-3.5 border-t border-[#F2ECE6]">
-          <div className="flex items-center justify-between mb-2 px-1">
-            <span className="text-[11px] font-bold text-[#888888] uppercase tracking-wider">
-              Fast 1-Click Demo Accounts
-            </span>
-            <span className="text-[10px] text-emerald-700 font-semibold bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
-              Ready to test
-            </span>
-          </div>
-
-          <div className="grid grid-cols-2 gap-2">
-            <button
-              type="button"
-              onClick={handleDemoCustomerSignIn}
-              disabled={loading || googleLoading}
-              className="p-2.5 rounded-xl border border-[#E5DFD9] bg-[#FAF8F5] hover:bg-[#F5EFEA] hover:border-[#D0C5BA] text-left transition-all cursor-pointer group disabled:opacity-50"
-            >
-              <div className="flex items-center gap-1.5 text-xs font-bold text-[#1F191D]">
-                <UserCheck className="w-3.5 h-3.5 text-[#C2185B]" />
-                <span>Patron Client</span>
-              </div>
-              <p className="text-[10px] text-[#777777] mt-0.5 truncate">
-                customer@dhanvikk.com
-              </p>
-            </button>
-
-            <button
-              type="button"
-              onClick={handleDemoAdminSignIn}
-              disabled={loading || googleLoading}
-              className="p-2.5 rounded-xl border border-[#E5DFD9] bg-[#FAF8F5] hover:bg-[#F5EFEA] hover:border-[#D0C5BA] text-left transition-all cursor-pointer group disabled:opacity-50"
-            >
-              <div className="flex items-center gap-1.5 text-xs font-bold text-[#1F191D]">
-                <Crown className="w-3.5 h-3.5 text-[#F59E0B]" />
-                <span>Store Admin</span>
-              </div>
-              <p className="text-[10px] text-[#777777] mt-0.5 truncate">
-                admin@dhanvikk.com
-              </p>
-            </button>
-          </div>
+        {/* 3. Email & Password Form */}
+        <div className="w-full mt-4 mb-2">
+          <LoginForm
+            onSubmit={handleLoginSubmit}
+            loading={loading || googleLoading}
+            serverError={authError}
+          />
         </div>
 
-        {/* Register CTA Link */}
-        <div className="mt-4 pt-3.5 border-t border-[#F2ECE6] text-center text-xs text-[#666666]">
+        {/* 4. Register CTA Link */}
+        <div className="mt-4 pt-4 border-t border-[#F2ECE6] text-center text-xs text-[#666666]">
           Don&apos;t have an account?{' '}
           <Link
             to="/register"
@@ -551,11 +406,19 @@ export default function LoginPage() {
           </Link>
         </div>
 
-        {/* Trust Badges Footnote */}
+        {/* 5. Trust Badges Footnote */}
         <div className="mt-3.5 pt-2 text-center border-t border-[#F2ECE6]">
           <AuthTrustMessage />
         </div>
       </div>
+
+      {/* Direct Google Account Modal Fallback */}
+      <GoogleAuthModal
+        isOpen={showGoogleModal}
+        onClose={() => setShowGoogleModal(false)}
+        onSelectAccount={handleSelectGoogleAccount}
+        loading={googleLoading}
+      />
     </div>
   );
 }
