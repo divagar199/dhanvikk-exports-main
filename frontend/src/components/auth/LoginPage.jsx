@@ -236,44 +236,23 @@ export default function LoginPage() {
               : null;
           if (existingToken && existingUser) return;
 
+          // This listener only repairs Google redirect/popup sessions. Email login has its own backend flow.
+          const isGoogleProvider = firebaseUser.providerData?.some((provider) => provider.providerId === 'google.com');
+          if (!isGoogleProvider) return;
+
           try {
             const idToken = await firebaseUser.getIdToken();
-            const cleanEmail = firebaseUser.email || '';
-            const resolvedName =
-              firebaseUser.displayName || (cleanEmail ? cleanEmail.split('@')[0] : 'Google Customer');
-            const resolvedAvatar =
-              firebaseUser.photoURL ||
-              (cleanEmail ? `https://unavatar.io/google/${encodeURIComponent(cleanEmail)}` : '');
-
-            // Build baseline user object from Firebase
-            let finalUser = {
-              id: firebaseUser.uid,
-              name: resolvedName,
-              email: cleanEmail,
-              avatar: resolvedAvatar,
-              role: 'customer',
-            };
-            let finalToken = idToken;
-
-            // Sync with backend to get role (e.g. admin vs customer) and database session JWT
-            try {
-              const { default: api } = await import('../../services/api');
-              const syncRes = await api.post('/api/auth/firebase-login', {
-                idToken,
-                email: cleanEmail,
-                name: resolvedName,
-                avatar: resolvedAvatar,
-                uid: firebaseUser.uid,
-                authMethod: 'google',
-              });
-              if (syncRes.data?.success && syncRes.data.user) {
-                finalUser = { ...finalUser, ...syncRes.data.user };
-                finalToken = syncRes.data.token || idToken;
-              }
-            } catch (apiErr) {
-              console.warn('Backend sync note (using Firebase session):', apiErr?.message);
+            const { default: api } = await import('../../services/api');
+            const syncRes = await api.post('/api/auth/firebase-login', {
+              idToken,
+              authMethod: 'google',
+            });
+            if (!syncRes.data?.success || !syncRes.data?.user || !syncRes.data?.token) {
+              throw new Error('The server could not establish a verified Google session.');
             }
 
+            const finalUser = syncRes.data.user;
+            const finalToken = syncRes.data.token;
             sessionStorage.removeItem('dhanvikk_logged_out');
             dispatch(setCredentials({ user: finalUser, token: finalToken }));
             toast.success(`Signed in as ${finalUser.name} 🌸`);
@@ -290,7 +269,16 @@ export default function LoginPage() {
               }
             }, 100);
           } catch (syncErr) {
-            console.warn('Firebase user sync note:', syncErr);
+            console.warn('Google backend session exchange failed:', syncErr);
+            toast.error(
+              syncErr?.response?.data?.message ||
+              syncErr?.message ||
+              'Google sign-in could not be verified by the server. Please try again.'
+            );
+            try {
+              const { logOutFirebase } = await import('../../config/firebase');
+              await logOutFirebase();
+            } catch {}
           }
         });
       } catch (e) {
