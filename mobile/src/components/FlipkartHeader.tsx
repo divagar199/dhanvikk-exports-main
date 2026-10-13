@@ -1,9 +1,12 @@
 import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Image } from 'expo-image';
 import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { colors, radius, spacing } from '@/constants/theme';
 import { useStore } from '@/store/useStore';
+
+const brandLogo = require('@/assets/logo.png');
 
 export function FlipkartHeader() {
   const insets = useSafeAreaInsets();
@@ -18,8 +21,11 @@ export function FlipkartHeader() {
       {/* Brand & Location Row */}
       <View style={s.topRow}>
         <View style={s.brandGroup}>
-          <Text style={s.brandTitle}>DHANVIKK</Text>
-          <Text style={s.brandSubtitle}>BLOOMS</Text>
+          <Image source={brandLogo} style={s.brandLogoImg} contentFit="contain" />
+          <View>
+            <Text style={s.brandTitle}>DHANVIKK</Text>
+            <Text style={s.brandSubtitle}>BLOOMS</Text>
+          </View>
         </View>
 
         <Pressable
@@ -101,20 +107,27 @@ const s = StyleSheet.create({
   },
   brandGroup: {
     flexDirection: 'row',
-    alignItems: 'baseline',
-    gap: 4,
+    alignItems: 'center',
+    gap: 8,
+  },
+  brandLogoImg: {
+    width: 34,
+    height: 34,
+    borderRadius: 8,
+    backgroundColor: colors.white,
   },
   brandTitle: {
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: '900',
     color: colors.primary,
     letterSpacing: 0.5,
+    lineHeight: 18,
   },
   brandSubtitle: {
-    fontSize: 11,
+    fontSize: 9,
     fontWeight: '800',
     color: colors.primaryDeep,
-    letterSpacing: 1,
+    letterSpacing: 1.5,
   },
   locationPill: {
     flexDirection: 'row',

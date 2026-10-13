@@ -53,3 +53,19 @@ export async function getProduct(id: string): Promise<Product> {
   const raw = data?.product || data;
   return normalizeProduct(raw);
 }
+
+export async function rateProduct(
+  id: string,
+  rating: number,
+  comment?: string
+): Promise<{ success: boolean; message: string; product: Product }> {
+  const data = await api<any>(`/api/products/${encodeURIComponent(id)}/reviews`, {
+    method: 'POST',
+    body: JSON.stringify({ rating, comment }),
+  });
+  return {
+    success: Boolean(data?.success),
+    message: data?.message || 'Review submitted successfully!',
+    product: normalizeProduct(data?.product),
+  };
+}

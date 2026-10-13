@@ -15,6 +15,22 @@ export async function login(
   }
   return data;
 }
+export async function loginWithGoogle(payload: {
+  name?: string;
+  email: string;
+  avatar?: string;
+  googleUid: string;
+  phone?: string;
+}): Promise<{ user: User; token: string }> {
+  const data = await api<{ user: User; token: string }>('/api/auth/google', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  });
+  if (data?.token) {
+    await saveSession(data.token, data.user);
+  }
+  return data;
+}
 
 export async function register(payload: {
   name: string;

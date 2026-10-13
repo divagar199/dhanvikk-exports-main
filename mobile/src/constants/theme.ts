@@ -7,6 +7,7 @@ export const colors = {
   pale: '#FFF5F8',
   gold: '#FFB400',
   yellowGold: '#FBC02D',
+  starYellow: '#FFA000',
   starGreen: '#388E3C',
   starGreenBg: '#E8F5E9',
   dealOrange: '#FF5722',

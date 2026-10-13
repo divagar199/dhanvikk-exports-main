@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import {
   Alert,
   Pressable,
@@ -7,6 +7,7 @@ import {
   Text,
   View,
 } from 'react-native';
+import { Image } from 'expo-image';
 import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -15,11 +16,13 @@ import { getStoredUser } from '@/lib/storage';
 import { logout } from '@/services/auth';
 import { useStore } from '@/store/useStore';
 import type { User } from '@/types/models';
+import { GoogleSignInModal } from '@/components/GoogleSignInModal';
 
 export default function Account() {
   const insets = useSafeAreaInsets();
   const user = useStore((s) => s.user);
   const setUser = useStore((s) => s.setUser);
+  const [showGoogleModal, setShowGoogleModal] = useState(false);
 
   useEffect(() => {
     getStoredUser<User>().then((u) => {
@@ -43,9 +46,16 @@ export default function Account() {
 
   return (
     <View style={[s.page, { paddingTop: Math.max(insets.top, 10) }]}>
-      {/* Header */}
+      {/* Header with Brand Logo */}
       <View style={s.header}>
-        <Text style={s.headerTitle}>My Account</Text>
+        <View style={s.headerTitleRow}>
+          <Image
+            source={require('@/assets/logo.png')}
+            style={s.headerLogo}
+            contentFit="contain"
+          />
+          <Text style={s.headerTitle}>My Account</Text>
+        </View>
       </View>
 
       <ScrollView
@@ -56,24 +66,33 @@ export default function Account() {
         <View style={s.profileCard}>
           <View style={s.avatar}>
             <Text style={s.avatarText}>
-              {user?.name ? user.name.charAt(0).toUpperCase() : 'D'}
+              {user?.name ? user.name.charAt(0).toUpperCase() : '🌸'}
             </Text>
           </View>
 
           <View style={s.profileInfo}>
-            <Text style={s.name}>{user?.name || 'Hello, Flower Lover!'}</Text>
+            <Text style={s.name}>{user?.name || 'Welcome to Dhanvikk!'}</Text>
             <Text style={s.email}>
-              {user?.email || 'Sign in to access VIP orders & points'}
+              {user?.email || 'Sign in to access VIP orders & rewards'}
             </Text>
           </View>
 
           {!user ? (
-            <Pressable
-              style={s.signInMiniBtn}
-              onPress={() => router.push('/auth/login')}
-            >
-              <Text style={s.signInMiniText}>Sign In</Text>
-            </Pressable>
+            <View style={s.profileAuthBtns}>
+              <Pressable
+                style={s.googleProfileBtn}
+                onPress={() => setShowGoogleModal(true)}
+              >
+                <Ionicons name="logo-google" size={16} color="#DB4437" />
+                <Text style={s.googleProfileText}>Google</Text>
+              </Pressable>
+              <Pressable
+                style={s.signInMiniBtn}
+                onPress={() => router.push('/auth/login')}
+              >
+                <Text style={s.signInMiniText}>Login</Text>
+              </Pressable>
+            </View>
           ) : null}
         </View>
 
@@ -209,14 +228,34 @@ export default function Account() {
             <Text style={s.logoutText}>Sign Out</Text>
           </Pressable>
         ) : (
-          <Pressable
-            style={s.fullLoginBtn}
-            onPress={() => router.push('/auth/login')}
-          >
-            <Text style={s.fullLoginText}>Sign In / Register</Text>
-          </Pressable>
+          <View style={s.guestBottomCta}>
+            <Pressable
+              style={s.googleBottomBtn}
+              onPress={() => setShowGoogleModal(true)}
+            >
+              <Ionicons name="logo-google" size={18} color="#DB4437" />
+              <Text style={s.googleBottomText}>Sign In with Google</Text>
+            </Pressable>
+
+            <Pressable
+              style={s.fullLoginBtn}
+              onPress={() => router.push('/auth/login')}
+            >
+              <Text style={s.fullLoginText}>Sign In / Register with Email</Text>
+            </Pressable>
+          </View>
         )}
       </ScrollView>
+
+      {/* Google Sign In Modal */}
+      <GoogleSignInModal
+        visible={showGoogleModal}
+        onClose={() => setShowGoogleModal(false)}
+        onSuccess={(u?: any) => {
+          setShowGoogleModal(false);
+          if (u) setUser(u);
+        }}
+      />
     </View>
   );
 }
@@ -232,6 +271,16 @@ const s = StyleSheet.create({
     paddingVertical: 12,
     borderBottomWidth: 1,
     borderBottomColor: colors.lineLight,
+  },
+  headerTitleRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+  },
+  headerLogo: {
+    width: 28,
+    height: 28,
+    borderRadius: 14,
   },
   headerTitle: {
     fontSize: 18,
@@ -413,5 +462,46 @@ const s = StyleSheet.create({
     color: colors.white,
     fontWeight: '900',
     fontSize: 14,
+  },
+  profileAuthBtns: {
+    flexDirection: 'row',
+    gap: 8,
+  },
+  googleProfileBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+    backgroundColor: colors.white,
+    borderWidth: 1,
+    borderColor: colors.lineLight,
+    paddingHorizontal: 10,
+    paddingVertical: 6,
+    borderRadius: 4,
+  },
+  googleProfileText: {
+    fontSize: 12,
+    fontWeight: '800',
+    color: colors.ink,
+  },
+  guestBottomCta: {
+    gap: 8,
+  },
+  googleBottomBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 8,
+    backgroundColor: colors.white,
+    borderWidth: 1.5,
+    borderColor: colors.lineLight,
+    marginHorizontal: 12,
+    marginTop: 10,
+    paddingVertical: 13,
+    borderRadius: 4,
+  },
+  googleBottomText: {
+    color: colors.ink,
+    fontSize: 14,
+    fontWeight: '800',
   },
 });

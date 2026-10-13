@@ -398,3 +398,68 @@ export const getUploadedImages = async (req, res) => {
   }
 };
 
+/**
+ * @desc Add a review and rating for a product (Auth required)
+ * @route POST /api/products/:identifier/reviews
+ */
+export const addProductReview = async (req, res) => {
+  try {
+    const { identifier } = req.params;
+    const { rating, comment } = req.body;
+    const numRating = Number(rating);
+
+    if (!numRating || numRating < 1 || numRating > 5) {
+      return res.status(400).json({ success: false, message: 'Please provide a valid rating between 1 and 5 stars.' });
+    }
+
+    const userName = req.user?.name || 'Verified Customer';
+
+    let updatedProduct = null;
+
+    if (getDBStatus()) {
+      const product = await ProductModel.findOne({
+        $or: [{ _id: identifier.match(/^[0-9a-fA-F]{24}$/) ? identifier : null }, { id: identifier }, { slug: identifier }],
+      });
+      if (product) {
+        const curCount = product.reviewsCount || 0;
+        const curRating = product.rating || 5;
+        const newRating = Number(((curRating * curCount + numRating) / (curCount + 1)).toFixed(1));
+        product.rating = newRating;
+        product.reviewsCount = curCount + 1;
+        await product.save();
+        updatedProduct = product;
+      }
+    }
+
+    if (!updatedProduct) {
+      const idx = inMemoryProducts.findIndex((p) => p.id === identifier || p.slug === identifier || p._id === identifier);
+      if (idx !== -1) {
+        const p = inMemoryProducts[idx];
+        const curCount = p.reviewsCount || 0;
+        const curRating = p.rating || 5;
+        p.rating = Number(((curRating * curCount + numRating) / (curCount + 1)).toFixed(1));
+        p.reviewsCount = curCount + 1;
+        updatedProduct = p;
+      }
+    }
+
+    if (!updatedProduct) {
+      return res.status(404).json({ success: false, message: 'Flower product not found' });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: 'Review and rating submitted successfully! 🌸',
+      product: updatedProduct,
+      review: {
+        userName,
+        rating: numRating,
+        comment: comment || 'Verified Dhanvikk luxury floral arrangement.',
+        createdAt: new Date().toISOString(),
+      },
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+

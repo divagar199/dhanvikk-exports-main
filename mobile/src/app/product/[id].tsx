@@ -4,21 +4,25 @@ import {
   ActivityIndicator,
   Alert,
   Dimensions,
+  FlatList,
   Pressable,
   ScrollView,
   StyleSheet,
   Text,
+  TextInput,
   View,
 } from 'react-native';
 import { Image } from 'expo-image';
 import { router, useLocalSearchParams } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { getProduct } from '@/services/products';
+import { getProduct, getProducts, rateProduct } from '@/services/products';
 import { useStore } from '@/store/useStore';
 import { colors, radius, spacing } from '@/constants/theme';
 import type { Product as ProductType } from '@/types/models';
 import { resolveImageUrl, resolveProductImages, FALLBACK_FLOWER_IMAGE } from '@/lib/imageUrl';
+import { ProductCard } from '@/components/ProductCard';
+import { GoogleSignInModal } from '@/components/GoogleSignInModal';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
@@ -40,16 +44,27 @@ export default function ProductDetail() {
   const { id } = useLocalSearchParams<{ id: string }>();
 
   const [activeImageIndex, setActiveImageIndex] = useState(0);
+  const [userRating, setUserRating] = useState(5);
+  const [reviewComment, setReviewComment] = useState('');
+  const [submittingReview, setSubmittingReview] = useState(false);
+  const [googleModal, setGoogleModal] = useState(false);
 
-  const { data: p, isLoading } = useQuery<ProductType>({
+  const user = useStore((s) => s.user);
+  const add = useStore((s) => s.add);
+  const wish = useStore((s) => s.wish);
+  const saved = useStore((s) => s.wishlist);
+
+  const { data: p, isLoading, refetch } = useQuery<ProductType>({
     queryKey: ['product', id],
     queryFn: () => getProduct(id),
     enabled: !!id,
   });
 
-  const add = useStore((s) => s.add);
-  const wish = useStore((s) => s.wish);
-  const saved = useStore((s) => s.wishlist);
+  const { data: allProds = [] } = useQuery<ProductType[]>({
+    queryKey: ['recommended-products', p?.category],
+    queryFn: () => getProducts({ limit: 12 }),
+    enabled: !!p,
+  });
 
   const isSaved = id ? saved.includes(id) : false;
 
@@ -74,6 +89,10 @@ export default function ProductDetail() {
 
   const imagesList = resolveProductImages(p.images, p.image);
 
+  const recommended = allProds
+    .filter((item) => (item.id || item._id || item.slug) !== productId)
+    .slice(0, 8);
+
   const handleAddToCart = () => {
     add({ ...p, quantity: 1 });
     Alert.alert('Added to Bag! 💐', `${p.name} has been added to your shopping bag.`, [
@@ -83,8 +102,42 @@ export default function ProductDetail() {
   };
 
   const handleBuyNow = () => {
+    if (!user) {
+      return Alert.alert(
+        'Sign in Required 🌸',
+        'Please sign in to place an order and track your live flower delivery.',
+        [
+          { text: 'Cancel', style: 'cancel' },
+          { text: 'Sign In', onPress: () => router.push('/auth/login') },
+        ]
+      );
+    }
     add({ ...p, quantity: 1 });
     router.push('/checkout');
+  };
+
+  const handleRatingSubmit = async () => {
+    if (!user) {
+      return Alert.alert(
+        'Sign in Required 🌸',
+        'Only logged-in customers can rate and review blooms. Please sign in to share your experience.',
+        [
+          { text: 'Cancel', style: 'cancel' },
+          { text: 'Sign In', onPress: () => router.push('/auth/login') },
+        ]
+      );
+    }
+    setSubmittingReview(true);
+    try {
+      const res = await rateProduct(productId, userRating, reviewComment.trim());
+      Alert.alert('Review Submitted! 💐', res.message || 'Thank you for your rating.');
+      setReviewComment('');
+      refetch();
+    } catch (err: any) {
+      Alert.alert('Review Note', err.message || 'Unable to submit review.');
+    } finally {
+      setSubmittingReview(false);
+    }
   };
 
   return (
@@ -125,7 +178,7 @@ export default function ProductDetail() {
       <ScrollView
         contentContainerStyle={[
           s.content,
-          { paddingBottom: Math.max(insets.bottom, 16) + 70 },
+          { paddingBottom: Math.max(insets.bottom, 16) + 80 },
         ]}
         showsVerticalScrollIndicator={false}
       >
@@ -265,6 +318,117 @@ export default function ProductDetail() {
               'A magnificent creation crafted with perfection by our master florists. Sourced directly from high-altitude estates, each stem is selected for radiant color, velvety texture, and prolonged freshness.'}
           </Text>
         </View>
+
+        {/* Customer Ratings & Reviews Section (Auth-Gated) */}
+        <View style={s.reviewsCard}>
+          <View style={s.sectionTitleRow}>
+            <View style={s.sectionIndicator} />
+            <Text style={s.sectionTitle}>Ratings & Verified Reviews</Text>
+          </View>
+
+          <View style={s.ratingScoreOverview}>
+            <View style={s.bigScoreCol}>
+              <Text style={s.bigScoreNumber}>{rating.toFixed(1)}</Text>
+              <View style={s.starsRow}>
+                {[1, 2, 3, 4, 5].map((st) => (
+                  <Ionicons
+                    key={st}
+                    name={st <= Math.round(rating) ? 'star' : 'star-outline'}
+                    size={15}
+                    color={colors.starYellow}
+                  />
+                ))}
+              </View>
+              <Text style={s.totalReviewsLabel}>{reviewsCount} verified ratings</Text>
+            </View>
+
+            <View style={s.trustBadgeBox}>
+              <Ionicons name="shield-checkmark" size={18} color={colors.discountGreen} />
+              <Text style={s.trustBadgeText}>100% Verified Dhanvikk Customer Reviews</Text>
+            </View>
+          </View>
+
+          {/* Rating input if logged in; lock banner if guest */}
+          {user ? (
+            <View style={s.writeReviewBox}>
+              <Text style={s.writeReviewTitle}>Leave your rating as {user.name || 'Customer'}</Text>
+              <View style={s.interactiveStarRow}>
+                {[1, 2, 3, 4, 5].map((st) => (
+                  <Pressable key={st} onPress={() => setUserRating(st)} hitSlop={6}>
+                    <Ionicons
+                      name={st <= userRating ? 'star' : 'star-outline'}
+                      size={32}
+                      color={colors.starYellow}
+                    />
+                  </Pressable>
+                ))}
+                <Text style={s.interactiveStarLabel}>{userRating} / 5</Text>
+              </View>
+
+              <TextInput
+                style={s.reviewTextInput}
+                placeholder="Write your review on flower freshness, fragrance, and delivery packaging…"
+                placeholderTextColor={colors.muted}
+                value={reviewComment}
+                onChangeText={setReviewComment}
+                multiline
+                numberOfLines={3}
+              />
+
+              <Pressable
+                style={[s.submitReviewBtn, submittingReview && s.btnDisabled]}
+                onPress={handleRatingSubmit}
+                disabled={submittingReview}
+              >
+                <Text style={s.submitReviewText}>
+                  {submittingReview ? 'Submitting…' : 'Submit Review'}
+                </Text>
+              </Pressable>
+            </View>
+          ) : (
+            <View style={s.authLockCard}>
+              <View style={s.lockIconCol}>
+                <Ionicons name="lock-closed" size={22} color={colors.primaryDeep} />
+              </View>
+              <View style={s.lockTextCol}>
+                <Text style={s.lockTitle}>Sign in to Rate & Review</Text>
+                <Text style={s.lockSub}>
+                  Only signed-in customers can leave verified product ratings.
+                </Text>
+              </View>
+              <Pressable
+                style={s.lockActionBtn}
+                onPress={() => setGoogleModal(true)}
+              >
+                <Text style={s.lockActionText}>Sign In</Text>
+              </Pressable>
+            </View>
+          )}
+        </View>
+
+        {/* Recommended Blooms Showcase */}
+        {recommended.length > 0 && (
+          <View style={s.recommendedSection}>
+            <View style={s.sectionTitleRow}>
+              <View style={s.sectionIndicator} />
+              <View>
+                <Text style={s.sectionTitle}>You Might Also Like</Text>
+                <Text style={s.sectionSub}>Recommended floral pairings for this occasion</Text>
+              </View>
+            </View>
+
+            <FlatList
+              data={recommended}
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              contentContainerStyle={s.recList}
+              keyExtractor={(item) => (item.id || item._id || item.slug) + '-rec'}
+              renderItem={({ item }) => (
+                <ProductCard product={item} horizontal />
+              )}
+            />
+          </View>
+        )}
       </ScrollView>
 
       {/* Flipkart-Style Dual Action Bottom Bar */}
@@ -279,6 +443,12 @@ export default function ProductDetail() {
           <Text style={s.buyNowText}>Buy Now</Text>
         </Pressable>
       </View>
+
+      <GoogleSignInModal
+        visible={googleModal}
+        onClose={() => setGoogleModal(false)}
+        onSuccess={() => refetch()}
+      />
     </View>
   );
 }
@@ -348,7 +518,7 @@ const s = StyleSheet.create({
     width: 6,
     height: 6,
     borderRadius: 3,
-    backgroundColor: 'rgba(0,0,0,0.2)',
+    backgroundColor: colors.line,
   },
   dotActive: {
     width: 18,
@@ -356,12 +526,12 @@ const s = StyleSheet.create({
   },
   galleryDiscountBadge: {
     position: 'absolute',
-    top: 12,
-    left: 12,
+    top: 14,
+    left: 14,
     backgroundColor: colors.discountGreen,
     paddingHorizontal: 8,
     paddingVertical: 3,
-    borderRadius: 4,
+    borderRadius: radius.xs,
   },
   galleryDiscountText: {
     color: colors.white,
@@ -370,38 +540,37 @@ const s = StyleSheet.create({
   },
   infoCard: {
     backgroundColor: colors.white,
-    padding: 14,
-    marginBottom: 6,
+    padding: spacing.md,
     borderBottomWidth: 1,
-    borderColor: colors.lineLight,
+    borderBottomColor: colors.lineLight,
   },
   categoryTag: {
     fontSize: 11,
-    fontWeight: '800',
+    fontWeight: '900',
     color: colors.primaryDeep,
-    letterSpacing: 1,
-    textTransform: 'uppercase',
+    letterSpacing: 1.5,
+    marginBottom: 4,
   },
   title: {
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: '900',
     color: colors.ink,
-    lineHeight: 24,
-    marginTop: 4,
+    lineHeight: 26,
+    marginBottom: 8,
   },
   ratingRow: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 8,
-    marginTop: 8,
+    marginBottom: 12,
   },
   ratingBadge: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: colors.starGreen,
+    backgroundColor: colors.discountGreen,
     paddingHorizontal: 6,
     paddingVertical: 2,
-    borderRadius: 4,
+    borderRadius: radius.xs,
     gap: 3,
   },
   ratingText: {
@@ -414,35 +583,36 @@ const s = StyleSheet.create({
     color: colors.muted,
   },
   priceBox: {
-    marginTop: 12,
-    paddingTop: 10,
-    borderTopWidth: 1,
-    borderTopColor: colors.lineLight,
+    backgroundColor: colors.surface,
+    padding: 12,
+    borderRadius: radius.md,
   },
   specialPriceTag: {
     fontSize: 11,
     fontWeight: '800',
-    color: colors.discountGreen,
+    color: colors.primaryDeep,
+    textTransform: 'uppercase',
+    letterSpacing: 0.5,
+    marginBottom: 4,
   },
   priceRow: {
     flexDirection: 'row',
     alignItems: 'baseline',
-    gap: 8,
-    marginTop: 2,
+    gap: 10,
   },
   price: {
-    fontSize: 22,
+    fontSize: 24,
     fontWeight: '900',
     color: colors.ink,
   },
   originalPrice: {
-    fontSize: 14,
-    color: colors.mutedLight,
+    fontSize: 15,
+    color: colors.muted,
     textDecorationLine: 'line-through',
   },
   discountText: {
-    fontSize: 14,
-    fontWeight: '900',
+    fontSize: 15,
+    fontWeight: '800',
     color: colors.discountGreen,
   },
   taxInclusive: {
@@ -452,35 +622,37 @@ const s = StyleSheet.create({
   },
   deliveryCard: {
     backgroundColor: colors.white,
-    padding: 14,
-    marginBottom: 6,
+    marginTop: 8,
+    padding: spacing.md,
     borderTopWidth: 1,
     borderBottomWidth: 1,
     borderColor: colors.lineLight,
+    gap: 8,
   },
   deliveryTitleRow: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    marginBottom: 10,
+    paddingBottom: 8,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.lineLight,
   },
   deliveryHeader: {
+    flex: 1,
     fontSize: 13,
     fontWeight: '800',
     color: colors.ink,
-    flex: 1,
     marginLeft: 6,
   },
   checkPincodeText: {
-    color: colors.primary,
-    fontSize: 12,
+    fontSize: 13,
     fontWeight: '800',
+    color: colors.primary,
   },
   deliveryFeature: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 8,
-    marginBottom: 6,
   },
   deliveryFeatureText: {
     fontSize: 12,
@@ -491,46 +663,214 @@ const s = StyleSheet.create({
   },
   detailsCard: {
     backgroundColor: colors.white,
-    padding: 14,
-    marginBottom: 6,
+    marginTop: 8,
+    padding: spacing.md,
     borderTopWidth: 1,
     borderBottomWidth: 1,
     borderColor: colors.lineLight,
   },
+  sectionTitleRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    marginBottom: 12,
+  },
+  sectionIndicator: {
+    width: 4,
+    height: 18,
+    backgroundColor: colors.primary,
+    borderRadius: 2,
+  },
   sectionTitle: {
-    fontSize: 14,
+    fontSize: 15,
     fontWeight: '900',
     color: colors.ink,
-    marginBottom: 10,
+  },
+  sectionSub: {
+    fontSize: 11,
+    color: colors.muted,
+    marginTop: 1,
   },
   bulletRow: {
     flexDirection: 'row',
-    alignItems: 'flex-start',
+    alignItems: 'center',
     gap: 8,
-    marginBottom: 6,
+    marginBottom: 8,
   },
   bulletDot: {
     width: 5,
     height: 5,
     borderRadius: 2.5,
-    backgroundColor: colors.primaryDeep,
-    marginTop: 6,
+    backgroundColor: colors.primary,
   },
   bulletText: {
-    fontSize: 12,
-    color: colors.inkLight,
+    fontSize: 13,
+    color: colors.ink,
     flex: 1,
-    lineHeight: 18,
   },
   divider: {
     height: 1,
     backgroundColor: colors.lineLight,
-    marginVertical: 12,
+    marginVertical: 14,
   },
   description: {
     fontSize: 13,
-    color: colors.muted,
     lineHeight: 20,
+    color: colors.muted,
+  },
+  reviewsCard: {
+    backgroundColor: colors.white,
+    marginTop: 8,
+    padding: spacing.md,
+    borderTopWidth: 1,
+    borderBottomWidth: 1,
+    borderColor: colors.lineLight,
+  },
+  ratingScoreOverview: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    backgroundColor: colors.surface,
+    padding: 12,
+    borderRadius: radius.md,
+    marginBottom: 14,
+  },
+  bigScoreCol: {
+    alignItems: 'center',
+  },
+  bigScoreNumber: {
+    fontSize: 28,
+    fontWeight: '900',
+    color: colors.ink,
+  },
+  starsRow: {
+    flexDirection: 'row',
+    gap: 2,
+    marginVertical: 2,
+  },
+  totalReviewsLabel: {
+    fontSize: 11,
+    color: colors.muted,
+  },
+  trustBadgeBox: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingLeft: 12,
+    gap: 4,
+  },
+  trustBadgeText: {
+    fontSize: 11,
+    fontWeight: '700',
+    color: colors.ink,
+    textAlign: 'center',
+  },
+  writeReviewBox: {
+    backgroundColor: colors.pale,
+    padding: 12,
+    borderRadius: radius.md,
+    borderWidth: 1,
+    borderColor: colors.lineLight,
+  },
+  writeReviewTitle: {
+    fontSize: 13,
+    fontWeight: '800',
+    color: colors.ink,
+    marginBottom: 6,
+  },
+  interactiveStarRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    marginBottom: 10,
+  },
+  interactiveStarLabel: {
+    fontSize: 13,
+    fontWeight: '800',
+    color: colors.ink,
+    marginLeft: 6,
+  },
+  reviewTextInput: {
+    backgroundColor: colors.white,
+    borderRadius: radius.sm,
+    borderWidth: 1,
+    borderColor: colors.line,
+    padding: 10,
+    fontSize: 13,
+    color: colors.ink,
+    textAlignVertical: 'top',
+    minHeight: 64,
+    marginBottom: 10,
+  },
+  submitReviewBtn: {
+    backgroundColor: colors.primary,
+    borderRadius: radius.pill,
+    paddingVertical: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  submitReviewText: {
+    color: colors.white,
+    fontSize: 13,
+    fontWeight: '800',
+  },
+  btnDisabled: {
+    opacity: 0.6,
+  },
+  authLockCard: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: colors.surface,
+    padding: 12,
+    borderRadius: radius.md,
+    borderWidth: 1,
+    borderColor: colors.lineLight,
+    gap: 10,
+  },
+  lockIconCol: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    backgroundColor: colors.pale,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  lockTextCol: {
+    flex: 1,
+  },
+  lockTitle: {
+    fontSize: 13,
+    fontWeight: '800',
+    color: colors.ink,
+  },
+  lockSub: {
+    fontSize: 11,
+    color: colors.muted,
+    marginTop: 2,
+  },
+  lockActionBtn: {
+    backgroundColor: colors.primary,
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderRadius: radius.pill,
+  },
+  lockActionText: {
+    color: colors.white,
+    fontSize: 12,
+    fontWeight: '800',
+  },
+  recommendedSection: {
+    backgroundColor: colors.white,
+    marginTop: 8,
+    paddingVertical: 14,
+    borderTopWidth: 1,
+    borderBottomWidth: 1,
+    borderColor: colors.lineLight,
+  },
+  recList: {
+    paddingLeft: spacing.md,
+    paddingRight: spacing.sm,
+    paddingTop: 10,
   },
   bottomBar: {
     position: 'absolute',
@@ -539,21 +879,28 @@ const s = StyleSheet.create({
     right: 0,
     backgroundColor: colors.white,
     flexDirection: 'row',
-    alignItems: 'center',
+    paddingHorizontal: 12,
+    paddingTop: 10,
     borderTopWidth: 1,
-    borderTopColor: colors.line,
+    borderTopColor: colors.lineLight,
+    gap: 10,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: -2 },
+    shadowOpacity: 0.08,
+    shadowRadius: 4,
     elevation: 8,
   },
   addToBagBtn: {
     flex: 1,
-    height: 50,
-    backgroundColor: colors.white,
+    height: 48,
+    borderRadius: 24,
+    backgroundColor: colors.surface,
+    borderWidth: 1,
+    borderColor: colors.line,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    gap: 8,
-    borderRightWidth: 1,
-    borderRightColor: colors.lineLight,
+    gap: 6,
   },
   addToBagText: {
     fontSize: 14,
@@ -562,8 +909,9 @@ const s = StyleSheet.create({
   },
   buyNowBtn: {
     flex: 1,
-    height: 50,
-    backgroundColor: colors.dealOrange, // Classic Flipkart "Buy Now" orange
+    height: 48,
+    borderRadius: 24,
+    backgroundColor: colors.dealOrange,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
@@ -571,8 +919,7 @@ const s = StyleSheet.create({
   },
   buyNowText: {
     fontSize: 14,
-    fontWeight: '900',
+    fontWeight: '800',
     color: colors.white,
-    textTransform: 'uppercase',
   },
 });

@@ -10,12 +10,16 @@ import {
   TextInput,
   View,
 } from 'react-native';
+import { Image } from 'expo-image';
 import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { login } from '@/services/auth';
 import { useStore } from '@/store/useStore';
 import { colors, radius, spacing } from '@/constants/theme';
+import { GoogleSignInModal } from '@/components/GoogleSignInModal';
+
+const brandLogo = require('@/assets/logo.png');
 
 export default function Login() {
   const insets = useSafeAreaInsets();
@@ -23,6 +27,7 @@ export default function Login() {
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [busy, setBusy] = useState(false);
+  const [googleModal, setGoogleModal] = useState(false);
   const setUser = useStore((s) => s.setUser);
 
   const submit = async () => {
@@ -57,13 +62,35 @@ export default function Login() {
         style={{ flex: 1 }}
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
       >
-        <ScrollView contentContainerStyle={s.content}>
-          <Text style={s.eyebrow}>DHANVIKK BLOOMS</Text>
-          <Text style={s.title}>Welcome back.</Text>
-          <Text style={s.sub}>
-            Sign in to manage your blooms, track orders and save your delivery addresses.
-          </Text>
+        <ScrollView contentContainerStyle={s.content} showsVerticalScrollIndicator={false}>
+          {/* Brand Logo Header */}
+          <View style={s.logoCard}>
+            <Image source={brandLogo} style={s.logoImg} contentFit="contain" />
+            <Text style={s.eyebrow}>DHANVIKK BLOOMS</Text>
+            <Text style={s.title}>Welcome back.</Text>
+            <Text style={s.sub}>
+              Sign in to manage your blooms, track orders, and save your delivery addresses.
+            </Text>
+          </View>
 
+          {/* 1-Tap Google Sign-In Button */}
+          <Pressable
+            style={s.googleBtn}
+            onPress={() => setGoogleModal(true)}
+            hitSlop={4}
+          >
+            <Ionicons name="logo-google" size={18} color="#EA4335" />
+            <Text style={s.googleBtnText}>Continue with Google</Text>
+          </Pressable>
+
+          {/* Divider */}
+          <View style={s.dividerRow}>
+            <View style={s.dividerLine} />
+            <Text style={s.dividerText}>or sign in with email</Text>
+            <View style={s.dividerLine} />
+          </View>
+
+          {/* Form */}
           <Text style={s.label}>Email Address</Text>
           <TextInput
             style={s.input}
@@ -110,6 +137,12 @@ export default function Login() {
           </Pressable>
         </ScrollView>
       </KeyboardAvoidingView>
+
+      <GoogleSignInModal
+        visible={googleModal}
+        onClose={() => setGoogleModal(false)}
+        onSuccess={() => router.replace('/(tabs)/home')}
+      />
     </View>
   );
 }
@@ -131,9 +164,20 @@ const s = StyleSheet.create({
     justifyContent: 'center',
   },
   content: {
-    padding: 24,
+    paddingHorizontal: 24,
+    paddingBottom: 40,
     justifyContent: 'center',
     flexGrow: 1,
+  },
+  logoCard: {
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+  logoImg: {
+    width: 72,
+    height: 72,
+    borderRadius: 16,
+    marginBottom: 12,
   },
   eyebrow: {
     color: colors.primaryDeep,
@@ -142,17 +186,58 @@ const s = StyleSheet.create({
     letterSpacing: 2,
   },
   title: {
-    fontSize: 34,
+    fontSize: 28,
     fontWeight: '900',
     color: colors.ink,
-    marginTop: 6,
+    marginTop: 4,
   },
   sub: {
     color: colors.muted,
+    fontSize: 13,
+    lineHeight: 19,
+    marginTop: 6,
+    textAlign: 'center',
+    maxWidth: 320,
+  },
+  googleBtn: {
+    height: 50,
+    backgroundColor: colors.white,
+    borderRadius: radius.pill,
+    borderWidth: 1.5,
+    borderColor: colors.line,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 10,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.05,
+    shadowRadius: 2,
+    elevation: 2,
+    marginBottom: 16,
+  },
+  googleBtnText: {
     fontSize: 14,
-    lineHeight: 21,
-    marginTop: 8,
-    marginBottom: 24,
+    fontWeight: '800',
+    color: colors.ink,
+  },
+  dividerRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginVertical: 14,
+    gap: 10,
+  },
+  dividerLine: {
+    flex: 1,
+    height: 1,
+    backgroundColor: colors.lineLight,
+  },
+  dividerText: {
+    fontSize: 11,
+    fontWeight: '700',
+    color: colors.muted,
+    textTransform: 'uppercase',
+    letterSpacing: 0.5,
   },
   label: {
     fontSize: 12,
@@ -161,7 +246,7 @@ const s = StyleSheet.create({
     marginBottom: 6,
   },
   input: {
-    height: 52,
+    height: 50,
     backgroundColor: colors.white,
     borderRadius: radius.md,
     borderWidth: 1,
@@ -172,7 +257,7 @@ const s = StyleSheet.create({
     marginBottom: 14,
   },
   passwordBox: {
-    height: 52,
+    height: 50,
     backgroundColor: colors.white,
     borderRadius: radius.md,
     borderWidth: 1,
@@ -191,8 +276,8 @@ const s = StyleSheet.create({
     padding: 4,
   },
   button: {
-    height: 52,
-    borderRadius: 26,
+    height: 50,
+    borderRadius: 25,
     backgroundColor: colors.primary,
     alignItems: 'center',
     justifyContent: 'center',
@@ -202,16 +287,16 @@ const s = StyleSheet.create({
   },
   buttonText: {
     color: colors.white,
-    fontWeight: '900',
     fontSize: 15,
+    fontWeight: '800',
   },
   linkWrap: {
-    marginTop: 22,
+    marginTop: 20,
     alignItems: 'center',
   },
   link: {
+    fontSize: 13,
     color: colors.muted,
-    fontSize: 14,
   },
   linkBold: {
     color: colors.primaryDeep,

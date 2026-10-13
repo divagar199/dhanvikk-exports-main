@@ -15,9 +15,11 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { colors, radius, spacing } from '@/constants/theme';
 import { cartTotal, useStore } from '@/store/useStore';
 import { resolveImageUrl } from '@/lib/imageUrl';
+import { GoogleSignInModal } from '@/components/GoogleSignInModal';
 
 export default function Cart() {
   const insets = useSafeAreaInsets();
+  const user = useStore((s) => s.user);
   const cart = useStore((s) => s.cart);
   const qty = useStore((s) => s.qty);
   const remove = useStore((s) => s.remove);
@@ -26,6 +28,7 @@ export default function Cart() {
   const [couponCode, setCouponCode] = useState('');
   const [couponDiscount, setCouponDiscount] = useState(0);
   const [couponApplied, setCouponApplied] = useState(false);
+  const [showGoogleModal, setShowGoogleModal] = useState(false);
 
   const subtotal = cartTotal(cart);
   const originalTotal = Math.round(subtotal * 1.35);
@@ -49,6 +52,28 @@ export default function Cart() {
     wish(id);
     remove(id);
     Alert.alert('Saved to Wishlist', 'Bloom moved to your saved items.');
+  };
+
+  const handlePlaceOrder = () => {
+    if (!user) {
+      Alert.alert(
+        'Sign In to Order',
+        'Please sign in with Google or your Dhanvikk account to place your floral order and receive express doorstep delivery.',
+        [
+          { text: 'Cancel', style: 'cancel' },
+          {
+            text: 'Sign In with Google',
+            onPress: () => setShowGoogleModal(true),
+          },
+          {
+            text: 'Login / Register',
+            onPress: () => router.push('/auth/login'),
+          },
+        ]
+      );
+      return;
+    }
+    router.push('/checkout');
   };
 
   return (
@@ -269,12 +294,22 @@ export default function Cart() {
           </View>
           <Pressable
             style={s.placeOrderBtn}
-            onPress={() => router.push('/checkout')}
+            onPress={handlePlaceOrder}
           >
             <Text style={s.placeOrderText}>Place Order</Text>
           </Pressable>
         </View>
       )}
+
+      {/* Google Sign In Modal */}
+      <GoogleSignInModal
+        visible={showGoogleModal}
+        onClose={() => setShowGoogleModal(false)}
+        onSuccess={() => {
+          setShowGoogleModal(false);
+          router.push('/checkout');
+        }}
+      />
     </View>
   );
 }

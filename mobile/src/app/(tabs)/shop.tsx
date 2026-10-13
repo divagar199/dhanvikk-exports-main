@@ -42,6 +42,7 @@ export default function Shop() {
 
   const [q, setQ] = useState('');
   const [selectedCategory, setSelectedCategory] = useState(params.category || 'All');
+  const [activeOccasion, setActiveOccasion] = useState(params.occasion || '');
   const [sortBy, setSortBy] = useState('popular');
   const [showSortMenu, setShowSortMenu] = useState(false);
 
@@ -52,16 +53,23 @@ export default function Shop() {
 
   // Filter
   let filtered = data.filter((item) => {
-    if (params.occasion) {
-      const occ = (item.occasion || '').toLowerCase();
-      const paramOcc = params.occasion.toLowerCase();
+    if (activeOccasion) {
+      const occ = Array.isArray(item.occasion)
+        ? item.occasion.join(' ').toLowerCase()
+        : String(item.occasion || '').toLowerCase();
+      const paramOcc = activeOccasion.toLowerCase();
       if (!occ.includes(paramOcc)) return false;
     }
 
     if (selectedCategory !== 'All') {
-      const cat = (item.category || item.flowerType || '').toLowerCase();
+      const cat =
+        typeof item.category === 'object' && item.category !== null
+          ? String((item.category as any).name || '').toLowerCase()
+          : String(item.category || item.flowerType || '').toLowerCase();
       const sel = selectedCategory.toLowerCase();
-      if (!cat.includes(sel)) return false;
+      if (!cat.includes(sel) && !String(item.name || '').toLowerCase().includes(sel)) {
+        return false;
+      }
     }
 
     if (q.trim()) {
@@ -195,6 +203,7 @@ export default function Shop() {
               onPress={() => {
                 setQ('');
                 setSelectedCategory('All');
+                setActiveOccasion('');
               }}
             >
               <Text style={s.resetBtnText}>Reset Filters</Text>

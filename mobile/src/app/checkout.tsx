@@ -21,6 +21,7 @@ import { getStoredUser } from '@/lib/storage';
 import type { User } from '@/types/models';
 import RazorpayCheckout from 'react-native-razorpay';
 import { resolveImageUrl } from '@/lib/imageUrl';
+import { GoogleSignInModal } from '@/components/GoogleSignInModal';
 
 export default function Checkout() {
   const insets = useSafeAreaInsets();
@@ -37,6 +38,7 @@ export default function Checkout() {
   const [date, setDate] = useState(new Date().toISOString().slice(0, 10));
   const [paymentMethod, setPaymentMethod] = useState<'razorpay' | 'cod'>('razorpay');
   const [busy, setBusy] = useState(false);
+  const [showGoogleModal, setShowGoogleModal] = useState(false);
 
   useEffect(() => {
     getStoredUser<User>().then((u) => {
@@ -50,6 +52,25 @@ export default function Checkout() {
   const total = cartTotal(cart);
 
   const handlePlaceOrder = async () => {
+    if (!currentUser) {
+      Alert.alert(
+        'Sign In Required',
+        'Only logged-in customers can place orders. Sign in to link your floral order and receive live delivery tracking.',
+        [
+          { text: 'Cancel', style: 'cancel' },
+          {
+            text: 'Sign In with Google',
+            onPress: () => setShowGoogleModal(true),
+          },
+          {
+            text: 'Email Login',
+            onPress: () => router.push('/auth/login'),
+          },
+        ]
+      );
+      return;
+    }
+
     if (!cart.length) {
       Alert.alert('Empty Bag', 'Please add blooms to your bag before checking out.');
       return;
@@ -200,6 +221,35 @@ export default function Checkout() {
             { paddingBottom: Math.max(insets.bottom, 24) + 60 },
           ]}
         >
+          {!currentUser && (
+            <View style={s.guestBanner}>
+              <View style={s.guestBannerLeft}>
+                <Ionicons name="lock-closed" size={20} color={colors.primaryDeep} />
+                <View style={{ flex: 1 }}>
+                  <Text style={s.guestBannerTitle}>Account Sign In Required</Text>
+                  <Text style={s.guestBannerSub}>
+                    Only logged-in users can place floral orders for security and doorstep tracking.
+                  </Text>
+                </View>
+              </View>
+              <View style={s.guestBannerActions}>
+                <Pressable
+                  style={s.guestGoogleBtn}
+                  onPress={() => setShowGoogleModal(true)}
+                >
+                  <Ionicons name="logo-google" size={16} color="#DB4437" />
+                  <Text style={s.guestGoogleText}>Sign In with Google</Text>
+                </Pressable>
+                <Pressable
+                  style={s.guestEmailBtn}
+                  onPress={() => router.push('/auth/login')}
+                >
+                  <Text style={s.guestEmailText}>Email Sign In</Text>
+                </Pressable>
+              </View>
+            </View>
+          )}
+
           <Text style={s.sectionTitle}>Delivery Details</Text>
 
           <View style={s.card}>
@@ -337,6 +387,16 @@ export default function Checkout() {
           </View>
         </ScrollView>
       </KeyboardAvoidingView>
+
+      <GoogleSignInModal
+        visible={showGoogleModal}
+        onClose={() => setShowGoogleModal(false)}
+        onSuccess={(u?: any) => {
+          setShowGoogleModal(false);
+          if (u?.name) setName(u.name);
+          if (u?.phone) setPhone(u.phone);
+        }}
+      />
     </View>
   );
 }
@@ -493,5 +553,66 @@ const s = StyleSheet.create({
     color: colors.white,
     fontWeight: '900',
     fontSize: 15,
+  },
+  guestBanner: {
+    backgroundColor: '#FFF0F5',
+    borderWidth: 1.5,
+    borderColor: '#FFD1DC',
+    borderRadius: radius.lg,
+    padding: 14,
+    marginBottom: 16,
+  },
+  guestBannerLeft: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    gap: 10,
+    marginBottom: 12,
+  },
+  guestBannerTitle: {
+    fontSize: 15,
+    fontWeight: '800',
+    color: colors.primaryDeep,
+    marginBottom: 3,
+  },
+  guestBannerSub: {
+    fontSize: 12,
+    color: colors.muted,
+    lineHeight: 17,
+  },
+  guestBannerActions: {
+    flexDirection: 'row',
+    gap: 10,
+  },
+  guestGoogleBtn: {
+    flex: 1.2,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 8,
+    backgroundColor: colors.white,
+    borderWidth: 1,
+    borderColor: colors.line,
+    borderRadius: radius.md,
+    paddingVertical: 10,
+    paddingHorizontal: 8,
+  },
+  guestGoogleText: {
+    fontSize: 12,
+    fontWeight: '800',
+    color: colors.ink,
+  },
+  guestEmailBtn: {
+    flex: 0.8,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: colors.primary,
+    borderRadius: radius.md,
+    paddingVertical: 10,
+    paddingHorizontal: 8,
+  },
+  guestEmailText: {
+    fontSize: 12,
+    fontWeight: '800',
+    color: colors.white,
   },
 });
