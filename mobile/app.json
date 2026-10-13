@@ -6,7 +6,6 @@
     "orientation": "portrait",
     "scheme": "dhanvikk",
     "userInterfaceStyle": "light",
-    "newArchEnabled": true,
     "plugins": [
       "expo-router",
       [

@@ -1,7 +1,7 @@
-import { create } from 'zustand';
+ import { create } from 'zustand';
 import type { CartItem, User } from '@/types/models';
 
-type S = {
+type StoreState = {
   user: User | null;
   cart: CartItem[];
   wishlist: string[];
@@ -13,7 +13,7 @@ type S = {
   wish: (id: string) => void;
 };
 
-export const useStore = create<S>((set) => ({
+export const useStore = create<StoreState>((set) => ({
   user: null,
   cart: [],
   wishlist: [],
@@ -21,10 +21,17 @@ export const useStore = create<S>((set) => ({
   add: (p) =>
     set((s) => {
       const id = p.id || p._id || p.slug;
-      const x = s.cart.find((i) => (i.id || i._id || i.slug) === id);
-      return x
-        ? { cart: s.cart.map((i) => (i === x ? { ...i, quantity: i.quantity + 1 } : i)) }
-        : { cart: [...s.cart, p] };
+      const existing = s.cart.find((i) => (i.id || i._id || i.slug) === id);
+      const addQty = p.quantity && p.quantity > 0 ? p.quantity : 1;
+      return existing
+        ? {
+            cart: s.cart.map((i) =>
+              (i.id || i._id || i.slug) === id
+                ? { ...i, quantity: (i.quantity || 1) + addQty }
+                : i
+            ),
+          }
+        : { cart: [...s.cart, { ...p, quantity: addQty }] };
     }),
   remove: (id) =>
     set((s) => ({
@@ -35,7 +42,9 @@ export const useStore = create<S>((set) => ({
       cart:
         n < 1
           ? s.cart.filter((i) => (i.id || i._id || i.slug) !== id)
-          : s.cart.map((i) => ((i.id || i._id || i.slug) === id ? { ...i, quantity: n } : i)),
+          : s.cart.map((i) =>
+              (i.id || i._id || i.slug) === id ? { ...i, quantity: n } : i
+            ),
     })),
   clear: () => set({ cart: [] }),
   wish: (id) =>
@@ -47,4 +56,4 @@ export const useStore = create<S>((set) => ({
 }));
 
 export const cartTotal = (c: CartItem[]) =>
-  c.reduce((n, x) => n + x.price * x.quantity, 0);
+  c.reduce((n, x) => n + (x.price || 0) * (x.quantity || 1), 0);

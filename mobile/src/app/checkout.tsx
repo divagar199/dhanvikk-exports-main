@@ -125,7 +125,13 @@ export default function Checkout() {
   ) => {
     try {
       const orderRes = await createOrder({
-        items: cart,
+        items: cart.map((i) => ({
+          product: i.id || i._id || i.slug || 'prod',
+          name: i.name,
+          price: i.price,
+          quantity: i.quantity || 1,
+          image: i.image || i.images?.[0] || '',
+        })),
         shippingAddress: {
           recipientName: name,
           fullName: name,

@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import { ActivityIndicator, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
+import { Image } from 'expo-image';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { getMyOrders } from '@/services/orders';
 import { colors, spacing, radius } from '@/constants/theme';
@@ -85,7 +86,14 @@ export default function OrderDetail() {
           <Text style={s.heading}>Items Ordered</Text>
           {(order.items || []).map((item: any, index: number) => (
             <View key={item.product || item.id || index} style={s.itemCard}>
-              <View style={{ flex: 1 }}>
+              {item.image ? (
+                <Image
+                  source={{ uri: item.image }}
+                  style={s.itemThumb}
+                  contentFit="cover"
+                />
+              ) : null}
+              <View style={{ flex: 1, paddingLeft: item.image ? 10 : 0 }}>
                 <Text style={s.itemName}>{item.name}</Text>
                 <Text style={s.itemMeta}>
                   {item.quantity} × ₹{Number(item.price || 0).toLocaleString('en-IN')}
@@ -264,6 +272,12 @@ const s = StyleSheet.create({
     alignItems: 'center',
     borderWidth: 1,
     borderColor: colors.line,
+  },
+  itemThumb: {
+    width: 44,
+    height: 44,
+    borderRadius: 6,
+    backgroundColor: colors.pale,
   },
   itemName: {
     fontSize: 14,
