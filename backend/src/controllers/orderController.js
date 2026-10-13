@@ -107,19 +107,25 @@ export const createOrder = async (req, res) => {
 
     const orderId = `DHN-${new Date().getFullYear()}-${Math.floor(1000 + Math.random() * 9000)}`;
 
-    const resolvedShippingAddress = shippingAddress || {
-      fullName: req.body.recipientName || req.user?.name || 'Customer',
-      phone: req.body.recipientPhone || req.user?.phone || '',
-      streetAddress: req.body.deliveryAddress?.street || req.body.address || '',
-      city: req.body.deliveryAddress?.city || req.body.city || '',
-      state: req.body.deliveryAddress?.state || 'UAE',
-      pincode: req.body.postalCode || '',
+    const sAddr = shippingAddress || req.body.deliveryAddress || {};
+    const resolvedShippingAddress = {
+      fullName: sAddr.fullName || sAddr.recipientName || req.body.recipientName || req.user?.name || 'Customer',
+      phone: sAddr.phone || sAddr.recipientPhone || req.body.recipientPhone || req.user?.phone || '+91 98765 00000',
+      alternatePhone: sAddr.alternatePhone || '',
+      streetAddress: sAddr.streetAddress || sAddr.street || req.body.deliveryAddress?.street || req.body.address || 'Address',
+      apartment: sAddr.apartment || '',
+      district: sAddr.district || '',
+      city: sAddr.city || req.body.deliveryAddress?.city || req.body.city || 'Chennai',
+      state: sAddr.state || req.body.deliveryAddress?.state || 'Tamil Nadu',
+      country: sAddr.country || 'India',
+      pincode: sAddr.pincode || sAddr.postalCode || req.body.postalCode || '600001',
+      deliveryNotes: sAddr.deliveryNotes || '',
     };
 
     const customerEmail =
       req.body.email ||
       req.body.user?.email ||
-      shippingAddress?.email ||
+      sAddr.email ||
       req.user?.email ||
       process.env.SMTP_USER ||
       'divagar.m.msc.cs@gmail.com';
@@ -129,6 +135,11 @@ export const createOrder = async (req, res) => {
       req.body.recipientName ||
       req.user?.name ||
       'Valued Client';
+
+    const rawPaymentStatus = paymentInfo?.status || req.body.paymentStatus;
+    const resolvedPaymentStatus = ['Pending', 'Paid', 'Failed', 'Refunded'].includes(rawPaymentStatus)
+      ? rawPaymentStatus
+      : 'Paid';
 
     const newOrder = {
       orderId,
@@ -147,7 +158,7 @@ export const createOrder = async (req, res) => {
         method: paymentInfo?.method || req.body.paymentMethod || 'Razorpay',
         razorpayOrderId: paymentInfo?.razorpayOrderId || req.body.razorpayOrderId,
         razorpayPaymentId: paymentInfo?.razorpayPaymentId || req.body.razorpayPaymentId,
-        status: 'Paid',
+        status: resolvedPaymentStatus,
       },
       subtotal: Number(subtotal || totalAmount),
       deliveryFee: Number(deliveryFee || 0),
@@ -155,6 +166,7 @@ export const createOrder = async (req, res) => {
       status: 'Confirmed',
       createdAt: new Date(),
     };
+
 
     if (getDBStatus()) {
       await OrderModel.create(newOrder);

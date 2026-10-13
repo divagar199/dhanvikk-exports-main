@@ -58,7 +58,13 @@ export async function getOrderById(orderId: string): Promise<Order | null> {
 }
 
 export async function getProfileData(): Promise<{ savedAddresses?: Address[]; [key: string]: any }> {
-  return api('/api/users/profile');
+  try {
+    const data = await api<any>('/api/auth/profile-data');
+    return data || {};
+  } catch (err: any) {
+    console.warn('[getProfileData error]:', err?.message);
+    return { savedAddresses: [] };
+  }
 }
 
 export async function getSavedAddresses(): Promise<Address[]> {
@@ -67,9 +73,10 @@ export async function getSavedAddresses(): Promise<Address[]> {
 }
 
 export async function saveAddress(address: Address): Promise<Address[]> {
-  const data = await api<{ savedAddresses: Address[] }>('/api/users/addresses', {
+  const data = await api<{ addresses?: Address[]; savedAddresses?: Address[] }>('/api/auth/addresses', {
     method: 'POST',
     body: JSON.stringify(address),
   });
-  return data.savedAddresses || [];
+  return data.addresses || data.savedAddresses || [];
 }
+

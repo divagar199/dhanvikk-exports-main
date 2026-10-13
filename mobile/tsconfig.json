@@ -19,12 +19,14 @@
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "target": "ESNext",
+    "baseUrl": ".",
     "paths": {
       "@/*": [
         "./src/*"
       ]
     }
   },
+
   "include": [
     "**/*.ts",
     "**/*.tsx"

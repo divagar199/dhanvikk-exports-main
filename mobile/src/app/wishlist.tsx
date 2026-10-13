@@ -1,4 +1,5 @@
-import { FlatList, Pressable, StyleSheet, Text, View } from 'react-native';
+import { useState } from 'react';
+import { FlatList, Pressable, RefreshControl, StyleSheet, Text, View } from 'react-native';
 import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { useQuery } from '@tanstack/react-query';
@@ -11,12 +12,23 @@ import type { Product } from '@/types/models';
 
 export default function Wishlist() {
   const insets = useSafeAreaInsets();
+  const [refreshing, setRefreshing] = useState(false);
+  const syncWithServer = useStore((s) => s.syncWithServer);
   const wishlistIds = useStore((s) => s.wishlist);
 
-  const { data = [], isLoading } = useQuery<Product[]>({
+  const { data = [], isLoading, refetch } = useQuery<Product[]>({
     queryKey: ['products-all'],
     queryFn: () => getProducts({ limit: 100 }),
   });
+
+  const onRefresh = async () => {
+    setRefreshing(true);
+    try {
+      await Promise.all([refetch(), syncWithServer()]);
+    } finally {
+      setRefreshing(false);
+    }
+  };
 
   const savedProducts = data.filter((p) => {
     const id = p.id || p._id || p.slug;
@@ -42,6 +54,14 @@ export default function Wishlist() {
         keyExtractor={(p) => p.id || p._id || p.slug}
         columnWrapperStyle={s.grid}
         contentContainerStyle={[s.content, { paddingBottom: 60 }]}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+            colors={[colors.primary]}
+            tintColor={colors.primary}
+          />
+        }
         ListHeaderComponent={
           <View style={s.subHeader}>
             <Text style={s.subTitle}>
@@ -58,6 +78,7 @@ export default function Wishlist() {
             <Text style={s.emptySub}>
               Tap the heart icon on any floral arrangement to save it here for later.
             </Text>
+
             <Pressable style={s.shopBtn} onPress={() => router.push('/(tabs)/shop')}>
               <Text style={s.shopBtnText}>Browse collection</Text>
             </Pressable>

@@ -40,19 +40,24 @@ export default function Checkout() {
   const [busy, setBusy] = useState(false);
   const [showGoogleModal, setShowGoogleModal] = useState(false);
 
+  const [storedUser, setStoredUser] = useState<User | null>(null);
+
   useEffect(() => {
     getStoredUser<User>().then((u) => {
       if (u) {
+        setStoredUser(u);
+        if (!currentUser) useStore.getState().setUser(u);
         if (!name && u.name) setName(u.name);
         if (!phone && u.phone) setPhone(u.phone);
       }
     });
-  }, []);
+  }, [currentUser]);
 
   const total = cartTotal(cart);
 
   const handlePlaceOrder = async () => {
-    if (!currentUser) {
+    const activeUser = currentUser || storedUser || (await getStoredUser<User>());
+    if (!activeUser) {
       Alert.alert(
         'Sign In Required',
         'Only logged-in customers can place orders. Sign in to link your floral order and receive live delivery tracking.',
