@@ -44,3 +44,8 @@ backend/uploads/
 backend/uploads/**
 frontend/public/uploads/
 
+# Mobile Expo & Android local builds
+.expo/
+**/.expo/
+mobile/android/
+mobile/ios/

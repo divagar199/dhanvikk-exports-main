@@ -1,1 +1,490 @@
-import {useState} from 'react';import {Alert,KeyboardAvoidingView,Platform,Pressable,ScrollView,StyleSheet,Text,TextInput} from 'react-native';import {router} from 'expo-router';import {colors,radius,spacing} from '@/constants/theme';import {cartTotal,useStore} from '@/store/useStore';import {createRazorpayOrder,verifyPayment} from '@/services/payments';import {createOrder} from '@/services/orders';import {getStoredUser} from '@/lib/storage';import type {User} from '@/types/models';import RazorpayCheckout from 'react-native-razorpay';export default function Checkout(){const cart=useStore(s=>s.cart),clear=useStore(s=>s.clear);const[name,setName]=useState(''),[phone,setPhone]=useState(''),[street,setStreet]=useState(''),[city,setCity]=useState(''),[state,setState]=useState('Tamil Nadu'),[date,setDate]=useState(new Date().toISOString().slice(0,10)),[busy,setBusy]=useState(false);const total=cartTotal(cart);const pay=async()=>{if(!cart.length)return Alert.alert('Your bag is empty');if(!name||!phone||!street||!city)return Alert.alert('Delivery details','Please complete your delivery address.');setBusy(true);try{const user=await getStoredUser<User>();const rp=await createRazorpayOrder(total,'INR');const result=await RazorpayCheckout.open({key:rp.keyId,amount:rp.order.amount,currency:rp.order.currency,name:'Dhanvikk Blooms',description:'Fresh flowers and gifts',order_id:rp.order.id,prefill:{name:name||user?.name||'',email:user?.email||'',contact:phone},theme:{color:colors.primary}});await verifyPayment({razorpay_order_id:result.razorpay_order_id,razorpay_payment_id:result.razorpay_payment_id,razorpay_signature:result.razorpay_signature});const order=await createOrder({items:cart,shippingAddress:{recipientName:name,fullName:name,phone,street,city,state,country:'India'},deliveryDate:date,timeSlot:'Standard (9 AM - 1 PM)',greetingCardMessage:'',subtotal:total,deliveryFee:0,totalAmount:total,paymentInfo:{method:'razorpay',status:'Paid',razorpayOrderId:result.razorpay_order_id,razorpayPaymentId:result.razorpay_payment_id,razorpaySignature:result.razorpay_signature}});clear();router.replace('/orders');Alert.alert('Order confirmed',order.order?.orderId||'Your Dhanvikk order is confirmed.')}catch(e:any){if(!String(e?.description||e?.message||'').toLowerCase().includes('cancel'))Alert.alert('Payment failed',e?.description||e?.message||'Please try again.')}finally{setBusy(false)}};return <KeyboardAvoidingView style={s.page} behavior={Platform.OS==='ios'?'padding':undefined}><ScrollView contentContainerStyle={s.content}><Text style={s.title}>Checkout</Text><Text style={s.sub}>Delivery details</Text><TextInput style={s.input} placeholder="Recipient name" value={name} onChangeText={setName}/><TextInput style={s.input} placeholder="Phone" value={phone} onChangeText={setPhone} keyboardType="phone-pad"/><TextInput style={s.input} placeholder="Street address" value={street} onChangeText={setStreet}/><TextInput style={s.input} placeholder="City" value={city} onChangeText={setCity}/><TextInput style={s.input} placeholder="State" value={state} onChangeText={setState}/><TextInput style={s.input} placeholder="Delivery date (YYYY-MM-DD)" value={date} onChangeText={setDate}/><Text style={s.total}>₹{total.toLocaleString('en-IN')}</Text><Text style={s.note}>Secure payment is handled by the native Razorpay checkout. Your order is created only after signature verification.</Text><Pressable style={s.button} onPress={pay} disabled={busy}><Text style={s.buttonText}>{busy?'Processing…':'Pay securely with Razorpay'}</Text></Pressable></ScrollView></KeyboardAvoidingView>}const s=StyleSheet.create({page:{flex:1,backgroundColor:colors.background},content:{padding:spacing.lg,paddingBottom:50},title:{fontSize:31,fontWeight:'900',color:colors.ink,marginTop:12},sub:{fontWeight:'800',fontSize:17,color:colors.ink,marginVertical:18},input:{height:52,borderRadius:radius.md,backgroundColor:colors.white,borderWidth:1,borderColor:colors.line,paddingHorizontal:15,marginBottom:10},total:{fontSize:28,fontWeight:'900',color:colors.primaryDeep,marginTop:10},note:{fontSize:11,lineHeight:17,color:colors.muted,marginTop:7},button:{height:54,borderRadius:27,backgroundColor:colors.primary,alignItems:'center',justifyContent:'center',marginTop:18},buttonText:{color:colors.white,fontWeight:'900'}});
+import { useEffect, useState } from 'react';
+import {
+  Alert,
+  KeyboardAvoidingView,
+  Platform,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from 'react-native';
+import { router } from 'expo-router';
+import { Ionicons } from '@expo/vector-icons';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { colors, radius, spacing } from '@/constants/theme';
+import { cartTotal, useStore } from '@/store/useStore';
+import { createRazorpayOrder, verifyPayment } from '@/services/payments';
+import { createOrder } from '@/services/orders';
+import { getStoredUser } from '@/lib/storage';
+import type { User } from '@/types/models';
+import RazorpayCheckout from 'react-native-razorpay';
+
+export default function Checkout() {
+  const insets = useSafeAreaInsets();
+  const cart = useStore((s) => s.cart);
+  const clear = useStore((s) => s.clear);
+  const currentUser = useStore((s) => s.user);
+
+  const [name, setName] = useState(currentUser?.name || '');
+  const [phone, setPhone] = useState(currentUser?.phone || '');
+  const [street, setStreet] = useState('');
+  const [city, setCity] = useState('Chennai');
+  const [state, setState] = useState('Tamil Nadu');
+  const [pincode, setPincode] = useState('600001');
+  const [date, setDate] = useState(new Date().toISOString().slice(0, 10));
+  const [paymentMethod, setPaymentMethod] = useState<'razorpay' | 'cod'>('razorpay');
+  const [busy, setBusy] = useState(false);
+
+  useEffect(() => {
+    getStoredUser<User>().then((u) => {
+      if (u) {
+        if (!name && u.name) setName(u.name);
+        if (!phone && u.phone) setPhone(u.phone);
+      }
+    });
+  }, []);
+
+  const total = cartTotal(cart);
+
+  const handlePlaceOrder = async () => {
+    if (!cart.length) {
+      Alert.alert('Empty Bag', 'Please add blooms to your bag before checking out.');
+      return;
+    }
+    if (!name.trim() || !phone.trim() || !street.trim() || !city.trim()) {
+      Alert.alert('Missing Details', 'Please enter your recipient name, phone, street address, and city.');
+      return;
+    }
+
+    setBusy(true);
+
+    try {
+      const user = await getStoredUser<User>();
+
+      if (paymentMethod === 'razorpay') {
+        let razorpayResult: any = null;
+        try {
+          const rp = await createRazorpayOrder(total, 'INR');
+          razorpayResult = await RazorpayCheckout.open({
+            key: rp.keyId,
+            amount: rp.order.amount,
+            currency: rp.order.currency,
+            name: 'Dhanvikk Blooms',
+            description: 'Fresh flowers and gifts',
+            order_id: rp.order.id,
+            prefill: {
+              name: name || user?.name || '',
+              email: user?.email || 'customer@dhanvikk.com',
+              contact: phone,
+            },
+            theme: { color: colors.primary },
+          });
+
+          await verifyPayment({
+            razorpay_order_id: razorpayResult.razorpay_order_id,
+            razorpay_payment_id: razorpayResult.razorpay_payment_id,
+            razorpay_signature: razorpayResult.razorpay_signature,
+          });
+        } catch (paymentErr: any) {
+          const errStr = String(paymentErr?.description || paymentErr?.message || '').toLowerCase();
+          if (errStr.includes('cancel')) {
+            setBusy(false);
+            return;
+          }
+          // If native Razorpay module fails on device/emulator, offer direct order confirmation
+          Alert.alert(
+            'Online Payment Notice',
+            'Razorpay payment was not completed. Would you like to confirm this order with Cash on Delivery instead?',
+            [
+              { text: 'Cancel', style: 'cancel', onPress: () => setBusy(false) },
+              {
+                text: 'Pay on Delivery',
+                onPress: () => confirmOrderDirect('Cash on Delivery', 'Pending'),
+              },
+            ]
+          );
+          return;
+        }
+
+        await confirmOrderDirect('Razorpay', 'Paid', razorpayResult);
+      } else {
+        await confirmOrderDirect('Cash on Delivery', 'Pending');
+      }
+    } catch (e: any) {
+      Alert.alert('Order Failed', e.message || 'Unable to place order. Please check your network connection.');
+      setBusy(false);
+    }
+  };
+
+  const confirmOrderDirect = async (
+    method: string,
+    status: string,
+    razorpayData?: any
+  ) => {
+    try {
+      const orderRes = await createOrder({
+        items: cart,
+        shippingAddress: {
+          recipientName: name,
+          fullName: name,
+          phone,
+          street,
+          streetAddress: street,
+          city,
+          state,
+          postalCode: pincode,
+          country: 'India',
+        },
+        deliveryDate: date,
+        timeSlot: 'Standard (9 AM - 1 PM)',
+        greetingCardMessage: '',
+        subtotal: total,
+        deliveryFee: 0,
+        totalAmount: total,
+        paymentInfo: {
+          method,
+          status,
+          razorpayOrderId: razorpayData?.razorpay_order_id,
+          razorpayPaymentId: razorpayData?.razorpay_payment_id,
+          razorpaySignature: razorpayData?.razorpay_signature,
+        },
+      });
+
+      clear();
+      Alert.alert(
+        'Order Confirmed! 🎉',
+        `Your order #${orderRes.order?.orderId || 'DHN-CONFIRMED'} has been received.`,
+        [
+          {
+            text: 'View Orders',
+            onPress: () => router.replace('/orders'),
+          },
+        ]
+      );
+    } catch (err: any) {
+      Alert.alert('Checkout Error', err.message || 'Could not complete order.');
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  return (
+    <View style={[s.page, { paddingTop: Math.max(insets.top, 12) }]}>
+      <View style={s.header}>
+        <Pressable
+          style={s.backBtn}
+          onPress={() => (router.canGoBack() ? router.back() : router.replace('/(tabs)/cart'))}
+        >
+          <Ionicons name="arrow-back" size={22} color={colors.ink} />
+        </Pressable>
+        <Text style={s.headerTitle}>Checkout</Text>
+        <View style={{ width: 38 }} />
+      </View>
+
+      <KeyboardAvoidingView
+        style={{ flex: 1 }}
+        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+      >
+        <ScrollView
+          contentContainerStyle={[
+            s.content,
+            { paddingBottom: Math.max(insets.bottom, 24) + 60 },
+          ]}
+        >
+          <Text style={s.sectionTitle}>Delivery Details</Text>
+
+          <View style={s.card}>
+            <Text style={s.inputLabel}>Recipient Name *</Text>
+            <TextInput
+              style={s.input}
+              placeholder="e.g. Priya Sharma"
+              placeholderTextColor={colors.muted}
+              value={name}
+              onChangeText={setName}
+            />
+
+            <Text style={s.inputLabel}>Phone Number *</Text>
+            <TextInput
+              style={s.input}
+              placeholder="e.g. 9876543210"
+              placeholderTextColor={colors.muted}
+              value={phone}
+              onChangeText={setPhone}
+              keyboardType="phone-pad"
+            />
+
+            <Text style={s.inputLabel}>Street / Building / Flat *</Text>
+            <TextInput
+              style={s.input}
+              placeholder="e.g. 42 Rose Garden Avenue, Flat 3B"
+              placeholderTextColor={colors.muted}
+              value={street}
+              onChangeText={setStreet}
+            />
+
+            <View style={s.row}>
+              <View style={{ flex: 1, marginRight: 8 }}>
+                <Text style={s.inputLabel}>City *</Text>
+                <TextInput
+                  style={s.input}
+                  placeholder="City"
+                  placeholderTextColor={colors.muted}
+                  value={city}
+                  onChangeText={setCity}
+                />
+              </View>
+              <View style={{ flex: 1, marginLeft: 8 }}>
+                <Text style={s.inputLabel}>State</Text>
+                <TextInput
+                  style={s.input}
+                  placeholder="State"
+                  placeholderTextColor={colors.muted}
+                  value={state}
+                  onChangeText={setState}
+                />
+              </View>
+            </View>
+
+            <View style={s.row}>
+              <View style={{ flex: 1, marginRight: 8 }}>
+                <Text style={s.inputLabel}>PIN Code</Text>
+                <TextInput
+                  style={s.input}
+                  placeholder="PIN"
+                  placeholderTextColor={colors.muted}
+                  value={pincode}
+                  onChangeText={setPincode}
+                  keyboardType="number-pad"
+                />
+              </View>
+              <View style={{ flex: 1, marginLeft: 8 }}>
+                <Text style={s.inputLabel}>Delivery Date</Text>
+                <TextInput
+                  style={s.input}
+                  placeholder="YYYY-MM-DD"
+                  placeholderTextColor={colors.muted}
+                  value={date}
+                  onChangeText={setDate}
+                />
+              </View>
+            </View>
+          </View>
+
+          <Text style={s.sectionTitle}>Payment Method</Text>
+
+          <View style={s.card}>
+            <Pressable
+              style={[s.methodOption, paymentMethod === 'razorpay' && s.methodActive]}
+              onPress={() => setPaymentMethod('razorpay')}
+            >
+              <View style={s.radioCircle}>
+                {paymentMethod === 'razorpay' && <View style={s.radioDot} />}
+              </View>
+              <View style={s.methodText}>
+                <Text style={s.methodTitle}>Razorpay (UPI, Cards, NetBanking)</Text>
+                <Text style={s.methodSub}>Secure instant payment via native gateway</Text>
+              </View>
+              <Ionicons name="shield-checkmark" size={20} color={colors.primaryDeep} />
+            </Pressable>
+
+            <View style={s.divider} />
+
+            <Pressable
+              style={[s.methodOption, paymentMethod === 'cod' && s.methodActive]}
+              onPress={() => setPaymentMethod('cod')}
+            >
+              <View style={s.radioCircle}>
+                {paymentMethod === 'cod' && <View style={s.radioDot} />}
+              </View>
+              <View style={s.methodText}>
+                <Text style={s.methodTitle}>Cash on Delivery (COD)</Text>
+                <Text style={s.methodSub}>Pay with cash or UPI upon delivery</Text>
+              </View>
+              <Ionicons name="cash-outline" size={20} color={colors.ink} />
+            </Pressable>
+          </View>
+
+          <View style={s.orderSummary}>
+            <View style={s.summaryRow}>
+              <Text style={s.summaryLabel}>Total Payable</Text>
+              <Text style={s.totalAmount}>₹{total.toLocaleString('en-IN')}</Text>
+            </View>
+            <Text style={s.securityNote}>
+              🔒 Guaranteed fresh florals backed by Dhanvikk Quality Promise.
+            </Text>
+            <Pressable
+              style={[s.payButton, busy && s.payButtonDisabled]}
+              onPress={handlePlaceOrder}
+              disabled={busy}
+            >
+              <Text style={s.payButtonText}>
+                {busy
+                  ? 'Processing Order…'
+                  : paymentMethod === 'razorpay'
+                  ? `Pay ₹${total.toLocaleString('en-IN')} with Razorpay`
+                  : `Confirm Order (₹${total.toLocaleString('en-IN')})`}
+              </Text>
+            </Pressable>
+          </View>
+        </ScrollView>
+      </KeyboardAvoidingView>
+    </View>
+  );
+}
+
+const s = StyleSheet.create({
+  page: {
+    flex: 1,
+    backgroundColor: colors.background,
+  },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: spacing.md,
+    paddingVertical: 10,
+    backgroundColor: colors.white,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.line,
+  },
+  backBtn: {
+    width: 38,
+    height: 38,
+    borderRadius: 19,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  headerTitle: {
+    fontSize: 18,
+    fontWeight: '900',
+    color: colors.ink,
+  },
+  content: {
+    padding: spacing.lg,
+  },
+  sectionTitle: {
+    fontSize: 15,
+    fontWeight: '900',
+    color: colors.ink,
+    marginTop: 12,
+    marginBottom: 10,
+    textTransform: 'uppercase',
+    letterSpacing: 0.5,
+  },
+  card: {
+    backgroundColor: colors.white,
+    borderRadius: radius.md,
+    padding: 16,
+    borderWidth: 1,
+    borderColor: colors.line,
+    marginBottom: 14,
+  },
+  inputLabel: {
+    fontSize: 12,
+    fontWeight: '700',
+    color: colors.ink,
+    marginBottom: 5,
+  },
+  input: {
+    height: 48,
+    borderRadius: radius.sm,
+    backgroundColor: colors.pale,
+    borderWidth: 1,
+    borderColor: colors.line,
+    paddingHorizontal: 14,
+    fontSize: 14,
+    color: colors.ink,
+    marginBottom: 12,
+  },
+  row: {
+    flexDirection: 'row',
+  },
+  methodOption: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 10,
+  },
+  methodActive: {
+    opacity: 1,
+  },
+  radioCircle: {
+    width: 20,
+    height: 20,
+    borderRadius: 10,
+    borderWidth: 2,
+    borderColor: colors.primary,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: 12,
+  },
+  radioDot: {
+    width: 10,
+    height: 10,
+    borderRadius: 5,
+    backgroundColor: colors.primary,
+  },
+  methodText: {
+    flex: 1,
+  },
+  methodTitle: {
+    fontSize: 14,
+    fontWeight: '800',
+    color: colors.ink,
+  },
+  methodSub: {
+    fontSize: 11,
+    color: colors.muted,
+    marginTop: 2,
+  },
+  divider: {
+    height: 1,
+    backgroundColor: colors.line,
+    marginVertical: 10,
+  },
+  orderSummary: {
+    backgroundColor: colors.white,
+    borderRadius: radius.lg,
+    padding: 18,
+    borderWidth: 1,
+    borderColor: colors.line,
+    marginTop: 4,
+  },
+  summaryRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  summaryLabel: {
+    fontSize: 16,
+    fontWeight: '800',
+    color: colors.ink,
+  },
+  totalAmount: {
+    fontSize: 24,
+    fontWeight: '900',
+    color: colors.primaryDeep,
+  },
+  securityNote: {
+    fontSize: 12,
+    color: colors.muted,
+    marginVertical: 12,
+    lineHeight: 18,
+  },
+  payButton: {
+    height: 52,
+    borderRadius: 26,
+    backgroundColor: colors.primary,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  payButtonDisabled: {
+    opacity: 0.6,
+  },
+  payButtonText: {
+    color: colors.white,
+    fontWeight: '900',
+    fontSize: 15,
+  },
+});
