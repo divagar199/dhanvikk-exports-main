@@ -1,16 +1,14 @@
-import React, { lazy, Suspense, useEffect } from 'react';
+import React, { lazy, Suspense } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import { Provider, useDispatch } from 'react-redux';
+import { Provider } from 'react-redux';
 import { HelmetProvider } from 'react-helmet-async';
-import { Toaster, toast } from 'sonner';
+import { Toaster } from 'sonner';
 import { store } from './store';
-import { setCredentials } from './store/slices/authSlice';
 import { CurrencyProvider } from './context/CurrencyContext';
 import ProtectedRoute from './components/routes/ProtectedRoute';
 import RoleRoute from './components/routes/RoleRoute';
 import AdminEntryRoute from './components/routes/AdminEntryRoute';
 import Spinner from './components/common/Spinner';
-import { onForegroundMessageListener } from './config/firebase';
 
 // Lazy-loaded routes for performance & fast LCP
 const Home = lazy(() => import('./pages/home/HomePage'));
@@ -41,66 +39,12 @@ function RouteFallback() {
   );
 }
 
-function FirebaseAuthWatcher() {
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    let unsubscribe = null;
-    (async () => {
-      try {
-        const { auth, onAuthStateChanged } = await import('./config/firebase');
-        unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
-          if (!firebaseUser) return;
-          const isLoggedOut =
-            typeof window !== 'undefined' && sessionStorage.getItem('dhanvikk_logged_out') === 'true';
-          if (isLoggedOut) return;
-
-          try {
-            const token = await firebaseUser.getIdToken();
-            const cleanEmail = firebaseUser.email || '';
-            const name = firebaseUser.displayName || (cleanEmail ? cleanEmail.split('@')[0] : 'Google Customer');
-            const avatar = firebaseUser.photoURL || (cleanEmail ? `https://unavatar.io/google/${encodeURIComponent(cleanEmail)}` : '');
-
-            const userObj = {
-              id: firebaseUser.uid,
-              name,
-              email: cleanEmail,
-              avatar,
-              role: 'customer',
-            };
-
-            dispatch(setCredentials({ user: userObj, token }));
-          } catch {}
-        });
-      } catch {}
-    })();
-
-    return () => {
-      if (unsubscribe) unsubscribe();
-    };
-  }, [dispatch]);
-
-  return null;
-}
-
 export default function App() {
-  useEffect(() => {
-    onForegroundMessageListener((payload) => {
-      const title = payload.notification?.title || payload.data?.title || 'Dhanvikk Blooms Update';
-      const body = payload.notification?.body || payload.data?.body || 'New order status notification.';
-      toast.info(title, {
-        description: body,
-      });
-    });
-  }, []);
-
   return (
     <Provider store={store}>
       <CurrencyProvider>
         <HelmetProvider>
           <BrowserRouter>
-            <FirebaseAuthWatcher />
-
           {/* Sonner Toast Notifications */}
           <Toaster
             position="top-center"

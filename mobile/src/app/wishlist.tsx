@@ -1,116 +1,149 @@
-import React from 'react';
-import {
-  View,
-  ScrollView,
-  TouchableOpacity,
-  StyleSheet,
-} from 'react-native';
-import { useRouter } from 'expo-router';
-import { ArrowLeft } from 'lucide-react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { Colors, Spacing } from '../theme';
-import { AppText } from '../components/AppText';
-import { ProductCard } from '../components/ProductCard';
-import { EmptyState } from '../components/EmptyState';
-import { useWishlistStore } from '../store/wishlistStore';
-import { useResponsive } from '../hooks/useResponsive';
-import { Product } from '../types';
+import { FlatList, Pressable, StyleSheet, Text, View } from 'react-native';
+import { router } from 'expo-router';
+import { Ionicons } from '@expo/vector-icons';
+import { useQuery } from '@tanstack/react-query';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useStore } from '@/store/useStore';
+import { getProducts } from '@/services/products';
+import { ProductCard } from '@/components/ProductCard';
+import { colors, spacing } from '@/constants/theme';
+import type { Product } from '@/types/models';
 
-export default function WishlistScreen() {
-  const router = useRouter();
-  const { items } = useWishlistStore();
-  const { gridItemWidth } = useResponsive();
+export default function Wishlist() {
+  const insets = useSafeAreaInsets();
+  const wishlistIds = useStore((s) => s.wishlist);
 
-  const handleProductPress = (product: Product) => {
-    router.push({
-      pathname: '/product/[id]',
-      params: { id: product.id || product._id || product.slug },
-    });
-  };
+  const { data = [], isLoading } = useQuery<Product[]>({
+    queryKey: ['products-all'],
+    queryFn: () => getProducts({ limit: 100 }),
+  });
+
+  const savedProducts = data.filter((p) => {
+    const id = p.id || p._id || p.slug;
+    return wishlistIds.includes(id);
+  });
 
   return (
-    <SafeAreaView style={styles.safeArea} edges={['top']}>
-      {/* Header */}
-      <View style={styles.header}>
-        <TouchableOpacity
-          onPress={() => router.back()}
-          style={styles.backButton}
-          accessibilityLabel="Go back"
+    <View style={[s.page, { paddingTop: Math.max(insets.top, 12) }]}>
+      <View style={s.header}>
+        <Pressable
+          style={s.backBtn}
+          onPress={() => (router.canGoBack() ? router.back() : router.replace('/(tabs)/account'))}
         >
-          <ArrowLeft size={22} color={Colors.text} />
-        </TouchableOpacity>
-
-        <View style={styles.headerTitleContainer}>
-          <AppText variant="h1" color={Colors.text}>
-            Saved Blooms
-          </AppText>
-          <AppText variant="bodySm" color={Colors.textSecondary}>
-            {items.length} {items.length === 1 ? 'favourite' : 'favourites'}
-          </AppText>
-        </View>
+          <Ionicons name="arrow-back" size={22} color={colors.ink} />
+        </Pressable>
+        <Text style={s.headerTitle}>Saved Blooms</Text>
+        <View style={{ width: 38 }} />
       </View>
 
-      {items.length === 0 ? (
-        <EmptyState
-          title="Your collection is waiting"
-          description="Save the blooms that speak to you by tapping the heart icon on any luxury arrangement."
-          actionTitle="Explore the floral edit"
-          onAction={() => router.push('/(tabs)/shop')}
-        />
-      ) : (
-        <ScrollView
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={styles.scrollContent}
-        >
-          <View style={styles.grid}>
-            {items.map((product) => (
-              <View
-                key={product.id || product._id}
-                style={[styles.gridItem, { width: gridItemWidth }]}
-              >
-                <ProductCard product={product} onPress={handleProductPress} />
-              </View>
-            ))}
+      <FlatList
+        data={savedProducts}
+        numColumns={2}
+        keyExtractor={(p) => p.id || p._id || p.slug}
+        columnWrapperStyle={s.grid}
+        contentContainerStyle={[s.content, { paddingBottom: 60 }]}
+        ListHeaderComponent={
+          <View style={s.subHeader}>
+            <Text style={s.subTitle}>
+              {savedProducts.length} {savedProducts.length === 1 ? 'bloom' : 'blooms'} saved in your wishlist
+            </Text>
           </View>
-        </ScrollView>
-      )}
-    </SafeAreaView>
+        }
+        ListEmptyComponent={
+          <View style={s.empty}>
+            <View style={s.emptyIconCircle}>
+              <Ionicons name="heart-outline" size={44} color={colors.primary} />
+            </View>
+            <Text style={s.emptyTitle}>Your wishlist is empty</Text>
+            <Text style={s.emptySub}>
+              Tap the heart icon on any floral arrangement to save it here for later.
+            </Text>
+            <Pressable style={s.shopBtn} onPress={() => router.push('/(tabs)/shop')}>
+              <Text style={s.shopBtnText}>Browse collection</Text>
+            </Pressable>
+          </View>
+        }
+        renderItem={({ item }) => <ProductCard product={item} />}
+      />
+    </View>
   );
 }
 
-const styles = StyleSheet.create({
-  safeArea: {
+const s = StyleSheet.create({
+  page: {
     flex: 1,
-    backgroundColor: Colors.background,
+    backgroundColor: colors.background,
   },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: Spacing.screenPadding,
-    paddingTop: Spacing.sm,
-    paddingBottom: Spacing.md,
-    gap: 14,
+    justifyContent: 'space-between',
+    paddingHorizontal: spacing.md,
+    paddingVertical: 10,
+    backgroundColor: colors.white,
     borderBottomWidth: 1,
-    borderBottomColor: Colors.border,
+    borderBottomColor: colors.line,
   },
-  backButton: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
+  backBtn: {
+    width: 38,
+    height: 38,
+    borderRadius: 19,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  headerTitleContainer: {
-    flex: 1,
+  headerTitle: {
+    fontSize: 18,
+    fontWeight: '900',
+    color: colors.ink,
   },
-  scrollContent: {
-    padding: Spacing.screenPadding,
-    paddingBottom: 40,
+  subHeader: {
+    marginBottom: 14,
+  },
+  subTitle: {
+    fontSize: 13,
+    color: colors.muted,
+    fontWeight: '600',
+  },
+  content: {
+    padding: spacing.lg,
   },
   grid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: 12,
+    justifyContent: 'space-between',
   },
-  gridItem: {},
+  empty: {
+    alignItems: 'center',
+    paddingVertical: 80,
+  },
+  emptyIconCircle: {
+    width: 76,
+    height: 76,
+    borderRadius: 38,
+    backgroundColor: colors.blush,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 16,
+  },
+  emptyTitle: {
+    fontSize: 18,
+    fontWeight: '900',
+    color: colors.ink,
+    marginBottom: 6,
+  },
+  emptySub: {
+    fontSize: 13,
+    color: colors.muted,
+    textAlign: 'center',
+    paddingHorizontal: 20,
+    marginBottom: 20,
+  },
+  shopBtn: {
+    backgroundColor: colors.primary,
+    borderRadius: 22,
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+  },
+  shopBtnText: {
+    color: colors.white,
+    fontWeight: '900',
+  },
 });

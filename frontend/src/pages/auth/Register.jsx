@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import SEO from '../../components/common/SEO';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'sonner';
 import {
@@ -13,7 +13,6 @@ import {
   Home,
   Briefcase,
   Gift,
-  AlertCircle,
   CheckCircle2,
   ArrowRight,
   ShieldCheck,
@@ -26,7 +25,7 @@ import AuthTrustMessage from '../../components/auth/AuthTrustMessage';
 import AuthBrandPanel from '../../components/auth/AuthBrandPanel';
 import Spinner from '../../components/common/Spinner';
 import { registerUser, loginWithGoogleThunk, clearAuthError } from '../../store/slices/authSlice';
-import { signInWithGoogleFirebase, checkGoogleRedirectResult } from '../../config/firebase';
+import { signInWithGoogleFirebase } from '../../config/firebase';
 
 const COUNTRY_CODES = [
   { code: '+971', country: 'UAE', flag: '🇦🇪' },
@@ -48,39 +47,17 @@ const PRESET_CITIES = {
 export default function Register() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const location = useLocation();
-  const prefillEmail = location.state?.prefillEmail || new URLSearchParams(location.search).get('email') || '';
-  const { isAuthenticated, user, loading: authLoading, error: authError } = useSelector((state) => state.auth);
-
-  const rawFrom =
-    typeof location.state?.from === 'string'
-      ? location.state.from
-      : location.state?.from?.pathname;
-
-  const destination = (rawFrom && rawFrom !== '/login' && rawFrom !== '/register') ? rawFrom : '/';
-
-  // Automatically redirect away from /register if already authenticated
-  React.useEffect(() => {
-    const token =
-      typeof window !== 'undefined'
-        ? localStorage.getItem('dhanvikk_auth_token') || sessionStorage.getItem('dhanvikk_auth_token')
-        : null;
-
-    if (isAuthenticated || (user && token)) {
-      navigate(destination, { replace: true });
-    }
-  }, [isAuthenticated, user, destination, navigate]);
+  const { loading: authLoading, error: authError } = useSelector((state) => state.auth);
 
   // Form states
   const [googleUser, setGoogleUser] = useState(null);
   const [googleLoading, setGoogleLoading] = useState(false);
-  const [popupBlocked, setPopupBlocked] = useState(false);
   const [detectingLocation, setDetectingLocation] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
   const [formData, setFormData] = useState({
     name: '',
-    email: prefillEmail,
+    email: '',
     password: '',
     countryCode: '+971',
     phone: '',
@@ -93,74 +70,14 @@ export default function Register() {
     addressType: 'Primary Residence',
   });
 
-  React.useEffect(() => {
-    if (prefillEmail) {
-      setFormData((prev) => ({
-        ...prev,
-        email: prev.email || prefillEmail,
-      }));
-    }
-  }, [prefillEmail]);
-
   const [formErrors, setFormErrors] = useState({});
 
-  // Check if returning from Google Redirect
-  React.useEffect(() => {
-    let isMounted = true;
-    (async () => {
-      try {
-        const res = await checkGoogleRedirectResult();
-        if (res?.user && isMounted) {
-          setGoogleUser(res.user);
-          setFormData((prev) => ({
-            ...prev,
-            name: prev.name || res.user.name || '',
-            email: res.user.email || prev.email,
-          }));
-          const actionResult = await dispatch(
-            loginWithGoogleThunk({
-              googleUid: res.user.id,
-              name: res.user.name,
-              email: res.user.email,
-              avatar: res.user.avatar,
-              phone: res.user.phone || '',
-              isNewRegistration: true,
-            })
-          );
-          if (loginWithGoogleThunk.fulfilled.match(actionResult)) {
-            toast.success(`🌸 Welcome to Dhanvikk Blooms, ${res.user.name || 'Valued Customer'}!`);
-            navigate(destination, { replace: true });
-          }
-        }
-      } catch (e) {
-        console.warn('Register redirect check note:', e);
-      }
-    })();
-    return () => { isMounted = false; };
-  }, [dispatch, destination, navigate]);
-
-  // Fast Google Sign-In & Registration on Create Account page
+  // Fast Google Sign-In on Create Account page
   const handleGooglePreFill = async () => {
     dispatch(clearAuthError());
     setGoogleLoading(true);
     try {
       const fbRes = await signInWithGoogleFirebase();
-      if (fbRes?.redirecting) {
-        toast.info('Opening Google sign-in...');
-        return;
-      }
-      if (fbRes?.canceled) {
-        setGoogleLoading(false);
-        return;
-      }
-      if (fbRes?.popupBlocked) {
-        setPopupBlocked(true);
-        setGoogleLoading(false);
-        toast.warning('Google sign-in popup was blocked by browser. Please allow popups or click below for full-page sign-in.', {
-          duration: 7000,
-        });
-        return;
-      }
       if (fbRes?.user) {
         setGoogleUser(fbRes.user);
         setFormData((prev) => ({
@@ -168,62 +85,18 @@ export default function Register() {
           name: prev.name || fbRes.user.name || '',
           email: fbRes.user.email || prev.email,
         }));
-
-        // Immediately complete Google Sign Up & Login
-        const actionResult = await dispatch(
-          loginWithGoogleThunk({
-            googleUid: fbRes.user.id,
-            name: fbRes.user.name,
-            email: fbRes.user.email,
-            avatar: fbRes.user.avatar,
-            phone: fbRes.user.phone || '',
-            isNewRegistration: true,
-          })
-        );
-
-        if (loginWithGoogleThunk.fulfilled.match(actionResult)) {
-          toast.success(`🌸 Welcome to Dhanvikk Blooms, ${fbRes.user.name || 'Valued Customer'}!`);
-          navigate(destination, { replace: true });
-          return;
-        } else {
-          const errMsg = actionResult.payload || 'Google sign-up could not be completed.';
-          if (errMsg.includes('popup was blocked')) {
-            setPopupBlocked(true);
-            toast.warning(errMsg, { duration: 7000 });
-          } else {
-            toast.error(errMsg);
-          }
-        }
+        toast.success(`Google Account Connected: ${fbRes.user.name || fbRes.user.email} 🌸`);
       }
     } catch (err) {
       console.warn('Google pre-fill notice:', err);
       if (err.code === 'auth/popup-closed-by-user' || err.code === 'auth/cancelled-popup-request') {
         toast.info('Google sign-in was canceled.');
-      } else if (err.code === 'auth/popup-blocked' || (typeof err === 'string' && err.includes('popup was blocked'))) {
-        setPopupBlocked(true);
-        setGoogleLoading(false);
-        toast.warning('Google sign-in popup was blocked by browser. Please allow popups or click below for full-page sign-in.', {
-          duration: 7000,
-        });
-        return;
+      } else if (err.code === 'auth/popup-blocked') {
+        toast.error('Google sign-in popup was blocked by your browser. Please allow popups.');
       } else {
         toast.error(err?.message || 'Google connection could not be opened. You can enter details manually.');
       }
     } finally {
-      setGoogleLoading(false);
-    }
-  };
-
-  const handleGoogleRedirectSignUp = async () => {
-    dispatch(clearAuthError());
-    setPopupBlocked(false);
-    setGoogleLoading(true);
-    toast.info('Opening full-page Google sign-in...');
-    try {
-      const { signInWithGoogleRedirectFirebase } = await import('../../config/firebase');
-      await signInWithGoogleRedirectFirebase();
-    } catch {
-      toast.error('Could not initiate Google sign-in redirect.');
       setGoogleLoading(false);
     }
   };
@@ -342,7 +215,7 @@ export default function Register() {
         loginWithGoogleThunk.fulfilled.match(actionResult)
       ) {
         toast.success('🌸 Welcome to Dhanvikk Blooms! Account created.');
-        navigate(destination, { replace: true });
+        navigate('/account');
       } else {
         toast.error(actionResult.payload || 'Account creation failed. Please check your inputs.');
       }
@@ -384,31 +257,6 @@ export default function Register() {
 
             {/* Google 1-Click Sign-Up Button */}
             <div className="mb-4">
-              {(popupBlocked || (authError && authError.includes('popup was blocked'))) && (
-                <div className="mb-3.5 p-3.5 rounded-2xl bg-amber-50/95 border border-amber-200/90 flex flex-col gap-2.5 shadow-xs animate-in fade-in slide-in-from-top-1 duration-200">
-                  <div className="flex items-start gap-2.5">
-                    <AlertCircle className="w-4 h-4 text-amber-600 mt-0.5 flex-shrink-0" />
-                    <div className="flex-1">
-                      <p className="text-xs font-semibold text-amber-900 leading-snug">
-                        Google sign-in popup was blocked by browser.
-                      </p>
-                      <p className="text-[11.5px] text-amber-800 mt-0.5 leading-relaxed">
-                        Please allow popups or click below for full-page sign-in:
-                      </p>
-                    </div>
-                  </div>
-                  <button
-                    type="button"
-                    onClick={handleGoogleRedirectSignUp}
-                    disabled={googleLoading}
-                    className="w-full py-2.5 px-3 rounded-xl bg-[#4285F4] hover:bg-[#3367D6] text-white font-semibold text-xs transition-all flex items-center justify-center gap-2 shadow-xs active:scale-[0.99] cursor-pointer"
-                  >
-                    <span>Continue with Full-Page Sign-In</span>
-                    <ArrowRight className="w-3.5 h-3.5" />
-                  </button>
-                </div>
-              )}
-
               {googleUser ? (
                 <div className="flex items-center justify-between p-3 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-800">
                   <div className="flex items-center gap-2.5">
@@ -416,9 +264,7 @@ export default function Register() {
                       <img
                         src={googleUser.avatar}
                         alt={`${googleUser.name || 'User'} Google Profile Avatar`}
-                        width="32"
-                        height="32"
-                        className="w-8 h-8 aspect-square rounded-full border border-emerald-300 object-cover"
+                        className="w-8 h-8 rounded-full border border-emerald-300 object-cover"
                         loading="lazy"
                         decoding="async"
                       />

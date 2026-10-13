@@ -897,9 +897,7 @@ export default function CategoryPage() {
                             <img
                               src={displayImage}
                               alt={`${product.name} - Handcrafted ${product.category || 'Luxury Floristry'} | Dhanvikk Blooms`}
-                              width="400"
-                              height="300"
-                              className="luxury-image-zoom w-full h-full aspect-[4/3] object-cover"
+                              className="luxury-image-zoom w-full h-full object-cover"
                               loading="lazy"
                               decoding="async"
                             />

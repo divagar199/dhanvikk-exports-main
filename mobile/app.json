@@ -4,33 +4,51 @@
     "slug": "dhanvikk-blooms",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/logo.png",
     "scheme": "dhanvikk",
     "userInterfaceStyle": "light",
-    "backgroundColor": "#FFFAFC",
-    "ios": {
-      "supportsTablet": true,
-      "bundleIdentifier": "com.dhanvikk.blooms"
-    },
-    "android": {
-      "backgroundColor": "#FFFAFC",
-      "package": "com.dhanvikk.blooms",
-      "googleServicesFile": "./google-services.json",
-      "adaptiveIcon": {
-        "backgroundColor": "#FFF3F6",
-        "foregroundImage": "./assets/images/logo.png"
-      },
-      "predictiveBackGestureEnabled": true
-    },
-    "web": {
-      "output": "single",
-      "favicon": "./assets/images/logo.png"
+    "icon": "./assets/logo.png",
+    "splash": {
+      "image": "./assets/logo.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#FFFFFF"
     },
     "plugins": [
-      "expo-router"
+      "expo-router",
+      [
+        "expo-location",
+        {
+          "locationWhenInUsePermission": "Dhanvikk uses your location to help select a delivery destination."
+        }
+      ],
+      [
+        "expo-notifications",
+        {
+          "color": "#E91E63"
+        }
+      ]
     ],
-    "experiments": {
-      "typedRoutes": false
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.dhanvikk.blooms",
+      "infoPlist": {
+        "NSLocationWhenInUseUsageDescription": "Dhanvikk uses your location to help select a delivery destination.",
+        "LSApplicationQueriesSchemes": [
+          "tez",
+          "phonepe",
+          "paytmmp"
+        ]
+      }
+    },
+    "android": {
+      "package": "com.dhanvikk.blooms",
+      "permissions": [
+        "ACCESS_COARSE_LOCATION",
+        "ACCESS_FINE_LOCATION",
+        "POST_NOTIFICATIONS"
+      ]
+    },
+    "extra": {
+      "apiUrl": "https://dhanvikk-exports-api.onrender.com"
     }
   }
 }

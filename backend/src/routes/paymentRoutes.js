@@ -1,17 +1,10 @@
 import express from 'express';
-import {
-  createRazorpayOrder,
-  verifyRazorpayPayment,
-} from '../controllers/payment.controller.js';
-import { validate } from '../middleware/validate.js';
-import {
-  createRazorpayOrderSchema,
-  verifyRazorpayPaymentSchema,
-} from '../validators/order.validator.js';
+import { createRazorpayOrder, verifyRazorpayPayment } from '../controllers/paymentController.js';
+import { protect } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
 
-router.post('/create-order', validate(createRazorpayOrderSchema), createRazorpayOrder);
-router.post('/verify-payment', validate(verifyRazorpayPaymentSchema), verifyRazorpayPayment);
+router.post('/create-order', protect, createRazorpayOrder);
+router.post('/verify-payment', protect, verifyRazorpayPayment);
 
 export default router;

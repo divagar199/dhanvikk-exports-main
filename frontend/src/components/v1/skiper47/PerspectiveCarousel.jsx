@@ -100,11 +100,8 @@ export function Carousel_001({
                 <img
                   src={getProductImageUrl(item.image)}
                   alt={item.label}
-                  width="380"
-                  height="280"
-                  className="w-full h-full aspect-[380/280] object-cover object-bottom transition-transform duration-700 ease-out group-hover:scale-108"
+                  className="w-full h-full object-cover object-bottom transition-transform duration-700 ease-out group-hover:scale-108"
                   loading="lazy"
-                  decoding="async"
                 />
 
                 {/* Ambient Soft Overlay */}

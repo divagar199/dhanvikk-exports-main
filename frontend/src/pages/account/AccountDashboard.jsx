@@ -3,7 +3,6 @@ import SEO from '../../components/common/SEO';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate, useLocation, useParams, Link, Navigate } from 'react-router-dom';
 import { logoutUser, logoutImmediate, setUserProfile, loginUser, loginWithGoogleThunk } from '../../store/slices/authSlice';
-import { signInWithGoogleFirebase } from '../../config/firebase';
 import { addItem, setUserCart } from '../../store/slices/cartSlice';
 import { removeFromWishlist, setWishlist } from '../../store/slices/wishlistSlice';
 import { useCurrency } from '../../context/CurrencyContext';
@@ -141,41 +140,16 @@ export default function AccountDashboard() {
 
   // Check for session/token verification or load data on account page
   useEffect(() => {
-    const token =
-      typeof window !== 'undefined'
-        ? localStorage.getItem('dhanvikk_auth_token') || sessionStorage.getItem('dhanvikk_auth_token')
-        : null;
-
-    if (isAuthenticated || user || token) {
-      sessionStorage.removeItem('dhanvikk_logged_out');
-    }
-
     const isExplicitlyLoggedOut = sessionStorage.getItem('dhanvikk_logged_out') === 'true';
-    if (isExplicitlyLoggedOut && !isAuthenticated && !token) {
+    if (isExplicitlyLoggedOut) {
       setIsLoading(false);
       return;
     }
-
-    // Check if returning from Google Redirect
-    (async () => {
-      try {
-        const { checkGoogleRedirectResult } = await import('../../config/firebase');
-        const res = await checkGoogleRedirectResult();
-        if (res?.user) {
-          sessionStorage.removeItem('dhanvikk_logged_out');
-          await dispatch(loginWithGoogleThunk(res.user));
-          return;
-        }
-      } catch (e) {
-        console.warn('Account redirect check note:', e);
-      }
-    })();
-
     const params = new URLSearchParams(location.search);
     const key = encryptedKey || params.get('portalKey') || params.get('key');
     if (key) {
       handlePortalVerification(key);
-    } else if (isAuthenticated || token) {
+    } else if (isAuthenticated) {
       loadUserData();
     } else {
       setIsLoading(false);
@@ -276,44 +250,14 @@ export default function AccountDashboard() {
     try {
       setAuthSubmitting(true);
       sessionStorage.removeItem('dhanvikk_logged_out');
-      // Direct invocation preserves active user gesture
-      const fbRes = await signInWithGoogleFirebase();
-      if (fbRes?.redirecting) {
-        toast.info('Opening Google sign-in...');
-        return;
-      }
-      if (fbRes?.canceled) {
-        setAuthSubmitting(false);
-        return;
-      }
-      if (fbRes?.popupBlocked) {
-        toast.warning('Google sign-in popup was blocked by browser. Please allow popups or click below for full-page sign-in.', {
-          duration: 7000,
-        });
-        return;
-      }
-      if (!fbRes?.user) {
-        setAuthSubmitting(false);
-        return;
-      }
-
-      const res = await dispatch(loginWithGoogleThunk(fbRes)).unwrap();
-      if (res?.redirecting) {
-        toast.info('Opening Google sign-in...');
-        return;
-      }
+      const res = await dispatch(loginWithGoogleThunk()).unwrap();
       toast.success(`Welcome back, ${res.user?.name || res.user?.email || 'Valued Customer'}! 🌸`);
       await loadUserData();
     } catch (err) {
       if (typeof err === 'string' && err.includes('canceled')) {
         toast.info(err);
-      } else if (err?.code === 'auth/popup-blocked' || (typeof err === 'string' && err.includes('popup was blocked'))) {
-        toast.warning('Google sign-in popup was blocked by browser. Please allow popups or click below for full-page sign-in.', {
-          duration: 7000,
-        });
-        return;
       } else {
-        toast.error(err?.message || err || 'Google sign-in could not be completed.');
+        toast.error(err || 'Google sign-in could not be completed.');
       }
     } finally {
       setAuthSubmitting(false);
@@ -441,12 +385,7 @@ export default function AccountDashboard() {
   }
 
   const activeUser = user || profileData;
-  const token =
-    typeof window !== 'undefined'
-      ? localStorage.getItem('dhanvikk_auth_token') || sessionStorage.getItem('dhanvikk_auth_token')
-      : null;
-
-  if (!activeUser && !isAuthenticated && !token) {
+  if (!activeUser || !isAuthenticated) {
     return <Navigate to="/login" state={{ from: location }} replace />;
   }
 
@@ -487,14 +426,8 @@ export default function AccountDashboard() {
                 }}
                 className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#FAF7F2] hover:bg-[#F2ECE6] border border-[#E8DFD5] transition-all text-xs"
               >
-                <span className="w-5 h-5 rounded-full bg-[#FFF0F4] border border-[#F2D7DE] text-[#C2185B] flex items-center justify-center text-[10px] font-bold overflow-hidden flex-shrink-0">
-                  {activeUser.avatar ? (
-                    <img src={activeUser.avatar} alt="" width="20" height="20" className="w-full h-full object-cover rounded-full" />
-                  ) : activeUser.name ? (
-                    activeUser.name.charAt(0).toUpperCase()
-                  ) : (
-                    <User className="w-3 h-3" />
-                  )}
+                <span className="w-5 h-5 rounded-full bg-[#FFF0F4] border border-[#F2D7DE] text-[#C2185B] flex items-center justify-center text-[10px] font-bold">
+                  {activeUser.name ? activeUser.name.charAt(0).toUpperCase() : <User className="w-3 h-3" />}
                 </span>
                 <span className="font-medium text-[#242124] max-w-[100px] sm:max-w-[150px] truncate">
                   {activeUser.name?.split(' ')[0]}
@@ -541,23 +474,10 @@ export default function AccountDashboard() {
               {/* Profile Avatar and Details */}
               <div className="flex items-center gap-5">
                 <div className="relative group flex-shrink-0">
-                  <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-gradient-to-br from-[#FFF0F4] to-[#FAF7F2] border-2 border-[#F2D7DE] flex items-center justify-center shadow-xs overflow-hidden">
-                    {activeUser.avatar ? (
-                      <img
-                        src={activeUser.avatar}
-                        alt={activeUser.name || 'User Avatar'}
-                        width="80"
-                        height="80"
-                        className="w-full h-full object-cover rounded-2xl"
-                        onError={(e) => {
-                          e.target.style.display = 'none';
-                        }}
-                      />
-                    ) : (
-                      <span className="text-2xl sm:text-3xl font-extrabold font-['Poppins'] text-[#C2185B]">
-                        {activeUser.name ? activeUser.name.charAt(0).toUpperCase() : 'D'}
-                      </span>
-                    )}
+                  <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-gradient-to-br from-[#FFF0F4] to-[#FAF7F2] border-2 border-[#F2D7DE] flex items-center justify-center shadow-xs">
+                    <span className="text-2xl sm:text-3xl font-extrabold font-['Poppins'] text-[#C2185B]">
+                      {activeUser.name ? activeUser.name.charAt(0).toUpperCase() : 'D'}
+                    </span>
                   </div>
                   <button
                     onClick={() => {
@@ -857,9 +777,7 @@ export default function AccountDashboard() {
                             <img
                               src={getProductImageUrl(item.image || 'https://images.unsplash.com/photo-1561181286-d3fee7d55364?auto=format&fit=crop&w=400&q=80')}
                               alt={`${item.name} order item`}
-                              width="56"
-                              height="56"
-                              className="w-14 h-14 aspect-square object-cover rounded-xl border border-[#FCC1C5]"
+                              className="w-14 h-14 object-cover rounded-xl border border-[#FCC1C5]"
                               loading="lazy"
                               decoding="async"
                             />
@@ -948,9 +866,7 @@ export default function AccountDashboard() {
                           <img
                             src={getProductImageUrl(item.image)}
                             alt={`${item.name} saved in wishlist`}
-                            width="300"
-                            height="176"
-                            className="w-full h-full aspect-[300/176] object-cover group-hover:scale-105 transition-transform duration-500"
+                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                             loading="lazy"
                             decoding="async"
                           />

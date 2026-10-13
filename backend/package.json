@@ -6,8 +6,7 @@
   "type": "module",
   "scripts": {
     "start": "node server.js",
-    "dev": "node --watch server.js",
-    "test": "node --test tests/**/*.test.js"
+    "dev": "node --watch server.js"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
@@ -23,8 +22,7 @@
     "morgan": "^1.10.0",
     "multer": "^2.4.0",
     "nodemailer": "^10.0.15",
-    "razorpay": "^2.9.8",
-    "zod": "^4.6.6"
+    "razorpay": "^2.9.8"
   },
   "devDependencies": {
     "sharp": "^0.35.5"

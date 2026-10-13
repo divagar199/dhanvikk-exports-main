@@ -18,8 +18,7 @@ async function addDomain(domainToAdd) {
   });
 
   const client = await auth.getClient();
-  const serviceAccount = JSON.parse(await import('fs').then(fs => fs.readFileSync(keyPath, 'utf8')));
-  const projectId = serviceAccount.project_id || 'auth-checker-1-main';
+  const projectId = 'auth-checker-diva';
   const getUrl = `https://identitytoolkit.googleapis.com/v2/projects/${projectId}/config`;
   const patchUrl = `${getUrl}?updateMask=authorizedDomains`;
 

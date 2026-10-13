@@ -4,7 +4,7 @@ import {
   getImageCategories,
   serveImage,
 } from '../controllers/imageController.js';
-import { uploadProductImage } from '../controllers/product.controller.js';
+import { uploadProductImage } from '../controllers/productController.js';
 import { uploadSingleImage } from '../middleware/uploadMiddleware.js';
 
 const router = express.Router();

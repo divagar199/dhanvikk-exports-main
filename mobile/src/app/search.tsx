@@ -1,257 +1,146 @@
-import React, { useState, useEffect } from 'react';
-import {
-  View,
-  ScrollView,
-  TouchableOpacity,
-  StyleSheet,
-} from 'react-native';
-import { useRouter } from 'expo-router';
+import { useState } from 'react';
+import { FlatList, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
+import { router } from 'expo-router';
 import { useQuery } from '@tanstack/react-query';
-import { ArrowLeft, Clock, TrendingUp, Search as SearchIcon } from 'lucide-react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { Colors, Spacing, Radius } from '../theme';
-import { AppText } from '../components/AppText';
-import { SearchBar } from '../components/SearchBar';
-import { ProductCard } from '../components/ProductCard';
-import { ProductCardSkeleton } from '../components/Skeleton';
-import { EmptyState } from '../components/EmptyState';
-import { productService } from '../services/productService';
-import { useResponsive } from '../hooks/useResponsive';
-import { Product } from '../types';
+import { Ionicons } from '@expo/vector-icons';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { getProducts } from '@/services/products';
+import { ProductCard } from '@/components/ProductCard';
+import { colors, radius, spacing } from '@/constants/theme';
+import type { Product } from '@/types/models';
 
-const POPULAR_SEARCHES = [
-  'Ecuadorian Red Roses',
-  'Anniversary Bouquet',
-  'Birthday Flowers',
-  'Forever Roses',
-  'Orchids in Ceramic',
-  'Velvet Hat Box',
-];
+export default function Search() {
+  const insets = useSafeAreaInsets();
+  const [q, setQ] = useState('');
 
-export default function SearchScreen() {
-  const router = useRouter();
-  const { gridItemWidth } = useResponsive();
-  const [searchTerm, setSearchTerm] = useState('');
-  const [debouncedQuery, setDebouncedQuery] = useState('');
-  const [recentSearches, setRecentSearches] = useState<string[]>([
-    'Red Roses',
-    'Lilies',
-  ]);
-
-  // Debounce search by 350ms to prevent excessive API requests
-  useEffect(() => {
-    const handler = setTimeout(() => {
-      setDebouncedQuery(searchTerm.trim());
-    }, 350);
-    return () => clearTimeout(handler);
-  }, [searchTerm]);
-
-  const { data, isLoading } = useQuery({
-    queryKey: ['searchProducts', debouncedQuery],
-    queryFn: () => productService.getProducts({ search: debouncedQuery }),
-    enabled: debouncedQuery.length >= 2,
+  const { data = [], isLoading } = useQuery<Product[]>({
+    queryKey: ['search', q],
+    queryFn: () => getProducts({ search: q, limit: 100 }),
+    enabled: q.trim().length > 0,
   });
 
-  const products = data?.products || [];
-
-  const handleSelectQuery = (query: string) => {
-    setSearchTerm(query);
-    if (!recentSearches.includes(query)) {
-      setRecentSearches([query, ...recentSearches.slice(0, 4)]);
-    }
-  };
-
-  const handleProductPress = (product: Product) => {
-    router.push({
-      pathname: '/product/[id]',
-      params: { id: product.id || product._id || product.slug },
-    });
-  };
-
   return (
-    <SafeAreaView style={styles.safeArea} edges={['top']}>
-      {/* Top Search Bar with Back Button */}
-      <View style={styles.header}>
-        <TouchableOpacity
-          onPress={() => router.back()}
-          style={styles.backButton}
-          accessibilityLabel="Go back"
+    <View style={[s.page, { paddingTop: Math.max(insets.top, 12) }]}>
+      <View style={s.header}>
+        <Pressable
+          style={s.backBtn}
+          onPress={() => (router.canGoBack() ? router.back() : router.replace('/(tabs)/home'))}
         >
-          <ArrowLeft size={22} color={Colors.text} />
-        </TouchableOpacity>
-
-        <View style={styles.searchBarWrapper}>
-          <SearchBar
-            value={searchTerm}
-            onChangeText={setSearchTerm}
-            onClear={() => setSearchTerm('')}
+          <Ionicons name="arrow-back" size={22} color={colors.ink} />
+        </Pressable>
+        <View style={s.searchBar}>
+          <Ionicons name="search" size={18} color={colors.muted} />
+          <TextInput
             autoFocus
+            value={q}
+            onChangeText={setQ}
+            placeholder="Search flowers, bouquets, gifts…"
+            placeholderTextColor={colors.muted}
+            style={s.input}
           />
+          {q.length > 0 && (
+            <Pressable onPress={() => setQ('')} style={s.clearBtn}>
+              <Ionicons name="close-circle" size={18} color={colors.muted} />
+            </Pressable>
+          )}
         </View>
       </View>
 
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.scrollContent}
-      >
-        {debouncedQuery.length < 2 ? (
-          <View>
-            {/* Recent Searches */}
-            {recentSearches.length > 0 && (
-              <View style={styles.section}>
-                <View style={styles.sectionHeader}>
-                  <Clock size={16} color={Colors.textSecondary} />
-                  <AppText variant="caption" color={Colors.textSecondary} weight="semiBold" style={{ marginLeft: 6 }}>
-                    RECENT SEARCHES
-                  </AppText>
-                </View>
-                <View style={styles.tagsContainer}>
-                  {recentSearches.map((item, idx) => (
-                    <TouchableOpacity
-                      key={idx}
-                      onPress={() => handleSelectQuery(item)}
-                      style={styles.searchTag}
-                    >
-                      <AppText variant="bodySm" color={Colors.text}>
-                        {item}
-                      </AppText>
-                    </TouchableOpacity>
-                  ))}
-                </View>
-              </View>
-            )}
-
-            {/* Popular Floral Searches */}
-            <View style={styles.section}>
-              <View style={styles.sectionHeader}>
-                <TrendingUp size={16} color={Colors.primaryDeep} />
-                <AppText variant="caption" color={Colors.primaryDeep} weight="semiBold" style={{ marginLeft: 6 }}>
-                  TRENDING IN BLOOM
-                </AppText>
-              </View>
-              <View style={styles.tagsContainer}>
-                {POPULAR_SEARCHES.map((item, idx) => (
-                  <TouchableOpacity
-                    key={idx}
-                    onPress={() => handleSelectQuery(item)}
-                    style={styles.popularTag}
-                  >
-                    <SearchIcon size={14} color={Colors.primary} style={{ marginRight: 6 }} />
-                    <AppText variant="bodySm" color={Colors.text}>
-                      {item}
-                    </AppText>
-                  </TouchableOpacity>
-                ))}
-              </View>
-            </View>
+      <FlatList
+        data={q.trim().length > 0 ? data : []}
+        numColumns={2}
+        columnWrapperStyle={s.grid}
+        contentContainerStyle={[s.content, { paddingBottom: 60 }]}
+        keyExtractor={(p) => p.id || p._id || p.slug}
+        ListEmptyComponent={
+          <View style={s.empty}>
+            <Ionicons
+              name={q.trim().length === 0 ? 'search-outline' : 'alert-circle-outline'}
+              size={48}
+              color={colors.muted}
+            />
+            <Text style={s.emptyTitle}>
+              {q.trim().length === 0
+                ? 'Type to search the collection'
+                : `No blooms found for "${q}"`}
+            </Text>
+            <Text style={s.emptySub}>
+              {q.trim().length === 0
+                ? 'Search by flower type (e.g., roses, lilies, orchids) or occasion.'
+                : 'Try checking your spelling or searching for a broader term.'}
+            </Text>
           </View>
-        ) : isLoading ? (
-          <View style={styles.grid}>
-            {[1, 2, 3, 4].map((i) => (
-              <View key={i} style={[styles.gridItem, { width: gridItemWidth }]}>
-                <ProductCardSkeleton />
-              </View>
-            ))}
-          </View>
-        ) : products.length === 0 ? (
-          <EmptyState
-            title="No matching blooms found"
-            description={`We couldn't find flowers matching "${debouncedQuery}". Try searching for roses, orchids, or gift boxes.`}
-            actionTitle="Clear Search"
-            onAction={() => setSearchTerm('')}
-          />
-        ) : (
-          <View>
-            <View style={styles.resultsInfo}>
-              <AppText variant="bodySm" color={Colors.textSecondary}>
-                Found {products.length} {products.length === 1 ? 'bloom' : 'blooms'} for &ldquo;{debouncedQuery}&rdquo;
-              </AppText>
-            </View>
-            <View style={styles.grid}>
-              {products.map((product) => (
-                <View
-                  key={product.id || product._id}
-                  style={[styles.gridItem, { width: gridItemWidth }]}
-                >
-                  <ProductCard product={product} onPress={handleProductPress} />
-                </View>
-              ))}
-            </View>
-          </View>
-        )}
-      </ScrollView>
-    </SafeAreaView>
+        }
+        renderItem={({ item }) => <ProductCard product={item} />}
+      />
+    </View>
   );
 }
 
-const styles = StyleSheet.create({
-  safeArea: {
+const s = StyleSheet.create({
+  page: {
     flex: 1,
-    backgroundColor: Colors.background,
+    backgroundColor: colors.background,
   },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: Spacing.screenPadding,
-    paddingTop: Spacing.sm,
-    paddingBottom: Spacing.md,
-    gap: 12,
+    paddingHorizontal: spacing.md,
+    paddingVertical: 10,
+    backgroundColor: colors.white,
     borderBottomWidth: 1,
-    borderBottomColor: Colors.border,
+    borderBottomColor: colors.line,
+    gap: 8,
   },
-  backButton: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
+  backBtn: {
+    width: 38,
+    height: 38,
+    borderRadius: 19,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  searchBarWrapper: {
+  searchBar: {
     flex: 1,
-  },
-  scrollContent: {
-    paddingHorizontal: Spacing.screenPadding,
-    paddingTop: Spacing.lg,
-    paddingBottom: 40,
-  },
-  section: {
-    marginBottom: Spacing.xl,
-  },
-  sectionHeader: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 12,
-  },
-  tagsContainer: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: 10,
-  },
-  searchTag: {
-    paddingHorizontal: 14,
-    paddingVertical: 8,
-    borderRadius: Radius.chip,
-    backgroundColor: Colors.surface,
+    height: 44,
+    backgroundColor: colors.pale,
+    borderRadius: 22,
     borderWidth: 1,
-    borderColor: Colors.border,
-  },
-  popularTag: {
+    borderColor: colors.line,
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: 14,
-    paddingVertical: 8,
-    borderRadius: Radius.chip,
-    backgroundColor: Colors.palePink,
-    borderWidth: 1,
-    borderColor: '#F8BBD0',
+    gap: 8,
   },
-  resultsInfo: {
-    marginBottom: Spacing.md,
+  input: {
+    flex: 1,
+    fontSize: 14,
+    color: colors.ink,
+  },
+  clearBtn: {
+    padding: 2,
+  },
+  content: {
+    padding: spacing.lg,
   },
   grid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: 12,
+    justifyContent: 'space-between',
   },
-  gridItem: {},
+  empty: {
+    alignItems: 'center',
+    paddingVertical: 90,
+  },
+  emptyTitle: {
+    fontSize: 16,
+    fontWeight: '800',
+    color: colors.ink,
+    marginTop: 14,
+  },
+  emptySub: {
+    fontSize: 13,
+    color: colors.muted,
+    textAlign: 'center',
+    marginTop: 6,
+    paddingHorizontal: 30,
+    lineHeight: 18,
+  },
 });

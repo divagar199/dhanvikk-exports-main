@@ -1,15 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { authService } from '../../services/authService';
-import { signInWithGoogleFirebase } from '../../config/firebase';
-
-export const DEFAULT_GUEST_USER = {
-  id: 'guest_user_dhanvikk',
-  name: 'Guest Customer',
-  email: 'guest@dhanvikk.com',
-  role: 'customer',
-  phone: '+971 50 000 0000',
-  avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80',
-};
 
 // Safely restore initial auth state
 const savedUser = (() => {
@@ -27,11 +17,9 @@ export const loginUser = createAsyncThunk(
   'auth/loginUser',
   async ({ email, password, rememberMe }, { rejectWithValue }) => {
     try {
+      // 1. Authenticate with Firebase Email/Password
       let firebaseUser = null;
       let firebaseToken = null;
-      let firebaseAuthFailed = false;
-
-      // 1. Authenticate with Firebase Email/Password
       try {
         const { signInWithEmailPasswordFirebase } = await import('../../config/firebase');
         const fbRes = await signInWithEmailPasswordFirebase(email, password);
@@ -39,13 +27,13 @@ export const loginUser = createAsyncThunk(
         firebaseToken = fbRes.token;
       } catch (fbErr) {
         console.warn('Firebase email/password sign-in note:', fbErr.message);
-        firebaseAuthFailed = true;
-        if (fbErr.code === 'auth/operation-not-allowed') {
-          return rejectWithValue('Email/Password sign-in is not yet enabled in Firebase Console. Please enable it under Authentication > Sign-in method.');
+        // If Firebase error is invalid credentials, propagate cleanly
+        if (fbErr.code === 'auth/wrong-password' || fbErr.code === 'auth/user-not-found' || fbErr.code === 'auth/invalid-credential') {
+          return rejectWithValue('Invalid email or password. Please try again.');
         }
       }
 
-      // 2. Synchronize with Backend API (which validates or auto-onboards user)
+      // 2. Synchronize with Backend API (if available)
       let data = null;
       try {
         data = await authService.login({ email, password });
@@ -57,75 +45,14 @@ export const loginUser = createAsyncThunk(
             user: firebaseUser,
             token: firebaseToken,
           };
-        } else if (
-          email.toLowerCase() === 'customer@dhanvikk.com' &&
-          (password === 'password123' || password === 'Bloom@2026')
-        ) {
-          data = {
-            success: true,
-            user: {
-              id: 'usr_cust_001',
-              name: 'Aarav Patel',
-              email: 'customer@dhanvikk.com',
-              role: 'customer',
-              avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80',
-            },
-            token: 'dhanvikk_demo_customer_token',
-          };
-        } else if (
-          email.toLowerCase() === 'admin@dhanvikk.com' &&
-          password === 'AdminBloom@2026'
-        ) {
-          data = {
-            success: true,
-            user: {
-              id: 'usr_adm_001',
-              name: 'Dhanvikk Administrator',
-              email: 'admin@dhanvikk.com',
-              role: 'admin',
-              avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80',
-            },
-            token: 'dhanvikk_demo_admin_token',
-          };
         } else {
-          const isUserNotFound =
-            apiErr?.response?.data?.code === 'USER_NOT_FOUND' ||
-            apiErr?.response?.status === 404 ||
-            (apiErr?.response?.data?.message && apiErr.response.data.message.toLowerCase().includes('register'));
-
-          if (isUserNotFound) {
-            return rejectWithValue({
-              code: 'USER_NOT_FOUND',
-              message: 'Account not found in database. Please register to create your account.',
-              email,
-            });
-          }
-
-          const errMsg = apiErr?.response?.data?.message || apiErr?.userMessage || 'Invalid email or password. Please try again.';
-          return rejectWithValue(errMsg);
+          throw apiErr;
         }
       }
 
-
       if (data?.success) {
-        const userObj = {
-          ...(firebaseUser || {}),
-          ...(data.user || {}),
-          id: data.user?.id || data.user?._id || firebaseUser?.id,
-          role: data.user?.role || firebaseUser?.role || 'customer',
-        };
-        const tokenStr = data.token || firebaseToken;
-
-        // If user logged into backend successfully but doesn't exist on new Firebase project yet, auto-provision on Firebase
-        if (firebaseAuthFailed && password && password.length >= 6) {
-          (async () => {
-            try {
-              const { signUpWithEmailPassword } = await import('../../config/firebase');
-              await signUpWithEmailPassword(email, password, userObj.name || email.split('@')[0]);
-            } catch {}
-          })();
-        }
-
+        const userObj = firebaseUser || data.user;
+        const tokenStr = firebaseToken || data.token;
         sessionStorage.removeItem('dhanvikk_logged_out');
         localStorage.setItem('dhanvikk_auth_token', tokenStr);
         localStorage.setItem('dhanvikk_user', JSON.stringify(userObj));
@@ -144,7 +71,6 @@ export const loginUser = createAsyncThunk(
     }
   }
 );
-
 
 export const registerUser = createAsyncThunk(
   'auth/registerUser',
@@ -166,9 +92,6 @@ export const registerUser = createAsyncThunk(
         }
         if (fbErr.code === 'auth/weak-password') {
           return rejectWithValue('Password must be at least 6 characters.');
-        }
-        if (fbErr.code === 'auth/operation-not-allowed') {
-          return rejectWithValue('Email/Password registration is not yet enabled in Firebase Console for auth-checker-1-main. Please enable it under Authentication > Sign-in method.');
         }
       }
 
@@ -210,51 +133,25 @@ export const loginWithGoogleThunk = createAsyncThunk(
       let firebasePayload = { ...extraData };
       let firebaseUser = null;
       let firebaseToken = null;
-      let firebaseIdToken = null; // Raw Firebase ID token for server-side verification
 
-      // Extract candidate user if passed from redirect, pre-fill, or direct auth result
-      const candidateUser = extraData?.user || extraData;
-      const uid = candidateUser?.googleUid || candidateUser?.id || candidateUser?.uid;
-      const candidateEmail = candidateUser?.email;
-
-      // If already authenticated via 1-click Google pre-fill in Register page or returning from redirect
-      if (uid && candidateEmail) {
+      // If already authenticated via 1-click Google pre-fill in Register page
+      if (extraData?.googleUid && extraData?.email) {
         firebaseUser = {
-          id: uid,
-          name: candidateUser.name || candidateUser.displayName || candidateEmail.split('@')[0],
-          email: candidateEmail,
-          avatar: candidateUser.avatar || candidateUser.photoURL || '',
-          phone: candidateUser.phone || candidateUser.phoneNumber || '',
-          role: candidateUser.role || 'customer',
+          id: extraData.googleUid,
+          name: extraData.name || extraData.email.split('@')[0],
+          email: extraData.email,
+          avatar: extraData.avatar || '',
+          phone: extraData.phone || '',
+          role: 'customer',
         };
-        firebaseToken = extraData?.token || localStorage.getItem('dhanvikk_auth_token') || `fb_${uid}`;
-        firebaseIdToken = extraData?.idToken || (extraData?.token && !extraData.token.startsWith('fb_') ? extraData.token : null);
-        firebasePayload = {
-          ...firebasePayload,
-          googleUid: uid,
-          name: firebaseUser.name,
-          email: firebaseUser.email,
-          avatar: firebaseUser.avatar,
-          phone: firebaseUser.phone,
-          ...(firebaseIdToken ? { idToken: firebaseIdToken } : {}),
-        };
+        firebaseToken = localStorage.getItem('dhanvikk_auth_token') || `fb_${extraData.googleUid}`;
       } else {
         try {
-          // Direct invocation preserves the browser's user-gesture activation token so popups are NOT blocked
+          const { signInWithGoogleFirebase } = await import('../../config/firebase');
           const firebaseRes = await signInWithGoogleFirebase();
-          if (firebaseRes?.redirecting) {
-            return { redirecting: true };
-          }
-          if (firebaseRes?.canceled) {
-            return rejectWithValue('Google sign-in was canceled.');
-          }
-          if (firebaseRes?.popupBlocked) {
-            return rejectWithValue('Google sign-in popup was blocked by browser. Please allow popups or click below for full-page sign-in.');
-          }
           if (firebaseRes?.user) {
             firebaseUser = firebaseRes.user;
             firebaseToken = firebaseRes.token;
-            firebaseIdToken = firebaseRes.idToken || null;
             firebasePayload = {
               ...firebasePayload,
               name: firebaseRes.user.name,
@@ -262,7 +159,6 @@ export const loginWithGoogleThunk = createAsyncThunk(
               avatar: firebaseRes.user.avatar,
               phone: firebaseRes.user.phone || '',
               googleUid: firebaseRes.user.id,
-              ...(firebaseIdToken ? { idToken: firebaseIdToken } : {}),
             };
           }
         } catch (fbErr) {
@@ -272,14 +168,14 @@ export const loginWithGoogleThunk = createAsyncThunk(
             return rejectWithValue('Google sign-in was canceled.');
           }
           if (errorCode === 'auth/popup-blocked') {
-            return rejectWithValue('Google sign-in popup was blocked by browser. Please allow popups or click below for full-page sign-in.');
+            return rejectWithValue('Google sign-in popup was blocked by your browser. Please allow popups for this site and try again.');
           }
           if (errorCode === 'auth/unauthorized-domain') {
             const currentHost = typeof window !== 'undefined' ? window.location.hostname : 'current domain';
             return rejectWithValue(`The domain "${currentHost}" is not authorized in Firebase Auth. Please verify Authorized Domains in Firebase Console.`);
           }
-          if (errorCode === 'auth/timeout') {
-            return rejectWithValue('Google sign-in timed out. Please try again or sign in with your email & password.');
+          if (errorCode === 'auth/network-request-failed') {
+            return rejectWithValue('Network connection error during Google sign-in. Please check your internet connection.');
           }
           return rejectWithValue(fbErr?.message || 'Google sign-in could not be completed.');
         }
@@ -289,30 +185,16 @@ export const loginWithGoogleThunk = createAsyncThunk(
         return rejectWithValue('Google authentication was not completed.');
       }
 
-      // Synchronize authenticated profile with backend API
-      // Prefer /firebase-login if we have an idToken for secure server-side verification
+      // Synchronize authenticated profile with backend API (with 3.5s timeout guard so users are NEVER stuck)
       let data = null;
       try {
         const timeoutPromise = new Promise((_, reject) =>
-          setTimeout(() => reject(new Error('Backend sync timeout')), 4000)
+          setTimeout(() => reject(new Error('Backend sync timeout')), 3500)
         );
-
-        const backendCall = firebaseIdToken
-          ? (async () => {
-              const { default: api } = await import('../../services/api');
-              const res = await api.post('/api/auth/firebase-login', {
-                idToken: firebaseIdToken,
-                email: firebaseUser.email,
-                name: firebaseUser.name,
-                avatar: firebaseUser.avatar,
-                uid: firebaseUser.id,
-                authMethod: 'google',
-              });
-              return res.data;
-            })()
-          : authService.loginWithGoogle(firebasePayload);
-
-        data = await Promise.race([backendCall, timeoutPromise]);
+        data = await Promise.race([
+          authService.loginWithGoogle(firebasePayload),
+          timeoutPromise,
+        ]);
       } catch (apiErr) {
         console.warn('Backend API note for Google login (proceeding with verified Firebase session):', apiErr?.message);
         // Fall back to verified Firebase authentication if backend API is temporarily slow/cold-starting
@@ -330,14 +212,13 @@ export const loginWithGoogleThunk = createAsyncThunk(
           ...firebaseUser,
           ...(data.user || {}),
           // Ensure real Google credentials take precedence
-          id: data.user?.id || data.user?._id || firebaseUser.id,
-          name: data.user?.name || firebaseUser.name || firebaseUser.email.split('@')[0],
-          email: data.user?.email || firebaseUser.email,
-          avatar: data.user?.avatar || firebaseUser.avatar || '',
-          // Backend role always wins (critical for admin access control)
+          id: firebaseUser.id || data.user?.id || data.user?._id,
+          name: firebaseUser.name || data.user?.name || firebaseUser.email.split('@')[0],
+          email: firebaseUser.email || data.user?.email,
+          avatar: firebaseUser.avatar || data.user?.avatar || '',
           role: data.user?.role || firebaseUser.role || 'customer',
         };
-        const tokenStr = data.token || firebaseToken || `dhanvikk_token_${userObj.id}`;
+        const tokenStr = firebaseToken || data.token || `dhanvikk_token_${userObj.id}`;
         sessionStorage.removeItem('dhanvikk_logged_out');
         localStorage.setItem('dhanvikk_auth_token', tokenStr);
         localStorage.setItem('dhanvikk_user', JSON.stringify(userObj));
@@ -393,7 +274,7 @@ const authSlice = createSlice({
   name: 'auth',
   initialState: {
     user: savedUser,
-    isAuthenticated: Boolean(savedToken && savedUser),
+    isAuthenticated: Boolean(savedToken || savedUser),
     loading: false,
     error: null,
   },
@@ -418,21 +299,6 @@ const authSlice = createSlice({
       state.user = { ...(state.user || {}), ...action.payload };
       state.isAuthenticated = true;
       localStorage.setItem('dhanvikk_user', JSON.stringify(state.user));
-    },
-    setCredentials: (state, action) => {
-      sessionStorage.removeItem('dhanvikk_logged_out');
-      state.user = action.payload.user;
-      state.isAuthenticated = true;
-      state.loading = false;
-      state.error = null;
-      if (action.payload.token) {
-        localStorage.setItem('dhanvikk_auth_token', action.payload.token);
-        sessionStorage.setItem('dhanvikk_auth_token', action.payload.token);
-      }
-      if (action.payload.user) {
-        localStorage.setItem('dhanvikk_user', JSON.stringify(action.payload.user));
-        sessionStorage.setItem('dhanvikk_user', JSON.stringify(action.payload.user));
-      }
     },
   },
   extraReducers: (builder) => {
@@ -482,9 +348,6 @@ const authSlice = createSlice({
       })
       .addCase(loginWithGoogleThunk.fulfilled, (state, action) => {
         state.loading = false;
-        if (action.payload?.redirecting) {
-          return;
-        }
         state.isAuthenticated = true;
         state.user = action.payload.user;
         state.error = null;
@@ -522,5 +385,5 @@ const authSlice = createSlice({
   },
 });
 
-export const { clearAuthError, setUserProfile, logoutImmediate, setCredentials } = authSlice.actions;
+export const { clearAuthError, setUserProfile, logoutImmediate } = authSlice.actions;
 export default authSlice.reducer;

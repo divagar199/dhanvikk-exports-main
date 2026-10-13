@@ -371,9 +371,7 @@ export default function Navbar({ onSearch, searchQuery = '' }) {
                                 <img
                                   src={imgUrl}
                                   alt={`${prod.name} - Luxury ${prod.category || 'Flower Arrangement'}`}
-                                  width="48"
-                                  height="48"
-                                  className="w-12 h-12 aspect-square rounded-xl object-cover border border-[#F0E4D8] flex-shrink-0 group-hover:scale-105 transition-transform"
+                                  className="w-12 h-12 rounded-xl object-cover border border-[#F0E4D8] flex-shrink-0 group-hover:scale-105 transition-transform"
                                   loading="lazy"
                                   decoding="async"
                                 />
@@ -757,11 +755,7 @@ export default function Navbar({ onSearch, searchQuery = '' }) {
                         <img
                           src={getProductImageUrl(prod.image || prod.images?.[0])}
                           alt={prod.name}
-                          width="40"
-                          height="40"
-                          className="w-10 h-10 aspect-square rounded-lg object-cover flex-shrink-0 border border-[#EAE4DD]"
-                          loading="lazy"
-                          decoding="async"
+                          className="w-10 h-10 rounded-lg object-cover flex-shrink-0 border border-[#EAE4DD]"
                         />
                         <div className="flex-1 min-w-0">
                           <h4 className="text-xs font-semibold text-[#242124] truncate">{prod.name}</h4>

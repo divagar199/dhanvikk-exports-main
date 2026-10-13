@@ -10,13 +10,12 @@ import { fileURLToPath } from 'url';
 import rateLimit from 'express-rate-limit';
 import { connectDB } from './src/config/db.js';
 import authRoutes from './src/routes/authRoutes.js';
-import userRoutes from './src/routes/userRoutes.js';
 import productRoutes from './src/routes/productRoutes.js';
 import orderRoutes from './src/routes/orderRoutes.js';
 import paymentRoutes from './src/routes/paymentRoutes.js';
 import adminRoutes from './src/routes/adminRoutes.js';
 import imageRoutes from './src/routes/imageRoutes.js';
-import { initializeProducts } from './src/services/product.service.js';
+import { initializeProducts } from './src/controllers/productController.js';
 import { notFound, errorHandler } from './src/middleware/errorHandler.js';
 
 dotenv.config();
@@ -33,11 +32,10 @@ connectDB().then(() => {
   initializeProducts();
 });
 
-// Security Headers (allow cross-origin resource policy for uploaded botanical images & allow popups for OAuth)
+// Security Headers (allow cross-origin resource policy for uploaded botanical images)
 app.use(
   helmet({
     crossOriginResourcePolicy: { policy: 'cross-origin' },
-    crossOriginOpenerPolicy: { policy: 'same-origin-allow-popups' },
   })
 );
 
@@ -64,57 +62,30 @@ app.use('/images', (req, res, next) => {
 });
 app.use('/images', express.static(imagesStaticDir));
 
-// Validate required environment configuration
-if (process.env.NODE_ENV === 'production') {
-  const requiredProductionVars = ['JWT_SECRET', 'RAZORPAY_KEY_ID', 'RAZORPAY_KEY_SECRET'];
-  const missing = requiredProductionVars.filter((v) => !process.env[v]);
-  if (missing.length > 0) {
-    console.error(`FATAL: Missing mandatory production environment variables: ${missing.join(', ')}`);
-    process.exit(1);
-  }
-}
-
 // Cross-Origin Resource Sharing
 const rawClientUrl = (process.env.CLIENT_URL || '').replace(/\/+$/, '');
-const allowedOrigins = new Set(
-  [
-    rawClientUrl,
-    'http://localhost:5173',
-    'http://127.0.0.1:5173',
-    'http://localhost:8081',
-    'http://localhost:19006',
-    'http://localhost:3000',
-    'https://dhanvikk-exports-main.vercel.app',
-    'https://dhanvikk-blooms.vercel.app',
-    'https://dhanvikk.vercel.app',
-  ].filter(Boolean)
-);
-
-const isDevLocalhost = (origin) => {
-  if (process.env.NODE_ENV === 'production') return false;
-  try {
-    const url = new URL(origin);
-    return url.hostname === 'localhost' || url.hostname === '127.0.0.1';
-  } catch {
-    return false;
-  }
-};
+const allowedOrigins = [
+  rawClientUrl,
+  'http://127.0.0.1:5173',
+  'http://localhost:5173',
+  'http://localhost:3000',
+].filter(Boolean);
 
 app.use(
   cors({
     origin: (origin, callback) => {
-      // Allow requests with no origin (mobile apps native HTTP, curl, server-to-server)
       if (!origin) return callback(null, true);
-
-      if (allowedOrigins.has(origin) || isDevLocalhost(origin)) {
+      if (
+        allowedOrigins.includes(origin) ||
+        origin.endsWith('.vercel.app') ||
+        origin.includes('dhanvikk') ||
+        process.env.NODE_ENV !== 'production'
+      ) {
         return callback(null, true);
       }
-
-      return callback(new Error(`CORS policy violation: origin '${origin}' is not allowed.`));
+      return callback(null, origin);
     },
     credentials: true,
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept'],
   })
 );
 
@@ -142,23 +113,17 @@ const authLimiter = rateLimit({
 
 app.use('/api/auth', authLimiter);
 
-// Root & Health Check Endpoints (Resolves Render uptime checks and direct browser visits)
-app.all(['/', '/health', '/api/health'], (req, res) => {
+// Health Check Endpoint
+app.get('/api/health', (req, res) => {
   res.status(200).json({
     status: 'healthy',
-    uptime: Math.floor(process.uptime()),
     timestamp: new Date().toISOString(),
-    service: 'Dhanvikk Blooms Backend API',
-    endpoints: {
-      health: '/api/health',
-      products: '/api/products',
-    },
+    service: 'Dhanvikk Blooms Backend API (Dhanvikk Luxury Floristry Engine)',
   });
 });
 
 // API Routes
 app.use('/api/auth', authRoutes);
-app.use('/api/users', userRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/payment', paymentRoutes);
@@ -170,14 +135,9 @@ app.use(notFound);
 app.use(errorHandler);
 
 // Start Server
-let server = null;
-if (process.env.NODE_ENV !== 'test') {
-  server = app.listen(PORT, () => {
-    console.log(`🌸 Dhanvikk Blooms Backend listening on http://localhost:${PORT}`);
-    console.log(`📡 CORS allowed for: ${CLIENT_URL}`);
-  });
-}
+app.listen(PORT, () => {
+  console.log(`🌸 Dhanvikk Blooms Backend listening on http://localhost:${PORT}`);
+  console.log(`📡 CORS allowed for: ${CLIENT_URL}`);
+});
 
-export { server };
 export default app;
-

@@ -98,9 +98,7 @@ export default function CartDrawer() {
                   <img
                     src={getProductImageUrl(item.image)}
                     alt={`${item.name} floral bouquet in cart`}
-                    width="80"
-                    height="80"
-                    className="w-16 h-16 sm:w-20 sm:h-20 aspect-square rounded-xl object-cover flex-shrink-0 transition-transform duration-300 hover:scale-105"
+                    className="w-16 h-16 sm:w-20 sm:h-20 rounded-xl object-cover flex-shrink-0 transition-transform duration-300 hover:scale-105"
                     loading="lazy"
                     decoding="async"
                   />

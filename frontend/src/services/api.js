@@ -6,9 +6,10 @@ const isLocalhost =
   typeof window !== 'undefined' &&
   (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1');
 
-const normalizedBaseURL = isLocalhost
-  ? ''
-  : (import.meta.env.VITE_API_URL || defaultProductionApi).replace(/\/+$/, '');
+const normalizedBaseURL = (
+  import.meta.env.VITE_API_URL ||
+  (!isLocalhost ? defaultProductionApi : '')
+).replace(/\/+$/, '');
 
 const api = axios.create({
   baseURL: normalizedBaseURL,

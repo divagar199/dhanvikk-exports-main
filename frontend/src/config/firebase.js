@@ -1,5 +1,4 @@
 import { initializeApp, getApps } from 'firebase/app';
-import { getAnalytics, isSupported } from 'firebase/analytics';
 import {
   getAuth,
   GoogleAuthProvider,
@@ -20,41 +19,23 @@ import {
   getDoc,
   serverTimestamp,
 } from 'firebase/firestore';
-import {
-  getMessaging,
-  getToken,
-  onMessage,
-  isSupported as isMessagingSupported,
-} from 'firebase/messaging';
 
-// Firebase configuration for project: auth-checker-1-main
+// Firebase configuration for project: auth-checker-diva
 const firebaseConfig = {
-  apiKey: import.meta.env.VITE_FIREBASE_API_KEY || 'AIzaSyC1hipp0dBNuKNRcT11fb-yj9KHZjFAQdE',
-  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN || 'auth-checker-1-main.firebaseapp.com',
-  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID || 'auth-checker-1-main',
-  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET || 'auth-checker-1-main.firebasestorage.app',
-  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID || '160660053649',
-  appId: import.meta.env.VITE_FIREBASE_APP_ID || '1:160660053649:web:3133a668cc3085163e6930',
-  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID || 'G-0Q9KCWM5N5',
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY || 'AIzaSyDwLPDUMXVPwGY4LtVxpG1YnTNQMHyPeW8',
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN || 'auth-checker-diva.firebaseapp.com',
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID || 'auth-checker-diva',
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET || 'auth-checker-diva.firebasestorage.app',
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID || '972583680950',
+  appId: import.meta.env.VITE_FIREBASE_APP_ID || '1:972583680950:web:207e65c929b731f0205f17',
 };
 
 // Initialize Firebase App
 const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
 
-// Initialize Analytics safely
-let analytics = null;
-if (typeof window !== 'undefined') {
-  isSupported().then((supported) => {
-    if (supported) {
-      analytics = getAnalytics(app);
-    }
-  }).catch(() => {});
-}
-
 // Initialize Services
 export const auth = getAuth(app);
 export const db = getFirestore(app);
-export { analytics };
 export const googleProvider = new GoogleAuthProvider();
 
 // Custom parameters for Google OAuth
@@ -100,99 +81,35 @@ export const syncUserWithFirestore = async (firebaseUser, additionalData = {}) =
 };
 
 /**
- * Sign In with Google (Popup first for speed; automatic redirect fallback if blocked by browser)
+ * Sign In with Google Popup (Instant authentication with zero blocking)
  */
-export const signInWithGoogleFirebase = async (preferRedirect = false) => {
-  if (preferRedirect) {
-    await signInWithRedirect(auth, googleProvider);
-    return { redirecting: true };
-  }
-
+export const signInWithGoogleFirebase = async () => {
   try {
-    let firebaseUser = null;
+    const result = await signInWithPopup(auth, googleProvider);
+    const user = result.user;
+    const token = await user.getIdToken();
 
-    try {
-      // 1. Primary Attempt: Standard fast popup flow
-      const popupResult = await signInWithPopup(auth, googleProvider);
-      if (popupResult?.user) {
-        firebaseUser = popupResult.user;
-      }
-    } catch (popupErr) {
-      console.warn('Popup attempt notice:', popupErr?.code, popupErr?.message);
-
-      // If domain not authorized, don't fallback to redirect
-      if (popupErr?.code === 'auth/unauthorized-domain') {
-        throw popupErr;
-      }
-
-      // If user intentionally closed or cancelled the popup, do NOT force redirect!
-      if (
-        popupErr?.code === 'auth/popup-closed-by-user' ||
-        popupErr?.code === 'auth/cancelled-popup-request'
-      ) {
-        if (auth.currentUser) {
-          firebaseUser = auth.currentUser;
-        } else {
-          return { canceled: true };
-        }
-      }
-
-      // If browser blocked the popup, notify caller without triggering unprompted redirect chain
-      if (popupErr?.code === 'auth/popup-blocked') {
-        return { popupBlocked: true, error: popupErr };
-      }
-
-      if (popupErr?.code === 'auth/timeout') {
-        throw popupErr;
-      }
-
-      // If still not authenticated and not canceled/blocked, rethrow error
-      if (!firebaseUser) {
-        throw popupErr;
-      }
-    }
-
-    if (!firebaseUser) {
-      throw new Error('Google authentication was not completed.');
-    }
-
-    const token = await firebaseUser.getIdToken();
-    const cleanEmail = firebaseUser.email || '';
-    const resolvedName = firebaseUser.displayName || (cleanEmail ? cleanEmail.split('@')[0] : 'Google Customer');
-    const resolvedAvatar = firebaseUser.photoURL || (cleanEmail ? `https://unavatar.io/google/${encodeURIComponent(cleanEmail)}` : '');
+    const cleanEmail = user.email || '';
+    const resolvedName = user.displayName || (cleanEmail ? cleanEmail.split('@')[0] : 'Google Customer');
+    const resolvedAvatar = user.photoURL || (cleanEmail ? `https://unavatar.io/google/${encodeURIComponent(cleanEmail)}` : '');
 
     // Non-blocking background sync attempt
-    syncUserWithFirestore(firebaseUser, { provider: 'google' }).catch(() => {});
+    syncUserWithFirestore(user, { provider: 'google' }).catch(() => {});
 
     return {
       success: true,
       user: {
-        id: firebaseUser.uid,
+        id: user.uid,
         name: resolvedName,
         email: cleanEmail,
         avatar: resolvedAvatar,
-        phone: firebaseUser.phoneNumber || '',
+        phone: user.phoneNumber || '',
         role: 'customer',
       },
       token,
-      idToken: token, // Expose raw Firebase ID token for secure backend verification
     };
   } catch (error) {
-    console.error('Google Sign-In interaction error:', error?.code, error?.message);
-    throw error;
-  }
-};
-
-
-/**
- * Direct Google Redirect Sign-In (Guaranteed to bypass all browser popup blockers)
- */
-export const signInWithGoogleRedirectFirebase = async () => {
-  try {
-    await signInWithRedirect(auth, googleProvider);
-    return { redirecting: true };
-  } catch (error) {
-    console.error('Google Redirect Error:', error?.code, error?.message);
+    console.error('Google Sign-In Error:', error.code, error.message);
     throw error;
   }
 };
@@ -224,7 +141,6 @@ export const checkGoogleRedirectResult = async () => {
         role: 'customer',
       },
       token,
-      idToken: token, // Expose raw Firebase ID token for secure backend verification
     };
   } catch (error) {
     console.warn('Redirect check notice:', error.message);
@@ -318,92 +234,6 @@ export const resetPasswordFirebase = async (email) => {
     console.error('Password Reset Error:', error);
     throw error;
   }
-};
-
-/**
- * Firebase Cloud Messaging (Web Push Notifications)
- */
-export const VAPID_KEY =
-  import.meta.env.VITE_FIREBASE_VAPID_KEY ||
-  'BNlvUCAgAqOsezsRlff-rUp7_5QeImOtpwYU9clbli2brUvrSkYmwg6KGpWAT4DdsoArJmV0CXaW5HB_vgCjZmg';
-
-let messagingInstance = null;
-
-export const getFirebaseMessaging = async () => {
-  if (typeof window !== 'undefined' && 'serviceWorker' in navigator) {
-    try {
-      const supported = await isMessagingSupported();
-      if (supported) {
-        if (!messagingInstance) {
-          messagingInstance = getMessaging(app);
-        }
-        return messagingInstance;
-      }
-    } catch (e) {
-      console.warn('Firebase Messaging not supported:', e);
-    }
-  }
-  return null;
-};
-
-/**
- * Request notification permissions and fetch FCM Push Token
- */
-export const requestPushNotificationPermission = async () => {
-  try {
-    if (typeof window === 'undefined' || !('Notification' in window)) {
-      return { success: false, error: 'Push notifications are not supported in this browser' };
-    }
-
-    const permission = await Notification.requestPermission();
-    if (permission !== 'granted') {
-      return { success: false, error: 'Push notification permission was denied', permission };
-    }
-
-    const msg = await getFirebaseMessaging();
-    if (!msg) {
-      return { success: false, error: 'Web messaging could not be initialized' };
-    }
-
-    let registration;
-    if ('serviceWorker' in navigator) {
-      try {
-        registration = await navigator.serviceWorker.register('/firebase-messaging-sw.js');
-      } catch (swErr) {
-        console.warn('Service worker registration note:', swErr);
-      }
-    }
-
-    const token = await getToken(msg, {
-      vapidKey: VAPID_KEY,
-      serviceWorkerRegistration: registration,
-    });
-
-    if (token) {
-      localStorage.setItem('dhanvikk_fcm_token', token);
-      return { success: true, token };
-    }
-
-    return { success: false, error: 'Failed to retrieve notification token' };
-  } catch (error) {
-    console.error('Error requesting push notification permission:', error);
-    return { success: false, error: error?.message || 'Error requesting notification permission' };
-  }
-};
-
-/**
- * Foreground Push Notification Listener
- */
-export const onForegroundMessageListener = (callback) => {
-  getFirebaseMessaging().then((msg) => {
-    if (msg) {
-      onMessage(msg, (payload) => {
-        if (typeof callback === 'function') {
-          callback(payload);
-        }
-      });
-    }
-  });
 };
 
 export { onAuthStateChanged };

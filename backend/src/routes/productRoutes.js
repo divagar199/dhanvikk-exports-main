@@ -8,25 +8,22 @@ import {
   updateStock,
   uploadProductImage,
   getUploadedImages,
-} from '../controllers/product.controller.js';
+  addProductReview,
+} from '../controllers/productController.js';
 import { uploadSingleImage } from '../middleware/uploadMiddleware.js';
-import { validate } from '../middleware/validate.js';
-import {
-  createProductSchema,
-  updateProductSchema,
-  updateStockSchema,
-  queryProductSchema,
-} from '../validators/product.validator.js';
+import { protect } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
 
-router.get('/', validate(queryProductSchema), getProducts);
+router.get('/', getProducts);
 router.get('/local-images', getUploadedImages);
 router.post('/upload', uploadSingleImage, uploadProductImage);
 router.get('/:identifier', getProductById);
-router.post('/', validate(createProductSchema), createProduct);
-router.put('/:id', validate(updateProductSchema), updateProduct);
+router.post('/:identifier/reviews', protect, addProductReview);
+router.post('/', createProduct);
+router.put('/:id', updateProduct);
 router.delete('/:id', deleteProduct);
-router.patch('/:id/stock', validate(updateStockSchema), updateStock);
+router.patch('/:id/stock', updateStock);
 
 export default router;
+

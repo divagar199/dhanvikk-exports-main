@@ -389,11 +389,7 @@ export default function OrdersPage() {
                               <img
                                 src={getProductImageUrl(item.image)}
                                 alt={item.name}
-                                width="56"
-                                height="56"
-                                className="w-14 h-14 aspect-square rounded-xl object-cover border border-[#EFE7DE] flex-shrink-0"
-                                loading="lazy"
-                                decoding="async"
+                                className="w-14 h-14 rounded-xl object-cover border border-[#EFE7DE] flex-shrink-0"
                               />
                               <div className="flex-1 min-w-0">
                                 <h4 className="text-xs font-bold text-[#242124] truncate">

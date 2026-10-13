@@ -315,9 +315,7 @@ export default function HomePage() {
                           <img
                             src={imgUrl}
                             alt={`${product.name} - Luxury ${product.category || 'Flower Arrangement'} | Dhanvikk Blooms`}
-                            width="400"
-                            height="400"
-                            className="w-full h-full aspect-square object-cover group-hover:scale-105 transition-transform duration-500"
+                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                             loading="lazy"
                             decoding="async"
                           />

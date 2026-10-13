@@ -134,9 +134,7 @@ export default function GiftsForEveryoneSection() {
                   <img
                     src={getProductImageUrl(item.image)}
                     alt={`Floral Gifts & Luxury Blooms for ${item.title} | Dhanvikk Blooms`}
-                    width="295"
-                    height="196"
-                    className="w-full h-full aspect-[295/196] object-cover group-hover:scale-105 transition-transform duration-300"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                     loading="lazy"
                     decoding="async"
                   />

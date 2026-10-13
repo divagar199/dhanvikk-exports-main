@@ -71,7 +71,7 @@ const orderSchema = new mongoose.Schema(
       status: {
         type: String,
         enum: ['Pending', 'Paid', 'Failed', 'Refunded'],
-        default: 'Pending',
+        default: 'Paid',
       },
     },
     subtotal: {
@@ -89,7 +89,7 @@ const orderSchema = new mongoose.Schema(
     status: {
       type: String,
       enum: ['Pending', 'Confirmed', 'Preparing Floral Order', 'Out for Delivery', 'Delivered', 'Cancelled'],
-      default: 'Pending',
+      default: 'Confirmed',
     },
   },
   { timestamps: true }

@@ -271,9 +271,7 @@ export default function BotanicalPlantsSection() {
                 <img
                   src={getProductImageUrl(plant.image)}
                   alt={`${plant.name} - Living Botanical Plant in Ceramic Planter | Dhanvikk Blooms`}
-                  width="400"
-                  height="300"
-                  className="w-full h-full aspect-[4/3] object-cover transition-transform duration-700 group-hover:scale-108"
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-108"
                   loading="lazy"
                   decoding="async"
                   onError={(e) => {

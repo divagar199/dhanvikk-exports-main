@@ -11,9 +11,6 @@ export default defineConfig({
   server: {
     port: 5173,
     host: true,
-    headers: {
-      'Cross-Origin-Opener-Policy': 'same-origin-allow-popups',
-    },
     proxy: {
       '/api': {
         target: 'http://localhost:5000',
@@ -29,12 +26,6 @@ export default defineConfig({
         target: 'http://localhost:5000',
         changeOrigin: true,
         secure: false,
-      },
-      // Proxies Firebase Auth helper requests to prevent third-party bounce tracking warnings
-      '/__/auth': {
-        target: 'https://auth-checker-1-main.firebaseapp.com',
-        changeOrigin: true,
-        secure: true,
       },
     },
   },

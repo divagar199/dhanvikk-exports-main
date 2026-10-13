@@ -1,620 +1,507 @@
-import React, { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
-  View,
-  ScrollView,
-  TouchableOpacity,
-  StyleSheet,
   Alert,
-  ActivityIndicator,
-  Platform,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
 } from 'react-native';
-import { Link, useRouter } from 'expo-router';
 import { Image } from 'expo-image';
-import {
-  Package,
-  Heart,
-  MapPin,
-  Bell,
-  HelpCircle,
-  Info,
-  LogOut,
-  ChevronRight,
-  ShieldCheck,
-  RefreshCw,
-  UserCheck,
-  Crown,
-  Flower2,
-  User,
-  LogIn,
-} from 'lucide-react-native';
-import * as Haptics from 'expo-haptics';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { Colors, Spacing, Radius, Shadows } from '../../theme';
-import { AppText } from '../../components/AppText';
-import { GrandLogo } from '../../components/GrandLogo';
-import GoogleAuthModal from '../../components/GoogleAuthModal';
-import { useAuthStore } from '../../store/authStore';
-import { useWishlistStore } from '../../store/wishlistStore';
-import { useUIStore } from '../../store/uiStore';
-import { getUserAvatarUrl } from '../../utils/imageUrl';
-import { useResponsive } from '../../hooks/useResponsive';
+import { router } from 'expo-router';
+import { Ionicons } from '@expo/vector-icons';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { colors, radius, spacing } from '@/constants/theme';
+import { getStoredUser } from '@/lib/storage';
+import { logout } from '@/services/auth';
+import { useStore } from '@/store/useStore';
+import type { User } from '@/types/models';
+import { GoogleSignInModal } from '@/components/GoogleSignInModal';
 
-export default function AccountScreen() {
-  const router = useRouter();
-  const { isTablet, containerStyle } = useResponsive();
-  const { user, logout, syncUserData, savedAddresses, recentOrders } = useAuthStore();
-  const { items: wishlistItems } = useWishlistStore();
-  const { showToast } = useUIStore();
-
+export default function Account() {
+  const insets = useSafeAreaInsets();
+  const user = useStore((s) => s.user);
+  const setUser = useStore((s) => s.setUser);
   const [showGoogleModal, setShowGoogleModal] = useState(false);
-  const [syncing, setSyncing] = useState(false);
+
+  useEffect(() => {
+    getStoredUser<User>().then((u) => {
+      if (u) setUser(u);
+    });
+  }, [setUser]);
 
   const handleLogout = () => {
-    Alert.alert(
-      'Sign Out',
-      'Are you sure you want to sign out of your Dhanvikk account?',
-      [
-        { text: 'Cancel', style: 'cancel' },
-        {
-          text: 'Sign Out',
-          style: 'destructive',
-          onPress: async () => {
-            await logout();
-            showToast('Signed out of Dhanvikk account', 'info');
-          },
+    Alert.alert('Sign out', 'Are you sure you want to sign out from Dhanvikk?', [
+      { text: 'Cancel', style: 'cancel' },
+      {
+        text: 'Sign out',
+        style: 'destructive',
+        onPress: async () => {
+          await logout();
+          setUser(null);
         },
-      ]
-    );
-  };
-
-  const handleSyncProfile = async () => {
-    if (!user?.email || syncing) return;
-    try {
-      setSyncing(true);
-      if (Platform.OS !== 'web') {
-        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light).catch(() => {});
-      }
-      await syncUserData(user.email);
-      showToast('Profile and saved blooms synced in real time ✨', 'success');
-    } catch {
-      showToast('Sync completed', 'info');
-    } finally {
-      setSyncing(false);
-    }
+      },
+    ]);
   };
 
   return (
-    <SafeAreaView style={styles.safeArea} edges={['top']}>
+    <View style={[s.page, { paddingTop: Math.max(insets.top, 10) }]}>
+      {/* Header with Brand Logo */}
+      <View style={s.header}>
+        <View style={s.headerTitleRow}>
+          <Image
+            source={require('@/assets/logo.png')}
+            style={s.headerLogo}
+            contentFit="contain"
+          />
+          <Text style={s.headerTitle}>My Account</Text>
+        </View>
+      </View>
+
       <ScrollView
+        contentContainerStyle={[s.content, { paddingBottom: 120 }]}
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={[styles.scrollContent, isTablet && containerStyle]}
       >
-        {/* Profile Card Header */}
-        <View style={styles.profileHeader}>
-          {user ? (
-            <View style={styles.userCardContent}>
-              <View style={styles.userRow}>
-                <View style={styles.avatarWrap}>
-                  <Image
-                    source={{
-                      uri: getUserAvatarUrl(user),
-                    }}
-                    style={styles.avatar}
-                    contentFit="cover"
-                  />
-                  <View style={styles.verifiedOnlineDot} />
-                </View>
+        {/* User Card with VIP Gold Styling */}
+        <View style={s.profileCard}>
+          <View style={s.avatar}>
+            <Text style={s.avatarText}>
+              {user?.name ? user.name.charAt(0).toUpperCase() : '🌸'}
+            </Text>
+          </View>
 
-                <View style={styles.userInfo}>
-                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
-                    <AppText variant="h2" weight="semiBold" numberOfLines={1} style={{ flexShrink: 1 }}>
-                      {user.name}
-                    </AppText>
-                    <View style={styles.vipTierBadge}>
-                      <Crown size={11} color={Colors.gold} />
-                      <AppText variant="caption" color={Colors.primaryDeep} weight="bold" style={{ fontSize: 9 }}>
-                        VIP
-                      </AppText>
-                    </View>
-                  </View>
+          <View style={s.profileInfo}>
+            <Text style={s.name}>{user?.name || 'Welcome to Dhanvikk!'}</Text>
+            <Text style={s.email}>
+              {user?.email || 'Sign in to access VIP orders & rewards'}
+            </Text>
+          </View>
 
-                  <AppText variant="bodySm" color={Colors.textSecondary} numberOfLines={1}>
-                    {user.email}
-                  </AppText>
-
-                  {/* Google Verified Security Tag */}
-                  <View style={styles.googleVerifiedPill}>
-                    <ShieldCheck size={13} color={Colors.success} />
-                    <AppText variant="caption" color={Colors.success} weight="semiBold" style={{ fontSize: 10, marginLeft: 4 }}>
-                      Google Authenticated
-                    </AppText>
-                  </View>
-                </View>
-              </View>
-
-              {/* Real-time Cloud Sync & Switch Account Actions */}
-              <View style={styles.userActionRow}>
-                <TouchableOpacity
-                  style={styles.syncBtn}
-                  onPress={handleSyncProfile}
-                  disabled={syncing}
-                  activeOpacity={0.7}
-                >
-                  {syncing ? (
-                    <ActivityIndicator size="small" color={Colors.primary} />
-                  ) : (
-                    <RefreshCw size={14} color={Colors.primary} />
-                  )}
-                  <AppText variant="caption" color={Colors.primaryDeep} weight="semiBold" style={{ marginLeft: 6 }}>
-                    {syncing ? 'Syncing...' : 'Sync Cloud'}
-                  </AppText>
-                </TouchableOpacity>
-
-                <TouchableOpacity
-                  style={styles.switchAccountBtn}
-                  onPress={() => setShowGoogleModal(true)}
-                  activeOpacity={0.7}
-                >
-                  <UserCheck size={14} color={Colors.textSecondary} />
-                  <AppText variant="caption" color={Colors.textSecondary} weight="medium" style={{ marginLeft: 6 }}>
-                    Switch Account
-                  </AppText>
-                </TouchableOpacity>
-              </View>
-            </View>
-          ) : (
-            <View style={styles.guestCard}>
-              <View style={styles.guestHeaderRow}>
-                <View style={styles.guestAvatarPlaceholder}>
-                  <User size={30} color={Colors.primaryDeep} />
-                </View>
-                <View style={styles.guestInfo}>
-                  <View style={styles.guestKickerRow}>
-                    <Flower2 size={12} color={Colors.primaryDeep} />
-                    <AppText variant="caption" color={Colors.primaryDeep} weight="bold" style={styles.guestKicker}>
-                      DHANVIKK ATELIER
-                    </AppText>
-                  </View>
-                  <AppText variant="h2" serif={true} style={{ marginTop: 2 }}>
-                    Welcome to Dhanvikk
-                  </AppText>
-                  <AppText variant="bodySm" color={Colors.textSecondary} style={{ marginTop: 2, lineHeight: 18 }}>
-                    Sign in to access your orders, saved bouquets, and luxury delivery concierge.
-                  </AppText>
-                </View>
-              </View>
-
-              {/* Direct Go to Login Page Option */}
-              <TouchableOpacity
-                style={styles.goToLoginBtn}
-                activeOpacity={0.88}
-                onPress={() => {
-                  if (Platform.OS !== 'web') {
-                    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light).catch(() => {});
-                  }
-                  router.push('/auth/login');
-                }}
+          {!user ? (
+            <View style={s.profileAuthBtns}>
+              <Pressable
+                style={s.googleProfileBtn}
+                onPress={() => setShowGoogleModal(true)}
               >
-                <LogIn size={18} color={Colors.white} />
-                <AppText variant="body" weight="semiBold" color={Colors.white} style={{ marginLeft: 8 }}>
-                  Sign In / Log In
-                </AppText>
-                <ChevronRight size={18} color={Colors.white} style={{ marginLeft: 'auto' }} />
-              </TouchableOpacity>
-
-              {/* Continue with Google Option */}
-              <TouchableOpacity
-                style={styles.guestGoogleBtn}
-                activeOpacity={0.88}
-                onPress={() => {
-                  if (Platform.OS !== 'web') {
-                    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light).catch(() => {});
-                  }
-                  setShowGoogleModal(true);
-                }}
+                <Ionicons name="logo-google" size={16} color="#DB4437" />
+                <Text style={s.googleProfileText}>Google</Text>
+              </Pressable>
+              <Pressable
+                style={s.signInMiniBtn}
+                onPress={() => router.push('/auth/login')}
               >
-                <Image
-                  source={{
-                    uri: 'https://www.gstatic.com/images/branding/product/2x/googleg_48dp.png',
-                  }}
-                  style={{ width: 18, height: 18, marginRight: 8 }}
-                  contentFit="contain"
-                />
-                <AppText variant="body" weight="medium" color={Colors.text}>
-                  Continue with Google
-                </AppText>
-              </TouchableOpacity>
-
-              {/* Register Option Below */}
-              <View style={styles.guestRegisterRow}>
-                <AppText variant="caption" color={Colors.textSecondary}>
-                  {"Don't have an account?"}{' '}
-                </AppText>
-                <TouchableOpacity
-                  onPress={() => router.push('/auth/register')}
-                  hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
-                >
-                  <AppText variant="caption" color={Colors.primaryDeep} weight="bold">
-                    Create Account →
-                  </AppText>
-                </TouchableOpacity>
-              </View>
+                <Text style={s.signInMiniText}>Login</Text>
+              </Pressable>
             </View>
-          )}
+          ) : null}
         </View>
 
-        {/* Menu Groups */}
-        <View style={styles.menuGroup}>
-          <AppText variant="caption" color={Colors.textSecondary} weight="semiBold" style={styles.groupTitle}>
-            ORDERS & SHOPPING
-          </AppText>
+        {/* Dhanvikk Club VIP Banner (Flipkart Plus style) */}
+        <View style={s.vipBanner}>
+          <View style={s.vipLeft}>
+            <Ionicons name="sparkles" size={18} color={colors.yellowGold} />
+            <View>
+              <Text style={s.vipTitle}>Dhanvikk VIP Club</Text>
+              <Text style={s.vipSub}>Free Delivery on every bouquet + 5% Back</Text>
+            </View>
+          </View>
+          <View style={s.vipPill}>
+            <Text style={s.vipPillText}>ACTIVE</Text>
+          </View>
+        </View>
 
-          <TouchableOpacity
-            style={styles.menuItem}
+        {/* 4-Item Quick Action Grid (Classic Flipkart pattern) */}
+        <View style={s.quickGrid}>
+          <Pressable
+            style={s.quickItem}
             onPress={() => router.push('/orders')}
           >
-            <View style={styles.menuItemLeft}>
-              <View style={[styles.iconBox, { backgroundColor: '#E3F2FD' }]}>
-                <Package size={20} color="#1976D2" />
-              </View>
-              <AppText variant="body" weight="medium">
-                My Orders
-              </AppText>
+            <View style={s.quickIcon}>
+              <Ionicons name="cube-outline" size={22} color={colors.primary} />
             </View>
-            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
-              {recentOrders.length > 0 && (
-                <AppText variant="caption" color={Colors.primaryDeep} weight="semiBold">
-                  {recentOrders.length}
-                </AppText>
-              )}
-              <ChevronRight size={18} color={Colors.textSecondary} />
-            </View>
-          </TouchableOpacity>
+            <Text style={s.quickLabel}>Orders</Text>
+          </Pressable>
 
-          <TouchableOpacity
-            style={styles.menuItem}
+          <Pressable
+            style={s.quickItem}
             onPress={() => router.push('/wishlist')}
           >
-            <View style={styles.menuItemLeft}>
-              <View style={[styles.iconBox, { backgroundColor: Colors.palePink }]}>
-                <Heart size={20} color={Colors.primary} />
-              </View>
-              <AppText variant="body" weight="medium">
-                Saved Blooms
-              </AppText>
+            <View style={s.quickIcon}>
+              <Ionicons name="heart-outline" size={22} color={colors.primary} />
             </View>
-            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
-              {wishlistItems.length > 0 && (
-                <AppText variant="caption" color={Colors.primaryDeep} weight="semiBold">
-                  {wishlistItems.length}
-                </AppText>
-              )}
-              <ChevronRight size={18} color={Colors.textSecondary} />
-            </View>
-          </TouchableOpacity>
+            <Text style={s.quickLabel}>Wishlist</Text>
+          </Pressable>
 
-          <TouchableOpacity
-            style={styles.menuItem}
+          <Pressable
+            style={s.quickItem}
+            onPress={() =>
+              Alert.alert('Coupons & Offers', 'Use DHANVIKK10 for 10% off your orders!')
+            }
+          >
+            <View style={s.quickIcon}>
+              <Ionicons name="pricetag-outline" size={22} color={colors.primary} />
+            </View>
+            <Text style={s.quickLabel}>Coupons</Text>
+          </Pressable>
+
+          <Pressable
+            style={s.quickItem}
+            onPress={() =>
+              Alert.alert('Help Center', 'Our 24/7 master florists are reachable at care@dhanvikk.com or +91 98765 43210.')
+            }
+          >
+            <View style={s.quickIcon}>
+              <Ionicons name="headset-outline" size={22} color={colors.primary} />
+            </View>
+            <Text style={s.quickLabel}>Help Center</Text>
+          </Pressable>
+        </View>
+
+        {/* Account Services List */}
+        <View style={s.section}>
+          <Text style={s.sectionTitle}>ACCOUNT SETTINGS</Text>
+
+          <Pressable
+            style={s.menuRow}
             onPress={() => router.push('/addresses')}
           >
-            <View style={styles.menuItemLeft}>
-              <View style={[styles.iconBox, { backgroundColor: '#E8F5E9' }]}>
-                <MapPin size={20} color={Colors.success} />
-              </View>
-              <AppText variant="body" weight="medium">
-                Delivery Addresses
-              </AppText>
-            </View>
-            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
-              {savedAddresses.length > 0 && (
-                <AppText variant="caption" color={Colors.primaryDeep} weight="semiBold">
-                  {savedAddresses.length}
-                </AppText>
-              )}
-              <ChevronRight size={18} color={Colors.textSecondary} />
-            </View>
-          </TouchableOpacity>
+            <Ionicons name="location-outline" size={20} color={colors.ink} />
+            <Text style={s.menuLabel}>Saved Addresses</Text>
+            <Ionicons name="chevron-forward" size={18} color={colors.muted} />
+          </Pressable>
+
+          <Pressable
+            style={s.menuRow}
+            onPress={() => router.push('/map')}
+          >
+            <Ionicons name="navigate-outline" size={20} color={colors.ink} />
+            <Text style={s.menuLabel}>Delivery Hub Map</Text>
+            <Ionicons name="chevron-forward" size={18} color={colors.muted} />
+          </Pressable>
+
+          <Pressable
+            style={s.menuRow}
+            onPress={() =>
+              Alert.alert('Notifications', 'Push notifications for order updates and flower drops are active.')
+            }
+          >
+            <Ionicons name="notifications-outline" size={20} color={colors.ink} />
+            <Text style={s.menuLabel}>Notification Preferences</Text>
+            <Ionicons name="chevron-forward" size={18} color={colors.muted} />
+          </Pressable>
         </View>
 
-        {/* Preferences & Support Group */}
-        <View style={styles.menuGroup}>
-          <AppText variant="caption" color={Colors.textSecondary} weight="semiBold" style={styles.groupTitle}>
-            PREFERENCES & SUPPORT
-          </AppText>
+        {/* Support & Policies */}
+        <View style={s.section}>
+          <Text style={s.sectionTitle}>FEEDBACK & INFORMATION</Text>
 
-          <TouchableOpacity
-            style={styles.menuItem}
-            onPress={() => router.push('/notifications')}
+          <Pressable
+            style={s.menuRow}
+            onPress={() =>
+              Alert.alert(
+                'Quality Promise',
+                'Dhanvikk guarantees 100% farm-fresh highland flowers. If your bouquet does not meet expectations, we replace it within 24 hours.'
+              )
+            }
           >
-            <View style={styles.menuItemLeft}>
-              <View style={[styles.iconBox, { backgroundColor: '#FFF3E0' }]}>
-                <Bell size={20} color="#E65100" />
-              </View>
-              <AppText variant="body" weight="medium">
-                Notifications
-              </AppText>
-            </View>
-            <ChevronRight size={18} color={Colors.textSecondary} />
-          </TouchableOpacity>
+            <Ionicons name="ribbon-outline" size={20} color={colors.ink} />
+            <Text style={s.menuLabel}>Floristry Quality Promise</Text>
+            <Ionicons name="chevron-forward" size={18} color={colors.muted} />
+          </Pressable>
 
-          <TouchableOpacity
-            style={styles.menuItem}
-            onPress={() => router.push('/help')}
+          <Pressable
+            style={s.menuRow}
+            onPress={() =>
+              Alert.alert('Terms & Privacy', 'All transactions encrypted via 256-bit SSL.')
+            }
           >
-            <View style={styles.menuItemLeft}>
-              <View style={[styles.iconBox, { backgroundColor: '#F3E5F5' }]}>
-                <HelpCircle size={20} color="#8E24AA" />
-              </View>
-              <AppText variant="body" weight="medium">
-                Help & Concierge Support
-              </AppText>
-            </View>
-            <ChevronRight size={18} color={Colors.textSecondary} />
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={styles.menuItem}
-            onPress={() => router.push('/about')}
-          >
-            <View style={styles.menuItemLeft}>
-              <View style={[styles.iconBox, { backgroundColor: '#EDE7F6' }]}>
-                <Info size={20} color="#5E35B1" />
-              </View>
-              <AppText variant="body" weight="medium">
-                About Dhanvikk Blooms
-              </AppText>
-            </View>
-            <ChevronRight size={18} color={Colors.textSecondary} />
-          </TouchableOpacity>
+            <Ionicons name="document-text-outline" size={20} color={colors.ink} />
+            <Text style={s.menuLabel}>Legal & Privacy Policy</Text>
+            <Ionicons name="chevron-forward" size={18} color={colors.muted} />
+          </Pressable>
         </View>
 
-        {/* Sign Out Action if logged in */}
+        {/* Auth CTA */}
         {user ? (
-          <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
-            <LogOut size={20} color={Colors.error} />
-            <AppText variant="button" color={Colors.error}>
-              Sign Out
-            </AppText>
-          </TouchableOpacity>
-        ) : null}
+          <Pressable style={s.logoutRow} onPress={handleLogout}>
+            <Ionicons name="log-out-outline" size={20} color={colors.danger} />
+            <Text style={s.logoutText}>Sign Out</Text>
+          </Pressable>
+        ) : (
+          <View style={s.guestBottomCta}>
+            <Pressable
+              style={s.googleBottomBtn}
+              onPress={() => setShowGoogleModal(true)}
+            >
+              <Ionicons name="logo-google" size={18} color="#DB4437" />
+              <Text style={s.googleBottomText}>Sign In with Google</Text>
+            </Pressable>
 
-        {/* Version & Heritage Brand Footer */}
-        <View style={styles.versionFooter}>
-          <GrandLogo
-            size="sm"
-            showSubtitle={true}
-            subtitleText="Blooms & Exports"
-            style={{ marginBottom: 12 }}
-          />
-          <AppText variant="caption" color={Colors.textSecondary} align="center">
-            Dhanvikk Blooms & Exports Mobile • v1.0.0
-          </AppText>
-          <AppText variant="caption" color={Colors.textSecondary} align="center" style={{ marginTop: 2 }}>
-            DEVELOPED BY{' '}
-            <Link href="https://haznox.com" style={{ color: Colors.primary }}>
-              HAZNOX TECHS PVT LTD
-            </Link>
-          </AppText>
-        </View>
+            <Pressable
+              style={s.fullLoginBtn}
+              onPress={() => router.push('/auth/login')}
+            >
+              <Text style={s.fullLoginText}>Sign In / Register with Email</Text>
+            </Pressable>
+          </View>
+        )}
       </ScrollView>
 
-      {/* Real-time Google Authentication Modal */}
-      <GoogleAuthModal
+      {/* Google Sign In Modal */}
+      <GoogleSignInModal
         visible={showGoogleModal}
         onClose={() => setShowGoogleModal(false)}
-        initialEmail={user?.email || ''}
+        onSuccess={(u?: any) => {
+          setShowGoogleModal(false);
+          if (u) setUser(u);
+        }}
       />
-    </SafeAreaView>
+    </View>
   );
 }
 
-const styles = StyleSheet.create({
-  safeArea: {
+const s = StyleSheet.create({
+  page: {
     flex: 1,
-    backgroundColor: Colors.background,
+    backgroundColor: colors.background,
   },
-  scrollContent: {
-    padding: Spacing.screenPadding,
-    paddingBottom: 40,
+  header: {
+    backgroundColor: colors.white,
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.lineLight,
   },
-  profileHeader: {
-    backgroundColor: Colors.surface,
-    borderRadius: Radius.card,
-    padding: Spacing.lg,
-    marginBottom: Spacing.xl,
-    borderWidth: 1,
-    borderColor: Colors.border,
-    ...Shadows.sm,
-  },
-  userCardContent: {
-    gap: 14,
-  },
-  userRow: {
+  headerTitleRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 14,
+    gap: 10,
   },
-  avatarWrap: {
-    position: 'relative',
+  headerLogo: {
+    width: 28,
+    height: 28,
+    borderRadius: 14,
+  },
+  headerTitle: {
+    fontSize: 18,
+    fontWeight: '900',
+    color: colors.ink,
+  },
+  content: {},
+  profileCard: {
+    backgroundColor: colors.white,
+    padding: 16,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.lineLight,
   },
   avatar: {
-    width: 64,
-    height: 64,
-    borderRadius: 32,
-    backgroundColor: Colors.blush,
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    backgroundColor: colors.pale,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 1,
+    borderColor: colors.lineLight,
   },
-  verifiedOnlineDot: {
-    position: 'absolute',
-    bottom: 2,
-    right: 2,
-    width: 14,
-    height: 14,
-    borderRadius: 7,
-    backgroundColor: Colors.success,
-    borderWidth: 2,
-    borderColor: Colors.white,
+  avatarText: {
+    fontSize: 20,
+    fontWeight: '900',
+    color: colors.primaryDeep,
   },
-  userInfo: {
+  profileInfo: {
     flex: 1,
-    gap: 2,
   },
-  vipTierBadge: {
+  name: {
+    fontSize: 16,
+    fontWeight: '900',
+    color: colors.ink,
+  },
+  email: {
+    fontSize: 12,
+    color: colors.muted,
+    marginTop: 2,
+  },
+  signInMiniBtn: {
+    backgroundColor: colors.primary,
+    paddingHorizontal: 14,
+    paddingVertical: 6,
+    borderRadius: 4,
+  },
+  signInMiniText: {
+    color: colors.white,
+    fontWeight: '900',
+    fontSize: 12,
+  },
+  vipBanner: {
+    backgroundColor: '#1E222D', // Premium Flipkart VIP dark bar
+    marginHorizontal: 12,
+    marginTop: 10,
+    borderRadius: radius.sm,
+    padding: 12,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  vipLeft: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 3,
-    backgroundColor: Colors.palePink,
+    gap: 10,
+    flex: 1,
+  },
+  vipTitle: {
+    color: colors.yellowGold,
+    fontSize: 13,
+    fontWeight: '900',
+  },
+  vipSub: {
+    color: 'rgba(255,255,255,0.75)',
+    fontSize: 10,
+    marginTop: 1,
+  },
+  vipPill: {
+    backgroundColor: colors.yellowGold,
     paddingHorizontal: 6,
     paddingVertical: 2,
-    borderRadius: Radius.pill,
-    borderWidth: 1,
-    borderColor: Colors.primary + '33',
+    borderRadius: 3,
   },
-  googleVerifiedPill: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#E8F5E9',
-    alignSelf: 'flex-start',
-    paddingHorizontal: 8,
-    paddingVertical: 2,
-    borderRadius: Radius.pill,
-    marginTop: 4,
+  vipPillText: {
+    color: colors.ink,
+    fontSize: 9,
+    fontWeight: '900',
   },
-  userActionRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 10,
-    borderTopWidth: 1,
-    borderTopColor: Colors.border,
-    paddingTop: 12,
-  },
-  syncBtn: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: Colors.tintedSurface,
-    paddingHorizontal: 12,
-    paddingVertical: 7,
-    borderRadius: Radius.chip,
-    borderWidth: 1,
-    borderColor: Colors.border,
-  },
-  switchAccountBtn: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingHorizontal: 10,
-    paddingVertical: 7,
-    borderRadius: Radius.chip,
-  },
-  // Guest VIP Invitation Card
-  guestCard: {
-    gap: 14,
-  },
-  guestHeaderRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 14,
-  },
-  guestAvatarPlaceholder: {
-    width: 58,
-    height: 58,
-    borderRadius: 29,
-    backgroundColor: Colors.palePink,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderWidth: 1.5,
-    borderColor: Colors.primary + '33',
-  },
-  guestInfo: {
-    flex: 1,
-    gap: 2,
-  },
-  guestKickerRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 5,
-  },
-  guestKicker: {
-    letterSpacing: 1.1,
-    fontSize: 10,
-  },
-  goToLoginBtn: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: Colors.primary,
+  quickGrid: {
+    backgroundColor: colors.white,
+    marginVertical: 10,
     paddingVertical: 14,
-    paddingHorizontal: 16,
-    borderRadius: Radius.md,
-    ...Shadows.sm,
-  },
-  guestGoogleBtn: {
     flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: Colors.white,
-    paddingVertical: 13,
-    paddingHorizontal: 16,
-    borderRadius: Radius.md,
-    borderWidth: 1,
-    borderColor: Colors.border,
-    marginTop: 10,
-    ...Shadows.sm,
-  },
-  guestRegisterRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingTop: 4,
-    marginTop: 4,
-  },
-  menuGroup: {
-    backgroundColor: Colors.surface,
-    borderRadius: Radius.card,
-    paddingVertical: Spacing.sm,
-    paddingHorizontal: Spacing.md,
-    marginBottom: Spacing.xl,
-    borderWidth: 1,
-    borderColor: Colors.border,
-    ...Shadows.sm,
-  },
-  groupTitle: {
-    paddingHorizontal: 12,
-    paddingVertical: 10,
-    letterSpacing: 1,
-  },
-  menuItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingVertical: 12,
-    paddingHorizontal: 12,
+    justifyContent: 'space-around',
     borderTopWidth: 1,
-    borderTopColor: '#F5EFF2',
+    borderBottomWidth: 1,
+    borderColor: colors.lineLight,
   },
-  menuItemLeft: {
-    flexDirection: 'row',
+  quickItem: {
     alignItems: 'center',
-    gap: 14,
+    flex: 1,
   },
-  iconBox: {
-    width: 36,
-    height: 36,
-    borderRadius: 18,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  logoutButton: {
-    flexDirection: 'row',
+  quickIcon: {
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    backgroundColor: colors.pale,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: Colors.surface,
-    borderRadius: Radius.button,
-    height: 52,
+    marginBottom: 6,
+  },
+  quickLabel: {
+    fontSize: 12,
+    fontWeight: '800',
+    color: colors.ink,
+  },
+  section: {
+    backgroundColor: colors.white,
+    marginBottom: 10,
+    borderTopWidth: 1,
+    borderBottomWidth: 1,
+    borderColor: colors.lineLight,
+  },
+  sectionTitle: {
+    fontSize: 11,
+    fontWeight: '900',
+    color: colors.muted,
+    paddingHorizontal: 16,
+    paddingTop: 12,
+    paddingBottom: 6,
+    letterSpacing: 0.5,
+  },
+  menuRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 16,
+    paddingVertical: 14,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.lineLight,
+    gap: 12,
+  },
+  menuLabel: {
+    flex: 1,
+    fontSize: 14,
+    fontWeight: '700',
+    color: colors.ink,
+  },
+  logoutRow: {
+    backgroundColor: colors.white,
+    marginHorizontal: 12,
+    marginTop: 6,
+    padding: 14,
+    borderRadius: 4,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 8,
     borderWidth: 1,
-    borderColor: '#FFCDD2',
-    gap: 10,
-    marginBottom: Spacing.xl,
+    borderColor: colors.lineLight,
   },
-  versionFooter: {
+  logoutText: {
+    color: colors.danger,
+    fontSize: 14,
+    fontWeight: '900',
+  },
+  fullLoginBtn: {
+    backgroundColor: colors.primary,
+    marginHorizontal: 12,
+    marginTop: 6,
+    paddingVertical: 14,
+    borderRadius: 4,
     alignItems: 'center',
-    paddingVertical: 10,
+  },
+  fullLoginText: {
+    color: colors.white,
+    fontWeight: '900',
+    fontSize: 14,
+  },
+  profileAuthBtns: {
+    flexDirection: 'row',
+    gap: 8,
+  },
+  googleProfileBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+    backgroundColor: colors.white,
+    borderWidth: 1,
+    borderColor: colors.lineLight,
+    paddingHorizontal: 10,
+    paddingVertical: 6,
+    borderRadius: 4,
+  },
+  googleProfileText: {
+    fontSize: 12,
+    fontWeight: '800',
+    color: colors.ink,
+  },
+  guestBottomCta: {
+    gap: 8,
+  },
+  googleBottomBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 8,
+    backgroundColor: colors.white,
+    borderWidth: 1.5,
+    borderColor: colors.lineLight,
+    marginHorizontal: 12,
+    marginTop: 10,
+    paddingVertical: 13,
+    borderRadius: 4,
+  },
+  googleBottomText: {
+    color: colors.ink,
+    fontSize: 14,
+    fontWeight: '800',
   },
 });

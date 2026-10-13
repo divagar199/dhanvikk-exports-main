@@ -1,545 +1,305 @@
-import React, { useState, useEffect } from 'react';
+import { useState } from 'react';
 import {
-  View,
-  ScrollView,
-  TouchableOpacity,
-  StyleSheet,
+  Alert,
   KeyboardAvoidingView,
   Platform,
-  ActivityIndicator,
-  Keyboard,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
 } from 'react-native';
-import { useRouter } from 'expo-router';
 import { Image } from 'expo-image';
-import {
-  ArrowLeft,
-  Mail,
-  Lock,
-  Eye,
-  EyeOff,
-  ShieldCheck,
-  AlertCircle,
-  Zap,
-  Flower2,
-  UserPlus,
-} from 'lucide-react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import * as Haptics from 'expo-haptics';
-import { Colors, Spacing, Radius, Shadows } from '../../theme';
-import { AppText } from '../../components/AppText';
-import { AppButton } from '../../components/AppButton';
-import { AppInput } from '../../components/AppInput';
-import { GrandLogo } from '../../components/GrandLogo';
-import GoogleAuthModal from '../../components/GoogleAuthModal';
-import { authService } from '../../services/authService';
-import { useAuthStore } from '../../store/authStore';
-import { useUIStore } from '../../store/uiStore';
+import { router } from 'expo-router';
+import { Ionicons } from '@expo/vector-icons';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { login } from '@/services/auth';
+import { useStore } from '@/store/useStore';
+import { colors, radius, spacing } from '@/constants/theme';
+import { GoogleSignInModal } from '@/components/GoogleSignInModal';
 
-export default function LoginScreen() {
-  const router = useRouter();
-  const { user, setAuth } = useAuthStore();
-  const { showToast } = useUIStore();
+const brandLogo = require('@/assets/logo.png');
 
+export default function Login() {
+  const insets = useSafeAreaInsets();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [authStatus, setAuthStatus] = useState('');
-  const [errorMsg, setErrorMsg] = useState('');
-  const [showGoogleModal, setShowGoogleModal] = useState(false);
+  const [busy, setBusy] = useState(false);
+  const [googleModal, setGoogleModal] = useState(false);
+  const setUser = useStore((s) => s.setUser);
 
-  // If already authenticated, redirect straight to Account
-  useEffect(() => {
-    if (user) {
-      router.replace('/(tabs)/account');
+  const submit = async () => {
+    if (!email.trim() || !password) {
+      return Alert.alert('Missing Details', 'Please enter your email and password.');
     }
-  }, [user, router]);
-
-  // 1. Google 1-Tap Account Chooser Sign-In Handler
-  const handleGoogleSignIn = () => {
-    Keyboard.dismiss();
-    setErrorMsg('');
-    if (Platform.OS !== 'web') {
-      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light).catch(() => {});
-    }
-    // Directly present Google account selection options synced with Firebase & database
-    setShowGoogleModal(true);
-  };
-
-  // 2. Email & Password Sign-In Handler
-  const handleEmailSignIn = async () => {
-    Keyboard.dismiss();
-    setErrorMsg('');
-    const cleanEmail = email.trim().toLowerCase();
-    const cleanPass = password.trim();
-
-    if (!cleanEmail || !cleanPass) {
-      setErrorMsg('Please enter both your email address and password.');
-      return;
-    }
-
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(cleanEmail)) {
-      setErrorMsg('Please enter a valid email address.');
-      return;
-    }
-
+    setBusy(true);
     try {
-      setLoading(true);
-      setAuthStatus('Verifying credentials...');
-      if (Platform.OS !== 'web') {
-        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light).catch(() => {});
-      }
-
-      const res = await authService.login(cleanEmail, cleanPass);
-      setAuth(res.user, res.token);
-      setLoading(false);
-      setAuthStatus('');
-
-      if (Platform.OS !== 'web') {
-        Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success).catch(() => {});
-      }
-
-      showToast(`Welcome back, ${res.user.name}!`, 'success');
-      router.replace('/(tabs)/account');
-    } catch (err: any) {
-      setLoading(false);
-      setAuthStatus('');
-      if (err?.response?.data?.code === 'USER_NOT_FOUND') {
-        showToast('Account not found in our database. Redirecting to Register...', 'info');
-        router.push({
-          pathname: '/auth/register',
-          params: { email: cleanEmail },
-        });
-        return;
-      }
-      const friendly =
-        err?.response?.data?.message ||
-        err?.friendlyMessage ||
-        err?.message ||
-        'Invalid email or password.';
-      setErrorMsg(friendly);
+      const r = await login(email.trim(), password);
+      setUser(r.user);
+      Alert.alert('Welcome!', `Logged in as ${r.user?.name || email.trim()}`);
+      router.replace('/(tabs)/home');
+    } catch (e: any) {
+      Alert.alert('Sign In Failed', e.message || 'Please check your credentials and try again.');
+    } finally {
+      setBusy(false);
     }
   };
 
   return (
-    <SafeAreaView style={styles.safeArea} edges={['top']}>
-      <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-        style={{ flex: 1 }}
-      >
-        {/* Navigation Bar */}
-        <View style={styles.navBar}>
-          <TouchableOpacity
-            onPress={() => router.back()}
-            style={styles.backBtn}
-            hitSlop={{ top: 12, bottom: 12, left: 12, right: 12 }}
-            accessibilityLabel="Go back"
-          >
-            <ArrowLeft size={20} color={Colors.text} />
-          </TouchableOpacity>
-
-          <View style={styles.navBrandPill}>
-            <Flower2 size={13} color={Colors.gold} />
-            <AppText
-              variant="caption"
-              weight="bold"
-              color={Colors.primaryDeep}
-              style={styles.navBrandText}
-            >
-              DHANVIKK ATELIER
-            </AppText>
-          </View>
-
-          <View style={{ width: 40 }} />
-        </View>
-
-        <ScrollView
-          showsVerticalScrollIndicator={false}
-          keyboardShouldPersistTaps="handled"
-          contentContainerStyle={styles.scrollContent}
+    <View style={[s.page, { paddingTop: Math.max(insets.top, 12) }]}>
+      <View style={s.topBar}>
+        <Pressable
+          style={s.backBtn}
+          onPress={() => (router.canGoBack() ? router.back() : router.replace('/(tabs)/account'))}
         >
-          {/* Brand Header */}
-          <View style={styles.brandSection}>
-            <GrandLogo
-              size="lg"
-              showSubtitle={true}
-              subtitleText="Blooms & Exports"
-            />
-            <AppText variant="h1" align="center" style={styles.title}>
-              Welcome Back
-            </AppText>
-            <AppText
-              variant="bodySm"
-              color={Colors.textSecondary}
-              align="center"
-              style={styles.subtitle}
-            >
-              Sign in to manage your orders, private curation & bespoke floral deliveries.
-            </AppText>
+          <Ionicons name="arrow-back" size={22} color={colors.ink} />
+        </Pressable>
+      </View>
+
+      <KeyboardAvoidingView
+        style={{ flex: 1 }}
+        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+      >
+        <ScrollView contentContainerStyle={s.content} showsVerticalScrollIndicator={false}>
+          {/* Brand Logo Header */}
+          <View style={s.logoCard}>
+            <Image source={brandLogo} style={s.logoImg} contentFit="contain" />
+            <Text style={s.eyebrow}>DHANVIKK BLOOMS</Text>
+            <Text style={s.title}>Welcome back.</Text>
+            <Text style={s.sub}>
+              Sign in to manage your blooms, track orders, and save your delivery addresses.
+            </Text>
           </View>
 
-          {/* Luxury Authentication Form Card */}
-          <View style={styles.formCard}>
-            {/* Error Notification Banner */}
-            {errorMsg ? (
-              <View style={styles.errorBanner}>
-                <AlertCircle size={16} color={Colors.error} />
-                <AppText
-                  variant="caption"
-                  color={Colors.error}
-                  weight="medium"
-                  style={styles.errorText}
-                >
-                  {errorMsg}
-                </AppText>
-              </View>
-            ) : null}
-
-            {/* Live Loading / Sync Banner */}
-            {loading && authStatus ? (
-              <View style={styles.loadingBanner}>
-                <ActivityIndicator size="small" color={Colors.primary} />
-                <AppText
-                  variant="caption"
-                  color={Colors.primaryDeep}
-                  weight="medium"
-                  style={{ marginLeft: 8 }}
-                >
-                  {authStatus}
-                </AppText>
-              </View>
-            ) : null}
-
-            {/* TOP: Prominent Google Sign-In Button */}
-            <TouchableOpacity
-              style={[styles.googleBtn, loading && { opacity: 0.6 }]}
-              activeOpacity={0.88}
-              onPress={handleGoogleSignIn}
-              disabled={loading}
-              accessibilityLabel="Sign in with Google"
-            >
-              <Image
-                source={{
-                  uri: 'https://www.gstatic.com/images/branding/product/2x/googleg_48dp.png',
-                }}
-                style={styles.googleIcon}
-                contentFit="contain"
-              />
-              <AppText variant="body" weight="bold" color={Colors.text}>
-                Sign in with Google
-              </AppText>
-            </TouchableOpacity>
-
-            <View style={styles.googleHintRow}>
-              <Zap size={12} color={Colors.gold} />
-              <AppText variant="caption" color={Colors.textSecondary} style={{ fontSize: 11.5, marginLeft: 5 }}>
-                1-Tap authentication with Google or Gmail
-              </AppText>
-            </View>
-
-            {/* MIDDLE: Editorial Divider */}
-            <View style={styles.dividerRow}>
-              <View style={styles.dividerLine} />
-              <AppText variant="caption" color={Colors.textSecondary} style={styles.dividerText}>
-                or sign in with email & password
-              </AppText>
-              <View style={styles.dividerLine} />
-            </View>
-
-            {/* Email Input */}
-            <AppInput
-              label="EMAIL ADDRESS"
-              placeholder="you@domain.com"
-              value={email}
-              onChangeText={(text) => {
-                setEmail(text);
-                if (errorMsg) setErrorMsg('');
-              }}
-              keyboardType="email-address"
-              autoCapitalize="none"
-              autoCorrect={false}
-              leftIcon={<Mail size={18} color={Colors.textSecondary} />}
-              editable={!loading}
-              containerStyle={{ marginBottom: Spacing.md }}
-            />
-
-            {/* Password Input with Toggle */}
-            <AppInput
-              label="PASSWORD"
-              placeholder="Enter your password"
-              value={password}
-              onChangeText={(text) => {
-                setPassword(text);
-                if (errorMsg) setErrorMsg('');
-              }}
-              secureTextEntry={!showPassword}
-              leftIcon={<Lock size={18} color={Colors.textSecondary} />}
-              rightIcon={
-                <TouchableOpacity
-                  onPress={() => setShowPassword(!showPassword)}
-                  hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
-                >
-                  {showPassword ? (
-                    <EyeOff size={18} color={Colors.textSecondary} />
-                  ) : (
-                    <Eye size={18} color={Colors.textSecondary} />
-                  )}
-                </TouchableOpacity>
-              }
-              editable={!loading}
-              containerStyle={{ marginBottom: Spacing.xs }}
-            />
-
-            {/* Forgot Password Link */}
-            <TouchableOpacity
-              onPress={() => router.push('/auth/forgot-password')}
-              style={styles.forgotBtn}
-              hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
-            >
-              <AppText variant="caption" color={Colors.primaryDeep} weight="medium">
-                Forgot password?
-              </AppText>
-            </TouchableOpacity>
-
-            {/* Primary Sign In Button */}
-            <AppButton
-              title="Sign In"
-              onPress={handleEmailSignIn}
-              loading={loading}
-              variant="primary"
-              size="large"
-              fullWidth
-              style={styles.submitBtn}
-            />
-
-            {/* BOTTOM: Create Account Section */}
-            <View style={styles.createAccountDividerRow}>
-              <View style={styles.dividerLine} />
-              <AppText variant="caption" color={Colors.textSecondary} style={styles.dividerText}>
-                New to Dhanvikk Atelier?
-              </AppText>
-              <View style={styles.dividerLine} />
-            </View>
-
-            <TouchableOpacity
-              style={styles.createAccountBtn}
-              onPress={() => router.push('/auth/register')}
-              activeOpacity={0.88}
-              disabled={loading}
-              accessibilityLabel="Create Account"
-            >
-              <UserPlus size={18} color={Colors.primaryDeep} />
-              <AppText variant="body" weight="bold" color={Colors.primaryDeep} style={{ marginLeft: 8 }}>
-                Create Account
-              </AppText>
-            </TouchableOpacity>
-
-            {/* Security Footnote */}
-            <View style={styles.securityBadge}>
-              <ShieldCheck size={13} color={Colors.success} />
-              <AppText
-                variant="caption"
-                color={Colors.textSecondary}
-                style={{ fontSize: 11, marginLeft: 6 }}
-              >
-                Secured by Firebase & Google Identity
-              </AppText>
-            </View>
-          </View>
-
-          {/* Guest Access Link */}
-          <TouchableOpacity
-            onPress={() => router.replace('/(tabs)/home')}
-            style={styles.guestLink}
-            hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+          {/* 1-Tap Google Sign-In Button */}
+          <Pressable
+            style={s.googleBtn}
+            onPress={() => setGoogleModal(true)}
+            hitSlop={4}
           >
-            <AppText variant="caption" color={Colors.textSecondary} weight="medium">
-              Browse Blooms as Guest →
-            </AppText>
-          </TouchableOpacity>
+            <Ionicons name="logo-google" size={18} color="#EA4335" />
+            <Text style={s.googleBtnText}>Continue with Google</Text>
+          </Pressable>
+
+          {/* Divider */}
+          <View style={s.dividerRow}>
+            <View style={s.dividerLine} />
+            <Text style={s.dividerText}>or sign in with email</Text>
+            <View style={s.dividerLine} />
+          </View>
+
+          {/* Form */}
+          <Text style={s.label}>Email Address</Text>
+          <TextInput
+            style={s.input}
+            autoCapitalize="none"
+            keyboardType="email-address"
+            placeholder="name@example.com"
+            placeholderTextColor={colors.muted}
+            value={email}
+            onChangeText={setEmail}
+          />
+
+          <Text style={s.label}>Password</Text>
+          <View style={s.passwordBox}>
+            <TextInput
+              style={s.passwordInput}
+              secureTextEntry={!showPassword}
+              placeholder="Enter your password"
+              placeholderTextColor={colors.muted}
+              value={password}
+              onChangeText={setPassword}
+            />
+            <Pressable
+              onPress={() => setShowPassword(!showPassword)}
+              style={s.eyeBtn}
+            >
+              <Ionicons
+                name={showPassword ? 'eye-off-outline' : 'eye-outline'}
+                size={20}
+                color={colors.muted}
+              />
+            </Pressable>
+          </View>
+
+          <Pressable
+            style={[s.button, busy && s.buttonDisabled]}
+            onPress={submit}
+            disabled={busy}
+          >
+            <Text style={s.buttonText}>{busy ? 'Signing in…' : 'Sign In'}</Text>
+          </Pressable>
+
+          <Pressable onPress={() => router.push('/auth/register')} style={s.linkWrap}>
+            <Text style={s.link}>New to Dhanvikk? <Text style={s.linkBold}>Create an account</Text></Text>
+          </Pressable>
         </ScrollView>
       </KeyboardAvoidingView>
 
-      {/* Google 1-Tap Account Modal */}
-      <GoogleAuthModal
-        visible={showGoogleModal}
-        onClose={() => setShowGoogleModal(false)}
-        initialEmail={email}
-        onSuccess={() => router.replace('/(tabs)/account')}
+      <GoogleSignInModal
+        visible={googleModal}
+        onClose={() => setGoogleModal(false)}
+        onSuccess={() => router.replace('/(tabs)/home')}
       />
-    </SafeAreaView>
+    </View>
   );
 }
 
-const styles = StyleSheet.create({
-  safeArea: {
+const s = StyleSheet.create({
+  page: {
     flex: 1,
-    backgroundColor: Colors.background,
+    backgroundColor: colors.background,
   },
-  navBar: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: Spacing.screenPadding,
-    paddingVertical: Spacing.xs,
+  topBar: {
+    paddingHorizontal: spacing.md,
+    paddingVertical: 8,
   },
   backBtn: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
+    width: 38,
+    height: 38,
+    borderRadius: 19,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: Colors.white,
-    borderWidth: 1,
-    borderColor: Colors.border,
-    ...Shadows.sm,
   },
-  navBrandPill: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: Colors.palePink,
-    paddingHorizontal: 10,
-    paddingVertical: 5,
-    borderRadius: Radius.pill,
-    borderWidth: 1,
-    borderColor: Colors.blush,
-  },
-  navBrandText: {
-    fontSize: 10.5,
-    letterSpacing: 0.8,
-    marginLeft: 5,
-  },
-  scrollContent: {
-    paddingHorizontal: Spacing.screenPadding,
+  content: {
+    paddingHorizontal: 24,
     paddingBottom: 40,
+    justifyContent: 'center',
+    flexGrow: 1,
   },
-  brandSection: {
+  logoCard: {
     alignItems: 'center',
-    marginTop: Spacing.sm,
-    marginBottom: Spacing.xl,
+    marginBottom: 20,
+  },
+  logoImg: {
+    width: 72,
+    height: 72,
+    borderRadius: 16,
+    marginBottom: 12,
+  },
+  eyebrow: {
+    color: colors.primaryDeep,
+    fontSize: 11,
+    fontWeight: '900',
+    letterSpacing: 2,
   },
   title: {
-    marginTop: Spacing.md,
-    fontSize: 26,
-    letterSpacing: -0.3,
+    fontSize: 28,
+    fontWeight: '900',
+    color: colors.ink,
+    marginTop: 4,
   },
-  subtitle: {
-    marginTop: 6,
-    maxWidth: 300,
+  sub: {
+    color: colors.muted,
+    fontSize: 13,
     lineHeight: 19,
-  },
-  formCard: {
-    backgroundColor: Colors.surface,
-    borderRadius: Radius.card,
-    padding: Spacing.xl,
-    borderWidth: 1,
-    borderColor: Colors.border,
-    ...Shadows.md,
-  },
-  errorBanner: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#FFEBEE',
-    borderWidth: 1,
-    borderColor: '#FFCDD2',
-    borderRadius: Radius.input,
-    paddingVertical: 10,
-    paddingHorizontal: 12,
-    marginBottom: Spacing.md,
-  },
-  errorText: {
-    flex: 1,
-    marginLeft: 8,
-    fontSize: 12,
-    lineHeight: 16,
-  },
-  loadingBanner: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: Colors.palePink,
-    borderRadius: Radius.input,
-    paddingVertical: 10,
-    paddingHorizontal: 14,
-    marginBottom: Spacing.md,
+    marginTop: 6,
+    textAlign: 'center',
+    maxWidth: 320,
   },
   googleBtn: {
+    height: 50,
+    backgroundColor: colors.white,
+    borderRadius: radius.pill,
+    borderWidth: 1.5,
+    borderColor: colors.line,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: Colors.white,
-    borderWidth: 1,
-    borderColor: '#DADCE0',
-    borderRadius: Radius.button,
-    paddingVertical: 13,
-    paddingHorizontal: 16,
-    gap: 12,
-    ...Shadows.sm,
+    gap: 10,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.05,
+    shadowRadius: 2,
+    elevation: 2,
+    marginBottom: 16,
   },
-  googleIcon: {
-    width: 20,
-    height: 20,
-  },
-  googleHintRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 8,
-    marginBottom: Spacing.xs,
+  googleBtnText: {
+    fontSize: 14,
+    fontWeight: '800',
+    color: colors.ink,
   },
   dividerRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginVertical: Spacing.lg,
+    marginVertical: 14,
+    gap: 10,
   },
   dividerLine: {
     flex: 1,
     height: 1,
-    backgroundColor: Colors.border,
+    backgroundColor: colors.lineLight,
   },
   dividerText: {
-    paddingHorizontal: Spacing.md,
+    fontSize: 11,
+    fontWeight: '700',
+    color: colors.muted,
+    textTransform: 'uppercase',
+    letterSpacing: 0.5,
+  },
+  label: {
     fontSize: 12,
-    letterSpacing: 0.3,
+    fontWeight: '800',
+    color: colors.ink,
+    marginBottom: 6,
   },
-  forgotBtn: {
-    alignSelf: 'flex-end',
-    paddingVertical: 4,
-    marginBottom: Spacing.sm,
-  },
-  submitBtn: {
-    marginTop: Spacing.xs,
-  },
-  createAccountDividerRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginTop: Spacing.xl,
-    marginBottom: Spacing.md,
-  },
-  createAccountBtn: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: Colors.palePink,
-    borderWidth: 1.5,
-    borderColor: Colors.blush,
-    borderRadius: Radius.button,
-    paddingVertical: 14,
+  input: {
+    height: 50,
+    backgroundColor: colors.white,
+    borderRadius: radius.md,
+    borderWidth: 1,
+    borderColor: colors.line,
     paddingHorizontal: 16,
-    ...Shadows.sm,
+    fontSize: 14,
+    color: colors.ink,
+    marginBottom: 14,
   },
-  securityBadge: {
+  passwordBox: {
+    height: 50,
+    backgroundColor: colors.white,
+    borderRadius: radius.md,
+    borderWidth: 1,
+    borderColor: colors.line,
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: Spacing.lg,
-    paddingTop: Spacing.sm,
-    borderTopWidth: 1,
-    borderTopColor: Colors.border,
+    paddingHorizontal: 16,
+    marginBottom: 20,
   },
-  guestLink: {
-    alignSelf: 'center',
-    marginTop: Spacing.md,
-    paddingVertical: 4,
+  passwordInput: {
+    flex: 1,
+    fontSize: 14,
+    color: colors.ink,
+  },
+  eyeBtn: {
+    padding: 4,
+  },
+  button: {
+    height: 50,
+    borderRadius: 25,
+    backgroundColor: colors.primary,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  buttonDisabled: {
+    opacity: 0.6,
+  },
+  buttonText: {
+    color: colors.white,
+    fontSize: 15,
+    fontWeight: '800',
+  },
+  linkWrap: {
+    marginTop: 20,
+    alignItems: 'center',
+  },
+  link: {
+    fontSize: 13,
+    color: colors.muted,
+  },
+  linkBold: {
+    color: colors.primaryDeep,
+    fontWeight: '800',
   },
 });
