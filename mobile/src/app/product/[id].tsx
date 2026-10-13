@@ -1,17 +1,31 @@
+import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { ActivityIndicator, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import {
+  ActivityIndicator,
+  Alert,
+  Dimensions,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import { Image } from 'expo-image';
 import { router, useLocalSearchParams } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { getProduct } from '@/services/products';
 import { useStore } from '@/store/useStore';
-import { colors, spacing, radius } from '@/constants/theme';
+import { colors, radius, spacing } from '@/constants/theme';
 import type { Product as ProductType } from '@/types/models';
+
+const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
 export default function ProductDetail() {
   const insets = useSafeAreaInsets();
   const { id } = useLocalSearchParams<{ id: string }>();
+
+  const [activeImageIndex, setActiveImageIndex] = useState(0);
 
   const { data: p, isLoading } = useQuery<ProductType>({
     queryKey: ['product', id],
@@ -35,108 +49,228 @@ export default function ProductDetail() {
   }
 
   const productId = p.id || p._id || p.slug;
+  const price = p.price || 999;
+  const originalPrice =
+    p.originalPrice && p.originalPrice > price
+      ? p.originalPrice
+      : Math.round(price * 1.35);
+  const discountPercent = Math.round(((originalPrice - price) / originalPrice) * 100);
+  const rating = p.rating || 4.8;
+  const reviewsCount = p.reviewsCount || 128;
+
+  const imagesList =
+    p.images && p.images.length > 0
+      ? p.images
+      : [p.image || 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=800&q=80'];
+
+  const handleAddToCart = () => {
+    add({ ...p, quantity: 1 });
+    Alert.alert('Added to Bag! 💐', `${p.name} has been added to your shopping bag.`, [
+      { text: 'Continue Shopping', style: 'cancel' },
+      { text: 'Go to Bag', onPress: () => router.push('/(tabs)/cart') },
+    ]);
+  };
+
+  const handleBuyNow = () => {
+    add({ ...p, quantity: 1 });
+    router.push('/checkout');
+  };
 
   return (
     <View style={s.page}>
+      {/* Top Floating App Bar */}
+      <View style={[s.topBar, { paddingTop: Math.max(insets.top, 10) }]}>
+        <Pressable
+          style={s.topBtn}
+          onPress={() => (router.canGoBack() ? router.back() : router.replace('/(tabs)/shop'))}
+          hitSlop={6}
+        >
+          <Ionicons name="arrow-back" size={22} color={colors.ink} />
+        </Pressable>
+
+        <View style={s.topActions}>
+          <Pressable
+            style={s.topBtn}
+            onPress={() => wish(productId)}
+            hitSlop={6}
+          >
+            <Ionicons
+              name={isSaved ? 'heart' : 'heart-outline'}
+              size={22}
+              color={isSaved ? colors.primary : colors.ink}
+            />
+          </Pressable>
+
+          <Pressable
+            style={s.topBtn}
+            onPress={() => router.push('/(tabs)/cart')}
+            hitSlop={6}
+          >
+            <Ionicons name="bag-handle-outline" size={22} color={colors.ink} />
+          </Pressable>
+        </View>
+      </View>
+
       <ScrollView
         contentContainerStyle={[
           s.content,
-          { paddingBottom: Math.max(insets.bottom, 20) + 90 },
+          { paddingBottom: Math.max(insets.bottom, 16) + 70 },
         ]}
+        showsVerticalScrollIndicator={false}
       >
-        <View style={s.heroContainer}>
-          <Image
-            source={{ uri: p.image || p.images?.[0] }}
-            style={s.hero}
-            contentFit="cover"
-          />
-
-          <View style={[s.topControls, { top: Math.max(insets.top, 16) }]}>
-            <Pressable
-              onPress={() => (router.canGoBack() ? router.back() : router.replace('/(tabs)/shop'))}
-              style={s.iconCircle}
-            >
-              <Ionicons name="arrow-back" size={20} color={colors.ink} />
-            </Pressable>
-            <Pressable
-              onPress={() => wish(productId)}
-              style={s.iconCircle}
-            >
-              <Ionicons
-                name={isSaved ? 'heart' : 'heart-outline'}
-                size={20}
-                color={isSaved ? colors.primary : colors.ink}
+        {/* Flipkart-Style Image Gallery */}
+        <View style={s.galleryContainer}>
+          <ScrollView
+            horizontal
+            pagingEnabled
+            showsHorizontalScrollIndicator={false}
+            onScroll={(e) => {
+              const x = e.nativeEvent.contentOffset.x;
+              const idx = Math.round(x / SCREEN_WIDTH);
+              if (idx !== activeImageIndex) setActiveImageIndex(idx);
+            }}
+            scrollEventThrottle={16}
+          >
+            {imagesList.map((imgUri, index) => (
+              <Image
+                key={index}
+                source={{ uri: imgUri }}
+                style={s.galleryImage}
+                contentFit="cover"
               />
-            </Pressable>
-          </View>
+            ))}
+          </ScrollView>
+
+          {/* Dots Indicator */}
+          {imagesList.length > 1 && (
+            <View style={s.dotsRow}>
+              {imagesList.map((_, i) => (
+                <View
+                  key={i}
+                  style={[s.dot, i === activeImageIndex && s.dotActive]}
+                />
+              ))}
+            </View>
+          )}
+
+          {discountPercent > 0 && (
+            <View style={s.galleryDiscountBadge}>
+              <Text style={s.galleryDiscountText}>{discountPercent}% OFF</Text>
+            </View>
+          )}
         </View>
 
-        <View style={s.info}>
-          <Text style={s.category}>{p.flowerType || p.category || 'Luxury Floral'}</Text>
+        {/* Product Information Card */}
+        <View style={s.infoCard}>
+          <Text style={s.categoryTag}>
+            {p.flowerType || p.category || 'HAUTE FLORISTRY'}
+          </Text>
+
           <Text style={s.title}>{p.name}</Text>
 
+          {/* Flipkart Green Star Badge */}
           <View style={s.ratingRow}>
-            <View style={s.stars}>
-              <Ionicons name="star" size={15} color={colors.gold} />
-              <Text style={s.ratingNum}>{(p.rating || 5.0).toFixed(1)}</Text>
+            <View style={s.ratingBadge}>
+              <Text style={s.ratingText}>{rating.toFixed(1)}</Text>
+              <Ionicons name="star" size={12} color={colors.white} />
             </View>
-            <Text style={s.reviewsCount}>
-              ({p.reviewsCount || 12} customer reviews)
+            <Text style={s.reviewsText}>
+              {reviewsCount} Ratings & {Math.round(reviewsCount * 0.4)} Reviews
             </Text>
           </View>
 
-          <Text style={s.price}>₹{p.price.toLocaleString('en-IN')}</Text>
+          {/* Price Section */}
+          <View style={s.priceBox}>
+            <Text style={s.specialPriceTag}>Special Price</Text>
+            <View style={s.priceRow}>
+              <Text style={s.price}>₹{price.toLocaleString('en-IN')}</Text>
+              <Text style={s.originalPrice}>₹{originalPrice.toLocaleString('en-IN')}</Text>
+              <Text style={s.discountText}>{discountPercent}% off</Text>
+            </View>
+            <Text style={s.taxInclusive}>Inclusive of all taxes</Text>
+          </View>
+        </View>
+
+        {/* Flipkart-Style Delivery Check Card */}
+        <View style={s.deliveryCard}>
+          <View style={s.deliveryTitleRow}>
+            <Ionicons name="location-outline" size={18} color={colors.primaryDeep} />
+            <Text style={s.deliveryHeader}>Deliver to Chennai - 600001</Text>
+            <Pressable onPress={() => router.push('/addresses')}>
+              <Text style={s.checkPincodeText}>Change</Text>
+            </Pressable>
+          </View>
+
+          <View style={s.deliveryFeature}>
+            <Ionicons name="flash" size={15} color={colors.dealOrange} />
+            <Text style={s.deliveryFeatureText}>
+              Express Delivery by <Text style={s.boldText}>Today, 7:00 PM</Text>
+            </Text>
+          </View>
+
+          <View style={s.deliveryFeature}>
+            <Ionicons name="cash-outline" size={15} color={colors.discountGreen} />
+            <Text style={s.deliveryFeatureText}>
+              Cash on Delivery & Razorpay UPI Available
+            </Text>
+          </View>
+
+          <View style={s.deliveryFeature}>
+            <Ionicons name="reload-outline" size={15} color={colors.primary} />
+            <Text style={s.deliveryFeatureText}>
+              24-Hour Freshness Replacement Guarantee
+            </Text>
+          </View>
+        </View>
+
+        {/* Product Details & Highlights */}
+        <View style={s.detailsCard}>
+          <Text style={s.sectionTitle}>Product Highlights</Text>
+          <View style={s.bulletRow}>
+            <View style={s.bulletDot} />
+            <Text style={s.bulletText}>
+              Stem count: Artisanally conditioned luxury stems.
+            </Text>
+          </View>
+          <View style={s.bulletRow}>
+            <View style={s.bulletDot} />
+            <Text style={s.bulletText}>
+              Packaging: Signature Dhanvikk matte wrap with satin ribbon.
+            </Text>
+          </View>
+          <View style={s.bulletRow}>
+            <View style={s.bulletDot} />
+            <Text style={s.bulletText}>
+              Complimentary: Handwritten note on luxury card stock.
+            </Text>
+          </View>
+          <View style={s.bulletRow}>
+            <View style={s.bulletDot} />
+            <Text style={s.bulletText}>
+              Freshness: Water-soaked foam base ensures maximum hydration in transit.
+            </Text>
+          </View>
 
           <View style={s.divider} />
 
-          <Text style={s.sectionHeader}>About This Bloom</Text>
+          <Text style={s.sectionTitle}>Florist Description</Text>
           <Text style={s.description}>
             {p.description ||
-              'Artisanally arranged fresh flowers picked from our premier botanical partners, conditioned with floral food and wrapped in signature Dhanvikk luxury paper.'}
+              'A magnificent creation crafted with perfection by our master florists. Sourced directly from high-altitude estates, each stem is selected for radiant color, velvety texture, and prolonged freshness.'}
           </Text>
-
-          <View style={s.featuresCard}>
-            <View style={s.featureRow}>
-              <Ionicons name="shield-checkmark-outline" size={20} color={colors.primaryDeep} />
-              <View style={s.featureText}>
-                <Text style={s.featureTitle}>100% Freshness Guarantee</Text>
-                <Text style={s.featureSub}>Farm-fresh blossoms handpicked within 24 hours.</Text>
-              </View>
-            </View>
-
-            <View style={s.featureRow}>
-              <Ionicons name="car-outline" size={20} color={colors.primaryDeep} />
-              <View style={s.featureText}>
-                <Text style={s.featureTitle}>Complimentary Express Delivery</Text>
-                <Text style={s.featureSub}>Delivered fresh in insulated, climate-controlled packaging.</Text>
-              </View>
-            </View>
-
-            <View style={s.featureRow}>
-              <Ionicons name="card-outline" size={20} color={colors.primaryDeep} />
-              <View style={s.featureText}>
-                <Text style={s.featureTitle}>Secure Payments</Text>
-                <Text style={s.featureSub}>Verified checkout with Razorpay or Cash on Delivery.</Text>
-              </View>
-            </View>
-          </View>
         </View>
       </ScrollView>
 
-      <View style={[s.bottomBar, { paddingBottom: Math.max(insets.bottom, 16) }]}>
-        <View style={s.priceBox}>
-          <Text style={s.priceLabel}>Price</Text>
-          <Text style={s.priceVal}>₹{p.price.toLocaleString('en-IN')}</Text>
-        </View>
-        <Pressable
-          style={s.cta}
-          onPress={() => {
-            add({ ...p, quantity: 1 });
-            router.push('/(tabs)/cart');
-          }}
-        >
-          <Ionicons name="bag-add" size={18} color={colors.white} />
-          <Text style={s.ctaText}>Add to Bag</Text>
+      {/* Flipkart-Style Dual Action Bottom Bar */}
+      <View style={[s.bottomBar, { paddingBottom: Math.max(insets.bottom, 10) }]}>
+        <Pressable style={s.addToBagBtn} onPress={handleAddToCart}>
+          <Ionicons name="bag-handle-outline" size={18} color={colors.ink} />
+          <Text style={s.addToBagText}>Add to Bag</Text>
+        </Pressable>
+
+        <Pressable style={s.buyNowBtn} onPress={handleBuyNow}>
+          <Ionicons name="flash" size={18} color={colors.white} />
+          <Text style={s.buyNowText}>Buy Now</Text>
         </Pressable>
       </View>
     </View>
@@ -148,9 +282,6 @@ const s = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.background,
   },
-  content: {
-    backgroundColor: colors.background,
-  },
   center: {
     flex: 1,
     alignItems: 'center',
@@ -159,130 +290,241 @@ const s = StyleSheet.create({
   },
   loadingText: {
     marginTop: 12,
-    color: colors.muted,
     fontSize: 14,
+    color: colors.muted,
   },
-  heroContainer: {
-    position: 'relative',
-    width: '100%',
-    height: 400,
-    backgroundColor: colors.blush,
-  },
-  hero: {
-    width: '100%',
-    height: '100%',
-  },
-  topControls: {
-    position: 'absolute',
-    left: 16,
-    right: 16,
+  topBar: {
+    backgroundColor: colors.white,
+    paddingHorizontal: 14,
+    paddingBottom: 8,
     flexDirection: 'row',
     justifyContent: 'space-between',
+    alignItems: 'center',
+    borderBottomWidth: 1,
+    borderBottomColor: colors.lineLight,
     zIndex: 10,
   },
-  iconCircle: {
-    width: 42,
-    height: 42,
-    borderRadius: 21,
-    backgroundColor: colors.white,
+  topBtn: {
+    width: 38,
+    height: 38,
+    borderRadius: 19,
     alignItems: 'center',
     justifyContent: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.15,
-    shadowRadius: 5,
-    elevation: 4,
   },
-  info: {
-    padding: 20,
+  topActions: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
   },
-  category: {
-    color: colors.primaryDeep,
+  content: {},
+  galleryContainer: {
+    width: SCREEN_WIDTH,
+    height: 360,
+    backgroundColor: colors.white,
+    position: 'relative',
+    borderBottomWidth: 1,
+    borderBottomColor: colors.lineLight,
+  },
+  galleryImage: {
+    width: SCREEN_WIDTH,
+    height: 360,
+  },
+  dotsRow: {
+    position: 'absolute',
+    bottom: 12,
+    left: 0,
+    right: 0,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    gap: 6,
+  },
+  dot: {
+    width: 6,
+    height: 6,
+    borderRadius: 3,
+    backgroundColor: 'rgba(0,0,0,0.2)',
+  },
+  dotActive: {
+    width: 18,
+    backgroundColor: colors.primary,
+  },
+  galleryDiscountBadge: {
+    position: 'absolute',
+    top: 12,
+    left: 12,
+    backgroundColor: colors.discountGreen,
+    paddingHorizontal: 8,
+    paddingVertical: 3,
+    borderRadius: 4,
+  },
+  galleryDiscountText: {
+    color: colors.white,
     fontSize: 11,
     fontWeight: '900',
-    letterSpacing: 1.4,
+  },
+  infoCard: {
+    backgroundColor: colors.white,
+    padding: 14,
+    marginBottom: 6,
+    borderBottomWidth: 1,
+    borderColor: colors.lineLight,
+  },
+  categoryTag: {
+    fontSize: 11,
+    fontWeight: '800',
+    color: colors.primaryDeep,
+    letterSpacing: 1,
     textTransform: 'uppercase',
   },
   title: {
-    fontSize: 26,
-    lineHeight: 32,
+    fontSize: 18,
     fontWeight: '900',
     color: colors.ink,
-    marginTop: 6,
+    lineHeight: 24,
+    marginTop: 4,
   },
   ratingRow: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 8,
-    marginTop: 10,
+    marginTop: 8,
   },
-  stars: {
+  ratingBadge: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 4,
-    backgroundColor: colors.pale,
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    borderRadius: 12,
+    backgroundColor: colors.starGreen,
+    paddingHorizontal: 6,
+    paddingVertical: 2,
+    borderRadius: 4,
+    gap: 3,
   },
-  ratingNum: {
+  ratingText: {
+    color: colors.white,
+    fontSize: 12,
     fontWeight: '800',
-    fontSize: 13,
-    color: colors.ink,
   },
-  reviewsCount: {
-    fontSize: 13,
+  reviewsText: {
+    fontSize: 12,
     color: colors.muted,
   },
+  priceBox: {
+    marginTop: 12,
+    paddingTop: 10,
+    borderTopWidth: 1,
+    borderTopColor: colors.lineLight,
+  },
+  specialPriceTag: {
+    fontSize: 11,
+    fontWeight: '800',
+    color: colors.discountGreen,
+  },
+  priceRow: {
+    flexDirection: 'row',
+    alignItems: 'baseline',
+    gap: 8,
+    marginTop: 2,
+  },
   price: {
-    fontSize: 26,
+    fontSize: 22,
     fontWeight: '900',
-    color: colors.primaryDeep,
-    marginTop: 14,
+    color: colors.ink,
+  },
+  originalPrice: {
+    fontSize: 14,
+    color: colors.mutedLight,
+    textDecorationLine: 'line-through',
+  },
+  discountText: {
+    fontSize: 14,
+    fontWeight: '900',
+    color: colors.discountGreen,
+  },
+  taxInclusive: {
+    fontSize: 11,
+    color: colors.muted,
+    marginTop: 2,
+  },
+  deliveryCard: {
+    backgroundColor: colors.white,
+    padding: 14,
+    marginBottom: 6,
+    borderTopWidth: 1,
+    borderBottomWidth: 1,
+    borderColor: colors.lineLight,
+  },
+  deliveryTitleRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: 10,
+  },
+  deliveryHeader: {
+    fontSize: 13,
+    fontWeight: '800',
+    color: colors.ink,
+    flex: 1,
+    marginLeft: 6,
+  },
+  checkPincodeText: {
+    color: colors.primary,
+    fontSize: 12,
+    fontWeight: '800',
+  },
+  deliveryFeature: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    marginBottom: 6,
+  },
+  deliveryFeatureText: {
+    fontSize: 12,
+    color: colors.ink,
+  },
+  boldText: {
+    fontWeight: '800',
+  },
+  detailsCard: {
+    backgroundColor: colors.white,
+    padding: 14,
+    marginBottom: 6,
+    borderTopWidth: 1,
+    borderBottomWidth: 1,
+    borderColor: colors.lineLight,
+  },
+  sectionTitle: {
+    fontSize: 14,
+    fontWeight: '900',
+    color: colors.ink,
+    marginBottom: 10,
+  },
+  bulletRow: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    gap: 8,
+    marginBottom: 6,
+  },
+  bulletDot: {
+    width: 5,
+    height: 5,
+    borderRadius: 2.5,
+    backgroundColor: colors.primaryDeep,
+    marginTop: 6,
+  },
+  bulletText: {
+    fontSize: 12,
+    color: colors.inkLight,
+    flex: 1,
+    lineHeight: 18,
   },
   divider: {
     height: 1,
-    backgroundColor: colors.line,
-    marginVertical: 18,
-  },
-  sectionHeader: {
-    fontSize: 16,
-    fontWeight: '900',
-    color: colors.ink,
-    marginBottom: 8,
+    backgroundColor: colors.lineLight,
+    marginVertical: 12,
   },
   description: {
-    fontSize: 14,
-    lineHeight: 22,
-    color: colors.muted,
-  },
-  featuresCard: {
-    backgroundColor: colors.white,
-    borderRadius: radius.md,
-    padding: 16,
-    marginTop: 20,
-    gap: 14,
-    borderWidth: 1,
-    borderColor: colors.line,
-  },
-  featureRow: {
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-    gap: 12,
-  },
-  featureText: {
-    flex: 1,
-  },
-  featureTitle: {
     fontSize: 13,
-    fontWeight: '800',
-    color: colors.ink,
-  },
-  featureSub: {
-    fontSize: 12,
     color: colors.muted,
-    marginTop: 2,
-    lineHeight: 16,
+    lineHeight: 20,
   },
   bottomBar: {
     position: 'absolute',
@@ -290,40 +532,41 @@ const s = StyleSheet.create({
     left: 0,
     right: 0,
     backgroundColor: colors.white,
-    borderTopWidth: 1,
-    borderTopColor: colors.line,
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: 20,
-    paddingTop: 12,
+    borderTopWidth: 1,
+    borderTopColor: colors.line,
+    elevation: 8,
   },
-  priceBox: {
-    justifyContent: 'center',
-  },
-  priceLabel: {
-    fontSize: 11,
-    color: colors.muted,
-    fontWeight: '700',
-  },
-  priceVal: {
-    fontSize: 20,
-    fontWeight: '900',
-    color: colors.ink,
-  },
-  cta: {
-    backgroundColor: colors.primary,
-    height: 48,
-    borderRadius: 24,
-    paddingHorizontal: 28,
+  addToBagBtn: {
+    flex: 1,
+    height: 50,
+    backgroundColor: colors.white,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
     gap: 8,
+    borderRightWidth: 1,
+    borderRightColor: colors.lineLight,
   },
-  ctaText: {
-    color: colors.white,
+  addToBagText: {
+    fontSize: 14,
+    fontWeight: '800',
+    color: colors.ink,
+  },
+  buyNowBtn: {
+    flex: 1,
+    height: 50,
+    backgroundColor: colors.dealOrange, // Classic Flipkart "Buy Now" orange
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 6,
+  },
+  buyNowText: {
+    fontSize: 14,
     fontWeight: '900',
-    fontSize: 15,
+    color: colors.white,
+    textTransform: 'uppercase',
   },
 });

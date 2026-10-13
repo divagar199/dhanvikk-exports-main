@@ -1,47 +1,20 @@
 import { useEffect } from 'react';
-import { Alert, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import {
+  Alert,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { colors, spacing, radius } from '@/constants/theme';
+import { colors, radius, spacing } from '@/constants/theme';
 import { getStoredUser } from '@/lib/storage';
 import { logout } from '@/services/auth';
 import { useStore } from '@/store/useStore';
 import type { User } from '@/types/models';
-
-type MenuItem = {
-  icon: keyof typeof Ionicons.glyphMap;
-  title: string;
-  subtitle: string;
-  route: string;
-};
-
-const MENU_ITEMS: MenuItem[] = [
-  {
-    icon: 'receipt-outline',
-    title: 'My orders',
-    subtitle: 'Track live orders & view history',
-    route: '/orders',
-  },
-  {
-    icon: 'location-outline',
-    title: 'Delivery addresses',
-    subtitle: 'Saved home, office & event locations',
-    route: '/addresses',
-  },
-  {
-    icon: 'heart-outline',
-    title: 'Saved blooms',
-    subtitle: 'Your favorite floral arrangements',
-    route: '/wishlist',
-  },
-  {
-    icon: 'navigate-outline',
-    title: 'Delivery map',
-    subtitle: 'Live map delivery view',
-    route: '/map',
-  },
-];
 
 export default function Account() {
   const insets = useSafeAreaInsets();
@@ -55,7 +28,7 @@ export default function Account() {
   }, [setUser]);
 
   const handleLogout = () => {
-    Alert.alert('Sign out', 'Are you sure you want to sign out?', [
+    Alert.alert('Sign out', 'Are you sure you want to sign out from Dhanvikk?', [
       { text: 'Cancel', style: 'cancel' },
       {
         text: 'Sign out',
@@ -69,102 +42,229 @@ export default function Account() {
   };
 
   return (
-    <ScrollView
-      contentContainerStyle={[
-        s.content,
-        { paddingTop: Math.max(insets.top, 16), paddingBottom: 120 },
-      ]}
-    >
-      <Text style={s.title}>Your account</Text>
-
-      <View style={s.profileCard}>
-        <View style={s.avatar}>
-          <Text style={s.avatarText}>
-            {user?.name ? user.name.charAt(0).toUpperCase() : 'D'}
-          </Text>
-        </View>
-        <View style={s.profileInfo}>
-          <Text style={s.name}>{user?.name || 'Guest Explorer'}</Text>
-          <Text style={s.email}>
-            {user?.email || 'Sign in to sync your bag, orders & wishlist'}
-          </Text>
-        </View>
+    <View style={[s.page, { paddingTop: Math.max(insets.top, 10) }]}>
+      {/* Header */}
+      <View style={s.header}>
+        <Text style={s.headerTitle}>My Account</Text>
       </View>
 
-      {!user ? (
-        <Pressable style={s.loginBtn} onPress={() => router.push('/auth/login')}>
-          <Text style={s.loginBtnText}>Sign in / Register</Text>
-        </Pressable>
-      ) : null}
+      <ScrollView
+        contentContainerStyle={[s.content, { paddingBottom: 120 }]}
+        showsVerticalScrollIndicator={false}
+      >
+        {/* User Card with VIP Gold Styling */}
+        <View style={s.profileCard}>
+          <View style={s.avatar}>
+            <Text style={s.avatarText}>
+              {user?.name ? user.name.charAt(0).toUpperCase() : 'D'}
+            </Text>
+          </View>
 
-      <Text style={s.sectionHeader}>Quick services</Text>
+          <View style={s.profileInfo}>
+            <Text style={s.name}>{user?.name || 'Hello, Flower Lover!'}</Text>
+            <Text style={s.email}>
+              {user?.email || 'Sign in to access VIP orders & points'}
+            </Text>
+          </View>
 
-      <View style={s.menuList}>
-        {MENU_ITEMS.map((item, idx) => (
+          {!user ? (
+            <Pressable
+              style={s.signInMiniBtn}
+              onPress={() => router.push('/auth/login')}
+            >
+              <Text style={s.signInMiniText}>Sign In</Text>
+            </Pressable>
+          ) : null}
+        </View>
+
+        {/* Dhanvikk Club VIP Banner (Flipkart Plus style) */}
+        <View style={s.vipBanner}>
+          <View style={s.vipLeft}>
+            <Ionicons name="sparkles" size={18} color={colors.yellowGold} />
+            <View>
+              <Text style={s.vipTitle}>Dhanvikk VIP Club</Text>
+              <Text style={s.vipSub}>Free Delivery on every bouquet + 5% Back</Text>
+            </View>
+          </View>
+          <View style={s.vipPill}>
+            <Text style={s.vipPillText}>ACTIVE</Text>
+          </View>
+        </View>
+
+        {/* 4-Item Quick Action Grid (Classic Flipkart pattern) */}
+        <View style={s.quickGrid}>
           <Pressable
-            key={item.title}
-            style={[s.menuRow, idx === MENU_ITEMS.length - 1 && s.menuRowLast]}
-            onPress={() => router.push(item.route as any)}
+            style={s.quickItem}
+            onPress={() => router.push('/orders')}
           >
-            <View style={s.menuIcon}>
-              <Ionicons name={item.icon} size={20} color={colors.primaryDeep} />
+            <View style={s.quickIcon}>
+              <Ionicons name="cube-outline" size={22} color={colors.primary} />
             </View>
-            <View style={s.menuText}>
-              <Text style={s.menuTitle}>{item.title}</Text>
-              <Text style={s.menuSub}>{item.subtitle}</Text>
+            <Text style={s.quickLabel}>Orders</Text>
+          </Pressable>
+
+          <Pressable
+            style={s.quickItem}
+            onPress={() => router.push('/wishlist')}
+          >
+            <View style={s.quickIcon}>
+              <Ionicons name="heart-outline" size={22} color={colors.primary} />
             </View>
+            <Text style={s.quickLabel}>Wishlist</Text>
+          </Pressable>
+
+          <Pressable
+            style={s.quickItem}
+            onPress={() =>
+              Alert.alert('Coupons & Offers', 'Use DHANVIKK10 for 10% off your orders!')
+            }
+          >
+            <View style={s.quickIcon}>
+              <Ionicons name="pricetag-outline" size={22} color={colors.primary} />
+            </View>
+            <Text style={s.quickLabel}>Coupons</Text>
+          </Pressable>
+
+          <Pressable
+            style={s.quickItem}
+            onPress={() =>
+              Alert.alert('Help Center', 'Our 24/7 master florists are reachable at care@dhanvikk.com or +91 98765 43210.')
+            }
+          >
+            <View style={s.quickIcon}>
+              <Ionicons name="headset-outline" size={22} color={colors.primary} />
+            </View>
+            <Text style={s.quickLabel}>Help Center</Text>
+          </Pressable>
+        </View>
+
+        {/* Account Services List */}
+        <View style={s.section}>
+          <Text style={s.sectionTitle}>ACCOUNT SETTINGS</Text>
+
+          <Pressable
+            style={s.menuRow}
+            onPress={() => router.push('/addresses')}
+          >
+            <Ionicons name="location-outline" size={20} color={colors.ink} />
+            <Text style={s.menuLabel}>Saved Addresses</Text>
             <Ionicons name="chevron-forward" size={18} color={colors.muted} />
           </Pressable>
-        ))}
-      </View>
 
-      {user ? (
-        <Pressable style={s.logoutBtn} onPress={handleLogout}>
-          <Ionicons name="log-out-outline" size={18} color={colors.danger} />
-          <Text style={s.logoutText}>Sign out of Dhanvikk</Text>
-        </Pressable>
-      ) : null}
-    </ScrollView>
+          <Pressable
+            style={s.menuRow}
+            onPress={() => router.push('/map')}
+          >
+            <Ionicons name="navigate-outline" size={20} color={colors.ink} />
+            <Text style={s.menuLabel}>Delivery Hub Map</Text>
+            <Ionicons name="chevron-forward" size={18} color={colors.muted} />
+          </Pressable>
+
+          <Pressable
+            style={s.menuRow}
+            onPress={() =>
+              Alert.alert('Notifications', 'Push notifications for order updates and flower drops are active.')
+            }
+          >
+            <Ionicons name="notifications-outline" size={20} color={colors.ink} />
+            <Text style={s.menuLabel}>Notification Preferences</Text>
+            <Ionicons name="chevron-forward" size={18} color={colors.muted} />
+          </Pressable>
+        </View>
+
+        {/* Support & Policies */}
+        <View style={s.section}>
+          <Text style={s.sectionTitle}>FEEDBACK & INFORMATION</Text>
+
+          <Pressable
+            style={s.menuRow}
+            onPress={() =>
+              Alert.alert(
+                'Quality Promise',
+                'Dhanvikk guarantees 100% farm-fresh highland flowers. If your bouquet does not meet expectations, we replace it within 24 hours.'
+              )
+            }
+          >
+            <Ionicons name="ribbon-outline" size={20} color={colors.ink} />
+            <Text style={s.menuLabel}>Floristry Quality Promise</Text>
+            <Ionicons name="chevron-forward" size={18} color={colors.muted} />
+          </Pressable>
+
+          <Pressable
+            style={s.menuRow}
+            onPress={() =>
+              Alert.alert('Terms & Privacy', 'All transactions encrypted via 256-bit SSL.')
+            }
+          >
+            <Ionicons name="document-text-outline" size={20} color={colors.ink} />
+            <Text style={s.menuLabel}>Legal & Privacy Policy</Text>
+            <Ionicons name="chevron-forward" size={18} color={colors.muted} />
+          </Pressable>
+        </View>
+
+        {/* Auth CTA */}
+        {user ? (
+          <Pressable style={s.logoutRow} onPress={handleLogout}>
+            <Ionicons name="log-out-outline" size={20} color={colors.danger} />
+            <Text style={s.logoutText}>Sign Out</Text>
+          </Pressable>
+        ) : (
+          <Pressable
+            style={s.fullLoginBtn}
+            onPress={() => router.push('/auth/login')}
+          >
+            <Text style={s.fullLoginText}>Sign In / Register</Text>
+          </Pressable>
+        )}
+      </ScrollView>
+    </View>
   );
 }
 
 const s = StyleSheet.create({
-  content: {
-    paddingHorizontal: spacing.lg,
+  page: {
+    flex: 1,
     backgroundColor: colors.background,
   },
-  title: {
-    fontSize: 28,
+  header: {
+    backgroundColor: colors.white,
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.lineLight,
+  },
+  headerTitle: {
+    fontSize: 18,
     fontWeight: '900',
     color: colors.ink,
-    marginTop: 8,
-    marginBottom: 16,
   },
+  content: {},
   profileCard: {
     backgroundColor: colors.white,
-    borderRadius: radius.lg,
     padding: 16,
     flexDirection: 'row',
     alignItems: 'center',
-    borderWidth: 1,
-    borderColor: colors.line,
+    gap: 12,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.lineLight,
   },
   avatar: {
-    width: 52,
-    height: 52,
-    borderRadius: 26,
-    backgroundColor: colors.blush,
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    backgroundColor: colors.pale,
     alignItems: 'center',
     justifyContent: 'center',
+    borderWidth: 1,
+    borderColor: colors.lineLight,
   },
   avatarText: {
-    fontSize: 22,
+    fontSize: 20,
     fontWeight: '900',
     color: colors.primaryDeep,
   },
   profileInfo: {
     flex: 1,
-    paddingLeft: 14,
   },
   name: {
     fontSize: 16,
@@ -174,85 +274,144 @@ const s = StyleSheet.create({
   email: {
     fontSize: 12,
     color: colors.muted,
-    marginTop: 3,
+    marginTop: 2,
   },
-  loginBtn: {
-    height: 48,
-    borderRadius: 24,
+  signInMiniBtn: {
     backgroundColor: colors.primary,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 14,
+    paddingHorizontal: 14,
+    paddingVertical: 6,
+    borderRadius: 4,
   },
-  loginBtnText: {
+  signInMiniText: {
     color: colors.white,
     fontWeight: '900',
-    fontSize: 14,
+    fontSize: 12,
   },
-  sectionHeader: {
-    fontSize: 14,
-    fontWeight: '800',
-    color: colors.muted,
-    textTransform: 'uppercase',
-    letterSpacing: 1,
-    marginTop: 22,
-    marginBottom: 10,
+  vipBanner: {
+    backgroundColor: '#1E222D', // Premium Flipkart VIP dark bar
+    marginHorizontal: 12,
+    marginTop: 10,
+    borderRadius: radius.sm,
+    padding: 12,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
-  menuList: {
-    backgroundColor: colors.white,
-    borderRadius: radius.lg,
-    overflow: 'hidden',
-    borderWidth: 1,
-    borderColor: colors.line,
-  },
-  menuRow: {
-    paddingVertical: 14,
-    paddingHorizontal: 16,
+  vipLeft: {
     flexDirection: 'row',
     alignItems: 'center',
+    gap: 10,
+    flex: 1,
+  },
+  vipTitle: {
+    color: colors.yellowGold,
+    fontSize: 13,
+    fontWeight: '900',
+  },
+  vipSub: {
+    color: 'rgba(255,255,255,0.75)',
+    fontSize: 10,
+    marginTop: 1,
+  },
+  vipPill: {
+    backgroundColor: colors.yellowGold,
+    paddingHorizontal: 6,
+    paddingVertical: 2,
+    borderRadius: 3,
+  },
+  vipPillText: {
+    color: colors.ink,
+    fontSize: 9,
+    fontWeight: '900',
+  },
+  quickGrid: {
+    backgroundColor: colors.white,
+    marginVertical: 10,
+    paddingVertical: 14,
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    borderTopWidth: 1,
     borderBottomWidth: 1,
-    borderBottomColor: colors.line,
+    borderColor: colors.lineLight,
   },
-  menuRowLast: {
-    borderBottomWidth: 0,
+  quickItem: {
+    alignItems: 'center',
+    flex: 1,
   },
-  menuIcon: {
-    width: 36,
-    height: 36,
-    borderRadius: 18,
+  quickIcon: {
+    width: 44,
+    height: 44,
+    borderRadius: 22,
     backgroundColor: colors.pale,
     alignItems: 'center',
     justifyContent: 'center',
+    marginBottom: 6,
   },
-  menuText: {
-    flex: 1,
-    paddingLeft: 12,
-  },
-  menuTitle: {
-    fontSize: 14,
+  quickLabel: {
+    fontSize: 12,
     fontWeight: '800',
     color: colors.ink,
   },
-  menuSub: {
-    fontSize: 12,
-    color: colors.muted,
-    marginTop: 2,
+  section: {
+    backgroundColor: colors.white,
+    marginBottom: 10,
+    borderTopWidth: 1,
+    borderBottomWidth: 1,
+    borderColor: colors.lineLight,
   },
-  logoutBtn: {
+  sectionTitle: {
+    fontSize: 11,
+    fontWeight: '900',
+    color: colors.muted,
+    paddingHorizontal: 16,
+    paddingTop: 12,
+    paddingBottom: 6,
+    letterSpacing: 0.5,
+  },
+  menuRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 16,
+    paddingVertical: 14,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.lineLight,
+    gap: 12,
+  },
+  menuLabel: {
+    flex: 1,
+    fontSize: 14,
+    fontWeight: '700',
+    color: colors.ink,
+  },
+  logoutRow: {
+    backgroundColor: colors.white,
+    marginHorizontal: 12,
+    marginTop: 6,
+    padding: 14,
+    borderRadius: 4,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
     gap: 8,
-    paddingVertical: 18,
-    marginTop: 20,
-    backgroundColor: colors.white,
-    borderRadius: radius.md,
     borderWidth: 1,
-    borderColor: colors.line,
+    borderColor: colors.lineLight,
   },
   logoutText: {
     color: colors.danger,
-    fontWeight: '800',
+    fontSize: 14,
+    fontWeight: '900',
+  },
+  fullLoginBtn: {
+    backgroundColor: colors.primary,
+    marginHorizontal: 12,
+    marginTop: 6,
+    paddingVertical: 14,
+    borderRadius: 4,
+    alignItems: 'center',
+  },
+  fullLoginText: {
+    color: colors.white,
+    fontWeight: '900',
     fontSize: 14,
   },
 });
