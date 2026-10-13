@@ -37,6 +37,14 @@ export async function getStoredUser<T>(): Promise<T | null> {
   }
 }
 
+export async function setStoredUser(user: unknown): Promise<void> {
+  try {
+    await SecureStore.setItemAsync(USER_KEY, JSON.stringify(user));
+  } catch {
+    memoryStore[USER_KEY] = JSON.stringify(user);
+  }
+}
+
 export async function clearSession(): Promise<void> {
   try {
     await Promise.all([

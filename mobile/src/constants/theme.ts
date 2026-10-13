@@ -49,6 +49,7 @@ export const colors = {
   // States
   success: '#2E7D32',
   danger: '#C2185B',
+  error: '#D32F2F',
   white: '#FFFFFF',
 };
 
@@ -68,4 +69,5 @@ export const radius = {
   lg: 16,
   xl: 24,
   pill: 999,
+  full: 9999,
 };

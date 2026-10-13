@@ -146,9 +146,7 @@ export default function Account() {
 
           <Pressable
             style={s.quickItem}
-            onPress={() =>
-              Alert.alert('Help Center', 'Our 24/7 master florists are reachable at care@dhanvikk.com or +91 98765 43210.')
-            }
+            onPress={() => router.push('/support')}
           >
             <View style={s.quickIcon}>
               <Ionicons name="headset-outline" size={22} color={colors.primary} />
@@ -160,6 +158,15 @@ export default function Account() {
         {/* Account Services List */}
         <View style={s.section}>
           <Text style={s.sectionTitle}>ACCOUNT SETTINGS</Text>
+
+          <Pressable
+            style={s.menuRow}
+            onPress={() => router.push('/profile')}
+          >
+            <Ionicons name="person-outline" size={20} color={colors.ink} />
+            <Text style={s.menuLabel}>Edit Profile & Security</Text>
+            <Ionicons name="chevron-forward" size={18} color={colors.muted} />
+          </Pressable>
 
           <Pressable
             style={s.menuRow}
@@ -181,9 +188,7 @@ export default function Account() {
 
           <Pressable
             style={s.menuRow}
-            onPress={() =>
-              Alert.alert('Notifications', 'Push notifications for order updates and flower drops are active.')
-            }
+            onPress={() => router.push('/notifications')}
           >
             <Ionicons name="notifications-outline" size={20} color={colors.ink} />
             <Text style={s.menuLabel}>Notification Preferences</Text>
