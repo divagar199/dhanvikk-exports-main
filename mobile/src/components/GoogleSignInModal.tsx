@@ -89,32 +89,32 @@ export function GoogleSignInModal({ visible, onClose, onSuccess }: GoogleSignInM
             </View>
           ) : !customMode ? (
             <View style={s.accountsList}>
-              {/* Account 1: Quick 1-Tap Google Account */}
+              {/* Account 1: Divagar Primary Google Account */}
+              <Pressable
+                style={s.accountItem}
+                onPress={() => handleQuickSignIn('divagar.m.msc.cs@gmail.com', 'Divagar M')}
+              >
+                <View style={[s.avatarCircle, { backgroundColor: '#4285F4' }]}>
+                  <Text style={s.avatarLetter}>D</Text>
+                </View>
+                <View style={s.accountDetails}>
+                  <Text style={s.accountName}>Divagar M (Personal Account)</Text>
+                  <Text style={s.accountEmail}>divagar.m.msc.cs@gmail.com</Text>
+                </View>
+                <Ionicons name="chevron-forward" size={16} color={colors.muted} />
+              </Pressable>
+
+              {/* Account 2: Quick VIP Blooms Account */}
               <Pressable
                 style={s.accountItem}
                 onPress={() => handleQuickSignIn('customer.blooms@gmail.com', 'Dhanvikk VIP Member')}
               >
                 <View style={s.avatarCircle}>
-                  <Text style={s.avatarLetter}>D</Text>
+                  <Text style={s.avatarLetter}>V</Text>
                 </View>
                 <View style={s.accountDetails}>
                   <Text style={s.accountName}>Dhanvikk VIP Member</Text>
                   <Text style={s.accountEmail}>customer.blooms@gmail.com</Text>
-                </View>
-                <Ionicons name="chevron-forward" size={16} color={colors.muted} />
-              </Pressable>
-
-              {/* Account 2: Divagar Google Account */}
-              <Pressable
-                style={s.accountItem}
-                onPress={() => handleQuickSignIn('divagar.customer@gmail.com', 'Divagar Google')}
-              >
-                <View style={[s.avatarCircle, { backgroundColor: '#4285F4' }]}>
-                  <Text style={s.avatarLetter}>G</Text>
-                </View>
-                <View style={s.accountDetails}>
-                  <Text style={s.accountName}>Divagar (Google Account)</Text>
-                  <Text style={s.accountEmail}>divagar.customer@gmail.com</Text>
                 </View>
                 <Ionicons name="chevron-forward" size={16} color={colors.muted} />
               </Pressable>
@@ -361,3 +361,5 @@ const s = StyleSheet.create({
     textAlign: 'center',
   },
 });
+
+export default GoogleSignInModal;

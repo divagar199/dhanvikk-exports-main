@@ -38,8 +38,23 @@ export async function verifyPayment(payload: {
 }
 
 export async function getMyOrders(): Promise<Order[]> {
-  const data = await api<any>('/api/orders/my-orders');
-  return Array.isArray(data) ? data : data.orders || [];
+  try {
+    const data = await api<any>('/api/orders/my-orders');
+    return Array.isArray(data) ? data : data?.orders || [];
+  } catch (err: any) {
+    console.warn('[getMyOrders error]:', err?.message);
+    return [];
+  }
+}
+
+export async function getOrderById(orderId: string): Promise<Order | null> {
+  try {
+    const data = await api<any>(`/api/orders/${encodeURIComponent(orderId)}`);
+    return data?.order || data || null;
+  } catch (err: any) {
+    console.warn('[getOrderById error]:', err?.message);
+    return null;
+  }
 }
 
 export async function getProfileData(): Promise<{ savedAddresses?: Address[]; [key: string]: any }> {

@@ -4,6 +4,7 @@ export const colors = {
   primaryLight: '#FCE4EC',
   bloom: '#F23878',
   blush: '#FCE4EC',
+  blushDeep: '#F8BBD0',
   pale: '#FFF5F8',
   gold: '#FFB400',
   yellowGold: '#FBC02D',

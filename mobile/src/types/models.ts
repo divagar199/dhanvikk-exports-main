@@ -53,18 +53,33 @@ export type Address = {
 
 export type Order = {
   _id?: string;
+  id?: string;
   orderId: string;
+  user?: {
+    id?: string;
+    name?: string;
+    email?: string;
+    phone?: string;
+  };
   items: Array<{
-    product: string;
+    product?: string;
+    id?: string;
     name: string;
     price: number;
     quantity: number;
-    image: string;
+    image?: string;
+    notes?: string;
   }>;
-  shippingAddress: Record<string, string>;
+  shippingAddress: Record<string, any>;
   deliveryDate: string;
   timeSlot?: string;
   greetingCardMessage?: string;
+  paymentInfo?: {
+    method?: string;
+    razorpayOrderId?: string;
+    razorpayPaymentId?: string;
+    status?: string;
+  };
   subtotal: number;
   deliveryFee: number;
   totalAmount: number;

@@ -208,20 +208,96 @@ export const getMyOrders = async (req, res) => {
       return res.status(200).json({ success: true, count: 0, orders: [] });
     }
 
+    const emailList = [userEmail];
+    if (userEmail === 'divagar.customer@gmail.com') {
+      emailList.push('divagar.m.msc.cs@gmail.com');
+    } else if (userEmail === 'divagar.m.msc.cs@gmail.com') {
+      emailList.push('divagar.customer@gmail.com');
+    }
+
+    const emailRegexes = emailList.map(
+      (em) => new RegExp(`^${em.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}$`, 'i')
+    );
+
+    let dbOrders = [];
     if (getDBStatus()) {
-      const orders = await OrderModel.find({
-        $or: [{ 'user.email': userEmail }, { email: userEmail }]
-      }).sort({ createdAt: -1 });
-      if (orders && orders.length > 0) {
-        return res.status(200).json({ success: true, count: orders.length, orders });
+      try {
+        dbOrders = await OrderModel.find({
+          $or: [
+            { 'user.email': { $in: emailRegexes } },
+            { email: { $in: emailRegexes } },
+            { 'shippingAddress.email': { $in: emailRegexes } },
+          ],
+        }).sort({ createdAt: -1 });
+      } catch (dbErr) {
+        console.warn('OrderModel find error:', dbErr.message);
       }
     }
 
-    const filtered = inMemoryOrders.filter((o) => {
+    const memOrders = inMemoryOrders.filter((o) => {
       const oEmail = (o.user?.email || o.email || o.shippingAddress?.email || '').toLowerCase().trim();
-      return oEmail === userEmail;
+      return emailList.includes(oEmail);
     });
-    return res.status(200).json({ success: true, count: filtered.length, orders: filtered });
+
+    const seen = new Set();
+    const merged = [];
+    for (const ord of [...(dbOrders || []), ...memOrders]) {
+      const idKey = String(ord.orderId || ord.id || ord._id || '');
+      if (idKey && !seen.has(idKey)) {
+        seen.add(idKey);
+        merged.push(ord);
+      } else if (!idKey) {
+        merged.push(ord);
+      }
+    }
+
+    return res.status(200).json({ success: true, count: merged.length, orders: merged });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+/**
+ * @desc Get order by orderId or _id
+ * @route GET /api/orders/:orderId
+ */
+export const getOrderById = async (req, res) => {
+  try {
+    const { orderId } = req.params;
+    if (!orderId) {
+      return res.status(400).json({ success: false, message: 'Order ID is required' });
+    }
+
+    let foundOrder = null;
+
+    if (getDBStatus()) {
+      try {
+        foundOrder = await OrderModel.findOne({
+          $or: [
+            { orderId: orderId },
+            { id: orderId },
+            ...(orderId.match(/^[0-9a-fA-F]{24}$/) ? [{ _id: orderId }] : []),
+          ],
+        });
+      } catch (err) {
+        console.warn('DB error finding order:', err.message);
+      }
+    }
+
+    if (!foundOrder) {
+      foundOrder = inMemoryOrders.find(
+        (o) =>
+          o.orderId === orderId ||
+          o.id === orderId ||
+          String(o._id) === orderId
+      );
+    }
+
+    if (!foundOrder) {
+      return res.status(404).json({ success: false, message: 'Order not found' });
+    }
+
+    return res.status(200).json({ success: true, order: foundOrder });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }

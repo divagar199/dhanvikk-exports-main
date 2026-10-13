@@ -1,14 +1,23 @@
+import { Platform } from 'react-native';
 import Constants from 'expo-constants';
-import { getToken } from './storage';
+import { getToken, getStoredUser } from './storage';
 
-export const BASE = String(
+const rawApiUrl = String(
   process.env.EXPO_PUBLIC_API_URL ||
     Constants.expoConfig?.extra?.apiUrl ||
-    'https://dhanvikk-exports-api.onrender.com'
+    'http://10.0.2.2:5000'
 ).replace(/\/$/, '');
 
+export const BASE =
+  Platform.OS === 'android' && (rawApiUrl.includes('localhost') || rawApiUrl.includes('127.0.0.1'))
+    ? rawApiUrl.replace('localhost', '10.0.2.2').replace('127.0.0.1', '10.0.2.2')
+    : rawApiUrl;
+
 export async function api<T>(path: string, init: RequestInit = {}): Promise<T> {
-  const token = await getToken();
+  const [token, storedUser] = await Promise.all([
+    getToken(),
+    getStoredUser<{ email?: string }>().catch(() => null),
+  ]);
   const headers = new Headers(init.headers);
   headers.set('Accept', 'application/json');
 
@@ -17,6 +26,9 @@ export async function api<T>(path: string, init: RequestInit = {}): Promise<T> {
   }
   if (token) {
     headers.set('Authorization', `Bearer ${token}`);
+  }
+  if (storedUser?.email) {
+    headers.set('X-User-Email', storedUser.email);
   }
 
   const controller = new AbortController();

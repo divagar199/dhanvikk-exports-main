@@ -1,3 +1,4 @@
+import { Platform } from 'react-native';
 import { BASE } from './api';
 
 export const FALLBACK_FLOWER_IMAGE =
@@ -27,6 +28,14 @@ export function resolveImageUrl(img?: string | string[] | null): string {
     trimmed.startsWith('https://') ||
     trimmed.startsWith('data:')
   ) {
+    if (
+      Platform.OS === 'android' &&
+      (trimmed.includes('localhost:5000') || trimmed.includes('127.0.0.1:5000'))
+    ) {
+      return trimmed
+        .replace('localhost:5000', '10.0.2.2:5000')
+        .replace('127.0.0.1:5000', '10.0.2.2:5000');
+    }
     return trimmed;
   }
 

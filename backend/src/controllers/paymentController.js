@@ -18,7 +18,7 @@ const getRazorpayClient = () => {
     console.warn('Razorpay client initialization warning:', err.message);
     return null;
   }
-});
+};
 
 export const createRazorpayOrder = async (req, res) => {
   try {
