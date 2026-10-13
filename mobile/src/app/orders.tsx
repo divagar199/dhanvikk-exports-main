@@ -38,7 +38,7 @@ export default function Orders() {
         <FlatList
           data={data}
           contentContainerStyle={[s.content, { paddingBottom: 60 }]}
-          keyExtractor={(x) => x.orderId}
+          keyExtractor={(x: Order) => x.orderId}
           ListEmptyComponent={
             <View style={s.empty}>
               <View style={s.emptyIconCircle}>
@@ -53,7 +53,7 @@ export default function Orders() {
               </Pressable>
             </View>
           }
-          renderItem={({ item }) => (
+          renderItem={({ item }: { item: Order }) => (
             <Pressable
               style={s.card}
               onPress={() => router.push(('/order/' + item.orderId) as any)}

@@ -16,7 +16,7 @@ export default function OrderDetail() {
     queryFn: getMyOrders,
   });
 
-  const order = data.find((x) => x.orderId === id);
+  const order = data.find((x: Order) => x.orderId === id);
 
   return (
     <View style={[s.page, { paddingTop: Math.max(insets.top, 12) }]}>

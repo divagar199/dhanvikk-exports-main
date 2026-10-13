@@ -30,11 +30,11 @@ export default function TabsLayout() {
         name="home"
         options={{
           title: 'Home',
-          tabBarIcon: (p) => (
+          tabBarIcon: ({ focused }) => (
             <Ionicons
-              name={p.focused ? 'home' : 'home-outline'}
+              name={focused ? 'home' : 'home-outline'}
               size={22}
-              color={(p.color as string) || colors.muted}
+              color={focused ? colors.primary : colors.muted}
             />
           ),
         }}
@@ -43,11 +43,11 @@ export default function TabsLayout() {
         name="shop"
         options={{
           title: 'Shop',
-          tabBarIcon: (p) => (
+          tabBarIcon: ({ focused }) => (
             <Ionicons
-              name={p.focused ? 'flower' : 'flower-outline'}
+              name={focused ? 'flower' : 'flower-outline'}
               size={22}
-              color={(p.color as string) || colors.muted}
+              color={focused ? colors.primary : colors.muted}
             />
           ),
         }}
@@ -63,11 +63,11 @@ export default function TabsLayout() {
             fontSize: 10,
             fontWeight: '800',
           },
-          tabBarIcon: (p) => (
+          tabBarIcon: ({ focused }) => (
             <Ionicons
-              name={p.focused ? 'bag-handle' : 'bag-handle-outline'}
+              name={focused ? 'bag-handle' : 'bag-handle-outline'}
               size={22}
-              color={(p.color as string) || colors.muted}
+              color={focused ? colors.primary : colors.muted}
             />
           ),
         }}
@@ -76,11 +76,11 @@ export default function TabsLayout() {
         name="account"
         options={{
           title: 'Account',
-          tabBarIcon: (p) => (
+          tabBarIcon: ({ focused }) => (
             <Ionicons
-              name={p.focused ? 'person' : 'person-outline'}
+              name={focused ? 'person' : 'person-outline'}
               size={22}
-              color={(p.color as string) || colors.muted}
+              color={focused ? colors.primary : colors.muted}
             />
           ),
         }}
