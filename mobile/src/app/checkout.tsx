@@ -20,6 +20,7 @@ import { createOrder } from '@/services/orders';
 import { getStoredUser } from '@/lib/storage';
 import type { User } from '@/types/models';
 import RazorpayCheckout from 'react-native-razorpay';
+import { resolveImageUrl } from '@/lib/imageUrl';
 
 export default function Checkout() {
   const insets = useSafeAreaInsets();
@@ -130,7 +131,7 @@ export default function Checkout() {
           name: i.name,
           price: i.price,
           quantity: i.quantity || 1,
-          image: i.image || i.images?.[0] || '',
+          image: resolveImageUrl(i.image || i.images?.[0] || ''),
         })),
         shippingAddress: {
           recipientName: name,

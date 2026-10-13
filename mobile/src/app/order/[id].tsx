@@ -7,6 +7,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { getMyOrders } from '@/services/orders';
 import { colors, spacing, radius } from '@/constants/theme';
 import type { Order } from '@/types/models';
+import { resolveImageUrl } from '@/lib/imageUrl';
 
 export default function OrderDetail() {
   const insets = useSafeAreaInsets();
@@ -88,9 +89,10 @@ export default function OrderDetail() {
             <View key={item.product || item.id || index} style={s.itemCard}>
               {item.image ? (
                 <Image
-                  source={{ uri: item.image }}
+                  source={{ uri: resolveImageUrl(item.image) }}
                   style={s.itemThumb}
                   contentFit="cover"
+                  transition={150}
                 />
               ) : null}
               <View style={{ flex: 1, paddingLeft: item.image ? 10 : 0 }}>

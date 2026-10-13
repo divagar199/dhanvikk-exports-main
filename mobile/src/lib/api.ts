@@ -1,7 +1,7 @@
 import Constants from 'expo-constants';
 import { getToken } from './storage';
 
-const BASE = String(
+export const BASE = String(
   process.env.EXPO_PUBLIC_API_URL ||
     Constants.expoConfig?.extra?.apiUrl ||
     'https://dhanvikk-exports-api.onrender.com'

@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { Image } from 'expo-image';
 import { Ionicons } from '@expo/vector-icons';
@@ -5,6 +6,7 @@ import { router } from 'expo-router';
 import { colors, radius, spacing } from '@/constants/theme';
 import type { Product } from '@/types/models';
 import { useStore } from '@/store/useStore';
+import { resolveImageUrl, FALLBACK_FLOWER_IMAGE } from '@/lib/imageUrl';
 
 export function ProductCard({
   product,
@@ -19,6 +21,15 @@ export function ProductCard({
 
   const id = product.id || product._id || product.slug;
   const isSaved = saved.includes(id);
+
+  const [imageError, setImageError] = useState(false);
+
+  useEffect(() => {
+    setImageError(false);
+  }, [id]);
+
+  const rawImg = product.image || product.images?.[0];
+  const imageUri = imageError ? FALLBACK_FLOWER_IMAGE : resolveImageUrl(rawImg);
 
   // Compute realistic original price & discount if missing
   const price = product.price || 999;
@@ -38,10 +49,11 @@ export function ProductCard({
       >
         <View style={s.hPic}>
           <Image
-            source={{ uri: product.image || product.images?.[0] }}
+            source={{ uri: imageUri }}
             style={s.image}
             contentFit="cover"
             transition={150}
+            onError={() => setImageError(true)}
           />
           {discountPercent > 0 && (
             <View style={s.discountBadge}>
@@ -81,10 +93,11 @@ export function ProductCard({
     >
       <View style={s.pic}>
         <Image
-          source={{ uri: product.image || product.images?.[0] }}
+          source={{ uri: imageUri }}
           style={s.image}
           contentFit="cover"
           transition={150}
+          onError={() => setImageError(true)}
         />
 
         {discountPercent > 0 && (

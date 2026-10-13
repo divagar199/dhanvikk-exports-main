@@ -18,8 +18,22 @@ import { getProduct } from '@/services/products';
 import { useStore } from '@/store/useStore';
 import { colors, radius, spacing } from '@/constants/theme';
 import type { Product as ProductType } from '@/types/models';
+import { resolveImageUrl, resolveProductImages, FALLBACK_FLOWER_IMAGE } from '@/lib/imageUrl';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
+
+function GalleryImage({ uri }: { uri: string }) {
+  const [err, setErr] = useState(false);
+  return (
+    <Image
+      source={{ uri: err ? FALLBACK_FLOWER_IMAGE : resolveImageUrl(uri) }}
+      style={s.galleryImage}
+      contentFit="cover"
+      transition={150}
+      onError={() => setErr(true)}
+    />
+  );
+}
 
 export default function ProductDetail() {
   const insets = useSafeAreaInsets();
@@ -58,10 +72,7 @@ export default function ProductDetail() {
   const rating = p.rating || 4.8;
   const reviewsCount = p.reviewsCount || 128;
 
-  const imagesList =
-    p.images && p.images.length > 0
-      ? p.images
-      : [p.image || 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=800&q=80'];
+  const imagesList = resolveProductImages(p.images, p.image);
 
   const handleAddToCart = () => {
     add({ ...p, quantity: 1 });
@@ -132,12 +143,7 @@ export default function ProductDetail() {
             scrollEventThrottle={16}
           >
             {imagesList.map((imgUri, index) => (
-              <Image
-                key={index}
-                source={{ uri: imgUri }}
-                style={s.galleryImage}
-                contentFit="cover"
-              />
+              <GalleryImage key={`${index}-${imgUri}`} uri={imgUri} />
             ))}
           </ScrollView>
 

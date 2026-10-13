@@ -14,6 +14,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { colors, radius, spacing } from '@/constants/theme';
 import { cartTotal, useStore } from '@/store/useStore';
+import { resolveImageUrl } from '@/lib/imageUrl';
 
 export default function Cart() {
   const insets = useSafeAreaInsets();
@@ -105,9 +106,10 @@ export default function Cart() {
             <View style={s.cartCard}>
               <View style={s.itemMain}>
                 <Image
-                  source={{ uri: item.image || item.images?.[0] }}
+                  source={{ uri: resolveImageUrl(item.image || item.images?.[0]) }}
                   style={s.itemImage}
                   contentFit="cover"
+                  transition={150}
                 />
                 <View style={s.itemDetails}>
                   <Text style={s.itemName} numberOfLines={2}>
