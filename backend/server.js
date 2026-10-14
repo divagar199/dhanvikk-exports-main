@@ -39,8 +39,18 @@ app.use(
   })
 );
 
-// Serve locally uploaded files statically
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+// Serve locally uploaded files statically with fallback
+const uploadsDir = path.join(__dirname, 'uploads');
+app.use('/uploads', express.static(uploadsDir), (req, res, next) => {
+  if (req.method === 'GET') {
+    const files = fs.existsSync(uploadsDir) ? fs.readdirSync(uploadsDir) : [];
+    if (files.length > 0) {
+      const fallbackFile = files.find((f) => f.endsWith('.webp')) || files[0];
+      return res.sendFile(path.join(uploadsDir, fallbackFile));
+    }
+  }
+  next();
+});
 
 // Serve stored botanical images statically with automatic .webp format resolution
 const imagesStaticDir = path.join(__dirname, 'public', 'images');
