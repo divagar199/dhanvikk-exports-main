@@ -123,7 +123,16 @@ const authLimiter = rateLimit({
 
 app.use('/api/auth', authLimiter);
 
-// Health Check Endpoint
+// Health Check & Root Endpoints
+app.get('/', (req, res) => {
+  res.status(200).json({
+    status: 'healthy',
+    message: '🌸 Dhanvikk Blooms Backend API is live & operational',
+    version: '1.0.0',
+    documentation: '/api/health',
+  });
+});
+
 app.get('/api/health', (req, res) => {
   res.status(200).json({
     status: 'healthy',
