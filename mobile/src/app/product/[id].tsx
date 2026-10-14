@@ -250,69 +250,69 @@ export default function ProductDetail() {
           </View>
         </View>
 
-        {/* Flipkart-Style Delivery Check Card */}
+        {/* Haute Floriculture White-Glove Handover Card */}
         <View style={s.deliveryCard}>
           <View style={s.deliveryTitleRow}>
-            <Ionicons name="location-outline" size={18} color={colors.primaryDeep} />
-            <Text style={s.deliveryHeader}>Deliver to Chennai - 600001</Text>
+            <Ionicons name="location-sharp" size={17} color={colors.primary} />
+            <Text style={s.deliveryHeader}>Doorstep White-Glove Delivery</Text>
             <Pressable onPress={() => router.push('/addresses')}>
               <Text style={s.checkPincodeText}>Change</Text>
             </Pressable>
           </View>
 
           <View style={s.deliveryFeature}>
-            <Ionicons name="flash" size={15} color={colors.dealOrange} />
+            <Ionicons name="flash" size={15} color={colors.primary} />
             <Text style={s.deliveryFeatureText}>
-              Express Delivery by <Text style={s.boldText}>Today, 7:00 PM</Text>
+              Express 90-Minute Dispatch by <Text style={s.boldText}>Van #BLR-04</Text>
             </Text>
           </View>
 
           <View style={s.deliveryFeature}>
-            <Ionicons name="cash-outline" size={15} color={colors.discountGreen} />
+            <Ionicons name="snow" size={15} color={colors.secondary} />
             <Text style={s.deliveryFeatureText}>
-              Cash on Delivery & Razorpay UPI Available
+              Continuous 2°C–4°C Reefer Cold-Chain Protection
             </Text>
           </View>
 
           <View style={s.deliveryFeature}>
-            <Ionicons name="reload-outline" size={15} color={colors.primary} />
+            <Ionicons name="shield-checkmark" size={15} color={colors.accentMuted} />
             <Text style={s.deliveryFeatureText}>
-              24-Hour Freshness Replacement Guarantee
+              12-Day Stem Longevity Pledge & Complimentary Calligraphy Card
             </Text>
           </View>
         </View>
 
-        {/* Product Details & Highlights */}
+        {/* Botanical Provenance & Stem Specifications */}
         <View style={s.detailsCard}>
-          <Text style={s.sectionTitle}>Product Highlights</Text>
+          <Text style={s.sectionTitle}>Botanical Specifications</Text>
           <View style={s.bulletRow}>
             <View style={s.bulletDot} />
             <Text style={s.bulletText}>
-              Stem count: Artisanally conditioned luxury stems.
+              <Text style={{ fontWeight: '800' }}>Provenance:</Text> Nilgiri Kotagiri Highland Ridge (7,200ft Altitude).
             </Text>
           </View>
           <View style={s.bulletRow}>
             <View style={s.bulletDot} />
             <Text style={s.bulletText}>
-              Packaging: Signature Dhanvikk matte wrap with satin ribbon.
+              <Text style={{ fontWeight: '800' }}>Stem Caliber:</Text> 70cm heavy-caliber, dawn-cut selection.
             </Text>
           </View>
           <View style={s.bulletRow}>
             <View style={s.bulletDot} />
             <Text style={s.bulletText}>
-              Complimentary: Handwritten note on luxury card stock.
+              <Text style={{ fontWeight: '800' }}>Packaging:</Text> Signature silk-matte wrap, satin ribbon & wax seal.
             </Text>
           </View>
           <View style={s.bulletRow}>
             <View style={s.bulletDot} />
             <Text style={s.bulletText}>
-              Freshness: Water-soaked foam base ensures maximum hydration in transit.
+              <Text style={{ fontWeight: '800' }}>Hydration:</Text> Cryo-sealed ampoules and floral nourishment elixir included.
             </Text>
           </View>
 
           <View style={s.divider} />
 
-          <Text style={s.sectionTitle}>Florist Description</Text>
+          <Text style={s.sectionTitle}>Master Florist Note</Text>
           <Text style={s.description}>
             {p.description ||
               'A magnificent creation crafted with perfection by our master florists. Sourced directly from high-altitude estates, each stem is selected for radiant color, velvety texture, and prolonged freshness.'}

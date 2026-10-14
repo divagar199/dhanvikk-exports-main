@@ -3,7 +3,7 @@ import { Image } from 'expo-image';
 import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { colors, radius, spacing } from '@/constants/theme';
+import { colors, radius, shadows, spacing } from '@/constants/theme';
 import { useStore } from '@/store/useStore';
 import { useQuery } from '@tanstack/react-query';
 import { getProfileData } from '@/services/orders';
@@ -26,35 +26,51 @@ export function FlipkartHeader() {
   const defaultAddress = savedAddresses.find((a: any) => a.isDefault) || savedAddresses[0];
 
   const locationLabel = !user
-    ? 'Deliver to: Select Location'
+    ? 'Select Destination'
     : defaultAddress
-    ? `Deliver to: ${defaultAddress.city || 'Home'}${defaultAddress.postalCode ? ` ${defaultAddress.postalCode}` : ''}`
-    : 'Deliver to: + Add Address';
+    ? `${defaultAddress.city || 'Bangalore'}${defaultAddress.postalCode ? ` • ${defaultAddress.postalCode}` : ''}`
+    : '+ Add Address';
 
   const cartCount = cart.reduce((t, i) => t + (i.quantity || 1), 0);
   const wishCount = wishlist.length;
 
   return (
     <View style={[s.header, { paddingTop: Math.max(insets.top, 10) }]}>
+      {/* Top Telemetry & Micro-Status Bar */}
+      <View style={s.telemetryRow}>
+        <View style={s.telemetryPill}>
+          <View style={s.telemetryDot} />
+          <Text style={s.telemetryText}>EXPRESS 90M • REEFER COLD-CHAIN: 3.2°C</Text>
+        </View>
+        <Pressable
+          style={s.conciergeLink}
+          onPress={() => router.push('/support')}
+          hitSlop={6}
+        >
+          <Ionicons name="sparkles" size={12} color={colors.accent} />
+          <Text style={s.conciergeText}>VIP Concierge</Text>
+        </Pressable>
+      </View>
+
       {/* Brand & Location Row */}
       <View style={s.topRow}>
-        <View style={s.brandGroup}>
+        <Pressable style={s.brandGroup} onPress={() => router.push('/(tabs)/home')}>
           <Image source={brandLogo} style={s.brandLogoImg} contentFit="contain" />
           <View>
             <Text style={s.brandTitle}>DHANVIKK</Text>
-            <Text style={s.brandSubtitle}>BLOOMS</Text>
+            <Text style={s.brandSubtitle}>HAUTE FLORICULTURE</Text>
           </View>
-        </View>
+        </Pressable>
 
         <Pressable
           style={s.locationPill}
           onPress={() => (user ? router.push('/addresses') : router.push('/auth/login'))}
         >
-          <Ionicons name="location" size={13} color={colors.primaryDeep} />
+          <Ionicons name="location-sharp" size={13} color={colors.primary} />
           <Text style={s.locationText} numberOfLines={1}>
             {locationLabel}
           </Text>
-          <Ionicons name="chevron-down" size={12} color={colors.muted} />
+          <Ionicons name="chevron-down" size={11} color={colors.accent} />
         </Pressable>
 
         <View style={s.iconsGroup}>
@@ -86,17 +102,17 @@ export function FlipkartHeader() {
         </View>
       </View>
 
-      {/* Flipkart-Style Search Bar */}
+      {/* Luxury Editorial Search Bar */}
       <Pressable
         style={s.searchBar}
         onPress={() => router.push('/search')}
       >
-        <Ionicons name="search" size={18} color={colors.muted} />
+        <Ionicons name="search" size={17} color={colors.primary} />
         <Text style={s.searchPlaceholder}>
-          Search for fresh roses, lilies, pooja flowers, gifts…
+          Search Royal Red Naomi, Casablanca Lilies, Cymbidiums…
         </Text>
         <View style={s.micIcon}>
-          <Ionicons name="mic-outline" size={18} color={colors.muted} />
+          <Ionicons name="mic-outline" size={17} color={colors.accent} />
         </View>
       </Pressable>
     </View>
@@ -106,15 +122,52 @@ export function FlipkartHeader() {
 const s = StyleSheet.create({
   header: {
     backgroundColor: colors.white,
-    paddingHorizontal: 12,
+    paddingHorizontal: 14,
     paddingBottom: 10,
     borderBottomWidth: 1,
     borderBottomColor: colors.lineLight,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.04,
-    shadowRadius: 3,
-    elevation: 3,
+    ...shadows.soft,
+  },
+  telemetryRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingBottom: 6,
+    borderBottomWidth: 0.5,
+    borderBottomColor: colors.lineLight,
+    marginBottom: 8,
+  },
+  telemetryPill: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: colors.secondaryLight,
+    paddingHorizontal: 8,
+    paddingVertical: 2.5,
+    borderRadius: radius.pill,
+    gap: 5,
+  },
+  telemetryDot: {
+    width: 6,
+    height: 6,
+    borderRadius: 3,
+    backgroundColor: colors.secondary,
+  },
+  telemetryText: {
+    fontSize: 9,
+    fontWeight: '800',
+    color: colors.secondary,
+    letterSpacing: 0.5,
+  },
+  conciergeLink: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+  },
+  conciergeText: {
+    fontSize: 10,
+    fontWeight: '800',
+    color: colors.accentMuted,
+    letterSpacing: 0.3,
   },
   topRow: {
     flexDirection: 'row',
@@ -131,34 +184,38 @@ const s = StyleSheet.create({
   brandLogoImg: {
     width: 34,
     height: 34,
-    borderRadius: 8,
-    backgroundColor: colors.white,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: colors.lineGold,
+    backgroundColor: colors.canvas,
   },
   brandTitle: {
-    fontSize: 16,
+    fontSize: 15,
     fontWeight: '900',
     color: colors.primary,
-    letterSpacing: 0.5,
-    lineHeight: 18,
+    letterSpacing: 1.2,
+    lineHeight: 17,
   },
   brandSubtitle: {
-    fontSize: 9,
+    fontSize: 8,
     fontWeight: '800',
-    color: colors.primaryDeep,
-    letterSpacing: 1.5,
+    color: colors.secondary,
+    letterSpacing: 1.6,
   },
   locationPill: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: colors.pale,
-    paddingHorizontal: 8,
-    paddingVertical: 4,
+    backgroundColor: colors.canvas,
+    borderWidth: 1,
+    borderColor: colors.line,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
     borderRadius: radius.pill,
     gap: 4,
-    maxWidth: 150,
+    maxWidth: 155,
   },
   locationText: {
-    fontSize: 10,
+    fontSize: 10.5,
     fontWeight: '700',
     color: colors.ink,
   },
@@ -169,13 +226,15 @@ const s = StyleSheet.create({
   },
   iconBtn: {
     position: 'relative',
-    padding: 2,
+    padding: 3,
   },
   badge: {
     position: 'absolute',
-    top: -4,
-    right: -6,
+    top: -3,
+    right: -5,
     backgroundColor: colors.primary,
+    borderWidth: 1,
+    borderColor: colors.accent,
     minWidth: 16,
     height: 16,
     borderRadius: 8,
@@ -190,18 +249,19 @@ const s = StyleSheet.create({
   },
   searchBar: {
     height: 42,
-    backgroundColor: colors.background,
-    borderRadius: 8,
+    backgroundColor: colors.canvas,
+    borderRadius: radius.pill,
     borderWidth: 1,
-    borderColor: colors.line,
+    borderColor: colors.lineGold,
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: 12,
+    paddingHorizontal: 14,
     gap: 8,
   },
   searchPlaceholder: {
     flex: 1,
-    fontSize: 12,
+    fontSize: 11.5,
+    fontWeight: '500',
     color: colors.muted,
   },
   micIcon: {

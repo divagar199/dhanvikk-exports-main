@@ -9,7 +9,8 @@ import {
 } from 'react-native';
 import { Image } from 'expo-image';
 import { router } from 'expo-router';
-import { colors, radius } from '@/constants/theme';
+import { Ionicons } from '@expo/vector-icons';
+import { colors, radius, shadows, spacing } from '@/constants/theme';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 const BANNER_WIDTH = SCREEN_WIDTH - 24;
@@ -17,6 +18,7 @@ const BANNER_WIDTH = SCREEN_WIDTH - 24;
 export interface BannerItem {
   id: string;
   badge: string;
+  telemetry?: string;
   title: string;
   subtitle: string;
   offer: string;
@@ -27,37 +29,41 @@ export interface BannerItem {
 const BANNERS: BannerItem[] = [
   {
     id: '1',
-    badge: 'SPRING FLORAL EDIT',
-    title: 'Highland Ecuadorian Roses',
-    subtitle: 'Imported fresh daily & hand-tied',
-    offer: 'FLAT 30% OFF',
+    badge: 'EST. NILGIRIS • 7,200FT',
+    telemetry: 'Reefer Van #BLR-04 • 3.4°C Active',
+    title: 'Hand-Cut Highland Blooms',
+    subtitle: 'Harvested at dawn in Kotagiri, delivered in cryo-sanctity in 90 mins.',
+    offer: 'HAUTE FLORILEGIUM',
     image: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=1000&q=85',
     routeCategory: 'Roses',
   },
   {
     id: '2',
-    badge: 'EXPRESS METRO DISPATCH',
-    title: 'Same Day Delivery by 7 PM',
-    subtitle: 'Guaranteed farm-fresh blooms to your door',
-    offer: 'FREE SHIPPING',
+    badge: 'BENGALURU WHITE-GLOVE',
+    telemetry: '2°C–4°C Reefer Cold-Chain Active',
+    title: 'Dutch Red Naomi & Casablanca',
+    subtitle: '70cm heavy-caliber stems with 12-day floral longevity pledge.',
+    offer: 'EXPRESS 90M',
     image: 'https://images.unsplash.com/photo-1490750967868-88aa4486c946?auto=format&fit=crop&w=1000&q=85',
     routeCategory: 'Bouquets',
   },
   {
     id: '3',
-    badge: 'HERITAGE EXPORTS',
+    badge: 'SACRED SANCTUM HARVEST',
+    telemetry: 'Direct Temple Pluck Protocol',
     title: 'Madurai Jasmine & Pooja Blooms',
-    subtitle: 'Direct farm plucked for poojas & celebrations',
-    offer: 'FROM ₹399',
+    subtitle: 'Pristine traditional strands hand-knotted for divine ceremonies.',
+    offer: 'ORGANIC PURITY',
     image: 'https://images.unsplash.com/photo-1606293926075-69a00dbfde81?auto=format&fit=crop&w=1000&q=85',
     routeCategory: 'Traditional',
   },
   {
     id: '4',
-    badge: 'ROYAL ORCHIDS & HAMPERS',
-    title: 'Curated Gift Collections',
-    subtitle: 'With gourmet treats and handwritten card',
-    offer: 'UP TO 40% OFF',
+    badge: 'PRIVATE CONCIERGE GIFTING',
+    telemetry: 'Bespoke Presentation Box',
+    title: 'Velour Crystal Keepsake Sets',
+    subtitle: 'Accompanied by wax-sealed calligraphy card & floral elixir.',
+    offer: 'VIP ATELIER',
     image: 'https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=1000&q=85',
     routeCategory: 'Hampers',
   },
@@ -67,7 +73,6 @@ export function BannerCarousel() {
   const [activeIndex, setActiveIndex] = useState(0);
   const flatListRef = useRef<FlatList>(null);
 
-  // Auto-scroll every 4 seconds
   useEffect(() => {
     const timer = setInterval(() => {
       const nextIndex = (activeIndex + 1) % BANNERS.length;
@@ -76,7 +81,7 @@ export function BannerCarousel() {
         index: nextIndex,
         animated: true,
       });
-    }, 4500);
+    }, 5000);
 
     return () => clearInterval(timer);
   }, [activeIndex]);
@@ -117,21 +122,39 @@ export function BannerCarousel() {
               style={s.image}
               contentFit="cover"
             />
+            {/* Elegant Vignette Gradient */}
+            <View style={s.scrim} />
+
             <View style={s.overlay}>
               <View style={s.topRow}>
                 <View style={s.badge}>
                   <Text style={s.badgeText}>{item.badge}</Text>
                 </View>
                 <View style={s.offerPill}>
+                  <Ionicons name="shield-checkmark" size={11} color={colors.accent} style={{ marginRight: 3 }} />
                   <Text style={s.offerText}>{item.offer}</Text>
                 </View>
               </View>
 
+              {item.telemetry && (
+                <View style={s.telemetryRibbon}>
+                  <View style={s.telemetryDot} />
+                  <Text style={s.telemetryText}>{item.telemetry}</Text>
+                </View>
+              )}
+
               <View style={s.bottomContent}>
                 <Text style={s.title}>{item.title}</Text>
                 <Text style={s.subtitle}>{item.subtitle}</Text>
-                <View style={s.shopBtn}>
-                  <Text style={s.shopBtnText}>Shop Now →</Text>
+                <View style={s.ctaRow}>
+                  <View style={s.curateBtn}>
+                    <Text style={s.curateBtnText}>Curate Bouquet</Text>
+                    <Ionicons name="arrow-forward" size={13} color={colors.white} />
+                  </View>
+                  <View style={s.secondaryCta}>
+                    <Ionicons name="speedometer-outline" size={12} color={colors.accent} />
+                    <Text style={s.secondaryCtaText}>Cold-Chain Active</Text>
+                  </View>
                 </View>
               </View>
             </View>
@@ -139,11 +162,12 @@ export function BannerCarousel() {
         )}
       />
 
-      <View style={s.dotsContainer}>
+      {/* Luxury Dot Indicators */}
+      <View style={s.pagination}>
         {BANNERS.map((_, i) => (
           <View
             key={i}
-            style={[s.dot, i === activeIndex ? s.dotActive : s.dotInactive]}
+            style={[s.dot, activeIndex === i && s.dotActive]}
           />
         ))}
       </View>
@@ -153,8 +177,7 @@ export function BannerCarousel() {
 
 const s = StyleSheet.create({
   container: {
-    paddingVertical: 10,
-    backgroundColor: colors.background,
+    marginVertical: 12,
   },
   listContent: {
     paddingHorizontal: 12,
@@ -162,78 +185,141 @@ const s = StyleSheet.create({
   },
   card: {
     width: BANNER_WIDTH,
-    height: 180,
-    borderRadius: radius.md,
+    height: 195,
+    borderRadius: radius.lg,
     overflow: 'hidden',
-    position: 'relative',
-    backgroundColor: colors.ink,
+    backgroundColor: colors.surfaceContainer,
+    borderWidth: 1,
+    borderColor: colors.lineGold,
+    ...shadows.card,
   },
   image: {
     width: '100%',
     height: '100%',
+    position: 'absolute',
+  },
+  scrim: {
+    ...StyleSheet.absoluteFill,
+    backgroundColor: 'rgba(26, 10, 16, 0.52)',
   },
   overlay: {
     ...StyleSheet.absoluteFill,
-    backgroundColor: 'rgba(0,0,0,0.38)',
     padding: 14,
     justifyContent: 'space-between',
   },
   topRow: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
     alignItems: 'center',
+    justifyContent: 'space-between',
   },
   badge: {
-    backgroundColor: 'rgba(255,255,255,0.22)',
-    paddingHorizontal: 8,
-    paddingVertical: 3,
-    borderRadius: 4,
+    backgroundColor: 'rgba(253, 251, 247, 0.94)',
+    paddingHorizontal: 9,
+    paddingVertical: 3.5,
+    borderRadius: radius.pill,
+    borderWidth: 0.5,
+    borderColor: colors.lineGold,
   },
   badgeText: {
-    color: colors.white,
     fontSize: 9,
     fontWeight: '900',
-    letterSpacing: 1,
+    color: colors.primary,
+    letterSpacing: 0.8,
   },
   offerPill: {
-    backgroundColor: colors.dealOrange,
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: 'rgba(30, 63, 32, 0.88)',
     paddingHorizontal: 8,
-    paddingVertical: 3,
-    borderRadius: 4,
+    paddingVertical: 3.5,
+    borderRadius: radius.pill,
+    borderWidth: 0.5,
+    borderColor: colors.accent,
   },
   offerText: {
-    color: colors.white,
-    fontSize: 10,
+    fontSize: 9,
     fontWeight: '900',
+    color: colors.white,
+    letterSpacing: 0.6,
+  },
+  telemetryRibbon: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.55)',
+    alignSelf: 'flex-start',
+    paddingHorizontal: 8,
+    paddingVertical: 2.5,
+    borderRadius: radius.pill,
+    gap: 5,
+    marginTop: 4,
+    borderWidth: 0.5,
+    borderColor: 'rgba(212, 175, 55, 0.35)',
+  },
+  telemetryDot: {
+    width: 5,
+    height: 5,
+    borderRadius: 2.5,
+    backgroundColor: '#00E676',
+  },
+  telemetryText: {
+    color: colors.white,
+    fontSize: 8.5,
+    fontWeight: '700',
+    letterSpacing: 0.3,
   },
   bottomContent: {
-    gap: 4,
+    gap: 3,
   },
   title: {
-    color: colors.white,
     fontSize: 18,
     fontWeight: '900',
-    lineHeight: 22,
+    color: colors.white,
+    letterSpacing: 0.3,
+    textShadowColor: 'rgba(0, 0, 0, 0.6)',
+    textShadowOffset: { width: 0, height: 1 },
+    textShadowRadius: 3,
   },
   subtitle: {
-    color: 'rgba(255,255,255,0.85)',
     fontSize: 11,
-    lineHeight: 15,
+    color: 'rgba(253, 251, 247, 0.92)',
+    fontWeight: '500',
+    marginBottom: 6,
   },
-  shopBtn: {
-    alignSelf: 'flex-start',
-    backgroundColor: colors.white,
+  ctaRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+  },
+  curateBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: colors.primary,
+    borderWidth: 1,
+    borderColor: colors.accent,
     paddingHorizontal: 12,
-    paddingVertical: 5,
-    borderRadius: 14,
-    marginTop: 4,
+    paddingVertical: 6,
+    borderRadius: radius.pill,
+    gap: 5,
+    ...shadows.soft,
   },
-  shopBtnText: {
-    color: colors.primaryDeep,
+  curateBtnText: {
+    color: colors.white,
     fontSize: 11,
-    fontWeight: '900',
+    fontWeight: '800',
+    letterSpacing: 0.3,
   },
-  dotsContainer: {
+  secondaryCta: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+  },
+  secondaryCtaText: {
+    color: colors.accentLight,
+    fontSize: 10,
+    fontWeight: '700',
+    letterSpacing: 0.2,
+  },
+  pagination: {
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
@@ -241,15 +327,14 @@ const s = StyleSheet.create({
     marginTop: 8,
   },
   dot: {
-    height: 5,
+    width: 6,
+    height: 6,
     borderRadius: 3,
+    backgroundColor: colors.line,
   },
   dotActive: {
-    width: 18,
-    backgroundColor: colors.primary,
-  },
-  dotInactive: {
-    width: 6,
-    backgroundColor: colors.line,
+    width: 20,
+    backgroundColor: colors.accent,
+    borderRadius: 3,
   },
 });

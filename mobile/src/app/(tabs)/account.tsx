@@ -11,7 +11,7 @@ import { Image } from 'expo-image';
 import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { colors, radius, spacing } from '@/constants/theme';
+import { colors, radius, shadows, spacing } from '@/constants/theme';
 import { getStoredUser } from '@/lib/storage';
 import { logout } from '@/services/auth';
 import { useStore } from '@/store/useStore';
@@ -46,7 +46,7 @@ export default function Account() {
 
   return (
     <View style={[s.page, { paddingTop: Math.max(insets.top, 10) }]}>
-      {/* Header with Brand Logo */}
+      {/* Haute Floriculture Header */}
       <View style={s.header}>
         <View style={s.headerTitleRow}>
           <Image
@@ -54,7 +54,10 @@ export default function Account() {
             style={s.headerLogo}
             contentFit="contain"
           />
-          <Text style={s.headerTitle}>My Account</Text>
+          <View>
+            <Text style={s.headerTitle}>VIP Concierge Atelier</Text>
+            <Text style={s.headerSub}>Client Profile & Florilegium Privileges</Text>
+          </View>
         </View>
       </View>
 
@@ -71,9 +74,9 @@ export default function Account() {
           </View>
 
           <View style={s.profileInfo}>
-            <Text style={s.name}>{user?.name || 'Welcome to Dhanvikk!'}</Text>
+            <Text style={s.name}>{user?.name || 'Guest Connoisseur'}</Text>
             <Text style={s.email}>
-              {user?.email || 'Sign in to access VIP orders & rewards'}
+              {user?.email || 'Sign in to access VIP cold-chain reservations'}
             </Text>
           </View>
 
@@ -83,7 +86,7 @@ export default function Account() {
                 style={s.googleProfileBtn}
                 onPress={() => setShowGoogleModal(true)}
               >
-                <Ionicons name="logo-google" size={16} color="#DB4437" />
+                <Ionicons name="logo-google" size={15} color="#EA4335" />
                 <Text style={s.googleProfileText}>Google</Text>
               </Pressable>
               <Pressable
@@ -96,17 +99,19 @@ export default function Account() {
           ) : null}
         </View>
 
-        {/* Dhanvikk Club VIP Banner (Flipkart Plus style) */}
+        {/* Dhanvikk Florilegium VIP Banner */}
         <View style={s.vipBanner}>
           <View style={s.vipLeft}>
-            <Ionicons name="sparkles" size={18} color={colors.yellowGold} />
+            <View style={s.vipCrown}>
+              <Ionicons name="sparkles" size={16} color={colors.accent} />
+            </View>
             <View>
-              <Text style={s.vipTitle}>Dhanvikk VIP Club</Text>
-              <Text style={s.vipSub}>Free Delivery on every bouquet + 5% Back</Text>
+              <Text style={s.vipTitle}>Dhanvikk Highland Circle</Text>
+              <Text style={s.vipSub}>Complimentary 2°C–4°C Reefer Delivery & VIP Card Inscriptions</Text>
             </View>
           </View>
           <View style={s.vipPill}>
-            <Text style={s.vipPillText}>ACTIVE</Text>
+            <Text style={s.vipPillText}>PRIVILEGED</Text>
           </View>
         </View>
 
@@ -288,9 +293,16 @@ const s = StyleSheet.create({
     borderRadius: 14,
   },
   headerTitle: {
-    fontSize: 18,
+    fontSize: 17,
     fontWeight: '900',
-    color: colors.ink,
+    color: colors.primary,
+    letterSpacing: 0.3,
+  },
+  headerSub: {
+    fontSize: 10,
+    fontWeight: '700',
+    color: colors.secondary,
+    letterSpacing: 0.3,
   },
   content: {},
   profileCard: {
@@ -306,16 +318,16 @@ const s = StyleSheet.create({
     width: 50,
     height: 50,
     borderRadius: 25,
-    backgroundColor: colors.pale,
+    backgroundColor: colors.surfaceContainer,
+    borderWidth: 1.5,
+    borderColor: colors.lineGold,
     alignItems: 'center',
     justifyContent: 'center',
-    borderWidth: 1,
-    borderColor: colors.lineLight,
   },
   avatarText: {
     fontSize: 20,
     fontWeight: '900',
-    color: colors.primaryDeep,
+    color: colors.primary,
   },
   profileInfo: {
     flex: 1,
@@ -334,7 +346,9 @@ const s = StyleSheet.create({
     backgroundColor: colors.primary,
     paddingHorizontal: 14,
     paddingVertical: 6,
-    borderRadius: 4,
+    borderRadius: radius.pill,
+    borderWidth: 1,
+    borderColor: colors.accent,
   },
   signInMiniText: {
     color: colors.white,
@@ -342,14 +356,17 @@ const s = StyleSheet.create({
     fontSize: 12,
   },
   vipBanner: {
-    backgroundColor: '#1E222D', // Premium Flipkart VIP dark bar
+    backgroundColor: colors.secondary, // Deep Forest Flora VIP bar
     marginHorizontal: 12,
     marginTop: 10,
-    borderRadius: radius.sm,
+    borderRadius: radius.md,
+    borderWidth: 1,
+    borderColor: colors.accent,
     padding: 12,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    ...shadows.soft,
   },
   vipLeft: {
     flexDirection: 'row',
@@ -357,13 +374,21 @@ const s = StyleSheet.create({
     gap: 10,
     flex: 1,
   },
+  vipCrown: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    backgroundColor: 'rgba(212, 175, 55, 0.2)',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   vipTitle: {
-    color: colors.yellowGold,
+    color: colors.accent,
     fontSize: 13,
     fontWeight: '900',
   },
   vipSub: {
-    color: 'rgba(255,255,255,0.75)',
+    color: 'rgba(255,255,255,0.85)',
     fontSize: 10,
     marginTop: 1,
   },

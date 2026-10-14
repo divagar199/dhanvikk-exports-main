@@ -13,7 +13,7 @@ import {
 import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { colors, radius, spacing } from '@/constants/theme';
+import { colors, radius, shadows, spacing } from '@/constants/theme';
 import { cartTotal, useStore } from '@/store/useStore';
 import { createRazorpayOrder, verifyPayment } from '@/services/payments';
 import { createOrder, getProfileData } from '@/services/orders';
@@ -562,8 +562,9 @@ const s = StyleSheet.create({
     borderRadius: radius.lg,
     padding: 18,
     borderWidth: 1,
-    borderColor: colors.line,
+    borderColor: colors.lineGold,
     marginTop: 4,
+    ...shadows.soft,
   },
   summaryRow: {
     flexDirection: 'row',
@@ -578,20 +579,23 @@ const s = StyleSheet.create({
   totalAmount: {
     fontSize: 24,
     fontWeight: '900',
-    color: colors.primaryDeep,
+    color: colors.primary,
   },
   securityNote: {
-    fontSize: 12,
+    fontSize: 11.5,
     color: colors.muted,
     marginVertical: 12,
     lineHeight: 18,
   },
   payButton: {
     height: 52,
-    borderRadius: 26,
+    borderRadius: radius.pill,
     backgroundColor: colors.primary,
+    borderWidth: 1.5,
+    borderColor: colors.accent,
     alignItems: 'center',
     justifyContent: 'center',
+    ...shadows.soft,
   },
   payButtonDisabled: {
     opacity: 0.6,
@@ -599,7 +603,8 @@ const s = StyleSheet.create({
   payButtonText: {
     color: colors.white,
     fontWeight: '900',
-    fontSize: 15,
+    fontSize: 14.5,
+    letterSpacing: 0.4,
   },
   guestBanner: {
     backgroundColor: '#FFF0F5',

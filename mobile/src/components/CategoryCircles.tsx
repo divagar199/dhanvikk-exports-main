@@ -1,54 +1,61 @@
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { Image } from 'expo-image';
 import { router } from 'expo-router';
-import { colors, radius } from '@/constants/theme';
+import { colors, radius, shadows, spacing } from '@/constants/theme';
 
 export interface CategoryItem {
   id: string;
   name: string;
+  badge?: string;
   image: string;
 }
 
 export const CATEGORIES_DATA: CategoryItem[] = [
   {
     id: 'Roses',
-    name: 'Roses',
+    name: 'Dawn Cut',
+    badge: '7,200ft',
     image: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=400&q=80',
   },
   {
     id: 'Bouquets',
-    name: 'Bouquets',
+    name: 'Royal Ooty',
+    badge: 'Haute',
     image: 'https://images.unsplash.com/photo-1561181286-d3fee7d55364?auto=format&fit=crop&w=400&q=80',
   },
   {
-    id: 'Orchids',
-    name: 'Orchids',
-    image: 'https://images.unsplash.com/photo-1525310072745-f49212b5ac6d?auto=format&fit=crop&w=400&q=80',
-  },
-  {
     id: 'Lilies',
-    name: 'Lilies',
+    name: 'Casablanca',
+    badge: 'Fragrant',
     image: 'https://images.unsplash.com/photo-1533616688419-b7a585564566?auto=format&fit=crop&w=400&q=80',
   },
   {
+    id: 'Orchids',
+    name: 'Cymbidiums',
+    badge: 'Rare',
+    image: 'https://images.unsplash.com/photo-1525310072745-f49212b5ac6d?auto=format&fit=crop&w=400&q=80',
+  },
+  {
     id: 'Traditional',
-    name: 'Traditional',
+    name: 'Sanctum',
+    badge: 'Jasmine',
     image: 'https://images.unsplash.com/photo-1606293926075-69a00dbfde81?auto=format&fit=crop&w=400&q=80',
   },
   {
+    id: 'Luxury',
+    name: 'Velour Gift',
+    badge: 'VIP Box',
+    image: 'https://images.unsplash.com/photo-1582794543139-8ac9cb0f7b11?auto=format&fit=crop&w=400&q=80',
+  },
+  {
     id: 'Hampers',
-    name: 'Hampers',
+    name: 'Curated Sets',
     image: 'https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=400&q=80',
   },
   {
     id: 'Plants',
-    name: 'Plants',
+    name: 'Sanctuary',
     image: 'https://images.unsplash.com/photo-1485955900006-10f4d324d411?auto=format&fit=crop&w=400&q=80',
-  },
-  {
-    id: 'Luxury',
-    name: 'Luxury',
-    image: 'https://images.unsplash.com/photo-1582794543139-8ac9cb0f7b11?auto=format&fit=crop&w=400&q=80',
   },
 ];
 
@@ -59,13 +66,13 @@ export function CategoryCircles({
   onSelectCategory?: (category: string) => void;
   selectedCategory?: string;
 }) {
-  const handlePress = (catName: string) => {
+  const handlePress = (catId: string) => {
     if (onSelectCategory) {
-      onSelectCategory(catName);
+      onSelectCategory(catId);
     } else {
       router.push({
         pathname: '/(tabs)/shop',
-        params: { category: catName },
+        params: { category: catId },
       });
     }
   };
@@ -85,13 +92,20 @@ export function CategoryCircles({
               style={s.item}
               onPress={() => handlePress(cat.id)}
             >
-              <View style={[s.circleWrapper, isSelected && s.circleSelected]}>
-                <Image
-                  source={{ uri: cat.image }}
-                  style={s.image}
-                  contentFit="cover"
-                  transition={100}
-                />
+              <View style={[s.circleOuterRing, isSelected && s.circleOuterRingSelected]}>
+                <View style={s.circleInnerRing}>
+                  <Image
+                    source={{ uri: cat.image }}
+                    style={s.image}
+                    contentFit="cover"
+                    transition={150}
+                  />
+                </View>
+                {cat.badge && (
+                  <View style={s.miniBadge}>
+                    <Text style={s.miniBadgeText}>{cat.badge}</Text>
+                  </View>
+                )}
               </View>
               <Text
                 style={[s.label, isSelected && s.labelSelected]}
@@ -110,7 +124,7 @@ export function CategoryCircles({
 const s = StyleSheet.create({
   container: {
     backgroundColor: colors.white,
-    paddingVertical: 12,
+    paddingVertical: 14,
     borderBottomWidth: 1,
     borderBottomColor: colors.lineLight,
   },
@@ -120,38 +134,64 @@ const s = StyleSheet.create({
   },
   item: {
     alignItems: 'center',
-    width: 66,
+    width: 68,
   },
-  circleWrapper: {
-    width: 58,
-    height: 58,
-    borderRadius: 29,
-    padding: 2,
-    backgroundColor: colors.pale,
+  circleOuterRing: {
+    width: 62,
+    height: 62,
+    borderRadius: 31,
+    padding: 2.5,
+    borderWidth: 1.5,
+    borderColor: colors.lineGold,
+    backgroundColor: colors.canvas,
     alignItems: 'center',
     justifyContent: 'center',
-    borderWidth: 1.5,
-    borderColor: colors.lineLight,
     position: 'relative',
+    ...shadows.soft,
   },
-  circleSelected: {
+  circleOuterRingSelected: {
     borderColor: colors.primary,
-    backgroundColor: colors.blush,
+    borderWidth: 2,
+    backgroundColor: colors.primarySubtle,
+    ...shadows.goldGlow,
+  },
+  circleInnerRing: {
+    width: 53,
+    height: 53,
+    borderRadius: 26.5,
+    overflow: 'hidden',
+    backgroundColor: colors.surfaceContainer,
   },
   image: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
+    width: '100%',
+    height: '100%',
+  },
+  miniBadge: {
+    position: 'absolute',
+    bottom: -3,
+    backgroundColor: colors.primary,
+    borderWidth: 1,
+    borderColor: colors.accent,
+    paddingHorizontal: 5,
+    paddingVertical: 1,
+    borderRadius: radius.pill,
+  },
+  miniBadgeText: {
+    color: colors.white,
+    fontSize: 7.5,
+    fontWeight: '900',
+    letterSpacing: 0.2,
   },
   label: {
-    fontSize: 11,
+    fontSize: 10.5,
     fontWeight: '700',
-    color: colors.ink,
-    marginTop: 6,
+    color: colors.inkLight,
+    marginTop: 7,
     textAlign: 'center',
+    letterSpacing: 0.2,
   },
   labelSelected: {
-    color: colors.primaryDeep,
+    color: colors.primary,
     fontWeight: '900',
   },
 });

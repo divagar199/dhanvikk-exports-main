@@ -12,7 +12,7 @@ import { Image } from 'expo-image';
 import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { colors, radius, spacing } from '@/constants/theme';
+import { colors, radius, shadows, spacing } from '@/constants/theme';
 import { cartTotal, useStore } from '@/store/useStore';
 import { resolveImageUrl } from '@/lib/imageUrl';
 import { GoogleSignInModal } from '@/components/GoogleSignInModal';
@@ -89,9 +89,24 @@ export default function Cart() {
 
   return (
     <View style={[s.page, { paddingTop: Math.max(insets.top, 10) }]}>
-      {/* Flipkart-Style Header */}
+      {/* Haute Floriculture Header */}
       <View style={s.header}>
-        <Text style={s.headerTitle}>My Bag ({cart.length})</Text>
+        <View style={s.headerTitleWrap}>
+          <Text style={s.headerSup}>EST. NILGIRIS • WHITE-GLOVE TRANSIT</Text>
+          <Text style={s.headerTitle}>Atelier Shopping Bag ({cart.length})</Text>
+        </View>
+        <View style={s.telemetryBadge}>
+          <View style={s.telemetryDot} />
+          <Text style={s.telemetryText}>Reefer 3.2°C</Text>
+        </View>
+      </View>
+
+      {/* Temperature Control Guarantee Notice */}
+      <View style={s.reeferNotice}>
+        <Ionicons name="snow" size={13} color={colors.secondary} />
+        <Text style={s.reeferNoticeText}>
+          Preserved in continuous 2°C–4°C cryo-sanctity until doorstep handover.
+        </Text>
       </View>
 
       {/* Delivery Address Banner */}
@@ -100,7 +115,9 @@ export default function Cart() {
         onPress={() => (user ? router.push('/addresses') : router.push('/auth/login'))}
       >
         <View style={s.addressLeft}>
-          <Ionicons name="location" size={18} color={colors.primary} />
+          <View style={s.addressIconWrap}>
+            <Ionicons name="location" size={16} color={colors.primary} />
+          </View>
           <View>
             <View style={s.addressTitleRow}>
               <Text style={s.addressTitle}>
@@ -133,19 +150,19 @@ export default function Cart() {
       <FlatList
         data={cart}
         keyExtractor={(x) => x.id || x._id || x.slug}
-        contentContainerStyle={[s.content, { paddingBottom: 120 }]}
+        contentContainerStyle={[s.content, { paddingBottom: 130 }]}
         showsVerticalScrollIndicator={false}
         ListEmptyComponent={
           <View style={s.empty}>
             <View style={s.emptyIconCircle}>
-              <Ionicons name="bag-handle-outline" size={50} color={colors.primary} />
+              <Ionicons name="bag-handle-outline" size={46} color={colors.primary} />
             </View>
-            <Text style={s.emptyTitle}>Your shopping bag is empty!</Text>
+            <Text style={s.emptyTitle}>Your shopping bag is empty</Text>
             <Text style={s.emptySub}>
-              Explore fresh roses, orchids, and handcrafted bouquets to get started.
+              Discover handcrafted bouquets cut fresh at dawn on Nilgiri highlands.
             </Text>
             <Pressable style={s.exploreBtn} onPress={() => router.push('/(tabs)/shop')}>
-              <Text style={s.exploreBtnText}>Shop Now</Text>
+              <Text style={s.exploreBtnText}>Explore Florilegium</Text>
             </Pressable>
           </View>
         }
@@ -353,11 +370,60 @@ const s = StyleSheet.create({
     paddingVertical: 12,
     borderBottomWidth: 1,
     borderBottomColor: colors.lineLight,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  headerTitleWrap: {
+    gap: 1,
+  },
+  headerSup: {
+    fontSize: 8.5,
+    fontWeight: '800',
+    color: colors.secondary,
+    letterSpacing: 1.2,
   },
   headerTitle: {
-    fontSize: 18,
+    fontSize: 17,
     fontWeight: '900',
-    color: colors.ink,
+    color: colors.primary,
+    letterSpacing: 0.3,
+  },
+  telemetryBadge: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: colors.secondaryLight,
+    paddingHorizontal: 8,
+    paddingVertical: 3.5,
+    borderRadius: radius.pill,
+    gap: 4,
+  },
+  telemetryDot: {
+    width: 5,
+    height: 5,
+    borderRadius: 2.5,
+    backgroundColor: colors.secondary,
+  },
+  telemetryText: {
+    fontSize: 9.5,
+    fontWeight: '800',
+    color: colors.secondary,
+  },
+  reeferNotice: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: colors.secondaryLight,
+    paddingHorizontal: 14,
+    paddingVertical: 7,
+    gap: 6,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.lineLight,
+  },
+  reeferNoticeText: {
+    fontSize: 10.5,
+    fontWeight: '700',
+    color: colors.secondary,
+    flex: 1,
   },
   addressBanner: {
     backgroundColor: colors.white,
@@ -375,6 +441,16 @@ const s = StyleSheet.create({
     alignItems: 'center',
     gap: 10,
     flex: 1,
+  },
+  addressIconWrap: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    backgroundColor: colors.surfaceContainer,
+    borderWidth: 1,
+    borderColor: colors.lineGold,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   addressTitleRow: {
     flexDirection: 'row',

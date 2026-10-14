@@ -14,11 +14,11 @@ import { useLocalSearchParams } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { getProducts } from '@/services/products';
 import { ProductCard } from '@/components/ProductCard';
-import { colors, radius, spacing } from '@/constants/theme';
+import { colors, radius, shadows, spacing } from '@/constants/theme';
 import type { Product } from '@/types/models';
 
 const CATEGORIES = [
-  'All',
+  'All Stems',
   'Roses',
   'Bouquets',
   'Orchids',
@@ -30,10 +30,10 @@ const CATEGORIES = [
 ];
 
 const SORT_OPTIONS = [
-  { label: 'Popularity', value: 'popular' },
+  { label: 'Curator Choice', value: 'popular' },
   { label: 'Price: Low to High', value: 'price_asc' },
   { label: 'Price: High to Low', value: 'price_desc' },
-  { label: 'Rating 4.0+', value: 'rating' },
+  { label: 'Highest Graded (4.8+)', value: 'rating' },
 ];
 
 export default function Shop() {
@@ -41,7 +41,7 @@ export default function Shop() {
   const params = useLocalSearchParams<{ category?: string; occasion?: string }>();
 
   const [q, setQ] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState(params.category || 'All');
+  const [selectedCategory, setSelectedCategory] = useState(params.category || 'All Stems');
   const [activeOccasion, setActiveOccasion] = useState(params.occasion || '');
   const [sortBy, setSortBy] = useState('popular');
   const [showSortMenu, setShowSortMenu] = useState(false);
@@ -51,7 +51,7 @@ export default function Shop() {
     queryFn: () => getProducts({ search: q, limit: 100 }),
   });
 
-  // Filter
+  // Filter logic
   let filtered = data.filter((item) => {
     if (activeOccasion) {
       const occ = Array.isArray(item.occasion)
@@ -61,7 +61,7 @@ export default function Shop() {
       if (!occ.includes(paramOcc)) return false;
     }
 
-    if (selectedCategory !== 'All') {
+    if (selectedCategory !== 'All Stems' && selectedCategory !== 'All') {
       const cat =
         typeof item.category === 'object' && item.category !== null
           ? String((item.category as any).name || '').toLowerCase()
@@ -82,7 +82,7 @@ export default function Shop() {
     return true;
   });
 
-  // Sort
+  // Sort logic
   if (sortBy === 'price_asc') {
     filtered = [...filtered].sort((a, b) => (a.price || 0) - (b.price || 0));
   } else if (sortBy === 'price_desc') {
@@ -91,40 +91,56 @@ export default function Shop() {
     filtered = [...filtered].sort((a, b) => (b.rating || 0) - (a.rating || 0));
   }
 
-  const currentSortLabel = SORT_OPTIONS.find((s) => s.value === sortBy)?.label || 'Popularity';
+  const currentSortLabel = SORT_OPTIONS.find((s) => s.value === sortBy)?.label || 'Curator Choice';
 
   return (
     <View style={[s.page, { paddingTop: Math.max(insets.top, 10) }]}>
-      {/* Flipkart-Style Search Bar */}
+      {/* Atelier Florilegium Header */}
+      <View style={s.topHeader}>
+        <View style={s.headerTitleWrap}>
+          <Text style={s.headerSup}>EST. NILGIRIS • 7,200FT</Text>
+          <Text style={s.headerTitle}>Haute Florilegium</Text>
+        </View>
+        <View style={s.telemetryBadge}>
+          <View style={s.telemetryDot} />
+          <Text style={s.telemetryBadgeText}>Cold-Chain 3.2°C</Text>
+        </View>
+      </View>
+
+      {/* Luxury Search & Sort Row */}
       <View style={s.searchRow}>
         <View style={s.searchBar}>
-          <Ionicons name="search" size={18} color={colors.muted} />
+          <Ionicons name="search" size={17} color={colors.primary} />
           <TextInput
             value={q}
             onChangeText={setQ}
-            placeholder="Search roses, orchids, lilies, pooja flowers…"
+            placeholder="Search Red Naomi, Casablanca, Orchids…"
             placeholderTextColor={colors.muted}
             style={s.input}
           />
           {q.length > 0 && (
-            <Pressable onPress={() => setQ('')}>
-              <Ionicons name="close-circle" size={18} color={colors.muted} />
+            <Pressable onPress={() => setQ('')} hitSlop={6}>
+              <Ionicons name="close-circle" size={17} color={colors.muted} />
             </Pressable>
           )}
         </View>
 
         <Pressable
-          style={s.sortBtn}
+          style={[s.sortBtn, showSortMenu && s.sortBtnActive]}
           onPress={() => setShowSortMenu(!showSortMenu)}
         >
-          <Ionicons name="swap-vertical" size={18} color={colors.primaryDeep} />
+          <Ionicons
+            name="options-outline"
+            size={18}
+            color={showSortMenu ? colors.white : colors.primary}
+          />
         </Pressable>
       </View>
 
       {/* Sort Dropdown Tray */}
       {showSortMenu && (
         <View style={s.sortTray}>
-          <Text style={s.sortTrayTitle}>SORT BY</Text>
+          <Text style={s.sortTrayTitle}>ARRANGE COLLECTION BY</Text>
           <View style={s.sortOptionsRow}>
             {SORT_OPTIONS.map((opt) => (
               <Pressable
@@ -161,6 +177,9 @@ export default function Shop() {
                 style={[s.chip, active && s.chipActive]}
                 onPress={() => setSelectedCategory(cat)}
               >
+                {active && (
+                  <Ionicons name="sparkles" size={10} color={colors.accent} style={{ marginRight: 4 }} />
+                )}
                 <Text style={[s.chipText, active && s.chipTextActive]}>{cat}</Text>
               </Pressable>
             );
@@ -168,16 +187,17 @@ export default function Shop() {
         </ScrollView>
       </View>
 
-      {/* Subheader with count and active sort label */}
+      {/* Subheader with stem count and active sort label */}
       <View style={s.metaBar}>
         <Text style={s.countText}>
-          {filtered.length} {filtered.length === 1 ? 'item' : 'items'} found
+          {filtered.length} {filtered.length === 1 ? 'botanical creation' : 'botanical creations'}
         </Text>
         <Pressable
           style={s.activeSortBadge}
           onPress={() => setShowSortMenu(true)}
         >
-          <Text style={s.activeSortText}>Sorted: {currentSortLabel}</Text>
+          <Text style={s.activeSortText}>{currentSortLabel}</Text>
+          <Ionicons name="chevron-down" size={11} color={colors.primary} />
         </Pressable>
       </View>
 
@@ -193,20 +213,22 @@ export default function Shop() {
         onRefresh={refetch}
         ListEmptyComponent={
           <View style={s.empty}>
-            <Ionicons name="search-outline" size={48} color={colors.muted} />
-            <Text style={s.emptyTitle}>No florals found</Text>
+            <View style={s.emptyIconCircle}>
+              <Ionicons name="flower-outline" size={36} color={colors.primary} />
+            </View>
+            <Text style={s.emptyTitle}>No stems found in this reserve</Text>
             <Text style={s.emptySub}>
-              Try clearing your search query or picking a different category.
+              Try adjusting your search criteria or explore our complete floral library.
             </Text>
             <Pressable
               style={s.resetBtn}
               onPress={() => {
                 setQ('');
-                setSelectedCategory('All');
+                setSelectedCategory('All Stems');
                 setActiveOccasion('');
               }}
             >
-              <Text style={s.resetBtnText}>Reset Filters</Text>
+              <Text style={s.resetBtnText}>Reset Atelier Filters</Text>
             </Pressable>
           </View>
         }
@@ -219,23 +241,67 @@ export default function Shop() {
 const s = StyleSheet.create({
   page: {
     flex: 1,
-    backgroundColor: colors.background,
+    backgroundColor: colors.canvas,
+  },
+  topHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 14,
+    paddingTop: 4,
+    paddingBottom: 8,
+    backgroundColor: colors.white,
+  },
+  headerTitleWrap: {
+    gap: 1,
+  },
+  headerSup: {
+    fontSize: 8.5,
+    fontWeight: '800',
+    color: colors.secondary,
+    letterSpacing: 1.5,
+  },
+  headerTitle: {
+    fontSize: 18,
+    fontWeight: '900',
+    color: colors.primary,
+    letterSpacing: 0.5,
+  },
+  telemetryBadge: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: colors.secondaryLight,
+    paddingHorizontal: 8,
+    paddingVertical: 3.5,
+    borderRadius: radius.pill,
+    gap: 4,
+  },
+  telemetryDot: {
+    width: 5,
+    height: 5,
+    borderRadius: 2.5,
+    backgroundColor: colors.secondary,
+  },
+  telemetryBadgeText: {
+    fontSize: 9.5,
+    fontWeight: '800',
+    color: colors.secondary,
   },
   searchRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: 12,
-    paddingBottom: 8,
+    paddingHorizontal: 14,
+    paddingBottom: 10,
     backgroundColor: colors.white,
     gap: 8,
   },
   searchBar: {
     flex: 1,
     height: 42,
-    backgroundColor: colors.background,
-    borderRadius: 8,
+    backgroundColor: colors.canvas,
+    borderRadius: radius.pill,
     borderWidth: 1,
-    borderColor: colors.line,
+    borderColor: colors.lineGold,
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: 12,
@@ -243,32 +309,38 @@ const s = StyleSheet.create({
   },
   input: {
     flex: 1,
-    fontSize: 13,
+    fontSize: 12.5,
+    fontWeight: '600',
     color: colors.ink,
   },
   sortBtn: {
     width: 42,
     height: 42,
-    borderRadius: 8,
-    backgroundColor: colors.pale,
+    borderRadius: 21,
+    backgroundColor: colors.canvas,
     alignItems: 'center',
     justifyContent: 'center',
     borderWidth: 1,
-    borderColor: colors.line,
+    borderColor: colors.lineGold,
+  },
+  sortBtnActive: {
+    backgroundColor: colors.primary,
+    borderColor: colors.accent,
   },
   sortTray: {
     backgroundColor: colors.white,
-    paddingHorizontal: 12,
-    paddingVertical: 10,
+    paddingHorizontal: 14,
+    paddingVertical: 12,
     borderBottomWidth: 1,
-    borderColor: colors.line,
+    borderColor: colors.lineLight,
+    ...shadows.soft,
   },
   sortTrayTitle: {
-    fontSize: 11,
+    fontSize: 10,
     fontWeight: '900',
     color: colors.muted,
-    marginBottom: 6,
-    letterSpacing: 0.5,
+    marginBottom: 8,
+    letterSpacing: 0.8,
   },
   sortOptionsRow: {
     flexDirection: 'row',
@@ -276,16 +348,16 @@ const s = StyleSheet.create({
     gap: 6,
   },
   sortOptionPill: {
-    paddingHorizontal: 10,
-    paddingVertical: 5,
+    paddingHorizontal: 11,
+    paddingVertical: 6,
     borderRadius: radius.pill,
-    backgroundColor: colors.background,
+    backgroundColor: colors.canvas,
     borderWidth: 1,
     borderColor: colors.line,
   },
   sortOptionActive: {
     backgroundColor: colors.primary,
-    borderColor: colors.primary,
+    borderColor: colors.accent,
   },
   sortOptionText: {
     fontSize: 11,
@@ -294,96 +366,119 @@ const s = StyleSheet.create({
   },
   sortOptionTextActive: {
     color: colors.white,
+    fontWeight: '800',
   },
   chipsWrap: {
     backgroundColor: colors.white,
-    paddingVertical: 8,
+    paddingVertical: 9,
     borderBottomWidth: 1,
     borderBottomColor: colors.lineLight,
   },
   categories: {
-    paddingHorizontal: 12,
+    paddingHorizontal: 14,
     gap: 8,
   },
   chip: {
-    paddingHorizontal: 14,
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 13,
     paddingVertical: 6,
     borderRadius: radius.pill,
-    backgroundColor: colors.background,
+    backgroundColor: colors.canvas,
     borderWidth: 1,
     borderColor: colors.line,
   },
   chipActive: {
     backgroundColor: colors.primary,
-    borderColor: colors.primary,
+    borderColor: colors.accent,
   },
   chipText: {
-    fontSize: 12,
+    fontSize: 11.5,
     fontWeight: '700',
     color: colors.ink,
   },
   chipTextActive: {
     color: colors.white,
+    fontWeight: '800',
   },
   metaBar: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingHorizontal: 12,
+    paddingHorizontal: 14,
     paddingVertical: 8,
   },
   countText: {
-    fontSize: 12,
+    fontSize: 11.5,
     fontWeight: '700',
     color: colors.muted,
   },
   activeSortBadge: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
     backgroundColor: colors.white,
-    paddingHorizontal: 8,
-    paddingVertical: 3,
-    borderRadius: 4,
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+    borderRadius: radius.pill,
     borderWidth: 1,
-    borderColor: colors.lineLight,
+    borderColor: colors.lineGold,
   },
   activeSortText: {
     fontSize: 11,
-    fontWeight: '700',
-    color: colors.primaryDeep,
+    fontWeight: '800',
+    color: colors.primary,
   },
   content: {
-    paddingBottom: 90,
+    paddingBottom: 95,
   },
   grid: {
-    paddingHorizontal: 8,
+    paddingHorizontal: 10,
     justifyContent: 'space-between',
   },
   empty: {
     alignItems: 'center',
-    paddingVertical: 80,
+    paddingVertical: 70,
+    paddingHorizontal: 20,
+  },
+  emptyIconCircle: {
+    width: 64,
+    height: 64,
+    borderRadius: 32,
+    backgroundColor: colors.primarySubtle,
+    borderWidth: 1,
+    borderColor: colors.lineGold,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 12,
   },
   emptyTitle: {
-    fontSize: 17,
+    fontSize: 16,
     fontWeight: '900',
     color: colors.ink,
-    marginTop: 12,
+    marginTop: 4,
   },
   emptySub: {
-    fontSize: 13,
+    fontSize: 12.5,
     color: colors.muted,
     textAlign: 'center',
     marginTop: 6,
-    paddingHorizontal: 30,
+    lineHeight: 18,
     marginBottom: 20,
   },
   resetBtn: {
     backgroundColor: colors.primary,
-    paddingHorizontal: 18,
+    borderWidth: 1,
+    borderColor: colors.accent,
+    paddingHorizontal: 20,
     paddingVertical: 10,
     borderRadius: radius.pill,
+    ...shadows.soft,
   },
   resetBtnText: {
     color: colors.white,
     fontWeight: '900',
-    fontSize: 13,
+    fontSize: 12.5,
+    letterSpacing: 0.3,
   },
 });

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { FlatList, Pressable, StyleSheet, Text, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
-import { colors, radius, spacing } from '@/constants/theme';
+import { colors, radius, shadows, spacing } from '@/constants/theme';
 import type { Product } from '@/types/models';
 import { ProductCard } from '@/components/ProductCard';
 
@@ -32,9 +32,7 @@ export function DealOfTheDay({ products }: { products: Product[] }) {
 
   const format = (n: number) => n.toString().padStart(2, '0');
 
-  // Filter deals
   const deals = products.slice(0, 8);
-
   if (!deals.length) return null;
 
   return (
@@ -42,13 +40,13 @@ export function DealOfTheDay({ products }: { products: Product[] }) {
       <View style={s.header}>
         <View style={s.headerLeft}>
           <View style={s.iconTag}>
-            <Ionicons name="flash" size={14} color={colors.white} />
+            <Ionicons name="sparkles" size={14} color={colors.accent} />
           </View>
           <View>
-            <Text style={s.title}>Deals of the Day</Text>
+            <Text style={s.title}>The Daily Harvest Reserve</Text>
             <View style={s.timerRow}>
-              <Ionicons name="time-outline" size={13} color={colors.dealOrange} />
-              <Text style={s.timerLabel}>Ends in </Text>
+              <Ionicons name="time-outline" size={12} color={colors.primary} />
+              <Text style={s.timerLabel}>Vault window: </Text>
               <View style={s.timerBox}>
                 <Text style={s.timerText}>{format(timeLeft.hours)}h</Text>
               </View>
@@ -68,8 +66,8 @@ export function DealOfTheDay({ products }: { products: Product[] }) {
           style={s.viewAllBtn}
           onPress={() => router.push('/(tabs)/shop')}
         >
-          <Text style={s.viewAllText}>View All</Text>
-          <Ionicons name="chevron-forward" size={13} color={colors.primaryDeep} />
+          <Text style={s.viewAllText}>View Reserve</Text>
+          <Ionicons name="chevron-forward" size={13} color={colors.primary} />
         </Pressable>
       </View>
 
@@ -88,79 +86,88 @@ export function DealOfTheDay({ products }: { products: Product[] }) {
 const s = StyleSheet.create({
   container: {
     backgroundColor: colors.white,
-    marginVertical: 6,
-    paddingVertical: 12,
+    marginVertical: 8,
+    paddingVertical: 14,
     borderTopWidth: 1,
     borderBottomWidth: 1,
     borderColor: colors.lineLight,
+    ...shadows.soft,
   },
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingHorizontal: 12,
-    marginBottom: 10,
+    paddingHorizontal: 14,
+    marginBottom: 12,
   },
   headerLeft: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 8,
+    gap: 10,
   },
   iconTag: {
-    width: 28,
-    height: 28,
-    borderRadius: 14,
-    backgroundColor: colors.dealOrange,
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    backgroundColor: colors.primary,
+    borderWidth: 1,
+    borderColor: colors.accent,
     alignItems: 'center',
     justifyContent: 'center',
   },
   title: {
-    fontSize: 16,
+    fontSize: 15.5,
     fontWeight: '900',
     color: colors.ink,
+    letterSpacing: 0.2,
   },
   timerRow: {
     flexDirection: 'row',
     alignItems: 'center',
     marginTop: 2,
+    gap: 3,
   },
   timerLabel: {
-    fontSize: 11,
+    fontSize: 10.5,
     color: colors.muted,
     fontWeight: '700',
   },
   timerBox: {
-    backgroundColor: colors.pale,
+    backgroundColor: colors.canvas,
+    borderWidth: 0.8,
+    borderColor: colors.lineGold,
     paddingHorizontal: 4,
     paddingVertical: 1,
-    borderRadius: 3,
+    borderRadius: 4,
   },
   timerText: {
     fontSize: 10,
     fontWeight: '900',
-    color: colors.dealOrange,
+    color: colors.primary,
   },
   colon: {
     fontSize: 10,
     fontWeight: '900',
-    color: colors.muted,
-    marginHorizontal: 1,
+    color: colors.primary,
   },
   viewAllBtn: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: colors.blush,
+    gap: 3,
     paddingHorizontal: 10,
-    paddingVertical: 4,
+    paddingVertical: 5,
     borderRadius: radius.pill,
-    gap: 2,
+    backgroundColor: colors.canvas,
+    borderWidth: 1,
+    borderColor: colors.lineGold,
   },
   viewAllText: {
     fontSize: 11,
     fontWeight: '800',
-    color: colors.primaryDeep,
+    color: colors.primary,
   },
   listContent: {
     paddingHorizontal: 12,
+    gap: 10,
   },
 });

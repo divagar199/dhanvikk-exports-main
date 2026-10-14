@@ -3,7 +3,7 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { Image } from 'expo-image';
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
-import { colors, radius, spacing } from '@/constants/theme';
+import { colors, radius, shadows, spacing } from '@/constants/theme';
 import type { Product } from '@/types/models';
 import { useStore } from '@/store/useStore';
 import { resolveImageUrl, FALLBACK_FLOWER_IMAGE } from '@/lib/imageUrl';
@@ -31,15 +31,14 @@ export function ProductCard({
   const rawImg = product.image || product.images?.[0];
   const imageUri = imageError ? FALLBACK_FLOWER_IMAGE : resolveImageUrl(rawImg);
 
-  // Compute realistic original price & discount if missing
   const price = product.price || 999;
   const originalPrice =
     product.originalPrice && product.originalPrice > price
       ? product.originalPrice
-      : Math.round(price * 1.35);
+      : Math.round(price * 1.3);
   const discountPercent = Math.round(((originalPrice - price) / originalPrice) * 100);
-  const rating = product.rating || 4.7;
-  const reviewsCount = product.reviewsCount || Math.floor(25 + (price % 50));
+  const rating = product.rating || 4.8;
+  const reviewsCount = product.reviewsCount || Math.floor(40 + (price % 60));
 
   if (horizontal) {
     return (
@@ -55,32 +54,30 @@ export function ProductCard({
             transition={150}
             onError={() => setImageError(true)}
           />
-          {discountPercent > 0 && (
-            <View style={s.discountBadge}>
-              <Text style={s.discountText}>{discountPercent}% OFF</Text>
-            </View>
-          )}
+          <View style={s.originBadge}>
+            <Text style={s.originText}>7,200ft Cut</Text>
+          </View>
         </View>
 
         <View style={s.hBody}>
-          <Text style={s.name} numberOfLines={1}>
+          <Text style={s.hName} numberOfLines={1}>
             {product.name}
           </Text>
 
           <View style={s.ratingRow}>
-            <View style={s.ratingBadge}>
-              <Text style={s.ratingText}>{rating.toFixed(1)}</Text>
-              <Ionicons name="star" size={10} color={colors.white} />
-            </View>
-            <Text style={s.reviewsText}>({reviewsCount})</Text>
+            <Ionicons name="star" size={11} color={colors.accent} />
+            <Text style={s.ratingNum}>{rating.toFixed(1)}</Text>
+            <Text style={s.reviewsCount}>({reviewsCount})</Text>
           </View>
 
           <View style={s.priceRow}>
             <Text style={s.price}>₹{price.toLocaleString('en-IN')}</Text>
-            <Text style={s.originalPrice}>₹{originalPrice.toLocaleString('en-IN')}</Text>
+            {discountPercent > 0 && (
+              <Text style={s.originalPrice}>₹{originalPrice.toLocaleString('en-IN')}</Text>
+            )}
           </View>
 
-          <Text style={s.freeDelivery}>⚡ Free Delivery</Text>
+          <Text style={s.telemetryNotice}>⚡ Express 90m</Text>
         </View>
       </Pressable>
     );
@@ -100,12 +97,12 @@ export function ProductCard({
           onError={() => setImageError(true)}
         />
 
-        {discountPercent > 0 && (
-          <View style={s.discountBadge}>
-            <Text style={s.discountText}>{discountPercent}% OFF</Text>
-          </View>
-        )}
+        {/* Origin / Provenance Tag */}
+        <View style={s.originBadge}>
+          <Text style={s.originText}>Kotagiri • 7,200ft</Text>
+        </View>
 
+        {/* Wishlist Button */}
         <Pressable
           style={s.heart}
           onPress={() => wish(id)}
@@ -114,15 +111,15 @@ export function ProductCard({
         >
           <Ionicons
             name={isSaved ? 'heart' : 'heart-outline'}
-            size={18}
-            color={isSaved ? colors.primary : colors.muted}
+            size={17}
+            color={isSaved ? colors.primary : colors.ink}
           />
         </Pressable>
       </View>
 
       <View style={s.body}>
         <Text style={s.categoryTag} numberOfLines={1}>
-          {product.flowerType || product.category || 'FRESH BLOOM'}
+          {product.flowerType || product.category || 'HAUTE FLORICULTURE'}
         </Text>
 
         <Text style={s.name} numberOfLines={2}>
@@ -130,27 +127,38 @@ export function ProductCard({
         </Text>
 
         <View style={s.ratingRow}>
-          <View style={s.ratingBadge}>
-            <Text style={s.ratingText}>{rating.toFixed(1)}</Text>
-            <Ionicons name="star" size={10} color={colors.white} />
+          <View style={s.starGroup}>
+            <Ionicons name="star" size={11} color={colors.accent} />
+            <Text style={s.ratingNum}>{rating.toFixed(1)}</Text>
           </View>
-          <Text style={s.reviewsText}>({reviewsCount})</Text>
+          <Text style={s.dotSep}>•</Text>
+          <Text style={s.reviewsCount}>{reviewsCount} reviews</Text>
         </View>
 
         <View style={s.priceRow}>
           <Text style={s.price}>₹{price.toLocaleString('en-IN')}</Text>
-          <Text style={s.originalPrice}>₹{originalPrice.toLocaleString('en-IN')}</Text>
-          <Text style={s.savePercent}>{discountPercent}% off</Text>
+          {originalPrice > price && (
+            <Text style={s.originalPrice}>₹{originalPrice.toLocaleString('en-IN')}</Text>
+          )}
+          {discountPercent > 0 && (
+            <View style={s.discountPill}>
+              <Text style={s.discountPillText}>{discountPercent}% OFF</Text>
+            </View>
+          )}
         </View>
 
         <View style={s.footerRow}>
-          <Text style={s.freeDelivery}>⚡ Free Delivery</Text>
+          <View style={s.deliveryTag}>
+            <Ionicons name="flash" size={10} color={colors.secondary} />
+            <Text style={s.deliveryText}>Express 90m</Text>
+          </View>
+
           <Pressable
             style={s.addBtn}
             onPress={() => add({ ...product, quantity: 1 })}
             hitSlop={6}
           >
-            <Ionicons name="add" size={16} color={colors.white} />
+            <Ionicons name="add" size={15} color={colors.white} />
             <Text style={s.addBtnText}>ADD</Text>
           </Pressable>
         </View>
@@ -167,67 +175,64 @@ const s = StyleSheet.create({
     overflow: 'hidden',
     marginBottom: 12,
     borderWidth: 1,
-    borderColor: colors.lineLight,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.05,
-    shadowRadius: 4,
-    elevation: 2,
+    borderColor: colors.line,
+    ...shadows.soft,
   },
   pic: {
     width: '100%',
     aspectRatio: 1,
-    backgroundColor: colors.pale,
+    backgroundColor: colors.surfaceContainer,
     position: 'relative',
   },
   image: {
     width: '100%',
     height: '100%',
   },
-  discountBadge: {
+  originBadge: {
     position: 'absolute',
     top: 8,
     left: 8,
-    backgroundColor: colors.discountGreen,
+    backgroundColor: 'rgba(253, 251, 247, 0.94)',
+    borderWidth: 0.5,
+    borderColor: colors.lineGold,
     paddingHorizontal: 6,
-    paddingVertical: 2,
-    borderRadius: 4,
+    paddingVertical: 2.5,
+    borderRadius: radius.pill,
   },
-  discountText: {
-    color: colors.white,
-    fontSize: 10,
-    fontWeight: '900',
+  originText: {
+    color: colors.primary,
+    fontSize: 8.5,
+    fontWeight: '800',
+    letterSpacing: 0.3,
   },
   heart: {
     position: 'absolute',
     right: 8,
     top: 8,
-    width: 32,
-    height: 32,
-    borderRadius: 16,
-    backgroundColor: 'rgba(255,255,255,0.92)',
+    width: 30,
+    height: 30,
+    borderRadius: 15,
+    backgroundColor: 'rgba(255, 255, 255, 0.92)',
+    borderWidth: 0.5,
+    borderColor: colors.lineGold,
     alignItems: 'center',
     justifyContent: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.1,
-    shadowRadius: 2,
-    elevation: 2,
+    ...shadows.soft,
   },
   body: {
     padding: 10,
   },
   categoryTag: {
-    fontSize: 10,
+    fontSize: 9,
     fontWeight: '800',
-    color: colors.primaryDeep,
+    color: colors.secondary,
     textTransform: 'uppercase',
     letterSpacing: 0.8,
     marginBottom: 3,
   },
   name: {
     fontSize: 13,
-    fontWeight: '700',
+    fontWeight: '800',
     color: colors.ink,
     lineHeight: 18,
     minHeight: 36,
@@ -235,25 +240,25 @@ const s = StyleSheet.create({
   ratingRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 5,
     marginVertical: 4,
+    gap: 4,
   },
-  ratingBadge: {
+  starGroup: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: colors.starGreen,
-    paddingHorizontal: 5,
-    paddingVertical: 1,
-    borderRadius: 4,
-    gap: 2,
+    gap: 3,
   },
-  ratingText: {
-    color: colors.white,
+  ratingNum: {
     fontSize: 11,
-    fontWeight: '800',
+    fontWeight: '900',
+    color: colors.ink,
   },
-  reviewsText: {
-    fontSize: 11,
+  dotSep: {
+    fontSize: 10,
+    color: colors.mutedLight,
+  },
+  reviewsCount: {
+    fontSize: 10,
     color: colors.muted,
   },
   priceRow: {
@@ -269,14 +274,20 @@ const s = StyleSheet.create({
     color: colors.ink,
   },
   originalPrice: {
-    fontSize: 12,
+    fontSize: 11,
     color: colors.mutedLight,
     textDecorationLine: 'line-through',
   },
-  savePercent: {
-    fontSize: 11,
-    fontWeight: '800',
-    color: colors.discountGreen,
+  discountPill: {
+    backgroundColor: colors.primarySubtle,
+    paddingHorizontal: 4,
+    paddingVertical: 1,
+    borderRadius: 3,
+  },
+  discountPillText: {
+    fontSize: 9,
+    fontWeight: '900',
+    color: colors.primary,
   },
   footerRow: {
     flexDirection: 'row',
@@ -287,42 +298,65 @@ const s = StyleSheet.create({
     borderTopWidth: 1,
     borderTopColor: colors.lineLight,
   },
-  freeDelivery: {
-    fontSize: 10,
+  deliveryTag: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 2,
+  },
+  deliveryText: {
+    fontSize: 9.5,
     fontWeight: '700',
-    color: colors.muted,
+    color: colors.secondary,
   },
   addBtn: {
     backgroundColor: colors.primary,
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    borderRadius: radius.xs,
+    paddingHorizontal: 9,
+    paddingVertical: 4.5,
+    borderRadius: radius.pill,
     gap: 2,
+    borderWidth: 0.8,
+    borderColor: colors.accent,
+    ...shadows.soft,
   },
   addBtnText: {
     color: colors.white,
-    fontSize: 11,
+    fontSize: 10.5,
     fontWeight: '900',
+    letterSpacing: 0.3,
   },
 
-  // Horizontal Card Styles for "Deal of the Day" rail
+  // Horizontal Card Styles for Reserve rail
   hCard: {
-    width: 150,
+    width: 156,
     backgroundColor: colors.white,
     borderRadius: radius.md,
     overflow: 'hidden',
     marginRight: 10,
     borderWidth: 1,
-    borderColor: colors.lineLight,
+    borderColor: colors.line,
+    ...shadows.soft,
   },
   hPic: {
     width: '100%',
     height: 140,
-    backgroundColor: colors.pale,
+    backgroundColor: colors.surfaceContainer,
+    position: 'relative',
   },
   hBody: {
     padding: 8,
+  },
+  hName: {
+    fontSize: 12,
+    fontWeight: '800',
+    color: colors.ink,
+    marginBottom: 2,
+  },
+  telemetryNotice: {
+    fontSize: 9.5,
+    fontWeight: '800',
+    color: colors.secondary,
+    marginTop: 4,
   },
 });

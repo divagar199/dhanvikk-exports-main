@@ -18,22 +18,29 @@ export default function TabsLayout() {
           paddingTop: 8,
           paddingBottom: 10,
           backgroundColor: colors.white,
-          borderTopColor: colors.line,
+          borderTopColor: colors.lineGold,
+          borderTopWidth: 1,
+          elevation: 8,
+          shadowColor: '#1A1A1A',
+          shadowOffset: { width: 0, height: -3 },
+          shadowOpacity: 0.05,
+          shadowRadius: 8,
         },
         tabBarLabelStyle: {
           fontSize: 11,
-          fontWeight: '700',
+          fontWeight: '800',
+          letterSpacing: 0.4,
         },
       }}
     >
       <Tabs.Screen
         name="home"
         options={{
-          title: 'Home',
+          title: 'Atelier',
           tabBarIcon: ({ focused }) => (
             <Ionicons
-              name={focused ? 'home' : 'home-outline'}
-              size={22}
+              name={focused ? 'sparkles' : 'sparkles-outline'}
+              size={21}
               color={focused ? colors.primary : colors.muted}
             />
           ),
@@ -42,10 +49,10 @@ export default function TabsLayout() {
       <Tabs.Screen
         name="shop"
         options={{
-          title: 'Shop',
+          title: 'Florilegium',
           tabBarIcon: ({ focused }) => (
             <Ionicons
-              name={focused ? 'storefront' : 'storefront-outline'}
+              name={focused ? 'flower' : 'flower-outline'}
               size={22}
               color={focused ? colors.primary : colors.muted}
             />
@@ -61,7 +68,9 @@ export default function TabsLayout() {
             backgroundColor: colors.primary,
             color: colors.white,
             fontSize: 10,
-            fontWeight: '800',
+            fontWeight: '900',
+            borderWidth: 1.5,
+            borderColor: colors.accent,
           },
           tabBarIcon: ({ focused }) => (
             <Ionicons
@@ -75,7 +84,7 @@ export default function TabsLayout() {
       <Tabs.Screen
         name="account"
         options={{
-          title: 'Account',
+          title: 'Concierge',
           tabBarIcon: ({ focused }) => (
             <Ionicons
               name={focused ? 'person' : 'person-outline'}

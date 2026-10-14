@@ -14,10 +14,10 @@ import { ProductCard } from '@/components/ProductCard';
 import { colors, radius, spacing } from '@/constants/theme';
 import type { Product } from '@/types/models';
 
-const FILTER_TABS = ['All Blooms', 'Bestsellers', 'Premium Roses', 'Garlands & Pooja', 'Under ₹1,999'];
+const FILTER_TABS = ['All Stems', 'Royal Ooty Roses', 'Casablanca Lilies', 'Sanctum & Pooja', 'Bestsellers', 'Under ₹1,999'];
 
 export default function Home() {
-  const [selectedTab, setSelectedTab] = useState('All Blooms');
+  const [selectedTab, setSelectedTab] = useState('All Stems');
 
   const { data: products = [], isLoading, refetch } = useQuery<Product[]>({
     queryKey: ['featured-products'],
@@ -25,14 +25,19 @@ export default function Home() {
   });
 
   const filteredProducts = products.filter((p) => {
-    if (selectedTab === 'All Blooms') return true;
+    if (selectedTab === 'All Stems') return true;
     if (selectedTab === 'Bestsellers') return p.isBestSeller || (p.rating || 0) >= 4.7;
-    if (selectedTab === 'Premium Roses') {
+    if (selectedTab === 'Royal Ooty Roses') {
       const name = (p.name || '').toLowerCase();
       const cat = (p.category || '').toLowerCase();
       return name.includes('rose') || cat.includes('rose');
     }
-    if (selectedTab === 'Garlands & Pooja') {
+    if (selectedTab === 'Casablanca Lilies') {
+      const name = (p.name || '').toLowerCase();
+      const cat = (p.category || '').toLowerCase();
+      return name.includes('lily') || name.includes('lilies') || cat.includes('lily') || cat.includes('lilies');
+    }
+    if (selectedTab === 'Sanctum & Pooja') {
       const name = (p.name || '').toLowerCase();
       const cat = (p.category || '').toLowerCase();
       return (
@@ -65,23 +70,26 @@ export default function Home() {
             {/* Circular Category Story Bubbles */}
             <CategoryCircles />
 
-            {/* Flipkart Promotional Banner Carousel */}
+            {/* Haute Floriculture Editorial Showcase */}
             <BannerCarousel />
 
-            {/* Value Propositions / Trust Badges */}
+            {/* Sanctity & Longevity Guarantees */}
             <TrustBadges />
 
-            {/* Flash Deal of the Day with Countdown Timer */}
+            {/* The Daily Harvest Reserve */}
             <DealOfTheDay products={products} />
 
-            {/* Shop by Occasion Showcase */}
+            {/* Occasions of Grandeur & VIP Concierge */}
             <OccasionsGrid />
 
-            {/* Trending Section with Filter Tabs */}
+            {/* Curated Florilegium with Luxury Filters */}
             <View style={s.sectionHeader}>
               <View style={s.titleRow}>
                 <View style={s.titleIndicator} />
-                <Text style={s.sectionTitle}>Trending Floral Collection</Text>
+                <View>
+                  <Text style={s.sectionTitle}>Curated Highland Florilegium</Text>
+                  <Text style={s.sectionSubtitle}>Hand-selected morning cuts graded for Bangalore luxury delivery</Text>
+                </View>
               </View>
 
               <FlatList
@@ -97,6 +105,9 @@ export default function Home() {
                       style={[s.tabPill, active && s.tabPillActive]}
                       onPress={() => setSelectedTab(item)}
                     >
+                      {active && (
+                        <Ionicons name="sparkles" size={11} color={colors.accent} style={{ marginRight: 4 }} />
+                      )}
                       <Text style={[s.tabText, active && s.tabTextActive]}>
                         {item}
                       </Text>
@@ -111,11 +122,11 @@ export default function Home() {
         ListFooterComponent={
           <View style={s.footerTrust}>
             <View style={s.footerIcon}>
-              <Ionicons name="ribbon-outline" size={28} color={colors.primaryDeep} />
+              <Ionicons name="shield-checkmark" size={26} color={colors.accent} />
             </View>
-            <Text style={s.footerTitle}>Dhanvikk Haute Floristry</Text>
+            <Text style={s.footerTitle}>Dhanvikk Haute Floristry Pledge</Text>
             <Text style={s.footerSub}>
-              Over 10,000+ bouquets delivered with complimentary handwritten cards & temperature-controlled luxury vans.
+              Over 10,000+ Nilgiri bouquets delivered in unbroken 2°C–4°C reefer sanctity with complimentary calligraphy notes & wax seal.
             </Text>
           </View>
         }
@@ -127,29 +138,29 @@ export default function Home() {
 const s = StyleSheet.create({
   page: {
     flex: 1,
-    backgroundColor: colors.background,
+    backgroundColor: colors.canvas,
   },
   content: {
-    paddingBottom: 90,
+    paddingBottom: 95,
   },
   sectionHeader: {
     backgroundColor: colors.white,
-    marginTop: 6,
+    marginTop: 8,
     paddingTop: 14,
-    paddingBottom: 8,
+    paddingBottom: 10,
     borderTopWidth: 1,
     borderColor: colors.lineLight,
   },
   titleRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: 12,
+    paddingHorizontal: 14,
     marginBottom: 10,
     gap: 8,
   },
   titleIndicator: {
-    width: 4,
-    height: 18,
+    width: 3.5,
+    height: 20,
     backgroundColor: colors.primary,
     borderRadius: 2,
   },
@@ -157,64 +168,81 @@ const s = StyleSheet.create({
     fontSize: 16,
     fontWeight: '900',
     color: colors.ink,
+    letterSpacing: 0.2,
+  },
+  sectionSubtitle: {
+    fontSize: 10.5,
+    color: colors.muted,
+    marginTop: 1,
   },
   tabsList: {
-    paddingHorizontal: 12,
+    paddingHorizontal: 14,
     gap: 8,
+    marginTop: 4,
   },
   tabPill: {
-    paddingHorizontal: 14,
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 13,
     paddingVertical: 6,
     borderRadius: radius.pill,
-    backgroundColor: colors.background,
+    backgroundColor: colors.canvas,
     borderWidth: 1,
     borderColor: colors.line,
   },
   tabPillActive: {
     backgroundColor: colors.primary,
-    borderColor: colors.primary,
+    borderColor: colors.accent,
   },
   tabText: {
-    fontSize: 12,
+    fontSize: 11.5,
     fontWeight: '700',
     color: colors.ink,
   },
   tabTextActive: {
     color: colors.white,
+    fontWeight: '800',
   },
   grid: {
-    paddingHorizontal: 8,
+    paddingHorizontal: 10,
     justifyContent: 'space-between',
-    backgroundColor: colors.background,
+    backgroundColor: colors.canvas,
   },
   footerTrust: {
     backgroundColor: colors.white,
     margin: 12,
+    marginTop: 16,
     padding: 20,
-    borderRadius: radius.md,
+    borderRadius: radius.lg,
     alignItems: 'center',
     borderWidth: 1,
-    borderColor: colors.lineLight,
+    borderColor: colors.lineGold,
+    borderTopWidth: 3,
+    borderTopColor: colors.primary,
   },
   footerIcon: {
-    width: 52,
-    height: 52,
-    borderRadius: 26,
-    backgroundColor: colors.pale,
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    backgroundColor: colors.primary,
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: 8,
+    borderWidth: 1,
+    borderColor: colors.accent,
   },
   footerTitle: {
     fontSize: 15,
     fontWeight: '900',
-    color: colors.ink,
+    color: colors.primary,
+    letterSpacing: 0.3,
   },
   footerSub: {
-    fontSize: 12,
+    fontSize: 11.5,
     color: colors.muted,
     textAlign: 'center',
     marginTop: 4,
     lineHeight: 18,
+    maxWidth: 300,
   },
 });
