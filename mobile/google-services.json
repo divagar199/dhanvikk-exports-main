@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "160660053649",
+    "project_id": "auth-checker-1-main",
+    "storage_bucket": "auth-checker-1-main.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:160660053649:android:2d1e8ed74a5523d83e6930",
+        "android_client_info": {
+          "package_name": "com.dhanvikk.blooms"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "160660053649-1ar8vvfbirn6jgd9bnukihvk0frgluv6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDoBSnVKgCP7S9ETM7_R-v3VSzw1zh6JNk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "160660053649-1ar8vvfbirn6jgd9bnukihvk0frgluv6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
