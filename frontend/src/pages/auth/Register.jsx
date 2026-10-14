@@ -25,7 +25,7 @@ import AuthTrustMessage from '../../components/auth/AuthTrustMessage';
 import AuthBrandPanel from '../../components/auth/AuthBrandPanel';
 import Spinner from '../../components/common/Spinner';
 import { registerUser, loginWithGoogleThunk, clearAuthError } from '../../store/slices/authSlice';
-import { signInWithGoogleFirebase } from '../../config/firebase';
+import { signInWithGoogleFirebase, checkGoogleRedirectResult } from '../../config/firebase';
 
 const COUNTRY_CODES = [
   { code: '+971', country: 'UAE', flag: '🇦🇪' },
@@ -78,6 +78,10 @@ export default function Register() {
     setGoogleLoading(true);
     try {
       const fbRes = await signInWithGoogleFirebase();
+      if (fbRes?.redirecting) {
+        toast.info('Popup was blocked by your browser. Redirecting to Google Sign-In...');
+        return;
+      }
       if (fbRes?.user) {
         setGoogleUser(fbRes.user);
         setFormData((prev) => ({
@@ -91,8 +95,6 @@ export default function Register() {
       console.warn('Google pre-fill notice:', err);
       if (err.code === 'auth/popup-closed-by-user' || err.code === 'auth/cancelled-popup-request') {
         toast.info('Google sign-in was canceled.');
-      } else if (err.code === 'auth/popup-blocked') {
-        toast.error('Google sign-in popup was blocked by your browser. Please allow popups.');
       } else {
         toast.error(err?.message || 'Google connection could not be opened. You can enter details manually.');
       }
@@ -100,6 +102,28 @@ export default function Register() {
       setGoogleLoading(false);
     }
   };
+
+  // Check if returning from Google Redirect
+  useEffect(() => {
+    let isMounted = true;
+    (async () => {
+      try {
+        const res = await checkGoogleRedirectResult();
+        if (res?.user && isMounted) {
+          setGoogleUser(res.user);
+          setFormData((prev) => ({
+            ...prev,
+            name: prev.name || res.user.name || '',
+            email: res.user.email || prev.email,
+          }));
+          toast.success(`Google Account Connected: ${res.user.name || res.user.email} 🌸`);
+        }
+      } catch (e) {
+        console.warn('Redirect check on register note:', e);
+      }
+    })();
+    return () => { isMounted = false; };
+  }, []);
 
   // HTML5 Geolocation detection
   const handleDetectLocation = () => {

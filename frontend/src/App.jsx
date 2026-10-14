@@ -9,6 +9,8 @@ import ProtectedRoute from './components/routes/ProtectedRoute';
 import RoleRoute from './components/routes/RoleRoute';
 import AdminEntryRoute from './components/routes/AdminEntryRoute';
 import Spinner from './components/common/Spinner';
+import { checkGoogleRedirectResult } from './config/firebase';
+import { loginWithGoogleThunk } from './store/slices/authSlice';
 
 // Lazy-loaded routes for performance & fast LCP
 const Home = lazy(() => import('./pages/home/HomePage'));
@@ -39,12 +41,42 @@ function RouteFallback() {
   );
 }
 
+function GlobalGoogleRedirectHandler() {
+  React.useEffect(() => {
+    let active = true;
+    (async () => {
+      try {
+        const res = await checkGoogleRedirectResult();
+        if (res?.user && active) {
+          const action = await store.dispatch(loginWithGoogleThunk({
+            ...res.user,
+            token: res.token,
+          }));
+          if (loginWithGoogleThunk.fulfilled.match(action)) {
+            const target = sessionStorage.getItem('dhanvikk_auth_redirect_target');
+            sessionStorage.removeItem('dhanvikk_auth_redirect_target');
+            if (target && target !== window.location.pathname) {
+              window.location.replace(target);
+            }
+          }
+        }
+      } catch (err) {
+        console.warn('Google redirect global listener note:', err);
+      }
+    })();
+    return () => { active = false; };
+  }, []);
+
+  return null;
+}
+
 export default function App() {
   return (
     <Provider store={store}>
       <CurrencyProvider>
         <HelmetProvider>
           <BrowserRouter>
+          <GlobalGoogleRedirectHandler />
           {/* Sonner Toast Notifications */}
           <Toaster
             position="top-center"

@@ -81,7 +81,7 @@ export const syncUserWithFirestore = async (firebaseUser, additionalData = {}) =
 };
 
 /**
- * Sign In with Google Popup (Instant authentication with zero blocking)
+ * Sign In with Google (Instant popup with seamless automatic redirect fallback if popup is blocked)
  */
 export const signInWithGoogleFirebase = async () => {
   try {
@@ -100,6 +100,8 @@ export const signInWithGoogleFirebase = async () => {
       success: true,
       user: {
         id: user.uid,
+        uid: user.uid,
+        googleUid: user.uid,
         name: resolvedName,
         email: cleanEmail,
         avatar: resolvedAvatar,
@@ -109,9 +111,38 @@ export const signInWithGoogleFirebase = async () => {
       token,
     };
   } catch (error) {
-    console.error('Google Sign-In Error:', error.code, error.message);
+    console.warn('Google Sign-In interaction notice:', error.code, error.message);
+    
+    // Automatic Seamless Fallback: If browser blocks popups, redirect directly to Google Sign-In
+    if (
+      error.code === 'auth/popup-blocked' ||
+      error.code === 'auth/cancelled-popup-request' ||
+      error.message?.includes('popup')
+    ) {
+      try {
+        console.info('Google Popup blocked by browser; falling back seamlessly to Google redirect sign-in...');
+        if (typeof window !== 'undefined') {
+          sessionStorage.setItem('dhanvikk_auth_redirect_target', window.location.pathname + window.location.search);
+        }
+        await signInWithRedirect(auth, googleProvider);
+        return { redirecting: true };
+      } catch (redirectErr) {
+        console.error('Google Redirect error after popup block:', redirectErr);
+        throw redirectErr;
+      }
+    }
     throw error;
   }
+};
+
+/**
+ * Direct Google Redirect sign in
+ */
+export const signInWithGoogleRedirect = async () => {
+  if (typeof window !== 'undefined') {
+    sessionStorage.setItem('dhanvikk_auth_redirect_target', window.location.pathname + window.location.search);
+  }
+  await signInWithRedirect(auth, googleProvider);
 };
 
 /**
@@ -134,6 +165,8 @@ export const checkGoogleRedirectResult = async () => {
       success: true,
       user: {
         id: user.uid,
+        uid: user.uid,
+        googleUid: user.uid,
         name: resolvedName,
         email: cleanEmail,
         avatar: resolvedAvatar,

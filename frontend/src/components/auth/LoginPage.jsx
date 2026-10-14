@@ -56,6 +56,10 @@ export default function LoginPage() {
     try {
       const resultAction = await dispatch(loginWithGoogleThunk());
       if (loginWithGoogleThunk.fulfilled.match(resultAction)) {
+        if (resultAction.payload?.redirecting) {
+          toast.info('Popup was blocked by your browser. Redirecting to Google Sign-In...');
+          return;
+        }
         const loggedUser = resultAction.payload?.user;
         toast.success(`Welcome, ${loggedUser?.name || loggedUser?.email || 'Valued Customer'}! 🌸`);
         navigate(from || '/account', { replace: true });
@@ -63,6 +67,8 @@ export default function LoginPage() {
         const errMsg = resultAction.payload || 'Unable to sign in with Google. Please try again.';
         if (errMsg.includes('canceled')) {
           toast.info(errMsg);
+        } else if (errMsg.includes('Redirecting')) {
+          toast.info('Popup was blocked by your browser. Redirecting to Google Sign-In...');
         } else {
           toast.error(errMsg);
         }

@@ -1,5 +1,12 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { authService } from '../../services/authService';
+import {
+  signInWithGoogleFirebase,
+  signInWithGoogleRedirect,
+  signInWithEmailPasswordFirebase,
+  signUpWithEmailPassword,
+  checkGoogleRedirectResult,
+} from '../../config/firebase';
 
 // Safely restore initial auth state
 const savedUser = (() => {
@@ -21,7 +28,6 @@ export const loginUser = createAsyncThunk(
       let firebaseUser = null;
       let firebaseToken = null;
       try {
-        const { signInWithEmailPasswordFirebase } = await import('../../config/firebase');
         const fbRes = await signInWithEmailPasswordFirebase(email, password);
         firebaseUser = fbRes.user;
         firebaseToken = fbRes.token;
@@ -81,7 +87,6 @@ export const registerUser = createAsyncThunk(
       let firebaseUser = null;
       let firebaseToken = null;
       try {
-        const { signUpWithEmailPassword } = await import('../../config/firebase');
         const fbRes = await signUpWithEmailPassword(email, password, name);
         firebaseUser = fbRes.user;
         firebaseToken = fbRes.token;
@@ -134,21 +139,33 @@ export const loginWithGoogleThunk = createAsyncThunk(
       let firebaseUser = null;
       let firebaseToken = null;
 
-      // If already authenticated via 1-click Google pre-fill in Register page
-      if (extraData?.googleUid && extraData?.email) {
+      const uid = extraData?.googleUid || extraData?.id || extraData?.uid;
+      // If already authenticated via 1-click Google pre-fill in Register page or redirect return
+      if (uid && extraData?.email) {
         firebaseUser = {
-          id: extraData.googleUid,
+          id: uid,
+          googleUid: uid,
           name: extraData.name || extraData.email.split('@')[0],
           email: extraData.email,
           avatar: extraData.avatar || '',
           phone: extraData.phone || '',
           role: 'customer',
         };
-        firebaseToken = localStorage.getItem('dhanvikk_auth_token') || `fb_${extraData.googleUid}`;
+        firebaseToken = extraData.token || localStorage.getItem('dhanvikk_auth_token') || `fb_${uid}`;
+        firebasePayload = {
+          name: firebaseUser.name,
+          email: firebaseUser.email,
+          avatar: firebaseUser.avatar,
+          phone: firebaseUser.phone,
+          googleUid: uid,
+          provider: 'google',
+        };
       } else {
         try {
-          const { signInWithGoogleFirebase } = await import('../../config/firebase');
           const firebaseRes = await signInWithGoogleFirebase();
+          if (firebaseRes?.redirecting) {
+            return { redirecting: true };
+          }
           if (firebaseRes?.user) {
             firebaseUser = firebaseRes.user;
             firebaseToken = firebaseRes.token;
@@ -158,7 +175,7 @@ export const loginWithGoogleThunk = createAsyncThunk(
               email: firebaseRes.user.email,
               avatar: firebaseRes.user.avatar,
               phone: firebaseRes.user.phone || '',
-              googleUid: firebaseRes.user.id,
+              googleUid: firebaseRes.user.id || firebaseRes.user.uid,
             };
           }
         } catch (fbErr) {
@@ -168,7 +185,12 @@ export const loginWithGoogleThunk = createAsyncThunk(
             return rejectWithValue('Google sign-in was canceled.');
           }
           if (errorCode === 'auth/popup-blocked') {
-            return rejectWithValue('Google sign-in popup was blocked by your browser. Please allow popups for this site and try again.');
+            try {
+              await signInWithGoogleRedirect();
+              return { redirecting: true };
+            } catch {
+              return rejectWithValue('Google sign-in popup was blocked by your browser. Redirecting to Google Sign-In...');
+            }
           }
           if (errorCode === 'auth/unauthorized-domain') {
             const currentHost = typeof window !== 'undefined' ? window.location.hostname : 'current domain';
@@ -347,6 +369,10 @@ const authSlice = createSlice({
         state.error = null;
       })
       .addCase(loginWithGoogleThunk.fulfilled, (state, action) => {
+        if (action.payload?.redirecting) {
+          state.loading = true; // Waiting for browser redirect to Google
+          return;
+        }
         state.loading = false;
         state.isAuthenticated = true;
         state.user = action.payload.user;
