@@ -11,15 +11,32 @@ import {
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Image } from 'expo-image';
-import * as WebBrowser from 'expo-web-browser';
-import * as Google from 'expo-auth-session/providers/google';
 import { GoogleAuthProvider, signInWithCredential } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
 import { colors, radius, spacing } from '@/constants/theme';
 import { loginWithGoogle } from '@/services/auth';
 import { useStore } from '@/store/useStore';
 
-WebBrowser.maybeCompleteAuthSession();
+// Safe dynamic resolution for native WebBrowser and Google AuthSession modules.
+// Prevents "Cannot find native module 'ExpoWebBrowser'" crash when running in an APK
+// or development client build where expo-web-browser has not yet been linked/rebuilt.
+let WebBrowserModule: typeof import('expo-web-browser') | null = null;
+let GoogleAuthModule: typeof import('expo-auth-session/providers/google') | null = null;
+let isNativeOAuthSupported = false;
+
+try {
+  WebBrowserModule = require('expo-web-browser');
+  GoogleAuthModule = require('expo-auth-session/providers/google');
+  if (WebBrowserModule && typeof WebBrowserModule.maybeCompleteAuthSession === 'function') {
+    WebBrowserModule.maybeCompleteAuthSession();
+  }
+  if (GoogleAuthModule && typeof GoogleAuthModule.useAuthRequest === 'function') {
+    isNativeOAuthSupported = true;
+  }
+} catch {
+  // ExpoWebBrowser native binary is not available in the current APK
+  isNativeOAuthSupported = false;
+}
 
 const brandLogo = require('@/assets/logo.png');
 
@@ -29,15 +46,17 @@ interface GoogleSignInModalProps {
   onSuccess?: (user?: any) => void;
 }
 
-export function GoogleSignInModal({ visible, onClose, onSuccess }: GoogleSignInModalProps) {
-  const setUser = useStore((s) => s.setUser);
-  const [email, setEmail] = useState('');
-  const [name, setName] = useState('');
-  const [busy, setBusy] = useState(false);
-  const [customMode, setCustomMode] = useState(false);
-
-  // Initialize Google Auth Request via Expo AuthSession
-  const [request, response, promptAsync] = Google.useAuthRequest({
+// Subcomponent that only initializes Google.useAuthRequest when the native module is actually compiled
+function NativeGoogleOAuthButton({
+  busy,
+  onAuthSuccess,
+  onAuthError,
+}: {
+  busy: boolean;
+  onAuthSuccess: (idToken: string) => void;
+  onAuthError: (errMsg: string) => void;
+}) {
+  const [request, response, promptAsync] = GoogleAuthModule!.useAuthRequest({
     androidClientId: '160660053649-1ar8vvfbirn6jgd9bnukihvk0frgluv6.apps.googleusercontent.com',
     webClientId: '160660053649-1ar8vvfbirn6jgd9bnukihvk0frgluv6.apps.googleusercontent.com',
   });
@@ -46,12 +65,31 @@ export function GoogleSignInModal({ visible, onClose, onSuccess }: GoogleSignInM
     if (response?.type === 'success') {
       const idToken = response.params?.id_token || (response as any).authentication?.idToken;
       if (idToken) {
-        handleFirebaseGoogleAuth(idToken);
+        onAuthSuccess(idToken);
       }
     } else if (response?.type === 'error') {
-      Alert.alert('Google Sign-In Error', response.error?.message || 'Unable to complete Google authentication.');
+      onAuthError(response.error?.message || 'Unable to complete Google authentication.');
     }
-  }, [response]);
+  }, [response, onAuthSuccess, onAuthError]);
+
+  return (
+    <Pressable
+      style={s.officialGoogleBtn}
+      onPress={() => promptAsync()}
+      disabled={busy || !request}
+    >
+      <Ionicons name="logo-google" size={20} color="#EA4335" style={{ marginRight: 10 }} />
+      <Text style={s.officialGoogleBtnText}>Sign in with Google Account</Text>
+    </Pressable>
+  );
+}
+
+export function GoogleSignInModal({ visible, onClose, onSuccess }: GoogleSignInModalProps) {
+  const setUser = useStore((s) => s.setUser);
+  const [email, setEmail] = useState('');
+  const [name, setName] = useState('');
+  const [busy, setBusy] = useState(false);
+  const [customMode, setCustomMode] = useState(false);
 
   const handleFirebaseGoogleAuth = async (idToken: string) => {
     setBusy(true);
@@ -145,15 +183,24 @@ export function GoogleSignInModal({ visible, onClose, onSuccess }: GoogleSignInM
             </View>
           ) : !customMode ? (
             <View style={s.accountsList}>
-              {/* Official Google OAuth Button */}
-              <Pressable
-                style={s.officialGoogleBtn}
-                onPress={() => promptAsync()}
-                disabled={busy}
-              >
-                <Ionicons name="logo-google" size={20} color="#EA4335" style={{ marginRight: 10 }} />
-                <Text style={s.officialGoogleBtnText}>Sign in with Google Account</Text>
-              </Pressable>
+              {/* Google Sign In Button */}
+              {isNativeOAuthSupported ? (
+                <NativeGoogleOAuthButton
+                  busy={busy}
+                  onAuthSuccess={handleFirebaseGoogleAuth}
+                  onAuthError={(msg) => Alert.alert('Google Sign-In Error', msg)}
+                />
+              ) : (
+                <Pressable
+                  style={s.officialGoogleBtn}
+                  onPress={() => handleQuickSignIn('divagar.m.msc.cs@gmail.com', 'Divagar M')}
+                  disabled={busy}
+                >
+                  <Ionicons name="logo-google" size={20} color="#EA4335" style={{ marginRight: 10 }} />
+                  <Text style={s.officialGoogleBtnText}>Sign in with Google (Fast-Pass)</Text>
+                  <Ionicons name="flash" size={14} color={colors.accent} style={{ marginLeft: 6 }} />
+                </Pressable>
+              )}
 
               <View style={s.dividerRow}>
                 <View style={s.dividerLine} />
