@@ -16,21 +16,21 @@ const OCCASIONS = [
   {
     id: 'Birthday',
     title: 'Highland Birthdays',
-    subtitle: 'Vibrant Dutch Medleys',
+    subtitle: 'Vibrant Kotagiri Medleys',
     badge: 'DAWN CUT',
     image: 'https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=400&q=80',
   },
   {
     id: 'Pooja',
     title: 'Divine Sanctum & Pooja',
-    subtitle: 'Organic Temple Jasmine',
-    badge: 'PURE SACRED',
+    subtitle: 'Sacred Madurai Jasmine',
+    badge: 'SACRED PURITY',
     image: 'https://images.unsplash.com/photo-1606293926075-69a00dbfde81?auto=format&fit=crop&w=400&q=80',
   },
   {
     id: 'Luxury',
-    title: 'Bespoke Executive Gifts',
-    subtitle: 'Wax-Sealed Keepsakes',
+    title: 'Executive & VIP Gifting',
+    subtitle: 'Bespoke Wax-Sealed Boxes',
     badge: 'VIP ATELIER',
     image: 'https://images.unsplash.com/photo-1582794543139-8ac9cb0f7b11?auto=format&fit=crop&w=400&q=80',
   },
@@ -46,7 +46,7 @@ export function OccasionsGrid() {
           <View style={s.indicator} />
           <Text style={s.title}>Occasions of Grandeur</Text>
         </View>
-        <Text style={s.sub}>Bespoke arrangements curated for life's most cherished milestones</Text>
+        <Text style={s.sub}>Bespoke floral architecture curated for life's most unforgettable milestones</Text>
       </View>
 
       <View style={s.grid}>
@@ -86,16 +86,16 @@ export function OccasionsGrid() {
             <Ionicons name="sparkles" size={13} color={colors.accent} />
             <Text style={s.vipTagText}>VIP FLORILEGIUM</Text>
           </View>
-          <Text style={s.conciergeTitle}>Private Event & Residence Styling</Text>
+          <Text style={s.conciergeTitle}>Private Residence & Event Styling</Text>
           <Text style={s.conciergeSub}>
-            Direct access to Dhanvikk master florists for bespoke installations and recurring fresh deliveries.
+            Direct atelier access to Dhanvikk master florists for bespoke floral architecture, wedding mandaps, and curated weekly bloom subscriptions.
           </Text>
         </View>
         <Pressable
           style={s.conciergeBtn}
           onPress={() => router.push('/support')}
         >
-          <Text style={s.conciergeBtnText}>Speak to Florist</Text>
+          <Text style={s.conciergeBtnText}>Consult Master Florist</Text>
           <Ionicons name="call-outline" size={12} color={colors.white} />
         </Pressable>
       </View>

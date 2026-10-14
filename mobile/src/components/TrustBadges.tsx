@@ -7,17 +7,17 @@ export function TrustBadges() {
     {
       icon: 'time-outline' as const,
       title: '90-Min Handover',
-      subtitle: 'White-Glove Fleet',
+      subtitle: 'Express Reefer Fleet',
     },
     {
       icon: 'snow-outline' as const,
       title: '2°C–4°C Reefer',
-      subtitle: 'Cold-Chain Transit',
+      subtitle: 'Continuous Cold-Chain',
     },
     {
       icon: 'shield-checkmark-outline' as const,
       title: '12-Day Life',
-      subtitle: 'Longevity Pledge',
+      subtitle: 'Highland Longevity',
     },
     {
       icon: 'mail-open-outline' as const,

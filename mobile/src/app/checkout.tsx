@@ -41,6 +41,8 @@ export default function Checkout() {
   const [state, setState] = useState('');
   const [pincode, setPincode] = useState('');
   const [date, setDate] = useState(new Date().toISOString().slice(0, 10));
+  const [cardMessage, setCardMessage] = useState('');
+  const [deliveryNotes, setDeliveryNotes] = useState('');
   const [paymentMethod, setPaymentMethod] = useState<'razorpay' | 'cod'>('razorpay');
   const [busy, setBusy] = useState(false);
   const [showGoogleModal, setShowGoogleModal] = useState(false);
@@ -198,7 +200,7 @@ export default function Checkout() {
         },
         deliveryDate: date,
         timeSlot: 'Standard (9 AM - 1 PM)',
-        greetingCardMessage: '',
+        greetingCardMessage: cardMessage.trim(),
         subtotal: total,
         deliveryFee: 0,
         totalAmount: total,
@@ -233,8 +235,8 @@ export default function Checkout() {
 
       clear();
       Alert.alert(
-        'Order Confirmed! 🎉',
-        `Your order #${orderRes.order?.orderId || 'DHN-CONFIRMED'} has been received.`,
+        'Bespoke Order Confirmed! 💐',
+        `Your order #${orderRes.order?.orderId || 'DHN-CONFIRMED'} has been received by our Kotagiri atelier. Our master florists are preparing your stems in cold-chain sanctity.`,
         [
           {
             text: 'View Orders',
@@ -301,7 +303,7 @@ export default function Checkout() {
             </View>
           )}
 
-          <Text style={s.sectionTitle}>Delivery Details</Text>
+          <Text style={s.sectionTitle}>White-Glove Delivery Details</Text>
 
           <View style={s.card}>
             <Text style={s.inputLabel}>Recipient Name *</Text>
@@ -378,6 +380,36 @@ export default function Checkout() {
                 />
               </View>
             </View>
+
+            <Text style={s.inputLabel}>Atelier Handover Notes (Optional)</Text>
+            <TextInput
+              style={s.input}
+              placeholder="e.g. Ring bell twice, leave with concierge, or call upon arrival"
+              placeholderTextColor={colors.muted}
+              value={deliveryNotes}
+              onChangeText={setDeliveryNotes}
+            />
+          </View>
+
+          <Text style={s.sectionTitle}>Bespoke Calligraphy Inscription</Text>
+
+          <View style={s.card}>
+            <View style={s.calligraphyHeader}>
+              <Ionicons name="mail-open-outline" size={17} color={colors.primary} />
+              <Text style={s.calligraphyTitle}>Wax-Sealed Card (Complimentary)</Text>
+            </View>
+            <Text style={s.calligraphySub}>
+              Hand-inscribed in gold or black archival ink on handmade Italian cotton cardstock by our atelier calligrapher.
+            </Text>
+            <TextInput
+              style={[s.input, s.calligraphyInput]}
+              placeholder="Write your personal message (e.g. Dearest Maya, May your days bloom with endless joy and light. With love, Kabir)…"
+              placeholderTextColor={colors.muted}
+              value={cardMessage}
+              onChangeText={setCardMessage}
+              multiline
+              numberOfLines={3}
+            />
           </View>
 
           <Text style={s.sectionTitle}>Payment Method</Text>
@@ -420,7 +452,7 @@ export default function Checkout() {
               <Text style={s.totalAmount}>₹{total.toLocaleString('en-IN')}</Text>
             </View>
             <Text style={s.securityNote}>
-              🔒 Guaranteed fresh florals backed by Dhanvikk Quality Promise.
+              🔒 Continuous 2°C–4°C reefer transit • Guaranteed pristine freshness backed by Dhanvikk Quality Promise.
             </Text>
             <Pressable
               style={[s.payButton, busy && s.payButtonDisabled]}
@@ -670,5 +702,28 @@ const s = StyleSheet.create({
     fontSize: 12,
     fontWeight: '800',
     color: colors.white,
+  },
+  calligraphyHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    marginBottom: 4,
+  },
+  calligraphyTitle: {
+    fontSize: 14,
+    fontWeight: '800',
+    color: colors.primary,
+    letterSpacing: 0.2,
+  },
+  calligraphySub: {
+    fontSize: 11.5,
+    color: colors.muted,
+    lineHeight: 16,
+    marginBottom: 10,
+  },
+  calligraphyInput: {
+    minHeight: 74,
+    textAlignVertical: 'top',
+    paddingTop: 8,
   },
 });

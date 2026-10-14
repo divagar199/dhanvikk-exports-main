@@ -92,7 +92,7 @@ export default function Home() {
                 <View style={s.titleIndicator} />
                 <View>
                   <Text style={s.sectionTitle}>Curated Highland Florilegium</Text>
-                  <Text style={s.sectionSubtitle}>Hand-selected morning cuts graded for Bangalore luxury delivery</Text>
+                  <Text style={s.sectionSubtitle}>Dawn cuts from our Kotagiri & Ooty estates, graded for Bangalore white-glove delivery</Text>
                 </View>
               </View>
 
@@ -127,9 +127,9 @@ export default function Home() {
             <View style={s.footerIcon}>
               <Ionicons name="shield-checkmark" size={26} color={colors.accent} />
             </View>
-            <Text style={s.footerTitle}>Dhanvikk Haute Floristry Pledge</Text>
+            <Text style={s.footerTitle}>The Dhanvikk Haute Floristry Pledge</Text>
             <Text style={s.footerSub}>
-              Over 10,000+ Nilgiri bouquets delivered in unbroken 2°C–4°C reefer sanctity with complimentary calligraphy notes & wax seal.
+              Over 10,000+ estate blooms hand-delivered in continuous 2°C–4°C reefer sanctity. Each creation arrives with botanical longevity elixir and your personalized wax-sealed calligraphy inscription.
             </Text>
           </View>
         }

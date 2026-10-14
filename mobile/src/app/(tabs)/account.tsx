@@ -114,11 +114,11 @@ export default function Account() {
             </View>
             <View>
               <Text style={s.vipTitle}>Dhanvikk Highland Circle</Text>
-              <Text style={s.vipSub}>Complimentary 2°C–4°C Reefer Delivery & VIP Card Inscriptions</Text>
+              <Text style={s.vipSub}>Complimentary 2°C–4°C reefer delivery, dawn harvest priority & wax-sealed calligraphy notes</Text>
             </View>
           </View>
           <View style={s.vipPill}>
-            <Text style={s.vipPillText}>PRIVILEGED</Text>
+            <Text style={s.vipPillText}>ESTATE PRIVILEGED</Text>
           </View>
         </View>
 
@@ -216,13 +216,13 @@ export default function Account() {
             style={s.menuRow}
             onPress={() =>
               Alert.alert(
-                'Quality Promise',
-                'Dhanvikk guarantees 100% farm-fresh highland flowers. If your bouquet does not meet expectations, we replace it within 24 hours.'
+                '12-Day Botanical Longevity Promise',
+                'Dhanvikk guarantees pristine farm-fresh highland flowers harvested above 7,200ft. If your bouquet does not retain radiant vitality for at least 7 to 12 days with our complimentary botanical elixir, our concierge atelier replaces it unconditionally within 24 hours.'
               )
             }
           >
             <Ionicons name="ribbon-outline" size={20} color={colors.ink} />
-            <Text style={s.menuLabel}>Floristry Quality Promise</Text>
+            <Text style={s.menuLabel}>12-Day Longevity Promise</Text>
             <Ionicons name="chevron-forward" size={18} color={colors.muted} />
           </Pressable>
 

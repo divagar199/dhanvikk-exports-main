@@ -46,7 +46,7 @@ export function DealOfTheDay({ products }: { products: Product[] }) {
             <Text style={s.title}>The Daily Harvest Reserve</Text>
             <View style={s.timerRow}>
               <Ionicons name="time-outline" size={12} color={colors.primary} />
-              <Text style={s.timerLabel}>Vault window: </Text>
+              <Text style={s.timerLabel}>Dawn reserve closes: </Text>
               <View style={s.timerBox}>
                 <Text style={s.timerText}>{format(timeLeft.hours)}h</Text>
               </View>
@@ -66,7 +66,7 @@ export function DealOfTheDay({ products }: { products: Product[] }) {
           style={s.viewAllBtn}
           onPress={() => router.push('/(tabs)/shop')}
         >
-          <Text style={s.viewAllText}>View Reserve</Text>
+          <Text style={s.viewAllText}>Explore Reserve</Text>
           <Ionicons name="chevron-forward" size={13} color={colors.primary} />
         </Pressable>
       </View>

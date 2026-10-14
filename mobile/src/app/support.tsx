@@ -21,23 +21,23 @@ interface FAQItem {
 const FAQS: FAQItem[] = [
   {
     q: 'How fresh will my blooms be upon delivery?',
-    a: 'Every stem is hand-picked directly from our partner farms in the morning, hydrated with specialized floral nutrient solutions, and transported in temperature-controlled packaging to guarantee at least 5-7 days of vibrant vase life.',
+    a: 'Every stem is hand-harvested at dawn in our Kotagiri and Ooty highland estates (7,200ft elevation), immediately conditioned in specialized botanical elixir, and transported across Bangalore in our dedicated 2°C–4°C reefer fleet—guaranteeing an unbroken 7 to 12 days of radiant bloom vitality.',
   },
   {
-    q: 'What delivery time slots do you offer?',
-    a: 'We offer Express Morning (9:00 AM - 12:00 PM), Standard Afternoon (1:00 PM - 5:00 PM), and Evening Twilight (5:00 PM - 8:00 PM) delivery across all serviceable PIN codes.',
+    q: 'What delivery time slots and handover options do you offer?',
+    a: 'We offer Express 90-Minute White-Glove Handover for urgent celebrations, alongside scheduled Morning Aura (8:00 AM - 12:00 PM), Afternoon Sun (1:00 PM - 5:00 PM), and Twilight Soirée (6:00 PM - 9:00 PM) delivery windows across Bangalore and Chennai metropolitan zones.',
   },
   {
-    q: 'Can I add a custom handwritten message card?',
-    a: 'Yes! Every Dhanvikk floral arrangement includes a complimentary luxury greeting card. You can specify your message during checkout or share your order ID with our concierge on WhatsApp.',
+    q: 'Can I add a custom handwritten calligraphy card?',
+    a: 'Yes, absolutely! Every Dhanvikk floral arrangement includes a complimentary bespoke wax-sealed calligraphy card. Your inscription is penned in gold or black archival ink on 300 GSM handmade Italian cotton cardstock by our atelier calligrapher.',
   },
   {
-    q: 'What is your freshness & satisfaction guarantee?',
-    a: 'If your blooms do not arrive in immaculate, pristine condition, simply share a photo within 24 hours of delivery. We will immediately dispatch a fresh replacement bouquet or issue a 100% refund.',
+    q: 'What is the Dhanvikk 12-Day Longevity Pledge?',
+    a: 'If your blooms do not arrive in pristine estate condition or fail to thrive with our complimentary floral elixir, notify our concierge within 24 hours. We immediately dispatch a fresh replacement bouquet or issue an unconditional 100% refund.',
   },
   {
-    q: 'How do I care for my flowers once they arrive?',
-    a: 'Trim stems diagonally by 1 inch, remove foliage below the waterline, place in clean vase water with our complimentary flower food, and keep away from direct midday sunlight and heating vents.',
+    q: 'How do I care for my highland flowers once they arrive?',
+    a: 'Trim stems diagonally by 1–2 inches under running water, strip any foliage below the waterline, dissolve one vial of our complimentary Dhanvikk Botanical Elixir in fresh cool water, and place in an airy room away from direct heat or fruit bowls.',
   },
 ];
 
@@ -123,9 +123,9 @@ export default function SupportScreen() {
         <View style={s.guaranteeCard}>
           <Ionicons name="shield-checkmark" size={28} color={colors.success} />
           <View style={s.guaranteeBody}>
-            <Text style={s.guaranteeTitle}>100% Farm-Fresh Promise</Text>
+            <Text style={s.guaranteeTitle}>12-Day Botanical Longevity Pledge</Text>
             <Text style={s.guaranteeText}>
-              Every stem inspected for prime petal bloom. Full replacement or refund within 24h if you are not delighted.
+              Every stem is harvested above 7,200ft in the Nilgiris and transported under continuous 2°C–4°C reefer transit. Complete replacement within 24h if your arrangement does not surpass expectations.
             </Text>
           </View>
         </View>

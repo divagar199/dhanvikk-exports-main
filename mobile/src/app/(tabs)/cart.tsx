@@ -109,7 +109,7 @@ export default function Cart() {
       <View style={[s.reeferNotice, { maxWidth: contentMaxWidth, width: '100%', alignSelf: 'center' }]}>
         <Ionicons name="snow" size={13} color={colors.secondary} />
         <Text style={s.reeferNoticeText}>
-          Preserved in continuous 2°C–4°C cryo-sanctity until doorstep handover.
+          Preserved in continuous 2°C–4°C reefer sanctity from Nilgiri harvest to doorstep handover.
         </Text>
       </View>
 
@@ -161,12 +161,12 @@ export default function Cart() {
             <View style={s.emptyIconCircle}>
               <Ionicons name="bag-handle-outline" size={46} color={colors.primary} />
             </View>
-            <Text style={s.emptyTitle}>Your shopping bag is empty</Text>
+            <Text style={s.emptyTitle}>Your Atelier Bag is Awaiting Blooms</Text>
             <Text style={s.emptySub}>
-              Discover handcrafted bouquets cut fresh at dawn on Nilgiri highlands.
+              Discover hand-cut estate roses, Casablanca lilies, and sacred jasmine harvested fresh at dawn in the Nilgiris.
             </Text>
             <Pressable style={s.exploreBtn} onPress={() => router.push('/(tabs)/shop')}>
-              <Text style={s.exploreBtnText}>Explore Florilegium</Text>
+              <Text style={s.exploreBtnText}>Discover Florilegium</Text>
             </Pressable>
           </View>
         }
@@ -317,7 +317,7 @@ export default function Cart() {
 
                 <View style={s.savingsBanner}>
                   <Text style={s.savingsText}>
-                    🌿 You will save ₹{totalSavings.toLocaleString('en-IN')} on this order
+                    🌿 You are securing ₹{totalSavings.toLocaleString('en-IN')} in estate-direct botanical savings
                   </Text>
                 </View>
               </View>
@@ -326,7 +326,7 @@ export default function Cart() {
               <View style={s.safeNote}>
                 <Ionicons name="shield-checkmark" size={18} color={colors.primaryDeep} />
                 <Text style={s.safeText}>
-                  Safe and secure payments. 100% Authentic farm-fresh blossoms.
+                  🔒 Continuous cold-chain guarantee • 100% estate-fresh blooms • 12-day longevity pledge.
                 </Text>
               </View>
             </>
