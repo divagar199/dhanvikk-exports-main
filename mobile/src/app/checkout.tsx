@@ -564,7 +564,7 @@ const s = StyleSheet.create({
     borderWidth: 1,
     borderColor: colors.lineGold,
     marginTop: 4,
-    ...shadows.soft,
+    ...(shadows?.soft || {}),
   },
   summaryRow: {
     flexDirection: 'row',
@@ -595,7 +595,7 @@ const s = StyleSheet.create({
     borderColor: colors.accent,
     alignItems: 'center',
     justifyContent: 'center',
-    ...shadows.soft,
+    ...(shadows?.soft || {}),
   },
   payButtonDisabled: {
     opacity: 0.6,

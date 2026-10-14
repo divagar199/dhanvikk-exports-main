@@ -54,7 +54,7 @@ const s = StyleSheet.create({
     borderColor: colors.lineLight,
     borderLeftWidth: 3,
     borderLeftColor: colors.accent,
-    ...shadows.soft,
+    ...(shadows?.soft || {}),
   },
   badge: {
     alignItems: 'center',

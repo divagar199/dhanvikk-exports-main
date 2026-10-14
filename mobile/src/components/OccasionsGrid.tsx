@@ -105,7 +105,7 @@ const s = StyleSheet.create({
     borderTopWidth: 1,
     borderBottomWidth: 1,
     borderColor: colors.lineLight,
-    ...shadows.soft,
+    ...(shadows?.soft || {}),
   },
   header: {
     marginBottom: 12,
@@ -146,7 +146,7 @@ const s = StyleSheet.create({
     position: 'relative',
     borderWidth: 1,
     borderColor: colors.lineGold,
-    ...shadows.soft,
+    ...(shadows?.soft || {}),
   },
   image: {
     width: '100%',
@@ -194,7 +194,7 @@ const s = StyleSheet.create({
     padding: 14,
     borderWidth: 1,
     borderColor: colors.accent,
-    ...shadows.soft,
+    ...(shadows?.soft || {}),
   },
   conciergeLeft: {
     gap: 4,

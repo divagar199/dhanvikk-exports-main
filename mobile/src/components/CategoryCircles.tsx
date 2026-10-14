@@ -147,13 +147,13 @@ const s = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     position: 'relative',
-    ...shadows.soft,
+    ...(shadows?.soft || {}),
   },
   circleOuterRingSelected: {
     borderColor: colors.primary,
     borderWidth: 2,
     backgroundColor: colors.primarySubtle,
-    ...shadows.goldGlow,
+    ...(shadows?.goldGlow || {}),
   },
   circleInnerRing: {
     width: 53,

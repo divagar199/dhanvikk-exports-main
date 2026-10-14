@@ -333,7 +333,7 @@ const s = StyleSheet.create({
     paddingVertical: 12,
     borderBottomWidth: 1,
     borderColor: colors.lineLight,
-    ...shadows.soft,
+    ...(shadows?.soft || {}),
   },
   sortTrayTitle: {
     fontSize: 10,
@@ -473,7 +473,7 @@ const s = StyleSheet.create({
     paddingHorizontal: 20,
     paddingVertical: 10,
     borderRadius: radius.pill,
-    ...shadows.soft,
+    ...(shadows?.soft || {}),
   },
   resetBtnText: {
     color: colors.white,

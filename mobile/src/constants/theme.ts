@@ -127,3 +127,10 @@ export const radius = {
   pill: 999,
   full: 9999,
 };
+
+export default {
+  colors,
+  shadows,
+  spacing,
+  radius,
+};

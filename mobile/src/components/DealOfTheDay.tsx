@@ -91,7 +91,7 @@ const s = StyleSheet.create({
     borderTopWidth: 1,
     borderBottomWidth: 1,
     borderColor: colors.lineLight,
-    ...shadows.soft,
+    ...(shadows?.soft || {}),
   },
   header: {
     flexDirection: 'row',

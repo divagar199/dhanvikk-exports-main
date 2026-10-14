@@ -126,7 +126,7 @@ const s = StyleSheet.create({
     paddingBottom: 10,
     borderBottomWidth: 1,
     borderBottomColor: colors.lineLight,
-    ...shadows.soft,
+    ...(shadows?.soft || {}),
   },
   telemetryRow: {
     flexDirection: 'row',

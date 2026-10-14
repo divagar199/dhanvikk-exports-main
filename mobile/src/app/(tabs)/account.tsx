@@ -366,7 +366,7 @@ const s = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    ...shadows.soft,
+    ...(shadows?.soft || {}),
   },
   vipLeft: {
     flexDirection: 'row',

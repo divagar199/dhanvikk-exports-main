@@ -176,7 +176,7 @@ const s = StyleSheet.create({
     marginBottom: 12,
     borderWidth: 1,
     borderColor: colors.line,
-    ...shadows.soft,
+    ...(shadows?.soft || {}),
   },
   pic: {
     width: '100%',
@@ -217,7 +217,7 @@ const s = StyleSheet.create({
     borderColor: colors.lineGold,
     alignItems: 'center',
     justifyContent: 'center',
-    ...shadows.soft,
+    ...(shadows?.soft || {}),
   },
   body: {
     padding: 10,
@@ -318,7 +318,7 @@ const s = StyleSheet.create({
     gap: 2,
     borderWidth: 0.8,
     borderColor: colors.accent,
-    ...shadows.soft,
+    ...(shadows?.soft || {}),
   },
   addBtnText: {
     color: colors.white,
@@ -336,7 +336,7 @@ const s = StyleSheet.create({
     marginRight: 10,
     borderWidth: 1,
     borderColor: colors.line,
-    ...shadows.soft,
+    ...(shadows?.soft || {}),
   },
   hPic: {
     width: '100%',

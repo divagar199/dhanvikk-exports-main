@@ -191,7 +191,7 @@ const s = StyleSheet.create({
     backgroundColor: colors.surfaceContainer,
     borderWidth: 1,
     borderColor: colors.lineGold,
-    ...shadows.card,
+    ...(shadows?.card || {}),
   },
   image: {
     width: '100%',
@@ -300,7 +300,7 @@ const s = StyleSheet.create({
     paddingVertical: 6,
     borderRadius: radius.pill,
     gap: 5,
-    ...shadows.soft,
+    ...(shadows?.soft || {}),
   },
   curateBtnText: {
     color: colors.white,
