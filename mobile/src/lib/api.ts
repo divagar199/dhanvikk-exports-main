@@ -4,8 +4,9 @@ import { getToken, getStoredUser } from './storage';
 
 const rawApiUrl = String(
   process.env.EXPO_PUBLIC_API_URL ||
+    process.env.VITE_API_URL ||
     Constants.expoConfig?.extra?.apiUrl ||
-    'http://10.0.2.2:5000'
+    'https://dhanvikk-exports-api.onrender.com'
 ).replace(/\/$/, '');
 
 export const BASE =
