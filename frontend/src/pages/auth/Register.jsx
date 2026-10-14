@@ -315,6 +315,8 @@ export default function Register() {
                         className="w-8 h-8 rounded-full border border-emerald-300 object-cover"
                         loading="lazy"
                         decoding="async"
+                        width="32"
+                        height="32"
                       />
                     ) : (
                       <CheckCircle2 className="w-5 h-5 text-emerald-600" />
@@ -387,12 +389,15 @@ export default function Register() {
               {/* SECTION 1: Personal Details */}
               <div className="space-y-3">
                 <div>
-                  <label className="block text-xs font-semibold text-[#555555] mb-1">
+                  <label htmlFor="register-name" className="block text-xs font-semibold text-[#555555] mb-1">
                     Full Name <span className="text-[#C2185B]">*</span>
                   </label>
                   <div className="relative">
                     <User className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#888888]" />
                     <input
+                      id="register-name"
+                      name="name"
+                      autoComplete="name"
                       type="text"
                       placeholder="e.g. Priya Sharma"
                       value={formData.name}
@@ -406,11 +411,16 @@ export default function Register() {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-[#555555] mb-1">
+                  <label htmlFor="register-phone" className="block text-xs font-semibold text-[#555555] mb-1">
                     Contact / WhatsApp <span className="text-[#C2185B]">*</span>
                   </label>
                   <div className="flex gap-2">
+                    <label htmlFor="register-country-code" className="sr-only">Country Calling Code</label>
                     <select
+                      id="register-country-code"
+                      name="countryCode"
+                      autoComplete="tel-country-code"
+                      aria-label="Country Calling Code"
                       value={formData.countryCode}
                       onChange={(e) => setFormData({ ...formData, countryCode: e.target.value })}
                       className="w-28 px-2.5 h-11 text-xs rounded-xl border border-[#E5DFD9] bg-[#FAF7F2] text-[#242124] font-medium focus:outline-none focus:border-[#EC407A] cursor-pointer flex-shrink-0"
@@ -422,6 +432,9 @@ export default function Register() {
                       ))}
                     </select>
                     <input
+                      id="register-phone"
+                      name="phone"
+                      autoComplete="tel"
                       type="tel"
                       placeholder="50 123 4567 / 98765 43210"
                       value={formData.phone}
@@ -435,12 +448,15 @@ export default function Register() {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-[#555555] mb-1">
+                  <label htmlFor="register-email" className="block text-xs font-semibold text-[#555555] mb-1">
                     Email Address <span className="text-[#C2185B]">*</span>
                   </label>
                   <div className="relative">
                     <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#888888]" />
                     <input
+                      id="register-email"
+                      name="email"
+                      autoComplete="email"
                       type="email"
                       placeholder="name@example.com"
                       value={formData.email}
@@ -460,12 +476,15 @@ export default function Register() {
 
                 {!googleUser && (
                   <div>
-                    <label className="block text-xs font-semibold text-[#555555] mb-1">
+                    <label htmlFor="register-password" className="block text-xs font-semibold text-[#555555] mb-1">
                       Password <span className="text-[#C2185B]">*</span>
                     </label>
                     <div className="relative">
                       <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#888888]" />
                       <input
+                        id="register-password"
+                        name="password"
+                        autoComplete="new-password"
                         type={showPassword ? 'text' : 'password'}
                         placeholder="Create password (min. 4 characters)"
                         value={formData.password}
@@ -474,6 +493,7 @@ export default function Register() {
                       />
                       <button
                         type="button"
+                        aria-label={showPassword ? 'Hide password' : 'Show password'}
                         onClick={() => setShowPassword(!showPassword)}
                         className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#888888] hover:text-[#EC407A] transition-colors"
                       >
@@ -507,10 +527,13 @@ export default function Register() {
                 </div>
 
                 <div>
-                  <label className="block text-[11px] font-semibold text-[#666666] mb-1">
+                  <label htmlFor="register-street" className="block text-[11px] font-semibold text-[#666666] mb-1">
                     Street Address / Villa / Apartment <span className="text-[#C2185B]">*</span>
                   </label>
                   <input
+                    id="register-street"
+                    name="street"
+                    autoComplete="street-address"
                     type="text"
                     placeholder="e.g. Villa 14, Palm Crescent, Palm Jumeirah"
                     value={formData.street}
@@ -525,10 +548,13 @@ export default function Register() {
                 {/* Country & State */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div>
-                    <label className="block text-[11px] font-semibold text-[#666666] mb-1">
+                    <label htmlFor="register-country" className="block text-[11px] font-semibold text-[#666666] mb-1">
                       Country <span className="text-[#C2185B]">*</span>
                     </label>
                     <input
+                      id="register-country"
+                      name="country"
+                      autoComplete="country-name"
                       type="text"
                       list="register-country-presets"
                       placeholder="e.g. United Arab Emirates or India"
@@ -550,10 +576,13 @@ export default function Register() {
                   </div>
 
                   <div>
-                    <label className="block text-[11px] font-semibold text-[#666666] mb-1">
+                    <label htmlFor="register-state" className="block text-[11px] font-semibold text-[#666666] mb-1">
                       State / Province / Emirate <span className="text-[#C2185B]">*</span>
                     </label>
                     <input
+                      id="register-state"
+                      name="state"
+                      autoComplete="address-level1"
                       type="text"
                       placeholder="e.g. Dubai, Abu Dhabi, or Maharashtra"
                       value={formData.state}
@@ -566,10 +595,13 @@ export default function Register() {
                 {/* District, City & Postal Code */}
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                   <div>
-                    <label className="block text-[11px] font-semibold text-[#666666] mb-1">
+                    <label htmlFor="register-district" className="block text-[11px] font-semibold text-[#666666] mb-1">
                       District / Area <span className="text-[#C2185B]">*</span>
                     </label>
                     <input
+                      id="register-district"
+                      name="district"
+                      autoComplete="address-level3"
                       type="text"
                       placeholder="e.g. Palm Jumeirah or South Mumbai"
                       value={formData.district}
@@ -579,10 +611,13 @@ export default function Register() {
                   </div>
 
                   <div>
-                    <label className="block text-[11px] font-semibold text-[#666666] mb-1">
+                    <label htmlFor="register-city" className="block text-[11px] font-semibold text-[#666666] mb-1">
                       City / Emirate <span className="text-[#C2185B]">*</span>
                     </label>
                     <input
+                      id="register-city"
+                      name="city"
+                      autoComplete="address-level2"
                       type="text"
                       list="city-suggestions"
                       placeholder="e.g. Dubai"
@@ -601,10 +636,13 @@ export default function Register() {
                   </div>
 
                   <div>
-                    <label className="block text-[11px] font-semibold text-[#666666] mb-1">
+                    <label htmlFor="register-postalCode" className="block text-[11px] font-semibold text-[#666666] mb-1">
                       Postal Code / Area Code
                     </label>
                     <input
+                      id="register-postalCode"
+                      name="postalCode"
+                      autoComplete="postal-code"
                       type="text"
                       placeholder="e.g. 00000"
                       value={formData.postalCode}
@@ -615,9 +653,9 @@ export default function Register() {
                 </div>
 
                 <div>
-                  <label className="block text-[11px] font-semibold text-[#666666] mb-1">
+                  <span className="block text-[11px] font-semibold text-[#666666] mb-1">
                     Address Label
-                  </label>
+                  </span>
                   <div className="grid grid-cols-3 gap-2 text-center text-xs">
                     {[
                       { id: 'Primary Residence', icon: Home, label: 'Home' },
