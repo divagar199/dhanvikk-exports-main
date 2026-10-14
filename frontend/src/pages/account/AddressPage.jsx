@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import SEO from '../../components/common/SEO';
 import Navbar from '../../components/navigation/Navbar';
 import AnnouncementBar from '../../components/navigation/AnnouncementBar';
@@ -34,6 +34,7 @@ import {
 import { toast } from 'sonner';
 
 export default function AddressPage() {
+  const navigate = useNavigate();
   const { user, isAuthenticated } = useSelector((state) => state.auth);
 
   const [addresses, setAddresses] = useState([]);
@@ -60,68 +61,43 @@ export default function AddressPage() {
   const modalDistrictsData = getDistrictsAndCityForState(form.state);
   const modalAvailableDistricts = modalDistrictsData?.districts || [];
 
-  // Default address presets if none in store
-  const DEFAULT_SAMPLE_ADDRESSES = [
-    {
-      id: 'addr-default-1',
-      title: 'Dubai Luxury Residence',
-      recipientName: user?.name || 'Amina Al-Mansoor',
-      phone: user?.phone || '+971 50 123 4567',
-      street: 'Villa 18, Al Safa 2, Jumeirah',
-      district: 'Jumeirah',
-      city: 'Dubai',
-      state: 'Dubai',
-      country: 'United Arab Emirates',
-      postalCode: '00000',
-      isDefault: true,
-    },
-    {
-      id: 'addr-default-2',
-      title: 'Bengaluru Residence',
-      recipientName: user?.name || 'Amina Al-Mansoor',
-      phone: user?.phone || '+91 98450 12345',
-      street: 'Penthouse 402, Prestige Hermitage, 100 Feet Rd',
-      district: 'Indiranagar',
-      city: 'Bengaluru',
-      state: 'Karnataka',
-      country: 'India',
-      postalCode: '560038',
-      isDefault: false,
-    },
-  ];
-
   useEffect(() => {
+    // Clear any legacy mock addresses from localStorage
+    const legacy = localStorage.getItem('dhanvikk_saved_addresses');
+    if (legacy && (legacy.includes('Dubai Luxury Residence') || legacy.includes('Bengaluru Residence') || legacy.includes('Villa 14'))) {
+      localStorage.removeItem('dhanvikk_saved_addresses');
+    }
     loadAddresses();
-  }, [user]);
+  }, [user, isAuthenticated]);
 
   const loadAddresses = async () => {
+    if (!user?.email || !isAuthenticated) {
+      setAddresses([]);
+      setLoading(false);
+      return;
+    }
     try {
       setLoading(true);
-      const email = user?.email;
-      if (email) {
-        const res = await authService.getProfileData(email);
-        if (res?.success && Array.isArray(res.savedAddresses) && res.savedAddresses.length > 0) {
-          setAddresses(res.savedAddresses);
-          return;
-        }
-      }
-      // Check localStorage
-      const local = localStorage.getItem('dhanvikk_saved_addresses');
-      if (local) {
-        setAddresses(JSON.parse(local));
+      const email = user.email;
+      const res = await authService.getProfileData(email);
+      if (res?.success && Array.isArray(res.savedAddresses)) {
+        setAddresses(res.savedAddresses);
       } else {
-        setAddresses(DEFAULT_SAMPLE_ADDRESSES);
-        localStorage.setItem('dhanvikk_saved_addresses', JSON.stringify(DEFAULT_SAMPLE_ADDRESSES));
+        setAddresses([]);
       }
     } catch {
-      const local = localStorage.getItem('dhanvikk_saved_addresses');
-      setAddresses(local ? JSON.parse(local) : DEFAULT_SAMPLE_ADDRESSES);
+      setAddresses([]);
     } finally {
       setLoading(false);
     }
   };
 
   const handleOpenCreateModal = () => {
+    if (!isAuthenticated || !user?.email) {
+      toast.info('Please sign in to add and save a delivery address');
+      navigate('/login');
+      return;
+    }
     setModalMode('create');
     const defaultCountry = 'United Arab Emirates';
     const states = getStatesForCountry(defaultCountry);
@@ -175,6 +151,10 @@ export default function AddressPage() {
 
   const handleSaveAddress = async (e) => {
     e.preventDefault();
+    if (!user?.email || !isAuthenticated) {
+      toast.error('Please sign in to save delivery addresses');
+      return;
+    }
     if (!form.recipientName.trim()) {
       toast.error('Recipient name is required');
       return;
@@ -184,62 +164,81 @@ export default function AddressPage() {
       return;
     }
 
-    let updatedList;
-    if (modalMode === 'create') {
-      const newAddr = {
+    try {
+      const res = await authService.saveAddress({
         ...form,
-        id: form.id || `addr_${Date.now()}`,
-      };
-      if (newAddr.isDefault) {
-        updatedList = addresses.map((a) => ({ ...a, isDefault: false }));
-        updatedList.push(newAddr);
-      } else {
-        updatedList = [...addresses, newAddr];
-      }
-      toast.success('New delivery address added');
-    } else {
-      updatedList = addresses.map((a) => {
-        if (a.id === form.id) {
-          return { ...form };
-        }
-        return form.isDefault ? { ...a, isDefault: false } : a;
+        email: user.email,
       });
-      toast.success('Address updated successfully');
+
+      if (res?.success && Array.isArray(res.addresses)) {
+        setAddresses(res.addresses);
+      } else {
+        // Fallback local update
+        let updatedList;
+        if (modalMode === 'create') {
+          const newAddr = { ...form, id: form.id || `addr_${Date.now()}` };
+          if (newAddr.isDefault) {
+            updatedList = addresses.map((a) => ({ ...a, isDefault: false }));
+            updatedList.push(newAddr);
+          } else {
+            updatedList = [...addresses, newAddr];
+          }
+        } else {
+          updatedList = addresses.map((a) => {
+            if (a.id === form.id) return { ...form };
+            return form.isDefault ? { ...a, isDefault: false } : a;
+          });
+        }
+        setAddresses(updatedList);
+      }
+      toast.success(modalMode === 'create' ? 'New delivery address added' : 'Address updated successfully');
+      setShowModal(false);
+    } catch (err) {
+      toast.error(err.message || 'Failed to save address');
     }
-
-    setAddresses(updatedList);
-    localStorage.setItem('dhanvikk_saved_addresses', JSON.stringify(updatedList));
-
-    // Also persist via API if available
-    try {
-      await authService.saveAddress(form);
-    } catch {}
-
-    setShowModal(false);
   };
 
-  const handleDeleteAddress = (id) => {
-    const remaining = addresses.filter((a) => a.id !== id);
-    if (remaining.length > 0 && !remaining.some((a) => a.isDefault)) {
-      remaining[0].isDefault = true;
-    }
-    setAddresses(remaining);
-    localStorage.setItem('dhanvikk_saved_addresses', JSON.stringify(remaining));
-    toast.success('Address removed from address book');
-
+  const handleDeleteAddress = async (id) => {
+    if (!user?.email || !isAuthenticated) return;
     try {
-      authService.deleteAddress(id).catch(() => {});
-    } catch {}
+      const res = await authService.deleteAddress(id);
+      if (res?.success && Array.isArray(res.addresses)) {
+        setAddresses(res.addresses);
+      } else {
+        const remaining = addresses.filter((a) => a.id !== id);
+        if (remaining.length > 0 && !remaining.some((a) => a.isDefault)) {
+          remaining[0].isDefault = true;
+        }
+        setAddresses(remaining);
+      }
+      toast.success('Address removed from address book');
+    } catch (err) {
+      toast.error('Failed to remove address');
+    }
   };
 
-  const handleSetDefault = (id) => {
-    const updated = addresses.map((a) => ({
-      ...a,
-      isDefault: a.id === id,
-    }));
-    setAddresses(updated);
-    localStorage.setItem('dhanvikk_saved_addresses', JSON.stringify(updated));
-    toast.success('Default delivery address updated');
+  const handleSetDefault = async (id) => {
+    const target = addresses.find((a) => a.id === id);
+    if (!target || !user?.email) return;
+    try {
+      const res = await authService.saveAddress({
+        ...target,
+        isDefault: true,
+        email: user.email,
+      });
+      if (res?.success && Array.isArray(res.addresses)) {
+        setAddresses(res.addresses);
+      } else {
+        const updated = addresses.map((a) => ({
+          ...a,
+          isDefault: a.id === id,
+        }));
+        setAddresses(updated);
+      }
+      toast.success('Default delivery address updated');
+    } catch {
+      toast.error('Failed to set default address');
+    }
   };
 
   return (
@@ -299,7 +298,25 @@ export default function AddressPage() {
           </div>
 
           {/* Address Cards Grid */}
-          {loading ? (
+          {!isAuthenticated ? (
+            <div className="bg-white rounded-3xl p-12 text-center border border-[#EFE7DE] shadow-xs space-y-4 max-w-lg mx-auto my-8">
+              <div className="w-16 h-16 rounded-full bg-[#FFF0F4] text-[#EC407A] flex items-center justify-center mx-auto">
+                <MapPin className="w-8 h-8" />
+              </div>
+              <h3 className="text-lg font-bold text-[#242124] font-['Poppins']">
+                Delivery Address Book Is Empty
+              </h3>
+              <p className="text-xs text-[#777777] leading-relaxed max-w-sm mx-auto">
+                No delivery address is shown when not signed in. Sign in to your account to view your saved addresses or add a new delivery destination.
+              </p>
+              <Link
+                to="/login"
+                className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-[#EC407A] hover:bg-[#C2185B] text-white text-xs font-bold transition-all shadow-md cursor-pointer"
+              >
+                <span>Sign In to Access Addresses</span>
+              </Link>
+            </div>
+          ) : loading ? (
             <div className="py-20 flex flex-col items-center justify-center gap-3">
               <Spinner size="lg" color="#EC407A" />
               <span className="text-xs uppercase tracking-widest text-[#777777]">

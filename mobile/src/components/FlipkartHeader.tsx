@@ -5,13 +5,31 @@ import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { colors, radius, spacing } from '@/constants/theme';
 import { useStore } from '@/store/useStore';
+import { useQuery } from '@tanstack/react-query';
+import { getProfileData } from '@/services/orders';
 
 const brandLogo = require('@/assets/logo.png');
 
 export function FlipkartHeader() {
   const insets = useSafeAreaInsets();
+  const user = useStore((s) => s.user);
   const cart = useStore((s) => s.cart);
   const wishlist = useStore((s) => s.wishlist);
+
+  const { data: profileData } = useQuery({
+    queryKey: ['profile-data', user?.email],
+    queryFn: getProfileData,
+    enabled: !!user,
+  });
+
+  const savedAddresses = user ? (profileData?.savedAddresses || []) : [];
+  const defaultAddress = savedAddresses.find((a: any) => a.isDefault) || savedAddresses[0];
+
+  const locationLabel = !user
+    ? 'Deliver to: Select Location'
+    : defaultAddress
+    ? `Deliver to: ${defaultAddress.city || 'Home'}${defaultAddress.postalCode ? ` ${defaultAddress.postalCode}` : ''}`
+    : 'Deliver to: + Add Address';
 
   const cartCount = cart.reduce((t, i) => t + (i.quantity || 1), 0);
   const wishCount = wishlist.length;
@@ -30,11 +48,11 @@ export function FlipkartHeader() {
 
         <Pressable
           style={s.locationPill}
-          onPress={() => router.push('/addresses')}
+          onPress={() => (user ? router.push('/addresses') : router.push('/auth/login'))}
         >
           <Ionicons name="location" size={13} color={colors.primaryDeep} />
           <Text style={s.locationText} numberOfLines={1}>
-            Deliver to: Chennai 600001
+            {locationLabel}
           </Text>
           <Ionicons name="chevron-down" size={12} color={colors.muted} />
         </Pressable>

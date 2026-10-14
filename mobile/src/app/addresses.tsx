@@ -18,31 +18,56 @@ import { getProfileData } from '@/services/orders';
 import { saveAddress, deleteAddress } from '@/services/auth';
 import { colors, radius, spacing } from '@/constants/theme';
 import type { Address } from '@/types/models';
+import { useStore } from '@/store/useStore';
 
 export default function AddressesScreen() {
   const insets = useSafeAreaInsets();
   const queryClient = useQueryClient();
+  const currentUser = useStore((s) => s.user);
 
-  const { data, isLoading, refetch } = useQuery({
-    queryKey: ['profile-data'],
+  const { data, isLoading } = useQuery({
+    queryKey: ['profile-data', currentUser?.email],
     queryFn: getProfileData,
+    enabled: !!currentUser,
   });
 
-  const addresses: Address[] = data?.savedAddresses || [];
+  const addresses: Address[] = currentUser ? (data?.savedAddresses || []) : [];
 
   const [modalVisible, setModalVisible] = useState(false);
   const [busy, setBusy] = useState(false);
 
   // New Address Form
   const [title, setTitle] = useState('Home');
-  const [recipientName, setRecipientName] = useState('');
-  const [phone, setPhone] = useState('');
+  const [recipientName, setRecipientName] = useState(currentUser?.name || '');
+  const [phone, setPhone] = useState(currentUser?.phone || '');
   const [street, setStreet] = useState('');
   const [city, setCity] = useState('Chennai');
   const [state, setState] = useState('Tamil Nadu');
   const [postalCode, setPostalCode] = useState('600001');
 
+  const handleOpenAddModal = () => {
+    if (!currentUser) {
+      Alert.alert(
+        'Sign In Required',
+        'Please sign in to your account to add and manage delivery addresses.',
+        [
+          { text: 'Cancel', style: 'cancel' },
+          { text: 'Sign In', onPress: () => router.push('/auth/login') },
+        ]
+      );
+      return;
+    }
+    setRecipientName(currentUser?.name || '');
+    setPhone(currentUser?.phone || '');
+    setStreet('');
+    setModalVisible(true);
+  };
+
   const handleSaveAddress = async () => {
+    if (!currentUser) {
+      Alert.alert('Sign In Required', 'Please sign in to save a delivery address.');
+      return;
+    }
     if (!recipientName.trim() || !phone.trim() || !street.trim() || !city.trim()) {
       return Alert.alert('Missing Details', 'Please fill in recipient name, phone, street, and city.');
     }
@@ -62,12 +87,11 @@ export default function AddressesScreen() {
         pincode: postalCode.trim(),
         country: 'India',
         isDefault: addresses.length === 0,
+        email: currentUser.email,
       });
 
       queryClient.invalidateQueries({ queryKey: ['profile-data'] });
       setModalVisible(false);
-      setRecipientName('');
-      setPhone('');
       setStreet('');
       Alert.alert('Address Saved', 'Your new delivery address has been added.');
     } catch (e: any) {
@@ -107,13 +131,26 @@ export default function AddressesScreen() {
           <Ionicons name="arrow-back" size={22} color={colors.ink} />
         </Pressable>
         <Text style={s.headerTitle}>Delivery Addresses</Text>
-        <Pressable style={s.addHeaderBtn} onPress={() => setModalVisible(true)}>
+        <Pressable style={s.addHeaderBtn} onPress={handleOpenAddModal}>
           <Ionicons name="add" size={20} color={colors.primaryDeep} />
           <Text style={s.addHeaderText}>Add</Text>
         </Pressable>
       </View>
 
-      {isLoading ? (
+      {!currentUser ? (
+        <View style={s.empty}>
+          <View style={s.emptyIconCircle}>
+            <Ionicons name="location-outline" size={42} color={colors.primary} />
+          </View>
+          <Text style={s.emptyTitle}>Delivery Address Book Is Empty</Text>
+          <Text style={s.emptySub}>
+            No delivery addresses are stored while signed out. Sign in to your account to view or add addresses.
+          </Text>
+          <Pressable style={s.shopBtn} onPress={() => router.push('/auth/login')}>
+            <Text style={s.shopBtnText}>Sign In to Account</Text>
+          </Pressable>
+        </View>
+      ) : isLoading ? (
         <View style={s.center}>
           <ActivityIndicator size="large" color={colors.primary} />
           <Text style={s.loadingText}>Loading saved addresses…</Text>
@@ -171,7 +208,7 @@ export default function AddressesScreen() {
               <Text style={s.emptySub}>
                 Add your home or office address for 1-tap express floral checkout.
               </Text>
-              <Pressable style={s.shopBtn} onPress={() => setModalVisible(true)}>
+              <Pressable style={s.shopBtn} onPress={handleOpenAddModal}>
                 <Text style={s.shopBtnText}>+ Add New Address</Text>
               </Pressable>
             </View>

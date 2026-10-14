@@ -43,10 +43,12 @@ export type Address = {
   recipientName: string;
   phone: string;
   street: string;
+  streetAddress?: string;
   district?: string;
   city: string;
   state: string;
   postalCode?: string;
+  pincode?: string;
   country: string;
   isDefault?: boolean;
 };

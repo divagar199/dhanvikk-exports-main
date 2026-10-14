@@ -46,13 +46,13 @@ export default function CheckoutPage() {
 
   // Address form state
   const [recipientName, setRecipientName] = useState(user?.name || '');
-  const [phone, setPhone] = useState(user?.phone || '+91 98765 43210');
+  const [phone, setPhone] = useState(user?.phone || '');
   const [address, setAddress] = useState('');
   const [country, setCountry] = useState('United Arab Emirates');
   const [stateName, setStateName] = useState('Dubai');
   const [district, setDistrict] = useState('');
   const [city, setCity] = useState('Dubai');
-  const [postalCode, setPostalCode] = useState('00000');
+  const [postalCode, setPostalCode] = useState('');
   const [savedAddresses, setSavedAddresses] = useState([]);
   const [selectedAddressId, setSelectedAddressId] = useState(null);
 
@@ -76,24 +76,28 @@ export default function CheckoutPage() {
               setStateName(defaultAddr.state || 'Dubai');
               setDistrict(defaultAddr.district || '');
               setCity(defaultAddr.city || 'Dubai');
-              setPostalCode(defaultAddr.postalCode || '00000');
+              setPostalCode(defaultAddr.postalCode || '');
             }
           } else if (isMounted) {
+            setSavedAddresses([]);
+            setSelectedAddressId(null);
             setRecipientName(user?.name || '');
-            setPhone(user?.phone || '+91 98765 43210');
-            setAddress('Villa 14, Palm Jumeirah Crescent');
-            setCountry('United Arab Emirates');
-            setStateName('Dubai');
-            setDistrict('Palm Jumeirah');
+            setPhone(user?.phone || '');
+            setAddress('');
+            setDistrict('');
+            setPostalCode('');
           }
         } catch (err) {
           console.warn('Profile addresses load error:', err);
         }
       } else {
-        setAddress('Villa 14, Palm Jumeirah Crescent');
-        setCountry('United Arab Emirates');
-        setStateName('Dubai');
-        setDistrict('Palm Jumeirah');
+        setSavedAddresses([]);
+        setSelectedAddressId(null);
+        setRecipientName('');
+        setPhone('');
+        setAddress('');
+        setDistrict('');
+        setPostalCode('');
       }
     };
     loadUserData();
@@ -268,6 +272,26 @@ export default function CheckoutPage() {
               };
 
               const createdOrderRes = await orderService.createOrder(newOrderPayload);
+
+              // Auto-save address to user's MongoDB profile if authenticated
+              if (user?.email && address) {
+                authService.saveAddress({
+                  id: selectedAddressId || `addr_${Date.now()}`,
+                  title: 'Delivery Address',
+                  recipientName,
+                  phone,
+                  street: address,
+                  district,
+                  city,
+                  state: stateName,
+                  country,
+                  postalCode,
+                  isDefault: savedAddresses.length === 0,
+                  email: user.email,
+                }).catch((saveAddrErr) => {
+                  console.warn('Auto-save address note:', saveAddrErr);
+                });
+              }
 
               // 6. Clear shopping cart and display success
               dispatch(clearCart());

@@ -16,7 +16,8 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { colors, radius, spacing } from '@/constants/theme';
 import { cartTotal, useStore } from '@/store/useStore';
 import { createRazorpayOrder, verifyPayment } from '@/services/payments';
-import { createOrder } from '@/services/orders';
+import { createOrder, getProfileData } from '@/services/orders';
+import { saveAddress } from '@/services/auth';
 import { getStoredUser } from '@/lib/storage';
 import type { User } from '@/types/models';
 import RazorpayCheckout from 'react-native-razorpay';
@@ -32,9 +33,9 @@ export default function Checkout() {
   const [name, setName] = useState(currentUser?.name || '');
   const [phone, setPhone] = useState(currentUser?.phone || '');
   const [street, setStreet] = useState('');
-  const [city, setCity] = useState('Chennai');
-  const [state, setState] = useState('Tamil Nadu');
-  const [pincode, setPincode] = useState('600001');
+  const [city, setCity] = useState('');
+  const [state, setState] = useState('');
+  const [pincode, setPincode] = useState('');
   const [date, setDate] = useState(new Date().toISOString().slice(0, 10));
   const [paymentMethod, setPaymentMethod] = useState<'razorpay' | 'cod'>('razorpay');
   const [busy, setBusy] = useState(false);
@@ -52,6 +53,27 @@ export default function Checkout() {
       }
     });
   }, [currentUser]);
+
+  useEffect(() => {
+    const active = currentUser || storedUser;
+    if (active) {
+      getProfileData()
+        .then((res) => {
+          if (res?.savedAddresses && res.savedAddresses.length > 0) {
+            const def = res.savedAddresses.find((a: any) => a.isDefault) || res.savedAddresses[0];
+            if (def) {
+              if (def.recipientName || def.fullName) setName(def.recipientName || def.fullName || '');
+              if (def.phone) setPhone(def.phone || '');
+              if (def.street || def.streetAddress) setStreet(def.street || def.streetAddress || '');
+              if (def.city) setCity(def.city || '');
+              if (def.state) setState(def.state || '');
+              if (def.postalCode || def.pincode) setPincode(def.postalCode || def.pincode || '');
+            }
+          }
+        })
+        .catch(() => {});
+    }
+  }, [currentUser, storedUser]);
 
   const total = cartTotal(cart);
 
@@ -184,6 +206,26 @@ export default function Checkout() {
           razorpaySignature: razorpayData?.razorpay_signature,
         },
       });
+
+      // Auto-save this delivery address into user's account if signed in
+      const activeUser = currentUser || storedUser;
+      if (activeUser?.email && street) {
+        saveAddress({
+          title: 'Delivery Address',
+          recipientName: name,
+          fullName: name,
+          phone,
+          street,
+          streetAddress: street,
+          city: city || 'Chennai',
+          state: state || 'Tamil Nadu',
+          postalCode: pincode,
+          pincode: pincode,
+          country: 'India',
+          isDefault: true,
+          email: activeUser.email,
+        }).catch(() => {});
+      }
 
       clear();
       Alert.alert(

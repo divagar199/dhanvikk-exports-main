@@ -37,61 +37,53 @@ export const recordUserOrder = (email, order) => {
   userProfileStorage.set(cleanEmail, { ...current, recentOrders: orders });
 };
 
-export const recordUserAddress = (email, address) => {
+export const recordUserAddress = async (email, address) => {
   const cleanEmail = (email || '').toLowerCase().trim();
   if (!cleanEmail || !address) return;
   const current = userProfileStorage.get(cleanEmail) || {};
-  const addresses = current.savedAddresses ? [...current.savedAddresses] : [];
-  const streetStr = address.street || address.streetAddress || '';
+  let addresses = current.savedAddresses ? [...current.savedAddresses] : [];
+
+  if (getDBStatus()) {
+    try {
+      const userDoc = await UserModel.findOne({ email: cleanEmail });
+      if (userDoc && Array.isArray(userDoc.savedAddresses) && userDoc.savedAddresses.length > 0) {
+        addresses = [...userDoc.savedAddresses];
+      }
+    } catch {}
+  }
+
+  const streetStr = (address.street || address.streetAddress || '').trim();
   if (!streetStr) return;
   const exists = addresses.some(
     (a) => a.street?.toLowerCase() === streetStr.toLowerCase() && a.city?.toLowerCase() === (address.city || '').toLowerCase()
   );
   if (!exists) {
-    addresses.push({
-      id: `addr_${Date.now()}`,
+    const newAddr = {
+      id: address.id || `addr_${Date.now()}`,
       title: address.title || 'Delivery Destination',
       recipientName: address.fullName || address.recipientName || '',
       phone: address.phone || '',
       street: streetStr,
+      district: address.district || '',
       city: address.city || 'Dubai',
       state: address.state || 'Dubai',
       postalCode: address.postalCode || address.pincode || '',
       country: address.country || 'United Arab Emirates',
       isDefault: addresses.length === 0,
-    });
+    };
+    addresses.push(newAddr);
     userProfileStorage.set(cleanEmail, { ...current, savedAddresses: addresses });
+    if (getDBStatus()) {
+      try {
+        await UserModel.findOneAndUpdate({ email: cleanEmail }, { savedAddresses: addresses });
+      } catch (dbErr) {
+        console.warn('recordUserAddress MongoDB update note:', dbErr.message);
+      }
+    }
   }
 };
 
-export const getDefaultAddresses = (userName = 'Valued Customer', userPhone = '+971 50 123 4567') => [
-  {
-    id: 'addr_prim_01',
-    title: 'Primary Residence',
-    recipientName: userName,
-    phone: userPhone,
-    street: 'Villa 14, Palm Crescent',
-    district: 'Palm Jumeirah',
-    city: 'Dubai',
-    state: 'Dubai',
-    postalCode: '00000',
-    country: 'United Arab Emirates',
-    isDefault: true,
-  },
-  {
-    id: 'addr_gift_02',
-    title: 'Gifting Address',
-    recipientName: 'Celebration Residence',
-    phone: '+91 98765 43210',
-    street: 'Penthouse 8B, Royal Marine Drive',
-    district: 'South Mumbai',
-    city: 'Mumbai',
-    state: 'Maharashtra',
-    postalCode: '400021',
-    country: 'India',
-    isDefault: false,
-  },
-];
+export const getDefaultAddresses = () => [];
 
 export const getDefaultSavedBouquets = () => [
   {
@@ -728,6 +720,17 @@ export const getProfileData = async (req, res) => {
       } catch {}
     }
 
+    // When NO ONE is signed in, return empty arrays (never show fake data!)
+    if (!email && !req.user) {
+      return res.status(200).json({
+        success: true,
+        user: null,
+        savedAddresses: [],
+        savedBouquets: [],
+        recentOrders: [],
+      });
+    }
+
     let targetUser = null;
     if (getDBStatus() && email) {
       try {
@@ -737,31 +740,34 @@ export const getProfileData = async (req, res) => {
     if (!targetUser && email) {
       targetUser = USERS.find((u) => u.email.toLowerCase() === email);
     }
-    if (!targetUser) {
-      targetUser = req.user || {
-        id: 'usr_guest',
-        name: 'Valued Customer',
-        email: email || 'customer@dhanvikk.com',
-        phone: '+971 50 123 4567',
-        role: 'customer',
-      };
+    if (!targetUser && req.user) {
+      targetUser = req.user;
     }
 
-    const userKey = (targetUser.email || targetUser.id || 'default').toLowerCase().trim();
+    if (!targetUser) {
+      return res.status(200).json({
+        success: true,
+        user: null,
+        savedAddresses: [],
+        savedBouquets: [],
+        recentOrders: [],
+      });
+    }
+
+    const userKey = (targetUser.email || targetUser.id || email).toLowerCase().trim();
     const stored = userProfileStorage.get(userKey) || userProfileStorage.get(email) || {};
 
-    // 1. Saved Addresses
+    // 1. Saved Addresses - ONLY real saved addresses from database, NEVER fake
     let savedAddresses = [];
     if (targetUser.savedAddresses && targetUser.savedAddresses.length > 0) {
       savedAddresses = targetUser.savedAddresses;
     } else if (stored.savedAddresses && stored.savedAddresses.length > 0) {
       savedAddresses = stored.savedAddresses;
     } else {
-      savedAddresses = getDefaultAddresses(targetUser.name, targetUser.phone);
-      userProfileStorage.set(userKey, { ...stored, savedAddresses });
+      savedAddresses = [];
     }
 
-    // 2. Saved Bouquets (Wishlist: 4 signature roses)
+    // 2. Saved Bouquets
     let savedBouquets = [];
     if (targetUser.savedBouquets && targetUser.savedBouquets.length > 0) {
       savedBouquets = targetUser.savedBouquets;
@@ -769,8 +775,6 @@ export const getProfileData = async (req, res) => {
       savedBouquets = stored.savedBouquets;
     } else {
       savedBouquets = getDefaultSavedBouquets();
-      const current = userProfileStorage.get(userKey) || {};
-      userProfileStorage.set(userKey, { ...current, savedBouquets });
     }
 
     // 3. Recent Orders uniquely for this user
@@ -801,47 +805,7 @@ export const getProfileData = async (req, res) => {
       }
     }
 
-    // Seed active order for default demo accounts so tracking is demonstrable
-    if (!recentOrders || recentOrders.length === 0) {
-      if (email === 'priya.sharma@gmail.com' || email === 'customer@dhanvikk.com') {
-        const primaryAddr = savedAddresses[0] || {};
-        recentOrders = [
-          {
-            id: `ord_${email.replace(/[^a-z0-9]/g, '_')}_101`,
-            orderId: 'DHN-2026-8941',
-            status: 'Preparing Floral Order',
-            deliveryDate: 'Today',
-            timeSlot: 'Evening (7:00 PM - 10:00 PM)',
-            totalAmount: 2499,
-            currency: 'INR',
-            trackingStep: 2,
-            items: [
-              {
-                product: 'flw-rose-01',
-                name: 'Passionate Serenity Noir',
-                notes: 'Ecuadorian Obsidian Rose Bouquet',
-                price: 2499,
-                quantity: 1,
-                image: 'https://images.unsplash.com/photo-1561181286-d3fee7d55364?auto=format&fit=crop&w=400&q=80',
-              },
-            ],
-            shippingAddress: {
-              fullName: targetUser.name,
-              phone: targetUser.phone || primaryAddr.phone || '+91 98765 00000',
-              streetAddress: primaryAddr.street || 'Villa 14, Palm Crescent, Palm Jumeirah',
-              city: primaryAddr.city || 'Dubai',
-              state: primaryAddr.state || 'Dubai, UAE',
-              country: primaryAddr.country || 'United Arab Emirates',
-              pincode: primaryAddr.postalCode || '00000',
-            },
-            paymentInfo: { method: 'Razorpay / Card', status: 'Paid' },
-            greetingCardMessage: 'With warmest love and blossoming blessings 🌸',
-            createdAt: new Date(),
-          },
-        ];
-        userProfileStorage.set(userKey, { ...stored, savedAddresses, recentOrders });
-      }
-    }
+    userProfileStorage.set(userKey, { ...stored, savedAddresses, recentOrders });
 
     // 4. Stored Cart uniquely for this user
     let userCart = [];
@@ -980,17 +944,34 @@ export const saveAddress = async (req, res) => {
       req.user?.email ||
       req.body.email ||
       req.headers['x-user-email'] ||
-      'customer@dhanvikk.com'
+      ''
     ).toLowerCase().trim();
+
+    if (!email) {
+      return res.status(401).json({
+        success: false,
+        message: 'Please sign in to save a delivery address.',
+      });
+    }
 
     const { id, title, recipientName, phone, street, district, city, state, postalCode, country, isDefault } = req.body;
 
     const userKey = email;
-    const current = userProfileStorage.get(userKey) || {
-      savedAddresses: getDefaultAddresses(recipientName, phone),
-    };
+    let addresses = [];
 
-    let addresses = current.savedAddresses ? [...current.savedAddresses] : [];
+    if (getDBStatus()) {
+      try {
+        const userDoc = await UserModel.findOne({ email });
+        if (userDoc && Array.isArray(userDoc.savedAddresses)) {
+          addresses = [...userDoc.savedAddresses];
+        }
+      } catch {}
+    }
+
+    if (addresses.length === 0) {
+      const current = userProfileStorage.get(userKey) || {};
+      addresses = current.savedAddresses ? [...current.savedAddresses] : [];
+    }
 
     const addressObj = {
       id: id || `addr_${Date.now()}`,
@@ -1003,7 +984,7 @@ export const saveAddress = async (req, res) => {
       state: state || '',
       postalCode: postalCode || '',
       country: country || 'United Arab Emirates',
-      isDefault: Boolean(isDefault),
+      isDefault: Boolean(isDefault) || addresses.length === 0,
     };
 
     const existingIndex = addresses.findIndex((a) => a.id === addressObj.id);
@@ -1020,18 +1001,28 @@ export const saveAddress = async (req, res) => {
       }));
     }
 
-    userProfileStorage.set(userKey, { ...current, savedAddresses: addresses });
+    userProfileStorage.set(userKey, {
+      ...(userProfileStorage.get(userKey) || {}),
+      savedAddresses: addresses,
+    });
 
     if (getDBStatus()) {
       try {
-        await UserModel.findOneAndUpdate({ email }, { savedAddresses: addresses });
-      } catch {}
+        await UserModel.findOneAndUpdate(
+          { email },
+          { savedAddresses: addresses },
+          { new: true }
+        );
+      } catch (dbErr) {
+        console.warn('MongoDB saveAddress update error:', dbErr.message);
+      }
     }
 
     return res.status(200).json({
       success: true,
       message: 'Address saved successfully!',
       addresses,
+      savedAddresses: addresses,
     });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
@@ -1049,28 +1040,36 @@ export const deleteAddress = async (req, res) => {
       req.user?.email ||
       req.headers['x-user-email'] ||
       req.query.email ||
-      'customer@dhanvikk.com'
+      ''
     ).toLowerCase().trim();
+
+    if (!email) {
+      return res.status(401).json({ success: false, message: 'Authentication required' });
+    }
 
     const { id } = req.params;
     const userKey = email;
-    const current = userProfileStorage.get(userKey) || {
-      savedAddresses: getDefaultAddresses(),
-    };
-
-    let addresses = (current.savedAddresses || []).filter((a) => a.id !== id);
-    userProfileStorage.set(userKey, { ...current, savedAddresses: addresses });
+    let addresses = [];
 
     if (getDBStatus()) {
       try {
-        await UserModel.findOneAndUpdate({ email }, { savedAddresses: addresses });
+        const userDoc = await UserModel.findOne({ email });
+        if (userDoc && Array.isArray(userDoc.savedAddresses)) {
+          addresses = userDoc.savedAddresses.filter((a) => a.id !== id);
+          await UserModel.findOneAndUpdate({ email }, { savedAddresses: addresses });
+        }
       } catch {}
     }
+
+    const current = userProfileStorage.get(userKey) || {};
+    addresses = (addresses.length > 0 ? addresses : (current.savedAddresses || [])).filter((a) => a.id !== id);
+    userProfileStorage.set(userKey, { ...current, savedAddresses: addresses });
 
     return res.status(200).json({
       success: true,
       message: 'Address removed successfully!',
       addresses,
+      savedAddresses: addresses,
     });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
@@ -1189,7 +1188,7 @@ export const verifyPortalKey = async (req, res) => {
       ? user.savedAddresses
       : (stored.savedAddresses && stored.savedAddresses.length > 0)
       ? stored.savedAddresses
-      : getDefaultAddresses(user.name, user.phone);
+      : [];
 
     const savedBouquets = (user.savedBouquets && user.savedBouquets.length > 0)
       ? user.savedBouquets
@@ -1203,32 +1202,8 @@ export const verifyPortalKey = async (req, res) => {
         recentOrders = await OrderModel.find({ 'user.email': cleanEmail }).sort({ createdAt: -1 });
       } catch {}
     }
-    if (!recentOrders || recentOrders.length === 0) {
-      recentOrders = [
-        {
-          id: 'ord_active_101',
-          orderId: 'DHN-2026-8941',
-          status: 'Preparing Floral Order',
-          deliveryDate: 'Today',
-          timeSlot: 'Evening (7:00 PM - 10:00 PM)',
-          totalAmount: 2499,
-          currency: 'INR',
-          trackingStep: 2,
-          items: [
-            {
-              id: 'flw-rose-01',
-              name: 'Passionate Serenity Noir',
-              price: 2499,
-              quantity: 1,
-              image: 'https://images.unsplash.com/photo-1561181286-d3fee7d55364?auto=format&fit=crop&w=400&q=80',
-            },
-          ],
-          shippingAddress: savedAddresses[0],
-          paymentInfo: { method: 'Razorpay / Card', status: 'Paid' },
-          greetingCardMessage: 'Happy Anniversary my love! Forever blooming with you. - Dhanvikk Botanicals',
-          createdAt: new Date(),
-        },
-      ];
+    if (!recentOrders) {
+      recentOrders = [];
     }
 
     const userCart = user.cart || stored.cart || [];

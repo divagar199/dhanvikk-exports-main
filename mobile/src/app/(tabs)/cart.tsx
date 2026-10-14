@@ -16,6 +16,8 @@ import { colors, radius, spacing } from '@/constants/theme';
 import { cartTotal, useStore } from '@/store/useStore';
 import { resolveImageUrl } from '@/lib/imageUrl';
 import { GoogleSignInModal } from '@/components/GoogleSignInModal';
+import { useQuery } from '@tanstack/react-query';
+import { getProfileData } from '@/services/orders';
 
 export default function Cart() {
   const insets = useSafeAreaInsets();
@@ -24,6 +26,15 @@ export default function Cart() {
   const qty = useStore((s) => s.qty);
   const remove = useStore((s) => s.remove);
   const wish = useStore((s) => s.wish);
+
+  const { data: profileData } = useQuery({
+    queryKey: ['profile-data', user?.email],
+    queryFn: getProfileData,
+    enabled: !!user,
+  });
+
+  const savedAddresses = user ? (profileData?.savedAddresses || []) : [];
+  const defaultAddress = savedAddresses.find((a: any) => a.isDefault) || savedAddresses[0];
 
   const [couponCode, setCouponCode] = useState('');
   const [couponDiscount, setCouponDiscount] = useState(0);
@@ -84,22 +95,39 @@ export default function Cart() {
       </View>
 
       {/* Delivery Address Banner */}
-      <Pressable style={s.addressBanner} onPress={() => router.push('/addresses')}>
+      <Pressable
+        style={s.addressBanner}
+        onPress={() => (user ? router.push('/addresses') : router.push('/auth/login'))}
+      >
         <View style={s.addressLeft}>
           <Ionicons name="location" size={18} color={colors.primary} />
           <View>
             <View style={s.addressTitleRow}>
-              <Text style={s.addressTitle}>Deliver to: Chennai - 600001</Text>
+              <Text style={s.addressTitle}>
+                {!user
+                  ? 'Deliver to: Select Address'
+                  : defaultAddress
+                  ? `Deliver to: ${defaultAddress.recipientName || user.name || 'You'}${defaultAddress.postalCode ? ` - ${defaultAddress.postalCode}` : ''}`
+                  : 'No Address Saved'}
+              </Text>
               <View style={s.homeBadge}>
-                <Text style={s.homeBadgeText}>HOME</Text>
+                <Text style={s.homeBadgeText}>
+                  {!user ? 'GUEST' : defaultAddress ? (defaultAddress.title || 'HOME').toUpperCase() : 'EMPTY'}
+                </Text>
               </View>
             </View>
             <Text style={s.addressSub} numberOfLines={1}>
-              42 Rose Garden Avenue, Anna Nagar
+              {!user
+                ? 'Sign in to access your stored delivery addresses'
+                : defaultAddress
+                ? `${defaultAddress.street || defaultAddress.streetAddress || ''}, ${defaultAddress.city || ''}`
+                : 'Add your home or office address for instant delivery'}
             </Text>
           </View>
         </View>
-        <Text style={s.changeBtn}>Change</Text>
+        <Text style={s.changeBtn}>
+          {!user ? 'Sign In' : defaultAddress ? 'Change' : '+ Add'}
+        </Text>
       </Pressable>
 
       <FlatList
