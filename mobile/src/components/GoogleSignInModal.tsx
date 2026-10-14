@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   Alert,
   Modal,
@@ -11,9 +11,15 @@ import {
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Image } from 'expo-image';
+import * as WebBrowser from 'expo-web-browser';
+import * as Google from 'expo-auth-session/providers/google';
+import { GoogleAuthProvider, signInWithCredential } from 'firebase/auth';
+import { auth } from '@/lib/firebase';
 import { colors, radius, spacing } from '@/constants/theme';
 import { loginWithGoogle } from '@/services/auth';
 import { useStore } from '@/store/useStore';
+
+WebBrowser.maybeCompleteAuthSession();
 
 const brandLogo = require('@/assets/logo.png');
 
@@ -29,6 +35,56 @@ export function GoogleSignInModal({ visible, onClose, onSuccess }: GoogleSignInM
   const [name, setName] = useState('');
   const [busy, setBusy] = useState(false);
   const [customMode, setCustomMode] = useState(false);
+
+  // Initialize Google Auth Request via Expo AuthSession
+  const [request, response, promptAsync] = Google.useAuthRequest({
+    androidClientId: '160660053649-1ar8vvfbirn6jgd9bnukihvk0frgluv6.apps.googleusercontent.com',
+    webClientId: '160660053649-1ar8vvfbirn6jgd9bnukihvk0frgluv6.apps.googleusercontent.com',
+  });
+
+  useEffect(() => {
+    if (response?.type === 'success') {
+      const idToken = response.params?.id_token || (response as any).authentication?.idToken;
+      if (idToken) {
+        handleFirebaseGoogleAuth(idToken);
+      }
+    } else if (response?.type === 'error') {
+      Alert.alert('Google Sign-In Error', response.error?.message || 'Unable to complete Google authentication.');
+    }
+  }, [response]);
+
+  const handleFirebaseGoogleAuth = async (idToken: string) => {
+    setBusy(true);
+    try {
+      const credential = GoogleAuthProvider.credential(idToken);
+      const userCred = await signInWithCredential(auth, credential);
+      const fbUser = userCred.user;
+      const cleanEmail = (fbUser.email || '').trim().toLowerCase();
+      const cleanName = fbUser.displayName || cleanEmail.split('@')[0];
+      const avatar =
+        fbUser.photoURL ||
+        `https://unavatar.io/google/${encodeURIComponent(cleanEmail)}?fallback=https://ui-avatars.com/api/?name=${encodeURIComponent(cleanName)}&background=E91E63&color=ffffff&bold=true`;
+
+      const res = await loginWithGoogle({
+        email: cleanEmail,
+        name: cleanName,
+        avatar,
+        googleUid: fbUser.uid,
+      });
+
+      if (res?.user) {
+        setUser(res.user);
+        onClose();
+        if (onSuccess) onSuccess(res.user);
+        Alert.alert('Welcome to Dhanvikk! 🌸', `Signed in with Google as ${res.user.name || cleanEmail}`);
+      }
+    } catch (err: any) {
+      console.error('Firebase Google Auth error:', err);
+      Alert.alert('Google Sign-In Error', err?.message || 'Unable to complete sign-in.');
+    } finally {
+      setBusy(false);
+    }
+  };
 
   const handleQuickSignIn = async (userEmail: string, userName: string) => {
     setBusy(true);
@@ -89,6 +145,22 @@ export function GoogleSignInModal({ visible, onClose, onSuccess }: GoogleSignInM
             </View>
           ) : !customMode ? (
             <View style={s.accountsList}>
+              {/* Official Google OAuth Button */}
+              <Pressable
+                style={s.officialGoogleBtn}
+                onPress={() => promptAsync()}
+                disabled={busy}
+              >
+                <Ionicons name="logo-google" size={20} color="#EA4335" style={{ marginRight: 10 }} />
+                <Text style={s.officialGoogleBtnText}>Sign in with Google Account</Text>
+              </Pressable>
+
+              <View style={s.dividerRow}>
+                <View style={s.dividerLine} />
+                <Text style={s.dividerText}>or select registered account</Text>
+                <View style={s.dividerLine} />
+              </View>
+
               {/* Account 1: Divagar Primary Google Account */}
               <Pressable
                 style={s.accountItem}
@@ -237,6 +309,45 @@ const s = StyleSheet.create({
   accountsList: {
     gap: 8,
     marginBottom: 16,
+  },
+  officialGoogleBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: colors.white,
+    borderWidth: 1.5,
+    borderColor: '#DADCE0',
+    borderRadius: radius.pill,
+    height: 48,
+    paddingHorizontal: 16,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.08,
+    shadowRadius: 2,
+    elevation: 2,
+  },
+  officialGoogleBtnText: {
+    fontSize: 14,
+    fontWeight: '800',
+    color: colors.ink,
+  },
+  dividerRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginVertical: 10,
+    gap: 10,
+  },
+  dividerLine: {
+    flex: 1,
+    height: 1,
+    backgroundColor: colors.line,
+  },
+  dividerText: {
+    fontSize: 11,
+    fontWeight: '700',
+    color: colors.muted,
+    textTransform: 'uppercase',
+    letterSpacing: 0.5,
   },
   accountItem: {
     flexDirection: 'row',
