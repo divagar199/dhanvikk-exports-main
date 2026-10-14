@@ -23,9 +23,13 @@ import type { User } from '@/types/models';
 import RazorpayCheckout from 'react-native-razorpay';
 import { resolveImageUrl } from '@/lib/imageUrl';
 import { GoogleSignInModal } from '@/components/GoogleSignInModal';
+import { useResponsive } from '@/hooks/useResponsive';
 
 export default function Checkout() {
   const insets = useSafeAreaInsets();
+  const { isTablet, maxContentWidth } = useResponsive();
+  const contentMaxWidth = Math.min(maxContentWidth, 840);
+
   const cart = useStore((s) => s.cart);
   const clear = useStore((s) => s.clear);
   const currentUser = useStore((s) => s.user);
@@ -247,7 +251,7 @@ export default function Checkout() {
 
   return (
     <View style={[s.page, { paddingTop: Math.max(insets.top, 12) }]}>
-      <View style={s.header}>
+      <View style={[s.header, { maxWidth: contentMaxWidth, width: '100%', alignSelf: 'center' }]}>
         <Pressable
           style={s.backBtn}
           onPress={() => (router.canGoBack() ? router.back() : router.replace('/(tabs)/cart'))}
@@ -265,7 +269,7 @@ export default function Checkout() {
         <ScrollView
           contentContainerStyle={[
             s.content,
-            { paddingBottom: Math.max(insets.bottom, 24) + 60 },
+            { paddingBottom: Math.max(insets.bottom, 24) + 60, maxWidth: contentMaxWidth, width: '100%', alignSelf: 'center' },
           ]}
         >
           {!currentUser && (

@@ -2,6 +2,7 @@ import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { Image } from 'expo-image';
 import { router } from 'expo-router';
 import { colors, radius, shadows, spacing } from '@/constants/theme';
+import { useResponsive } from '@/hooks/useResponsive';
 
 export interface CategoryItem {
   id: string;
@@ -77,12 +78,17 @@ export function CategoryCircles({
     }
   };
 
+  const { isTablet } = useResponsive();
+
   return (
-    <View style={s.container}>
+    <View style={[s.container, isTablet && s.containerTablet]}>
       <ScrollView
         horizontal
         showsHorizontalScrollIndicator={false}
-        contentContainerStyle={s.scrollContent}
+        contentContainerStyle={[
+          s.scrollContent,
+          isTablet && { justifyContent: 'center', minWidth: '100%' },
+        ]}
       >
         {CATEGORIES_DATA.map((cat) => {
           const isSelected = selectedCategory === cat.id;
@@ -127,6 +133,15 @@ const s = StyleSheet.create({
     paddingVertical: 14,
     borderBottomWidth: 1,
     borderBottomColor: colors.lineLight,
+  },
+  containerTablet: {
+    maxWidth: 960,
+    width: '100%',
+    alignSelf: 'center',
+    borderRadius: radius.md,
+    marginVertical: 6,
+    borderWidth: 1,
+    borderColor: colors.lineLight,
   },
   scrollContent: {
     paddingHorizontal: 12,

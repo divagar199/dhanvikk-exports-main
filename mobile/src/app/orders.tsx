@@ -275,6 +275,9 @@ const s = StyleSheet.create({
     backgroundColor: colors.white,
     borderBottomWidth: 1,
     borderBottomColor: colors.line,
+    maxWidth: 840,
+    width: '100%',
+    alignSelf: 'center',
   },
   headerCenter: {
     alignItems: 'center',
@@ -309,6 +312,9 @@ const s = StyleSheet.create({
   },
   content: {
     padding: spacing.md,
+    maxWidth: 840,
+    width: '100%',
+    alignSelf: 'center',
   },
   card: {
     backgroundColor: colors.white,
@@ -440,6 +446,9 @@ const s = StyleSheet.create({
     flex: 1,
     padding: spacing.lg,
     justifyContent: 'center',
+    maxWidth: 540,
+    width: '100%',
+    alignSelf: 'center',
   },
   guestCard: {
     backgroundColor: colors.white,

@@ -23,15 +23,22 @@ import type { Product as ProductType } from '@/types/models';
 import { resolveImageUrl, resolveProductImages, FALLBACK_FLOWER_IMAGE } from '@/lib/imageUrl';
 import { ProductCard } from '@/components/ProductCard';
 import { GoogleSignInModal } from '@/components/GoogleSignInModal';
+import { useResponsive } from '@/hooks/useResponsive';
 
-const { width: SCREEN_WIDTH } = Dimensions.get('window');
-
-function GalleryImage({ uri }: { uri: string }) {
+function GalleryImage({
+  uri,
+  itemWidth,
+  itemHeight,
+}: {
+  uri: string;
+  itemWidth: number;
+  itemHeight: number;
+}) {
   const [err, setErr] = useState(false);
   return (
     <Image
       source={{ uri: err ? FALLBACK_FLOWER_IMAGE : resolveImageUrl(uri) }}
-      style={s.galleryImage}
+      style={{ width: itemWidth, height: itemHeight, backgroundColor: colors.surface }}
       contentFit="cover"
       transition={150}
       onError={() => setErr(true)}
@@ -42,6 +49,9 @@ function GalleryImage({ uri }: { uri: string }) {
 export default function ProductDetail() {
   const insets = useSafeAreaInsets();
   const { id } = useLocalSearchParams<{ id: string }>();
+  const { width, isTablet, maxContentWidth } = useResponsive();
+  const galleryWidth = isTablet ? Math.min(width, 760) : width;
+  const galleryHeight = isTablet ? 440 : 360;
 
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [userRating, setUserRating] = useState(5);
@@ -178,25 +188,35 @@ export default function ProductDetail() {
       <ScrollView
         contentContainerStyle={[
           s.content,
-          { paddingBottom: Math.max(insets.bottom, 16) + 80 },
+          {
+            paddingBottom: Math.max(insets.bottom, 16) + 85,
+            maxWidth: 900,
+            width: '100%',
+            alignSelf: 'center',
+          },
         ]}
         showsVerticalScrollIndicator={false}
       >
-        {/* Flipkart-Style Image Gallery */}
-        <View style={s.galleryContainer}>
+        {/* Responsive Image Gallery */}
+        <View style={[s.galleryContainer, { width: galleryWidth, height: galleryHeight, alignSelf: 'center' }]}>
           <ScrollView
             horizontal
             pagingEnabled
             showsHorizontalScrollIndicator={false}
             onScroll={(e) => {
               const x = e.nativeEvent.contentOffset.x;
-              const idx = Math.round(x / SCREEN_WIDTH);
+              const idx = Math.round(x / galleryWidth);
               if (idx !== activeImageIndex) setActiveImageIndex(idx);
             }}
             scrollEventThrottle={16}
           >
             {imagesList.map((imgUri, index) => (
-              <GalleryImage key={`${index}-${imgUri}`} uri={imgUri} />
+              <GalleryImage
+                key={`${index}-${imgUri}`}
+                uri={imgUri}
+                itemWidth={galleryWidth}
+                itemHeight={galleryHeight}
+              />
             ))}
           </ScrollView>
 
@@ -431,17 +451,19 @@ export default function ProductDetail() {
         )}
       </ScrollView>
 
-      {/* Flipkart-Style Dual Action Bottom Bar */}
+      {/* Dual Action Bottom Bar */}
       <View style={[s.bottomBar, { paddingBottom: Math.max(insets.bottom, 10) }]}>
-        <Pressable style={s.addToBagBtn} onPress={handleAddToCart}>
-          <Ionicons name="bag-handle-outline" size={18} color={colors.ink} />
-          <Text style={s.addToBagText}>Add to Bag</Text>
-        </Pressable>
+        <View style={s.bottomBarInner}>
+          <Pressable style={s.addToBagBtn} onPress={handleAddToCart}>
+            <Ionicons name="bag-handle-outline" size={18} color={colors.ink} />
+            <Text style={s.addToBagText}>Add to Bag</Text>
+          </Pressable>
 
-        <Pressable style={s.buyNowBtn} onPress={handleBuyNow}>
-          <Ionicons name="flash" size={18} color={colors.white} />
-          <Text style={s.buyNowText}>Buy Now</Text>
-        </Pressable>
+          <Pressable style={s.buyNowBtn} onPress={handleBuyNow}>
+            <Ionicons name="flash" size={18} color={colors.white} />
+            <Text style={s.buyNowText}>Buy Now</Text>
+          </Pressable>
+        </View>
       </View>
 
       <GoogleSignInModal
@@ -494,7 +516,7 @@ const s = StyleSheet.create({
   },
   content: {},
   galleryContainer: {
-    width: SCREEN_WIDTH,
+    width: '100%',
     height: 360,
     backgroundColor: colors.white,
     position: 'relative',
@@ -502,7 +524,7 @@ const s = StyleSheet.create({
     borderBottomColor: colors.lineLight,
   },
   galleryImage: {
-    width: SCREEN_WIDTH,
+    width: '100%',
     height: 360,
   },
   dotsRow: {
@@ -878,17 +900,22 @@ const s = StyleSheet.create({
     left: 0,
     right: 0,
     backgroundColor: colors.white,
-    flexDirection: 'row',
     paddingHorizontal: 12,
     paddingTop: 10,
     borderTopWidth: 1,
     borderTopColor: colors.lineLight,
-    gap: 10,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: -2 },
     shadowOpacity: 0.08,
     shadowRadius: 4,
     elevation: 8,
+  },
+  bottomBarInner: {
+    maxWidth: 900,
+    width: '100%',
+    alignSelf: 'center',
+    flexDirection: 'row',
+    gap: 12,
   },
   addToBagBtn: {
     flex: 1,
@@ -911,7 +938,9 @@ const s = StyleSheet.create({
     flex: 1,
     height: 48,
     borderRadius: 24,
-    backgroundColor: colors.dealOrange,
+    backgroundColor: colors.primary,
+    borderWidth: 1.5,
+    borderColor: colors.accent,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',

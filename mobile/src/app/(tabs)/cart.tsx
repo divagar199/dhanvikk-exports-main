@@ -18,9 +18,13 @@ import { resolveImageUrl } from '@/lib/imageUrl';
 import { GoogleSignInModal } from '@/components/GoogleSignInModal';
 import { useQuery } from '@tanstack/react-query';
 import { getProfileData } from '@/services/orders';
+import { useResponsive } from '@/hooks/useResponsive';
 
 export default function Cart() {
   const insets = useSafeAreaInsets();
+  const { isTablet, maxContentWidth } = useResponsive();
+  const contentMaxWidth = Math.min(maxContentWidth, 900);
+
   const user = useStore((s) => s.user);
   const cart = useStore((s) => s.cart);
   const qty = useStore((s) => s.qty);
@@ -90,7 +94,7 @@ export default function Cart() {
   return (
     <View style={[s.page, { paddingTop: Math.max(insets.top, 10) }]}>
       {/* Haute Floriculture Header */}
-      <View style={s.header}>
+      <View style={[s.header, { maxWidth: contentMaxWidth, width: '100%', alignSelf: 'center' }]}>
         <View style={s.headerTitleWrap}>
           <Text style={s.headerSup}>EST. NILGIRIS • WHITE-GLOVE TRANSIT</Text>
           <Text style={s.headerTitle}>Atelier Shopping Bag ({cart.length})</Text>
@@ -102,7 +106,7 @@ export default function Cart() {
       </View>
 
       {/* Temperature Control Guarantee Notice */}
-      <View style={s.reeferNotice}>
+      <View style={[s.reeferNotice, { maxWidth: contentMaxWidth, width: '100%', alignSelf: 'center' }]}>
         <Ionicons name="snow" size={13} color={colors.secondary} />
         <Text style={s.reeferNoticeText}>
           Preserved in continuous 2°C–4°C cryo-sanctity until doorstep handover.
@@ -111,7 +115,7 @@ export default function Cart() {
 
       {/* Delivery Address Banner */}
       <Pressable
-        style={s.addressBanner}
+        style={[s.addressBanner, { maxWidth: contentMaxWidth, width: '100%', alignSelf: 'center' }]}
         onPress={() => (user ? router.push('/addresses') : router.push('/auth/login'))}
       >
         <View style={s.addressLeft}>
@@ -150,7 +154,7 @@ export default function Cart() {
       <FlatList
         data={cart}
         keyExtractor={(x) => x.id || x._id || x.slug}
-        contentContainerStyle={[s.content, { paddingBottom: 130 }]}
+        contentContainerStyle={[s.content, { paddingBottom: 130, maxWidth: contentMaxWidth, width: '100%', alignSelf: 'center' }]}
         showsVerticalScrollIndicator={false}
         ListEmptyComponent={
           <View style={s.empty}>
@@ -333,16 +337,18 @@ export default function Cart() {
       {/* Sticky Bottom Bar */}
       {cart.length > 0 && (
         <View style={[s.bottomBar, { paddingBottom: Math.max(insets.bottom, 12) }]}>
-          <View style={s.bottomPriceCol}>
-            <Text style={s.bottomOriginal}>₹{originalTotal.toLocaleString('en-IN')}</Text>
-            <Text style={s.bottomTotal}>₹{finalTotal.toLocaleString('en-IN')}</Text>
+          <View style={[s.bottomBarInner, { maxWidth: contentMaxWidth, width: '100%', alignSelf: 'center' }]}>
+            <View style={s.bottomPriceCol}>
+              <Text style={s.bottomOriginal}>₹{originalTotal.toLocaleString('en-IN')}</Text>
+              <Text style={s.bottomTotal}>₹{finalTotal.toLocaleString('en-IN')}</Text>
+            </View>
+            <Pressable
+              style={s.placeOrderBtn}
+              onPress={handlePlaceOrder}
+            >
+              <Text style={s.placeOrderText}>Place Order</Text>
+            </Pressable>
           </View>
-          <Pressable
-            style={s.placeOrderBtn}
-            onPress={handlePlaceOrder}
-          >
-            <Text style={s.placeOrderText}>Place Order</Text>
-          </Pressable>
         </View>
       )}
 
@@ -739,6 +745,11 @@ const s = StyleSheet.create({
     shadowOpacity: 0.08,
     shadowRadius: 4,
   },
+  bottomBarInner: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
   bottomPriceCol: {
     justifyContent: 'center',
   },
@@ -753,18 +764,21 @@ const s = StyleSheet.create({
     color: colors.ink,
   },
   placeOrderBtn: {
-    backgroundColor: colors.dealOrange, // Classic Flipkart "Place Order" orange
+    backgroundColor: colors.primary,
+    borderWidth: 1.5,
+    borderColor: colors.accent,
     paddingHorizontal: 28,
-    height: 44,
-    borderRadius: 4,
+    height: 46,
+    borderRadius: radius.pill,
     alignItems: 'center',
     justifyContent: 'center',
+    ...(shadows?.soft || {}),
   },
   placeOrderText: {
     color: colors.white,
     fontWeight: '900',
     fontSize: 14,
-    textTransform: 'uppercase',
+    letterSpacing: 0.4,
   },
   empty: {
     alignItems: 'center',

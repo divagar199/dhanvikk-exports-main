@@ -11,9 +11,11 @@ import { resolveImageUrl, FALLBACK_FLOWER_IMAGE } from '@/lib/imageUrl';
 export function ProductCard({
   product,
   horizontal = false,
+  cardWidth,
 }: {
   product: Product;
   horizontal?: boolean;
+  cardWidth?: number | string;
 }) {
   const add = useStore((s) => s.add);
   const wish = useStore((s) => s.wish);
@@ -85,7 +87,7 @@ export function ProductCard({
 
   return (
     <Pressable
-      style={s.card}
+      style={[s.card, cardWidth !== undefined ? { width: cardWidth } : null]}
       onPress={() => router.push(('/product/' + id) as any)}
     >
       <View style={s.pic}>

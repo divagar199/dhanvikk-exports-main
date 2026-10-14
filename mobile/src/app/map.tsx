@@ -109,6 +109,9 @@ const s = StyleSheet.create({
     backgroundColor: colors.white,
     borderBottomWidth: 1,
     borderBottomColor: colors.line,
+    maxWidth: 840,
+    width: '100%',
+    alignSelf: 'center',
   },
   backBtn: {
     width: 38,
@@ -142,6 +145,8 @@ const s = StyleSheet.create({
     position: 'absolute',
     left: 16,
     right: 16,
+    maxWidth: 540,
+    alignSelf: 'center',
     backgroundColor: colors.white,
     borderRadius: radius.lg,
     padding: 18,

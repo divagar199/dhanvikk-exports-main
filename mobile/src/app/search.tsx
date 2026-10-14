@@ -7,10 +7,12 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { getProducts } from '@/services/products';
 import { ProductCard } from '@/components/ProductCard';
 import { colors, radius, spacing } from '@/constants/theme';
+import { useResponsive } from '@/hooks/useResponsive';
 import type { Product } from '@/types/models';
 
 export default function Search() {
   const insets = useSafeAreaInsets();
+  const { columns, cardWidth, maxContentWidth } = useResponsive();
   const [q, setQ] = useState('');
 
   const { data = [], isLoading } = useQuery<Product[]>({
@@ -21,7 +23,7 @@ export default function Search() {
 
   return (
     <View style={[s.page, { paddingTop: Math.max(insets.top, 12) }]}>
-      <View style={s.header}>
+      <View style={[s.header, { maxWidth: maxContentWidth, width: '100%', alignSelf: 'center' }]}>
         <Pressable
           style={s.backBtn}
           onPress={() => (router.canGoBack() ? router.back() : router.replace('/(tabs)/home'))}
@@ -47,10 +49,19 @@ export default function Search() {
       </View>
 
       <FlatList
+        key={`search-grid-${columns}`}
         data={q.trim().length > 0 ? data : []}
-        numColumns={2}
+        numColumns={columns}
         columnWrapperStyle={s.grid}
-        contentContainerStyle={[s.content, { paddingBottom: 60 }]}
+        contentContainerStyle={[
+          s.content,
+          {
+            paddingBottom: 60,
+            maxWidth: maxContentWidth,
+            width: '100%',
+            alignSelf: 'center',
+          },
+        ]}
         keyExtractor={(p) => p.id || p._id || p.slug}
         ListEmptyComponent={
           <View style={s.empty}>
@@ -71,7 +82,7 @@ export default function Search() {
             </Text>
           </View>
         }
-        renderItem={({ item }) => <ProductCard product={item} />}
+        renderItem={({ item }) => <ProductCard product={item} cardWidth={cardWidth} />}
       />
     </View>
   );

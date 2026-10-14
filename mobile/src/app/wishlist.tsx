@@ -8,10 +8,12 @@ import { useStore } from '@/store/useStore';
 import { getProducts } from '@/services/products';
 import { ProductCard } from '@/components/ProductCard';
 import { colors, spacing } from '@/constants/theme';
+import { useResponsive } from '@/hooks/useResponsive';
 import type { Product } from '@/types/models';
 
 export default function Wishlist() {
   const insets = useSafeAreaInsets();
+  const { columns, cardWidth, maxContentWidth } = useResponsive();
   const [refreshing, setRefreshing] = useState(false);
   const syncWithServer = useStore((s) => s.syncWithServer);
   const wishlistIds = useStore((s) => s.wishlist);
@@ -37,7 +39,7 @@ export default function Wishlist() {
 
   return (
     <View style={[s.page, { paddingTop: Math.max(insets.top, 12) }]}>
-      <View style={s.header}>
+      <View style={[s.header, { maxWidth: maxContentWidth, width: '100%', alignSelf: 'center' }]}>
         <Pressable
           style={s.backBtn}
           onPress={() => (router.canGoBack() ? router.back() : router.replace('/(tabs)/account'))}
@@ -49,11 +51,20 @@ export default function Wishlist() {
       </View>
 
       <FlatList
+        key={`wishlist-grid-${columns}`}
         data={savedProducts}
-        numColumns={2}
+        numColumns={columns}
         keyExtractor={(p) => p.id || p._id || p.slug}
         columnWrapperStyle={s.grid}
-        contentContainerStyle={[s.content, { paddingBottom: 60 }]}
+        contentContainerStyle={[
+          s.content,
+          {
+            paddingBottom: 60,
+            maxWidth: maxContentWidth,
+            width: '100%',
+            alignSelf: 'center',
+          },
+        ]}
         refreshControl={
           <RefreshControl
             refreshing={refreshing}
@@ -84,7 +95,7 @@ export default function Wishlist() {
             </Pressable>
           </View>
         }
-        renderItem={({ item }) => <ProductCard product={item} />}
+        renderItem={({ item }) => <ProductCard product={item} cardWidth={cardWidth} />}
       />
     </View>
   );

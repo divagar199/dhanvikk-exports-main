@@ -128,9 +128,28 @@ export const radius = {
   full: 9999,
 };
 
+export const layout = {
+  maxContentWidth: 1200,
+  tabletBreakpoint: 600,
+  largeTabletBreakpoint: 900,
+};
+
+export const typography = {
+  titleHero: { fontSize: 26, fontWeight: '900' as const, letterSpacing: 0.3 },
+  titleSection: { fontSize: 18, fontWeight: '800' as const, letterSpacing: 0.2 },
+  titleCard: { fontSize: 14, fontWeight: '700' as const },
+  bodyRegular: { fontSize: 13, fontWeight: '400' as const, lineHeight: 18 },
+  bodyMedium: { fontSize: 13, fontWeight: '600' as const },
+  caption: { fontSize: 11, fontWeight: '500' as const, letterSpacing: 0.2 },
+  badge: { fontSize: 9.5, fontWeight: '800' as const, letterSpacing: 0.4 },
+};
+
 export default {
   colors,
   shadows,
   spacing,
   radius,
-};
+  layout,
+  typography,
+};
+

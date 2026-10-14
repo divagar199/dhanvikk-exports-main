@@ -16,6 +16,7 @@ import { getProducts } from '@/services/products';
 import { ProductCard } from '@/components/ProductCard';
 import { colors, radius, shadows, spacing } from '@/constants/theme';
 import type { Product } from '@/types/models';
+import { useResponsive } from '@/hooks/useResponsive';
 
 const CATEGORIES = [
   'All Stems',
@@ -39,6 +40,7 @@ const SORT_OPTIONS = [
 export default function Shop() {
   const insets = useSafeAreaInsets();
   const params = useLocalSearchParams<{ category?: string; occasion?: string }>();
+  const { columns, cardWidth, isTablet, maxContentWidth } = useResponsive();
 
   const [q, setQ] = useState('');
   const [selectedCategory, setSelectedCategory] = useState(params.category || 'All Stems');
@@ -203,11 +205,12 @@ export default function Shop() {
 
       {/* Product Grid */}
       <FlatList
+        key={`shop-grid-${columns}`}
         data={filtered}
-        numColumns={2}
+        numColumns={columns}
         keyExtractor={(p) => p.id || p._id || p.slug}
-        columnWrapperStyle={s.grid}
-        contentContainerStyle={s.content}
+        columnWrapperStyle={[s.grid, { gap: 12, paddingHorizontal: isTablet ? 24 : 10 }]}
+        contentContainerStyle={[s.content, { maxWidth: maxContentWidth, width: '100%', alignSelf: 'center' }]}
         showsVerticalScrollIndicator={false}
         refreshing={isLoading}
         onRefresh={refetch}
@@ -232,7 +235,7 @@ export default function Shop() {
             </Pressable>
           </View>
         }
-        renderItem={({ item }) => <ProductCard product={item} />}
+        renderItem={({ item }) => <ProductCard product={item} cardWidth={cardWidth} />}
       />
     </View>
   );

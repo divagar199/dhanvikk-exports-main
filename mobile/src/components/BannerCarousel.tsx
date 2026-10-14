@@ -1,6 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
 import {
-  Dimensions,
   FlatList,
   Pressable,
   StyleSheet,
@@ -11,9 +10,7 @@ import { Image } from 'expo-image';
 import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { colors, radius, shadows, spacing } from '@/constants/theme';
-
-const { width: SCREEN_WIDTH } = Dimensions.get('window');
-const BANNER_WIDTH = SCREEN_WIDTH - 24;
+import { useResponsive } from '@/hooks/useResponsive';
 
 export interface BannerItem {
   id: string;
@@ -70,6 +67,9 @@ const BANNERS: BannerItem[] = [
 ];
 
 export function BannerCarousel() {
+  const { width, isTablet } = useResponsive();
+  const bannerWidth = isTablet ? Math.min(width - 48, 860) : Math.min(width - 24, 480);
+  const bannerHeight = isTablet ? 230 : 195;
   const [activeIndex, setActiveIndex] = useState(0);
   const flatListRef = useRef<FlatList>(null);
 
@@ -88,7 +88,7 @@ export function BannerCarousel() {
 
   const onScroll = (event: any) => {
     const scrollOffset = event.nativeEvent.contentOffset.x;
-    const index = Math.round(scrollOffset / (BANNER_WIDTH + 12));
+    const index = Math.round(scrollOffset / (bannerWidth + 12));
     if (index >= 0 && index < BANNERS.length && index !== activeIndex) {
       setActiveIndex(index);
     }
@@ -102,14 +102,17 @@ export function BannerCarousel() {
         keyExtractor={(item) => item.id}
         horizontal
         pagingEnabled={false}
-        snapToInterval={BANNER_WIDTH + 12}
+        snapToInterval={bannerWidth + 12}
         decelerationRate="fast"
         showsHorizontalScrollIndicator={false}
-        contentContainerStyle={s.listContent}
+        contentContainerStyle={[
+          s.listContent,
+          isTablet && { justifyContent: 'center' }
+        ]}
         onMomentumScrollEnd={onScroll}
         renderItem={({ item }) => (
           <Pressable
-            style={s.card}
+            style={[s.card, { width: bannerWidth, height: bannerHeight }]}
             onPress={() =>
               router.push({
                 pathname: '/(tabs)/shop',
@@ -178,14 +181,15 @@ export function BannerCarousel() {
 const s = StyleSheet.create({
   container: {
     marginVertical: 12,
+    maxWidth: 960,
+    width: '100%',
+    alignSelf: 'center',
   },
   listContent: {
     paddingHorizontal: 12,
     gap: 12,
   },
   card: {
-    width: BANNER_WIDTH,
-    height: 195,
     borderRadius: radius.lg,
     overflow: 'hidden',
     backgroundColor: colors.surfaceContainer,

@@ -166,6 +166,9 @@ const s = StyleSheet.create({
     backgroundColor: colors.white,
     borderBottomWidth: 1,
     borderBottomColor: colors.line,
+    maxWidth: 840,
+    width: '100%',
+    alignSelf: 'center',
   },
   backBtn: {
     width: 40,
@@ -182,6 +185,9 @@ const s = StyleSheet.create({
   },
   content: {
     padding: spacing.md,
+    maxWidth: 840,
+    width: '100%',
+    alignSelf: 'center',
   },
   bannerCard: {
     flexDirection: 'row',

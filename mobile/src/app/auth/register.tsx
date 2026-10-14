@@ -184,6 +184,9 @@ const s = StyleSheet.create({
   topBar: {
     paddingHorizontal: spacing.md,
     paddingVertical: 8,
+    maxWidth: 480,
+    width: '100%',
+    alignSelf: 'center',
   },
   backBtn: {
     width: 38,
@@ -197,6 +200,9 @@ const s = StyleSheet.create({
     paddingBottom: 40,
     justifyContent: 'center',
     flexGrow: 1,
+    maxWidth: 480,
+    width: '100%',
+    alignSelf: 'center',
   },
   logoCard: {
     alignItems: 'center',

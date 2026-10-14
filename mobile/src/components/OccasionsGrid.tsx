@@ -3,6 +3,7 @@ import { Image } from 'expo-image';
 import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { colors, radius, shadows, spacing } from '@/constants/theme';
+import { useResponsive } from '@/hooks/useResponsive';
 
 const OCCASIONS = [
   {
@@ -36,8 +37,10 @@ const OCCASIONS = [
 ];
 
 export function OccasionsGrid() {
+  const { isTablet } = useResponsive();
+
   return (
-    <View style={s.container}>
+    <View style={[s.container, isTablet && s.containerTablet]}>
       <View style={s.header}>
         <View style={s.titleRow}>
           <View style={s.indicator} />
@@ -50,7 +53,10 @@ export function OccasionsGrid() {
         {OCCASIONS.map((occ) => (
           <Pressable
             key={occ.id}
-            style={s.card}
+            style={[
+              s.card,
+              isTablet && { width: '23.8%', height: 130 }
+            ]}
             onPress={() =>
               router.push({
                 pathname: '/(tabs)/shop',
@@ -106,6 +112,14 @@ const s = StyleSheet.create({
     borderBottomWidth: 1,
     borderColor: colors.lineLight,
     ...(shadows?.soft || {}),
+  },
+  containerTablet: {
+    maxWidth: 960,
+    width: '100%',
+    alignSelf: 'center',
+    borderRadius: radius.md,
+    borderWidth: 1,
+    borderColor: colors.lineLight,
   },
   header: {
     marginBottom: 12,

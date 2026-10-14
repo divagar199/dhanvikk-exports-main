@@ -13,11 +13,13 @@ import { OccasionsGrid } from '@/components/OccasionsGrid';
 import { ProductCard } from '@/components/ProductCard';
 import { colors, radius, spacing } from '@/constants/theme';
 import type { Product } from '@/types/models';
+import { useResponsive } from '@/hooks/useResponsive';
 
 const FILTER_TABS = ['All Stems', 'Royal Ooty Roses', 'Casablanca Lilies', 'Sanctum & Pooja', 'Bestsellers', 'Under ₹1,999'];
 
 export default function Home() {
   const [selectedTab, setSelectedTab] = useState('All Stems');
+  const { columns, cardWidth, isTablet, maxContentWidth } = useResponsive();
 
   const { data: products = [], isLoading, refetch } = useQuery<Product[]>({
     queryKey: ['featured-products'],
@@ -57,14 +59,16 @@ export default function Home() {
       <FlipkartHeader />
 
       <FlatList
+        key={`home-grid-${columns}`}
         data={filteredProducts}
-        numColumns={2}
+        numColumns={columns}
         keyExtractor={(p) => p.id || p._id || p.slug}
-        columnWrapperStyle={s.grid}
-        contentContainerStyle={s.content}
+        columnWrapperStyle={[s.grid, { gap: 12, paddingHorizontal: isTablet ? 24 : 10 }]}
+        contentContainerStyle={[s.content, { maxWidth: maxContentWidth, width: '100%', alignSelf: 'center' }]}
         showsVerticalScrollIndicator={false}
         refreshing={isLoading}
         onRefresh={refetch}
+        renderItem={({ item }) => <ProductCard product={item} cardWidth={cardWidth} />}
         ListHeaderComponent={
           <>
             {/* Circular Category Story Bubbles */}
@@ -118,7 +122,6 @@ export default function Home() {
             </View>
           </>
         }
-        renderItem={({ item }) => <ProductCard product={item} />}
         ListFooterComponent={
           <View style={s.footerTrust}>
             <View style={s.footerIcon}>

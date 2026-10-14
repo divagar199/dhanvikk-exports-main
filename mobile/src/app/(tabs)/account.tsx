@@ -17,9 +17,13 @@ import { logout } from '@/services/auth';
 import { useStore } from '@/store/useStore';
 import type { User } from '@/types/models';
 import { GoogleSignInModal } from '@/components/GoogleSignInModal';
+import { useResponsive } from '@/hooks/useResponsive';
 
 export default function Account() {
   const insets = useSafeAreaInsets();
+  const { isTablet, maxContentWidth } = useResponsive();
+  const contentMaxWidth = Math.min(maxContentWidth, 840);
+
   const user = useStore((s) => s.user);
   const setUser = useStore((s) => s.setUser);
   const [showGoogleModal, setShowGoogleModal] = useState(false);
@@ -47,7 +51,7 @@ export default function Account() {
   return (
     <View style={[s.page, { paddingTop: Math.max(insets.top, 10) }]}>
       {/* Haute Floriculture Header */}
-      <View style={s.header}>
+      <View style={[s.header, { maxWidth: contentMaxWidth, width: '100%', alignSelf: 'center' }]}>
         <View style={s.headerTitleRow}>
           <Image
             source={require('@/assets/logo.png')}
@@ -62,7 +66,10 @@ export default function Account() {
       </View>
 
       <ScrollView
-        contentContainerStyle={[s.content, { paddingBottom: 120 }]}
+        contentContainerStyle={[
+          s.content,
+          { paddingBottom: 120, maxWidth: contentMaxWidth, width: '100%', alignSelf: 'center' },
+        ]}
         showsVerticalScrollIndicator={false}
       >
         {/* User Card with VIP Gold Styling */}
