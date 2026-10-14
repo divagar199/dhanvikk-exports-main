@@ -6,7 +6,6 @@ import { colors, radius } from '@/constants/theme';
 export interface CategoryItem {
   id: string;
   name: string;
-  tag?: string;
   image: string;
 }
 
@@ -14,19 +13,16 @@ export const CATEGORIES_DATA: CategoryItem[] = [
   {
     id: 'Roses',
     name: 'Roses',
-    tag: 'Popular',
     image: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=400&q=80',
   },
   {
     id: 'Bouquets',
     name: 'Bouquets',
-    tag: 'Bestseller',
     image: 'https://images.unsplash.com/photo-1561181286-d3fee7d55364?auto=format&fit=crop&w=400&q=80',
   },
   {
     id: 'Orchids',
     name: 'Orchids',
-    tag: 'Exotic',
     image: 'https://images.unsplash.com/photo-1525310072745-f49212b5ac6d?auto=format&fit=crop&w=400&q=80',
   },
   {
@@ -37,13 +33,11 @@ export const CATEGORIES_DATA: CategoryItem[] = [
   {
     id: 'Traditional',
     name: 'Traditional',
-    tag: 'Export',
     image: 'https://images.unsplash.com/photo-1606293926075-69a00dbfde81?auto=format&fit=crop&w=400&q=80',
   },
   {
     id: 'Hampers',
     name: 'Hampers',
-    tag: 'Gifts',
     image: 'https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=400&q=80',
   },
   {
@@ -54,7 +48,6 @@ export const CATEGORIES_DATA: CategoryItem[] = [
   {
     id: 'Luxury',
     name: 'Luxury',
-    tag: 'VIP',
     image: 'https://images.unsplash.com/photo-1582794543139-8ac9cb0f7b11?auto=format&fit=crop&w=400&q=80',
   },
 ];
@@ -99,11 +92,6 @@ export function CategoryCircles({
                   contentFit="cover"
                   transition={100}
                 />
-                {cat.tag && (
-                  <View style={s.tagBadge}>
-                    <Text style={s.tagText}>{cat.tag}</Text>
-                  </View>
-                )}
               </View>
               <Text
                 style={[s.label, isSelected && s.labelSelected]}
@@ -154,20 +142,6 @@ const s = StyleSheet.create({
     width: 50,
     height: 50,
     borderRadius: 25,
-  },
-  tagBadge: {
-    position: 'absolute',
-    bottom: -4,
-    backgroundColor: colors.primary,
-    paddingHorizontal: 5,
-    paddingVertical: 1,
-    borderRadius: 6,
-  },
-  tagText: {
-    color: colors.white,
-    fontSize: 8,
-    fontWeight: '900',
-    textTransform: 'uppercase',
   },
   label: {
     fontSize: 11,
