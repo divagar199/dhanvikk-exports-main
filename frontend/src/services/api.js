@@ -21,13 +21,24 @@ const api = axios.create({
   },
 });
 
-// Request interceptor to attach JWT token if present in localStorage or memory
+// Request interceptor to attach JWT token and user email if present
 api.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem('dhanvikk_auth_token');
+    const token = localStorage.getItem('dhanvikk_auth_token') || sessionStorage.getItem('dhanvikk_auth_token');
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
+
+    try {
+      const rawUser = localStorage.getItem('dhanvikk_user') || sessionStorage.getItem('dhanvikk_user');
+      if (rawUser) {
+        const u = JSON.parse(rawUser);
+        if (u?.email) {
+          config.headers['X-User-Email'] = u.email;
+        }
+      }
+    } catch {}
+
     return config;
   },
   (error) => Promise.reject(error)

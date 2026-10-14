@@ -334,7 +334,12 @@ export default function CheckoutPage() {
     } catch (err) {
       setLoadingPayment(false);
       console.error('Checkout error:', err);
-      toast.error(err.message || 'Payment processing failed');
+      const displayMsg =
+        err.userMessage ||
+        err.response?.data?.message ||
+        err.message ||
+        'Payment processing failed. Please try again.';
+      toast.error(displayMsg);
     }
   };
 
