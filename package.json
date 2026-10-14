@@ -2,6 +2,7 @@
   "name": "dhanvikk-monorepo",
   "version": "1.0.0",
   "private": true,
+  "type": "module",
   "description": "Dhanvikk Blooms & Exports - E-Commerce Platform",
   "scripts": {
     "dev": "concurrently -n \"BACKEND,FRONTEND\" -c \"blue,magenta\" \"npm run dev:backend\" \"npm run dev:frontend\"",
@@ -11,7 +12,11 @@
     "build:frontend": "npm run build --prefix frontend",
     "start:backend": "npm run start --prefix backend",
     "seed:catalog": "python backend/scripts/build_final_products_files.py",
-    "install:all": "npm install --prefix frontend && npm install --prefix backend"
+    "install:all": "npm install --prefix frontend && npm install --prefix backend",
+    "test": "node scripts/run-all-tests.js",
+    "test:backend": "node --test backend/tests/api.test.js",
+    "test:mobile": "node --test mobile/tests/mobile.test.js",
+    "test:frontend": "node --test frontend/tests/frontend.test.js"
   },
   "devDependencies": {
     "concurrently": "^9.1.2"

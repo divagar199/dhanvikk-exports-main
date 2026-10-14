@@ -154,9 +154,12 @@ app.use(notFound);
 app.use(errorHandler);
 
 // Start Server
-app.listen(PORT, () => {
-  console.log(`🌸 Dhanvikk Blooms Backend listening on http://localhost:${PORT}`);
-  console.log(`📡 CORS allowed for: ${CLIENT_URL}`);
-});
+const isMain = process.argv[1] && fileURLToPath(import.meta.url) === path.resolve(process.argv[1]);
+if (isMain && process.env.NODE_ENV !== 'test') {
+  app.listen(PORT, () => {
+    console.log(`🌸 Dhanvikk Blooms Backend listening on http://localhost:${PORT}`);
+    console.log(`📡 CORS allowed for: ${CLIENT_URL}`);
+  });
+}
 
 export default app;

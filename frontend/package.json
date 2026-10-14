@@ -9,7 +9,8 @@
     "build": "vite build",
     "sitemap": "node scripts/generate-sitemap.js",
     "lint": "oxlint",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test": "node --test tests/frontend.test.js"
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",

@@ -10,7 +10,8 @@
     "web": "expo start --web",
     "prebuild": "expo prebuild",
     "doctor": "npx expo-doctor",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "test": "node --test tests/mobile.test.js"
   },
   "dependencies": {
     "@expo/vector-icons": "^15.0.0",
