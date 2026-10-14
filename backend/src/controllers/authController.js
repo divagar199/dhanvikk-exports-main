@@ -167,6 +167,7 @@ export const login = async (req, res, next) => {
     const cleanEmail = email.trim().toLowerCase();
     let user = null;
     let isMatch = false;
+    let isCreatedNew = false;
 
     // Check MongoDB first if connected
     if (getDBStatus()) {
@@ -203,7 +204,8 @@ export const login = async (req, res, next) => {
         }
         user = memoryUser;
       } else {
-        // Auto-create customer account in dev/demo mode for seamless onboarding
+        // Auto-create customer account if not available in DB
+        isCreatedNew = true;
         const generatedName = cleanEmail.split('@')[0].replace(/[._-]/g, ' ');
         const capitalizedName = generatedName
           .split(' ')
@@ -315,7 +317,10 @@ export const login = async (req, res, next) => {
 
     return res.status(200).json({
       success: true,
-      message: 'Login successful',
+      message: isCreatedNew
+        ? 'Account not found — new account created for you in the database! 🌸'
+        : 'Login successful',
+      isNewAccount: isCreatedNew,
       user: safeUser,
       token,
     });
@@ -469,7 +474,10 @@ export const googleLogin = async (req, res, next) => {
 
     return res.status(200).json({
       success: true,
-      message: isCreatedNew ? 'Account activated with Google! 🌸' : 'Google sign-in successful',
+      message: isCreatedNew
+        ? 'Account not found — new account created with Google in the database! 🌸'
+        : 'Google sign-in successful',
+      isNewAccount: isCreatedNew,
       user: {
         id: user._id ? user._id.toString() : user.id,
         name: user.name,

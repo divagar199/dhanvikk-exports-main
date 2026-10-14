@@ -5,8 +5,8 @@ import type { User } from '@/types/models';
 export async function login(
   email: string,
   password: string
-): Promise<{ user: User; token: string }> {
-  const data = await api<{ user: User; token: string }>('/api/auth/login', {
+): Promise<{ user: User; token: string; message?: string; isNewAccount?: boolean }> {
+  const data = await api<{ user: User; token: string; message?: string; isNewAccount?: boolean }>('/api/auth/login', {
     method: 'POST',
     body: JSON.stringify({ email, password }),
   });
@@ -15,14 +15,15 @@ export async function login(
   }
   return data;
 }
+
 export async function loginWithGoogle(payload: {
   name?: string;
   email: string;
   avatar?: string;
   googleUid: string;
   phone?: string;
-}): Promise<{ user: User; token: string }> {
-  const data = await api<{ user: User; token: string }>('/api/auth/google', {
+}): Promise<{ user: User; token: string; message?: string; isNewAccount?: boolean }> {
+  const data = await api<{ user: User; token: string; message?: string; isNewAccount?: boolean }>('/api/auth/google', {
     method: 'POST',
     body: JSON.stringify(payload),
   });

@@ -27,15 +27,34 @@ export const loginUser = createAsyncThunk(
       // 1. Authenticate with Firebase Email/Password
       let firebaseUser = null;
       let firebaseToken = null;
+      let isNewAccount = false;
       try {
         const fbRes = await signInWithEmailPasswordFirebase(email, password);
         firebaseUser = fbRes.user;
         firebaseToken = fbRes.token;
       } catch (fbErr) {
         console.warn('Firebase email/password sign-in note:', fbErr.message);
-        // If Firebase error is invalid credentials, propagate cleanly
-        if (fbErr.code === 'auth/wrong-password' || fbErr.code === 'auth/user-not-found' || fbErr.code === 'auth/invalid-credential') {
-          return rejectWithValue('Invalid email or password. Please try again.');
+        // If account does not exist in Firebase, auto-create it!
+        if (
+          fbErr.code === 'auth/user-not-found' ||
+          fbErr.code === 'auth/invalid-credential'
+        ) {
+          try {
+            console.info('Account not available in Firebase, auto-creating new account...');
+            const defaultName = email.split('@')[0].replace(/[._-]/g, ' ');
+            const capitalizedName = defaultName
+              .split(' ')
+              .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+              .join(' ');
+            const newFbRes = await signUpWithEmailPassword(email, password, capitalizedName);
+            firebaseUser = newFbRes.user;
+            firebaseToken = newFbRes.token;
+            isNewAccount = true;
+          } catch (createErr) {
+            console.warn('Firebase auto-create note:', createErr.message);
+          }
+        } else if (fbErr.code === 'auth/wrong-password') {
+          return rejectWithValue('Incorrect password for this account. Please try again.');
         }
       }
 
@@ -50,6 +69,8 @@ export const loginUser = createAsyncThunk(
             success: true,
             user: firebaseUser,
             token: firebaseToken,
+            isNewAccount,
+            message: isNewAccount ? 'Account not found — new account created for you in Firebase! 🌸' : 'Login successful',
           };
         } else {
           throw apiErr;
@@ -59,6 +80,11 @@ export const loginUser = createAsyncThunk(
       if (data?.success) {
         const userObj = firebaseUser || data.user;
         const tokenStr = firebaseToken || data.token;
+        const finalIsNew = isNewAccount || Boolean(data.isNewAccount);
+        const successMessage = finalIsNew
+          ? 'Account not found — new account created for you in the database & Firebase! 🌸'
+          : (data.message || 'Login successful');
+
         sessionStorage.removeItem('dhanvikk_logged_out');
         localStorage.setItem('dhanvikk_auth_token', tokenStr);
         localStorage.setItem('dhanvikk_user', JSON.stringify(userObj));
@@ -69,7 +95,13 @@ export const loginUser = createAsyncThunk(
         } else {
           localStorage.removeItem('dhanvikk_remember_email');
         }
-        return { success: true, user: userObj, token: tokenStr };
+        return {
+          success: true,
+          user: userObj,
+          token: tokenStr,
+          isNewAccount: finalIsNew,
+          message: successMessage,
+        };
       }
       return rejectWithValue(data?.message || 'Login failed');
     } catch (error) {
@@ -246,7 +278,17 @@ export const loginWithGoogleThunk = createAsyncThunk(
         localStorage.setItem('dhanvikk_user', JSON.stringify(userObj));
         sessionStorage.setItem('dhanvikk_auth_token', tokenStr);
         sessionStorage.setItem('dhanvikk_user', JSON.stringify(userObj));
-        return { success: true, user: userObj, token: tokenStr };
+        const isNew = Boolean(data?.isNewAccount);
+        const successMessage = isNew
+          ? 'Account not found — new account created with Google in the database! 🌸'
+          : (data?.message || 'Google sign-in successful');
+        return {
+          success: true,
+          user: userObj,
+          token: tokenStr,
+          isNewAccount: isNew,
+          message: successMessage,
+        };
       }
       return rejectWithValue(data?.message || 'Google sign-in failed');
     } catch (error) {

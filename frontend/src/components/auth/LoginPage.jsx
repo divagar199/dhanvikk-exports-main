@@ -35,7 +35,10 @@ export default function LoginPage() {
       );
 
       if (loginUser.fulfilled.match(resultAction)) {
-        toast.success('Welcome back to Dhanvikk Blooms & Exports 🌸');
+        const msg = resultAction.payload?.message || (resultAction.payload?.isNewAccount
+          ? 'Account not found — new account created for you in the database & Firebase! 🌸'
+          : 'Welcome back to Dhanvikk Blooms & Exports 🌸');
+        toast.success(msg);
         const user = resultAction.payload.user;
         if (user.role === 'admin' || user.role === 'super_admin') {
           navigate('/admin/dashboard', { replace: true });
@@ -61,7 +64,10 @@ export default function LoginPage() {
           return;
         }
         const loggedUser = resultAction.payload?.user;
-        toast.success(`Welcome, ${loggedUser?.name || loggedUser?.email || 'Valued Customer'}! 🌸`);
+        const msg = resultAction.payload?.message || (resultAction.payload?.isNewAccount
+          ? 'Account not found — new account created with Google in the database! 🌸'
+          : `Welcome, ${loggedUser?.name || loggedUser?.email || 'Valued Customer'}! 🌸`);
+        toast.success(msg);
         navigate(from || '/account', { replace: true });
       } else {
         const errMsg = resultAction.payload || 'Unable to sign in with Google. Please try again.';

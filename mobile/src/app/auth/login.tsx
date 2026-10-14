@@ -38,7 +38,10 @@ export default function Login() {
     try {
       const r = await login(email.trim(), password);
       setUser(r.user);
-      Alert.alert('Welcome!', `Logged in as ${r.user?.name || email.trim()}`);
+      Alert.alert(
+        r.isNewAccount ? 'Account Created! 🌸' : 'Welcome!',
+        r.message || `Logged in as ${r.user?.name || email.trim()}`
+      );
       router.replace('/(tabs)/home');
     } catch (e: any) {
       Alert.alert('Sign In Failed', e.message || 'Please check your credentials and try again.');
