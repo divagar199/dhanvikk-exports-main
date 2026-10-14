@@ -210,7 +210,30 @@ export default function Account() {
 
         {/* Support & Policies */}
         <View style={s.section}>
-          <Text style={s.sectionTitle}>FEEDBACK & INFORMATION</Text>
+          <Text style={s.sectionTitle}>INFORMATION & ENTERPRISE</Text>
+
+          <Pressable
+            style={s.menuRow}
+            onPress={() =>
+              Alert.alert(
+                'About Dhanvikk Blooms & Exports',
+                'Dhanvikk is an artisanal floriculture house cultivating and sourcing rare, heavy-caliber blossoms from 7,200ft estates in Kotagiri and the Nilgiris. Operating continuous 2°C–4°C reefer transit, Dhanvikk exports across premier Indian metropolitans and global hubs.'
+              )
+            }
+          >
+            <Ionicons name="flower-outline" size={20} color={colors.ink} />
+            <Text style={s.menuLabel}>About Dhanvikk Blooms</Text>
+            <Ionicons name="chevron-forward" size={18} color={colors.muted} />
+          </Pressable>
+
+          <Pressable
+            style={s.menuRow}
+            onPress={() => router.push('/support')}
+          >
+            <Ionicons name="globe-outline" size={20} color={colors.ink} />
+            <Text style={s.menuLabel}>Wholesale & Floral Exports</Text>
+            <Ionicons name="chevron-forward" size={18} color={colors.muted} />
+          </Pressable>
 
           <Pressable
             style={s.menuRow}
@@ -229,7 +252,10 @@ export default function Account() {
           <Pressable
             style={s.menuRow}
             onPress={() =>
-              Alert.alert('Terms & Privacy', 'All transactions encrypted via 256-bit SSL.')
+              Alert.alert(
+                'Legal & Privacy Policy',
+                'All transactions encrypted via 256-bit SSL. Customer personal information and addresses are guarded with strict confidentiality. Contact concierge@dhanvikk.com for data rights and compliance.'
+              )
             }
           >
             <Ionicons name="document-text-outline" size={20} color={colors.ink} />

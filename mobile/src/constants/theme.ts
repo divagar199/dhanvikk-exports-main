@@ -4,75 +4,75 @@
  */
 
 export const colors = {
-  // Stitch Luxury Floriculture Core Palette
-  primary: '#7A1D36', // Imperial Bloom wine rose
-  primaryDeep: '#5C0B1D', // Regal Deep Maroon
-  primaryLight: '#F3D8DE', // Soft Rose Mist
-  primarySubtle: '#FBF0F2', // Translucent Rose Silk
+  // Botanical Gallery Commerce Core Palette (Prompt Section 5)
+  primary: '#E91E63', // Primary blossom pink
+  primaryDeep: '#C2185B', // Deep magenta
+  deepMagenta: '#C2185B', // Deep magenta
+  accent: '#F4B400', // Warm gold accent
+  warmGold: '#F4B400', // Warm gold accent
+  accentMuted: '#C29300',
+  accentLight: '#FFF8E1',
+  bloomAccent: '#F23878', // Bloom accent
+  softBlush: '#FCE4EC', // Soft blush
+  palePink: '#FFF3F6', // Pale pink background
+  blush: '#FCE4EC',
+  blushDeep: '#F8BBD0',
+  pale: '#FFF3F6',
+  primaryLight: '#FCE4EC',
+  primarySubtle: '#FFF3F6',
 
-  // Secondary Botanical Palette
-  secondary: '#1E3F20', // Forest Flora Nilgiri Green
-  secondaryLight: '#E8F3EA', // Botanical Mist
-  secondaryDeep: '#112513',
+  // Secondary Botanical Accent
+  secondary: '#2E7D32', // Forest Botanical Flora Green
+  secondaryLight: '#E8F5E9',
+  secondaryDeep: '#1B5E20',
 
   // Tertiary Accents
-  accent: '#D4AF37', // Champagne Gold
-  accentLight: '#FCF7E9', // Warm Gold Cream
-  accentMuted: '#B89730', // Antique Gold
-  gold: '#D4AF37',
-  warmGold: '#D4AF37',
-  yellowGold: '#D4AF37',
-  starYellow: '#D4AF37',
-  starGreen: '#1E3F20',
-  starGreenBg: '#E8F3EA',
+  gold: '#F4B400',
+  yellowGold: '#F4B400',
+  starYellow: '#F4B400',
+  starGreen: '#2E7D32',
+  starGreenBg: '#E8F5E9',
 
-  // Canvas & Surfaces (Avoiding clinical pure white)
-  canvas: '#FDFBF7', // Natural Soft Ivory Parchment
-  background: '#FDFBF7',
-  mainBackground: '#FDFBF7',
-  surface: '#FFFFFF',
+  // Canvas & Surfaces
+  canvas: '#FAF7F8', // Subtle surface
+  background: '#FFFFFF', // Primary background
+  mainBackground: '#FFFFFF',
+  surface: '#FAF7F8', // Subtle surface
+  surfaceContainer: '#FFF3F6', // Pale pink container
+  surfaceVariant: '#FCE4EC',
   cardBg: '#FFFFFF',
-  softBg: '#F8F4EE',
-  surfaceContainer: '#F7F2EC', // Subtle warm container
-  surfaceVariant: '#EFEAE2',
+  softBg: '#FAF7F8',
+  white: '#FFFFFF',
 
   // Typography & Neutrals
-  ink: '#1A1A1A', // Obsidian Onyx (Rich deep black)
-  inkLight: '#383536',
-  primaryText: '#1A1A1A',
-  secondaryText: '#666062',
-  muted: '#666062', // Refined Warm Charcoal
-  mutedLight: '#9E9799',
-  mutedXLight: '#D1CACD',
+  ink: '#272126', // Main text
+  primaryText: '#272126',
+  inkLight: '#4A4148',
+  secondaryText: '#756C72', // Secondary text
+  muted: '#756C72', // Secondary text
+  mutedLight: '#A399A0',
+  mutedXLight: '#D9D2D6',
 
   // Borders & Fine Lines
-  line: '#ECE5DE', // Fine-line warm border
-  lineLight: '#F4EFEA',
-  lineGold: 'rgba(212, 175, 55, 0.35)',
-  border: '#ECE5DE',
+  border: '#EEE5E9', // Border
+  line: '#EEE5E9',
+  lineLight: '#F5EFF2',
+  lineGold: 'rgba(244, 180, 0, 0.4)',
 
-  // Telemetry & Indicators
-  reeferGreen: '#107C41',
-  reeferGreenBg: '#E6F4EA',
-  dealOrange: '#C65102',
-  flipkartBlue: '#7A1D36', // Replaced legacy blue with Imperial Bloom
-  discountGreen: '#1E3F20',
+  // States & Indicators
+  reeferGreen: '#2E7D32',
+  reeferGreenBg: '#E8F5E9',
+  discountGreen: '#2E7D32',
+  dealOrange: '#E65100',
+  success: '#2E7D32',
+  warning: '#ED6C02',
+  danger: '#E91E63',
+  error: '#D32F2F',
 
   // Backwards-Compatible Aliases
-  primaryBlush: '#F3D8DE',
-  bloomPink: '#7A1D36',
-  deepMagenta: '#5C0B1D',
-  softBlush: '#FBF0F2',
-  bloom: '#7A1D36',
-  blush: '#F3D8DE',
-  blushDeep: '#EABDC6',
-  pale: '#FBF0F2',
-
-  // States
-  success: '#1E3F20',
-  danger: '#7A1D36',
-  error: '#BA1A1A',
-  white: '#FFFFFF',
+  primaryBlush: '#FCE4EC',
+  bloomPink: '#E91E63',
+  bloom: '#E91E63',
 };
 
 export const shadows = {

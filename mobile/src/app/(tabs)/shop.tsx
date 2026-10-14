@@ -10,23 +10,25 @@ import {
   View,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { useLocalSearchParams } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { getProducts } from '@/services/products';
 import { ProductCard } from '@/components/ProductCard';
 import { colors, radius, shadows, spacing } from '@/constants/theme';
 import type { Product } from '@/types/models';
 import { useResponsive } from '@/hooks/useResponsive';
+import { useStore } from '@/store/useStore';
 
 const CATEGORIES = [
   'All Stems',
   'Roses',
-  'Bouquets',
-  'Orchids',
   'Lilies',
-  'Traditional',
-  'Hampers',
+  'Bouquets',
+  'Seasonal Flowers',
   'Plants',
+  'Gift Bundles',
+  'Traditional',
+  'Orchids',
   'Luxury',
 ];
 
@@ -41,6 +43,9 @@ export default function Shop() {
   const insets = useSafeAreaInsets();
   const params = useLocalSearchParams<{ category?: string; occasion?: string }>();
   const { columns, cardWidth, isTablet, maxContentWidth } = useResponsive();
+
+  const cart = useStore((s) => s.cart);
+  const cartCount = cart.reduce((t, i) => t + (i.quantity || 1), 0);
 
   const [q, setQ] = useState('');
   const [selectedCategory, setSelectedCategory] = useState(params.category || 'All Stems');
@@ -101,11 +106,26 @@ export default function Shop() {
       <View style={s.topHeader}>
         <View style={s.headerTitleWrap}>
           <Text style={s.headerSup}>EST. NILGIRIS • 7,200FT</Text>
-          <Text style={s.headerTitle}>Floral Store</Text>
+          <Text style={s.headerTitle}>Categories & Store</Text>
         </View>
-        <View style={s.telemetryBadge}>
-          <View style={s.telemetryDot} />
-          <Text style={s.telemetryBadgeText}>Cold-Chain 3.2°C</Text>
+        <View style={s.headerRightWrap}>
+          <View style={s.telemetryBadge}>
+            <View style={s.telemetryDot} />
+            <Text style={s.telemetryBadgeText}>Cold-Chain 3.2°C</Text>
+          </View>
+          <Pressable
+            style={s.cartIconBtn}
+            onPress={() => router.push('/(tabs)/cart')}
+            hitSlop={6}
+            accessibilityLabel="Shopping Cart"
+          >
+            <Ionicons name="bag-handle-outline" size={22} color={colors.ink} />
+            {cartCount > 0 && (
+              <View style={s.badge}>
+                <Text style={s.badgeText}>{cartCount}</Text>
+              </View>
+            )}
+          </Pressable>
         </View>
       </View>
 
@@ -289,6 +309,34 @@ const s = StyleSheet.create({
     fontSize: 9.5,
     fontWeight: '800',
     color: colors.secondary,
+  },
+  headerRightWrap: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+  },
+  cartIconBtn: {
+    position: 'relative',
+    padding: 2,
+  },
+  badge: {
+    position: 'absolute',
+    top: -4,
+    right: -6,
+    backgroundColor: colors.primary,
+    borderWidth: 1,
+    borderColor: colors.accent,
+    minWidth: 16,
+    height: 16,
+    borderRadius: 8,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 3,
+  },
+  badgeText: {
+    color: colors.white,
+    fontSize: 9,
+    fontWeight: '900',
   },
   searchRow: {
     flexDirection: 'row',

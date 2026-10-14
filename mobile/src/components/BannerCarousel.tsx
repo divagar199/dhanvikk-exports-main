@@ -26,18 +26,28 @@ export interface BannerItem {
 const BANNERS: BannerItem[] = [
   {
     id: '1',
-    badge: 'EST. NILGIRIS • 7,200FT',
-    telemetry: 'Reefer Fleet #BLR-04 • 3.2°C Cryo Active',
-    title: 'Hand-Cut Highland Blooms',
-    subtitle: 'Harvested at dawn in Kotagiri mist; delivered in unbroken cold-chain sanctity in 90 mins.',
-    offer: 'HAUTE FLORILEGIUM',
+    badge: 'ESTATE BLOOMS • DAWN HARVEST',
+    telemetry: 'Continuous 2°C–4°C Reefer Cold-Chain Protected',
+    title: 'Make Every Moment Bloom',
+    subtitle: "Thoughtfully selected flowers for life's most meaningful moments.",
+    offer: 'HAUTE FLORICULTURE',
     image: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=1000&q=85',
     routeCategory: 'Roses',
   },
   {
     id: '2',
+    badge: 'LUXURY GIFTING ATELIER',
+    telemetry: 'Italian Cotton Calligraphy Card & Wax Seal',
+    title: 'Curated Botanical Gift Sets',
+    subtitle: 'Signature velvet presentation boxes, crystal vases, and artisan flower elixirs.',
+    offer: 'GIFT BUNDLES',
+    image: 'https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=1000&q=85',
+    routeCategory: 'Hampers',
+  },
+  {
+    id: '3',
     badge: 'WHITE-GLOVE ATELIER',
-    telemetry: '2°C–4°C Climate-Preserved Fleet',
+    telemetry: '2°C–4°C Climate-Preserved Fleet • Express 90m',
     title: 'Dutch Red Naomi & Casablanca',
     subtitle: '70cm heavy-caliber stems backed by our 12-day floral longevity pledge.',
     offer: 'EXPRESS 90-MIN',
@@ -45,24 +55,14 @@ const BANNERS: BannerItem[] = [
     routeCategory: 'Bouquets',
   },
   {
-    id: '3',
+    id: '4',
     badge: 'SACRED SANCTUM HARVEST',
-    telemetry: 'Organic Dawn Pluck Protocol',
+    telemetry: 'Dawn Pluck Protocol • Fresh Jasmine Strands',
     title: 'Madurai Jasmine & Pooja Blooms',
-    subtitle: 'Pristine traditional strands hand-knotted at sunrise for divine sanctums and celebrations.',
+    subtitle: 'Pristine traditional strands hand-knotted at sunrise for sacred sanctums.',
     offer: 'SACRED PURITY',
     image: 'https://images.unsplash.com/photo-1606293926075-69a00dbfde81?auto=format&fit=crop&w=1000&q=85',
     routeCategory: 'Traditional',
-  },
-  {
-    id: '4',
-    badge: 'VIP CONCIERGE ATELIER',
-    telemetry: 'Bespoke Wax-Sealed Presentation',
-    title: 'Velour Crystal Keepsake Sets',
-    subtitle: 'Accompanied by hand-inked calligraphy card on Italian cotton cardstock & floral elixir.',
-    offer: 'LUXURY GIFTING',
-    image: 'https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=1000&q=85',
-    routeCategory: 'Hampers',
   },
 ];
 
@@ -151,13 +151,22 @@ export function BannerCarousel() {
                 <Text style={s.subtitle}>{item.subtitle}</Text>
                 <View style={s.ctaRow}>
                   <View style={s.curateBtn}>
-                    <Text style={s.curateBtnText}>Curate Bouquet</Text>
+                    <Text style={s.curateBtnText}>Shop Flowers</Text>
                     <Ionicons name="arrow-forward" size={13} color={colors.white} />
                   </View>
-                  <View style={s.secondaryCta}>
-                    <Ionicons name="speedometer-outline" size={12} color={colors.accent} />
-                    <Text style={s.secondaryCtaText}>Cold-Chain Active</Text>
-                  </View>
+                  <Pressable
+                    style={s.secondaryCta}
+                    onPress={(e) => {
+                      e.stopPropagation();
+                      router.push({
+                        pathname: '/(tabs)/shop',
+                        params: { category: 'Gift Bundles' },
+                      });
+                    }}
+                  >
+                    <Ionicons name="gift-outline" size={12} color={colors.accent} />
+                    <Text style={s.secondaryCtaText}>Explore Gifting</Text>
+                  </Pressable>
                 </View>
               </View>
             </View>

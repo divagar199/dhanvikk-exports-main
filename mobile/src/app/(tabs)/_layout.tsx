@@ -40,7 +40,7 @@ export default function TabsLayout() {
           tabBarIcon: ({ focused }) => (
             <Ionicons
               name={focused ? 'home' : 'home-outline'}
-              size={22}
+              size={21}
               color={focused ? colors.primary : colors.muted}
             />
           ),
@@ -49,10 +49,23 @@ export default function TabsLayout() {
       <Tabs.Screen
         name="shop"
         options={{
-          title: 'Store',
+          title: 'Categories',
           tabBarIcon: ({ focused }) => (
             <Ionicons
-              name={focused ? 'storefront' : 'storefront-outline'}
+              name={focused ? 'grid' : 'grid-outline'}
+              size={21}
+              color={focused ? colors.primary : colors.muted}
+            />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="wishlist"
+        options={{
+          title: 'Wishlist',
+          tabBarIcon: ({ focused }) => (
+            <Ionicons
+              name={focused ? 'heart' : 'heart-outline'}
               size={22}
               color={focused ? colors.primary : colors.muted}
             />
@@ -60,22 +73,13 @@ export default function TabsLayout() {
         }}
       />
       <Tabs.Screen
-        name="cart"
+        name="orders"
         options={{
-          title: 'Cart',
-          tabBarBadge: cartCount > 0 ? cartCount : undefined,
-          tabBarBadgeStyle: {
-            backgroundColor: colors.primary,
-            color: colors.white,
-            fontSize: 10,
-            fontWeight: '900',
-            borderWidth: 1.5,
-            borderColor: colors.accent,
-          },
+          title: 'Orders',
           tabBarIcon: ({ focused }) => (
             <Ionicons
-              name={focused ? 'cart' : 'cart-outline'}
-              size={22}
+              name={focused ? 'receipt' : 'receipt-outline'}
+              size={21}
               color={focused ? colors.primary : colors.muted}
             />
           ),
@@ -84,14 +88,20 @@ export default function TabsLayout() {
       <Tabs.Screen
         name="account"
         options={{
-          title: 'Profile',
+          title: 'Account',
           tabBarIcon: ({ focused }) => (
             <Ionicons
               name={focused ? 'person' : 'person-outline'}
-              size={22}
+              size={21}
               color={focused ? colors.primary : colors.muted}
             />
           ),
+        }}
+      />
+      <Tabs.Screen
+        name="cart"
+        options={{
+          href: null,
         }}
       />
     </Tabs>

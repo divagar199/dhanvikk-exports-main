@@ -14,27 +14,39 @@ export interface CategoryItem {
 export const CATEGORIES_DATA: CategoryItem[] = [
   {
     id: 'Roses',
-    name: 'Dawn Cut',
-    badge: '7,200ft',
+    name: 'Roses',
+    badge: 'Dawn Cut',
     image: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=400&q=80',
   },
   {
-    id: 'Bouquets',
-    name: 'Royal Ooty',
-    badge: 'Haute',
-    image: 'https://images.unsplash.com/photo-1561181286-d3fee7d55364?auto=format&fit=crop&w=400&q=80',
-  },
-  {
     id: 'Lilies',
-    name: 'Casablanca',
-    badge: 'Fragrant',
+    name: 'Lilies',
+    badge: 'Casablanca',
     image: 'https://images.unsplash.com/photo-1533616688419-b7a585564566?auto=format&fit=crop&w=400&q=80',
   },
   {
-    id: 'Orchids',
-    name: 'Cymbidiums',
-    badge: 'Rare',
-    image: 'https://images.unsplash.com/photo-1525310072745-f49212b5ac6d?auto=format&fit=crop&w=400&q=80',
+    id: 'Bouquets',
+    name: 'Bouquets',
+    badge: 'Handcrafted',
+    image: 'https://images.unsplash.com/photo-1561181286-d3fee7d55364?auto=format&fit=crop&w=400&q=80',
+  },
+  {
+    id: 'Seasonal Flowers',
+    name: 'Seasonal',
+    badge: 'Highland',
+    image: 'https://images.unsplash.com/photo-1490750967868-88aa4486c946?auto=format&fit=crop&w=400&q=80',
+  },
+  {
+    id: 'Plants',
+    name: 'Plants',
+    badge: 'Botanical',
+    image: 'https://images.unsplash.com/photo-1485955900006-10f4d324d411?auto=format&fit=crop&w=400&q=80',
+  },
+  {
+    id: 'Gift Bundles',
+    name: 'Gift Sets',
+    badge: 'Curated',
+    image: 'https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=400&q=80',
   },
   {
     id: 'Traditional',
@@ -43,20 +55,10 @@ export const CATEGORIES_DATA: CategoryItem[] = [
     image: 'https://images.unsplash.com/photo-1606293926075-69a00dbfde81?auto=format&fit=crop&w=400&q=80',
   },
   {
-    id: 'Luxury',
-    name: 'Velour Gift',
-    badge: 'VIP Box',
-    image: 'https://images.unsplash.com/photo-1582794543139-8ac9cb0f7b11?auto=format&fit=crop&w=400&q=80',
-  },
-  {
-    id: 'Hampers',
-    name: 'Curated Sets',
-    image: 'https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=400&q=80',
-  },
-  {
-    id: 'Plants',
-    name: 'Sanctuary',
-    image: 'https://images.unsplash.com/photo-1485955900006-10f4d324d411?auto=format&fit=crop&w=400&q=80',
+    id: 'Orchids',
+    name: 'Orchids',
+    badge: 'Exotic',
+    image: 'https://images.unsplash.com/photo-1525310072745-f49212b5ac6d?auto=format&fit=crop&w=400&q=80',
   },
 ];
 
