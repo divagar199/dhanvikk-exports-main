@@ -101,7 +101,7 @@ export default function Shop() {
       <View style={s.topHeader}>
         <View style={s.headerTitleWrap}>
           <Text style={s.headerSup}>EST. NILGIRIS • 7,200FT</Text>
-          <Text style={s.headerTitle}>Haute Florilegium</Text>
+          <Text style={s.headerTitle}>Floral Store</Text>
         </View>
         <View style={s.telemetryBadge}>
           <View style={s.telemetryDot} />

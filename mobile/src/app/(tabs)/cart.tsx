@@ -97,7 +97,7 @@ export default function Cart() {
       <View style={[s.header, { maxWidth: contentMaxWidth, width: '100%', alignSelf: 'center' }]}>
         <View style={s.headerTitleWrap}>
           <Text style={s.headerSup}>EST. NILGIRIS • WHITE-GLOVE TRANSIT</Text>
-          <Text style={s.headerTitle}>Atelier Shopping Bag ({cart.length})</Text>
+          <Text style={s.headerTitle}>Shopping Cart ({cart.length})</Text>
         </View>
         <View style={s.telemetryBadge}>
           <View style={s.telemetryDot} />

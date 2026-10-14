@@ -59,8 +59,8 @@ export default function Account() {
             contentFit="contain"
           />
           <View>
-            <Text style={s.headerTitle}>VIP Concierge Atelier</Text>
-            <Text style={s.headerSub}>Client Profile & Florilegium Privileges</Text>
+            <Text style={s.headerTitle}>My Profile</Text>
+            <Text style={s.headerSub}>Account Settings & VIP Privileges</Text>
           </View>
         </View>
       </View>

@@ -36,11 +36,11 @@ export default function TabsLayout() {
       <Tabs.Screen
         name="home"
         options={{
-          title: 'Atelier',
+          title: 'Home',
           tabBarIcon: ({ focused }) => (
             <Ionicons
-              name={focused ? 'sparkles' : 'sparkles-outline'}
-              size={21}
+              name={focused ? 'home' : 'home-outline'}
+              size={22}
               color={focused ? colors.primary : colors.muted}
             />
           ),
@@ -49,10 +49,10 @@ export default function TabsLayout() {
       <Tabs.Screen
         name="shop"
         options={{
-          title: 'Florilegium',
+          title: 'Store',
           tabBarIcon: ({ focused }) => (
             <Ionicons
-              name={focused ? 'flower' : 'flower-outline'}
+              name={focused ? 'storefront' : 'storefront-outline'}
               size={22}
               color={focused ? colors.primary : colors.muted}
             />
@@ -62,7 +62,7 @@ export default function TabsLayout() {
       <Tabs.Screen
         name="cart"
         options={{
-          title: 'Bag',
+          title: 'Cart',
           tabBarBadge: cartCount > 0 ? cartCount : undefined,
           tabBarBadgeStyle: {
             backgroundColor: colors.primary,
@@ -74,7 +74,7 @@ export default function TabsLayout() {
           },
           tabBarIcon: ({ focused }) => (
             <Ionicons
-              name={focused ? 'bag-handle' : 'bag-handle-outline'}
+              name={focused ? 'cart' : 'cart-outline'}
               size={22}
               color={focused ? colors.primary : colors.muted}
             />
@@ -84,7 +84,7 @@ export default function TabsLayout() {
       <Tabs.Screen
         name="account"
         options={{
-          title: 'Concierge',
+          title: 'Profile',
           tabBarIcon: ({ focused }) => (
             <Ionicons
               name={focused ? 'person' : 'person-outline'}
