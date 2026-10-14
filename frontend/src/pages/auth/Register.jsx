@@ -72,32 +72,46 @@ export default function Register() {
 
   const [formErrors, setFormErrors] = useState({});
 
-  // Fast Google Sign-In on Create Account page
-  const handleGooglePreFill = async () => {
+  // Instant 1-Click Sign In / Sign Up with Google
+  const handleGoogleSignUp = async () => {
     dispatch(clearAuthError());
     setGoogleLoading(true);
     try {
-      const fbRes = await signInWithGoogleFirebase();
-      if (fbRes?.redirecting) {
-        toast.info('Popup was blocked by your browser. Redirecting to Google Sign-In...');
-        return;
-      }
-      if (fbRes?.user) {
-        setGoogleUser(fbRes.user);
-        setFormData((prev) => ({
-          ...prev,
-          name: prev.name || fbRes.user.name || '',
-          email: fbRes.user.email || prev.email,
-        }));
-        toast.success(`Google Account Connected: ${fbRes.user.name || fbRes.user.email} 🌸`);
-      }
-    } catch (err) {
-      console.warn('Google pre-fill notice:', err);
-      if (err.code === 'auth/popup-closed-by-user' || err.code === 'auth/cancelled-popup-request') {
-        toast.info('Google sign-in was canceled.');
+      const extraData = {
+        name: formData.name?.trim(),
+        phone: formData.phone ? `${formData.countryCode} ${formData.phone}`.trim() : '',
+        street: formData.street?.trim() || '',
+        city: formData.city?.trim() || '',
+        state: formData.state?.trim() || '',
+        country: formData.country || 'United Arab Emirates',
+        postalCode: formData.postalCode?.trim() || '',
+        addressType: formData.addressType || 'Primary Residence',
+      };
+
+      const resultAction = await dispatch(loginWithGoogleThunk(extraData));
+      if (loginWithGoogleThunk.fulfilled.match(resultAction)) {
+        if (resultAction.payload?.redirecting) {
+          toast.info('Popup was blocked by your browser. Redirecting to Google Sign-In...');
+          return;
+        }
+        const loggedUser = resultAction.payload?.user;
+        const msg = resultAction.payload?.message || (resultAction.payload?.isNewAccount
+          ? 'Account not found — new account created with Google in the database! 🌸'
+          : `Welcome to Dhanvikk Blooms, ${loggedUser?.name || loggedUser?.email || 'Valued Customer'}! 🌸`);
+        toast.success(msg);
+        navigate('/account', { replace: true });
       } else {
-        toast.error(err?.message || 'Google connection could not be opened. You can enter details manually.');
+        const errMsg = resultAction.payload || 'Unable to sign in with Google. Please try again.';
+        if (errMsg.includes('canceled')) {
+          toast.info(errMsg);
+        } else if (errMsg.includes('Redirecting')) {
+          toast.info('Popup was blocked by your browser. Redirecting to Google Sign-In...');
+        } else {
+          toast.error(errMsg);
+        }
       }
+    } catch {
+      toast.error('Google sign-in could not be completed. You can register with email and password below.');
     } finally {
       setGoogleLoading(false);
     }
@@ -110,20 +124,30 @@ export default function Register() {
       try {
         const res = await checkGoogleRedirectResult();
         if (res?.user && isMounted) {
-          setGoogleUser(res.user);
-          setFormData((prev) => ({
-            ...prev,
-            name: prev.name || res.user.name || '',
-            email: res.user.email || prev.email,
-          }));
-          toast.success(`Google Account Connected: ${res.user.name || res.user.email} 🌸`);
+          const resultAction = await dispatch(
+            loginWithGoogleThunk({
+              id: res.user.uid,
+              googleUid: res.user.uid,
+              name: res.user.name,
+              email: res.user.email,
+              avatar: res.user.avatar,
+              token: res.token,
+            })
+          );
+          if (loginWithGoogleThunk.fulfilled.match(resultAction)) {
+            const loggedUser = resultAction.payload?.user;
+            toast.success(`Welcome to Dhanvikk Blooms, ${loggedUser?.name || loggedUser?.email || 'Valued Customer'}! 🌸`);
+            navigate('/account', { replace: true });
+          }
         }
       } catch (e) {
         console.warn('Redirect check on register note:', e);
       }
     })();
-    return () => { isMounted = false; };
-  }, []);
+    return () => {
+      isMounted = false;
+    };
+  }, [dispatch, navigate]);
 
   // HTML5 Geolocation detection
   const handleDetectLocation = () => {
@@ -307,14 +331,14 @@ export default function Register() {
               ) : (
                 <button
                   type="button"
-                  onClick={handleGooglePreFill}
+                  onClick={handleGoogleSignUp}
                   disabled={googleLoading || authLoading}
                   className="w-full flex items-center justify-center gap-3 py-3 px-4 rounded-2xl bg-white border border-[#E5DFD9] hover:border-[#EC407A] hover:bg-[#FAF8F5] text-[#EC407A] text-xs sm:text-[13.5px] font-medium transition-all shadow-xs hover:shadow-sm cursor-pointer group"
                 >
                   {googleLoading ? (
                     <span className="inline-flex items-center gap-2">
                       <Spinner size="sm" color="#EC407A" />
-                      <span className="text-[#666666]">Connecting to Google...</span>
+                      <span className="text-[#666666]">Signing in with Google...</span>
                     </span>
                   ) : (
                     <>
@@ -336,7 +360,7 @@ export default function Register() {
                           d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.33 0 3.26 2.7 1.28 6.58l4 3.13c.95-2.83 3.6-4.96 6.72-4.96z"
                         />
                       </svg>
-                      <span>1-Click Sign Up with Google</span>
+                      <span>Continue with Google</span>
                     </>
                   )}
                 </button>
