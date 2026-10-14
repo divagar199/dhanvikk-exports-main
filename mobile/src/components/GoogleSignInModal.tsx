@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import {
   Alert,
   Modal,
+  Platform,
   Pressable,
   StyleSheet,
   Text,
@@ -11,8 +12,8 @@ import {
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Image } from 'expo-image';
-import { GoogleAuthProvider, signInWithCredential } from 'firebase/auth';
-import { auth } from '@/lib/firebase';
+import { GoogleAuthProvider, signInWithCredential, signInWithPopup } from 'firebase/auth';
+import { auth, googleProvider } from '@/lib/firebase';
 import { colors, radius, spacing } from '@/constants/theme';
 import { loginWithGoogle } from '@/services/auth';
 import { useStore } from '@/store/useStore';
@@ -57,8 +58,12 @@ function NativeGoogleOAuthButton({
   onAuthError: (errMsg: string) => void;
 }) {
   const [request, response, promptAsync] = GoogleAuthModule!.useAuthRequest({
-    androidClientId: '160660053649-1ar8vvfbirn6jgd9bnukihvk0frgluv6.apps.googleusercontent.com',
-    webClientId: '160660053649-1ar8vvfbirn6jgd9bnukihvk0frgluv6.apps.googleusercontent.com',
+    androidClientId:
+      process.env.EXPO_PUBLIC_GOOGLE_ANDROID_CLIENT_ID ||
+      '160660053649-mjj7qud9fnlqmnf2jvqjqqhlqsoqo1bn.apps.googleusercontent.com',
+    webClientId:
+      process.env.EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID ||
+      '160660053649-1ar8vvfbirn6jgd9bnukihvk0frgluv6.apps.googleusercontent.com',
   });
 
   useEffect(() => {
@@ -90,6 +95,39 @@ export function GoogleSignInModal({ visible, onClose, onSuccess }: GoogleSignInM
   const [name, setName] = useState('');
   const [busy, setBusy] = useState(false);
   const [customMode, setCustomMode] = useState(false);
+
+  // Web popup flow (identical to web app Firebase Google login)
+  const handleWebGoogleSignIn = async () => {
+    setBusy(true);
+    try {
+      const res = await signInWithPopup(auth, googleProvider);
+      const fbUser = res.user;
+      const cleanEmail = (fbUser.email || '').trim().toLowerCase();
+      const cleanName = fbUser.displayName || cleanEmail.split('@')[0];
+      const avatar =
+        fbUser.photoURL ||
+        `https://unavatar.io/google/${encodeURIComponent(cleanEmail)}?fallback=https://ui-avatars.com/api/?name=${encodeURIComponent(cleanName)}&background=E91E63&color=ffffff&bold=true`;
+
+      const backendRes = await loginWithGoogle({
+        email: cleanEmail,
+        name: cleanName,
+        avatar,
+        googleUid: fbUser.uid,
+      });
+
+      if (backendRes?.user) {
+        setUser(backendRes.user);
+        onClose();
+        if (onSuccess) onSuccess(backendRes.user);
+        Alert.alert('Welcome to Dhanvikk! 🌸', `Signed in with Google as ${backendRes.user.name || cleanEmail}`);
+      }
+    } catch (err: any) {
+      console.error('Web Google Sign-In error:', err);
+      Alert.alert('Google Sign-In Error', err?.message || 'Unable to complete Google sign-in.');
+    } finally {
+      setBusy(false);
+    }
+  };
 
   const handleFirebaseGoogleAuth = async (idToken: string) => {
     setBusy(true);
@@ -183,8 +221,17 @@ export function GoogleSignInModal({ visible, onClose, onSuccess }: GoogleSignInM
             </View>
           ) : !customMode ? (
             <View style={s.accountsList}>
-              {/* Google Sign In Button */}
-              {isNativeOAuthSupported ? (
+              {/* Google Sign In Button - Direct Firebase popup on web, native OAuth on Android/iOS */}
+              {Platform.OS === 'web' ? (
+                <Pressable
+                  style={s.officialGoogleBtn}
+                  onPress={handleWebGoogleSignIn}
+                  disabled={busy}
+                >
+                  <Ionicons name="logo-google" size={20} color="#EA4335" style={{ marginRight: 10 }} />
+                  <Text style={s.officialGoogleBtnText}>Sign in with Google Account</Text>
+                </Pressable>
+              ) : isNativeOAuthSupported ? (
                 <NativeGoogleOAuthButton
                   busy={busy}
                   onAuthSuccess={handleFirebaseGoogleAuth}

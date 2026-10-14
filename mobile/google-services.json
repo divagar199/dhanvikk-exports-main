@@ -14,6 +14,22 @@
       },
       "oauth_client": [
         {
+          "client_id": "160660053649-i98t5seau28atvaqdlp0k34vk9hu5evc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.dhanvikk.blooms",
+            "certificate_hash": "cb2248722bb46115ac460b4f54708fea923d8dc0"
+          }
+        },
+        {
+          "client_id": "160660053649-mjj7qud9fnlqmnf2jvqjqqhlqsoqo1bn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.dhanvikk.blooms",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
           "client_id": "160660053649-1ar8vvfbirn6jgd9bnukihvk0frgluv6.apps.googleusercontent.com",
           "client_type": 3
         }
