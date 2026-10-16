@@ -105,7 +105,7 @@ export default function Checkout() {
     }
 
     if (!cart.length) {
-      Alert.alert('Empty Bag', 'Please add blooms to your bag before checking out.');
+      Alert.alert('Empty Cart', 'Please add blooms to your cart before checking out.');
       return;
     }
     if (!name.trim() || !phone.trim() || !street.trim() || !city.trim()) {
@@ -126,7 +126,7 @@ export default function Checkout() {
             key: rp.keyId,
             amount: rp.order.amount,
             currency: rp.order.currency,
-            name: 'Dhanvikk Blooms',
+            name: 'Dhanvikk Blooms and Exports',
             description: 'Fresh flowers and gifts',
             order_id: rp.order.id,
             prefill: {
@@ -255,7 +255,10 @@ export default function Checkout() {
     <View style={[s.page, { paddingTop: Math.max(insets.top, 12) }]}>
       <View style={[s.header, { maxWidth: contentMaxWidth, width: '100%', alignSelf: 'center' }]}>
         <Pressable
-          style={s.backBtn}
+          style={({ pressed }) => [
+            s.backBtn,
+            pressed && { opacity: 0.7, transform: [{ scale: 0.92 }] },
+          ]}
           onPress={() => (router.canGoBack() ? router.back() : router.replace('/(tabs)/cart'))}
         >
           <Ionicons name="arrow-back" size={22} color={colors.ink} />
@@ -507,9 +510,10 @@ const s = StyleSheet.create({
     justifyContent: 'center',
   },
   headerTitle: {
-    fontSize: 18,
-    fontWeight: '900',
+    fontSize: 17,
+    fontWeight: '800',
     color: colors.ink,
+    letterSpacing: 0.2,
   },
   content: {
     padding: spacing.lg,
@@ -598,7 +602,7 @@ const s = StyleSheet.create({
     borderRadius: radius.lg,
     padding: 18,
     borderWidth: 1,
-    borderColor: colors.lineGold,
+    borderColor: colors.border,
     marginTop: 4,
     ...(shadows?.soft || {}),
   },
@@ -628,7 +632,7 @@ const s = StyleSheet.create({
     borderRadius: radius.pill,
     backgroundColor: colors.primary,
     borderWidth: 1.5,
-    borderColor: colors.accent,
+    borderColor: colors.primaryDeep,
     alignItems: 'center',
     justifyContent: 'center',
     ...(shadows?.soft || {}),

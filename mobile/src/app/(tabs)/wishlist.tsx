@@ -1,5 +1,13 @@
 import { useState } from 'react';
-import { FlatList, Pressable, RefreshControl, StyleSheet, Text, View } from 'react-native';
+import {
+  ActivityIndicator,
+  FlatList,
+  Pressable,
+  RefreshControl,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { useQuery } from '@tanstack/react-query';
@@ -9,6 +17,7 @@ import { getProducts } from '@/services/products';
 import { ProductCard } from '@/components/ProductCard';
 import { colors, radius, shadows, spacing } from '@/constants/theme';
 import { useResponsive } from '@/hooks/useResponsive';
+import { BrandHeaderTitle } from '@/components/BrandHeaderTitle';
 import type { Product } from '@/types/models';
 
 export default function WishlistTab() {
@@ -35,22 +44,36 @@ export default function WishlistTab() {
   };
 
   const savedProducts = data.filter((p) => {
-    const id = p.id || p._id || p.slug;
-    return wishlistIds.includes(id);
+    const candidates = [p.id, p._id, p.slug].filter(Boolean).map(String);
+    return candidates.some((cand) => wishlistIds.includes(cand));
   });
 
   return (
     <View style={[s.page, { paddingTop: Math.max(insets.top, 10) }]}>
       {/* Botanical Gallery Header */}
       <View style={[s.header, { maxWidth: maxContentWidth, width: '100%', alignSelf: 'center' }]}>
-        <View style={s.headerTitleWrap}>
-          <Text style={s.headerSup}>CURATED BOTANICALS</Text>
-          <Text style={s.headerTitle}>My Wishlist ({savedProducts.length})</Text>
+        <View style={s.headerLeft}>
+          {router.canGoBack() && (
+            <Pressable
+              style={({ pressed }) => [
+                s.backBtn,
+                pressed && { opacity: 0.7, transform: [{ scale: 0.92 }] },
+              ]}
+              onPress={() => router.back()}
+              hitSlop={8}
+            >
+              <Ionicons name="arrow-back" size={22} color={colors.ink} />
+            </Pressable>
+          )}
+          <BrandHeaderTitle />
         </View>
 
         <Pressable
-          style={s.cartBtn}
-          onPress={() => router.push('/(tabs)/cart')}
+          style={({ pressed }) => [
+            s.cartBtn,
+            pressed && { opacity: 0.7, transform: [{ scale: 0.92 }] },
+          ]}
+          onPress={() => router.push('/cart')}
           accessibilityLabel="Shopping Cart"
         >
           <Ionicons name="cart-outline" size={22} color={colors.ink} />
@@ -71,7 +94,7 @@ export default function WishlistTab() {
         contentContainerStyle={[
           s.content,
           {
-            paddingBottom: 90,
+            paddingBottom: Math.max(insets.bottom, 16) + 115,
             maxWidth: maxContentWidth,
             width: '100%',
             alignSelf: 'center',
@@ -86,20 +109,27 @@ export default function WishlistTab() {
           />
         }
         ListEmptyComponent={
-          <View style={s.empty}>
-            <View style={s.emptyIconCircle}>
-              <Ionicons name="heart-outline" size={46} color={colors.primary} />
+          isLoading ? (
+            <View style={s.empty}>
+              <ActivityIndicator size="large" color={colors.primary} />
+              <Text style={[s.emptySub, { marginTop: 14 }]}>Fetching your saved arrangements…</Text>
             </View>
-            <Text style={s.emptyTitle}>Your Wishlist is Empty</Text>
-            <Text style={s.emptySub}>
-              Save your favorite highland roses, lilies, and pooja blooms to revisit anytime.
-            </Text>
+          ) : (
+            <View style={s.empty}>
+              <View style={s.emptyIconCircle}>
+                <Ionicons name="heart-outline" size={46} color={colors.primary} />
+              </View>
+              <Text style={s.emptyTitle}>Your Wishlist is Empty</Text>
+              <Text style={s.emptySub}>
+                Save your favorite highland roses, lilies, and pooja blooms to revisit anytime.
+              </Text>
 
-            <Pressable style={s.shopBtn} onPress={() => router.push('/(tabs)/shop')}>
-              <Text style={s.shopBtnText}>Explore Florilegium</Text>
-              <Ionicons name="arrow-forward" size={15} color={colors.white} />
-            </Pressable>
-          </View>
+              <Pressable style={s.shopBtn} onPress={() => router.push('/(tabs)/shop')}>
+                <Text style={s.shopBtnText}>Explore Florilegium</Text>
+                <Ionicons name="arrow-forward" size={15} color={colors.white} />
+              </Pressable>
+            </View>
+          )
         }
         renderItem={({ item }) => <ProductCard product={item} cardWidth={cardWidth} />}
       />
@@ -123,20 +153,32 @@ const s = StyleSheet.create({
     borderBottomColor: colors.border,
     ...(shadows?.soft || {}),
   },
+  headerLeft: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+  },
+  backBtn: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   headerTitleWrap: {
     gap: 2,
   },
   headerSup: {
     fontSize: 9,
-    fontWeight: '900',
-    color: colors.primary,
-    letterSpacing: 0.8,
+    fontWeight: '800',
+    color: colors.secondary,
+    letterSpacing: 0.5,
   },
   headerTitle: {
     fontSize: 18,
     fontWeight: '900',
-    color: colors.ink,
-    letterSpacing: 0.2,
+    color: colors.primary,
+    letterSpacing: 0.5,
   },
   cartBtn: {
     width: 40,

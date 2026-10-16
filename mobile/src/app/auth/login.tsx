@@ -65,11 +65,18 @@ export default function Login() {
         style={{ flex: 1 }}
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
       >
-        <ScrollView contentContainerStyle={s.content} showsVerticalScrollIndicator={false}>
+        <ScrollView
+          contentContainerStyle={[
+            s.content,
+            { paddingBottom: Math.max(insets.bottom, 24) + 24 },
+          ]}
+          showsVerticalScrollIndicator={false}
+        >
           {/* Brand Logo Header */}
           <View style={s.logoCard}>
             <Image source={brandLogo} style={s.logoImg} contentFit="contain" />
-            <Text style={s.eyebrow}>DHANVIKK BLOOMS</Text>
+            <Text style={s.eyebrow}>DHANVIKK</Text>
+            <Text style={s.brandSub}>Blooms and Exports</Text>
             <Text style={s.title}>Welcome back.</Text>
             <Text style={s.sub}>
               Sign in to manage your blooms, track orders, and save your delivery addresses.
@@ -190,9 +197,16 @@ const s = StyleSheet.create({
   },
   eyebrow: {
     color: colors.primaryDeep,
-    fontSize: 11,
+    fontSize: 14,
     fontWeight: '900',
     letterSpacing: 2,
+  },
+  brandSub: {
+    color: colors.secondary,
+    fontSize: 10,
+    fontWeight: '800',
+    letterSpacing: 0.5,
+    marginTop: 2,
   },
   title: {
     fontSize: 28,

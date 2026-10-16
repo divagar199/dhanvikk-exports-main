@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { FlatList, Pressable, StyleSheet, Text, View } from 'react-native';
+import { FlatList, Platform, Pressable, StyleSheet, Text, View } from 'react-native';
 import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { getProducts } from '@/services/products';
@@ -14,10 +14,12 @@ import { ProductCard } from '@/components/ProductCard';
 import { colors, radius, spacing } from '@/constants/theme';
 import type { Product } from '@/types/models';
 import { useResponsive } from '@/hooks/useResponsive';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const FILTER_TABS = ['All Stems', 'Royal Ooty Roses', 'Casablanca Lilies', 'Sanctum & Pooja', 'Bestsellers', 'Under ₹1,999'];
 
 export default function Home() {
+  const insets = useSafeAreaInsets();
   const [selectedTab, setSelectedTab] = useState('All Stems');
   const { columns, cardWidth, isTablet, maxContentWidth } = useResponsive();
 
@@ -64,10 +66,22 @@ export default function Home() {
         numColumns={columns}
         keyExtractor={(p) => p.id || p._id || p.slug}
         columnWrapperStyle={[s.grid, { gap: 12, paddingHorizontal: isTablet ? 24 : 10 }]}
-        contentContainerStyle={[s.content, { maxWidth: maxContentWidth, width: '100%', alignSelf: 'center' }]}
+        contentContainerStyle={[
+          s.content,
+          {
+            paddingBottom: Math.max(insets.bottom, 16) + 115,
+            maxWidth: maxContentWidth,
+            width: '100%',
+            alignSelf: 'center',
+          },
+        ]}
         showsVerticalScrollIndicator={false}
         refreshing={isLoading}
         onRefresh={refetch}
+        initialNumToRender={8}
+        maxToRenderPerBatch={8}
+        windowSize={7}
+        removeClippedSubviews={Platform.OS === 'android'}
         renderItem={({ item }) => <ProductCard product={item} cardWidth={cardWidth} />}
         ListHeaderComponent={
           <>
@@ -110,7 +124,7 @@ export default function Home() {
                       onPress={() => setSelectedTab(item)}
                     >
                       {active && (
-                        <Ionicons name="sparkles" size={11} color={colors.accent} style={{ marginRight: 4 }} />
+                        <Ionicons name="sparkles" size={11} color={colors.white} style={{ marginRight: 4 }} />
                       )}
                       <Text style={[s.tabText, active && s.tabTextActive]}>
                         {item}
@@ -125,9 +139,9 @@ export default function Home() {
         ListFooterComponent={
           <View style={s.footerTrust}>
             <View style={s.footerIcon}>
-              <Ionicons name="shield-checkmark" size={26} color={colors.accent} />
+              <Ionicons name="shield-checkmark" size={26} color={colors.white} />
             </View>
-            <Text style={s.footerTitle}>The Dhanvikk Haute Floristry Pledge</Text>
+            <Text style={s.footerTitle}>The Dhanvikk Blooms and Exports Pledge</Text>
             <Text style={s.footerSub}>
               Over 10,000+ estate blooms hand-delivered in continuous 2°C–4°C reefer sanctity. Each creation arrives with botanical longevity elixir and your personalized wax-sealed calligraphy inscription.
             </Text>
@@ -195,7 +209,7 @@ const s = StyleSheet.create({
   },
   tabPillActive: {
     backgroundColor: colors.primary,
-    borderColor: colors.accent,
+    borderColor: colors.primaryDeep,
   },
   tabText: {
     fontSize: 11.5,
@@ -219,7 +233,7 @@ const s = StyleSheet.create({
     borderRadius: radius.lg,
     alignItems: 'center',
     borderWidth: 1,
-    borderColor: colors.lineGold,
+    borderColor: colors.border,
     borderTopWidth: 3,
     borderTopColor: colors.primary,
   },
@@ -232,7 +246,7 @@ const s = StyleSheet.create({
     justifyContent: 'center',
     marginBottom: 8,
     borderWidth: 1,
-    borderColor: colors.accent,
+    borderColor: colors.white,
   },
   footerTitle: {
     fontSize: 15,

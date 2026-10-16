@@ -7,6 +7,19 @@ export type User = {
   avatar?: string;
 };
 
+export type ProductReview = {
+  id?: string;
+  _id?: string;
+  userId?: string;
+  userName: string;
+  userEmail?: string;
+  rating: number;
+  comment: string;
+  date?: string;
+  createdAt?: string;
+  verified?: boolean;
+};
+
 export type Product = {
   id?: string;
   _id?: string;
@@ -24,6 +37,7 @@ export type Product = {
   image?: string;
   rating?: number;
   reviewsCount?: number;
+  reviews?: ProductReview[];
   tag?: string;
   description: string;
   isFeatured?: boolean;

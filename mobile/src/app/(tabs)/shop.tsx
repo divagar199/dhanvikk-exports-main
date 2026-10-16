@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 import {
   FlatList,
+  Platform,
   Pressable,
   ScrollView,
   StyleSheet,
@@ -18,6 +19,7 @@ import { colors, radius, shadows, spacing } from '@/constants/theme';
 import type { Product } from '@/types/models';
 import { useResponsive } from '@/hooks/useResponsive';
 import { useStore } from '@/store/useStore';
+import { BrandHeaderTitle } from '@/components/BrandHeaderTitle';
 
 const CATEGORIES = [
   'All Stems',
@@ -104,22 +106,22 @@ export default function Shop() {
     <View style={[s.page, { paddingTop: Math.max(insets.top, 10) }]}>
       {/* Atelier Florilegium Header */}
       <View style={s.topHeader}>
-        <View style={s.headerTitleWrap}>
-          <Text style={s.headerSup}>EST. NILGIRIS • 7,200FT</Text>
-          <Text style={s.headerTitle}>Categories & Store</Text>
-        </View>
+        <BrandHeaderTitle />
         <View style={s.headerRightWrap}>
           <View style={s.telemetryBadge}>
             <View style={s.telemetryDot} />
             <Text style={s.telemetryBadgeText}>Cold-Chain 3.2°C</Text>
           </View>
           <Pressable
-            style={s.cartIconBtn}
-            onPress={() => router.push('/(tabs)/cart')}
+            style={({ pressed }) => [
+              s.cartIconBtn,
+              pressed && { opacity: 0.7, transform: [{ scale: 0.92 }] },
+            ]}
+            onPress={() => router.push('/cart')}
             hitSlop={6}
             accessibilityLabel="Shopping Cart"
           >
-            <Ionicons name="bag-handle-outline" size={22} color={colors.ink} />
+            <Ionicons name="cart-outline" size={22} color={colors.ink} />
             {cartCount > 0 && (
               <View style={s.badge}>
                 <Text style={s.badgeText}>{cartCount}</Text>
@@ -132,11 +134,11 @@ export default function Shop() {
       {/* Luxury Search & Sort Row */}
       <View style={s.searchRow}>
         <View style={s.searchBar}>
-          <Ionicons name="search" size={17} color={colors.primary} />
+          <Ionicons name="search" size={17} color={colors.muted} />
           <TextInput
             value={q}
             onChangeText={setQ}
-            placeholder="Search Red Naomi, Casablanca, Orchids…"
+            placeholder="Search flowers, bouquets…"
             placeholderTextColor={colors.muted}
             style={s.input}
           />
@@ -200,7 +202,7 @@ export default function Shop() {
                 onPress={() => setSelectedCategory(cat)}
               >
                 {active && (
-                  <Ionicons name="sparkles" size={10} color={colors.accent} style={{ marginRight: 4 }} />
+                  <Ionicons name="sparkles" size={10} color={colors.white} style={{ marginRight: 4 }} />
                 )}
                 <Text style={[s.chipText, active && s.chipTextActive]}>{cat}</Text>
               </Pressable>
@@ -230,10 +232,22 @@ export default function Shop() {
         numColumns={columns}
         keyExtractor={(p) => p.id || p._id || p.slug}
         columnWrapperStyle={[s.grid, { gap: 12, paddingHorizontal: isTablet ? 24 : 10 }]}
-        contentContainerStyle={[s.content, { maxWidth: maxContentWidth, width: '100%', alignSelf: 'center' }]}
+        contentContainerStyle={[
+          s.content,
+          {
+            paddingBottom: Math.max(insets.bottom, 16) + 115,
+            maxWidth: maxContentWidth,
+            width: '100%',
+            alignSelf: 'center',
+          },
+        ]}
         showsVerticalScrollIndicator={false}
         refreshing={isLoading}
         onRefresh={refetch}
+        initialNumToRender={8}
+        maxToRenderPerBatch={8}
+        windowSize={7}
+        removeClippedSubviews={Platform.OS === 'android'}
         ListEmptyComponent={
           <View style={s.empty}>
             <View style={s.emptyIconCircle}>
@@ -325,7 +339,7 @@ const s = StyleSheet.create({
     right: -6,
     backgroundColor: colors.primary,
     borderWidth: 1,
-    borderColor: colors.accent,
+    borderColor: colors.white,
     minWidth: 16,
     height: 16,
     borderRadius: 8,
@@ -352,7 +366,7 @@ const s = StyleSheet.create({
     backgroundColor: colors.canvas,
     borderRadius: radius.pill,
     borderWidth: 1,
-    borderColor: colors.lineGold,
+    borderColor: colors.border,
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: 12,
@@ -372,11 +386,11 @@ const s = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderWidth: 1,
-    borderColor: colors.lineGold,
+    borderColor: colors.border,
   },
   sortBtnActive: {
     backgroundColor: colors.primary,
-    borderColor: colors.accent,
+    borderColor: colors.primaryDeep,
   },
   sortTray: {
     backgroundColor: colors.white,
@@ -408,7 +422,7 @@ const s = StyleSheet.create({
   },
   sortOptionActive: {
     backgroundColor: colors.primary,
-    borderColor: colors.accent,
+    borderColor: colors.primaryDeep,
   },
   sortOptionText: {
     fontSize: 11,
@@ -441,7 +455,7 @@ const s = StyleSheet.create({
   },
   chipActive: {
     backgroundColor: colors.primary,
-    borderColor: colors.accent,
+    borderColor: colors.primaryDeep,
   },
   chipText: {
     fontSize: 11.5,
@@ -473,7 +487,7 @@ const s = StyleSheet.create({
     paddingVertical: 4,
     borderRadius: radius.pill,
     borderWidth: 1,
-    borderColor: colors.lineGold,
+    borderColor: colors.border,
   },
   activeSortText: {
     fontSize: 11,
@@ -498,7 +512,7 @@ const s = StyleSheet.create({
     borderRadius: 32,
     backgroundColor: colors.primarySubtle,
     borderWidth: 1,
-    borderColor: colors.lineGold,
+    borderColor: colors.border,
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: 12,
@@ -520,7 +534,7 @@ const s = StyleSheet.create({
   resetBtn: {
     backgroundColor: colors.primary,
     borderWidth: 1,
-    borderColor: colors.accent,
+    borderColor: colors.primaryDeep,
     paddingHorizontal: 20,
     paddingVertical: 10,
     borderRadius: radius.pill,

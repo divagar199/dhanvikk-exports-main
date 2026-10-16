@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import {
   ActivityIndicator,
@@ -19,7 +19,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { getProduct, getProducts, rateProduct } from '@/services/products';
 import { useStore } from '@/store/useStore';
 import { colors, radius, spacing } from '@/constants/theme';
-import type { Product as ProductType } from '@/types/models';
+import type { Product as ProductType, ProductReview } from '@/types/models';
 import { resolveImageUrl, resolveProductImages, FALLBACK_FLOWER_IMAGE } from '@/lib/imageUrl';
 import { ProductCard } from '@/components/ProductCard';
 import { GoogleSignInModal } from '@/components/GoogleSignInModal';
@@ -58,6 +58,7 @@ export default function ProductDetail() {
   const [reviewComment, setReviewComment] = useState('');
   const [submittingReview, setSubmittingReview] = useState(false);
   const [googleModal, setGoogleModal] = useState(false);
+  const [reviewsList, setReviewsList] = useState<ProductReview[]>([]);
 
   const user = useStore((s) => s.user);
   const add = useStore((s) => s.add);
@@ -70,13 +71,20 @@ export default function ProductDetail() {
     enabled: !!id,
   });
 
+  useEffect(() => {
+    if (p?.reviews && Array.isArray(p.reviews) && p.reviews.length > 0) {
+      setReviewsList(p.reviews);
+    }
+  }, [p?.reviews]);
+
   const { data: allProds = [] } = useQuery<ProductType[]>({
     queryKey: ['recommended-products', p?.category],
     queryFn: () => getProducts({ limit: 12 }),
     enabled: !!p,
   });
 
-  const isSaved = id ? saved.includes(id) : false;
+  const allProductIds = [id, p?.id, p?._id, p?.slug].filter(Boolean).map(String);
+  const isSaved = allProductIds.some((cand) => saved.includes(cand));
 
   if (isLoading || !p) {
     return (
@@ -105,9 +113,9 @@ export default function ProductDetail() {
 
   const handleAddToCart = () => {
     add({ ...p, quantity: 1 });
-    Alert.alert('Added to Bag! 💐', `${p.name} has been added to your shopping bag.`, [
+    Alert.alert('Added to Cart! 💐', `${p.name} has been added to your shopping cart.`, [
       { text: 'Continue Shopping', style: 'cancel' },
-      { text: 'Go to Bag', onPress: () => router.push('/(tabs)/cart') },
+      { text: 'Go to Cart', onPress: () => router.push('/cart') },
     ]);
   };
 
@@ -139,7 +147,13 @@ export default function ProductDetail() {
     }
     setSubmittingReview(true);
     try {
-      const res = await rateProduct(productId, userRating, reviewComment.trim());
+      const res = await rateProduct(productId, userRating, reviewComment.trim(), user.name);
+      if (res.review) {
+        setReviewsList((prev) => [
+          res.review!,
+          ...prev.filter((r) => r.id !== res.review!.id && r.comment !== res.review!.comment),
+        ]);
+      }
       Alert.alert('Review Submitted! 💐', res.message || 'Thank you for your rating.');
       setReviewComment('');
       refetch();
@@ -155,7 +169,10 @@ export default function ProductDetail() {
       {/* Top Floating App Bar */}
       <View style={[s.topBar, { paddingTop: Math.max(insets.top, 10) }]}>
         <Pressable
-          style={s.topBtn}
+          style={({ pressed }) => [
+            s.topBtn,
+            pressed && { opacity: 0.7, transform: [{ scale: 0.92 }] },
+          ]}
           onPress={() => (router.canGoBack() ? router.back() : router.replace('/(tabs)/shop'))}
           hitSlop={6}
         >
@@ -164,23 +181,38 @@ export default function ProductDetail() {
 
         <View style={s.topActions}>
           <Pressable
-            style={s.topBtn}
-            onPress={() => wish(productId)}
-            hitSlop={6}
+            style={({ pressed }) => [
+              s.topBtn,
+              pressed && { opacity: 0.7, transform: [{ scale: 0.92 }] },
+            ]}
+            onPress={() => {
+              const targetId = productId || id;
+              wish(targetId, {
+                name: p.name,
+                price,
+                image: p.image || imagesList[0],
+                altIds: allProductIds,
+              });
+            }}
+            hitSlop={8}
+            accessibilityLabel={isSaved ? 'Remove from Wishlist' : 'Save to Wishlist'}
           >
             <Ionicons
               name={isSaved ? 'heart' : 'heart-outline'}
               size={22}
-              color={isSaved ? colors.primary : colors.ink}
+              color={isSaved ? '#E11D48' : colors.ink}
             />
           </Pressable>
 
           <Pressable
-            style={s.topBtn}
-            onPress={() => router.push('/(tabs)/cart')}
+            style={({ pressed }) => [
+              s.topBtn,
+              pressed && { opacity: 0.7, transform: [{ scale: 0.92 }] },
+            ]}
+            onPress={() => router.push('/cart')}
             hitSlop={6}
           >
-            <Ionicons name="bag-handle-outline" size={22} color={colors.ink} />
+            <Ionicons name="cart-outline" size={22} color={colors.ink} />
           </Pressable>
         </View>
       </View>
@@ -189,7 +221,7 @@ export default function ProductDetail() {
         contentContainerStyle={[
           s.content,
           {
-            paddingBottom: Math.max(insets.bottom, 16) + 85,
+            paddingBottom: Math.max(insets.bottom, 16) + 110,
             maxWidth: 900,
             width: '100%',
             alignSelf: 'center',
@@ -242,7 +274,7 @@ export default function ProductDetail() {
         {/* Product Information Card */}
         <View style={s.infoCard}>
           <Text style={s.categoryTag}>
-            {p.flowerType || p.category || 'HAUTE FLORISTRY'}
+            {p.flowerType || p.category || 'Blooms and Exports'}
           </Text>
 
           <Text style={s.title}>{p.name}</Text>
@@ -295,7 +327,7 @@ export default function ProductDetail() {
           </View>
 
           <View style={s.deliveryFeature}>
-            <Ionicons name="shield-checkmark" size={15} color={colors.accentMuted} />
+            <Ionicons name="shield-checkmark" size={15} color={colors.discountGreen} />
             <Text style={s.deliveryFeatureText}>
               12-Day Stem Longevity Pledge & Complimentary Calligraphy Card
             </Text>
@@ -355,7 +387,7 @@ export default function ProductDetail() {
                     key={st}
                     name={st <= Math.round(rating) ? 'star' : 'star-outline'}
                     size={15}
-                    color={colors.starYellow}
+                    color={colors.primary}
                   />
                 ))}
               </View>
@@ -378,7 +410,7 @@ export default function ProductDetail() {
                     <Ionicons
                       name={st <= userRating ? 'star' : 'star-outline'}
                       size={32}
-                      color={colors.starYellow}
+                      color={colors.primary}
                     />
                   </Pressable>
                 ))}
@@ -424,6 +456,59 @@ export default function ProductDetail() {
               </Pressable>
             </View>
           )}
+
+          {/* Permanent Customer Reviews Display */}
+          {reviewsList.length > 0 && (
+            <View style={s.publishedReviewsList}>
+              <View style={s.publishedReviewsHeader}>
+                <Ionicons name="chatbubbles-outline" size={16} color={colors.secondary} />
+                <Text style={s.publishedReviewsHeading}>
+                  Customer Reviews ({reviewsList.length})
+                </Text>
+              </View>
+
+              {reviewsList.map((rev, idx) => (
+                <View key={rev.id || `rev-${idx}`} style={s.reviewItemCard}>
+                  <View style={s.reviewItemTop}>
+                    <View style={s.reviewerBadgeCol}>
+                      <View style={s.reviewerAvatar}>
+                        <Text style={s.reviewerAvatarText}>
+                          {(rev.userName || 'C').charAt(0).toUpperCase()}
+                        </Text>
+                      </View>
+                      <View>
+                        <Text style={s.reviewerName}>{rev.userName || 'Verified Customer'}</Text>
+                        <View style={s.verifiedRow}>
+                          <Ionicons name="checkmark-circle" size={12} color={colors.secondary} />
+                          <Text style={s.verifiedText}>Verified Buyer</Text>
+                        </View>
+                      </View>
+                    </View>
+
+                    <View style={s.reviewStarsCol}>
+                      <View style={s.starsMiniRow}>
+                        {[1, 2, 3, 4, 5].map((st) => (
+                          <Ionicons
+                            key={st}
+                            name={st <= Number(rev.rating || 5) ? 'star' : 'star-outline'}
+                            size={12}
+                            color={colors.primary}
+                          />
+                        ))}
+                      </View>
+                      <Text style={s.reviewDate}>
+                        {rev.createdAt ? new Date(rev.createdAt).toLocaleDateString() : rev.date || 'Recent'}
+                      </Text>
+                    </View>
+                  </View>
+
+                  {rev.comment ? (
+                    <Text style={s.reviewComment}>{rev.comment}</Text>
+                  ) : null}
+                </View>
+              ))}
+            </View>
+          )}
         </View>
 
         {/* Recommended Blooms Showcase */}
@@ -452,14 +537,26 @@ export default function ProductDetail() {
       </ScrollView>
 
       {/* Dual Action Bottom Bar */}
-      <View style={[s.bottomBar, { paddingBottom: Math.max(insets.bottom, 10) }]}>
+      <View style={[s.bottomBar, { paddingBottom: Math.max(insets.bottom, 16) + 8 }]}>
         <View style={s.bottomBarInner}>
-          <Pressable style={s.addToBagBtn} onPress={handleAddToCart}>
-            <Ionicons name="bag-handle-outline" size={18} color={colors.ink} />
-            <Text style={s.addToBagText}>Add to Bag</Text>
+          <Pressable
+            style={({ pressed }) => [
+              s.addToCartBtn,
+              pressed && { opacity: 0.85, transform: [{ scale: 0.98 }] },
+            ]}
+            onPress={handleAddToCart}
+          >
+            <Ionicons name="cart-outline" size={18} color={colors.ink} />
+            <Text style={s.addToCartText}>Add to Cart</Text>
           </Pressable>
 
-          <Pressable style={s.buyNowBtn} onPress={handleBuyNow}>
+          <Pressable
+            style={({ pressed }) => [
+              s.buyNowBtn,
+              pressed && { opacity: 0.85, transform: [{ scale: 0.98 }] },
+            ]}
+            onPress={handleBuyNow}
+          >
             <Ionicons name="flash" size={18} color={colors.white} />
             <Text style={s.buyNowText}>Buy Now</Text>
           </Pressable>
@@ -881,6 +978,91 @@ const s = StyleSheet.create({
     fontSize: 12,
     fontWeight: '800',
   },
+  publishedReviewsList: {
+    marginTop: 18,
+    paddingTop: 16,
+    borderTopWidth: 1,
+    borderTopColor: colors.lineLight,
+    gap: 12,
+  },
+  publishedReviewsHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    marginBottom: 4,
+  },
+  publishedReviewsHeading: {
+    fontSize: 13,
+    fontWeight: '800',
+    color: colors.ink,
+    letterSpacing: 0.2,
+  },
+  reviewItemCard: {
+    backgroundColor: colors.surface,
+    borderRadius: radius.md,
+    padding: 12,
+    borderWidth: 1,
+    borderColor: colors.lineLight,
+  },
+  reviewItemTop: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
+    marginBottom: 8,
+  },
+  reviewerBadgeCol: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+  },
+  reviewerAvatar: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    backgroundColor: colors.primarySubtle,
+    borderWidth: 1,
+    borderColor: colors.border,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  reviewerAvatarText: {
+    fontSize: 13,
+    fontWeight: '800',
+    color: colors.ink,
+  },
+  reviewerName: {
+    fontSize: 12.5,
+    fontWeight: '700',
+    color: colors.ink,
+  },
+  verifiedRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 3,
+    marginTop: 1,
+  },
+  verifiedText: {
+    fontSize: 10,
+    fontWeight: '700',
+    color: colors.secondary,
+  },
+  reviewStarsCol: {
+    alignItems: 'flex-end',
+    gap: 2,
+  },
+  starsMiniRow: {
+    flexDirection: 'row',
+    gap: 1,
+  },
+  reviewDate: {
+    fontSize: 10,
+    color: colors.muted,
+  },
+  reviewComment: {
+    fontSize: 12,
+    color: colors.inkLight,
+    lineHeight: 18,
+  },
   recommendedSection: {
     backgroundColor: colors.white,
     marginTop: 8,
@@ -917,7 +1099,7 @@ const s = StyleSheet.create({
     flexDirection: 'row',
     gap: 12,
   },
-  addToBagBtn: {
+  addToCartBtn: {
     flex: 1,
     height: 48,
     borderRadius: 24,
@@ -929,7 +1111,7 @@ const s = StyleSheet.create({
     justifyContent: 'center',
     gap: 6,
   },
-  addToBagText: {
+  addToCartText: {
     fontSize: 14,
     fontWeight: '800',
     color: colors.ink,
@@ -940,7 +1122,7 @@ const s = StyleSheet.create({
     borderRadius: 24,
     backgroundColor: colors.primary,
     borderWidth: 1.5,
-    borderColor: colors.accent,
+    borderColor: colors.primaryDeep,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',

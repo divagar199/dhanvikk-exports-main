@@ -40,7 +40,7 @@ export function DealOfTheDay({ products }: { products: Product[] }) {
       <View style={s.header}>
         <View style={s.headerLeft}>
           <View style={s.iconTag}>
-            <Ionicons name="sparkles" size={14} color={colors.accent} />
+            <Ionicons name="sparkles" size={14} color={colors.white} />
           </View>
           <View>
             <Text style={s.title}>The Daily Harvest Reserve</Text>
@@ -63,7 +63,10 @@ export function DealOfTheDay({ products }: { products: Product[] }) {
         </View>
 
         <Pressable
-          style={s.viewAllBtn}
+          style={({ pressed }) => [
+            s.viewAllBtn,
+            pressed && { opacity: 0.7, transform: [{ scale: 0.95 }] },
+          ]}
           onPress={() => router.push('/(tabs)/shop')}
         >
           <Text style={s.viewAllText}>Explore Reserve</Text>
@@ -111,7 +114,7 @@ const s = StyleSheet.create({
     borderRadius: 16,
     backgroundColor: colors.primary,
     borderWidth: 1,
-    borderColor: colors.accent,
+    borderColor: colors.white,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -135,7 +138,7 @@ const s = StyleSheet.create({
   timerBox: {
     backgroundColor: colors.canvas,
     borderWidth: 0.8,
-    borderColor: colors.lineGold,
+    borderColor: colors.border,
     paddingHorizontal: 4,
     paddingVertical: 1,
     borderRadius: 4,
@@ -159,7 +162,7 @@ const s = StyleSheet.create({
     borderRadius: radius.pill,
     backgroundColor: colors.canvas,
     borderWidth: 1,
-    borderColor: colors.lineGold,
+    borderColor: colors.border,
   },
   viewAllText: {
     fontSize: 11,

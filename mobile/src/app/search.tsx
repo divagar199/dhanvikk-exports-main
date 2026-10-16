@@ -25,7 +25,10 @@ export default function Search() {
     <View style={[s.page, { paddingTop: Math.max(insets.top, 12) }]}>
       <View style={[s.header, { maxWidth: maxContentWidth, width: '100%', alignSelf: 'center' }]}>
         <Pressable
-          style={s.backBtn}
+          style={({ pressed }) => [
+            s.backBtn,
+            pressed && { opacity: 0.7, transform: [{ scale: 0.92 }] },
+          ]}
           onPress={() => (router.canGoBack() ? router.back() : router.replace('/(tabs)/home'))}
         >
           <Ionicons name="arrow-back" size={22} color={colors.ink} />
@@ -56,7 +59,7 @@ export default function Search() {
         contentContainerStyle={[
           s.content,
           {
-            paddingBottom: 60,
+            paddingBottom: Math.max(insets.bottom, 20) + 40,
             maxWidth: maxContentWidth,
             width: '100%',
             alignSelf: 'center',

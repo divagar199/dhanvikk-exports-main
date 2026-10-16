@@ -19,6 +19,7 @@ import { useStore } from '@/store/useStore';
 import { getStoredUser } from '@/lib/storage';
 import { resolveImageUrl } from '@/lib/imageUrl';
 import GoogleSignInModal from '@/components/GoogleSignInModal';
+import { BrandHeaderTitle } from '@/components/BrandHeaderTitle';
 import type { Order, User } from '@/types/models';
 
 export default function OrdersTab() {
@@ -52,7 +53,7 @@ export default function OrdersTab() {
     const s = (status || '').toLowerCase();
     if (s.includes('deliver')) return { bg: '#E8F5E9', text: '#2E7D32', border: '#C8E6C9' };
     if (s.includes('out') || s.includes('prepar') || s.includes('progress')) {
-      return { bg: '#FFF8E1', text: '#F57F17', border: '#FFECB3' };
+      return { bg: '#FCE4EC', text: '#C2185B', border: '#F8BBD0' };
     }
     if (s.includes('cancel')) return { bg: '#FFEBEE', text: '#C62828', border: '#FFCDD2' };
     return { bg: colors.softBlush, text: colors.deepMagenta, border: colors.border };
@@ -62,14 +63,14 @@ export default function OrdersTab() {
     <View style={[s.page, { paddingTop: Math.max(insets.top, 10) }]}>
       {/* Botanical Gallery Header */}
       <View style={s.header}>
-        <View style={s.headerTitleWrap}>
-          <Text style={s.headerSup}>WHITE-GLOVE LOGISTICS</Text>
-          <Text style={s.headerTitle}>My Orders</Text>
-        </View>
+        <BrandHeaderTitle />
 
         <View style={s.headerActions}>
           <Pressable
-            style={s.iconBtn}
+            style={({ pressed }) => [
+              s.iconBtn,
+              pressed && { opacity: 0.7, transform: [{ scale: 0.92 }] },
+            ]}
             onPress={() => {
               if (user) refetch();
             }}
@@ -79,8 +80,11 @@ export default function OrdersTab() {
           </Pressable>
 
           <Pressable
-            style={s.iconBtn}
-            onPress={() => router.push('/(tabs)/cart')}
+            style={({ pressed }) => [
+              s.iconBtn,
+              pressed && { opacity: 0.7, transform: [{ scale: 0.92 }] },
+            ]}
+            onPress={() => router.push('/cart')}
             accessibilityLabel="Shopping Cart"
           >
             <Ionicons name="cart-outline" size={21} color={colors.ink} />
@@ -98,7 +102,7 @@ export default function OrdersTab() {
         <View style={s.guestContainer}>
           <View style={s.guestCard}>
             <View style={s.guestIconCircle}>
-              <Ionicons name="bag-check" size={38} color={colors.primary} />
+              <Ionicons name="cart" size={38} color={colors.primary} />
             </View>
             <Text style={s.guestTitle}>Sign in to view orders</Text>
             <Text style={s.guestSubtitle}>
@@ -148,7 +152,7 @@ export default function OrdersTab() {
       ) : (
         <FlatList
           data={data}
-          contentContainerStyle={[s.content, { paddingBottom: 90 }]}
+          contentContainerStyle={[s.content, { paddingBottom: Math.max(insets.bottom, 16) + 115 }]}
           keyExtractor={(item: Order, index: number) =>
             item.orderId || item.id || (item as any)._id || String(index)
           }
@@ -297,15 +301,15 @@ const s = StyleSheet.create({
   },
   headerSup: {
     fontSize: 9,
-    fontWeight: '900',
-    color: colors.primary,
-    letterSpacing: 0.8,
+    fontWeight: '800',
+    color: colors.secondary,
+    letterSpacing: 0.5,
   },
   headerTitle: {
     fontSize: 18,
     fontWeight: '900',
-    color: colors.ink,
-    letterSpacing: 0.2,
+    color: colors.primary,
+    letterSpacing: 0.5,
   },
   headerActions: {
     flexDirection: 'row',

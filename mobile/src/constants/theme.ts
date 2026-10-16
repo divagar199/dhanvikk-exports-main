@@ -8,10 +8,10 @@ export const colors = {
   primary: '#E91E63', // Primary blossom pink
   primaryDeep: '#C2185B', // Deep magenta
   deepMagenta: '#C2185B', // Deep magenta
-  accent: '#F4B400', // Warm gold accent
-  warmGold: '#F4B400', // Warm gold accent
-  accentMuted: '#C29300',
-  accentLight: '#FFF8E1',
+  accent: '#C2185B', // Rich deep magenta brand accent (matching palette)
+  warmGold: '#C2185B', // Deep rose matching accent
+  accentMuted: '#AD1457',
+  accentLight: '#FCE4EC', // Soft blush
   bloomAccent: '#F23878', // Bloom accent
   softBlush: '#FCE4EC', // Soft blush
   palePink: '#FFF3F6', // Pale pink background
@@ -27,9 +27,9 @@ export const colors = {
   secondaryDeep: '#1B5E20',
 
   // Tertiary Accents
-  gold: '#F4B400',
-  yellowGold: '#F4B400',
-  starYellow: '#F4B400',
+  gold: '#E91E63',
+  yellowGold: '#C2185B',
+  starYellow: '#E91E63', // Blossom rose rating star (matching brand palette)
   starGreen: '#2E7D32',
   starGreenBg: '#E8F5E9',
 
@@ -57,7 +57,7 @@ export const colors = {
   border: '#EEE5E9', // Border
   line: '#EEE5E9',
   lineLight: '#F5EFF2',
-  lineGold: 'rgba(244, 180, 0, 0.4)',
+  lineGold: 'rgba(233, 30, 99, 0.15)', // Delicate matching rose hairline border
 
   // States & Indicators
   reeferGreen: '#2E7D32',
@@ -65,7 +65,7 @@ export const colors = {
   discountGreen: '#2E7D32',
   dealOrange: '#E65100',
   success: '#2E7D32',
-  warning: '#ED6C02',
+  warning: '#E91E63',
   danger: '#E91E63',
   error: '#D32F2F',
 
@@ -91,7 +91,7 @@ export const shadows = {
     elevation: 3,
   },
   goldGlow: {
-    shadowColor: '#D4AF37',
+    shadowColor: '#E91E63',
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.18,
     shadowRadius: 10,

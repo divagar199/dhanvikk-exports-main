@@ -58,3 +58,22 @@ export async function clearSession(): Promise<void> {
     delete memoryStore[USER_KEY];
   }
 }
+
+export async function getStorageItem<T>(key: string): Promise<T | null> {
+  try {
+    const val = await SecureStore.getItemAsync(key);
+    const raw = val ?? memoryStore[key];
+    return raw ? JSON.parse(raw) : null;
+  } catch {
+    return memoryStore[key] ? JSON.parse(memoryStore[key]) : null;
+  }
+}
+
+export async function setStorageItem(key: string, val: unknown): Promise<void> {
+  const serialized = JSON.stringify(val);
+  try {
+    await SecureStore.setItemAsync(key, serialized);
+  } catch {
+    memoryStore[key] = serialized;
+  }
+}

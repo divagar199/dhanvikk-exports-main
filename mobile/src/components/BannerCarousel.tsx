@@ -30,7 +30,7 @@ const BANNERS: BannerItem[] = [
     telemetry: 'Continuous 2°C–4°C Reefer Cold-Chain Protected',
     title: 'Make Every Moment Bloom',
     subtitle: "Thoughtfully selected flowers for life's most meaningful moments.",
-    offer: 'HAUTE FLORICULTURE',
+    offer: 'Blooms and Exports',
     image: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=1000&q=85',
     routeCategory: 'Roses',
   },
@@ -112,7 +112,11 @@ export function BannerCarousel() {
         onMomentumScrollEnd={onScroll}
         renderItem={({ item }) => (
           <Pressable
-            style={[s.card, { width: bannerWidth, height: bannerHeight }]}
+            style={({ pressed }) => [
+              s.card,
+              { width: bannerWidth, height: bannerHeight },
+              pressed && { opacity: 0.92, transform: [{ scale: 0.985 }] },
+            ]}
             onPress={() =>
               router.push({
                 pathname: '/(tabs)/shop',
@@ -134,7 +138,7 @@ export function BannerCarousel() {
                   <Text style={s.badgeText}>{item.badge}</Text>
                 </View>
                 <View style={s.offerPill}>
-                  <Ionicons name="shield-checkmark" size={11} color={colors.accent} style={{ marginRight: 3 }} />
+                  <Ionicons name="shield-checkmark" size={11} color={colors.white} style={{ marginRight: 3 }} />
                   <Text style={s.offerText}>{item.offer}</Text>
                 </View>
               </View>
@@ -164,7 +168,7 @@ export function BannerCarousel() {
                       });
                     }}
                   >
-                    <Ionicons name="gift-outline" size={12} color={colors.accent} />
+                    <Ionicons name="gift-outline" size={12} color={colors.white} />
                     <Text style={s.secondaryCtaText}>Explore Gifting</Text>
                   </Pressable>
                 </View>
@@ -203,7 +207,7 @@ const s = StyleSheet.create({
     overflow: 'hidden',
     backgroundColor: colors.surfaceContainer,
     borderWidth: 1,
-    borderColor: colors.lineGold,
+    borderColor: colors.border,
     ...(shadows?.card || {}),
   },
   image: {
@@ -231,7 +235,7 @@ const s = StyleSheet.create({
     paddingVertical: 3.5,
     borderRadius: radius.pill,
     borderWidth: 0.5,
-    borderColor: colors.lineGold,
+    borderColor: colors.border,
   },
   badgeText: {
     fontSize: 9,
@@ -247,7 +251,7 @@ const s = StyleSheet.create({
     paddingVertical: 3.5,
     borderRadius: radius.pill,
     borderWidth: 0.5,
-    borderColor: colors.accent,
+    borderColor: 'rgba(255, 255, 255, 0.4)',
   },
   offerText: {
     fontSize: 9,
@@ -266,7 +270,7 @@ const s = StyleSheet.create({
     gap: 5,
     marginTop: 4,
     borderWidth: 0.5,
-    borderColor: 'rgba(212, 175, 55, 0.35)',
+    borderColor: 'rgba(255, 255, 255, 0.3)',
   },
   telemetryDot: {
     width: 5,
@@ -308,7 +312,7 @@ const s = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: colors.primary,
     borderWidth: 1,
-    borderColor: colors.accent,
+    borderColor: colors.primaryDeep,
     paddingHorizontal: 12,
     paddingVertical: 6,
     borderRadius: radius.pill,
@@ -327,7 +331,7 @@ const s = StyleSheet.create({
     gap: 4,
   },
   secondaryCtaText: {
-    color: colors.accentLight,
+    color: colors.white,
     fontSize: 10,
     fontWeight: '700',
     letterSpacing: 0.2,
@@ -347,7 +351,7 @@ const s = StyleSheet.create({
   },
   dotActive: {
     width: 20,
-    backgroundColor: colors.accent,
+    backgroundColor: colors.primary,
     borderRadius: 3,
   },
 });

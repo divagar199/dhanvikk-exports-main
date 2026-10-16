@@ -53,9 +53,10 @@ export function OccasionsGrid() {
         {OCCASIONS.map((occ) => (
           <Pressable
             key={occ.id}
-            style={[
+            style={({ pressed }) => [
               s.card,
-              isTablet && { width: '23.8%', height: 130 }
+              isTablet && { width: '23.8%', height: 130 },
+              pressed && { opacity: 0.9, transform: [{ scale: 0.96 }] },
             ]}
             onPress={() =>
               router.push({
@@ -83,7 +84,7 @@ export function OccasionsGrid() {
       <View style={s.conciergeBanner}>
         <View style={s.conciergeLeft}>
           <View style={s.vipTag}>
-            <Ionicons name="sparkles" size={13} color={colors.accent} />
+            <Ionicons name="sparkles" size={13} color={colors.white} />
             <Text style={s.vipTagText}>VIP FLORILEGIUM</Text>
           </View>
           <Text style={s.conciergeTitle}>Private Residence & Event Styling</Text>
@@ -159,7 +160,7 @@ const s = StyleSheet.create({
     overflow: 'hidden',
     position: 'relative',
     borderWidth: 1,
-    borderColor: colors.lineGold,
+    borderColor: colors.border,
     ...(shadows?.soft || {}),
   },
   image: {
@@ -182,7 +183,7 @@ const s = StyleSheet.create({
     paddingVertical: 2,
     borderRadius: radius.pill,
     borderWidth: 0.5,
-    borderColor: colors.lineGold,
+    borderColor: colors.border,
   },
   badgePillText: {
     fontSize: 7.5,
@@ -207,7 +208,7 @@ const s = StyleSheet.create({
     borderRadius: radius.lg,
     padding: 14,
     borderWidth: 1,
-    borderColor: colors.accent,
+    borderColor: 'rgba(255, 255, 255, 0.2)',
     ...(shadows?.soft || {}),
   },
   conciergeLeft: {
@@ -221,7 +222,7 @@ const s = StyleSheet.create({
   vipTagText: {
     fontSize: 9,
     fontWeight: '900',
-    color: colors.accent,
+    color: '#E8F5E9',
     letterSpacing: 1,
   },
   conciergeTitle: {
@@ -243,7 +244,7 @@ const s = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: colors.primary,
     borderWidth: 1,
-    borderColor: colors.accent,
+    borderColor: colors.primaryDeep,
     paddingHorizontal: 14,
     paddingVertical: 7,
     borderRadius: radius.pill,

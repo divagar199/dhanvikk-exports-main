@@ -16,6 +16,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { getMyOrders, getOrderById } from '@/services/orders';
 import { colors, spacing, radius } from '@/constants/theme';
 import { resolveImageUrl } from '@/lib/imageUrl';
+import { BrandHeaderTitle } from '@/components/BrandHeaderTitle';
 import type { Order } from '@/types/models';
 
 export default function OrderDetail() {
@@ -52,14 +53,14 @@ export default function OrderDetail() {
     const s = (status || '').toLowerCase();
     if (s.includes('deliver')) return { bg: '#E6F4EA', text: '#137333', border: '#CEEAD6', icon: 'checkmark-circle' };
     if (s.includes('out') || s.includes('prepar') || s.includes('progress')) {
-      return { bg: '#FEF7E0', text: '#B06000', border: '#FEEFC3', icon: 'bicycle-outline' };
+      return { bg: '#FCE4EC', text: '#C2185B', border: '#F8BBD0', icon: 'bicycle-outline' };
     }
     if (s.includes('cancel')) return { bg: '#FCE8E6', text: '#C5221F', border: '#FAD2CF', icon: 'close-circle' };
     return { bg: colors.blush, text: colors.primaryDeep, border: colors.blushDeep, icon: 'shield-checkmark' };
   };
 
   const handleSupportPress = () => {
-    const msg = encodeURIComponent(`Hi Dhanvikk, I have an inquiry regarding my order #${order?.orderId || id}`);
+    const msg = encodeURIComponent(`Hi Dhanvikk Blooms and Exports, I have an inquiry regarding my order #${order?.orderId || id}`);
     Linking.openURL(`https://wa.me/919488344799?text=${msg}`).catch(() => {});
   };
 
@@ -68,13 +69,22 @@ export default function OrderDetail() {
       {/* Top Header */}
       <View style={s.header}>
         <Pressable
-          style={s.backBtn}
+          style={({ pressed }) => [
+            s.backBtn,
+            pressed && { opacity: 0.7, transform: [{ scale: 0.92 }] },
+          ]}
           onPress={() => (router.canGoBack() ? router.back() : router.replace('/orders'))}
         >
           <Ionicons name="arrow-back" size={22} color={colors.ink} />
         </Pressable>
-        <Text style={s.headerTitle}>Order Summary</Text>
-        <Pressable style={s.backBtn} onPress={handleSupportPress}>
+        <BrandHeaderTitle align="center" />
+        <Pressable
+          style={({ pressed }) => [
+            s.backBtn,
+            pressed && { opacity: 0.7, transform: [{ scale: 0.92 }] },
+          ]}
+          onPress={handleSupportPress}
+        >
           <Ionicons name="logo-whatsapp" size={20} color="#25D366" />
         </Pressable>
       </View>
@@ -96,7 +106,7 @@ export default function OrderDetail() {
           </Pressable>
         </View>
       ) : (
-        <ScrollView contentContainerStyle={[s.content, { paddingBottom: 60 }]}>
+        <ScrollView contentContainerStyle={[s.content, { paddingBottom: Math.max(insets.bottom, 20) + 50 }]}>
           {/* Top Order ID and Status Pill */}
           {(() => {
             const st = getStatusColor(order.status);
@@ -269,9 +279,17 @@ const s = StyleSheet.create({
     justifyContent: 'center',
   },
   headerTitle: {
-    fontSize: 18,
+    fontSize: 17,
     fontWeight: '900',
-    color: colors.ink,
+    color: colors.primary,
+    letterSpacing: 0.8,
+  },
+  headerSub: {
+    fontSize: 9.5,
+    fontWeight: '800',
+    color: colors.secondary,
+    letterSpacing: 0.5,
+    marginTop: 2,
   },
   center: {
     flex: 1,

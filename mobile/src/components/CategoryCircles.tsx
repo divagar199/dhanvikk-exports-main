@@ -97,7 +97,10 @@ export function CategoryCircles({
           return (
             <Pressable
               key={cat.id}
-              style={s.item}
+              style={({ pressed }) => [
+                s.item,
+                pressed && { opacity: 0.8, transform: [{ scale: 0.93 }] },
+              ]}
               onPress={() => handlePress(cat.id)}
             >
               <View style={[s.circleOuterRing, isSelected && s.circleOuterRingSelected]}>
@@ -109,11 +112,6 @@ export function CategoryCircles({
                     transition={150}
                   />
                 </View>
-                {cat.badge && (
-                  <View style={s.miniBadge}>
-                    <Text style={s.miniBadgeText}>{cat.badge}</Text>
-                  </View>
-                )}
               </View>
               <Text
                 style={[s.label, isSelected && s.labelSelected]}
@@ -159,7 +157,7 @@ const s = StyleSheet.create({
     borderRadius: 31,
     padding: 2.5,
     borderWidth: 1.5,
-    borderColor: colors.lineGold,
+    borderColor: colors.border,
     backgroundColor: colors.canvas,
     alignItems: 'center',
     justifyContent: 'center',
@@ -169,8 +167,8 @@ const s = StyleSheet.create({
   circleOuterRingSelected: {
     borderColor: colors.primary,
     borderWidth: 2,
-    backgroundColor: colors.primarySubtle,
-    ...(shadows?.goldGlow || {}),
+    backgroundColor: colors.primaryLight,
+    ...(shadows?.card || {}),
   },
   circleInnerRing: {
     width: 53,
@@ -183,22 +181,6 @@ const s = StyleSheet.create({
     width: '100%',
     height: '100%',
   },
-  miniBadge: {
-    position: 'absolute',
-    bottom: -3,
-    backgroundColor: colors.primary,
-    borderWidth: 1,
-    borderColor: colors.accent,
-    paddingHorizontal: 5,
-    paddingVertical: 1,
-    borderRadius: radius.pill,
-  },
-  miniBadgeText: {
-    color: colors.white,
-    fontSize: 7.5,
-    fontWeight: '900',
-    letterSpacing: 0.2,
-  },
   label: {
     fontSize: 10.5,
     fontWeight: '700',
@@ -208,7 +190,7 @@ const s = StyleSheet.create({
     letterSpacing: 0.2,
   },
   labelSelected: {
-    color: colors.primary,
+    color: colors.ink,
     fontWeight: '900',
   },
 });

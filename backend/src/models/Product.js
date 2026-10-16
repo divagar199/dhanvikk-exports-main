@@ -102,6 +102,17 @@ const productSchema = new mongoose.Schema(
       type: Boolean,
       default: true,
     },
+    reviews: [
+      {
+        userId: { type: String },
+        userName: { type: String, default: 'Verified Customer' },
+        userEmail: { type: String },
+        rating: { type: Number, required: true, min: 1, max: 5 },
+        comment: { type: String, default: '' },
+        verified: { type: Boolean, default: true },
+        createdAt: { type: Date, default: Date.now },
+      },
+    ],
   },
   { timestamps: true }
 );

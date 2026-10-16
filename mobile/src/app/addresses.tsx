@@ -125,13 +125,22 @@ export default function AddressesScreen() {
       {/* Top Header */}
       <View style={s.header}>
         <Pressable
-          style={s.backBtn}
+          style={({ pressed }) => [
+            s.backBtn,
+            pressed && { opacity: 0.7, transform: [{ scale: 0.92 }] },
+          ]}
           onPress={() => (router.canGoBack() ? router.back() : router.replace('/(tabs)/account'))}
         >
           <Ionicons name="arrow-back" size={22} color={colors.ink} />
         </Pressable>
         <Text style={s.headerTitle}>Delivery Addresses</Text>
-        <Pressable style={s.addHeaderBtn} onPress={handleOpenAddModal}>
+        <Pressable
+          style={({ pressed }) => [
+            s.addHeaderBtn,
+            pressed && { opacity: 0.8, transform: [{ scale: 0.95 }] },
+          ]}
+          onPress={handleOpenAddModal}
+        >
           <Ionicons name="add" size={20} color={colors.primaryDeep} />
           <Text style={s.addHeaderText}>Add</Text>
         </Pressable>
@@ -350,9 +359,10 @@ const s = StyleSheet.create({
     justifyContent: 'center',
   },
   headerTitle: {
-    fontSize: 16,
-    fontWeight: '700',
+    fontSize: 17,
+    fontWeight: '800',
     color: colors.ink,
+    letterSpacing: 0.2,
   },
   addHeaderBtn: {
     flexDirection: 'row',

@@ -211,7 +211,7 @@ export function GoogleSignInModal({ visible, onClose, onSuccess }: GoogleSignInM
           </View>
 
           <Text style={s.sheetSub}>
-            Choose an account to continue to <Text style={s.brandHighlight}>Dhanvikk Blooms</Text>
+            Choose an account to continue to <Text style={s.brandHighlight}>Dhanvikk Blooms and Exports</Text>
           </Text>
 
           {busy ? (
@@ -328,7 +328,7 @@ export function GoogleSignInModal({ visible, onClose, onSuccess }: GoogleSignInM
           )}
 
           <Text style={s.termsText}>
-            To continue, Google will share your name, email address, and profile picture with Dhanvikk Blooms.
+            To continue, Google will share your name, email address, and profile picture with Dhanvikk Blooms and Exports.
           </Text>
         </Pressable>
       </Pressable>

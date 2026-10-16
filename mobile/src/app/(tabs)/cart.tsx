@@ -19,6 +19,7 @@ import { GoogleSignInModal } from '@/components/GoogleSignInModal';
 import { useQuery } from '@tanstack/react-query';
 import { getProfileData } from '@/services/orders';
 import { useResponsive } from '@/hooks/useResponsive';
+import { BrandHeaderTitle } from '@/components/BrandHeaderTitle';
 
 export default function Cart() {
   const insets = useSafeAreaInsets();
@@ -73,7 +74,7 @@ export default function Cart() {
     if (!user) {
       Alert.alert(
         'Sign In to Order',
-        'Please sign in with Google or your Dhanvikk account to place your floral order and receive express doorstep delivery.',
+        'Please sign in with Google or your Dhanvikk Blooms and Exports account to place your floral order and receive express doorstep delivery.',
         [
           { text: 'Cancel', style: 'cancel' },
           {
@@ -95,9 +96,18 @@ export default function Cart() {
     <View style={[s.page, { paddingTop: Math.max(insets.top, 10) }]}>
       {/* Haute Floriculture Header */}
       <View style={[s.header, { maxWidth: contentMaxWidth, width: '100%', alignSelf: 'center' }]}>
-        <View style={s.headerTitleWrap}>
-          <Text style={s.headerSup}>EST. NILGIRIS • WHITE-GLOVE TRANSIT</Text>
-          <Text style={s.headerTitle}>Shopping Cart ({cart.length})</Text>
+        <View style={s.headerLeft}>
+          <Pressable
+            style={({ pressed }) => [
+              s.backBtn,
+              pressed && { opacity: 0.7, transform: [{ scale: 0.92 }] },
+            ]}
+            onPress={() => (router.canGoBack() ? router.back() : router.replace('/(tabs)/home'))}
+            hitSlop={8}
+          >
+            <Ionicons name="arrow-back" size={22} color={colors.ink} />
+          </Pressable>
+          <BrandHeaderTitle />
         </View>
         <View style={s.telemetryBadge}>
           <View style={s.telemetryDot} />
@@ -154,14 +164,22 @@ export default function Cart() {
       <FlatList
         data={cart}
         keyExtractor={(x) => x.id || x._id || x.slug}
-        contentContainerStyle={[s.content, { paddingBottom: 130, maxWidth: contentMaxWidth, width: '100%', alignSelf: 'center' }]}
+        contentContainerStyle={[
+          s.content,
+          {
+            paddingBottom: Math.max(insets.bottom, 16) + 140,
+            maxWidth: contentMaxWidth,
+            width: '100%',
+            alignSelf: 'center',
+          },
+        ]}
         showsVerticalScrollIndicator={false}
         ListEmptyComponent={
           <View style={s.empty}>
             <View style={s.emptyIconCircle}>
-              <Ionicons name="bag-handle-outline" size={46} color={colors.primary} />
+              <Ionicons name="cart-outline" size={46} color={colors.primary} />
             </View>
-            <Text style={s.emptyTitle}>Your Atelier Bag is Awaiting Blooms</Text>
+            <Text style={s.emptyTitle}>Your Shopping Cart is Empty</Text>
             <Text style={s.emptySub}>
               Discover hand-cut estate roses, Casablanca lilies, and sacred jasmine harvested fresh at dawn in the Nilgiris.
             </Text>
@@ -336,7 +354,7 @@ export default function Cart() {
 
       {/* Sticky Bottom Bar */}
       {cart.length > 0 && (
-        <View style={[s.bottomBar, { paddingBottom: Math.max(insets.bottom, 12) }]}>
+        <View style={[s.bottomBar, { paddingBottom: Math.max(insets.bottom, 16) + 8 }]}>
           <View style={[s.bottomBarInner, { maxWidth: contentMaxWidth, width: '100%', alignSelf: 'center' }]}>
             <View style={s.bottomPriceCol}>
               <Text style={s.bottomOriginal}>₹{originalTotal.toLocaleString('en-IN')}</Text>
@@ -380,14 +398,29 @@ const s = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
   },
+  headerLeft: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+  },
+  backBtn: {
+    width: 34,
+    height: 34,
+    borderRadius: 17,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: colors.canvas,
+    borderWidth: 1,
+    borderColor: colors.line,
+  },
   headerTitleWrap: {
     gap: 1,
   },
   headerSup: {
-    fontSize: 8.5,
+    fontSize: 9,
     fontWeight: '800',
     color: colors.secondary,
-    letterSpacing: 1.2,
+    letterSpacing: 0.5,
   },
   headerTitle: {
     fontSize: 17,
@@ -454,7 +487,7 @@ const s = StyleSheet.create({
     borderRadius: 16,
     backgroundColor: colors.surfaceContainer,
     borderWidth: 1,
-    borderColor: colors.lineGold,
+    borderColor: colors.border,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -766,7 +799,7 @@ const s = StyleSheet.create({
   placeOrderBtn: {
     backgroundColor: colors.primary,
     borderWidth: 1.5,
-    borderColor: colors.accent,
+    borderColor: colors.primaryDeep,
     paddingHorizontal: 28,
     height: 46,
     borderRadius: radius.pill,

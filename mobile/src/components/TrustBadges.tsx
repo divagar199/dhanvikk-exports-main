@@ -53,7 +53,7 @@ const s = StyleSheet.create({
     borderBottomWidth: 1,
     borderColor: colors.lineLight,
     borderLeftWidth: 3,
-    borderLeftColor: colors.accent,
+    borderLeftColor: colors.primary,
     ...(shadows?.soft || {}),
   },
   badge: {
@@ -66,7 +66,7 @@ const s = StyleSheet.create({
     borderRadius: 16,
     backgroundColor: colors.canvas,
     borderWidth: 1,
-    borderColor: colors.lineGold,
+    borderColor: colors.border,
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: 4,

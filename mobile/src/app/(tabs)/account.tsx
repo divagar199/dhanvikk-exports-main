@@ -18,6 +18,7 @@ import { useStore } from '@/store/useStore';
 import type { User } from '@/types/models';
 import { GoogleSignInModal } from '@/components/GoogleSignInModal';
 import { useResponsive } from '@/hooks/useResponsive';
+import { BrandHeaderTitle } from '@/components/BrandHeaderTitle';
 
 export default function Account() {
   const insets = useSafeAreaInsets();
@@ -52,23 +53,13 @@ export default function Account() {
     <View style={[s.page, { paddingTop: Math.max(insets.top, 10) }]}>
       {/* Haute Floriculture Header */}
       <View style={[s.header, { maxWidth: contentMaxWidth, width: '100%', alignSelf: 'center' }]}>
-        <View style={s.headerTitleRow}>
-          <Image
-            source={require('@/assets/logo.png')}
-            style={s.headerLogo}
-            contentFit="contain"
-          />
-          <View>
-            <Text style={s.headerTitle}>My Profile</Text>
-            <Text style={s.headerSub}>Account Settings & VIP Privileges</Text>
-          </View>
-        </View>
+        <BrandHeaderTitle />
       </View>
 
       <ScrollView
         contentContainerStyle={[
           s.content,
-          { paddingBottom: 120, maxWidth: contentMaxWidth, width: '100%', alignSelf: 'center' },
+          { paddingBottom: Math.max(insets.bottom, 16) + 130, maxWidth: contentMaxWidth, width: '100%', alignSelf: 'center' },
         ]}
         showsVerticalScrollIndicator={false}
       >
@@ -104,22 +95,6 @@ export default function Account() {
               </Pressable>
             </View>
           ) : null}
-        </View>
-
-        {/* Dhanvikk Florilegium VIP Banner */}
-        <View style={s.vipBanner}>
-          <View style={s.vipLeft}>
-            <View style={s.vipCrown}>
-              <Ionicons name="sparkles" size={16} color={colors.accent} />
-            </View>
-            <View>
-              <Text style={s.vipTitle}>Dhanvikk Highland Circle</Text>
-              <Text style={s.vipSub}>Complimentary 2°C–4°C reefer delivery, dawn harvest priority & wax-sealed calligraphy notes</Text>
-            </View>
-          </View>
-          <View style={s.vipPill}>
-            <Text style={s.vipPillText}>ESTATE PRIVILEGED</Text>
-          </View>
         </View>
 
         {/* 4-Item Quick Action Grid (Classic Flipkart pattern) */}
@@ -222,7 +197,7 @@ export default function Account() {
             }
           >
             <Ionicons name="flower-outline" size={20} color={colors.ink} />
-            <Text style={s.menuLabel}>About Dhanvikk Blooms</Text>
+            <Text style={s.menuLabel}>About Dhanvikk Blooms & Exports</Text>
             <Ionicons name="chevron-forward" size={18} color={colors.muted} />
           </Pressable>
 
@@ -353,7 +328,7 @@ const s = StyleSheet.create({
     borderRadius: 25,
     backgroundColor: colors.surfaceContainer,
     borderWidth: 1.5,
-    borderColor: colors.lineGold,
+    borderColor: colors.border,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -381,7 +356,7 @@ const s = StyleSheet.create({
     paddingVertical: 6,
     borderRadius: radius.pill,
     borderWidth: 1,
-    borderColor: colors.accent,
+    borderColor: colors.primaryDeep,
   },
   signInMiniText: {
     color: colors.white,
@@ -411,12 +386,12 @@ const s = StyleSheet.create({
     width: 32,
     height: 32,
     borderRadius: 16,
-    backgroundColor: 'rgba(212, 175, 55, 0.2)',
+    backgroundColor: 'rgba(255, 255, 255, 0.2)',
     alignItems: 'center',
     justifyContent: 'center',
   },
   vipTitle: {
-    color: colors.accent,
+    color: colors.white,
     fontSize: 13,
     fontWeight: '900',
   },
@@ -426,13 +401,13 @@ const s = StyleSheet.create({
     marginTop: 1,
   },
   vipPill: {
-    backgroundColor: colors.yellowGold,
+    backgroundColor: colors.primary,
     paddingHorizontal: 6,
     paddingVertical: 2,
     borderRadius: 3,
   },
   vipPillText: {
-    color: colors.ink,
+    color: colors.white,
     fontSize: 9,
     fontWeight: '900',
   },

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { memo, useEffect, useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { Image } from 'expo-image';
 import { Ionicons } from '@expo/vector-icons';
@@ -8,7 +8,7 @@ import type { Product } from '@/types/models';
 import { useStore } from '@/store/useStore';
 import { resolveImageUrl, FALLBACK_FLOWER_IMAGE } from '@/lib/imageUrl';
 
-export function ProductCard({
+export const ProductCard = memo(function ProductCard({
   product,
   horizontal = false,
   cardWidth,
@@ -17,12 +17,18 @@ export function ProductCard({
   horizontal?: boolean;
   cardWidth?: number | string;
 }) {
+  const cart = useStore((s) => s.cart);
   const add = useStore((s) => s.add);
+  const qty = useStore((s) => s.qty);
   const wish = useStore((s) => s.wish);
   const saved = useStore((s) => s.wishlist);
 
   const id = product.id || product._id || product.slug;
-  const isSaved = saved.includes(id);
+  const allIds = [product.id, product._id, product.slug].filter(Boolean).map(String);
+  const isSaved = allIds.some((cand) => saved.includes(cand));
+
+  const inCartItem = cart.find((i) => (i.id || i._id || i.slug) === id);
+  const cartQty = inCartItem?.quantity || 0;
 
   const [imageError, setImageError] = useState(false);
 
@@ -45,7 +51,10 @@ export function ProductCard({
   if (horizontal) {
     return (
       <Pressable
-        style={s.hCard}
+        style={({ pressed }) => [
+          s.hCard,
+          pressed && { opacity: 0.9, transform: [{ scale: 0.98 }] },
+        ]}
         onPress={() => router.push(('/product/' + id) as any)}
       >
         <View style={s.hPic}>
@@ -67,7 +76,7 @@ export function ProductCard({
           </Text>
 
           <View style={s.ratingRow}>
-            <Ionicons name="star" size={11} color={colors.accent} />
+            <Ionicons name="star" size={11} color={colors.primary} />
             <Text style={s.ratingNum}>{rating.toFixed(1)}</Text>
             <Text style={s.reviewsCount}>({reviewsCount})</Text>
           </View>
@@ -86,68 +95,89 @@ export function ProductCard({
   }
 
   return (
-    <Pressable
-      style={[s.card, cardWidth !== undefined ? { width: cardWidth } : null]}
-      onPress={() => router.push(('/product/' + id) as any)}
-    >
+    <View style={[s.card, cardWidth !== undefined ? { width: cardWidth } : null]}>
       <View style={s.pic}>
-        <Image
-          source={{ uri: imageUri }}
-          style={s.image}
-          contentFit="cover"
-          transition={150}
-          onError={() => setImageError(true)}
-        />
+        <Pressable
+          style={s.picPressable}
+          onPress={() => router.push(('/product/' + id) as any)}
+        >
+          <Image
+            source={{ uri: imageUri }}
+            style={s.image}
+            contentFit="cover"
+            transition={150}
+            onError={() => setImageError(true)}
+          />
 
-        {/* Origin / Provenance Tag */}
-        <View style={s.originBadge}>
-          <Text style={s.originText}>Kotagiri • 7,200ft</Text>
-        </View>
+          {/* Origin / Provenance Tag */}
+          <View style={s.originBadge}>
+            <Text style={s.originText}>Kotagiri • 7,200ft</Text>
+          </View>
+        </Pressable>
 
         {/* Wishlist Button */}
         <Pressable
-          style={s.heart}
-          onPress={() => wish(id)}
+          style={({ pressed }) => [
+            s.heart,
+            pressed && { transform: [{ scale: 0.85 }] },
+          ]}
+          onPress={(e) => {
+            e?.stopPropagation?.();
+            wish(id, {
+              name: product.name,
+              price,
+              image: imageUri,
+              altIds: allIds,
+            });
+          }}
           hitSlop={8}
-          accessibilityLabel="Wishlist"
+          accessibilityLabel={isSaved ? 'Remove from Wishlist' : 'Save to Wishlist'}
         >
           <Ionicons
             name={isSaved ? 'heart' : 'heart-outline'}
-            size={17}
-            color={isSaved ? colors.primary : colors.ink}
+            size={18}
+            color={isSaved ? '#E11D48' : colors.ink}
           />
         </Pressable>
       </View>
 
       <View style={s.body}>
-        <Text style={s.categoryTag} numberOfLines={1}>
-          {product.flowerType || product.category || 'HAUTE FLORICULTURE'}
-        </Text>
+        <Pressable
+          style={({ pressed }) => [
+            s.bodyClickable,
+            pressed && { opacity: 0.85 },
+          ]}
+          onPress={() => router.push(('/product/' + id) as any)}
+        >
+          <Text style={s.categoryTag} numberOfLines={1}>
+            {product.flowerType || product.category || 'Blooms and Exports'}
+          </Text>
 
-        <Text style={s.name} numberOfLines={2}>
-          {product.name}
-        </Text>
+          <Text style={s.name} numberOfLines={2}>
+            {product.name}
+          </Text>
 
-        <View style={s.ratingRow}>
-          <View style={s.starGroup}>
-            <Ionicons name="star" size={11} color={colors.accent} />
-            <Text style={s.ratingNum}>{rating.toFixed(1)}</Text>
-          </View>
-          <Text style={s.dotSep}>•</Text>
-          <Text style={s.reviewsCount}>{reviewsCount} reviews</Text>
-        </View>
-
-        <View style={s.priceRow}>
-          <Text style={s.price}>₹{price.toLocaleString('en-IN')}</Text>
-          {originalPrice > price && (
-            <Text style={s.originalPrice}>₹{originalPrice.toLocaleString('en-IN')}</Text>
-          )}
-          {discountPercent > 0 && (
-            <View style={s.discountPill}>
-              <Text style={s.discountPillText}>{discountPercent}% OFF</Text>
+          <View style={s.ratingRow}>
+            <View style={s.starGroup}>
+              <Ionicons name="star" size={11} color={colors.primary} />
+              <Text style={s.ratingNum}>{rating.toFixed(1)}</Text>
             </View>
-          )}
-        </View>
+            <Text style={s.dotSep}>•</Text>
+            <Text style={s.reviewsCount}>{reviewsCount} reviews</Text>
+          </View>
+
+          <View style={s.priceRow}>
+            <Text style={s.price}>₹{price.toLocaleString('en-IN')}</Text>
+            {originalPrice > price && (
+              <Text style={s.originalPrice}>₹{originalPrice.toLocaleString('en-IN')}</Text>
+            )}
+            {discountPercent > 0 && (
+              <View style={s.discountPill}>
+                <Text style={s.discountPillText}>{discountPercent}% OFF</Text>
+              </View>
+            )}
+          </View>
+        </Pressable>
 
         <View style={s.footerRow}>
           <View style={s.deliveryTag}>
@@ -155,19 +185,64 @@ export function ProductCard({
             <Text style={s.deliveryText}>Express 90m</Text>
           </View>
 
-          <Pressable
-            style={s.addBtn}
-            onPress={() => add({ ...product, quantity: 1 })}
-            hitSlop={6}
-          >
-            <Ionicons name="add" size={15} color={colors.white} />
-            <Text style={s.addBtnText}>ADD</Text>
-          </Pressable>
+          {cartQty > 0 ? (
+            <View style={s.stepperContainer}>
+              <Pressable
+                style={({ pressed }) => [
+                  s.stepperBtn,
+                  pressed && { opacity: 0.6, transform: [{ scale: 0.88 }] },
+                ]}
+                onPress={() => qty(id, cartQty - 1)}
+                hitSlop={6}
+                accessibilityLabel="Decrease quantity"
+              >
+                <Ionicons
+                  name={cartQty === 1 ? 'trash-outline' : 'remove'}
+                  size={12}
+                  color={colors.primary}
+                />
+              </Pressable>
+              <Text style={s.stepperQtyText}>{cartQty}</Text>
+              <Pressable
+                style={({ pressed }) => [
+                  s.stepperBtn,
+                  pressed && { opacity: 0.6, transform: [{ scale: 0.88 }] },
+                ]}
+                onPress={() => qty(id, cartQty + 1)}
+                hitSlop={6}
+                accessibilityLabel="Increase quantity"
+              >
+                <Ionicons name="add" size={12} color={colors.primary} />
+              </Pressable>
+            </View>
+          ) : (
+            <Pressable
+              style={({ pressed }) => [
+                s.addBtn,
+                pressed && { opacity: 0.82, transform: [{ scale: 0.93 }] },
+              ]}
+              onPress={() =>
+                add({
+                  ...product,
+                  id,
+                  name: product.name,
+                  price,
+                  image: imageUri,
+                  quantity: 1,
+                })
+              }
+              hitSlop={6}
+              accessibilityLabel={`Add ${product.name} to cart`}
+            >
+              <Ionicons name="add" size={15} color={colors.white} />
+              <Text style={s.addBtnText}>ADD</Text>
+            </Pressable>
+          )}
         </View>
       </View>
-    </Pressable>
+    </View>
   );
-}
+});
 
 const s = StyleSheet.create({
   card: {
@@ -196,7 +271,7 @@ const s = StyleSheet.create({
     left: 8,
     backgroundColor: 'rgba(253, 251, 247, 0.94)',
     borderWidth: 0.5,
-    borderColor: colors.lineGold,
+    borderColor: colors.border,
     paddingHorizontal: 6,
     paddingVertical: 2.5,
     borderRadius: radius.pill,
@@ -211,15 +286,17 @@ const s = StyleSheet.create({
     position: 'absolute',
     right: 8,
     top: 8,
-    width: 30,
-    height: 30,
-    borderRadius: 15,
-    backgroundColor: 'rgba(255, 255, 255, 0.92)',
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    backgroundColor: 'rgba(255, 255, 255, 0.95)',
     borderWidth: 0.5,
-    borderColor: colors.lineGold,
+    borderColor: colors.border,
     alignItems: 'center',
     justifyContent: 'center',
+    zIndex: 20,
     ...(shadows?.soft || {}),
+    elevation: 6,
   },
   body: {
     padding: 10,
@@ -319,7 +396,7 @@ const s = StyleSheet.create({
     borderRadius: radius.pill,
     gap: 2,
     borderWidth: 0.8,
-    borderColor: colors.accent,
+    borderColor: colors.primaryDeep,
     ...(shadows?.soft || {}),
   },
   addBtnText: {
@@ -327,6 +404,44 @@ const s = StyleSheet.create({
     fontSize: 10.5,
     fontWeight: '900',
     letterSpacing: 0.3,
+  },
+  picPressable: {
+    width: '100%',
+    height: '100%',
+  },
+  bodyClickable: {
+    width: '100%',
+  },
+  stepperContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: colors.surfaceContainer,
+    borderRadius: radius.pill,
+    borderWidth: 1,
+    borderColor: colors.primaryLight,
+    paddingHorizontal: 4,
+    paddingVertical: 2,
+    gap: 4,
+    minWidth: 68,
+    justifyContent: 'space-between',
+    ...(shadows?.soft || {}),
+  },
+  stepperBtn: {
+    width: 22,
+    height: 22,
+    borderRadius: 11,
+    backgroundColor: colors.white,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 0.5,
+    borderColor: colors.border,
+  },
+  stepperQtyText: {
+    fontSize: 11,
+    fontWeight: '900',
+    color: colors.primary,
+    minWidth: 14,
+    textAlign: 'center',
   },
 
   // Horizontal Card Styles for Reserve rail

@@ -67,7 +67,7 @@ export default function ProfileScreen() {
   const confirmDeleteAccount = () => {
     Alert.alert(
       'Request Account Deletion',
-      'Are you sure you want to request deletion of your Dhanvikk Blooms customer account? Your saved addresses, past orders, and VIP perks will be permanently archived according to data protection regulations.',
+      'Are you sure you want to request deletion of your Dhanvikk Blooms and Exports customer account? Your saved addresses, past orders, and VIP perks will be permanently archived according to data protection regulations.',
       [
         { text: 'Cancel', style: 'cancel' },
         {
@@ -89,7 +89,10 @@ export default function ProfileScreen() {
       {/* Top App Bar */}
       <View style={s.topBar}>
         <Pressable
-          style={s.backBtn}
+          style={({ pressed }) => [
+            s.backBtn,
+            pressed && { opacity: 0.7, transform: [{ scale: 0.92 }] },
+          ]}
           onPress={() => (router.canGoBack() ? router.back() : router.replace('/(tabs)/account'))}
         >
           <Ionicons name="arrow-back" size={22} color={colors.ink} />
@@ -115,7 +118,7 @@ export default function ProfileScreen() {
             </View>
             <Text style={s.profileName}>{user?.name || 'Valued Guest'}</Text>
             <View style={s.roleBadge}>
-              <Ionicons name="sparkles" size={12} color={colors.yellowGold} />
+              <Ionicons name="sparkles" size={12} color={colors.primaryDeep} />
               <Text style={s.roleBadgeText}>VIP MEMBER</Text>
             </View>
           </View>
@@ -223,9 +226,10 @@ const s = StyleSheet.create({
     justifyContent: 'center',
   },
   topBarTitle: {
-    fontSize: 16,
-    fontWeight: '700',
+    fontSize: 17,
+    fontWeight: '800',
     color: colors.ink,
+    letterSpacing: 0.2,
   },
   content: {
     padding: spacing.md,

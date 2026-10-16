@@ -1,9 +1,12 @@
 import { Tabs } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { colors } from '@/constants/theme';
 import { useStore } from '@/store/useStore';
 
 export default function TabsLayout() {
+  const insets = useSafeAreaInsets();
+  const bottomInset = Math.max(insets.bottom, 14);
   const cart = useStore((s) => s.cart);
   const cartCount = cart.reduce((total, item) => total + (item.quantity || 1), 0);
 
@@ -14,11 +17,11 @@ export default function TabsLayout() {
         tabBarActiveTintColor: colors.primary,
         tabBarInactiveTintColor: colors.muted,
         tabBarStyle: {
-          height: 68,
+          height: 56 + bottomInset,
           paddingTop: 8,
-          paddingBottom: 10,
+          paddingBottom: bottomInset,
           backgroundColor: colors.white,
-          borderTopColor: colors.lineGold,
+          borderTopColor: colors.border,
           borderTopWidth: 1,
           elevation: 8,
           shadowColor: '#1A1A1A',
@@ -27,9 +30,13 @@ export default function TabsLayout() {
           shadowRadius: 8,
         },
         tabBarLabelStyle: {
-          fontSize: 11,
+          fontSize: 10.5,
           fontWeight: '800',
-          letterSpacing: 0.4,
+          letterSpacing: 0.3,
+          marginTop: 2,
+        },
+        tabBarItemStyle: {
+          paddingVertical: 2,
         },
       }}
     >
@@ -40,7 +47,7 @@ export default function TabsLayout() {
           tabBarIcon: ({ focused }) => (
             <Ionicons
               name={focused ? 'home' : 'home-outline'}
-              size={21}
+              size={22}
               color={focused ? colors.primary : colors.muted}
             />
           ),
@@ -53,7 +60,7 @@ export default function TabsLayout() {
           tabBarIcon: ({ focused }) => (
             <Ionicons
               name={focused ? 'grid' : 'grid-outline'}
-              size={21}
+              size={22}
               color={focused ? colors.primary : colors.muted}
             />
           ),
@@ -79,7 +86,7 @@ export default function TabsLayout() {
           tabBarIcon: ({ focused }) => (
             <Ionicons
               name={focused ? 'receipt' : 'receipt-outline'}
-              size={21}
+              size={22}
               color={focused ? colors.primary : colors.muted}
             />
           ),
@@ -92,7 +99,7 @@ export default function TabsLayout() {
           tabBarIcon: ({ focused }) => (
             <Ionicons
               name={focused ? 'person' : 'person-outline'}
-              size={21}
+              size={22}
               color={focused ? colors.primary : colors.muted}
             />
           ),

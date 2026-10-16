@@ -46,7 +46,7 @@ export default function SupportScreen() {
   const [expandedIndex, setExpandedIndex] = useState<number | null>(0);
 
   const openWhatsApp = async () => {
-    const url = 'https://wa.me/919876543210?text=Hi%20Dhanvikk%20Blooms,%20I%20need%20assistance%20with%20an%20order.';
+    const url = 'https://wa.me/919876543210?text=Hi%20Dhanvikk%20Blooms%20and%20Exports,%20I%20need%20assistance%20with%20an%20order.';
     try {
       const supported = await Linking.canOpenURL(url);
       if (supported) {
@@ -66,7 +66,7 @@ export default function SupportScreen() {
   };
 
   const emailSupport = () => {
-    Linking.openURL('mailto:care@dhanvikk.com?subject=Floral%20Inquiry%20-%20Dhanvikk%20Blooms').catch(() => {
+    Linking.openURL('mailto:care@dhanvikk.com?subject=Floral%20Inquiry%20-%20Dhanvikk%20Blooms%20and%20Exports').catch(() => {
       Alert.alert('Email Support', 'Email us anytime at care@dhanvikk.com.');
     });
   };
@@ -76,7 +76,10 @@ export default function SupportScreen() {
       {/* Top App Bar */}
       <View style={s.topBar}>
         <Pressable
-          style={s.backBtn}
+          style={({ pressed }) => [
+            s.backBtn,
+            pressed && { opacity: 0.7, transform: [{ scale: 0.92 }] },
+          ]}
           onPress={() => (router.canGoBack() ? router.back() : router.replace('/(tabs)/account'))}
         >
           <Ionicons name="arrow-back" size={22} color={colors.ink} />
@@ -92,7 +95,7 @@ export default function SupportScreen() {
         {/* Luxury Hero Banner */}
         <View style={s.heroCard}>
           <View style={s.heroBadge}>
-            <Ionicons name="sparkles" size={14} color={colors.yellowGold} />
+            <Ionicons name="sparkles" size={14} color={colors.primaryDeep} />
             <Text style={s.heroBadgeText}>24/7 DEDICATED ASSISTANCE</Text>
           </View>
           <Text style={s.heroTitle}>We are here to craft your perfect floral moment.</Text>
@@ -201,9 +204,10 @@ const s = StyleSheet.create({
     justifyContent: 'center',
   },
   topBarTitle: {
-    fontSize: 16,
-    fontWeight: '700',
+    fontSize: 17,
+    fontWeight: '800',
     color: colors.ink,
+    letterSpacing: 0.2,
   },
   content: {
     padding: spacing.md,

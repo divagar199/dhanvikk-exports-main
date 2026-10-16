@@ -19,6 +19,7 @@ import { useStore } from '@/store/useStore';
 import { getStoredUser } from '@/lib/storage';
 import { resolveImageUrl } from '@/lib/imageUrl';
 import GoogleSignInModal from '@/components/GoogleSignInModal';
+import { BrandHeaderTitle } from '@/components/BrandHeaderTitle';
 import type { Order, User } from '@/types/models';
 
 export default function Orders() {
@@ -61,21 +62,20 @@ export default function Orders() {
       {/* Top Header */}
       <View style={s.header}>
         <Pressable
-          style={s.backBtn}
+          style={({ pressed }) => [
+            s.backBtn,
+            pressed && { opacity: 0.7, transform: [{ scale: 0.92 }] },
+          ]}
           onPress={() => (router.canGoBack() ? router.back() : router.replace('/(tabs)/account'))}
         >
           <Ionicons name="arrow-back" size={22} color={colors.ink} />
         </Pressable>
-        <View style={s.headerCenter}>
-          <Text style={s.headerTitle}>My Orders</Text>
-          {user ? (
-            <Text style={s.headerSub}>
-              {data.length} {data.length === 1 ? 'order' : 'orders'} placed
-            </Text>
-          ) : null}
-        </View>
+        <BrandHeaderTitle align="center" />
         <Pressable
-          style={s.backBtn}
+          style={({ pressed }) => [
+            s.backBtn,
+            pressed && { opacity: 0.7, transform: [{ scale: 0.92 }] },
+          ]}
           onPress={() => {
             if (user) refetch();
           }}
@@ -89,7 +89,7 @@ export default function Orders() {
         <View style={s.guestContainer}>
           <View style={s.guestCard}>
             <View style={s.guestIconCircle}>
-              <Ionicons name="bag-check" size={38} color={colors.primary} />
+              <Ionicons name="cart" size={38} color={colors.primary} />
             </View>
             <Text style={s.guestTitle}>Sign in to view orders</Text>
             <Text style={s.guestSubtitle}>
@@ -137,7 +137,7 @@ export default function Orders() {
       ) : (
         <FlatList
           data={data}
-          contentContainerStyle={[s.content, { paddingBottom: 60 }]}
+          contentContainerStyle={[s.content, { paddingBottom: Math.max(insets.bottom, 20) + 40 }]}
           keyExtractor={(item: Order, index: number) =>
             item.orderId || item.id || (item as any)._id || String(index)
           }
@@ -290,13 +290,16 @@ const s = StyleSheet.create({
     justifyContent: 'center',
   },
   headerTitle: {
-    fontSize: 18,
+    fontSize: 17,
     fontWeight: '900',
-    color: colors.ink,
+    color: colors.primary,
+    letterSpacing: 0.8,
   },
   headerSub: {
-    fontSize: 11,
-    color: colors.muted,
+    fontSize: 9.5,
+    fontWeight: '800',
+    color: colors.secondary,
+    letterSpacing: 0.5,
     marginTop: 2,
   },
   center: {

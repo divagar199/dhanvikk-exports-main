@@ -34,7 +34,10 @@ export default function NotificationsScreen() {
       {/* Top App Bar */}
       <View style={s.topBar}>
         <Pressable
-          style={s.backBtn}
+          style={({ pressed }) => [
+            s.backBtn,
+            pressed && { opacity: 0.7, transform: [{ scale: 0.92 }] },
+          ]}
           onPress={() => (router.canGoBack() ? router.back() : router.replace('/(tabs)/account'))}
         >
           <Ionicons name="arrow-back" size={22} color={colors.ink} />
@@ -53,7 +56,7 @@ export default function NotificationsScreen() {
           <View style={{ flex: 1 }}>
             <Text style={s.bannerTitle}>Stay in the loop</Text>
             <Text style={s.bannerSub}>
-              Choose how and when Dhanvikk Blooms communicates order progress, delivery milestones, and exclusive botanical drops.
+              Choose how and when Dhanvikk Blooms and Exports communicates order progress, delivery milestones, and exclusive botanical drops.
             </Text>
           </View>
         </View>
@@ -179,9 +182,10 @@ const s = StyleSheet.create({
     justifyContent: 'center',
   },
   topBarTitle: {
-    fontSize: 16,
-    fontWeight: '700',
+    fontSize: 17,
+    fontWeight: '800',
     color: colors.ink,
+    letterSpacing: 0.2,
   },
   content: {
     padding: spacing.md,
