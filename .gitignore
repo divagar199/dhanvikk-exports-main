@@ -27,6 +27,7 @@ firebase-debug.log*
 
 # Editor directories and files
 .vscode/*
+**/.vscode/
 !.vscode/extensions.json
 .idea
 .DS_Store
@@ -49,3 +50,6 @@ frontend/public/uploads/
 **/.expo/
 mobile/android/
 mobile/ios/
+apks/
+*.apk
+

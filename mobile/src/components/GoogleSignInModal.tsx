@@ -47,30 +47,41 @@ interface GoogleSignInModalProps {
   onSuccess?: (user?: any) => void;
 }
 
-// Subcomponent that only initializes Google.useAuthRequest when the native module is actually compiled
+// Subcomponent that only initializes Google auth request when the native module is actually compiled
 function NativeGoogleOAuthButton({
   busy,
   onAuthSuccess,
   onAuthError,
 }: {
   busy: boolean;
-  onAuthSuccess: (idToken: string) => void;
+  onAuthSuccess: (tokens: { idToken?: string; accessToken?: string }) => void;
   onAuthError: (errMsg: string) => void;
 }) {
-  const [request, response, promptAsync] = GoogleAuthModule!.useAuthRequest({
-    androidClientId:
-      process.env.EXPO_PUBLIC_GOOGLE_ANDROID_CLIENT_ID ||
-      '160660053649-mjj7qud9fnlqmnf2jvqjqqhlqsoqo1bn.apps.googleusercontent.com',
+  const useGoogleAuthHook =
+    (GoogleAuthModule as any)?.useIdTokenAuthRequest || GoogleAuthModule?.useAuthRequest;
+
+  const [request, response, promptAsync] = useGoogleAuthHook!({
+    clientId:
+      process.env.EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID ||
+      '160660053649-1ar8vvfbirn6jgd9bnukihvk0frgluv6.apps.googleusercontent.com',
     webClientId:
       process.env.EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID ||
       '160660053649-1ar8vvfbirn6jgd9bnukihvk0frgluv6.apps.googleusercontent.com',
+    androidClientId:
+      process.env.EXPO_PUBLIC_GOOGLE_ANDROID_CLIENT_ID ||
+      '160660053649-mjj7qud9fnlqmnf2jvqjqqhlqsoqo1bn.apps.googleusercontent.com',
+    selectAccount: true,
   });
 
   useEffect(() => {
     if (response?.type === 'success') {
-      const idToken = response.params?.id_token || (response as any).authentication?.idToken;
-      if (idToken) {
-        onAuthSuccess(idToken);
+      const { id_token, access_token } = (response.params as any) || {};
+      const idToken = id_token || (response as any).authentication?.idToken;
+      const accessToken = access_token || (response as any).authentication?.accessToken;
+      if (idToken || accessToken) {
+        onAuthSuccess({ idToken, accessToken });
+      } else {
+        onAuthError('Google sign-in did not return valid credentials.');
       }
     } else if (response?.type === 'error') {
       onAuthError(response.error?.message || 'Unable to complete Google authentication.');
@@ -129,23 +140,48 @@ export function GoogleSignInModal({ visible, onClose, onSuccess }: GoogleSignInM
     }
   };
 
-  const handleFirebaseGoogleAuth = async (idToken: string) => {
+  const handleFirebaseGoogleAuth = async ({ idToken, accessToken }: { idToken?: string; accessToken?: string }) => {
     setBusy(true);
     try {
-      const credential = GoogleAuthProvider.credential(idToken);
-      const userCred = await signInWithCredential(auth, credential);
-      const fbUser = userCred.user;
-      const cleanEmail = (fbUser.email || '').trim().toLowerCase();
-      const cleanName = fbUser.displayName || cleanEmail.split('@')[0];
-      const avatar =
-        fbUser.photoURL ||
-        `https://unavatar.io/google/${encodeURIComponent(cleanEmail)}?fallback=https://ui-avatars.com/api/?name=${encodeURIComponent(cleanName)}&background=E91E63&color=ffffff&bold=true`;
+      let fbUser: any = null;
+      if (idToken || accessToken) {
+        const credential = GoogleAuthProvider.credential(idToken || null, accessToken || null);
+        const userCred = await signInWithCredential(auth, credential);
+        fbUser = userCred.user;
+      }
+
+      let cleanEmail = (fbUser?.email || '').trim().toLowerCase();
+      let cleanName = fbUser?.displayName || (cleanEmail ? cleanEmail.split('@')[0] : '');
+      let avatar = fbUser?.photoURL || '';
+
+      // If needed, fetch missing profile info using Google access token
+      if (!cleanEmail && accessToken) {
+        try {
+          const userinfoRes = await fetch('https://www.googleapis.com/userinfo/v2/me', {
+            headers: { Authorization: `Bearer ${accessToken}` },
+          });
+          const userinfo = await userinfoRes.json();
+          cleanEmail = (userinfo.email || '').trim().toLowerCase();
+          cleanName = userinfo.name || (cleanEmail ? cleanEmail.split('@')[0] : '');
+          avatar = userinfo.picture || '';
+        } catch (fetchErr) {
+          console.warn('Could not fetch extra Google profile details:', fetchErr);
+        }
+      }
+
+      if (!cleanEmail) {
+        throw new Error('Could not retrieve an email address from your Google Account.');
+      }
+
+      if (!avatar) {
+        avatar = `https://unavatar.io/google/${encodeURIComponent(cleanEmail)}?fallback=https://ui-avatars.com/api/?name=${encodeURIComponent(cleanName)}&background=E91E63&color=ffffff&bold=true`;
+      }
 
       const res = await loginWithGoogle({
         email: cleanEmail,
         name: cleanName,
         avatar,
-        googleUid: fbUser.uid,
+        googleUid: fbUser?.uid || `goog_${cleanEmail}`,
       });
 
       if (res?.user) {

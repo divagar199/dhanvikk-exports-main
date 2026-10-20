@@ -20,7 +20,10 @@
       [
         "expo-location",
         {
-          "locationWhenInUsePermission": "Dhanvikk uses your location to help select a delivery destination."
+          "locationAlwaysAndWhenInUsePermission": "Allow Dhanvikk to access your GPS and location to locate delivery addresses and calculate real-time dispatch times.",
+          "locationAlwaysPermission": "Allow Dhanvikk to access your location to track your flower delivery and coordinate doorstep drop-offs.",
+          "locationWhenInUsePermission": "Allow Dhanvikk to access your GPS location to automatically identify your delivery address and find nearby flower ateliers.",
+          "isAndroidBackgroundLocationEnabled": false
         }
       ],
       [
@@ -34,7 +37,9 @@
       "supportsTablet": true,
       "bundleIdentifier": "com.dhanvikk.blooms",
       "infoPlist": {
-        "NSLocationWhenInUseUsageDescription": "Dhanvikk uses your location to help select a delivery destination.",
+        "NSLocationWhenInUseUsageDescription": "Allow Dhanvikk to access your GPS and location to auto-detect your delivery address and locate nearby botanical hubs.",
+        "NSLocationAlwaysAndWhenInUseUsageDescription": "Allow Dhanvikk to access your location to deliver real-time floral dispatch updates and locate nearby botanical hubs.",
+        "NSLocationUsageDescription": "Allow Dhanvikk to access your GPS and location for accurate delivery address estimation.",
         "LSApplicationQueriesSchemes": [
           "tez",
           "phonepe",

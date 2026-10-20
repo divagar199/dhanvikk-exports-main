@@ -491,23 +491,28 @@ export const googleLogin = async (req, res, next) => {
  * @route   GET /api/auth/me
  * @access  Private
  */
-export const getMe = async (req, res) => {
-  const resolvedAvatar = resolveGoogleAvatar(req.user?.email, req.user?.avatar, req.user?.name);
-  const encryptedPortalKey = generateEncryptedPortalKey({
-    id: req.user?.id,
-    name: req.user?.name,
-    email: req.user?.email,
-    phone: req.user?.phone || '',
-  });
+export const getMe = async (req, res, next) => {
+  try {
+    const resolvedAvatar = resolveGoogleAvatar(req.user?.email, req.user?.avatar, req.user?.name);
+    const encryptedPortalKey = generateEncryptedPortalKey({
+      id: req.user?.id,
+      name: req.user?.name,
+      email: req.user?.email,
+      phone: req.user?.phone || '',
+    });
 
-  return res.status(200).json({
-    success: true,
-    user: {
-      ...req.user,
-      avatar: resolvedAvatar,
-      encryptedPortalKey,
-    },
-  });
+    return res.status(200).json({
+      success: true,
+      user: {
+        ...req.user,
+        avatar: resolvedAvatar,
+        encryptedPortalKey,
+      },
+    });
+  } catch (error) {
+    if (typeof next === 'function') return next(error);
+    return res.status(500).json({ success: false, message: error.message });
+  }
 };
 
 /**
@@ -515,16 +520,21 @@ export const getMe = async (req, res) => {
  * @route   POST /api/auth/logout
  * @access  Public
  */
-export const logout = async (req, res) => {
-  res.cookie('dhanvikk_token', '', {
-    httpOnly: true,
-    expires: new Date(0),
-  });
+export const logout = async (req, res, next) => {
+  try {
+    res.cookie('dhanvikk_token', '', {
+      httpOnly: true,
+      expires: new Date(0),
+    });
 
-  return res.status(200).json({
-    success: true,
-    message: 'Logged out successfully',
-  });
+    return res.status(200).json({
+      success: true,
+      message: 'Logged out successfully',
+    });
+  } catch (error) {
+    if (typeof next === 'function') return next(error);
+    return res.status(500).json({ success: false, message: error.message });
+  }
 };
 
 /**
@@ -881,7 +891,7 @@ export const updateProfile = async (req, res) => {
             ...(phone !== undefined && { phone }),
             ...(avatar && { avatar }),
           },
-          { new: true }
+          { returnDocument: 'after' }
         );
       } catch {}
     }
@@ -1011,7 +1021,7 @@ export const saveAddress = async (req, res) => {
         await UserModel.findOneAndUpdate(
           { email },
           { savedAddresses: addresses },
-          { new: true }
+          { returnDocument: 'after' }
         );
       } catch (dbErr) {
         console.warn('MongoDB saveAddress update error:', dbErr.message);

@@ -16,6 +16,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { getProfileData } from '@/services/orders';
 import { saveAddress, deleteAddress } from '@/services/auth';
+import { getCurrentDeviceLocation } from '@/services/location';
 import { colors, radius, spacing } from '@/constants/theme';
 import type { Address } from '@/types/models';
 import { useStore } from '@/store/useStore';
@@ -44,6 +45,22 @@ export default function AddressesScreen() {
   const [city, setCity] = useState('Chennai');
   const [state, setState] = useState('Tamil Nadu');
   const [postalCode, setPostalCode] = useState('600001');
+  const [locating, setLocating] = useState(false);
+
+  const handleDetectLocation = async () => {
+    setLocating(true);
+    try {
+      const result = await getCurrentDeviceLocation();
+      if (result) {
+        if (result.street) setStreet(result.street);
+        if (result.city) setCity(result.city);
+        if (result.state) setState(result.state);
+        if (result.postalCode) setPostalCode(result.postalCode);
+      }
+    } finally {
+      setLocating(false);
+    }
+  };
 
   const handleOpenAddModal = () => {
     if (!currentUser) {
@@ -251,6 +268,26 @@ export default function AddressesScreen() {
                   </Pressable>
                 ))}
               </View>
+
+              {/* GPS Auto-Detect Button */}
+              <Pressable
+                style={({ pressed }) => [
+                  s.gpsBtn,
+                  pressed && { opacity: 0.8, transform: [{ scale: 0.98 }] },
+                  locating && { opacity: 0.7 },
+                ]}
+                onPress={handleDetectLocation}
+                disabled={locating}
+              >
+                {locating ? (
+                  <ActivityIndicator size="small" color={colors.primaryDeep} />
+                ) : (
+                  <Ionicons name="navigate-circle-outline" size={18} color={colors.primaryDeep} />
+                )}
+                <Text style={s.gpsBtnText}>
+                  {locating ? 'Acquiring GPS location…' : 'Use Current Location (GPS)'}
+                </Text>
+              </Pressable>
 
               <Text style={s.inputLabel}>Recipient Full Name *</Text>
               <TextInput
@@ -584,6 +621,24 @@ const s = StyleSheet.create({
   saveSubmitBtnText: {
     color: colors.white,
     fontSize: 14,
+    fontWeight: '700',
+  },
+  gpsBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 8,
+    backgroundColor: '#F3E8FF',
+    borderWidth: 1,
+    borderColor: '#D8B4FE',
+    borderRadius: radius.md,
+    paddingVertical: 11,
+    paddingHorizontal: 14,
+    marginBottom: spacing.md,
+  },
+  gpsBtnText: {
+    color: colors.primaryDeep,
+    fontSize: 13,
     fontWeight: '700',
   },
 });

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import {
+  ActivityIndicator,
   Alert,
   KeyboardAvoidingView,
   Platform,
@@ -18,6 +19,7 @@ import { cartTotal, useStore } from '@/store/useStore';
 import { createRazorpayOrder, verifyPayment } from '@/services/payments';
 import { createOrder, getProfileData } from '@/services/orders';
 import { saveAddress } from '@/services/auth';
+import { getCurrentDeviceLocation } from '@/services/location';
 import { getStoredUser } from '@/lib/storage';
 import type { User } from '@/types/models';
 import RazorpayCheckout from 'react-native-razorpay';
@@ -46,6 +48,22 @@ export default function Checkout() {
   const [paymentMethod, setPaymentMethod] = useState<'razorpay' | 'cod'>('razorpay');
   const [busy, setBusy] = useState(false);
   const [showGoogleModal, setShowGoogleModal] = useState(false);
+  const [locating, setLocating] = useState(false);
+
+  const handleDetectLocation = async () => {
+    setLocating(true);
+    try {
+      const loc = await getCurrentDeviceLocation();
+      if (loc) {
+        if (loc.street) setStreet(loc.street);
+        if (loc.city) setCity(loc.city);
+        if (loc.state) setState(loc.state);
+        if (loc.postalCode) setPincode(loc.postalCode);
+      }
+    } finally {
+      setLocating(false);
+    }
+  };
 
   const [storedUser, setStoredUser] = useState<User | null>(null);
 
@@ -309,6 +327,25 @@ export default function Checkout() {
           <Text style={s.sectionTitle}>White-Glove Delivery Details</Text>
 
           <View style={s.card}>
+            <Pressable
+              style={({ pressed }) => [
+                s.gpsBtn,
+                pressed && { opacity: 0.8, transform: [{ scale: 0.98 }] },
+                locating && { opacity: 0.7 },
+              ]}
+              onPress={handleDetectLocation}
+              disabled={locating}
+            >
+              {locating ? (
+                <ActivityIndicator size="small" color={colors.primaryDeep} />
+              ) : (
+                <Ionicons name="navigate-circle-outline" size={18} color={colors.primaryDeep} />
+              )}
+              <Text style={s.gpsBtnText}>
+                {locating ? 'Acquiring GPS location…' : 'Use Current Location (GPS)'}
+              </Text>
+            </Pressable>
+
             <Text style={s.inputLabel}>Recipient Name *</Text>
             <TextInput
               style={s.input}
@@ -729,5 +766,23 @@ const s = StyleSheet.create({
     minHeight: 74,
     textAlignVertical: 'top',
     paddingTop: 8,
+  },
+  gpsBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 8,
+    backgroundColor: '#F3E8FF',
+    borderWidth: 1,
+    borderColor: '#D8B4FE',
+    borderRadius: radius.md,
+    paddingVertical: 11,
+    paddingHorizontal: 14,
+    marginBottom: spacing.md,
+  },
+  gpsBtnText: {
+    color: colors.primaryDeep,
+    fontSize: 13,
+    fontWeight: '700',
   },
 });

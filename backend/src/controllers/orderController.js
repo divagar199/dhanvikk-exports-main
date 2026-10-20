@@ -268,7 +268,7 @@ export const updateOrderStatus = async (req, res) => {
       const updated = await OrderModel.findOneAndUpdate(
         { $or: [{ orderId }, { _id: orderId }] },
         { status: targetStatus },
-        { new: true }
+        { returnDocument: 'after' }
       );
       if (updated) {
         return res.status(200).json({ 

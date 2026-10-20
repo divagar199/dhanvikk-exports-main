@@ -53,11 +53,16 @@ let inMemoryStaff = [
  * @desc Get Super Admin info and verification
  * @route GET /api/admin/staff/info
  */
-export const getSuperAdminInfo = async (req, res) => {
-  return res.status(200).json({
-    success: true,
-    superAdminEmail: SUPER_ADMIN_EMAIL,
-  });
+export const getSuperAdminInfo = async (req, res, next) => {
+  try {
+    return res.status(200).json({
+      success: true,
+      superAdminEmail: SUPER_ADMIN_EMAIL,
+    });
+  } catch (error) {
+    if (typeof next === 'function') return next(error);
+    return res.status(500).json({ success: false, message: error.message });
+  }
 };
 
 /**

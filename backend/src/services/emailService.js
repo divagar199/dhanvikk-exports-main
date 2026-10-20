@@ -44,6 +44,9 @@ export const verifySmtpConnection = async () => {
  */
 export const sendLoginNotificationEmail = async ({ email, name, ip = 'Unknown', userAgent = 'Web Browser' }) => {
   if (!email) return null;
+  if (process.env.NODE_ENV === 'test') {
+    return { success: true, messageId: 'test-mock-login-id', simulated: true };
+  }
 
   try {
     const transporter = createTransporter();
@@ -137,6 +140,9 @@ export const sendLoginNotificationEmail = async ({ email, name, ip = 'Unknown', 
  */
 export const sendOrderConfirmationEmail = async ({ email, order, customerName }) => {
   if (!email || !order) return null;
+  if (process.env.NODE_ENV === 'test') {
+    return { success: true, messageId: 'test-mock-order-id', simulated: true };
+  }
 
   try {
     const transporter = createTransporter();
@@ -293,6 +299,9 @@ export const sendWelcomeGreetingEmail = async ({
   encryptedPortalKey = '',
 }) => {
   if (!email) return null;
+  if (process.env.NODE_ENV === 'test') {
+    return { success: true, messageId: 'test-mock-welcome-id', simulated: true };
+  }
 
   try {
     const transporter = createTransporter();

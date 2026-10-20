@@ -15,7 +15,7 @@
     "install:all": "npm install --prefix frontend && npm install --prefix backend",
     "test": "node scripts/run-all-tests.js",
     "test:backend": "node --test backend/tests/api.test.js",
-    "test:mobile": "node --test mobile/tests/mobile.test.js",
+    "test:mobile": "node --test mobile/tests/mobile.test.mjs",
     "test:frontend": "node --test frontend/tests/frontend.test.js"
   },
   "devDependencies": {

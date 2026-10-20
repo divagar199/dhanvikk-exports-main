@@ -223,7 +223,7 @@ export const updateProduct = async (req, res) => {
       try {
         const isMongoId = /^[0-9a-fA-F]{24}$/.test(id);
         const query = isMongoId ? { $or: [{ id }, { _id: id }] } : { id };
-        updatedDoc = await ProductModel.findOneAndUpdate(query, updates, { new: true });
+        updatedDoc = await ProductModel.findOneAndUpdate(query, updates, { returnDocument: 'after' });
       } catch (dbErr) {
         console.warn('MongoDB product update warning:', dbErr.message);
       }

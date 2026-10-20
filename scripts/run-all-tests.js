@@ -24,7 +24,7 @@ const testSuites = [
   },
   {
     name: 'Mobile App Suite',
-    file: 'mobile/tests/mobile.test.js',
+    file: 'mobile/tests/mobile.test.mjs',
     description: 'API URL resolver, Zustand cart/wishlist, currency conversions, address safety',
   },
   {

@@ -34,7 +34,7 @@ export const imageService = {
 
   /**
    * Get direct API stream URL for an image
-   * @param {string} relativePath - e.g. "/images/products/rose.webp"
+   * @param {string} relativePath - e.g. "/images/products/crimson-elegance.webp"
    */
   getApiUrl(relativePath) {
     return getBackendApiImageUrl(relativePath);
