@@ -100,7 +100,7 @@ export default function Account() {
           ) : null}
         </View>
 
-        {/* 4-Item Quick Action Grid (Classic Flipkart pattern) */}
+        {/* 4-Item Quick Action Grid */}
         <View style={s.quickGrid}>
           <Pressable
             style={s.quickItem}

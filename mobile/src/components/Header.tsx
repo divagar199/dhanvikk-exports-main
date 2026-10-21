@@ -12,7 +12,7 @@ import { BrandHeaderTitle } from '@/components/BrandHeaderTitle';
 
 const brandLogo = require('@/assets/logo.png');
 
-export function FlipkartHeader() {
+export function Header() {
   const insets = useSafeAreaInsets();
   const user = useStore((s) => s.user);
   const cart = useStore((s) => s.cart);
@@ -231,3 +231,5 @@ const s = StyleSheet.create({
     paddingLeft: 4,
   },
 });
+
+export default Header;

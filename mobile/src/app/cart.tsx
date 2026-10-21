@@ -343,7 +343,7 @@ export default function Cart() {
                 )}
               </View>
 
-              {/* Flipkart-Style Price Details Card */}
+              {/* Boutique Price Details Card */}
               <View style={s.priceDetailsCard}>
                 <Text style={s.priceDetailsTitle}>PRICE DETAILS</Text>
                 <View style={s.divider} />

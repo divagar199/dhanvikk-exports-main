@@ -4,7 +4,7 @@ import { FlatList, Platform, Pressable, StyleSheet, Text, View } from 'react-nat
 import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { getProducts } from '@/services/products';
-import { FlipkartHeader } from '@/components/FlipkartHeader';
+import { Header } from '@/components/Header';
 import { CategoryCircles } from '@/components/CategoryCircles';
 import { BannerCarousel } from '@/components/BannerCarousel';
 import { TrustBadges } from '@/components/TrustBadges';
@@ -58,7 +58,7 @@ export default function Home() {
 
   return (
     <View style={s.page}>
-      <FlipkartHeader />
+      <Header />
 
       <FlatList
         key={`home-grid-${columns}`}
