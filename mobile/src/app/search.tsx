@@ -20,6 +20,7 @@ import { CATEGORIES_DATA } from '@/components/CategoryCircles';
 import { colors, radius, shadows, spacing } from '@/constants/theme';
 import { useResponsive } from '@/hooks/useResponsive';
 import { VoiceSearchModal } from '@/components/VoiceSearchModal';
+import { launchVoiceSearch } from '@/services/voiceSearch';
 import type { Product } from '@/types/models';
 
 const TRENDING_INQUIRIES = [
@@ -203,7 +204,12 @@ export default function Search() {
               s.micBtn,
               pressed && { opacity: 0.7, transform: [{ scale: 0.92 }] },
             ]}
-            onPress={() => setShowVoiceModal(true)}
+            onPress={async () => {
+              await launchVoiceSearch(
+                (text) => setQ(text),
+                () => setShowVoiceModal(true)
+              );
+            }}
             hitSlop={8}
             accessibilityLabel="Voice Search"
           >

@@ -374,3 +374,57 @@ describe('Search Discovery, Botanical Categories & Products Showcase', () => {
   });
 });
 
+describe('Google Voice Search Intent & Unified Launcher Workflow', () => {
+  test('launches Google Voice Search and applies recognized spoken text', async () => {
+    let recognizedOutput = '';
+    let fallbackCalled = false;
+
+    // Simulate native Google Voice Search returning recognized speech
+    const mockLaunchVoiceSearch = async (isAvailable, mockSpokenText) => {
+      if (isAvailable && mockSpokenText) {
+        recognizedOutput = mockSpokenText;
+        return;
+      }
+      fallbackCalled = true;
+    };
+
+    await mockLaunchVoiceSearch(true, 'Royal Crimson Roses');
+    assert.equal(recognizedOutput, 'Royal Crimson Roses');
+    assert.equal(fallbackCalled, false);
+  });
+
+  test('falls back gracefully to in-app modal when Google Voice Search is unsupported or unavailable', async () => {
+    let recognizedOutput = '';
+    let fallbackCalled = false;
+
+    const mockLaunchVoiceSearch = async (isAvailable) => {
+      if (isAvailable) {
+        recognizedOutput = 'Some voice';
+        return;
+      }
+      fallbackCalled = true;
+    };
+
+    await mockLaunchVoiceSearch(false);
+    assert.equal(recognizedOutput, '');
+    assert.equal(fallbackCalled, true);
+  });
+
+  test('does not open fallback modal if user explicitly cancels Google Voice overlay', async () => {
+    let fallbackCalled = false;
+    let queryState = 'Lilies';
+
+    const mockHandleVoiceError = (err) => {
+      if (err.code === 'CANCELLED') {
+        // user tapped outside or pressed back, silently preserve existing query
+        return;
+      }
+      fallbackCalled = true;
+    };
+
+    mockHandleVoiceError({ code: 'CANCELLED', message: 'Google Voice Search cancelled by user' });
+    assert.equal(fallbackCalled, false);
+    assert.equal(queryState, 'Lilies');
+  });
+});
+

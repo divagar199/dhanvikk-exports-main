@@ -21,6 +21,7 @@ import { useResponsive } from '@/hooks/useResponsive';
 import { useStore } from '@/store/useStore';
 import { BrandHeaderTitle } from '@/components/BrandHeaderTitle';
 import { VoiceSearchModal } from '@/components/VoiceSearchModal';
+import { launchVoiceSearch } from '@/services/voiceSearch';
 
 const CATEGORIES = [
   'All Stems',
@@ -167,7 +168,12 @@ export default function Shop() {
               s.micBtn,
               pressed && { opacity: 0.7, transform: [{ scale: 0.92 }] },
             ]}
-            onPress={() => setShowVoiceModal(true)}
+            onPress={async () => {
+              await launchVoiceSearch(
+                (text) => setQ(text),
+                () => setShowVoiceModal(true)
+              );
+            }}
             hitSlop={8}
             accessibilityLabel="Voice Search"
           >

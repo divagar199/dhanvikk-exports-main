@@ -11,6 +11,7 @@ import { getProfileData } from '@/services/orders';
 
 import { BrandHeaderTitle } from '@/components/BrandHeaderTitle';
 import { VoiceSearchModal } from '@/components/VoiceSearchModal';
+import { launchVoiceSearch } from '@/services/voiceSearch';
 
 const brandLogo = require('@/assets/logo.png');
 
@@ -113,9 +114,14 @@ export function Header() {
             s.micIconBtn,
             pressed && { opacity: 0.7, transform: [{ scale: 0.92 }] },
           ]}
-          onPress={(e) => {
+          onPress={async (e) => {
             e.stopPropagation?.();
-            setShowVoiceModal(true);
+            await launchVoiceSearch(
+              (query) => {
+                router.push({ pathname: '/search', params: { q: query } });
+              },
+              () => setShowVoiceModal(true)
+            );
           }}
           hitSlop={8}
           accessibilityLabel="Voice Search"

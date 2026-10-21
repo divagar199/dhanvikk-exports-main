@@ -33,6 +33,74 @@ export async function isSpeechAvailable(): Promise<boolean> {
 }
 
 /**
+ * Check if Android Google Voice Search activity is available
+ */
+export async function isGoogleVoiceSearchAvailable(): Promise<boolean> {
+  if (Platform.OS === 'android' && DhanvikkSpeechModule?.isGoogleVoiceSearchAvailable) {
+    try {
+      return await DhanvikkSpeechModule.isGoogleVoiceSearchAvailable();
+    } catch {
+      return false;
+    }
+  }
+  return false;
+}
+
+/**
+ * Launch Android's native Google Voice Search intent dialog.
+ * Opens the built-in Google Speech Recognition overlay.
+ */
+export async function triggerGoogleVoiceSearch(
+  prompt: string = 'Speak to search flowers, bouquets, or occasions…'
+): Promise<string> {
+  if (Platform.OS !== 'android' || !DhanvikkSpeechModule?.startGoogleVoiceSearch) {
+    throw new Error('Google Voice Search is only available on Android native builds');
+  }
+
+  const hasPermission = await requestMicrophonePermission();
+  if (!hasPermission) {
+    throw new Error('Microphone permission was denied.');
+  }
+
+  return await DhanvikkSpeechModule.startGoogleVoiceSearch(prompt);
+}
+
+/**
+ * Unified Voice Search launcher:
+ * Directly triggers Google Voice Search activity overlay.
+ * Falls back to in-app custom modal if Google Voice Search is cancelled, unsupported, or on iOS/web.
+ */
+export async function launchVoiceSearch(
+  onRecognized: (recognizedText: string) => void,
+  onFallback?: () => void,
+  prompt?: string
+): Promise<void> {
+  if (Platform.OS === 'android' && DhanvikkSpeechModule?.startGoogleVoiceSearch) {
+    try {
+      const isAvailable = await isGoogleVoiceSearchAvailable();
+      if (isAvailable) {
+        const text = await triggerGoogleVoiceSearch(prompt);
+        if (text && text.trim().length > 0) {
+          onRecognized(text.trim());
+          return;
+        }
+      }
+    } catch (err: any) {
+      // If user deliberately cancelled, do not force modal
+      if (err?.code === 'CANCELLED' || err?.message?.includes('cancelled')) {
+        return;
+      }
+      // If unavailable or errored, proceed to fallback modal
+    }
+  }
+
+  // Fallback to in-app voice recognition modal
+  if (onFallback) {
+    onFallback();
+  }
+}
+
+/**
  * Request microphone recording permission on Android
  */
 export async function requestMicrophonePermission(): Promise<boolean> {
