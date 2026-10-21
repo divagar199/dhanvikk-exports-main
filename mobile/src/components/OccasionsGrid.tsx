@@ -29,9 +29,9 @@ const OCCASIONS = [
   },
   {
     id: 'Luxury',
-    title: 'Executive & VIP Gifting',
+    title: 'Executive & Corporate Gifting',
     subtitle: 'Bespoke Wax-Sealed Boxes',
-    badge: 'VIP ATELIER',
+    badge: 'CORPORATE',
     image: 'https://images.unsplash.com/photo-1582794543139-8ac9cb0f7b11?auto=format&fit=crop&w=400&q=80',
   },
 ];
@@ -80,12 +80,12 @@ export function OccasionsGrid() {
         ))}
       </View>
 
-      {/* Stitch Bespoke VIP Concierge Banner */}
+      {/* Bespoke Concierge Banner */}
       <View style={s.conciergeBanner}>
         <View style={s.conciergeLeft}>
           <View style={s.vipTag}>
             <Ionicons name="sparkles" size={13} color={colors.white} />
-            <Text style={s.vipTagText}>VIP FLORILEGIUM</Text>
+            <Text style={s.vipTagText}>SPECIAL OCCASIONS</Text>
           </View>
           <Text style={s.conciergeTitle}>Private Residence & Event Styling</Text>
           <Text style={s.conciergeSub}>

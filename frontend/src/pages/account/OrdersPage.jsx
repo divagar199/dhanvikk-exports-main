@@ -418,7 +418,7 @@ export default function OrdersPage() {
                             {fullAddressStr || 'Delivery Address on File'}
                           </p>
                           <span className="text-[11px] text-[#777777] block">
-                            Recipient: {order.recipientName || order.shippingAddress?.fullName || 'VIP Client'}
+                            Recipient: {order.recipientName || order.shippingAddress?.fullName || 'Customer'}
                           </span>
                         </div>
 

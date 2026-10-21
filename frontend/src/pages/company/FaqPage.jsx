@@ -36,7 +36,7 @@ const FAQ_DATA = [
     id: 'faq-2',
     category: 'Ordering & Customization',
     question: 'How do I place a bespoke floral arrangement or custom color request?',
-    answer: 'For custom stem counts, bespoke color palettes (e.g., dual-tone Ecuadorian roses, cascading rare orchids), or oversized velvet hatboxes, please connect with our VIP Concierge via WhatsApp (+91 91089 16328). Our master floral designers will tailor the curation to your exact specifications.',
+    answer: 'For custom stem counts, bespoke color palettes (e.g., dual-tone Ecuadorian roses, cascading rare orchids), or oversized velvet hatboxes, please connect with our Floral Concierge via WhatsApp (+91 91089 16328). Our master floral designers will tailor the curation to your exact specifications.',
   },
   {
     id: 'faq-3',
@@ -343,7 +343,7 @@ export default function FaqPage() {
               Still Have Questions?
             </h3>
             <p className="text-xs sm:text-sm text-[#777777]">
-              Our VIP concierge is available 7 days a week from 8:00 AM to 11:30 PM GST for live assistance.
+              Our floral concierge is available 7 days a week from 8:00 AM to 11:30 PM GST for live assistance.
             </p>
             <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
               <a

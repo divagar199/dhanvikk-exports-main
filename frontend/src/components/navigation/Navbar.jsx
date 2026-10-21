@@ -547,7 +547,7 @@ export default function Navbar({ onSearch, searchQuery = '' }) {
                     <p className="text-xs font-bold text-[#242124] truncate">{user?.name || 'Valued Patron'}</p>
                     <p className="text-[11px] text-[#777777] truncate">{user?.email}</p>
                     <span className="inline-block mt-1 text-[9.5px] font-bold px-2 py-0.5 rounded-full bg-[#FFF0F4] text-[#C2185B] uppercase tracking-wider">
-                      {user?.role === 'admin' ? 'Atelier Admin' : 'VIP Member'}
+                      {user?.role === 'admin' ? 'Administrator' : 'Member'}
                     </span>
                   </div>
                 ) : (

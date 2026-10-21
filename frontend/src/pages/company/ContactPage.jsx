@@ -47,7 +47,7 @@ export default function ContactPage() {
     setTimeout(() => {
       setLoading(false);
       setSubmitted(true);
-      toast.success('Your message has been dispatched to our VIP Floral Concierge.');
+      toast.success('Your message has been dispatched to our Floral Concierge.');
     }, 800);
   };
 
@@ -61,8 +61,8 @@ export default function ContactPage() {
   return (
     <>
       <SEO
-        title="Contact VIP Floral Concierge & Atelier | Dhanvikk Blooms"
-        description="Connect with Dhanvikk Blooms luxury florist concierge for bespoke wedding flowers, corporate gifting, international air cargo inquiries, or live order assistance. Direct VIP Line: +91 91089 16328."
+        title="Contact Floral Concierge & Atelier | Dhanvikk Blooms"
+        description="Connect with Dhanvikk Blooms florist concierge for bespoke wedding flowers, corporate gifting, international air cargo inquiries, or live order assistance. Direct Line: +91 91089 16328."
         canonical="/contact"
         breadcrumbs={[
           { name: 'Home', url: '/' },
@@ -86,7 +86,7 @@ export default function ContactPage() {
         jsonLd={{
           '@context': 'https://schema.org',
           '@type': 'ContactPage',
-          name: 'Contact Dhanvikk Blooms VIP Concierge',
+          name: 'Contact Dhanvikk Blooms Concierge',
           url: 'https://dhanvikkexports.com/contact',
           description:
             'Dedicated luxury florist concierge for bespoke floristry, bridal styling, corporate exports, and same-day delivery coordination.',
@@ -108,7 +108,7 @@ export default function ContactPage() {
               {
                 '@type': 'ContactPoint',
                 telephone: '+91 91089 16328',
-                contactType: 'VIP Concierge Desk',
+                contactType: 'Customer Concierge Desk',
                 availableLanguage: ['English', 'Hindi', 'Tamil', 'Kannada'],
                 contactOption: 'TollFree',
               },
@@ -209,7 +209,7 @@ export default function ContactPage() {
                 </div>
                 <div>
                   <h3 className="text-sm font-bold text-[#242124] group-hover:text-[#EC407A] transition-colors">
-                    VIP Phone Line
+                    Direct Phone Line
                   </h3>
                   <p className="text-[11px] text-[#777777] mt-0.5">Speak with a floral specialist</p>
                 </div>
@@ -404,7 +404,7 @@ export default function ContactPage() {
                   <div className="pt-2 flex items-center justify-between gap-4 flex-wrap">
                     <span className="text-[11px] text-[#777777] flex items-center gap-1">
                       <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
-                      <span>Protected under strict VIP Client Privacy Protocol</span>
+                      <span>Protected under strict Client Privacy Protocol</span>
                     </span>
 
                     <button

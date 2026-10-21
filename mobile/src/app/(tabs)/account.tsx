@@ -90,7 +90,7 @@ export default function Account() {
           <View style={s.profileInfo}>
             <Text style={s.name}>{user?.name || 'Guest Connoisseur'}</Text>
             <Text style={s.email}>
-              {user?.email || 'Sign in to access VIP cold-chain reservations'}
+              {user?.email || 'Sign in to manage your orders & delivery'}
             </Text>
           </View>
 

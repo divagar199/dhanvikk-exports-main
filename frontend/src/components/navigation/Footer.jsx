@@ -227,7 +227,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link to="/profile" className="hover:text-[#C2185B] hover:translate-x-1.5 inline-block transition-all">
-                  My VIP Profile
+                  My Profile
                 </Link>
               </li>
               <li>

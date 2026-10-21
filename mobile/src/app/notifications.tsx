@@ -305,7 +305,7 @@ export default function NotificationsScreen() {
 
               <View style={s.toggleRow}>
                 <View style={s.toggleInfo}>
-                  <Text style={s.toggleLabel}>Exclusive Farm Drops & VIP Perks</Text>
+                   <Text style={s.toggleLabel}>Exclusive Farm Drops & Special Offers</Text>
                   <Text style={s.toggleDesc}>
                     Be alerted the instant rare seasonal harvests (e.g. Dutch Tulips, Highland Peonies) arrive.
                   </Text>

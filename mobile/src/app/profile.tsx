@@ -69,7 +69,7 @@ export default function ProfileScreen() {
   const confirmDeleteAccount = () => {
     Alert.alert(
       'Request Account Deletion',
-      'Are you sure you want to request deletion of your Dhanvikk Blooms and Exports customer account? Your saved addresses, past orders, and VIP perks will be permanently archived according to data protection regulations.',
+      'Are you sure you want to request deletion of your Dhanvikk Blooms and Exports customer account? Your saved addresses, past orders, and account benefits will be permanently deleted according to data protection regulations.',
       [
         { text: 'Cancel', style: 'cancel' },
         {
@@ -123,7 +123,7 @@ export default function ProfileScreen() {
             <Text style={s.profileName}>{user?.name || 'Valued Guest'}</Text>
             <View style={s.roleBadge}>
               <Ionicons name="sparkles" size={12} color={colors.primaryDeep} />
-              <Text style={s.roleBadgeText}>VIP MEMBER</Text>
+              <Text style={s.roleBadgeText}>MEMBER</Text>
             </View>
           </View>
 

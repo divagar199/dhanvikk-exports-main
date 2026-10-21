@@ -105,8 +105,8 @@ export default function ProfilePage() {
   return (
     <>
       <SEO
-        title="VIP Patron Profile & Account Settings | Dhanvikk Blooms"
-        description="Manage your Dhanvikk Blooms luxury florist account, personal details, delivery preferences, and security settings."
+        title="Profile & Account Settings | Dhanvikk Blooms"
+        description="Manage your Dhanvikk Blooms florist account, personal details, delivery preferences, and security settings."
         canonical="/profile"
         noindex={true}
       />
@@ -140,7 +140,7 @@ export default function ProfilePage() {
                   Sign In to View Your Profile
                 </h1>
                 <p className="text-xs sm:text-sm text-[#777777] max-w-md mx-auto leading-relaxed">
-                  Log in to access your personal floral preferences, saved delivery addresses, and VIP concierge privileges.
+                  Log in to access your personal floral preferences, saved delivery addresses, and customer support.
                 </p>
               </div>
 
@@ -175,7 +175,7 @@ export default function ProfilePage() {
                           {user?.name || 'Valued Floral Patron'}
                         </h1>
                         <span className="text-[10px] uppercase font-bold tracking-wider px-2.5 py-0.5 rounded-full bg-[#EC407A] text-white shadow-2xs">
-                          {user?.role === 'admin' ? 'Atelier Admin' : 'VIP Member'}
+                          {user?.role === 'admin' ? 'Administrator' : 'Member'}
                         </span>
                       </div>
                       <p className="text-xs sm:text-sm text-[#777777] flex items-center gap-1.5 truncate">
@@ -269,7 +269,7 @@ export default function ProfilePage() {
                     <span className="text-xs font-bold text-[#242124] block group-hover:text-[#EC407A] transition-colors">
                       Concierge Care
                     </span>
-                    <span className="text-[11px] text-[#777777]">24/7 VIP Assistance</span>
+                    <span className="text-[11px] text-[#777777]">24/7 Customer Support</span>
                   </div>
                 </Link>
               </div>
@@ -419,7 +419,7 @@ export default function ProfilePage() {
                     <div className="flex items-center gap-2 pb-3 border-b border-[#F7F2ED]">
                       <Sparkles className="w-4 h-4 text-[#EC407A]" />
                       <h3 className="text-sm font-bold text-[#242124] font-['Poppins']">
-                        VIP Delivery Notifications
+                        Delivery Notifications
                       </h3>
                     </div>
 
