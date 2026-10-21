@@ -86,6 +86,7 @@ export default function ProductDetail() {
   const [submittingReview, setSubmittingReview] = useState(false);
   const [googleModal, setGoogleModal] = useState(false);
   const [reviewsList, setReviewsList] = useState<ProductReview[]>([]);
+  const [inlineQty, setInlineQty] = useState(1);
 
   const { showToast } = useToast();
   const user = useStore((s) => s.user);
@@ -402,6 +403,117 @@ export default function ProductDetail() {
               Inclusive of all taxes • Complimentary signature satin wrap & flower food sachet
             </Text>
           </View>
+
+          {/* Below-Price Interactive Add to Cart & Quantity Controls */}
+          {inCartQty > 0 ? (
+            <View style={s.priceBelowActionBoxActive}>
+              <View style={s.priceBelowBadgeRow}>
+                <Ionicons name="checkmark-circle" size={16} color="#059669" />
+                <Text style={s.priceBelowBadgeText}>
+                  {inCartQty} in your basket • Total ₹{(price * inCartQty).toLocaleString('en-IN')}
+                </Text>
+              </View>
+
+              <View style={s.priceBelowActiveControls}>
+                {/* Live Stepper */}
+                <View style={s.priceBelowStepper}>
+                  <Pressable
+                    style={s.priceBelowStepBtn}
+                    onPress={handleDecrementQty}
+                    hitSlop={8}
+                    accessibilityLabel="Decrease quantity"
+                  >
+                    <Ionicons
+                      name={inCartQty === 1 ? 'trash-outline' : 'remove'}
+                      size={18}
+                      color={inCartQty === 1 ? '#E11D48' : colors.ink}
+                    />
+                  </Pressable>
+                  <View style={s.priceBelowCountWrap}>
+                    <Text style={s.priceBelowCountNum}>{inCartQty}</Text>
+                    <Text style={s.priceBelowCountLabel}>QTY</Text>
+                  </View>
+                  <Pressable
+                    style={s.priceBelowStepBtn}
+                    onPress={handleIncrementQty}
+                    hitSlop={8}
+                    accessibilityLabel="Increase quantity"
+                  >
+                    <Ionicons name="add" size={18} color={colors.ink} />
+                  </Pressable>
+                </View>
+
+                {/* View Cart Button */}
+                <Pressable
+                  style={({ pressed }) => [
+                    s.priceBelowViewCartBtn,
+                    pressed && { opacity: 0.9, transform: [{ scale: 0.98 }] },
+                  ]}
+                  onPress={() => router.push('/cart')}
+                  accessibilityLabel="View Cart"
+                >
+                  <Ionicons name="cart" size={18} color={colors.white} style={{ marginRight: 6 }} />
+                  <Text style={s.priceBelowViewCartText}>View Cart</Text>
+                  <Ionicons name="arrow-forward" size={16} color={colors.white} style={{ marginLeft: 4 }} />
+                </Pressable>
+              </View>
+            </View>
+          ) : (
+            <View style={s.priceBelowActionBox}>
+              <View style={s.priceBelowRow}>
+                {/* Quantity Control Stepper */}
+                <View style={s.priceBelowPreStepper}>
+                  <Pressable
+                    style={[s.priceBelowPreStepBtn, inlineQty <= 1 && s.priceBelowPreStepDisabled]}
+                    onPress={() => setInlineQty((q) => Math.max(1, q - 1))}
+                    hitSlop={8}
+                    disabled={inlineQty <= 1}
+                    accessibilityLabel="Decrease quantity"
+                  >
+                    <Ionicons
+                      name="remove"
+                      size={16}
+                      color={inlineQty <= 1 ? colors.mutedLight : colors.ink}
+                    />
+                  </Pressable>
+                  <View style={s.priceBelowPreCountWrap}>
+                    <Text style={s.priceBelowPreCountNum}>{inlineQty}</Text>
+                    <Text style={s.priceBelowPreCountLabel}>QTY</Text>
+                  </View>
+                  <Pressable
+                    style={s.priceBelowPreStepBtn}
+                    onPress={() => setInlineQty((q) => q + 1)}
+                    hitSlop={8}
+                    accessibilityLabel="Increase quantity"
+                  >
+                    <Ionicons name="add" size={16} color={colors.ink} />
+                  </Pressable>
+                </View>
+
+                {/* Add to Cart Button */}
+                <Pressable
+                  style={({ pressed }) => [
+                    s.priceBelowAddToCartBtn,
+                    pressed && { opacity: 0.88, transform: [{ scale: 0.98 }] },
+                  ]}
+                  onPress={() => {
+                    add({ ...p, quantity: inlineQty });
+                    showToast(
+                      'Added to Cart! 💐',
+                      `${inlineQty}x ${p.name} added to your bag.`,
+                      'success'
+                    );
+                  }}
+                  accessibilityLabel="Add to Cart"
+                >
+                  <Ionicons name="bag-add" size={18} color={colors.white} style={{ marginRight: 6 }} />
+                  <Text style={s.priceBelowAddToCartText}>
+                    Add to Cart • ₹{(price * inlineQty).toLocaleString('en-IN')}
+                  </Text>
+                </Pressable>
+              </View>
+            </View>
+          )}
         </View>
 
         {/* Haute Floriculture White-Glove Handover Card */}
@@ -985,6 +1097,157 @@ const s = StyleSheet.create({
     fontSize: 11,
     color: colors.muted,
     lineHeight: 15,
+  },
+  /* Price-Below Add to Cart & Stepper Actions */
+  priceBelowActionBox: {
+    marginTop: 14,
+    paddingTop: 12,
+    borderTopWidth: 1,
+    borderTopColor: colors.lineLight,
+  },
+  priceBelowRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+  },
+  priceBelowPreStepper: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: colors.surface,
+    borderRadius: radius.pill,
+    borderWidth: 1.5,
+    borderColor: colors.border,
+    paddingHorizontal: 4,
+    paddingVertical: 3,
+    height: 48,
+  },
+  priceBelowPreStepBtn: {
+    width: 34,
+    height: 38,
+    borderRadius: 19,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  priceBelowPreStepDisabled: {
+    opacity: 0.35,
+  },
+  priceBelowPreCountWrap: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 8,
+    minWidth: 42,
+  },
+  priceBelowPreCountNum: {
+    fontSize: 16,
+    fontWeight: '900',
+    color: colors.ink,
+    lineHeight: 18,
+  },
+  priceBelowPreCountLabel: {
+    fontSize: 8.5,
+    fontWeight: '800',
+    color: colors.muted,
+    letterSpacing: 0.5,
+  },
+  priceBelowAddToCartBtn: {
+    flex: 1,
+    height: 48,
+    borderRadius: radius.pill,
+    backgroundColor: colors.primary,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 16,
+    shadowColor: colors.primary,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.25,
+    shadowRadius: 8,
+    elevation: 4,
+  },
+  priceBelowAddToCartText: {
+    color: colors.white,
+    fontSize: 14,
+    fontWeight: '800',
+    letterSpacing: 0.2,
+  },
+  priceBelowActionBoxActive: {
+    marginTop: 14,
+    paddingTop: 12,
+    borderTopWidth: 1,
+    borderTopColor: colors.lineLight,
+  },
+  priceBelowBadgeRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    marginBottom: 10,
+  },
+  priceBelowBadgeText: {
+    fontSize: 12.5,
+    fontWeight: '800',
+    color: '#059669',
+  },
+  priceBelowActiveControls: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+  },
+  priceBelowStepper: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: colors.surface,
+    borderRadius: radius.pill,
+    borderWidth: 1.5,
+    borderColor: colors.primary,
+    paddingHorizontal: 4,
+    paddingVertical: 3,
+    height: 48,
+  },
+  priceBelowStepBtn: {
+    width: 36,
+    height: 38,
+    borderRadius: 19,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  priceBelowCountWrap: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 10,
+    minWidth: 46,
+  },
+  priceBelowCountNum: {
+    fontSize: 16,
+    fontWeight: '900',
+    color: colors.primaryDeep,
+    lineHeight: 18,
+  },
+  priceBelowCountLabel: {
+    fontSize: 8.5,
+    fontWeight: '800',
+    color: colors.primary,
+    letterSpacing: 0.5,
+  },
+  priceBelowViewCartBtn: {
+    flex: 1,
+    height: 48,
+    borderRadius: radius.pill,
+    backgroundColor: colors.primaryDeep,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 16,
+    shadowColor: colors.primaryDeep,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.2,
+    shadowRadius: 8,
+    elevation: 4,
+  },
+  priceBelowViewCartText: {
+    color: colors.white,
+    fontSize: 14,
+    fontWeight: '800',
+    letterSpacing: 0.2,
   },
   deliveryCard: {
     backgroundColor: colors.white,
