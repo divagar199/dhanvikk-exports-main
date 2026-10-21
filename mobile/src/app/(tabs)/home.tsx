@@ -124,7 +124,7 @@ export default function Home() {
                       onPress={() => setSelectedTab(item)}
                     >
                       {active && (
-                        <Ionicons name="sparkles" size={11} color={colors.white} style={{ marginRight: 4 }} />
+                        <Ionicons name="flower" size={11} color={colors.white} style={{ marginRight: 4 }} />
                       )}
                       <Text style={[s.tabText, active && s.tabTextActive]}>
                         {item}

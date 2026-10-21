@@ -24,7 +24,7 @@ import {
   Printer,
   X,
   ExternalLink,
-  Sparkles,
+  Type,
   Flower2,
   MapPin,
   Phone,
@@ -1111,7 +1111,7 @@ export default function AdminDashboard() {
         {
           id: 'hero',
           label: 'Hero Section CMS',
-          icon: Sparkles,
+          icon: Layers,
           badge: 'LIVE',
           badgeColor: 'text-emerald-700 bg-emerald-50 border-emerald-200',
         },
@@ -2328,7 +2328,7 @@ export default function AdminDashboard() {
               {/* Left Column: Form Editor */}
               <div className="lg:col-span-6 bg-white border border-[#EFE7DE] rounded-2xl sm:rounded-3xl p-4 sm:p-6 shadow-sm space-y-4 text-xs">
                 <h3 className="text-sm font-bold text-[#242124] font-['Poppins'] pb-2 border-b border-[#EFE7DE] flex items-center gap-2">
-                  <Sparkles className="w-4 h-4 text-[#C2185B]" />
+                  <Type className="w-4 h-4 text-[#C2185B]" />
                   <span>Banner Headlines & Typography</span>
                 </h3>
 
@@ -2508,7 +2508,7 @@ export default function AdminDashboard() {
                 <div className="relative rounded-3xl overflow-hidden shadow-md border border-[#EFE7DE] min-h-[380px] bg-gradient-to-r from-[#FFF0F4] via-[#FFF8F9] to-[#FAF7F2] p-6 sm:p-8 flex items-center">
                   <div className="relative z-10 max-w-sm space-y-3.5">
                     <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/90 border border-[#FCC1C5] text-[#C2185B] text-[10px] font-bold tracking-wider uppercase shadow-2xs">
-                      <Sparkles className="w-3 h-3 text-[#EC407A]" />
+                      <Flower2 className="w-3 h-3 text-[#EC407A]" />
                       <span>{heroSettings.badge || 'Spring Floristry Edit 2026'}</span>
                     </div>
 

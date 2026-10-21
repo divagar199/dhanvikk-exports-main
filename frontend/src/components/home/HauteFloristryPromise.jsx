@@ -10,7 +10,6 @@ import {
   ArrowRight,
   ChevronLeft,
   ChevronRight,
-  Sparkles,
   Pause,
   Play,
 } from 'lucide-react';
@@ -192,7 +191,7 @@ export default function HauteFloristryPromise() {
         {/* Section Header */}
         <div className="text-center max-w-2xl mx-auto mb-8 sm:mb-12">
           <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-white border border-[#E9E2E5] text-[#C2185B] text-[11px] sm:text-xs font-bold uppercase tracking-wider mb-2.5 shadow-2xs">
-            <Sparkles className="w-3.5 h-3.5 text-[#EC407A]" />
+            <ShieldCheck className="w-3.5 h-3.5 text-[#EC407A]" />
             <span>The Dhanvikk Haute Floristry Promise</span>
           </div>
 

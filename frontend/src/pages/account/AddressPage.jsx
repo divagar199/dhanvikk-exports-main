@@ -25,7 +25,6 @@ import {
   Star,
   Home,
   Building,
-  Sparkles,
   Phone,
   User,
   ShieldCheck,

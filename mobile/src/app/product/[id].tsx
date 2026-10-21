@@ -365,7 +365,7 @@ export default function ProductDetail() {
               </Text>
             </View>
             <View style={s.freshnessPill}>
-              <Ionicons name="sparkles" size={11} color="#059669" />
+              <Ionicons name="leaf" size={11} color="#059669" />
               <Text style={s.freshnessText}>Dawn Harvested</Text>
             </View>
           </View>

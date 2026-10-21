@@ -1,5 +1,5 @@
 import React from 'react';
-import { Globe, Plane, ShieldCheck, Sparkles } from 'lucide-react';
+import { Globe, Plane, ShieldCheck } from 'lucide-react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, FreeMode } from 'swiper/modules';
 

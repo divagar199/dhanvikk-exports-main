@@ -44,7 +44,7 @@ import { addItem } from '../../store/slices/cartSlice';
 import { toast } from 'sonner';
 import { useCurrency } from '../../context/CurrencyContext';
 import { Carousel_005, SwiperSlide } from '../../components/v1/skiper51';
-import { Sparkles, Zap } from 'lucide-react';
+import { Leaf, Zap } from 'lucide-react';
 import { getProductImageUrl } from '../../utils/imageUrl';
 
 export default function HomePage() {
@@ -457,7 +457,7 @@ export default function HomePage() {
                   <div className="relative w-full h-full bg-gradient-to-r from-[#FFF5F8] via-[#FFF9FA] to-[#F7F3EE] flex items-center p-6 sm:p-12 overflow-hidden">
                     <div className="relative z-10 max-w-lg space-y-4">
                       <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/90 border border-[#FCC1C5] text-[#C2185B] text-xs font-bold tracking-wider uppercase shadow-2xs">
-                        <Sparkles className="w-3.5 h-3.5 text-[#EC407A]" />
+                        <Leaf className="w-3.5 h-3.5 text-[#EC407A]" />
                         <span>New Harvest Arrival 2026</span>
                       </div>
 

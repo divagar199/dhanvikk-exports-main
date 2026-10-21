@@ -84,7 +84,7 @@ export function OccasionsGrid() {
       <View style={s.conciergeBanner}>
         <View style={s.conciergeLeft}>
           <View style={s.vipTag}>
-            <Ionicons name="sparkles" size={13} color={colors.white} />
+            <Ionicons name="gift-outline" size={13} color={colors.white} />
             <Text style={s.vipTagText}>SPECIAL OCCASIONS</Text>
           </View>
           <Text style={s.conciergeTitle}>Private Residence & Event Styling</Text>

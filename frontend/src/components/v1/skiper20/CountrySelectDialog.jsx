@@ -7,7 +7,6 @@ import {
   Globe,
   ChevronDown,
   ChevronRight,
-  Sparkles,
   ArrowRight,
   ShieldCheck,
 } from 'lucide-react';
@@ -466,7 +465,7 @@ export function CountrySelectDialog({
                 {/* Popular / Quick-Pick Badges */}
                 <div className="mt-2.5 sm:mt-3">
                   <div className="text-[9px] sm:text-[10px] font-bold uppercase tracking-wider text-[#777777] mb-1.5 flex items-center gap-1">
-                    <Sparkles className="w-3 h-3 text-[#EC407A]" />
+                    <Globe className="w-3 h-3 text-[#EC407A]" />
                     <span>Popular Hubs</span>
                   </div>
                   <div className="flex flex-wrap gap-1 sm:gap-1.5">

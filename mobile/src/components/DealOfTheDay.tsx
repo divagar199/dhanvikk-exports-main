@@ -40,7 +40,7 @@ export function DealOfTheDay({ products }: { products: Product[] }) {
       <View style={s.header}>
         <View style={s.headerLeft}>
           <View style={s.iconTag}>
-            <Ionicons name="sparkles" size={14} color={colors.white} />
+            <Ionicons name="flame" size={14} color={colors.white} />
           </View>
           <View>
             <Text style={s.title}>The Daily Harvest Reserve</Text>

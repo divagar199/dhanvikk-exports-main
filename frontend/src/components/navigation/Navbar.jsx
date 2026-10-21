@@ -12,7 +12,8 @@ import {
   Shield,
   ChevronDown,
   ArrowRight,
-  Sparkles,
+  TrendingUp,
+  Info,
   Flower2,
   Tag,
   Star,
@@ -448,7 +449,7 @@ export default function Navbar({ onSearch, searchQuery = '' }) {
                   {/* Trending Searches */}
                   <div>
                     <div className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-[#777777] mb-2 px-1">
-                      <Sparkles className="w-3.5 h-3.5 text-[#EC407A]" />
+                      <TrendingUp className="w-3.5 h-3.5 text-[#EC407A]" />
                       <span>Popular Trending Searches</span>
                     </div>
                     <div className="flex flex-wrap gap-1.5">
@@ -602,7 +603,7 @@ export default function Navbar({ onSearch, searchQuery = '' }) {
                     onClick={() => setUserDropdownOpen(false)}
                     className="flex items-center gap-2.5 px-4 py-2 text-xs text-[#242124] hover:bg-[#FFF3F6] hover:text-[#EC407A] transition-colors"
                   >
-                    <Sparkles className="w-4 h-4 text-[#EC407A]" />
+                    <Info className="w-4 h-4 text-[#EC407A]" />
                     <span className="font-medium">About</span>
                   </Link>
 
@@ -739,7 +740,7 @@ export default function Navbar({ onSearch, searchQuery = '' }) {
               {matchingProducts.length > 0 ? (
                 <div>
                   <div className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider text-[#777777] mb-1.5 px-1">
-                    <Sparkles className="w-3 h-3 text-[#EC407A]" />
+                    <Flower2 className="w-3 h-3 text-[#EC407A]" />
                     <span>Matching Blooms ({matchingProducts.length})</span>
                   </div>
                   <div className="space-y-1.5">
@@ -844,7 +845,7 @@ export default function Navbar({ onSearch, searchQuery = '' }) {
                 onClick={() => setMobileMenuOpen(false)}
                 className="p-2.5 rounded-2xl bg-white border border-[#EAE4DD] text-center hover:bg-[#FFF3F6] hover:text-[#EC407A] transition-colors shadow-2xs"
               >
-                <Sparkles className="w-4 h-4 mx-auto mb-1 text-[#EC407A]" />
+                <Info className="w-4 h-4 mx-auto mb-1 text-[#EC407A]" />
                 <span className="text-[11px] font-semibold block truncate">About</span>
               </Link>
               <Link

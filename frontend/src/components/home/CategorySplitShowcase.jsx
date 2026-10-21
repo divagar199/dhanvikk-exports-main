@@ -7,7 +7,6 @@ import {
   ArrowRight,
   Check,
   Flower2,
-  Sparkles,
   Grid,
   Layers,
   ChevronRight,
@@ -165,7 +164,7 @@ export default function CategorySplitShowcase({ products = [], loading = false }
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8 pb-6 border-b border-[#F7F2ED]">
         <div>
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FFF0F4] border border-[#FCC1C5] text-[#C2185B] text-xs font-bold uppercase tracking-wider mb-2">
-            <Sparkles className="w-3.5 h-3.5 text-[#EC407A]" />
+            <Flower2 className="w-3.5 h-3.5 text-[#EC407A]" />
             <span>Master Floristry Collection</span>
           </div>
           <h2 className="text-2xl sm:text-4xl font-bold font-['Poppins'] text-[#242124]">

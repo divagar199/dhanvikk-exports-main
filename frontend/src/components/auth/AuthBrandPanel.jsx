@@ -1,5 +1,5 @@
 import React from 'react';
-import { ShieldCheck, Clock, Award, Star, Sparkles, Heart } from 'lucide-react';
+import { ShieldCheck, Clock, Award, Star, Heart } from 'lucide-react';
 
 export default function AuthBrandPanel({
   className = '',

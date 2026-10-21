@@ -8,7 +8,6 @@ import {
   ShieldCheck, 
   Flower2, 
   Clock, 
-  Sparkles,
   ThermometerSnowflake,
   HeartHandshake
 } from 'lucide-react';

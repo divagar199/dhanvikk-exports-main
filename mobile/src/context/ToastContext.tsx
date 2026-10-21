@@ -117,7 +117,7 @@ export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({ childre
           iconBg: '#D97706',
           iconColor: '#FFFFFF',
           titleColor: '#92400E',
-          iconName: 'sparkles' as const,
+          iconName: 'information-circle' as const,
         };
       case 'success':
       default:

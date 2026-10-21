@@ -11,7 +11,7 @@ import {
   ShieldCheck,
   Truck,
   Gift,
-  Sparkles,
+  Leaf,
   Clock,
   Star,
   Layers,
@@ -281,7 +281,7 @@ export default function CuratedCollectionsSection() {
                     : 'bg-white hover:bg-[#FFF7F9] text-[#555555] hover:text-[#EC407A] border-[#E8DFD7] hover:border-[#EC407A]/40'
                 }`}
               >
-                {tab.id === 'all' && <Sparkles className={`w-3.5 h-3.5 ${isActive ? 'text-white' : 'text-[#EC407A]'}`} />}
+                {tab.id === 'all' && <Flower2 className={`w-3.5 h-3.5 ${isActive ? 'text-white' : 'text-[#EC407A]'}`} />}
                 <span>{tab.label}</span>
                 {tab.id === 'all' && (
                   <span className={`text-[10px] px-1.5 py-0.2 rounded-full ${isActive ? 'bg-white/20 text-white' : 'bg-[#F2ECE6] text-[#777777]'}`}>
@@ -414,7 +414,7 @@ export default function CuratedCollectionsSection() {
                   <div className="relative z-10 p-4 sm:p-5 text-white flex flex-col justify-end space-y-3">
                     <div className="space-y-1">
                       <div className="flex items-center gap-1.5 text-[10px] uppercase tracking-[0.18em] text-[#FCC1C5] font-semibold">
-                        <Sparkles className="w-3 h-3 text-[#FFB400] flex-shrink-0" />
+                        <Leaf className="w-3 h-3 text-[#FFB400] flex-shrink-0" />
                         <span className="truncate">{col.desc}</span>
                       </div>
 

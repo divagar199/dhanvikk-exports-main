@@ -18,7 +18,7 @@ import {
   Truck,
   CheckCircle2,
   Clock,
-  Sparkles,
+  Flower2,
   MapPin,
   Calendar,
   MessageSquare,
@@ -122,7 +122,7 @@ export default function OrdersPage() {
     if (s.includes('prep') || s.includes('confirm')) {
       return (
         <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-bold bg-[#FFF0F4] text-[#C2185B] border border-[#FCC1C5]">
-          <Sparkles className="w-3.5 h-3.5" /> Floral Artisan Sourcing
+          <Flower2 className="w-3.5 h-3.5" /> Floral Artisan Sourcing
         </span>
       );
     }

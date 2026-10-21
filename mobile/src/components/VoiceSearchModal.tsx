@@ -161,7 +161,7 @@ export function VoiceSearchModal({
           {/* Header Row */}
           <View style={s.headerRow}>
             <View style={s.brandRow}>
-              <Ionicons name="sparkles" size={16} color={colors.primary} />
+              <Ionicons name="mic" size={17} color={colors.primary} />
               <Text style={s.headerTitle}>Voice Search</Text>
             </View>
             <Pressable

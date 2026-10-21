@@ -11,7 +11,6 @@ import {
   HelpCircle,
   Search,
   ChevronDown,
-  Sparkles,
   Phone,
   MessageSquare,
   Flower2,

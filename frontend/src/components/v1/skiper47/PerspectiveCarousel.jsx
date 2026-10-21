@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { EffectCoverflow, Pagination, Navigation, Autoplay } from 'swiper/modules';
-import { ChevronLeft, ChevronRight, ArrowRight, Sparkles } from 'lucide-react';
+import { ChevronLeft, ChevronRight, ArrowRight, Gift } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { getProductImageUrl } from '../../../utils/imageUrl';
 
@@ -111,7 +111,7 @@ export function Carousel_001({
                 {item.tag && (
                   <div className="absolute top-4 right-4 z-10">
                     <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-white/90 backdrop-blur-md text-[#242124] text-[10px] font-bold uppercase tracking-wider shadow-xs border border-white/50">
-                      <Sparkles className="w-2.5 h-2.5 text-[#EC407A]" />
+                      <Gift className="w-2.5 h-2.5 text-[#EC407A]" />
                       <span>{item.tag}</span>
                     </span>
                   </div>

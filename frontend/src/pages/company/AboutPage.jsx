@@ -8,7 +8,6 @@ import Footer from '../../components/navigation/Footer';
 import CartDrawer from '../../components/cart/CartDrawer';
 import Breadcrumb from '../../components/common/Breadcrumb';
 import {
-  Sparkles,
   Plane,
   ShieldCheck,
   Flower2,
@@ -118,7 +117,7 @@ export default function AboutPage() {
 
               <div className="max-w-3xl space-y-4">
                 <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white border border-[#FCC1C5] text-[#C2185B] text-xs font-bold uppercase tracking-widest shadow-2xs">
-                  <Sparkles className="w-3.5 h-3.5 text-[#EC407A]" />
+                  <Flower2 className="w-3.5 h-3.5 text-[#EC407A]" />
                   <span>The Dhanvikk Heritage & Atelier</span>
                 </div>
 

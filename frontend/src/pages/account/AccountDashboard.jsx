@@ -21,7 +21,8 @@ import {
   Plus,
   Trash2,
   Clock,
-  Sparkles,
+  Flower2,
+  Headphones,
   ShoppingBag,
   Truck,
   ShieldCheck,
@@ -589,7 +590,7 @@ export default function AccountDashboard() {
               <h3 className="font-semibold text-base text-[#242124] font-['Poppins']">Saved Bouquets</h3>
               <p className="text-xs text-[#666666] mt-1 font-medium">{displayWishlist.length} signature {displayWishlist.length === 1 ? 'rose' : 'roses'} in wishlist</p>
               <p className="text-[11px] text-[#888888] mt-2 flex items-center gap-1">
-                <Sparkles className="w-3 h-3 text-[#C2185B]" /> Preserved & fresh botanical treasures
+                <Flower2 className="w-3 h-3 text-[#C2185B]" /> Preserved & fresh botanical treasures
               </p>
             </div>
 
@@ -681,7 +682,7 @@ export default function AccountDashboard() {
                   </p>
                   <Link to="/">
                     <Button variant="primary" size="md" className="gap-2 bg-[#C2185B] hover:bg-[#AD1457] text-white">
-                      <Sparkles className="w-4 h-4" /> Explore Botanical Collection
+                      <Flower2 className="w-4 h-4" /> Explore Botanical Collection
                     </Button>
                   </Link>
                 </div>
@@ -1066,7 +1067,7 @@ export default function AccountDashboard() {
 
                   <div className="p-4 rounded-2xl bg-[#FAF7F2] border border-[#EFE7DE]">
                     <div className="flex items-center gap-2 text-xs font-semibold text-[#242124] mb-1">
-                      <Sparkles className="w-4 h-4 text-[#C2185B]" />
+                      <Headphones className="w-4 h-4 text-[#C2185B]" />
                       <span>Concierge Support</span>
                     </div>
                     <p className="text-[11px] text-[#666666]">

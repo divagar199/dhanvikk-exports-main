@@ -240,7 +240,7 @@ export default function Shop() {
                 onPress={() => setSelectedCategory(cat)}
               >
                 {active && (
-                  <Ionicons name="sparkles" size={10} color={colors.white} style={{ marginRight: 4 }} />
+                  <Ionicons name="flower" size={10} color={colors.white} style={{ marginRight: 4 }} />
                 )}
                 <Text style={[s.chipText, active && s.chipTextActive]}>{cat}</Text>
               </Pressable>

@@ -197,7 +197,7 @@ export default function Cart() {
 
             {!user && (
               <View style={s.emptyGuestBox}>
-                <Ionicons name="sparkles" size={18} color={colors.primary} />
+                <Ionicons name="person-circle-outline" size={20} color={colors.primary} />
                 <Text style={s.emptyGuestTitle}>Already have a Dhanvikk account?</Text>
                 <Text style={s.emptyGuestSub}>
                   Sign in with your Google or email account to restore saved bouquets.

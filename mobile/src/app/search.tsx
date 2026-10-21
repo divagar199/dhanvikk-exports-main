@@ -27,7 +27,7 @@ const TRENDING_INQUIRIES = [
   { label: 'Crimson Roses', query: 'Rose', icon: 'rose-outline' },
   { label: 'Casablanca Lilies', query: 'Lily', icon: 'flower-outline' },
   { label: 'Luxury Bouquets', query: 'Bouquet', icon: 'gift-outline' },
-  { label: 'Exotic Orchids', query: 'Orchid', icon: 'sparkles-outline' },
+  { label: 'Exotic Orchids', query: 'Orchid', icon: 'flower-outline' },
   { label: 'Sanctum Pooja', query: 'Traditional', icon: 'flame-outline' },
   { label: 'Nilgiri Harvest', query: 'Seasonal', icon: 'leaf-outline' },
   { label: 'Botanical Plants', query: 'Plants', icon: 'water-outline' },
@@ -271,7 +271,7 @@ export default function Search() {
                 {/* 1. Trending Inquiries Pills */}
                 <View style={s.sectionHeaderRow}>
                   <View style={s.sectionIconPill}>
-                    <Ionicons name="sparkles" size={13} color={colors.primary} />
+                    <Ionicons name="trending-up" size={13} color={colors.primary} />
                   </View>
                   <Text style={s.sectionTitle}>TRENDING SPOKEN & SEARCHED</Text>
                 </View>

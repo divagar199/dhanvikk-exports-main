@@ -21,7 +21,9 @@ import {
   Package,
   MapPin,
   Calendar,
-  Sparkles,
+  Award,
+  Flower2,
+  Bell,
   Lock,
   LogOut,
   Edit2,
@@ -183,7 +185,7 @@ export default function ProfilePage() {
                         <span>{user?.email}</span>
                       </p>
                       <p className="text-[11px] text-[#888888] flex items-center gap-1">
-                        <Sparkles className="w-3 h-3 text-amber-500" />
+                        <Award className="w-3 h-3 text-amber-500" />
                         <span>Dhanvikk Haute Floristry Member Since 2026</span>
                       </p>
                     </div>
@@ -248,7 +250,7 @@ export default function ProfilePage() {
                   className="group p-4 rounded-2xl bg-white border border-[#EFE7DE] hover:border-[#EC407A] hover:shadow-md transition-all flex items-center gap-3.5"
                 >
                   <div className="w-10 h-10 rounded-xl bg-[#FFF0F4] text-[#EC407A] flex items-center justify-center group-hover:scale-105 transition-transform">
-                    <Sparkles className="w-5 h-5" />
+                    <Flower2 className="w-5 h-5" />
                   </div>
                   <div>
                     <span className="text-xs font-bold text-[#242124] block group-hover:text-[#EC407A] transition-colors">
@@ -417,7 +419,7 @@ export default function ProfilePage() {
                   {/* Notification Channels Card */}
                   <div className="bg-white rounded-3xl p-6 border border-[#EFE7DE] shadow-xs space-y-4">
                     <div className="flex items-center gap-2 pb-3 border-b border-[#F7F2ED]">
-                      <Sparkles className="w-4 h-4 text-[#EC407A]" />
+                      <Bell className="w-4 h-4 text-[#EC407A]" />
                       <h3 className="text-sm font-bold text-[#242124] font-['Poppins']">
                         Delivery Notifications
                       </h3>

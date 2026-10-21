@@ -20,7 +20,6 @@ import {
   Plus,
   Minus,
   Zap,
-  Sparkles,
   Layers,
   Award,
   ThumbsUp,
@@ -1287,7 +1286,7 @@ export default function ProductDetailPage() {
               <div className="mb-8 p-4 sm:p-8 rounded-2xl sm:rounded-3xl bg-white border border-[#EFE7DE] shadow-md space-y-4 animate-in fade-in duration-300">
                 <div className="flex items-center justify-between border-b border-[#F2ECE6] pb-3">
                   <h3 className="text-sm font-bold text-[#242124] font-['Poppins'] flex items-center gap-2">
-                    <Sparkles className="w-4 h-4 text-[#EC407A]" />
+                    <MessageSquare className="w-4 h-4 text-[#EC407A]" />
                     <span>Share Your Experience: {product.name}</span>
                   </h3>
                   <span className="text-[11px] text-[#888] font-mono">Verified Patron Submission</span>
@@ -1374,7 +1373,7 @@ export default function ProductDetailPage() {
                       type="submit"
                       className="px-6 py-2 rounded-full bg-gradient-to-r from-[#C2185B] to-[#EC407A] text-white text-xs font-bold shadow-md hover:opacity-95 transition-all cursor-pointer flex items-center gap-1.5"
                     >
-                      <Sparkles className="w-3.5 h-3.5 text-white" />
+                      <CheckCircle2 className="w-3.5 h-3.5 text-white" />
                       <span>Publish Verified Review</span>
                     </button>
                   </div>

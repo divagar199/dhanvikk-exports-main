@@ -122,7 +122,7 @@ export default function ProfileScreen() {
             </View>
             <Text style={s.profileName}>{user?.name || 'Valued Guest'}</Text>
             <View style={s.roleBadge}>
-              <Ionicons name="sparkles" size={12} color={colors.primaryDeep} />
+              <Ionicons name="shield-checkmark" size={12} color={colors.primaryDeep} />
               <Text style={s.roleBadgeText}>MEMBER</Text>
             </View>
           </View>

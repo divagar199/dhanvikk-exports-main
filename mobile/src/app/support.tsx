@@ -97,7 +97,7 @@ export default function SupportScreen() {
         {/* Luxury Hero Banner */}
         <View style={s.heroCard}>
           <View style={s.heroBadge}>
-            <Ionicons name="sparkles" size={14} color={colors.primaryDeep} />
+            <Ionicons name="headset" size={14} color={colors.primaryDeep} />
             <Text style={s.heroBadgeText}>24/7 DEDICATED ASSISTANCE</Text>
           </View>
           <Text style={s.heroTitle}>We are here to craft your perfect floral moment.</Text>

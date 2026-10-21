@@ -1,5 +1,5 @@
 import React from 'react';
-import { Sparkles, Heart } from 'lucide-react';
+import { Flower2, Heart } from 'lucide-react';
 import { Carousel_001 } from '../v1/skiper47';
 
 export const OCCASIONS = [
@@ -69,7 +69,7 @@ export default function PreciousOccasionsSection() {
         {/* Section Header */}
         <div className="text-center max-w-2xl mx-auto mb-4 sm:mb-6">
           <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-[#FFF0F4] border border-[#FCC1C5]/50 text-[#C2185B] text-[11px] sm:text-xs font-bold uppercase tracking-wider mb-2.5 shadow-2xs">
-            <Sparkles className="w-3.5 h-3.5 text-[#EC407A]" />
+            <Flower2 className="w-3.5 h-3.5 text-[#EC407A]" />
             <span>Hand-Arranged Floral Celebrations</span>
           </div>
 

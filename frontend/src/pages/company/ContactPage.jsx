@@ -14,7 +14,7 @@ import {
   MapPin,
   Clock,
   MessageSquare,
-  Sparkles,
+  Headphones,
   Send,
   ExternalLink,
   ShieldCheck,
@@ -159,7 +159,7 @@ export default function ContactPage() {
           <div className="bg-gradient-to-r from-[#FFF0F4] via-[#FFFDF9] to-[#FFF0F4] rounded-3xl p-6 sm:p-10 border border-[#F2D7DE] shadow-xs mb-10 text-center sm:text-left">
             <div className="max-w-2xl space-y-3">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white border border-[#FCC1C5] text-[#C2185B] text-xs font-bold uppercase tracking-wider">
-                <Sparkles className="w-3.5 h-3.5 text-[#EC407A]" />
+                <Headphones className="w-3.5 h-3.5 text-[#EC407A]" />
                 <span>Dedicated White-Glove Support</span>
               </div>
               <h1 className="text-2xl sm:text-4xl font-extrabold text-[#242124] font-['Poppins'] leading-tight">
