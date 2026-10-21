@@ -65,7 +65,13 @@ export function OccasionsGrid() {
               })
             }
           >
-            <Image source={{ uri: occ.image }} style={s.image} contentFit="cover" />
+            <Image
+              source={{ uri: occ.image }}
+              style={s.image}
+              contentFit="cover"
+              cachePolicy="memory-disk"
+              priority="high"
+            />
             <View style={s.scrim} />
             <View style={s.overlay}>
               <View style={s.badgePill}>

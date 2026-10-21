@@ -14,7 +14,7 @@ import { Image } from 'expo-image';
 import { router, useLocalSearchParams } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { getProduct, getProducts, rateProduct } from '@/services/products';
+import { getCachedProduct, getProduct, getProducts, rateProduct } from '@/services/products';
 import { useStore, matchesCartItem } from '@/store/useStore';
 import { colors, radius, shadows, spacing } from '@/constants/theme';
 import type { Product as ProductType, ProductReview } from '@/types/models';
@@ -39,7 +39,9 @@ function GalleryImage({
       source={{ uri: err ? FALLBACK_FLOWER_IMAGE : resolveImageUrl(uri) }}
       style={{ width: itemWidth, height: itemHeight, backgroundColor: colors.surface }}
       contentFit="cover"
-      transition={150}
+      transition={120}
+      cachePolicy="memory-disk"
+      priority="high"
       onError={() => setErr(true)}
     />
   );
@@ -100,6 +102,7 @@ export default function ProductDetail() {
   const { data: p, isLoading, refetch } = useQuery<ProductType>({
     queryKey: ['product', id],
     queryFn: () => getProduct(id),
+    initialData: () => (id ? getCachedProduct(id) || undefined : undefined),
     enabled: !!id,
   });
 

@@ -70,7 +70,14 @@ app.use('/images', (req, res, next) => {
   }
   next();
 });
-app.use('/images', express.static(imagesStaticDir));
+
+app.use(
+  '/images',
+  express.static(imagesStaticDir, {
+    maxAge: '7d',
+    immutable: true,
+  })
+);
 
 // Cross-Origin Resource Sharing
 const rawClientUrl = (process.env.CLIENT_URL || '').replace(/\/+$/, '');

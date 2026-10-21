@@ -226,7 +226,9 @@ export default function Cart() {
                   source={{ uri: resolveImageUrl(item.image || item.images?.[0]) }}
                   style={s.itemImage}
                   contentFit="cover"
-                  transition={150}
+                  transition={100}
+                  cachePolicy="memory-disk"
+                  priority="high"
                 />
                 <View style={s.itemDetails}>
                   <Text style={s.itemName} numberOfLines={2}>

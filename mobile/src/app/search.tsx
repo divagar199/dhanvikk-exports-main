@@ -326,7 +326,9 @@ export default function Search() {
                           source={{ uri: cat.image }}
                           style={s.categoryImage}
                           contentFit="cover"
-                          transition={200}
+                          transition={100}
+                          cachePolicy="memory-disk"
+                          priority="high"
                         />
                         {cat.badge && (
                           <View style={s.categoryBadge}>

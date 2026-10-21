@@ -1,19 +1,32 @@
+import { useEffect } from 'react';
 import { Stack } from 'expo-router';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { ToastProvider } from '@/context/ToastContext';
+import { BASE } from '@/lib/api';
 
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      staleTime: 60000,
-      retry: 2,
+      staleTime: 1000 * 60 * 15, // 15 minutes fresh cache for instant navigation
+      gcTime: 1000 * 60 * 60 * 24, // 24 hours persistent retention in memory
+      retry: 1,
+      refetchOnWindowFocus: false,
     },
   },
 });
 
 export default function Layout() {
+  useEffect(() => {
+    // Proactively warm up Render backend container in background
+    try {
+      fetch(`${BASE}/api/health`).catch(() => {});
+    } catch {
+      // silent
+    }
+  }, []);
+
   return (
     <SafeAreaProvider>
       <StatusBar style="dark" />

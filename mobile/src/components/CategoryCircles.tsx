@@ -109,7 +109,9 @@ export function CategoryCircles({
                     source={{ uri: cat.image }}
                     style={s.image}
                     contentFit="cover"
-                    transition={150}
+                    transition={100}
+                    cachePolicy="memory-disk"
+                    priority="high"
                   />
                 </View>
               </View>

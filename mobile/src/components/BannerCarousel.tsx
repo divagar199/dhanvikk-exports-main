@@ -128,6 +128,8 @@ export function BannerCarousel() {
               source={{ uri: item.image }}
               style={s.image}
               contentFit="cover"
+              cachePolicy="memory-disk"
+              priority="high"
             />
             {/* Elegant Vignette Gradient */}
             <View style={s.scrim} />

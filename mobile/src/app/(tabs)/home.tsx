@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { FlatList, Platform, Pressable, StyleSheet, Text, View } from 'react-native';
 import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
-import { getProducts } from '@/services/products';
+import { getCachedProducts, getProducts } from '@/services/products';
 import { Header } from '@/components/Header';
 import { CategoryCircles } from '@/components/CategoryCircles';
 import { BannerCarousel } from '@/components/BannerCarousel';
@@ -26,6 +26,7 @@ export default function Home() {
   const { data: products = [], isLoading, refetch } = useQuery<Product[]>({
     queryKey: ['featured-products'],
     queryFn: () => getProducts({ limit: 40 }),
+    initialData: () => getCachedProducts({ limit: 40 }),
   });
 
   const filteredProducts = products.filter((p) => {

@@ -67,7 +67,10 @@ export const ProductCard = memo(function ProductCard({
             source={{ uri: imageUri }}
             style={s.image}
             contentFit="cover"
-            transition={150}
+            transition={100}
+            cachePolicy="memory-disk"
+            priority="high"
+            recyclingKey={imageUri}
             onError={() => setImageError(true)}
           />
           <View style={s.originBadge}>
@@ -110,7 +113,10 @@ export const ProductCard = memo(function ProductCard({
             source={{ uri: imageUri }}
             style={s.image}
             contentFit="cover"
-            transition={150}
+            transition={100}
+            cachePolicy="memory-disk"
+            priority="high"
+            recyclingKey={imageUri}
             onError={() => setImageError(true)}
           />
 

@@ -69,6 +69,7 @@ export const getProducts = async (req, res) => {
         .sort(sortOptions)
         .limit(limit ? Number(limit) : 500);
 
+      res.setHeader('Cache-Control', 'public, max-age=120, stale-while-revalidate=600');
       return res.status(200).json({ success: true, count: products.length, products });
     }
 

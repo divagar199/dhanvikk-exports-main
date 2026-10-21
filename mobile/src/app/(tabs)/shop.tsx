@@ -10,10 +10,10 @@ import {
   TextInput,
   View,
 } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
 import { router, useLocalSearchParams } from 'expo-router';
+import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { getProducts } from '@/services/products';
+import { getCachedProducts, getProducts } from '@/services/products';
 import { ProductCard } from '@/components/ProductCard';
 import { colors, radius, shadows, spacing } from '@/constants/theme';
 import type { Product } from '@/types/models';
@@ -61,6 +61,7 @@ export default function Shop() {
   const { data = [], isLoading, refetch } = useQuery<Product[]>({
     queryKey: ['products', q],
     queryFn: () => getProducts({ search: q, limit: 100 }),
+    initialData: () => getCachedProducts({ search: q, limit: 100 }),
   });
 
   // Filter logic
