@@ -864,6 +864,8 @@ const s = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: colors.surface,
+    borderWidth: 1,
+    borderColor: colors.lineLight,
   },
   topBarTitle: {
     flex: 1,

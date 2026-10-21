@@ -307,9 +307,96 @@ test('Authentication & Profile Saved Addresses', async (t) => {
     assert.equal(data.success, true);
     assert.ok(data.addresses.some((a) => a.street === '12 Emerald Park Boulevard'));
   });
+
+  await t.test('POST /api/auth/register should create new customer and return token', async () => {
+    const uniqueEmail = `test_customer_${Date.now()}@dhanvikk.com`;
+    const res = await fetch(`${baseUrl}/api/auth/register`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        name: 'Tara Sundaram',
+        email: uniqueEmail,
+        password: 'Password123!',
+        phone: '+91 94444 12345',
+      }),
+    });
+    assert.equal(res.status, 201);
+    const data = await res.json();
+    assert.equal(data.success, true);
+    assert.ok(data.token);
+    assert.equal(data.user.name, 'Tara Sundaram');
+  });
+
+  await t.test('PUT /api/auth/profile should update authenticated user profile details', async () => {
+    const token = generateToken({
+      id: 'usr_cust_tara',
+      name: 'Tara Sundaram',
+      email: 'tara@dhanvikk.com',
+      role: 'customer',
+    });
+
+    const res = await fetch(`${baseUrl}/api/auth/profile`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        name: 'Tara Sundaram VIP',
+        phone: '+91 98888 54321',
+      }),
+    });
+    assert.equal(res.status, 200);
+    const data = await res.json();
+    assert.equal(data.success, true);
+  });
+
+  await t.test('POST /api/auth/cart should persist and update customer shopping cart (add and remove products)', async () => {
+    const token = generateToken({
+      id: 'usr_cart_test',
+      name: 'Cart Customer',
+      email: 'cart_test@dhanvikk.com',
+      role: 'customer',
+    });
+
+    // 1. Add product to cart
+    const addCartRes = await fetch(`${baseUrl}/api/auth/cart`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        cart: [
+          {
+            id: 'flw-ooty-rose',
+            name: 'Royal Nilgiri Crimson Roses',
+            price: 1899,
+            quantity: 2,
+          },
+        ],
+      }),
+    });
+    assert.equal(addCartRes.status, 200);
+
+    // 2. Remove product from cart (update to empty or decrement)
+    const removeCartRes = await fetch(`${baseUrl}/api/auth/cart`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        cart: [],
+      }),
+    });
+    assert.equal(removeCartRes.status, 200);
+  });
 });
 
-test('Product Catalog API', async (t) => {
+test('Product Catalog & Lifecycle API (Add, Retrieve, Review & Delete)', async (t) => {
+  let createdProductId;
+
   await t.test('GET /api/products should return non-empty products list', async () => {
     const res = await fetch(`${baseUrl}/api/products`);
     assert.equal(res.status, 200);
@@ -317,5 +404,45 @@ test('Product Catalog API', async (t) => {
     assert.equal(data.success, true);
     assert.ok(Array.isArray(data.products));
     assert.ok(data.products.length > 0);
+  });
+
+  await t.test('POST /api/products should add a fresh luxury bouquet', async () => {
+    const res = await fetch(`${baseUrl}/api/products`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        name: `Ooty Spring Grandeur ${Date.now()}`,
+        category: 'Bouquets',
+        price: 2499,
+        originalPrice: 3199,
+        stock: 15,
+        description: 'Exquisite hand-tied roses and Dutch lilies from Nilgiri gardens.',
+        occasion: 'Anniversary',
+      }),
+    });
+    assert.equal(res.status, 201);
+    const data = await res.json();
+    assert.equal(data.success, true);
+    assert.ok(data.product.id || data.product._id);
+    createdProductId = data.product.id || data.product._id;
+  });
+
+  await t.test('GET /api/products/:identifier should retrieve created product details', async () => {
+    if (!createdProductId) return;
+    const res = await fetch(`${baseUrl}/api/products/${createdProductId}`);
+    assert.equal(res.status, 200);
+    const data = await res.json();
+    assert.equal(data.success, true);
+    assert.ok(data.product.name.includes('Ooty Spring Grandeur'));
+  });
+
+  await t.test('DELETE /api/products/:id should remove the product', async () => {
+    if (!createdProductId) return;
+    const res = await fetch(`${baseUrl}/api/products/${createdProductId}`, {
+      method: 'DELETE',
+    });
+    assert.equal(res.status, 200);
+    const data = await res.json();
+    assert.equal(data.success, true);
   });
 });
