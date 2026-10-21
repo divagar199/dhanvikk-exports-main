@@ -51,10 +51,10 @@ export default function OrdersTab() {
 
   const getStatusColor = (status?: string) => {
     const s = (status || '').toLowerCase();
-    if (s.includes('deliver')) return { bg: '#E8F5E9', text: '#2E7D32', border: '#C8E6C9' };
     if (s.includes('out') || s.includes('prepar') || s.includes('progress')) {
       return { bg: '#FCE4EC', text: '#C2185B', border: '#F8BBD0' };
     }
+    if (s.includes('deliver')) return { bg: '#E8F5E9', text: '#2E7D32', border: '#C8E6C9' };
     if (s.includes('cancel')) return { bg: '#FFEBEE', text: '#C62828', border: '#FFCDD2' };
     return { bg: colors.softBlush, text: colors.deepMagenta, border: colors.border };
   };
@@ -63,7 +63,20 @@ export default function OrdersTab() {
     <View style={[s.page, { paddingTop: Math.max(insets.top, 10) }]}>
       {/* Botanical Gallery Header */}
       <View style={s.header}>
-        <BrandHeaderTitle />
+        <View style={s.headerLeftGroup}>
+          <Pressable
+            style={({ pressed }) => [
+              s.backBtn,
+              pressed && { opacity: 0.7, transform: [{ scale: 0.92 }] },
+            ]}
+            onPress={() => (router.canGoBack() ? router.back() : router.replace('/(tabs)/home'))}
+            hitSlop={8}
+            accessibilityLabel="Back to Home"
+          >
+            <Ionicons name="arrow-back" size={22} color={colors.ink} />
+          </Pressable>
+          <BrandHeaderTitle />
+        </View>
 
         <View style={s.headerActions}>
           <Pressable
@@ -295,6 +308,21 @@ const s = StyleSheet.create({
     width: '100%',
     alignSelf: 'center',
     ...(shadows?.soft || {}),
+  },
+  headerLeftGroup: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+  },
+  backBtn: {
+    width: 38,
+    height: 38,
+    borderRadius: 19,
+    backgroundColor: colors.surface,
+    borderWidth: 1,
+    borderColor: colors.lineLight,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   headerTitleWrap: {
     gap: 2,

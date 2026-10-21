@@ -53,18 +53,17 @@ export default function WishlistTab() {
       {/* Botanical Gallery Header */}
       <View style={[s.header, { maxWidth: maxContentWidth, width: '100%', alignSelf: 'center' }]}>
         <View style={s.headerLeft}>
-          {router.canGoBack() && (
-            <Pressable
-              style={({ pressed }) => [
-                s.backBtn,
-                pressed && { opacity: 0.7, transform: [{ scale: 0.92 }] },
-              ]}
-              onPress={() => router.back()}
-              hitSlop={8}
-            >
-              <Ionicons name="arrow-back" size={22} color={colors.ink} />
-            </Pressable>
-          )}
+          <Pressable
+            style={({ pressed }) => [
+              s.backBtn,
+              pressed && { opacity: 0.7, transform: [{ scale: 0.92 }] },
+            ]}
+            onPress={() => (router.canGoBack() ? router.back() : router.replace('/(tabs)/home'))}
+            hitSlop={8}
+            accessibilityLabel="Back to Home"
+          >
+            <Ionicons name="arrow-back" size={22} color={colors.ink} />
+          </Pressable>
           <BrandHeaderTitle />
         </View>
 

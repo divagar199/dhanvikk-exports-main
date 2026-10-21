@@ -56,7 +56,20 @@ export default function Account() {
     <View style={[s.page, { paddingTop: Math.max(insets.top, 10) }]}>
       {/* Haute Floriculture Header */}
       <View style={[s.header, { maxWidth: contentMaxWidth, width: '100%', alignSelf: 'center' }]}>
-        <BrandHeaderTitle />
+        <View style={s.headerLeftGroup}>
+          <Pressable
+            style={({ pressed }) => [
+              s.backBtn,
+              pressed && { opacity: 0.7, transform: [{ scale: 0.92 }] },
+            ]}
+            onPress={() => (router.canGoBack() ? router.back() : router.replace('/(tabs)/home'))}
+            hitSlop={8}
+            accessibilityLabel="Back to Home"
+          >
+            <Ionicons name="arrow-back" size={22} color={colors.ink} />
+          </Pressable>
+          <BrandHeaderTitle />
+        </View>
       </View>
 
       <ScrollView
@@ -181,7 +194,7 @@ export default function Account() {
             onPress={() => router.push('/notifications')}
           >
             <Ionicons name="notifications-outline" size={20} color={colors.ink} />
-            <Text style={s.menuLabel}>Notification Preferences</Text>
+            <Text style={s.menuLabel}>Notifications & Updates</Text>
             <Ionicons name="chevron-forward" size={18} color={colors.muted} />
           </Pressable>
         </View>
@@ -292,17 +305,35 @@ const s = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.background,
   },
-  header: {
-    backgroundColor: colors.white,
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    borderBottomWidth: 1,
-    borderBottomColor: colors.lineLight,
-  },
   headerTitleRow: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 10,
+  },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    backgroundColor: colors.white,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.border,
+  },
+  headerLeftGroup: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+  },
+  backBtn: {
+    width: 38,
+    height: 38,
+    borderRadius: 19,
+    backgroundColor: colors.surface,
+    borderWidth: 1,
+    borderColor: colors.lineLight,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   headerLogo: {
     width: 28,

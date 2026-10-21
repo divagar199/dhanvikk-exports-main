@@ -106,7 +106,20 @@ export default function Shop() {
     <View style={[s.page, { paddingTop: Math.max(insets.top, 10) }]}>
       {/* Atelier Florilegium Header */}
       <View style={s.topHeader}>
-        <BrandHeaderTitle />
+        <View style={s.headerLeftGroup}>
+          <Pressable
+            style={({ pressed }) => [
+              s.backBtn,
+              pressed && { opacity: 0.7, transform: [{ scale: 0.92 }] },
+            ]}
+            onPress={() => (router.canGoBack() ? router.back() : router.replace('/(tabs)/home'))}
+            hitSlop={8}
+            accessibilityLabel="Back to Home"
+          >
+            <Ionicons name="arrow-back" size={22} color={colors.ink} />
+          </Pressable>
+          <BrandHeaderTitle />
+        </View>
         <View style={s.headerRightWrap}>
           <View style={s.telemetryBadge}>
             <View style={s.telemetryDot} />
@@ -288,6 +301,21 @@ const s = StyleSheet.create({
     paddingTop: 4,
     paddingBottom: 8,
     backgroundColor: colors.white,
+  },
+  headerLeftGroup: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+  },
+  backBtn: {
+    width: 38,
+    height: 38,
+    borderRadius: 19,
+    backgroundColor: colors.surface,
+    borderWidth: 1,
+    borderColor: colors.lineLight,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   headerTitleWrap: {
     gap: 1,

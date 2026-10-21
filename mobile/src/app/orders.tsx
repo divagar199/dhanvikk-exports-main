@@ -49,10 +49,10 @@ export default function Orders() {
 
   const getStatusColor = (status?: string) => {
     const s = (status || '').toLowerCase();
-    if (s.includes('deliver')) return { bg: '#E6F4EA', text: '#137333', border: '#CEEAD6' };
     if (s.includes('out') || s.includes('prepar') || s.includes('progress')) {
       return { bg: '#FEF7E0', text: '#B06000', border: '#FEEFC3' };
     }
+    if (s.includes('deliver')) return { bg: '#E6F4EA', text: '#137333', border: '#CEEAD6' };
     if (s.includes('cancel')) return { bg: '#FCE8E6', text: '#C5221F', border: '#FAD2CF' };
     return { bg: colors.blush, text: colors.primaryDeep, border: colors.blushDeep };
   };
