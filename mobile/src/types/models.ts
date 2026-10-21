@@ -18,6 +18,7 @@ export type ProductReview = {
   date?: string;
   createdAt?: string;
   verified?: boolean;
+  helpful?: number;
 };
 
 export type Product = {

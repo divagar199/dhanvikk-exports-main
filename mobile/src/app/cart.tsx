@@ -149,6 +149,26 @@ export default function Cart() {
         </Text>
       </Pressable>
 
+      {/* Guest Sign-In Notice Banner */}
+      {!user && (
+        <View style={[s.guestNoticeBanner, { maxWidth: contentMaxWidth, width: '100%', alignSelf: 'center' }]}>
+          <View style={s.guestNoticeIconWrap}>
+            <Ionicons name="person-circle-outline" size={24} color={colors.primaryDeep} />
+          </View>
+          <View style={{ flex: 1, marginRight: 8 }}>
+            <Text style={s.guestNoticeTitle}>Not signed in to Dhanvikk?</Text>
+            <Text style={s.guestNoticeSub}>Sign in to save your cart across devices & track orders</Text>
+          </View>
+          <Pressable
+            style={s.guestLoginBtn}
+            onPress={() => setShowGoogleModal(true)}
+            hitSlop={4}
+          >
+            <Text style={s.guestLoginBtnText}>Go to Login</Text>
+          </Pressable>
+        </View>
+      )}
+
       <FlatList
         data={cart}
         keyExtractor={(x, idx) => String(x.id || x._id || x.slug || `cart-item-${idx}`)}
@@ -174,6 +194,22 @@ export default function Cart() {
             <Pressable style={s.exploreBtn} onPress={() => router.push('/(tabs)/shop')}>
               <Text style={s.exploreBtnText}>Discover Florilegium</Text>
             </Pressable>
+
+            {!user && (
+              <View style={s.emptyGuestBox}>
+                <Ionicons name="sparkles" size={18} color={colors.primary} />
+                <Text style={s.emptyGuestTitle}>Already have a Dhanvikk account?</Text>
+                <Text style={s.emptyGuestSub}>
+                  Sign in with your Google or email account to restore saved bouquets.
+                </Text>
+                <Pressable
+                  style={s.emptyGuestLoginBtn}
+                  onPress={() => setShowGoogleModal(true)}
+                >
+                  <Text style={s.emptyGuestLoginBtnText}>Go to Login / Sign In</Text>
+                </Pressable>
+              </View>
+            )}
           </View>
         }
         renderItem={({ item }) => {
@@ -858,4 +894,76 @@ const s = StyleSheet.create({
     fontWeight: '900',
     fontSize: 14,
   },
+  guestNoticeBanner: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#FFF5F7',
+    borderWidth: 1,
+    borderColor: '#FED7E2',
+    borderRadius: radius.md,
+    paddingHorizontal: 12,
+    paddingVertical: 10,
+    marginHorizontal: 12,
+    marginBottom: 8,
+  },
+  guestNoticeIconWrap: {
+    marginRight: 10,
+  },
+  guestNoticeTitle: {
+    fontSize: 13,
+    fontWeight: '800',
+    color: colors.ink,
+  },
+  guestNoticeSub: {
+    fontSize: 11,
+    color: colors.muted,
+    marginTop: 1,
+  },
+  guestLoginBtn: {
+    backgroundColor: colors.primary,
+    paddingHorizontal: 14,
+    paddingVertical: 7,
+    borderRadius: radius.pill,
+  },
+  guestLoginBtnText: {
+    color: colors.white,
+    fontSize: 12,
+    fontWeight: '800',
+  },
+  emptyGuestBox: {
+    marginTop: 24,
+    backgroundColor: '#FFF5F7',
+    borderWidth: 1,
+    borderColor: '#FED7E2',
+    borderRadius: radius.md,
+    padding: 16,
+    alignItems: 'center',
+    width: '90%',
+  },
+  emptyGuestTitle: {
+    fontSize: 14,
+    fontWeight: '800',
+    color: colors.ink,
+    marginTop: 6,
+    marginBottom: 4,
+  },
+  emptyGuestSub: {
+    fontSize: 12,
+    color: colors.muted,
+    textAlign: 'center',
+    marginBottom: 12,
+    lineHeight: 16,
+  },
+  emptyGuestLoginBtn: {
+    backgroundColor: colors.primary,
+    paddingHorizontal: 20,
+    paddingVertical: 8,
+    borderRadius: radius.pill,
+  },
+  emptyGuestLoginBtnText: {
+    color: colors.white,
+    fontSize: 13,
+    fontWeight: '800',
+  },
 });
+
