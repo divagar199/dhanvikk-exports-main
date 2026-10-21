@@ -182,15 +182,6 @@ export default function Account() {
 
           <Pressable
             style={s.menuRow}
-            onPress={() => router.push('/map')}
-          >
-            <Ionicons name="navigate-outline" size={20} color={colors.ink} />
-            <Text style={s.menuLabel}>Delivery Hub Map</Text>
-            <Ionicons name="chevron-forward" size={18} color={colors.muted} />
-          </Pressable>
-
-          <Pressable
-            style={s.menuRow}
             onPress={() => router.push('/notifications')}
           >
             <Ionicons name="notifications-outline" size={20} color={colors.ink} />
