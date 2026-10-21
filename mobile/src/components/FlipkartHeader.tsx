@@ -63,9 +63,10 @@ export function FlipkartHeader() {
               pressed && { opacity: 0.7, transform: [{ scale: 0.92 }] },
             ]}
             onPress={() => router.push('/wishlist')}
-            hitSlop={6}
+            hitSlop={8}
+            accessibilityLabel="Wishlist"
           >
-            <Ionicons name="heart-outline" size={22} color={colors.ink} />
+            <Ionicons name="heart-outline" size={21} color={colors.ink} />
             {wishCount > 0 && (
               <View style={s.badge}>
                 <Text style={s.badgeText}>{wishCount}</Text>
@@ -79,9 +80,10 @@ export function FlipkartHeader() {
               pressed && { opacity: 0.7, transform: [{ scale: 0.92 }] },
             ]}
             onPress={() => router.push('/cart')}
-            hitSlop={6}
+            hitSlop={8}
+            accessibilityLabel="Shopping Cart"
           >
-            <Ionicons name="cart-outline" size={22} color={colors.ink} />
+            <Ionicons name="cart-outline" size={21} color={colors.ink} />
             {cartCount > 0 && (
               <View style={s.badge}>
                 <Text style={s.badgeText}>{cartCount}</Text>
@@ -159,25 +161,35 @@ const s = StyleSheet.create({
     backgroundColor: colors.canvas,
     borderWidth: 1,
     borderColor: colors.line,
-    paddingHorizontal: 10,
+    paddingHorizontal: 8,
     paddingVertical: 5,
     borderRadius: radius.pill,
     gap: 4,
-    maxWidth: 155,
+    maxWidth: 130,
+    flexShrink: 1,
   },
   locationText: {
-    fontSize: 10.5,
+    fontSize: 10,
     fontWeight: '700',
     color: colors.ink,
   },
   iconsGroup: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 12,
+    gap: 8,
+    flexShrink: 0,
+    zIndex: 99,
   },
   iconBtn: {
     position: 'relative',
-    padding: 3,
+    width: 38,
+    height: 38,
+    borderRadius: 19,
+    backgroundColor: colors.surface,
+    borderWidth: 1,
+    borderColor: colors.lineLight,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   badge: {
     position: 'absolute',

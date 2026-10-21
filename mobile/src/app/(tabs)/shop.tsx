@@ -118,13 +118,13 @@ export default function Shop() {
               pressed && { opacity: 0.7, transform: [{ scale: 0.92 }] },
             ]}
             onPress={() => router.push('/cart')}
-            hitSlop={6}
+            hitSlop={8}
             accessibilityLabel="Shopping Cart"
           >
-            <Ionicons name="cart-outline" size={22} color={colors.ink} />
+            <Ionicons name="cart-outline" size={21} color={colors.ink} />
             {cartCount > 0 && (
-              <View style={s.badge}>
-                <Text style={s.badgeText}>{cartCount}</Text>
+              <View style={s.cartBadge}>
+                <Text style={s.cartBadgeText}>{cartCount}</Text>
               </View>
             )}
           </Pressable>
@@ -331,23 +331,30 @@ const s = StyleSheet.create({
   },
   cartIconBtn: {
     position: 'relative',
-    padding: 2,
-  },
-  badge: {
-    position: 'absolute',
-    top: -4,
-    right: -6,
-    backgroundColor: colors.primary,
+    width: 38,
+    height: 38,
+    borderRadius: 19,
+    backgroundColor: colors.surface,
     borderWidth: 1,
-    borderColor: colors.white,
+    borderColor: colors.lineLight,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  cartBadge: {
+    position: 'absolute',
+    top: -2,
+    right: -2,
+    backgroundColor: colors.primary,
     minWidth: 16,
     height: 16,
     borderRadius: 8,
     alignItems: 'center',
     justifyContent: 'center',
     paddingHorizontal: 3,
+    borderWidth: 1,
+    borderColor: colors.white,
   },
-  badgeText: {
+  cartBadgeText: {
     color: colors.white,
     fontSize: 9,
     fontWeight: '900',

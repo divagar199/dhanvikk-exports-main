@@ -266,7 +266,7 @@ export default function ProductDetail() {
               pressed && { opacity: 0.7, transform: [{ scale: 0.92 }] },
             ]}
             onPress={() => router.push('/cart')}
-            hitSlop={6}
+            hitSlop={8}
             accessibilityLabel="Shopping Cart"
           >
             <Ionicons name="cart-outline" size={22} color={colors.ink} />
