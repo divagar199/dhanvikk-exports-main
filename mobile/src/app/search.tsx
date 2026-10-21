@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FlatList, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
-import { router } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 import { useQuery } from '@tanstack/react-query';
 import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -8,12 +8,21 @@ import { getProducts } from '@/services/products';
 import { ProductCard } from '@/components/ProductCard';
 import { colors, radius, spacing } from '@/constants/theme';
 import { useResponsive } from '@/hooks/useResponsive';
+import { VoiceSearchModal } from '@/components/VoiceSearchModal';
 import type { Product } from '@/types/models';
 
 export default function Search() {
   const insets = useSafeAreaInsets();
+  const params = useLocalSearchParams<{ q?: string }>();
   const { columns, cardWidth, maxContentWidth } = useResponsive();
-  const [q, setQ] = useState('');
+  const [q, setQ] = useState(params.q || '');
+  const [showVoiceModal, setShowVoiceModal] = useState(false);
+
+  useEffect(() => {
+    if (params.q) {
+      setQ(params.q);
+    }
+  }, [params.q]);
 
   const { data = [], isLoading } = useQuery<Product[]>({
     queryKey: ['search', q],
@@ -36,7 +45,7 @@ export default function Search() {
         <View style={s.searchBar}>
           <Ionicons name="search" size={18} color={colors.muted} />
           <TextInput
-            autoFocus
+            autoFocus={!params.q}
             value={q}
             onChangeText={setQ}
             placeholder="Search flowers, bouquets, gifts…"
@@ -44,12 +53,29 @@ export default function Search() {
             style={s.input}
           />
           {q.length > 0 && (
-            <Pressable onPress={() => setQ('')} style={s.clearBtn}>
+            <Pressable onPress={() => setQ('')} style={s.clearBtn} hitSlop={6}>
               <Ionicons name="close-circle" size={18} color={colors.muted} />
             </Pressable>
           )}
+          <Pressable
+            style={({ pressed }) => [
+              s.micBtn,
+              pressed && { opacity: 0.7, transform: [{ scale: 0.92 }] },
+            ]}
+            onPress={() => setShowVoiceModal(true)}
+            hitSlop={8}
+            accessibilityLabel="Voice Search"
+          >
+            <Ionicons name="mic-outline" size={19} color={colors.primary} />
+          </Pressable>
         </View>
       </View>
+
+      <VoiceSearchModal
+        visible={showVoiceModal}
+        onClose={() => setShowVoiceModal(false)}
+        onSelectQuery={(text) => setQ(text)}
+      />
 
       <FlatList
         key={`search-grid-${columns}`}
@@ -135,6 +161,12 @@ const s = StyleSheet.create({
   },
   clearBtn: {
     padding: 2,
+  },
+  micBtn: {
+    padding: 4,
+    borderRadius: 14,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   content: {
     padding: spacing.lg,

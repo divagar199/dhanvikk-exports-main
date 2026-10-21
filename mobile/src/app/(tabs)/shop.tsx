@@ -20,6 +20,7 @@ import type { Product } from '@/types/models';
 import { useResponsive } from '@/hooks/useResponsive';
 import { useStore } from '@/store/useStore';
 import { BrandHeaderTitle } from '@/components/BrandHeaderTitle';
+import { VoiceSearchModal } from '@/components/VoiceSearchModal';
 
 const CATEGORIES = [
   'All Stems',
@@ -54,6 +55,7 @@ export default function Shop() {
   const [activeOccasion, setActiveOccasion] = useState(params.occasion || '');
   const [sortBy, setSortBy] = useState('popular');
   const [showSortMenu, setShowSortMenu] = useState(false);
+  const [showVoiceModal, setShowVoiceModal] = useState(false);
 
   const { data = [], isLoading, refetch } = useQuery<Product[]>({
     queryKey: ['products', q],
@@ -160,7 +162,24 @@ export default function Shop() {
               <Ionicons name="close-circle" size={17} color={colors.muted} />
             </Pressable>
           )}
+          <Pressable
+            style={({ pressed }) => [
+              s.micBtn,
+              pressed && { opacity: 0.7, transform: [{ scale: 0.92 }] },
+            ]}
+            onPress={() => setShowVoiceModal(true)}
+            hitSlop={8}
+            accessibilityLabel="Voice Search"
+          >
+            <Ionicons name="mic-outline" size={18} color={colors.primary} />
+          </Pressable>
         </View>
+
+        <VoiceSearchModal
+          visible={showVoiceModal}
+          onClose={() => setShowVoiceModal(false)}
+          onSelectQuery={(text) => setQ(text)}
+        />
 
         <Pressable
           style={[s.sortBtn, showSortMenu && s.sortBtnActive]}
@@ -412,6 +431,12 @@ const s = StyleSheet.create({
     fontSize: 12.5,
     fontWeight: '600',
     color: colors.ink,
+  },
+  micBtn: {
+    padding: 4,
+    borderRadius: 14,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   sortBtn: {
     width: 42,

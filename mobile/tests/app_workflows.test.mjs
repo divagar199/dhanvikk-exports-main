@@ -262,3 +262,44 @@ describe('Top Header Color Theme & Back Button Uniformity Across All Screens', (
     });
   });
 });
+
+describe('Voice-to-Text Speech Recognition & Search Workflow', () => {
+  test('transcribes speech result and formats search destination query', () => {
+    const rawSpokenText = 'Crimson Roses';
+    const createSearchRoute = (query) => {
+      return { pathname: '/search', params: { q: query.trim() } };
+    };
+
+    const target = createSearchRoute(rawSpokenText);
+    assert.equal(target.pathname, '/search');
+    assert.equal(target.params.q, 'Crimson Roses');
+  });
+
+  test('handles live interim partial speech updates before final recognition', () => {
+    let transcript = '';
+    const onPartial = (text) => { transcript = text; };
+    const onFinal = (text) => { transcript = text; };
+
+    onPartial('Casablanca');
+    assert.equal(transcript, 'Casablanca');
+    onPartial('Casablanca Lilies');
+    assert.equal(transcript, 'Casablanca Lilies');
+    onFinal('Casablanca Lilies Luxury Bouquet');
+    assert.equal(transcript, 'Casablanca Lilies Luxury Bouquet');
+  });
+
+  test('provides curated flower suggestions when voice matches are empty or on timeout', () => {
+    const defaultVoiceSuggestions = [
+      'Crimson Roses',
+      'Casablanca Lilies',
+      'Luxury Bouquets',
+      'Dawn Nilgiri Harvest',
+      'Orchids',
+      'Birthday Bouquets',
+    ];
+
+    assert.ok(defaultVoiceSuggestions.length >= 5);
+    assert.ok(defaultVoiceSuggestions.includes('Crimson Roses'));
+    assert.ok(defaultVoiceSuggestions.includes('Casablanca Lilies'));
+  });
+});

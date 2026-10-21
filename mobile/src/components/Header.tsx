@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { Image } from 'expo-image';
 import { router } from 'expo-router';
@@ -9,6 +10,7 @@ import { useQuery } from '@tanstack/react-query';
 import { getProfileData } from '@/services/orders';
 
 import { BrandHeaderTitle } from '@/components/BrandHeaderTitle';
+import { VoiceSearchModal } from '@/components/VoiceSearchModal';
 
 const brandLogo = require('@/assets/logo.png');
 
@@ -17,6 +19,7 @@ export function Header() {
   const user = useStore((s) => s.user);
   const cart = useStore((s) => s.cart);
   const wishlist = useStore((s) => s.wishlist);
+  const [showVoiceModal, setShowVoiceModal] = useState(false);
 
   const { data: profileData } = useQuery({
     queryKey: ['profile-data', user?.email],
@@ -105,10 +108,30 @@ export function Header() {
         <Text style={s.searchPlaceholder} numberOfLines={1}>
           Search flowers, bouquets…
         </Text>
-        <View style={s.micIcon}>
-          <Ionicons name="mic-outline" size={17} color={colors.primary} />
-        </View>
+        <Pressable
+          style={({ pressed }) => [
+            s.micIconBtn,
+            pressed && { opacity: 0.7, transform: [{ scale: 0.92 }] },
+          ]}
+          onPress={(e) => {
+            e.stopPropagation?.();
+            setShowVoiceModal(true);
+          }}
+          hitSlop={8}
+          accessibilityLabel="Voice Search"
+        >
+          <Ionicons name="mic-outline" size={18} color={colors.primary} />
+        </Pressable>
       </Pressable>
+
+      {/* Voice Search Modal */}
+      <VoiceSearchModal
+        visible={showVoiceModal}
+        onClose={() => setShowVoiceModal(false)}
+        onSelectQuery={(query) => {
+          router.push({ pathname: '/search', params: { q: query } });
+        }}
+      />
     </View>
   );
 }
@@ -227,8 +250,12 @@ const s = StyleSheet.create({
     fontWeight: '500',
     color: colors.muted,
   },
-  micIcon: {
-    paddingLeft: 4,
+  micIconBtn: {
+    padding: 6,
+    borderRadius: 16,
+    backgroundColor: colors.surface,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });
 
