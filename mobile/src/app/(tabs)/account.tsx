@@ -19,6 +19,7 @@ import type { User } from '@/types/models';
 import { GoogleSignInModal } from '@/components/GoogleSignInModal';
 import { useResponsive } from '@/hooks/useResponsive';
 import { BrandHeaderTitle } from '@/components/BrandHeaderTitle';
+import { useToast } from '@/context/ToastContext';
 
 export default function Account() {
   const insets = useSafeAreaInsets();
@@ -28,6 +29,7 @@ export default function Account() {
   const user = useStore((s) => s.user);
   const setUser = useStore((s) => s.setUser);
   const [showGoogleModal, setShowGoogleModal] = useState(false);
+  const { showToast } = useToast();
 
   useEffect(() => {
     getStoredUser<User>().then((u) => {
@@ -44,6 +46,7 @@ export default function Account() {
         onPress: async () => {
           await logout();
           setUser(null);
+          showToast('Signed Out', 'You have been safely signed out from Dhanvikk.', 'info');
         },
       },
     ]);
@@ -122,7 +125,7 @@ export default function Account() {
           <Pressable
             style={s.quickItem}
             onPress={() =>
-              Alert.alert('Coupons & Offers', 'Use DHANVIKK10 for 10% off your orders!')
+              showToast('Coupons & Offers 🏷️', 'Use code DHANVIKK10 for 10% off your orders!', 'info', 3000)
             }
           >
             <View style={s.quickIcon}>
@@ -190,9 +193,11 @@ export default function Account() {
           <Pressable
             style={s.menuRow}
             onPress={() =>
-              Alert.alert(
-                'About Dhanvikk Blooms & Exports',
-                'Dhanvikk is an artisanal floriculture house cultivating and sourcing rare, heavy-caliber blossoms from 7,200ft estates in Kotagiri and the Nilgiris. Operating continuous 2°C–4°C reefer transit, Dhanvikk exports across premier Indian metropolitans and global hubs.'
+              showToast(
+                'About Dhanvikk Blooms & Exports 🌸',
+                'Rare, heavy-caliber blossoms from 7,200ft Nilgiri estates in continuous 2°C–4°C reefer transit.',
+                'info',
+                3500
               )
             }
           >
@@ -213,9 +218,11 @@ export default function Account() {
           <Pressable
             style={s.menuRow}
             onPress={() =>
-              Alert.alert(
-                '12-Day Botanical Longevity Promise',
-                'Dhanvikk guarantees pristine farm-fresh highland flowers harvested above 7,200ft. If your bouquet does not retain radiant vitality for at least 7 to 12 days with our complimentary botanical elixir, our concierge atelier replaces it unconditionally within 24 hours.'
+              showToast(
+                '12-Day Longevity Promise 🌿',
+                'Guaranteed 7 to 12 days vase vitality with our botanical elixir. Concierge replacement if unsatisfied.',
+                'success',
+                3500
               )
             }
           >
@@ -227,9 +234,11 @@ export default function Account() {
           <Pressable
             style={s.menuRow}
             onPress={() =>
-              Alert.alert(
-                'Legal & Privacy Policy',
-                'All transactions encrypted via 256-bit SSL. Customer personal information and addresses are guarded with strict confidentiality. Contact concierge@dhanvikk.com for data rights and compliance.'
+              showToast(
+                'Privacy & Security 🔒',
+                '256-bit SSL encryption. Customer personal information and addresses are guarded with strict confidentiality.',
+                'info',
+                3000
               )
             }
           >

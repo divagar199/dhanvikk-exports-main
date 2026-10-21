@@ -12,6 +12,7 @@ import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { colors, radius, spacing } from '@/constants/theme';
+import { useToast } from '@/context/ToastContext';
 
 interface FAQItem {
   q: string;
@@ -42,32 +43,33 @@ const FAQS: FAQItem[] = [
 ];
 
 export default function SupportScreen() {
+  const { showToast } = useToast();
   const insets = useSafeAreaInsets();
   const [expandedIndex, setExpandedIndex] = useState<number | null>(0);
 
   const openWhatsApp = async () => {
-    const url = 'https://wa.me/919876543210?text=Hi%20Dhanvikk%20Blooms%20and%20Exports,%20I%20need%20assistance%20with%20an%20order.';
+    const url = 'https://wa.me/919876543210?text=Hi%20Dhanvikk%20Blooms,%20I%20need%20assistance%20with%20an%20order.';
     try {
       const supported = await Linking.canOpenURL(url);
       if (supported) {
         await Linking.openURL(url);
       } else {
-        Alert.alert('Concierge WhatsApp', 'Please message our master florists on WhatsApp at +91 98765 43210.');
+        showToast('Concierge WhatsApp', 'WhatsApp our master florists: +91 98765 43210', 'info');
       }
     } catch {
-      Alert.alert('Concierge WhatsApp', 'Our WhatsApp concierge number is +91 98765 43210.');
+      showToast('Concierge WhatsApp', 'WhatsApp our master florists: +91 98765 43210', 'info');
     }
   };
 
   const callSupport = () => {
     Linking.openURL('tel:+919876543210').catch(() => {
-      Alert.alert('Phone Concierge', 'Call our floral concierge at +91 98765 43210.');
+      showToast('Phone Concierge', 'Call our floral concierge at +91 98765 43210', 'info');
     });
   };
 
   const emailSupport = () => {
-    Linking.openURL('mailto:care@dhanvikk.com?subject=Floral%20Inquiry%20-%20Dhanvikk%20Blooms%20and%20Exports').catch(() => {
-      Alert.alert('Email Support', 'Email us anytime at care@dhanvikk.com.');
+    Linking.openURL('mailto:care@dhanvikk.com?subject=Floral%20Inquiry%20-%20Dhanvikk%20Blooms').catch(() => {
+      showToast('Email Support', 'Email us anytime at care@dhanvikk.com', 'info');
     });
   };
 

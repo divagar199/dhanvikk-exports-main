@@ -26,8 +26,10 @@ import RazorpayCheckout from 'react-native-razorpay';
 import { resolveImageUrl } from '@/lib/imageUrl';
 import { GoogleSignInModal } from '@/components/GoogleSignInModal';
 import { useResponsive } from '@/hooks/useResponsive';
+import { useToast } from '@/context/ToastContext';
 
 export default function Checkout() {
+  const { showToast } = useToast();
   const insets = useSafeAreaInsets();
   const { isTablet, maxContentWidth } = useResponsive();
   const contentMaxWidth = Math.min(maxContentWidth, 840);
@@ -102,39 +104,43 @@ export default function Checkout() {
   const total = cartTotal(cart);
 
   const handlePlaceOrder = async () => {
+    if (!cart.length) {
+      showToast('Empty Cart', 'Please add blooms to your cart before checking out.', 'error');
+      return;
+    }
+    if (!name.trim() || !phone.trim() || !street.trim() || !city.trim()) {
+      showToast('Missing Details', 'Please enter recipient name, phone, street, and city.', 'error');
+      return;
+    }
+
     const activeUser = currentUser || storedUser || (await getStoredUser<User>());
     if (!activeUser) {
       Alert.alert(
-        'Sign In Required',
-        'Only logged-in customers can place orders. Sign in to link your floral order and receive live delivery tracking.',
+        'Place Floral Order',
+        'Would you like to sign in to track your order live, or continue with guest checkout?',
         [
           { text: 'Cancel', style: 'cancel' },
           {
-            text: 'Sign In with Google',
+            text: 'Sign In (Google)',
             onPress: () => setShowGoogleModal(true),
           },
           {
-            text: 'Email Login',
-            onPress: () => router.push('/auth/login'),
+            text: 'Continue as Guest',
+            onPress: () => processOrderPlacement(null),
           },
         ]
       );
       return;
     }
 
-    if (!cart.length) {
-      Alert.alert('Empty Cart', 'Please add blooms to your cart before checking out.');
-      return;
-    }
-    if (!name.trim() || !phone.trim() || !street.trim() || !city.trim()) {
-      Alert.alert('Missing Details', 'Please enter your recipient name, phone, street address, and city.');
-      return;
-    }
+    processOrderPlacement(activeUser);
+  };
 
+  const processOrderPlacement = async (activeUser: User | null) => {
     setBusy(true);
 
     try {
-      const user = await getStoredUser<User>();
+      const user = activeUser || (await getStoredUser<User>());
 
       if (paymentMethod === 'razorpay') {
         let razorpayResult: any = null;
@@ -186,7 +192,7 @@ export default function Checkout() {
         await confirmOrderDirect('Cash on Delivery', 'Pending');
       }
     } catch (e: any) {
-      Alert.alert('Order Failed', e.message || 'Unable to place order. Please check your network connection.');
+      showToast('Order Failed', e.message || 'Unable to place order. Please check connection.', 'error');
       setBusy(false);
     }
   };
@@ -252,18 +258,15 @@ export default function Checkout() {
       }
 
       clear();
-      Alert.alert(
+      showToast(
         'Bespoke Order Confirmed! 💐',
-        `Your order #${orderRes.order?.orderId || 'DHN-CONFIRMED'} has been received by our Kotagiri atelier. Our master florists are preparing your stems in cold-chain sanctity.`,
-        [
-          {
-            text: 'View Orders',
-            onPress: () => router.replace('/orders'),
-          },
-        ]
+        `Your order #${orderRes.order?.orderId || 'DHN-CONFIRMED'} has been received by our atelier.`,
+        'success',
+        3500
       );
+      router.replace('/orders');
     } catch (err: any) {
-      Alert.alert('Checkout Error', err.message || 'Could not complete order.');
+      showToast('Checkout Error', err.message || 'Could not complete order.', 'error');
     } finally {
       setBusy(false);
     }
@@ -277,7 +280,7 @@ export default function Checkout() {
             s.backBtn,
             pressed && { opacity: 0.7, transform: [{ scale: 0.92 }] },
           ]}
-          onPress={() => (router.canGoBack() ? router.back() : router.replace('/(tabs)/cart'))}
+          onPress={() => (router.canGoBack() ? router.back() : router.replace('/cart'))}
         >
           <Ionicons name="arrow-back" size={22} color={colors.ink} />
         </Pressable>

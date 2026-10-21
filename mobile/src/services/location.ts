@@ -106,10 +106,6 @@ export async function getCurrentDeviceLocation(): Promise<DetectedLocationResult
     };
   } catch (err: any) {
     console.warn('[Location] Failed to get current position:', err);
-    Alert.alert(
-      'GPS Location Error',
-      'Could not acquire current GPS location. Please ensure location services / GPS are enabled on your device.'
-    );
     return null;
   }
 }

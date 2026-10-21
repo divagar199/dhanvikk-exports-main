@@ -24,6 +24,7 @@ import { resolveImageUrl, resolveProductImages, FALLBACK_FLOWER_IMAGE } from '@/
 import { ProductCard } from '@/components/ProductCard';
 import { GoogleSignInModal } from '@/components/GoogleSignInModal';
 import { useResponsive } from '@/hooks/useResponsive';
+import { useToast } from '@/context/ToastContext';
 
 function GalleryImage({
   uri,
@@ -60,6 +61,7 @@ export default function ProductDetail() {
   const [googleModal, setGoogleModal] = useState(false);
   const [reviewsList, setReviewsList] = useState<ProductReview[]>([]);
 
+  const { showToast } = useToast();
   const user = useStore((s) => s.user);
   const add = useStore((s) => s.add);
   const wish = useStore((s) => s.wish);
@@ -113,37 +115,18 @@ export default function ProductDetail() {
 
   const handleAddToCart = () => {
     add({ ...p, quantity: 1 });
-    Alert.alert('Added to Cart! 💐', `${p.name} has been added to your shopping cart.`, [
-      { text: 'Continue Shopping', style: 'cancel' },
-      { text: 'Go to Cart', onPress: () => router.push('/cart') },
-    ]);
+    showToast('Added to Cart! 💐', `${p.name} added to your shopping bag.`, 'success');
   };
 
   const handleBuyNow = () => {
-    if (!user) {
-      return Alert.alert(
-        'Sign in Required 🌸',
-        'Please sign in to place an order and track your live flower delivery.',
-        [
-          { text: 'Cancel', style: 'cancel' },
-          { text: 'Sign In', onPress: () => router.push('/auth/login') },
-        ]
-      );
-    }
     add({ ...p, quantity: 1 });
     router.push('/checkout');
   };
 
   const handleRatingSubmit = async () => {
     if (!user) {
-      return Alert.alert(
-        'Sign in Required 🌸',
-        'Only logged-in customers can rate and review blooms. Please sign in to share your experience.',
-        [
-          { text: 'Cancel', style: 'cancel' },
-          { text: 'Sign In', onPress: () => router.push('/auth/login') },
-        ]
-      );
+      showToast('Sign In Required 🌸', 'Only logged-in customers can rate blooms.', 'info');
+      return router.push('/auth/login');
     }
     setSubmittingReview(true);
     try {
@@ -154,11 +137,11 @@ export default function ProductDetail() {
           ...prev.filter((r) => r.id !== res.review!.id && r.comment !== res.review!.comment),
         ]);
       }
-      Alert.alert('Review Submitted! 💐', res.message || 'Thank you for your rating.');
+      showToast('Review Submitted! 💐', res.message || 'Thank you for your rating.', 'success');
       setReviewComment('');
       refetch();
     } catch (err: any) {
-      Alert.alert('Review Note', err.message || 'Unable to submit review.');
+      showToast('Review Note', err.message || 'Unable to submit review.', 'error');
     } finally {
       setSubmittingReview(false);
     }
@@ -193,6 +176,12 @@ export default function ProductDetail() {
                 image: p.image || imagesList[0],
                 altIds: allProductIds,
               });
+              showToast(
+                isSaved ? 'Removed from Wishlist' : 'Saved to Wishlist ❤️',
+                p.name,
+                'info',
+                2000
+              );
             }}
             hitSlop={8}
             accessibilityLabel={isSaved ? 'Remove from Wishlist' : 'Save to Wishlist'}

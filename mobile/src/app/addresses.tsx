@@ -20,8 +20,10 @@ import { getCurrentDeviceLocation } from '@/services/location';
 import { colors, radius, spacing } from '@/constants/theme';
 import type { Address } from '@/types/models';
 import { useStore } from '@/store/useStore';
+import { useToast } from '@/context/ToastContext';
 
 export default function AddressesScreen() {
+  const { showToast } = useToast();
   const insets = useSafeAreaInsets();
   const queryClient = useQueryClient();
   const currentUser = useStore((s) => s.user);
@@ -64,14 +66,8 @@ export default function AddressesScreen() {
 
   const handleOpenAddModal = () => {
     if (!currentUser) {
-      Alert.alert(
-        'Sign In Required',
-        'Please sign in to your account to add and manage delivery addresses.',
-        [
-          { text: 'Cancel', style: 'cancel' },
-          { text: 'Sign In', onPress: () => router.push('/auth/login') },
-        ]
-      );
+      showToast('Sign In Required 🌸', 'Please sign in to add and manage delivery addresses.', 'info');
+      router.push('/auth/login');
       return;
     }
     setRecipientName(currentUser?.name || '');
@@ -82,11 +78,11 @@ export default function AddressesScreen() {
 
   const handleSaveAddress = async () => {
     if (!currentUser) {
-      Alert.alert('Sign In Required', 'Please sign in to save a delivery address.');
+      showToast('Sign In Required', 'Please sign in to save a delivery address.', 'info');
       return;
     }
     if (!recipientName.trim() || !phone.trim() || !street.trim() || !city.trim()) {
-      return Alert.alert('Missing Details', 'Please fill in recipient name, phone, street, and city.');
+      return showToast('Missing Details', 'Please fill in recipient name, phone, street, and city.', 'error');
     }
 
     setBusy(true);
@@ -110,9 +106,9 @@ export default function AddressesScreen() {
       queryClient.invalidateQueries({ queryKey: ['profile-data'] });
       setModalVisible(false);
       setStreet('');
-      Alert.alert('Address Saved', 'Your new delivery address has been added.');
+      showToast('Address Saved! 📍', 'Your new delivery address has been added.', 'success');
     } catch (e: any) {
-      Alert.alert('Error', e.message || 'Unable to save address.');
+      showToast('Error', e.message || 'Unable to save address.', 'error');
     } finally {
       setBusy(false);
     }
@@ -129,8 +125,9 @@ export default function AddressesScreen() {
           try {
             await deleteAddress(id);
             queryClient.invalidateQueries({ queryKey: ['profile-data'] });
+            showToast('Address Removed', 'Delivery address was deleted.', 'info');
           } catch (e: any) {
-            Alert.alert('Error', e.message || 'Could not delete address.');
+            showToast('Error', e.message || 'Could not delete address.', 'error');
           }
         },
       },

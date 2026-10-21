@@ -1,12 +1,12 @@
 {
   "expo": {
-    "name": "Dhanvikk Blooms",
+    "name": "Dhanvikk",
     "slug": "dhanvikk-blooms",
     "version": "1.0.0",
     "orientation": "portrait",
     "scheme": "dhanvikk",
     "userInterfaceStyle": "light",
-    "icon": "./assets/logo.png",
+    "icon": "./assets/adaptive-icon.png",
     "plugins": [
       "expo-router",
       [
@@ -31,7 +31,8 @@
         {
           "color": "#E91E63"
         }
-      ]
+      ],
+      "expo-image"
     ],
     "ios": {
       "supportsTablet": true,
@@ -50,6 +51,10 @@
     "android": {
       "package": "com.dhanvikk.blooms",
       "googleServicesFile": "./google-services.json",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#FFFFFF"
+      },
       "permissions": [
         "ACCESS_COARSE_LOCATION",
         "ACCESS_FINE_LOCATION",

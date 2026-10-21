@@ -18,10 +18,12 @@ import { register } from '@/services/auth';
 import { useStore } from '@/store/useStore';
 import { colors, radius, spacing } from '@/constants/theme';
 import { GoogleSignInModal } from '@/components/GoogleSignInModal';
+import { useToast } from '@/context/ToastContext';
 
 const brandLogo = require('@/assets/logo.png');
 
 export default function Register() {
+  const { showToast } = useToast();
   const insets = useSafeAreaInsets();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -34,10 +36,10 @@ export default function Register() {
 
   const submit = async () => {
     if (!name.trim() || !email.trim() || !password) {
-      return Alert.alert('Missing Details', 'Name, email, and password are required.');
+      return showToast('Missing Details', 'Name, email, and password are required.', 'error');
     }
     if (password.length < 6) {
-      return Alert.alert('Password Length', 'Password must be at least 6 characters long.');
+      return showToast('Password Length', 'Password must be at least 6 characters long.', 'error');
     }
 
     setBusy(true);
@@ -49,10 +51,10 @@ export default function Register() {
         phone: phone.trim(),
       });
       setUser(r.user);
-      Alert.alert('Account Created', 'Welcome to Dhanvikk Blooms!');
+      showToast('Account Created! 🌸', 'Welcome to Dhanvikk Blooms!', 'success');
       router.replace('/(tabs)/home');
     } catch (e: any) {
-      Alert.alert('Registration Failed', e.message || 'Please check your information and try again.');
+      showToast('Registration Failed', e.message || 'Please check your information.', 'error');
     } finally {
       setBusy(false);
     }

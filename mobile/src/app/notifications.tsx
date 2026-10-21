@@ -12,8 +12,10 @@ import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { colors, radius, spacing } from '@/constants/theme';
+import { useToast } from '@/context/ToastContext';
 
 export default function NotificationsScreen() {
+  const { showToast } = useToast();
   const insets = useSafeAreaInsets();
 
   const [orderUpdates, setOrderUpdates] = useState(true);
@@ -23,9 +25,10 @@ export default function NotificationsScreen() {
   const [marketingEmail, setMarketingEmail] = useState(false);
 
   const saveSettings = () => {
-    Alert.alert(
-      'Preferences Saved',
-      'Your notification settings have been updated. You will receive real-time updates for your floral orders.'
+    showToast(
+      'Preferences Saved! 🔔',
+      'Your notification settings have been updated.',
+      'success'
     );
   };
 

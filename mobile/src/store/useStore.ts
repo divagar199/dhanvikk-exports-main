@@ -29,9 +29,47 @@ type StoreState = {
   syncWithServer: () => Promise<void>;
 };
 
+export const parsePrice = (price: any): number => {
+  if (typeof price === 'number') return isNaN(price) ? 999 : price;
+  if (!price) return 999;
+  const cleaned = String(price).replace(/[^0-9.]/g, '');
+  const num = parseFloat(cleaned);
+  return isNaN(num) ? 999 : num;
+};
+
+export const sanitizeCartItem = (p: any, quantity: number = 1): CartItem => {
+  const canonicalId = String(p.id || p._id || p.slug || `stem_${Date.now()}`);
+  return {
+    id: canonicalId,
+    _id: canonicalId,
+    slug: String(p.slug || canonicalId),
+    name: String(p.name || 'Floral Arrangement'),
+    category: typeof p.category === 'object' && p.category !== null ? String(p.category.name || 'Flowers') : String(p.category || 'Luxury Flowers'),
+    flowerType: p.flowerType ? String(p.flowerType) : undefined,
+    price: parsePrice(p.price),
+    originalPrice: p.originalPrice ? parsePrice(p.originalPrice) : undefined,
+    stock: p.stock !== undefined ? Number(p.stock) : 99,
+    image: p.image || p.images?.[0] || '',
+    images: Array.isArray(p.images) && p.images.length > 0 ? p.images : (p.image ? [p.image] : []),
+    quantity: Math.max(1, Number(quantity) || 1),
+    description: typeof p.description === 'string' ? p.description.slice(0, 160) : '',
+  };
+};
+
+export const matchesCartItem = (item: CartItem, targetId: string): boolean => {
+  if (!targetId || !item) return false;
+  const target = String(targetId).trim().toLowerCase();
+  const cands = [item.id, item._id, item.slug]
+    .filter(Boolean)
+    .map((x) => String(x).trim().toLowerCase());
+  return cands.includes(target);
+};
+
 // Helper to push cart to backend without blocking UI
 const pushCartToServer = (user: User | null, cart: CartItem[]) => {
-  setStorageItem(CART_STORAGE_KEY, cart).catch(() => {});
+  setStorageItem(CART_STORAGE_KEY, cart).catch((err) => {
+    console.warn('[useStore] Failed to save cart locally:', err);
+  });
   if (user) {
     saveUserCart(cart).catch((err) => {
       console.warn('[useStore] Failed to sync cart to server:', err?.message || err);
@@ -53,8 +91,9 @@ export const useStore = create<StoreState>((set, get) => ({
   },
 
   setCart: (cart) => {
-    set({ cart });
-    pushCartToServer(get().user, cart);
+    const cleanCart = cart.map((i) => sanitizeCartItem(i, i.quantity));
+    set({ cart: cleanCart });
+    pushCartToServer(get().user, cleanCart);
   },
 
   setWishlist: (wishlist) => {
@@ -64,16 +103,16 @@ export const useStore = create<StoreState>((set, get) => ({
 
   add: (p) => {
     const s = get();
-    const id = p.id || p._id || p.slug;
-    const existing = s.cart.find((i) => (i.id || i._id || i.slug) === id);
-    const addQty = p.quantity && p.quantity > 0 ? p.quantity : 1;
+    const targetId = String(p.id || p._id || p.slug || '');
+    const existing = s.cart.find((i) => matchesCartItem(i, targetId));
+    const addQty = p.quantity && p.quantity > 0 ? Number(p.quantity) : 1;
     const nextCart = existing
       ? s.cart.map((i) =>
-          (i.id || i._id || i.slug) === id
-            ? { ...i, quantity: (i.quantity || 1) + addQty }
+          matchesCartItem(i, targetId)
+            ? { ...i, quantity: (Number(i.quantity) || 1) + addQty }
             : i
         )
-      : [...s.cart, { ...p, quantity: addQty }];
+      : [...s.cart, sanitizeCartItem(p, addQty)];
 
     set({ cart: nextCart });
     pushCartToServer(s.user, nextCart);
@@ -81,18 +120,19 @@ export const useStore = create<StoreState>((set, get) => ({
 
   remove: (id) => {
     const s = get();
-    const nextCart = s.cart.filter((i) => (i.id || i._id || i.slug) !== id);
+    const nextCart = s.cart.filter((i) => !matchesCartItem(i, id));
     set({ cart: nextCart });
     pushCartToServer(s.user, nextCart);
   },
 
   qty: (id, n) => {
     const s = get();
+    const num = Number(n);
     const nextCart =
-      n < 1
-        ? s.cart.filter((i) => (i.id || i._id || i.slug) !== id)
+      num < 1
+        ? s.cart.filter((i) => !matchesCartItem(i, id))
         : s.cart.map((i) =>
-            (i.id || i._id || i.slug) === id ? { ...i, quantity: n } : i
+            matchesCartItem(i, id) ? { ...i, quantity: num } : i
           );
     set({ cart: nextCart });
     pushCartToServer(s.user, nextCart);
@@ -123,7 +163,7 @@ export const useStore = create<StoreState>((set, get) => ({
       toggleWishlist({
         id: idStr,
         name: bouquet?.name || 'Floral Arrangement',
-        price: bouquet?.price || 999,
+        price: parsePrice(bouquet?.price),
         image: bouquet?.image || '',
       }).catch((err) => {
         console.warn('[useStore] Failed to toggle wishlist on server:', err?.message || err);
@@ -138,30 +178,28 @@ export const useStore = create<StoreState>((set, get) => ({
       set({ isSyncing: true });
       const data = await getProfileData();
       if (data) {
-        // Merge server cart with local guest cart
+        // Merge server cart with fresh live cart
+        const currentLiveCart = get().cart;
         const serverCart: CartItem[] = Array.isArray(data.cart) ? data.cart : [];
-        const localCart = s.cart;
         const mergedCartMap = new Map<string, CartItem>();
 
-        // First add server cart items
         for (const item of serverCart) {
-          const key = item.id || item._id || item.slug;
-          if (key) mergedCartMap.set(key, item);
+          const clean = sanitizeCartItem(item, item.quantity);
+          const itemId = String(clean.id || clean.slug || 'item');
+          mergedCartMap.set(itemId, clean);
         }
 
-        // Merge local items
-        for (const localItem of localCart) {
-          const key = localItem.id || localItem._id || localItem.slug;
-          if (key) {
-            const existing = mergedCartMap.get(key);
-            if (existing) {
-              mergedCartMap.set(key, {
-                ...existing,
-                quantity: Math.max(existing.quantity || 1, localItem.quantity || 1),
-              });
-            } else {
-              mergedCartMap.set(key, localItem);
-            }
+        for (const localItem of currentLiveCart) {
+          const clean = sanitizeCartItem(localItem, localItem.quantity);
+          const itemId = String(clean.id || clean.slug || 'item');
+          const existing = mergedCartMap.get(itemId);
+          if (existing) {
+            mergedCartMap.set(itemId, {
+              ...existing,
+              quantity: Math.max(existing.quantity || 1, clean.quantity || 1),
+            });
+          } else {
+            mergedCartMap.set(itemId, clean);
           }
         }
 
@@ -169,9 +207,9 @@ export const useStore = create<StoreState>((set, get) => ({
 
         // Wishlist
         const serverWishlistIds: string[] = Array.isArray(data.savedBouquets)
-          ? data.savedBouquets.map((b: any) => b.id || b._id || b.slug).filter(Boolean)
+          ? data.savedBouquets.map((b: any) => String(b.id || b._id || b.slug)).filter(Boolean)
           : [];
-        const mergedWishlist = Array.from(new Set([...s.wishlist, ...serverWishlistIds]));
+        const mergedWishlist = Array.from(new Set([...get().wishlist, ...serverWishlistIds]));
 
         set({
           cart: mergedCart,
@@ -192,7 +230,8 @@ export const useStore = create<StoreState>((set, get) => ({
 }));
 
 export const cartTotal = (c: CartItem[]) =>
-  c.reduce((n, x) => n + (x.price || 0) * (x.quantity || 1), 0);
+  c.reduce((n, x) => n + parsePrice(x.price) * Math.max(1, Number(x.quantity) || 1), 0);
+
 
 // Hydrate guest storage asynchronously on app initialization
 getStorageItem<string[]>(WISHLIST_STORAGE_KEY)

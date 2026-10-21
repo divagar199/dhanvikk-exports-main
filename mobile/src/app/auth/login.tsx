@@ -18,10 +18,12 @@ import { login } from '@/services/auth';
 import { useStore } from '@/store/useStore';
 import { colors, radius, spacing } from '@/constants/theme';
 import { GoogleSignInModal } from '@/components/GoogleSignInModal';
+import { useToast } from '@/context/ToastContext';
 
 const brandLogo = require('@/assets/logo.png');
 
 export default function Login() {
+  const { showToast } = useToast();
   const insets = useSafeAreaInsets();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -32,19 +34,24 @@ export default function Login() {
 
   const submit = async () => {
     if (!email.trim() || !password) {
-      return Alert.alert('Missing Details', 'Please enter your email and password.');
+      return showToast('Missing Details', 'Please enter your email and password.', 'error');
     }
     setBusy(true);
     try {
       const r = await login(email.trim(), password);
       setUser(r.user);
-      Alert.alert(
-        r.isNewAccount ? 'Account Created! 🌸' : 'Welcome!',
-        r.message || `Logged in as ${r.user?.name || email.trim()}`
+      showToast(
+        r.isNewAccount ? 'Account Created! 🌸' : 'Welcome back! 🌸',
+        r.message || `Logged in as ${r.user?.name || email.trim()}`,
+        'success'
       );
-      router.replace('/(tabs)/home');
+      if (router.canGoBack()) {
+        router.back();
+      } else {
+        router.replace('/(tabs)/home');
+      }
     } catch (e: any) {
-      Alert.alert('Sign In Failed', e.message || 'Please check your credentials and try again.');
+      showToast('Sign In Failed', e.message || 'Please check your credentials and try again.', 'error');
     } finally {
       setBusy(false);
     }

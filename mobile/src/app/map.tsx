@@ -1,14 +1,16 @@
 import { useEffect, useState } from 'react';
-import { Alert, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import * as Location from 'expo-location';
 import MapView, { Marker } from 'react-native-maps';
 import { colors, radius, spacing } from '@/constants/theme';
+import { useToast } from '@/context/ToastContext';
 
 export default function MapScreen() {
   const insets = useSafeAreaInsets();
+  const { showToast } = useToast();
   const [region, setRegion] = useState<any>(null);
 
   useEffect(() => {
@@ -16,9 +18,10 @@ export default function MapScreen() {
       try {
         const { status } = await Location.requestForegroundPermissionsAsync();
         if (status !== 'granted') {
-          Alert.alert(
-            'Location Notice',
-            'Location access allows us to pinpoint your delivery hub. You can still set delivery addresses manually.'
+          showToast(
+            'Location Notice 📍',
+            'Location access pinpoints your delivery hub. Defaulting to Chennai hub.',
+            'info'
           );
           // Default to Chennai coordinates
           setRegion({

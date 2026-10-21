@@ -59,8 +59,40 @@ export async function clearSession(): Promise<void> {
   }
 }
 
+const CHUNK_SIZE = 1800;
+
+export async function removeStorageItem(key: string): Promise<void> {
+  try {
+    const meta = await SecureStore.getItemAsync(`${key}_meta`);
+    if (meta) {
+      const numChunks = parseInt(meta, 10) || 0;
+      for (let i = 0; i < numChunks; i++) {
+        await SecureStore.deleteItemAsync(`${key}_${i}`).catch(() => {});
+      }
+      await SecureStore.deleteItemAsync(`${key}_meta`).catch(() => {});
+    }
+    await SecureStore.deleteItemAsync(key).catch(() => {});
+  } catch {
+    // ignore
+  } finally {
+    delete memoryStore[key];
+  }
+}
+
 export async function getStorageItem<T>(key: string): Promise<T | null> {
   try {
+    const meta = await SecureStore.getItemAsync(`${key}_meta`);
+    if (meta) {
+      const numChunks = parseInt(meta, 10) || 0;
+      let combined = '';
+      for (let i = 0; i < numChunks; i++) {
+        const chunk = await SecureStore.getItemAsync(`${key}_${i}`);
+        if (chunk) combined += chunk;
+      }
+      if (combined) {
+        return JSON.parse(combined);
+      }
+    }
     const val = await SecureStore.getItemAsync(key);
     const raw = val ?? memoryStore[key];
     return raw ? JSON.parse(raw) : null;
@@ -71,9 +103,31 @@ export async function getStorageItem<T>(key: string): Promise<T | null> {
 
 export async function setStorageItem(key: string, val: unknown): Promise<void> {
   const serialized = JSON.stringify(val);
+  memoryStore[key] = serialized;
+
   try {
-    await SecureStore.setItemAsync(key, serialized);
+    if (serialized.length <= CHUNK_SIZE) {
+      await SecureStore.setItemAsync(key, serialized);
+      // Clean up any stale chunks if key was previously chunked
+      const prevMeta = await SecureStore.getItemAsync(`${key}_meta`);
+      if (prevMeta) {
+        await SecureStore.deleteItemAsync(`${key}_meta`).catch(() => {});
+        const numChunks = parseInt(prevMeta, 10) || 0;
+        for (let i = 0; i < numChunks; i++) {
+          await SecureStore.deleteItemAsync(`${key}_${i}`).catch(() => {});
+        }
+      }
+    } else {
+      // Chunk across keys <= 1800 bytes
+      const numChunks = Math.ceil(serialized.length / CHUNK_SIZE);
+      for (let i = 0; i < numChunks; i++) {
+        const chunk = serialized.slice(i * CHUNK_SIZE, (i + 1) * CHUNK_SIZE);
+        await SecureStore.setItemAsync(`${key}_${i}`, chunk);
+      }
+      await SecureStore.setItemAsync(`${key}_meta`, String(numChunks));
+      await SecureStore.deleteItemAsync(key).catch(() => {});
+    }
   } catch {
-    memoryStore[key] = serialized;
+    // Already saved to in-memory fallback
   }
-}
+}

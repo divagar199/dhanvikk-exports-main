@@ -18,8 +18,10 @@ import { useStore } from '@/store/useStore';
 import { updateProfile } from '@/services/auth';
 import { setStoredUser } from '@/lib/storage';
 import { colors, radius, spacing } from '@/constants/theme';
+import { useToast } from '@/context/ToastContext';
 
 export default function ProfileScreen() {
+  const { showToast } = useToast();
   const insets = useSafeAreaInsets();
   const user = useStore((s) => s.user);
   const setUser = useStore((s) => s.setUser);
@@ -37,7 +39,7 @@ export default function ProfileScreen() {
 
   const handleSave = async () => {
     if (!name.trim()) {
-      return Alert.alert('Missing Name', 'Please enter your full name.');
+      return showToast('Missing Name', 'Please enter your full name.', 'error');
     }
 
     setBusy(true);
@@ -50,15 +52,15 @@ export default function ProfileScreen() {
       if (res && res.user) {
         setUser(res.user);
         await setStoredUser(res.user);
-        Alert.alert('Profile Updated', 'Your profile details have been saved successfully.');
+        showToast('Profile Updated! 🌸', 'Your profile details have been saved.', 'success');
       } else {
         const updated = { ...user, name: name.trim(), phone: phone.trim() } as any;
         setUser(updated);
         await setStoredUser(updated);
-        Alert.alert('Profile Updated', 'Your profile details have been saved.');
+        showToast('Profile Updated! 🌸', 'Your profile details have been saved.', 'success');
       }
     } catch (e: any) {
-      Alert.alert('Update Failed', e.message || 'Unable to update profile. Please try again.');
+      showToast('Update Failed', e.message || 'Unable to update profile.', 'error');
     } finally {
       setBusy(false);
     }
@@ -74,9 +76,11 @@ export default function ProfileScreen() {
           text: 'Request Deletion',
           style: 'destructive',
           onPress: () => {
-            Alert.alert(
-              'Deletion Request Submitted',
-              'Your request has been received. Our data compliance officer will process your request within 7 business days.'
+            showToast(
+              'Deletion Request Submitted 🛡️',
+              'Our compliance team will process your request within 7 business days.',
+              'info',
+              4000
             );
           },
         },

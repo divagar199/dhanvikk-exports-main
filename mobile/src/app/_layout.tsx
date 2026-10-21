@@ -2,6 +2,7 @@ import { Stack } from 'expo-router';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { ToastProvider } from '@/context/ToastContext';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -15,15 +16,17 @@ const queryClient = new QueryClient({
 export default function Layout() {
   return (
     <SafeAreaProvider>
-      <QueryClientProvider client={queryClient}>
-        <Stack
-          screenOptions={{
-            headerShown: false,
-            animation: 'slide_from_right',
-            animationDuration: 280,
-            gestureEnabled: true,
-          }}
-        >
+      <StatusBar style="dark" />
+      <ToastProvider>
+        <QueryClientProvider client={queryClient}>
+          <Stack
+            screenOptions={{
+              headerShown: false,
+              animation: 'slide_from_right',
+              animationDuration: 280,
+              gestureEnabled: true,
+            }}
+          >
           <Stack.Screen name="(tabs)" options={{ animation: 'fade' }} />
           <Stack.Screen
             name="product/[id]"
@@ -57,6 +60,7 @@ export default function Layout() {
           <Stack.Screen name="auth/register" options={{ animation: 'slide_from_right' }} />
         </Stack>
       </QueryClientProvider>
+      </ToastProvider>
     </SafeAreaProvider>
   );
 }

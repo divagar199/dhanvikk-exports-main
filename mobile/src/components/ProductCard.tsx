@@ -6,6 +6,7 @@ import { router } from 'expo-router';
 import { colors, radius, shadows, spacing } from '@/constants/theme';
 import type { Product } from '@/types/models';
 import { useStore } from '@/store/useStore';
+import { useToast } from '@/context/ToastContext';
 import { resolveImageUrl, FALLBACK_FLOWER_IMAGE } from '@/lib/imageUrl';
 
 export const ProductCard = memo(function ProductCard({
@@ -17,17 +18,21 @@ export const ProductCard = memo(function ProductCard({
   horizontal?: boolean;
   cardWidth?: number | string;
 }) {
+  const { showToast } = useToast();
   const cart = useStore((s) => s.cart);
   const add = useStore((s) => s.add);
   const qty = useStore((s) => s.qty);
   const wish = useStore((s) => s.wish);
   const saved = useStore((s) => s.wishlist);
 
-  const id = product.id || product._id || product.slug;
+  const id = String(product.id || product._id || product.slug);
   const allIds = [product.id, product._id, product.slug].filter(Boolean).map(String);
   const isSaved = allIds.some((cand) => saved.includes(cand));
 
-  const inCartItem = cart.find((i) => (i.id || i._id || i.slug) === id);
+  const inCartItem = cart.find((i) => {
+    const itemIds = [i.id, i._id, i.slug].filter(Boolean).map(String);
+    return allIds.some((cand) => itemIds.includes(cand));
+  });
   const cartQty = inCartItem?.quantity || 0;
 
   const [imageError, setImageError] = useState(false);
@@ -129,6 +134,12 @@ export const ProductCard = memo(function ProductCard({
               image: imageUri,
               altIds: allIds,
             });
+            showToast(
+              isSaved ? 'Removed from Wishlist' : 'Saved to Wishlist ❤️',
+              product.name,
+              'info',
+              2000
+            );
           }}
           hitSlop={8}
           accessibilityLabel={isSaved ? 'Remove from Wishlist' : 'Save to Wishlist'}
@@ -221,7 +232,7 @@ export const ProductCard = memo(function ProductCard({
                 s.addBtn,
                 pressed && { opacity: 0.82, transform: [{ scale: 0.93 }] },
               ]}
-              onPress={() =>
+              onPress={() => {
                 add({
                   ...product,
                   id,
@@ -229,8 +240,9 @@ export const ProductCard = memo(function ProductCard({
                   price,
                   image: imageUri,
                   quantity: 1,
-                })
-              }
+                });
+                showToast('Added to Cart! 🌸', `${product.name} added to your bag.`, 'success');
+              }}
               hitSlop={6}
               accessibilityLabel={`Add ${product.name} to cart`}
             >

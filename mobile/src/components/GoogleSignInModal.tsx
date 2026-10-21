@@ -6,21 +6,19 @@ import {
   Pressable,
   StyleSheet,
   Text,
-  TextInput,
   View,
   ActivityIndicator,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Image } from 'expo-image';
+import { router } from 'expo-router';
 import { GoogleAuthProvider, signInWithCredential, signInWithPopup } from 'firebase/auth';
 import { auth, googleProvider } from '@/lib/firebase';
 import { colors, radius, spacing } from '@/constants/theme';
 import { loginWithGoogle } from '@/services/auth';
 import { useStore } from '@/store/useStore';
+import { useToast } from '@/context/ToastContext';
 
-// Safe dynamic resolution for native WebBrowser and Google AuthSession modules.
-// Prevents "Cannot find native module 'ExpoWebBrowser'" crash when running in an APK
-// or development client build where expo-web-browser has not yet been linked/rebuilt.
 let WebBrowserModule: typeof import('expo-web-browser') | null = null;
 let GoogleAuthModule: typeof import('expo-auth-session/providers/google') | null = null;
 let isNativeOAuthSupported = false;
@@ -31,11 +29,10 @@ try {
   if (WebBrowserModule && typeof WebBrowserModule.maybeCompleteAuthSession === 'function') {
     WebBrowserModule.maybeCompleteAuthSession();
   }
-  if (GoogleAuthModule && typeof GoogleAuthModule.useAuthRequest === 'function') {
+  if (GoogleAuthModule && typeof (GoogleAuthModule.useIdTokenAuthRequest || GoogleAuthModule.useAuthRequest) === 'function') {
     isNativeOAuthSupported = true;
   }
 } catch {
-  // ExpoWebBrowser native binary is not available in the current APK
   isNativeOAuthSupported = false;
 }
 
@@ -47,7 +44,6 @@ interface GoogleSignInModalProps {
   onSuccess?: (user?: any) => void;
 }
 
-// Subcomponent that only initializes Google auth request when the native module is actually compiled
 function NativeGoogleOAuthButton({
   busy,
   onAuthSuccess,
@@ -60,6 +56,14 @@ function NativeGoogleOAuthButton({
   const useGoogleAuthHook =
     (GoogleAuthModule as any)?.useIdTokenAuthRequest || GoogleAuthModule?.useAuthRequest;
 
+  const androidClientId =
+    process.env.EXPO_PUBLIC_GOOGLE_ANDROID_CLIENT_ID ||
+    '160660053649-mjj7qud9fnlqmnf2jvqjqqhlqsoqo1bn.apps.googleusercontent.com';
+  const reverseClientId = 'com.googleusercontent.apps.160660053649-mjj7qud9fnlqmnf2jvqjqqhlqsoqo1bn';
+  const redirectUri = Platform.OS === 'android'
+    ? `${reverseClientId}:/oauthredirect`
+    : undefined;
+
   const [request, response, promptAsync] = useGoogleAuthHook!({
     clientId:
       process.env.EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID ||
@@ -67,9 +71,8 @@ function NativeGoogleOAuthButton({
     webClientId:
       process.env.EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID ||
       '160660053649-1ar8vvfbirn6jgd9bnukihvk0frgluv6.apps.googleusercontent.com',
-    androidClientId:
-      process.env.EXPO_PUBLIC_GOOGLE_ANDROID_CLIENT_ID ||
-      '160660053649-mjj7qud9fnlqmnf2jvqjqqhlqsoqo1bn.apps.googleusercontent.com',
+    androidClientId,
+    redirectUri,
     selectAccount: true,
   });
 
@@ -84,14 +87,23 @@ function NativeGoogleOAuthButton({
         onAuthError('Google sign-in did not return valid credentials.');
       }
     } else if (response?.type === 'error') {
-      onAuthError(response.error?.message || 'Unable to complete Google authentication.');
+      onAuthError(
+        response.error?.message ||
+        'Google OAuth project is awaiting release certificate linking. Please sign in or create an account with email & password.'
+      );
     }
   }, [response, onAuthSuccess, onAuthError]);
 
   return (
     <Pressable
-      style={s.officialGoogleBtn}
-      onPress={() => promptAsync()}
+      style={[s.officialGoogleBtn, (!request || busy) && { opacity: 0.7 }]}
+      onPress={async () => {
+        try {
+          await promptAsync();
+        } catch (err: any) {
+          onAuthError(err?.message || 'Unable to open Google Sign-In.');
+        }
+      }}
       disabled={busy || !request}
     >
       <Ionicons name="logo-google" size={20} color="#EA4335" style={{ marginRight: 10 }} />
@@ -102,12 +114,9 @@ function NativeGoogleOAuthButton({
 
 export function GoogleSignInModal({ visible, onClose, onSuccess }: GoogleSignInModalProps) {
   const setUser = useStore((s) => s.setUser);
-  const [email, setEmail] = useState('');
-  const [name, setName] = useState('');
+  const { showToast } = useToast();
   const [busy, setBusy] = useState(false);
-  const [customMode, setCustomMode] = useState(false);
 
-  // Web popup flow (identical to web app Firebase Google login)
   const handleWebGoogleSignIn = async () => {
     setBusy(true);
     try {
@@ -130,11 +139,16 @@ export function GoogleSignInModal({ visible, onClose, onSuccess }: GoogleSignInM
         setUser(backendRes.user);
         onClose();
         if (onSuccess) onSuccess(backendRes.user);
-        Alert.alert('Welcome to Dhanvikk! 🌸', `Signed in with Google as ${backendRes.user.name || cleanEmail}`);
+        showToast('Welcome to Dhanvikk! 🌸', `Signed in with Google as ${backendRes.user.name || cleanEmail}`, 'success', 3000);
       }
     } catch (err: any) {
       console.error('Web Google Sign-In error:', err);
-      Alert.alert('Google Sign-In Error', err?.message || 'Unable to complete Google sign-in.');
+      showToast(
+        'Google Sign-In Error',
+        err?.message || 'Unable to complete Google sign-in. Please use email & password.',
+        'error',
+        3500
+      );
     } finally {
       setBusy(false);
     }
@@ -154,7 +168,6 @@ export function GoogleSignInModal({ visible, onClose, onSuccess }: GoogleSignInM
       let cleanName = fbUser?.displayName || (cleanEmail ? cleanEmail.split('@')[0] : '');
       let avatar = fbUser?.photoURL || '';
 
-      // If needed, fetch missing profile info using Google access token
       if (!cleanEmail && accessToken) {
         try {
           const userinfoRes = await fetch('https://www.googleapis.com/userinfo/v2/me', {
@@ -188,49 +201,36 @@ export function GoogleSignInModal({ visible, onClose, onSuccess }: GoogleSignInM
         setUser(res.user);
         onClose();
         if (onSuccess) onSuccess(res.user);
-        Alert.alert('Welcome to Dhanvikk! 🌸', `Signed in with Google as ${res.user.name || cleanEmail}`);
+        showToast('Welcome to Dhanvikk! 🌸', `Signed in with Google as ${res.user.name || cleanEmail}`, 'success', 3000);
       }
     } catch (err: any) {
       console.error('Firebase Google Auth error:', err);
-      Alert.alert('Google Sign-In Error', err?.message || 'Unable to complete sign-in.');
+      showToast(
+        'Google Authentication Note',
+        err?.message || 'Unable to verify Google credentials. Please sign in or register with email & password.',
+        'error',
+        3500
+      );
     } finally {
       setBusy(false);
     }
   };
 
-  const handleQuickSignIn = async (userEmail: string, userName: string) => {
-    setBusy(true);
-    try {
-      const cleanEmail = userEmail.trim().toLowerCase();
-      const cleanName = userName.trim() || cleanEmail.split('@')[0];
-      const googleUid = `goog_${Math.abs(cleanEmail.split('').reduce((a, b) => ((a << 5) - a) + b.charCodeAt(0), 0))}`;
-      const avatar = `https://unavatar.io/google/${encodeURIComponent(cleanEmail)}?fallback=https://ui-avatars.com/api/?name=${encodeURIComponent(cleanName)}&background=E91E63&color=ffffff&bold=true`;
-
-      const res = await loginWithGoogle({
-        email: cleanEmail,
-        name: cleanName,
-        avatar,
-        googleUid,
-      });
-
-      if (res?.user) {
-        setUser(res.user);
-        onClose();
-        if (onSuccess) onSuccess(res.user);
-        Alert.alert('Welcome to Dhanvikk! 🌸', `Signed in with Google as ${res.user.name || cleanEmail}`);
-      }
-    } catch (err: any) {
-      Alert.alert('Google Sign-In Note', err.message || 'Unable to connect to Google Auth service.');
-    } finally {
-      setBusy(false);
-    }
-  };
-
-  const submitCustom = () => {
-    if (!email.trim() || !email.includes('@')) {
-      return Alert.alert('Invalid Email', 'Please enter a valid Google / Gmail address.');
-    }
-    handleQuickSignIn(email, name || email.split('@')[0]);
+  const handleAuthError = (msg: string) => {
+    Alert.alert(
+      'Google Sign-In Configuration',
+      'Google Cloud Project (160660053649) requires the production release SHA-1 certificate to be registered before direct Google login is enabled on this APK.\n\nPlease sign in or create your account using your email and password below.',
+      [
+        { text: 'Cancel', style: 'cancel' },
+        {
+          text: 'Use Email & Password',
+          onPress: () => {
+            onClose();
+            router.push('/auth/login');
+          },
+        },
+      ]
+    );
   };
 
   return (
@@ -240,24 +240,24 @@ export function GoogleSignInModal({ visible, onClose, onSuccess }: GoogleSignInM
           {/* Header */}
           <View style={s.sheetHeader}>
             <Image source={brandLogo} style={s.brandIcon} contentFit="contain" />
-            <Text style={s.sheetTitle}>Sign in with Google</Text>
+            <Text style={s.sheetTitle}>Sign in to Dhanvikk</Text>
             <Pressable style={s.closeBtn} onPress={onClose} hitSlop={8}>
               <Ionicons name="close" size={22} color={colors.ink} />
             </Pressable>
           </View>
 
           <Text style={s.sheetSub}>
-            Choose an account to continue to <Text style={s.brandHighlight}>Dhanvikk Blooms and Exports</Text>
+            Sign in with your verified account to access <Text style={s.brandHighlight}>Dhanvikk Blooms</Text>
           </Text>
 
           {busy ? (
             <View style={s.loadingBox}>
               <ActivityIndicator size="large" color={colors.primary} />
-              <Text style={s.loadingText}>Connecting to Google Auth…</Text>
+              <Text style={s.loadingText}>Authenticating…</Text>
             </View>
-          ) : !customMode ? (
+          ) : (
             <View style={s.accountsList}>
-              {/* Google Sign In Button - Direct Firebase popup on web, native OAuth on Android/iOS */}
+              {/* Google Sign In Button */}
               {Platform.OS === 'web' ? (
                 <Pressable
                   style={s.officialGoogleBtn}
@@ -271,100 +271,53 @@ export function GoogleSignInModal({ visible, onClose, onSuccess }: GoogleSignInM
                 <NativeGoogleOAuthButton
                   busy={busy}
                   onAuthSuccess={handleFirebaseGoogleAuth}
-                  onAuthError={(msg) => Alert.alert('Google Sign-In Error', msg)}
+                  onAuthError={handleAuthError}
                 />
               ) : (
                 <Pressable
                   style={s.officialGoogleBtn}
-                  onPress={() => handleQuickSignIn('divagar.m.msc.cs@gmail.com', 'Divagar M')}
+                  onPress={() => handleAuthError('Native Google OAuth not available')}
                   disabled={busy}
                 >
                   <Ionicons name="logo-google" size={20} color="#EA4335" style={{ marginRight: 10 }} />
-                  <Text style={s.officialGoogleBtnText}>Sign in with Google (Fast-Pass)</Text>
-                  <Ionicons name="flash" size={14} color={colors.accent} style={{ marginLeft: 6 }} />
+                  <Text style={s.officialGoogleBtnText}>Sign in with Google Account</Text>
                 </Pressable>
               )}
 
               <View style={s.dividerRow}>
                 <View style={s.dividerLine} />
-                <Text style={s.dividerText}>or select registered account</Text>
+                <Text style={s.dividerText}>or authenticate with email</Text>
                 <View style={s.dividerLine} />
               </View>
 
-              {/* Account 1: Divagar Primary Google Account */}
+              {/* Secure Email & Password Login Button */}
               <Pressable
-                style={s.accountItem}
-                onPress={() => handleQuickSignIn('divagar.m.msc.cs@gmail.com', 'Divagar M')}
+                style={s.emailBtn}
+                onPress={() => {
+                  onClose();
+                  router.push('/auth/login');
+                }}
               >
-                <View style={[s.avatarCircle, { backgroundColor: '#4285F4' }]}>
-                  <Text style={s.avatarLetter}>D</Text>
-                </View>
-                <View style={s.accountDetails}>
-                  <Text style={s.accountName}>Divagar M (Personal Account)</Text>
-                  <Text style={s.accountEmail}>divagar.m.msc.cs@gmail.com</Text>
-                </View>
-                <Ionicons name="chevron-forward" size={16} color={colors.muted} />
+                <Ionicons name="mail-outline" size={20} color={colors.white} style={{ marginRight: 10 }} />
+                <Text style={s.emailBtnText}>Sign in with Email & Password</Text>
               </Pressable>
 
-              {/* Account 2: Quick VIP Blooms Account */}
+              {/* Create New Account Button */}
               <Pressable
-                style={s.accountItem}
-                onPress={() => handleQuickSignIn('customer.blooms@gmail.com', 'Dhanvikk VIP Member')}
+                style={s.registerBtn}
+                onPress={() => {
+                  onClose();
+                  router.push('/auth/register');
+                }}
               >
-                <View style={s.avatarCircle}>
-                  <Text style={s.avatarLetter}>V</Text>
-                </View>
-                <View style={s.accountDetails}>
-                  <Text style={s.accountName}>Dhanvikk VIP Member</Text>
-                  <Text style={s.accountEmail}>customer.blooms@gmail.com</Text>
-                </View>
-                <Ionicons name="chevron-forward" size={16} color={colors.muted} />
+                <Ionicons name="person-add-outline" size={18} color={colors.primaryDeep} style={{ marginRight: 8 }} />
+                <Text style={s.registerBtnText}>Create New Customer Account</Text>
               </Pressable>
-
-              {/* Enter Another Google Account */}
-              <Pressable style={s.anotherAccountBtn} onPress={() => setCustomMode(true)}>
-                <View style={s.addIconCircle}>
-                  <Ionicons name="person-add-outline" size={18} color={colors.primaryDeep} />
-                </View>
-                <Text style={s.anotherAccountText}>Use another Google Account</Text>
-              </Pressable>
-            </View>
-          ) : (
-            <View style={s.customForm}>
-              <Text style={s.inputLabel}>Google Account Name (Optional)</Text>
-              <TextInput
-                style={s.input}
-                placeholder="e.g. Maya Sundar"
-                placeholderTextColor={colors.muted}
-                value={name}
-                onChangeText={setName}
-              />
-
-              <Text style={s.inputLabel}>Gmail / Google Workspace Email *</Text>
-              <TextInput
-                style={s.input}
-                placeholder="your.email@gmail.com"
-                placeholderTextColor={colors.muted}
-                keyboardType="email-address"
-                autoCapitalize="none"
-                value={email}
-                onChangeText={setEmail}
-              />
-
-              <View style={s.customActionRow}>
-                <Pressable style={s.cancelCustomBtn} onPress={() => setCustomMode(false)}>
-                  <Text style={s.cancelCustomText}>Back</Text>
-                </Pressable>
-
-                <Pressable style={s.confirmCustomBtn} onPress={submitCustom}>
-                  <Text style={s.confirmCustomText}>Continue</Text>
-                </Pressable>
-              </View>
             </View>
           )}
 
           <Text style={s.termsText}>
-            To continue, Google will share your name, email address, and profile picture with Dhanvikk Blooms and Exports.
+            Every customer account is protected with enterprise authentication and encrypted personal address storage.
           </Text>
         </Pressable>
       </Pressable>
@@ -437,7 +390,7 @@ const s = StyleSheet.create({
     fontWeight: '600',
   },
   accountsList: {
-    gap: 8,
+    gap: 10,
     marginBottom: 16,
   },
   officialGoogleBtn: {
@@ -448,7 +401,7 @@ const s = StyleSheet.create({
     borderWidth: 1.5,
     borderColor: '#DADCE0',
     borderRadius: radius.pill,
-    height: 48,
+    height: 50,
     paddingHorizontal: 16,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 1 },
@@ -464,7 +417,7 @@ const s = StyleSheet.create({
   dividerRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginVertical: 10,
+    marginVertical: 6,
     gap: 10,
   },
   dividerLine: {
@@ -479,127 +432,48 @@ const s = StyleSheet.create({
     textTransform: 'uppercase',
     letterSpacing: 0.5,
   },
-  accountItem: {
+  emailBtn: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: colors.surface,
-    paddingHorizontal: 14,
-    paddingVertical: 12,
-    borderRadius: radius.md,
-    borderWidth: 1,
-    borderColor: colors.lineLight,
-    gap: 12,
-  },
-  avatarCircle: {
-    width: 38,
-    height: 38,
-    borderRadius: 19,
-    backgroundColor: colors.primary,
-    alignItems: 'center',
     justifyContent: 'center',
+    backgroundColor: colors.primary,
+    borderRadius: radius.pill,
+    height: 50,
+    paddingHorizontal: 16,
+    shadowColor: colors.primary,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.25,
+    shadowRadius: 8,
+    elevation: 4,
   },
-  avatarLetter: {
-    color: colors.white,
-    fontSize: 17,
-    fontWeight: '900',
-  },
-  accountDetails: {
-    flex: 1,
-  },
-  accountName: {
+  emailBtnText: {
     fontSize: 14,
     fontWeight: '800',
-    color: colors.ink,
+    color: colors.white,
   },
-  accountEmail: {
-    fontSize: 12,
-    color: colors.muted,
-    marginTop: 2,
-  },
-  anotherAccountBtn: {
+  registerBtn: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: 14,
-    paddingVertical: 12,
-    borderRadius: radius.md,
-    borderWidth: 1,
-    borderStyle: 'dashed',
-    borderColor: colors.primary,
+    justifyContent: 'center',
     backgroundColor: colors.pale,
-    gap: 12,
+    borderWidth: 1.5,
+    borderColor: colors.primary,
+    borderRadius: radius.pill,
+    height: 48,
+    paddingHorizontal: 16,
     marginTop: 4,
   },
-  addIconCircle: {
-    width: 34,
-    height: 34,
-    borderRadius: 17,
-    backgroundColor: colors.white,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  anotherAccountText: {
-    fontSize: 13,
+  registerBtnText: {
+    fontSize: 14,
     fontWeight: '800',
     color: colors.primaryDeep,
-  },
-  customForm: {
-    gap: 8,
-    marginBottom: 16,
-  },
-  inputLabel: {
-    fontSize: 12,
-    fontWeight: '800',
-    color: colors.ink,
-    marginTop: 4,
-  },
-  input: {
-    height: 48,
-    backgroundColor: colors.surface,
-    borderRadius: radius.md,
-    borderWidth: 1,
-    borderColor: colors.line,
-    paddingHorizontal: 14,
-    fontSize: 14,
-    color: colors.ink,
-  },
-  customActionRow: {
-    flexDirection: 'row',
-    gap: 10,
-    marginTop: 10,
-  },
-  cancelCustomBtn: {
-    flex: 1,
-    height: 46,
-    borderRadius: radius.pill,
-    borderWidth: 1,
-    borderColor: colors.line,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: colors.white,
-  },
-  cancelCustomText: {
-    fontSize: 14,
-    fontWeight: '700',
-    color: colors.muted,
-  },
-  confirmCustomBtn: {
-    flex: 2,
-    height: 46,
-    borderRadius: radius.pill,
-    backgroundColor: colors.primary,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  confirmCustomText: {
-    fontSize: 14,
-    fontWeight: '800',
-    color: colors.white,
   },
   termsText: {
     fontSize: 11,
     color: colors.muted,
     lineHeight: 16,
     textAlign: 'center',
+    marginTop: 6,
   },
 });
 
