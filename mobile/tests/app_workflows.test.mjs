@@ -303,3 +303,74 @@ describe('Voice-to-Text Speech Recognition & Search Workflow', () => {
     assert.ok(defaultVoiceSuggestions.includes('Casablanca Lilies'));
   });
 });
+
+describe('Search Discovery, Botanical Categories & Products Showcase', () => {
+  const sampleCategories = [
+    { id: 'Roses', name: 'Roses', badge: 'Dawn Cut' },
+    { id: 'Lilies', name: 'Lilies', badge: 'Casablanca' },
+    { id: 'Bouquets', name: 'Bouquets', badge: 'Handcrafted' },
+    { id: 'Seasonal Flowers', name: 'Seasonal', badge: 'Highland' },
+    { id: 'Plants', name: 'Plants', badge: 'Botanical' },
+    { id: 'Gift Bundles', name: 'Gift Sets', badge: 'Curated' },
+    { id: 'Traditional', name: 'Sanctum', badge: 'Jasmine' },
+    { id: 'Orchids', name: 'Orchids', badge: 'Exotic' },
+  ];
+
+  const sampleProducts = [
+    { id: '1', name: 'Royal Crimson Velvet Rose Bouquet', category: 'Roses', price: 1899 },
+    { id: '2', name: 'Casablanca Oriental Lily Ensemble', category: 'Lilies', price: 2499 },
+    { id: '3', name: 'Nilgiri Sunset Exotic Orchids', category: 'Orchids', price: 3200 },
+    { id: '4', name: 'Sanctum Jasmine & Marigold Garland', category: 'Traditional', price: 899 },
+  ];
+
+  test('when query is empty, displays featured products and all botanical categories', () => {
+    const q = '';
+    const isSearching = q.trim().length > 0;
+    const displayedProducts = isSearching ? [] : sampleProducts;
+
+    assert.equal(isSearching, false);
+    assert.equal(displayedProducts.length, 4);
+    assert.equal(sampleCategories.length, 8);
+  });
+
+  test('tapping a category filter updates search query and yields filtered blooms', () => {
+    let q = '';
+    const onSelectCategory = (catId) => { q = catId; };
+
+    onSelectCategory('Roses');
+    assert.equal(q, 'Roses');
+
+    const filtered = sampleProducts.filter((p) =>
+      p.category.toLowerCase().includes(q.toLowerCase()) ||
+      p.name.toLowerCase().includes(q.toLowerCase())
+    );
+
+    assert.equal(filtered.length, 1);
+    assert.equal(filtered[0].name, 'Royal Crimson Velvet Rose Bouquet');
+  });
+
+  test('tapping a trending spoken inquiry quickly populates search and filters', () => {
+    const query = 'Lily';
+    const matches = sampleProducts.filter((p) =>
+      p.name.toLowerCase().includes(query.toLowerCase()) ||
+      p.category.toLowerCase().includes(query.toLowerCase())
+    );
+
+    assert.equal(matches.length, 1);
+    assert.equal(matches[0].id, '2');
+  });
+
+  test('search reset clears query and restores popular categories and signature products', () => {
+    let q = 'Orchids';
+    assert.equal(q.trim().length > 0, true);
+
+    // User presses "Show All" or "Clear"
+    q = '';
+    const isSearching = q.trim().length > 0;
+    const finalData = isSearching ? [] : sampleProducts;
+
+    assert.equal(isSearching, false);
+    assert.equal(finalData.length, sampleProducts.length);
+  });
+});
+
