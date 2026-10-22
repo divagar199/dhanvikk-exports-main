@@ -357,27 +357,6 @@ export function GoogleSignInModal({ visible, onClose, onSuccess }: GoogleSignInM
                 <Text style={s.officialGoogleBtnText}>Sign in with Google Account</Text>
               </Pressable>
 
-              {/* Verified Account One-Tap Card */}
-              <Pressable
-                style={s.verifiedAccountCard}
-                onPress={() => handleInstantGoogleLogin('divagar.m199@gmail.com')}
-                disabled={busy}
-              >
-                <Image
-                  source={{ uri: 'https://unavatar.io/google/divagar.m199@gmail.com?fallback=https://ui-avatars.com/api/?name=Divagar&background=E91E63&color=ffffff&bold=true' }}
-                  style={s.verifiedAccountAvatar}
-                  contentFit="cover"
-                />
-                <View style={s.verifiedAccountInfo}>
-                  <Text style={s.verifiedAccountName}>Divagar M</Text>
-                  <Text style={s.verifiedAccountEmail}>divagar.m199@gmail.com</Text>
-                </View>
-                <View style={s.verifiedBadge}>
-                  <Text style={s.verifiedBadgeText}>1-Tap</Text>
-                  <Ionicons name="arrow-forward-circle" size={20} color="#E91E63" />
-                </View>
-              </Pressable>
-
               {/* 1-Tap Google Quick Sign-In Box */}
               <View style={s.quickGoogleBox}>
                 <View style={s.quickGoogleHeader}>
@@ -539,55 +518,6 @@ const s = StyleSheet.create({
     fontSize: 14,
     fontWeight: '800',
     color: colors.ink,
-  },
-  verifiedAccountCard: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#FFF5F7',
-    borderWidth: 1.5,
-    borderColor: '#FCC2D7',
-    borderRadius: radius.lg,
-    padding: 10,
-    marginTop: 2,
-    shadowColor: '#E91E63',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.08,
-    shadowRadius: 4,
-    elevation: 2,
-  },
-  verifiedAccountAvatar: {
-    width: 36,
-    height: 36,
-    borderRadius: 18,
-    borderWidth: 1.5,
-    borderColor: '#E91E63',
-  },
-  verifiedAccountInfo: {
-    flex: 1,
-    marginLeft: 10,
-  },
-  verifiedAccountName: {
-    fontSize: 13,
-    fontWeight: '800',
-    color: colors.ink,
-  },
-  verifiedAccountEmail: {
-    fontSize: 11,
-    color: colors.muted,
-  },
-  verifiedBadge: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 4,
-    backgroundColor: '#FFE3EC',
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    borderRadius: radius.pill,
-  },
-  verifiedBadgeText: {
-    fontSize: 11,
-    fontWeight: '800',
-    color: '#E91E63',
   },
   quickGoogleBox: {
     backgroundColor: '#FFF7F7',
