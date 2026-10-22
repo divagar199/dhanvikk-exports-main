@@ -20,28 +20,12 @@ import { loginWithGoogle } from '@/services/auth';
 import { useStore } from '@/store/useStore';
 import { useToast } from '@/context/ToastContext';
 
-let WebBrowserModule: typeof import('expo-web-browser') | null = null;
-let GoogleAuthModule: typeof import('expo-auth-session/providers/google') | null = null;
 let GoogleSigninModule: any = null;
-let isNativeOAuthSupported = false;
 let isGoogleSigninAvailable = false;
 
 const WEB_CLIENT_ID =
   process.env.EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID ||
   '160660053649-1ar8vvfbirn6jgd9bnukihvk0frgluv6.apps.googleusercontent.com';
-
-try {
-  WebBrowserModule = require('expo-web-browser');
-  GoogleAuthModule = require('expo-auth-session/providers/google');
-  if (WebBrowserModule && typeof WebBrowserModule.maybeCompleteAuthSession === 'function') {
-    WebBrowserModule.maybeCompleteAuthSession();
-  }
-  if (GoogleAuthModule && typeof (GoogleAuthModule.useIdTokenAuthRequest || GoogleAuthModule.useAuthRequest) === 'function') {
-    isNativeOAuthSupported = true;
-  }
-} catch {
-  isNativeOAuthSupported = false;
-}
 
 try {
   GoogleSigninModule = require('@react-native-google-signin/google-signin');
@@ -67,66 +51,6 @@ interface GoogleSignInModalProps {
   onSuccess?: (user?: any) => void;
 }
 
-function NativeGoogleOAuthButton({
-  busy,
-  onAuthSuccess,
-  onAuthFallback,
-}: {
-  busy: boolean;
-  onAuthSuccess: (tokens: { idToken?: string; accessToken?: string }) => void;
-  onAuthFallback: (reason?: string) => void;
-}) {
-  const useGoogleAuthHook =
-    (GoogleAuthModule as any)?.useIdTokenAuthRequest || GoogleAuthModule?.useAuthRequest;
-
-  const webClientId =
-    process.env.EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID ||
-    '160660053649-1ar8vvfbirn6jgd9bnukihvk0frgluv6.apps.googleusercontent.com';
-  const androidClientId =
-    process.env.EXPO_PUBLIC_GOOGLE_ANDROID_CLIENT_ID ||
-    '160660053649-mjj7qud9fnlqmnf2jvqjqqhlqsoqo1bn.apps.googleusercontent.com';
-  const reverseClientId = 'com.googleusercontent.apps.160660053649-mjj7qud9fnlqmnf2jvqjqqhlqsoqo1bn';
-
-  const [request, response, promptAsync] = useGoogleAuthHook!({
-    clientId: webClientId,
-    webClientId,
-    androidClientId,
-    redirectUri: Platform.OS === 'android' ? `${reverseClientId}:/oauthredirect` : undefined,
-    selectAccount: true,
-  });
-
-  useEffect(() => {
-    if (response?.type === 'success') {
-      const { id_token, access_token } = (response.params as any) || {};
-      const idToken = id_token || (response as any).authentication?.idToken;
-      const accessToken = access_token || (response as any).authentication?.accessToken;
-      if (idToken || accessToken) {
-        onAuthSuccess({ idToken, accessToken });
-      } else {
-        onAuthFallback('Credentials could not be parsed from browser session.');
-      }
-    } else if (response?.type === 'error') {
-      onAuthFallback(response.error?.message || 'Browser authentication redirected.');
-    }
-  }, [response, onAuthSuccess, onAuthFallback]);
-
-  return (
-    <Pressable
-      style={[s.officialGoogleBtn, (!request || busy) && { opacity: 0.7 }]}
-      onPress={async () => {
-        try {
-          await promptAsync();
-        } catch (err: any) {
-          onAuthFallback(err?.message || 'Unable to open Google Sign-In.');
-        }
-      }}
-      disabled={busy || !request}
-    >
-      <Ionicons name="logo-google" size={20} color="#EA4335" style={{ marginRight: 10 }} />
-      <Text style={s.officialGoogleBtnText}>Sign in with Google Account</Text>
-    </Pressable>
-  );
-}
 
 export function GoogleSignInModal({ visible, onClose, onSuccess }: GoogleSignInModalProps) {
   const setUser = useStore((s) => s.setUser);
