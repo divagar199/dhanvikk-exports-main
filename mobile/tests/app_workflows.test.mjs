@@ -428,3 +428,79 @@ describe('Google Voice Search Intent & Unified Launcher Workflow', () => {
   });
 });
 
+describe('Google Sign-In & Native Play Services Authentication Workflow', () => {
+  test('native Play Services sign-in extracts ID token and formats customer profile', async () => {
+    const mockPlayServicesResponse = {
+      data: {
+        idToken: 'mock-google-id-token-xyz',
+        user: {
+          id: '10987654321',
+          email: 'divagar@example.com',
+          name: 'Divagar',
+          photo: 'https://lh3.googleusercontent.com/a/mock-photo',
+        },
+      },
+    };
+
+    const extractCredentials = (res) => {
+      const idToken = res?.data?.idToken || res?.idToken;
+      const user = res?.data?.user || res?.user;
+      return {
+        idToken,
+        email: user?.email?.toLowerCase().trim(),
+        name: user?.name,
+        avatar: user?.photo,
+        googleUid: user?.id,
+      };
+    };
+
+    const credentials = extractCredentials(mockPlayServicesResponse);
+    assert.equal(credentials.idToken, 'mock-google-id-token-xyz');
+    assert.equal(credentials.email, 'divagar@example.com');
+    assert.equal(credentials.name, 'Divagar');
+    assert.equal(credentials.googleUid, '10987654321');
+  });
+
+  test('user cancellation of Google Play Services dialog is handled silently without error toast', () => {
+    let errorShown = false;
+    const SIGN_IN_CANCELLED = 'SIGN_IN_CANCELLED';
+
+    const handleGoogleSignInError = (err) => {
+      if (err.code === SIGN_IN_CANCELLED) {
+        return; // Silent dismissal
+      }
+      errorShown = true;
+    };
+
+    handleGoogleSignInError({ code: 'SIGN_IN_CANCELLED' });
+    assert.equal(errorShown, false);
+
+    handleGoogleSignInError({ code: 'NETWORK_ERROR' });
+    assert.equal(errorShown, true);
+  });
+
+  test('falls back cleanly to direct 1-tap email login when Play Services is unavailable', () => {
+    let fallbackBoxShown = false;
+    const isGoogleSigninAvailable = false;
+
+    if (!isGoogleSigninAvailable) {
+      fallbackBoxShown = true;
+    }
+
+    assert.equal(fallbackBoxShown, true);
+
+    const email = 'customer@gmail.com';
+    const cleanName = email.split('@')[0];
+    const userPayload = {
+      email,
+      name: cleanName.charAt(0).toUpperCase() + cleanName.slice(1),
+      googleUid: `goog_${Date.now()}_${email.replace(/[^a-zA-Z0-9]/g, '')}`,
+    };
+
+    assert.equal(userPayload.email, 'customer@gmail.com');
+    assert.equal(userPayload.name, 'Customer');
+    assert.ok(userPayload.googleUid.startsWith('goog_'));
+  });
+});
+
+

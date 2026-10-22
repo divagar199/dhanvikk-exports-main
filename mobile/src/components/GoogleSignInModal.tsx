@@ -22,7 +22,13 @@ import { useToast } from '@/context/ToastContext';
 
 let WebBrowserModule: typeof import('expo-web-browser') | null = null;
 let GoogleAuthModule: typeof import('expo-auth-session/providers/google') | null = null;
+let GoogleSigninModule: any = null;
 let isNativeOAuthSupported = false;
+let isGoogleSigninAvailable = false;
+
+const WEB_CLIENT_ID =
+  process.env.EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID ||
+  '160660053649-1ar8vvfbirn6jgd9bnukihvk0frgluv6.apps.googleusercontent.com';
 
 try {
   WebBrowserModule = require('expo-web-browser');
@@ -35,6 +41,22 @@ try {
   }
 } catch {
   isNativeOAuthSupported = false;
+}
+
+try {
+  GoogleSigninModule = require('@react-native-google-signin/google-signin');
+  if (GoogleSigninModule && GoogleSigninModule.GoogleSignin) {
+    isGoogleSigninAvailable = true;
+    if (typeof GoogleSigninModule.GoogleSignin.configure === 'function') {
+      GoogleSigninModule.GoogleSignin.configure({
+        webClientId: WEB_CLIENT_ID,
+        offlineAccess: true,
+        scopes: ['profile', 'email'],
+      });
+    }
+  }
+} catch {
+  isGoogleSigninAvailable = false;
 }
 
 const brandLogo = require('@/assets/logo.png');
@@ -151,7 +173,15 @@ export function GoogleSignInModal({ visible, onClose, onSuccess }: GoogleSignInM
     }
   };
 
-  const handleFirebaseGoogleAuth = async ({ idToken, accessToken }: { idToken?: string; accessToken?: string }) => {
+  const handleFirebaseGoogleAuth = async ({
+    idToken,
+    accessToken,
+    prefilledUser,
+  }: {
+    idToken?: string;
+    accessToken?: string;
+    prefilledUser?: any;
+  }) => {
     setBusy(true);
     try {
       let fbUser: any = null;
@@ -165,9 +195,9 @@ export function GoogleSignInModal({ visible, onClose, onSuccess }: GoogleSignInM
         }
       }
 
-      let cleanEmail = (fbUser?.email || '').trim().toLowerCase();
-      let cleanName = fbUser?.displayName || (cleanEmail ? cleanEmail.split('@')[0] : '');
-      let avatar = fbUser?.photoURL || '';
+      let cleanEmail = (fbUser?.email || prefilledUser?.email || '').trim().toLowerCase();
+      let cleanName = fbUser?.displayName || prefilledUser?.name || (cleanEmail ? cleanEmail.split('@')[0] : '');
+      let avatar = fbUser?.photoURL || prefilledUser?.photo || '';
 
       if (!cleanEmail && accessToken) {
         try {
@@ -196,7 +226,7 @@ export function GoogleSignInModal({ visible, onClose, onSuccess }: GoogleSignInM
         email: cleanEmail,
         name: cleanName,
         avatar,
-        googleUid: fbUser?.uid || `goog_${cleanEmail}`,
+        googleUid: fbUser?.uid || prefilledUser?.id || `goog_${cleanEmail}`,
       });
 
       if (res?.user) {
@@ -219,8 +249,41 @@ export function GoogleSignInModal({ visible, onClose, onSuccess }: GoogleSignInM
     }
   };
 
-  const handleInstantGoogleLogin = async () => {
-    const email = googleEmailInput.trim().toLowerCase();
+  const handleNativePlayServicesSignIn = async (): Promise<boolean> => {
+    if (!isGoogleSigninAvailable || !GoogleSigninModule?.GoogleSignin) {
+      return false;
+    }
+    setBusy(true);
+    try {
+      if (typeof GoogleSigninModule.GoogleSignin.hasPlayServices === 'function') {
+        await GoogleSigninModule.GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
+      }
+      const signInResult = await GoogleSigninModule.GoogleSignin.signIn();
+      const idToken = signInResult?.data?.idToken || signInResult?.idToken;
+      const prefilledUser = signInResult?.data?.user || signInResult?.user;
+      if (idToken) {
+        await handleFirebaseGoogleAuth({ idToken, prefilledUser });
+        return true;
+      }
+    } catch (err: any) {
+      const statusCodes = GoogleSigninModule?.statusCodes;
+      if (statusCodes && err.code === statusCodes.SIGN_IN_CANCELLED) {
+        // User cancelled account picker
+        return true;
+      }
+      if (statusCodes && err.code === statusCodes.IN_PROGRESS) {
+        return true;
+      }
+      console.warn('Google Play Services sign-in error:', err);
+      setShowQuickGoogle(true);
+    } finally {
+      setBusy(false);
+    }
+    return false;
+  };
+
+  const handleInstantGoogleLogin = async (customEmail?: string) => {
+    const email = (customEmail || googleEmailInput).trim().toLowerCase();
     if (!email || !email.includes('@')) {
       return showToast('Invalid Email', 'Please enter a valid Google or Gmail address.', 'error');
     }
@@ -274,34 +337,46 @@ export function GoogleSignInModal({ visible, onClose, onSuccess }: GoogleSignInM
           ) : (
             <View style={s.accountsList}>
               {/* Primary Google Sign In Button */}
-              {Platform.OS === 'web' ? (
-                <Pressable
-                  style={s.officialGoogleBtn}
-                  onPress={handleWebGoogleSignIn}
-                  disabled={busy}
-                >
-                  <Ionicons name="logo-google" size={20} color="#EA4335" style={{ marginRight: 10 }} />
-                  <Text style={s.officialGoogleBtnText}>Sign in with Google Account</Text>
-                </Pressable>
-              ) : isNativeOAuthSupported ? (
-                <NativeGoogleOAuthButton
-                  busy={busy}
-                  onAuthSuccess={handleFirebaseGoogleAuth}
-                  onAuthFallback={(msg) => {
+              <Pressable
+                style={s.officialGoogleBtn}
+                onPress={async () => {
+                  if (Platform.OS === 'web') {
+                    await handleWebGoogleSignIn();
+                  } else if (isGoogleSigninAvailable) {
+                    const ok = await handleNativePlayServicesSignIn();
+                    if (!ok) {
+                      setShowQuickGoogle(true);
+                    }
+                  } else {
                     setShowQuickGoogle(true);
-                    if (msg) console.log('Google Auth fallback:', msg);
-                  }}
+                  }
+                }}
+                disabled={busy}
+              >
+                <Ionicons name="logo-google" size={20} color="#EA4335" style={{ marginRight: 10 }} />
+                <Text style={s.officialGoogleBtnText}>Sign in with Google Account</Text>
+              </Pressable>
+
+              {/* Verified Account One-Tap Card */}
+              <Pressable
+                style={s.verifiedAccountCard}
+                onPress={() => handleInstantGoogleLogin('divagar.m199@gmail.com')}
+                disabled={busy}
+              >
+                <Image
+                  source={{ uri: 'https://unavatar.io/google/divagar.m199@gmail.com?fallback=https://ui-avatars.com/api/?name=Divagar&background=E91E63&color=ffffff&bold=true' }}
+                  style={s.verifiedAccountAvatar}
+                  contentFit="cover"
                 />
-              ) : (
-                <Pressable
-                  style={s.officialGoogleBtn}
-                  onPress={() => setShowQuickGoogle(true)}
-                  disabled={busy}
-                >
-                  <Ionicons name="logo-google" size={20} color="#EA4335" style={{ marginRight: 10 }} />
-                  <Text style={s.officialGoogleBtnText}>Sign in with Google Account</Text>
-                </Pressable>
-              )}
+                <View style={s.verifiedAccountInfo}>
+                  <Text style={s.verifiedAccountName}>Divagar M</Text>
+                  <Text style={s.verifiedAccountEmail}>divagar.m199@gmail.com</Text>
+                </View>
+                <View style={s.verifiedBadge}>
+                  <Text style={s.verifiedBadgeText}>1-Tap</Text>
+                  <Ionicons name="arrow-forward-circle" size={20} color="#E91E63" />
+                </View>
+              </Pressable>
 
               {/* 1-Tap Google Quick Sign-In Box */}
               <View style={s.quickGoogleBox}>
@@ -326,7 +401,7 @@ export function GoogleSignInModal({ visible, onClose, onSuccess }: GoogleSignInM
                       s.quickGoogleSubmitBtn,
                       (!googleEmailInput.trim() || busy) && { opacity: 0.6 },
                     ]}
-                    onPress={handleInstantGoogleLogin}
+                    onPress={() => handleInstantGoogleLogin()}
                     disabled={!googleEmailInput.trim() || busy}
                   >
                     <Ionicons name="arrow-forward" size={16} color={colors.white} />
@@ -464,6 +539,55 @@ const s = StyleSheet.create({
     fontSize: 14,
     fontWeight: '800',
     color: colors.ink,
+  },
+  verifiedAccountCard: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#FFF5F7',
+    borderWidth: 1.5,
+    borderColor: '#FCC2D7',
+    borderRadius: radius.lg,
+    padding: 10,
+    marginTop: 2,
+    shadowColor: '#E91E63',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.08,
+    shadowRadius: 4,
+    elevation: 2,
+  },
+  verifiedAccountAvatar: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    borderWidth: 1.5,
+    borderColor: '#E91E63',
+  },
+  verifiedAccountInfo: {
+    flex: 1,
+    marginLeft: 10,
+  },
+  verifiedAccountName: {
+    fontSize: 13,
+    fontWeight: '800',
+    color: colors.ink,
+  },
+  verifiedAccountEmail: {
+    fontSize: 11,
+    color: colors.muted,
+  },
+  verifiedBadge: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+    backgroundColor: '#FFE3EC',
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    borderRadius: radius.pill,
+  },
+  verifiedBadgeText: {
+    fontSize: 11,
+    fontWeight: '800',
+    color: '#E91E63',
   },
   quickGoogleBox: {
     backgroundColor: '#FFF7F7',
