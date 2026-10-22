@@ -78,6 +78,7 @@ export default function Account() {
           { paddingBottom: Math.max(insets.bottom, 16) + 130, maxWidth: contentMaxWidth, width: '100%', alignSelf: 'center' },
         ]}
         showsVerticalScrollIndicator={false}
+        keyboardShouldPersistTaps="handled"
       >
         {/* User Card with VIP Gold Styling */}
         <View style={s.profileCard}>

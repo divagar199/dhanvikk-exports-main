@@ -3,7 +3,6 @@ import { Stack } from 'expo-router';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import * as SplashScreen from 'expo-splash-screen';
 import { ToastProvider } from '@/context/ToastContext';
 import { BASE } from '@/lib/api';
 
@@ -20,9 +19,6 @@ const queryClient = new QueryClient({
 
 export default function Layout() {
   useEffect(() => {
-    // Hide splash screen immediately when app layout mounts
-    SplashScreen.hideAsync().catch(() => {});
-
     // Proactively warm up Render backend container in background
     try {
       fetch(`${BASE}/api/health`).catch(() => {});

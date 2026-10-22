@@ -81,6 +81,7 @@ export default function Register() {
             { paddingBottom: Math.max(insets.bottom, 24) + 24 },
           ]}
           showsVerticalScrollIndicator={false}
+          keyboardShouldPersistTaps="handled"
         >
           {/* Brand Logo Header */}
           <View style={s.logoCard}>
