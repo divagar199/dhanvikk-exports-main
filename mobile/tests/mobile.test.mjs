@@ -171,3 +171,56 @@ test('Mobile App - Delivery Address Empty State Safety', async (t) => {
     assert.equal(addresses[0].recipientName, 'Diya Menon');
   });
 });
+
+test('Mobile App - Per-User Storage Isolation & Wishlist Zero Default', async (t) => {
+  const getUserKey = (u) => {
+    if (!u) return 'guest';
+    const raw = u.id || u._id || u.email || 'guest';
+    return String(raw).trim().toLowerCase().replace(/[^a-z0-9_-]/g, '_') || 'guest';
+  };
+
+  const getWishlistStorageKey = (u) => `dhanvikk.wishlist.${getUserKey(u)}`;
+  const getCartStorageKey = (u) => `dhanvikk.cart.${getUserKey(u)}`;
+
+  const GHOST_BOUQUET_IDS = new Set(['flw-rose-01', 'flw-rose-02', 'flw-rose-03', 'flw-rose-04']);
+  const sanitizeWishlist = (list) => {
+    if (!Array.isArray(list)) return [];
+    return Array.from(
+      new Set(
+        list
+          .map((x) => String(x || '').trim())
+          .filter((id) => id && !GHOST_BOUQUET_IDS.has(id))
+      )
+    );
+  };
+
+  await t.test('guest has isolated storage keys and 0 default wishlist items', () => {
+    assert.equal(getUserKey(null), 'guest');
+    assert.equal(getWishlistStorageKey(null), 'dhanvikk.wishlist.guest');
+    assert.equal(getCartStorageKey(null), 'dhanvikk.cart.guest');
+
+    const rawLegacyWishlist = ['flw-rose-01', 'flw-rose-02', 'flw-rose-03', 'flw-rose-04'];
+    const cleaned = sanitizeWishlist(rawLegacyWishlist);
+    assert.equal(cleaned.length, 0, 'Ghost sample bouquets must be stripped out so badge shows 0');
+  });
+
+  await t.test('different user accounts get strictly partitioned storage keys', () => {
+    const userA = { id: 'usr_abc_1', email: 'user1@example.com' };
+    const userB = { id: 'usr_xyz_2', email: 'user2@example.com' };
+
+    assert.equal(getWishlistStorageKey(userA), 'dhanvikk.wishlist.usr_abc_1');
+    assert.equal(getWishlistStorageKey(userB), 'dhanvikk.wishlist.usr_xyz_2');
+    assert.notEqual(getWishlistStorageKey(userA), getWishlistStorageKey(userB));
+
+    assert.equal(getCartStorageKey(userA), 'dhanvikk.cart.usr_abc_1');
+    assert.equal(getCartStorageKey(userB), 'dhanvikk.cart.usr_xyz_2');
+    assert.notEqual(getCartStorageKey(userA), getCartStorageKey(userB));
+  });
+
+  await t.test('genuine added items persist while ghost items are filtered out', () => {
+    const mixed = ['flw-rose-01', 'real-bouquet-99', 'flw-rose-02', 'real-bouquet-100'];
+    const cleaned = sanitizeWishlist(mixed);
+    assert.deepEqual(cleaned, ['real-bouquet-99', 'real-bouquet-100']);
+  });
+});
+

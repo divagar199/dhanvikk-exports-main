@@ -19,7 +19,7 @@ export const createOrder = async (req, res) => {
       return res.status(400).json({ success: false, message: 'Order cannot be empty' });
     }
 
-    const orderId = `DHN-${new Date().getFullYear()}-${Math.floor(1000 + Math.random() * 9000)}`;
+    const orderId = req.body.orderId || `DHN-${new Date().getFullYear()}-${Date.now().toString().slice(-5)}${Math.floor(1000 + Math.random() * 9000)}`;
 
     const sAddr = shippingAddress || req.body.deliveryAddress || {};
     const resolvedShippingAddress = {

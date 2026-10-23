@@ -3,8 +3,52 @@ import type { CartItem, User } from '@/types/models';
 import { getProfileData, saveUserCart, toggleWishlist } from '@/services/auth';
 import { getStorageItem, setStorageItem } from '@/lib/storage';
 
-const WISHLIST_STORAGE_KEY = 'dhanvikk.guest.wishlist';
-const CART_STORAGE_KEY = 'dhanvikk.guest.cart';
+export const getUserKey = (u?: User | null): string => {
+  if (!u) return 'guest';
+  const raw = u.id || (u as any)._id || u.email || 'guest';
+  return String(raw).trim().toLowerCase().replace(/[^a-z0-9_-]/g, '_') || 'guest';
+};
+
+export const getWishlistStorageKey = (u?: User | null): string =>
+  `dhanvikk.wishlist.${getUserKey(u)}`;
+
+export const getCartStorageKey = (u?: User | null): string =>
+  `dhanvikk.cart.${getUserKey(u)}`;
+
+export const WISHLIST_STORAGE_KEY = 'dhanvikk.guest.wishlist';
+export const CART_STORAGE_KEY = 'dhanvikk.guest.cart';
+
+// Ghost bouquets that were previously injected by backend sample defaults
+const GHOST_BOUQUET_IDS = new Set(['flw-rose-01', 'flw-rose-02', 'flw-rose-03', 'flw-rose-04']);
+
+export const sanitizeWishlist = (list: any): string[] => {
+  if (!Array.isArray(list)) return [];
+  return Array.from(
+    new Set(
+      list
+        .map((x) => String(x || '').trim())
+        .filter((id) => id && !GHOST_BOUQUET_IDS.has(id))
+    )
+  );
+};
+
+export const loadStoredCart = async (u?: User | null): Promise<CartItem[]> => {
+  const key = getCartStorageKey(u);
+  let stored = await getStorageItem<CartItem[]>(key).catch(() => null);
+  if ((!stored || !Array.isArray(stored) || stored.length === 0) && !u) {
+    stored = await getStorageItem<CartItem[]>(CART_STORAGE_KEY).catch(() => null);
+  }
+  return Array.isArray(stored) ? stored.map((i) => sanitizeCartItem(i, i.quantity)) : [];
+};
+
+export const loadStoredWishlist = async (u?: User | null): Promise<string[]> => {
+  const key = getWishlistStorageKey(u);
+  let stored = await getStorageItem<string[]>(key).catch(() => null);
+  if ((!stored || !Array.isArray(stored) || stored.length === 0) && !u) {
+    stored = await getStorageItem<string[]>(WISHLIST_STORAGE_KEY).catch(() => null);
+  }
+  return sanitizeWishlist(stored);
+};
 
 type WishBouquetPayload = {
   name?: string;
@@ -65,9 +109,10 @@ export const matchesCartItem = (item: CartItem, targetId: string): boolean => {
   return cands.includes(target);
 };
 
-// Helper to push cart to backend without blocking UI
+// Helper to push cart to storage and backend without blocking UI
 const pushCartToServer = (user: User | null, cart: CartItem[]) => {
-  setStorageItem(CART_STORAGE_KEY, cart).catch((err) => {
+  const cartKey = getCartStorageKey(user);
+  setStorageItem(cartKey, cart).catch((err) => {
     console.warn('[useStore] Failed to save cart locally:', err);
   });
   if (user) {
@@ -84,8 +129,40 @@ export const useStore = create<StoreState>((set, get) => ({
   isSyncing: false,
 
   setUser: (user) => {
+    const prevKey = getUserKey(get().user);
+    const nextKey = getUserKey(user);
+
     set({ user });
-    if (user) {
+
+    if (prevKey !== nextKey) {
+      // Switched user or logged in/out:
+      // Clear in-memory state immediately so previous user's cart/wishlist does not leak
+      set({ cart: [], wishlist: [] });
+
+      // Asynchronously load the new user's (or guest's) isolated cart and wishlist
+      Promise.all([
+        loadStoredCart(user),
+        loadStoredWishlist(user),
+      ])
+        .then(([userCart, userWishlist]) => {
+          // If the user changed again while loading, abort setting
+          if (getUserKey(get().user) !== nextKey) return;
+
+          set({
+            cart: userCart,
+            wishlist: userWishlist,
+          });
+
+          if (user) {
+            get().syncWithServer();
+          }
+        })
+        .catch(() => {
+          if (user) {
+            get().syncWithServer();
+          }
+        });
+    } else if (user) {
       get().syncWithServer();
     }
   },
@@ -96,9 +173,10 @@ export const useStore = create<StoreState>((set, get) => ({
     pushCartToServer(get().user, cleanCart);
   },
 
-  setWishlist: (wishlist) => {
+  setWishlist: (rawWishlist) => {
+    const wishlist = sanitizeWishlist(rawWishlist);
     set({ wishlist });
-    setStorageItem(WISHLIST_STORAGE_KEY, wishlist).catch(() => {});
+    setStorageItem(getWishlistStorageKey(get().user), wishlist).catch(() => {});
   },
 
   add: (p) => {
@@ -146,18 +224,20 @@ export const useStore = create<StoreState>((set, get) => ({
 
   wish: (id, bouquet) => {
     const s = get();
-    const idStr = String(id || '');
+    const idStr = String(id || '').trim();
     if (!idStr) return;
 
     const allKeys = [idStr, ...(bouquet?.altIds?.map(String) || [])].filter(Boolean);
     const isSaved = s.wishlist.some((x) => allKeys.includes(String(x)));
 
-    const nextWishlist = isSaved
-      ? s.wishlist.filter((x) => !allKeys.includes(String(x)))
-      : [...s.wishlist, idStr];
+    const nextWishlist = sanitizeWishlist(
+      isSaved
+        ? s.wishlist.filter((x) => !allKeys.includes(String(x)))
+        : [...s.wishlist, idStr]
+    );
 
     set({ wishlist: nextWishlist });
-    setStorageItem(WISHLIST_STORAGE_KEY, nextWishlist).catch(() => {});
+    setStorageItem(getWishlistStorageKey(s.user), nextWishlist).catch(() => {});
 
     if (s.user) {
       toggleWishlist({
@@ -174,11 +254,16 @@ export const useStore = create<StoreState>((set, get) => ({
   syncWithServer: async () => {
     const s = get();
     if (!s.user) return;
+    const syncUserKey = getUserKey(s.user);
     try {
       set({ isSyncing: true });
       const data = await getProfileData();
+      if (getUserKey(get().user) !== syncUserKey) {
+        set({ isSyncing: false });
+        return;
+      }
       if (data) {
-        // Merge server cart with fresh live cart
+        // Merge server cart with live cart
         const currentLiveCart = get().cart;
         const serverCart: CartItem[] = Array.isArray(data.cart) ? data.cart : [];
         const mergedCartMap = new Map<string, CartItem>();
@@ -209,7 +294,7 @@ export const useStore = create<StoreState>((set, get) => ({
         const serverWishlistIds: string[] = Array.isArray(data.savedBouquets)
           ? data.savedBouquets.map((b: any) => String(b.id || b._id || b.slug)).filter(Boolean)
           : [];
-        const mergedWishlist = Array.from(new Set([...get().wishlist, ...serverWishlistIds]));
+        const mergedWishlist = sanitizeWishlist([...get().wishlist, ...serverWishlistIds]);
 
         set({
           cart: mergedCart,
@@ -217,10 +302,16 @@ export const useStore = create<StoreState>((set, get) => ({
           isSyncing: false,
         });
 
+        // Persist locally for this user
+        setStorageItem(getCartStorageKey(s.user), mergedCart).catch(() => {});
+        setStorageItem(getWishlistStorageKey(s.user), mergedWishlist).catch(() => {});
+
         // Push merged cart back to server to ensure 100% synchronization
         if (mergedCart.length > 0) {
           saveUserCart(mergedCart).catch(() => {});
         }
+      } else {
+        set({ isSyncing: false });
       }
     } catch (e: any) {
       console.warn('[useStore] syncWithServer error:', e?.message || e);
@@ -232,24 +323,23 @@ export const useStore = create<StoreState>((set, get) => ({
 export const cartTotal = (c: CartItem[]) =>
   c.reduce((n, x) => n + parsePrice(x.price) * Math.max(1, Number(x.quantity) || 1), 0);
 
-
 // Hydrate guest storage asynchronously on app initialization
-getStorageItem<string[]>(WISHLIST_STORAGE_KEY)
+loadStoredWishlist(null)
   .then((stored) => {
-    if (Array.isArray(stored) && stored.length > 0) {
+    if (getUserKey(useStore.getState().user) === 'guest') {
       const current = useStore.getState().wishlist;
-      if (current.length === 0) {
+      if (current.length === 0 && stored.length > 0) {
         useStore.setState({ wishlist: stored });
       }
     }
   })
   .catch(() => {});
 
-getStorageItem<CartItem[]>(CART_STORAGE_KEY)
+loadStoredCart(null)
   .then((stored) => {
-    if (Array.isArray(stored) && stored.length > 0) {
+    if (getUserKey(useStore.getState().user) === 'guest') {
       const current = useStore.getState().cart;
-      if (current.length === 0) {
+      if (current.length === 0 && stored.length > 0) {
         useStore.setState({ cart: stored });
       }
     }

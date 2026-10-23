@@ -85,56 +85,7 @@ export const recordUserAddress = async (email, address) => {
 
 export const getDefaultAddresses = () => [];
 
-export const getDefaultSavedBouquets = () => [
-  {
-    id: 'flw-rose-01',
-    name: 'Passionate Serenity Noir',
-    price: 2499,
-    currency: 'INR',
-    category: 'Flowers',
-    image: 'https://images.unsplash.com/photo-1561181286-d3fee7d55364?auto=format&fit=crop&w=600&q=80',
-    inStock: true,
-    rating: 5.0,
-    notes: 'Hand-tied Ecuadorian dark scarlet roses in obsidian matte paper',
-    addedAt: new Date().toISOString(),
-  },
-  {
-    id: 'flw-rose-02',
-    name: 'Velvet Midnight Rose Box',
-    price: 3899,
-    currency: 'INR',
-    category: 'Flower Boxes',
-    image: 'https://images.unsplash.com/photo-1526047932273-341f2a7631f9?auto=format&fit=crop&w=600&q=80',
-    inStock: true,
-    rating: 4.9,
-    notes: 'Preserved royal blooms encased in handcrafted French velvet box',
-    addedAt: new Date().toISOString(),
-  },
-  {
-    id: 'flw-rose-03',
-    name: 'Eternal Gold Gilded Bloom',
-    price: 5499,
-    currency: 'INR',
-    category: 'Forever Roses',
-    image: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=600&q=80',
-    inStock: true,
-    rating: 5.0,
-    notes: '24K gold dipped eternal Colombian rose with glass cloche dome',
-    addedAt: new Date().toISOString(),
-  },
-  {
-    id: 'flw-rose-04',
-    name: 'Opulent Blush Damask Rose',
-    price: 3200,
-    currency: 'INR',
-    category: 'Flowers',
-    image: 'https://images.unsplash.com/photo-1582794543139-8ac9cb0f7b11?auto=format&fit=crop&w=600&q=80',
-    inStock: true,
-    rating: 4.9,
-    notes: 'Soft pastel damask roses with fresh Italian ruscus foliage',
-    addedAt: new Date().toISOString(),
-  },
-];
+export const getDefaultSavedBouquets = () => [];
 
 /**
  * @desc    Authenticate user & get token
@@ -417,7 +368,7 @@ export const googleLogin = async (req, res, next) => {
       userProfileStorage.set(targetEmail, {
         ...existingStorage,
         savedAddresses: [initialAddress],
-        savedBouquets: existingStorage.savedBouquets || getDefaultBouquets(),
+        savedBouquets: existingStorage.savedBouquets || getDefaultSavedBouquets(),
         recentOrders: existingStorage.recentOrders || [],
       });
     }
