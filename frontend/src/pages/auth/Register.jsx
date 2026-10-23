@@ -25,7 +25,11 @@ import AuthTrustMessage from '../../components/auth/AuthTrustMessage';
 import AuthBrandPanel from '../../components/auth/AuthBrandPanel';
 import Spinner from '../../components/common/Spinner';
 import { registerUser, loginWithGoogleThunk, clearAuthError } from '../../store/slices/authSlice';
-import { signInWithGoogleFirebase, checkGoogleRedirectResult } from '../../config/firebase';
+import {
+  signInWithGoogleFirebase,
+  signInWithGoogleCredential,
+  checkGoogleRedirectResult,
+} from '../../config/firebase';
 
 const COUNTRY_CODES = [
   { code: '+971', country: 'UAE', flag: '🇦🇪' },
@@ -101,7 +105,12 @@ export default function Register() {
         return;
       }
       if (fbRes?.popupBlocked) {
-        toast.error(fbRes.message, { duration: 8000 });
+        if (typeof window !== 'undefined' && window.google?.accounts?.id) {
+          toast.info('Popup was blocked by your browser. Prompting Google One-Tap...');
+          window.google.accounts.id.prompt();
+          return;
+        }
+        toast.info('Please allow popups or use Google One-Tap to continue.');
         return;
       }
       if (fbRes?.unauthorizedDomain) {

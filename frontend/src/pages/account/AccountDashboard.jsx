@@ -257,7 +257,12 @@ export default function AccountDashboard() {
         return;
       }
       if (fbRes?.popupBlocked) {
-        toast.error(fbRes.message, { duration: 8000 });
+        if (typeof window !== 'undefined' && window.google?.accounts?.id) {
+          toast.info('Popup was blocked by your browser. Prompting Google One-Tap...');
+          window.google.accounts.id.prompt();
+          return;
+        }
+        toast.info('Please allow popups or use Google One-Tap to continue.');
         return;
       }
       if (fbRes?.unauthorizedDomain) {

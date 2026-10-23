@@ -8,7 +8,12 @@ import SocialLogin from './SocialLogin';
 import AuthDivider from './AuthDivider';
 import AuthTrustMessage from './AuthTrustMessage';
 import { loginUser, loginWithGoogleThunk, clearAuthError } from '../../store/slices/authSlice';
-import { signInWithGoogleFirebase, checkGoogleRedirectResult, auth } from '../../config/firebase';
+import {
+  signInWithGoogleFirebase,
+  signInWithGoogleCredential,
+  checkGoogleRedirectResult,
+  auth,
+} from '../../config/firebase';
 import { onAuthStateChanged } from 'firebase/auth';
 
 export default function LoginPage() {
@@ -75,6 +80,39 @@ export default function LoginPage() {
     }
   };
 
+  // Google Identity Services (GSI) credential handler (100% immune to popup blockers)
+  const handleGoogleCredential = async (credential) => {
+    dispatch(clearAuthError());
+    try {
+      const firebaseRes = await signInWithGoogleCredential(credential);
+      if (firebaseRes?.user) {
+        const resultAction = await dispatch(
+          loginWithGoogleThunk({
+            ...firebaseRes.user,
+            token: firebaseRes.token,
+          })
+        );
+        if (loginWithGoogleThunk.fulfilled.match(resultAction)) {
+          const loggedUser = resultAction.payload?.user;
+          const msg = resultAction.payload?.message || `Welcome, ${loggedUser?.name || 'Valued Customer'}! 🌸`;
+          toast.success(msg);
+          sessionStorage.removeItem('dhanvikk_auth_redirect_target');
+          sessionStorage.removeItem('dhanvikk_logged_out');
+          if (loggedUser?.role === 'admin' || loggedUser?.role === 'super_admin') {
+            window.location.replace('/admin/dashboard');
+          } else {
+            window.location.replace(targetDestination);
+          }
+        } else {
+          toast.error(resultAction.payload || 'Google sign-in could not be completed.');
+        }
+      }
+    } catch (err) {
+      console.error('Google credential login error:', err);
+      toast.error(err?.message || 'Google sign-in could not be completed.');
+    }
+  };
+
   // Google OAuth flow (instant popup directly triggered by user click gesture)
   const handleGoogleLogin = async () => {
     dispatch(clearAuthError());
@@ -85,7 +123,17 @@ export default function LoginPage() {
         return;
       }
       if (firebaseRes?.popupBlocked) {
-        toast.error(firebaseRes.message, { duration: 8000 });
+        // If popup was blocked, activate Google One Tap or point to direct Google button
+        if (typeof window !== 'undefined' && window.google?.accounts?.id) {
+          toast.info('Popup was blocked. Opening Google One-Tap sign-in...');
+          window.google.accounts.id.prompt((notification) => {
+            if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
+              toast.info('Please tap the Google button to sign in directly.');
+            }
+          });
+          return;
+        }
+        toast.info('Please tap the Google button to sign in directly.');
         return;
       }
       if (firebaseRes?.unauthorizedDomain) {
@@ -219,7 +267,11 @@ export default function LoginPage() {
 
         {/* 1-Click Google Sign-In */}
         <div className="mb-4">
-          <SocialLogin onGoogleLogin={handleGoogleLogin} loading={loading} />
+          <SocialLogin
+            onGoogleLogin={handleGoogleLogin}
+            onGoogleCredential={handleGoogleCredential}
+            loading={loading}
+          />
         </div>
 
         {/* Elegant Divider */}
