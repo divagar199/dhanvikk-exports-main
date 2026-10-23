@@ -62,8 +62,8 @@ function GlobalGoogleRedirectHandler() {
           if (loginWithGoogleThunk.fulfilled.match(action)) {
             const target = sessionStorage.getItem('dhanvikk_auth_redirect_target');
             sessionStorage.removeItem('dhanvikk_auth_redirect_target');
-            const finalTarget = (target && target !== '/login' && target !== '/register') ? target : '/';
-            if (window.location.pathname === '/login' || window.location.pathname === '/register') {
+            const finalTarget = (target && target !== '/login' && target !== '/register' && target !== '/account') ? target : '/';
+            if (window.location.pathname.startsWith('/login') || window.location.pathname.startsWith('/register')) {
               window.location.replace(finalTarget);
             }
             return;
@@ -92,8 +92,8 @@ function GlobalGoogleRedirectHandler() {
               if (loginWithGoogleThunk.fulfilled.match(action)) {
                 const target = sessionStorage.getItem('dhanvikk_auth_redirect_target');
                 sessionStorage.removeItem('dhanvikk_auth_redirect_target');
-                if (window.location.pathname === '/login' || window.location.pathname === '/register') {
-                  const finalTarget = (target && target !== '/login' && target !== '/register') ? target : '/';
+                if (window.location.pathname.startsWith('/login') || window.location.pathname.startsWith('/register')) {
+                  const finalTarget = (target && target !== '/login' && target !== '/register' && target !== '/account') ? target : '/';
                   window.location.replace(finalTarget);
                 }
               }

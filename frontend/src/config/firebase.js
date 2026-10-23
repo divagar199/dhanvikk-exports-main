@@ -123,7 +123,7 @@ export const signInWithGoogleFirebase = async () => {
         console.info('Google Popup blocked by browser; falling back seamlessly to Google redirect sign-in...');
         if (typeof window !== 'undefined') {
           const currentTarget = window.location.pathname.includes('/login') || window.location.pathname.includes('/register')
-            ? '/account'
+            ? '/'
             : window.location.pathname + window.location.search;
           sessionStorage.setItem('dhanvikk_auth_redirect_target', currentTarget);
         }
@@ -141,11 +141,11 @@ export const signInWithGoogleFirebase = async () => {
 /**
  * Direct Google Redirect sign in
  */
-export const signInWithGoogleRedirect = async (customTarget = '/account') => {
+export const signInWithGoogleRedirect = async (customTarget = '/') => {
   if (typeof window !== 'undefined') {
-    const target = customTarget && !customTarget.includes('/login') && !customTarget.includes('/register')
+    const target = customTarget && !customTarget.includes('/login') && !customTarget.includes('/register') && !customTarget.includes('/account')
       ? customTarget
-      : '/account';
+      : '/';
     sessionStorage.setItem('dhanvikk_auth_redirect_target', target);
   }
   await signInWithRedirect(auth, googleProvider);

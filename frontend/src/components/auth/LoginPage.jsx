@@ -22,24 +22,23 @@ export default function LoginPage() {
       ? location.state.from
       : location.state?.from?.pathname;
   const redirectTarget = typeof window !== 'undefined' ? sessionStorage.getItem('dhanvikk_auth_redirect_target') : null;
-  const targetDestination =
-    (rawFrom && rawFrom !== '/login' && rawFrom !== '/register')
-      ? rawFrom
-      : (redirectTarget && redirectTarget !== '/login' && redirectTarget !== '/register' && redirectTarget !== '/account')
-        ? redirectTarget
-        : '/';
+  // Target destination redirect (strictly prevents circular redirect back to /login, /register, or unhydrated /account)
+  const isAuthOrAccount = (p) => !p || p === '/login' || p === '/register' || p === '/account';
+  const cleanFrom = (rawFrom && !isAuthOrAccount(rawFrom)) ? rawFrom : null;
+  const cleanTarget = (redirectTarget && !isAuthOrAccount(redirectTarget)) ? redirectTarget : null;
+  const targetDestination = cleanFrom || cleanTarget || '/';
 
   // Automatically redirect if already authenticated or when login finishes
   React.useEffect(() => {
     if (isAuthenticated && user) {
       sessionStorage.removeItem('dhanvikk_auth_redirect_target');
       if (user.role === 'admin' || user.role === 'super_admin') {
-        navigate('/admin/dashboard', { replace: true });
+        window.location.replace('/admin/dashboard');
       } else {
-        navigate(targetDestination, { replace: true });
+        window.location.replace(targetDestination);
       }
     }
-  }, [isAuthenticated, user, targetDestination, navigate]);
+  }, [isAuthenticated, user, targetDestination]);
 
   // Form submission handler
   const handleLoginSubmit = async (data) => {
@@ -58,11 +57,12 @@ export default function LoginPage() {
           ? 'Account not found — new account created for you in the database & Firebase! 🌸'
           : 'Welcome back to Dhanvikk Blooms & Exports 🌸');
         toast.success(msg);
+        sessionStorage.removeItem('dhanvikk_auth_redirect_target');
         const loggedUser = resultAction.payload.user;
         if (loggedUser.role === 'admin' || loggedUser.role === 'super_admin') {
-          navigate('/admin/dashboard', { replace: true });
+          window.location.replace('/admin/dashboard');
         } else {
-          navigate(targetDestination, { replace: true });
+          window.location.replace(targetDestination);
         }
       } else {
         toast.error(resultAction.payload || 'Unable to sign in. Please check your credentials.');
@@ -89,9 +89,9 @@ export default function LoginPage() {
         toast.success(msg);
         sessionStorage.removeItem('dhanvikk_auth_redirect_target');
         if (loggedUser?.role === 'admin' || loggedUser?.role === 'super_admin') {
-          navigate('/admin/dashboard', { replace: true });
+          window.location.replace('/admin/dashboard');
         } else {
-          navigate(targetDestination, { replace: true });
+          window.location.replace(targetDestination);
         }
       } else {
         const errMsg = resultAction.payload || 'Unable to sign in with Google. Please try again.';
@@ -124,7 +124,7 @@ export default function LoginPage() {
           if (loginWithGoogleThunk.fulfilled.match(action)) {
             toast.success(`Welcome back, ${res.user.name || 'Customer'}! 🌸`);
             sessionStorage.removeItem('dhanvikk_auth_redirect_target');
-            navigate(targetDestination, { replace: true });
+            window.location.replace(targetDestination);
             return;
           }
         }
@@ -147,7 +147,7 @@ export default function LoginPage() {
             );
             if (loginWithGoogleThunk.fulfilled.match(action)) {
               sessionStorage.removeItem('dhanvikk_auth_redirect_target');
-              navigate(targetDestination, { replace: true });
+              window.location.replace(targetDestination);
             }
           }
         });

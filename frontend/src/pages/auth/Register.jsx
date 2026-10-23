@@ -52,9 +52,9 @@ export default function Register() {
   // Automatically redirect if already authenticated
   useEffect(() => {
     if (isAuthenticated && user) {
-      navigate('/account', { replace: true });
+      window.location.replace('/');
     }
-  }, [isAuthenticated, user, navigate]);
+  }, [isAuthenticated, user]);
 
   // Form states
   const [googleUser, setGoogleUser] = useState(null);
@@ -106,7 +106,7 @@ export default function Register() {
           ? 'Account not found — new account created with Google in the database! 🌸'
           : `Welcome to Dhanvikk Blooms, ${loggedUser?.name || loggedUser?.email || 'Valued Customer'}! 🌸`);
         toast.success(msg);
-        navigate('/account', { replace: true });
+        window.location.replace('/');
       } else {
         const errMsg = resultAction.payload || 'Unable to sign in with Google. Please try again.';
         if (errMsg.includes('canceled')) {
@@ -144,7 +144,7 @@ export default function Register() {
           if (loginWithGoogleThunk.fulfilled.match(resultAction)) {
             const loggedUser = resultAction.payload?.user;
             toast.success(`Welcome to Dhanvikk Blooms, ${loggedUser?.name || loggedUser?.email || 'Valued Customer'}! 🌸`);
-            navigate('/account', { replace: true });
+            window.location.replace('/');
           }
         }
       } catch (e) {
@@ -270,7 +270,7 @@ export default function Register() {
         loginWithGoogleThunk.fulfilled.match(actionResult)
       ) {
         toast.success('🌸 Welcome to Dhanvikk Blooms! Account created.');
-        navigate('/account');
+        window.location.replace('/');
       } else {
         toast.error(actionResult.payload || 'Account creation failed. Please check your inputs.');
       }

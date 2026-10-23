@@ -159,11 +159,10 @@ test('Frontend - Checkout Delivery Address Isolation', async (t) => {
 
 test('Frontend - Google Sign-In Redirect & Destination Resolution', async (t) => {
   const resolveTargetDestination = (rawFrom, redirectTarget) => {
-    return (rawFrom && rawFrom !== '/login' && rawFrom !== '/register')
-      ? rawFrom
-      : (redirectTarget && redirectTarget !== '/login' && redirectTarget !== '/register' && redirectTarget !== '/account')
-        ? redirectTarget
-        : '/';
+    const isAuthOrAccount = (p) => !p || p === '/login' || p === '/register' || p === '/account';
+    const cleanFrom = (rawFrom && !isAuthOrAccount(rawFrom)) ? rawFrom : null;
+    const cleanTarget = (redirectTarget && !isAuthOrAccount(redirectTarget)) ? redirectTarget : null;
+    return cleanFrom || cleanTarget || '/';
   };
 
   await t.test('strictly avoids circular redirection to /login when from is /login', () => {
@@ -173,6 +172,11 @@ test('Frontend - Google Sign-In Redirect & Destination Resolution', async (t) =>
 
   await t.test('strictly avoids circular redirection to /register when from is /register', () => {
     assert.equal(resolveTargetDestination('/register', null), '/');
+  });
+
+  await t.test('strictly avoids bouncing back when from is unhydrated /account', () => {
+    assert.equal(resolveTargetDestination('/account', null), '/');
+    assert.equal(resolveTargetDestination('/account', '/account'), '/');
   });
 
   await t.test('preserves intended return path when from is a protected route (e.g. /checkout)', () => {

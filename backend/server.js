@@ -32,10 +32,11 @@ connectDB().then(() => {
   initializeProducts();
 });
 
-// Security Headers (allow cross-origin resource policy for uploaded botanical images)
+// Security Headers (allow cross-origin resource policy for uploaded botanical images & OAuth popups)
 app.use(
   helmet({
     crossOriginResourcePolicy: { policy: 'cross-origin' },
+    crossOriginOpenerPolicy: { policy: 'same-origin-allow-popups' },
   })
 );
 
