@@ -12,6 +12,10 @@
   ],
   "rewrites": [
     {
+      "source": "/__/auth/:match*",
+      "destination": "https://auth-checker-1-main.firebaseapp.com/__/auth/:match*"
+    },
+    {
       "source": "/(.*)",
       "destination": "/index.html"
     }

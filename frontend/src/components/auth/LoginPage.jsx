@@ -72,39 +72,47 @@ export default function LoginPage() {
     }
   };
 
-  // Google OAuth flow (instant)
+  // Google OAuth flow (instant popup with seamless automatic redirect fallback)
   const handleGoogleLogin = async () => {
     dispatch(clearAuthError());
     try {
-      const resultAction = await dispatch(loginWithGoogleThunk());
-      if (loginWithGoogleThunk.fulfilled.match(resultAction)) {
-        if (resultAction.payload?.redirecting) {
-          toast.info('Popup was blocked by your browser. Redirecting to Google Sign-In...');
-          return;
-        }
-        const loggedUser = resultAction.payload?.user;
-        const msg = resultAction.payload?.message || (resultAction.payload?.isNewAccount
-          ? 'Account not found — new account created with Google in the database! 🌸'
-          : `Welcome, ${loggedUser?.name || loggedUser?.email || 'Valued Customer'}! 🌸`);
-        toast.success(msg);
-        sessionStorage.removeItem('dhanvikk_auth_redirect_target');
-        if (loggedUser?.role === 'admin' || loggedUser?.role === 'super_admin') {
-          window.location.replace('/admin/dashboard');
-        } else {
-          window.location.replace(targetDestination);
-        }
-      } else {
-        const errMsg = resultAction.payload || 'Unable to sign in with Google. Please try again.';
-        if (errMsg.includes('canceled')) {
-          toast.info(errMsg);
-        } else if (errMsg.includes('Redirecting')) {
-          toast.info('Popup was blocked by your browser. Redirecting to Google Sign-In...');
-        } else {
-          toast.error(errMsg);
+      const { signInWithGoogleFirebase } = await import('../../config/firebase');
+      const firebaseRes = await signInWithGoogleFirebase();
+      if (firebaseRes?.redirecting) {
+        toast.info('Popup was blocked by your browser. Redirecting to Google Sign-In...');
+        return;
+      }
+      if (firebaseRes?.user) {
+        const resultAction = await dispatch(
+          loginWithGoogleThunk({
+            ...firebaseRes.user,
+            token: firebaseRes.token,
+          })
+        );
+        if (loginWithGoogleThunk.fulfilled.match(resultAction)) {
+          const loggedUser = resultAction.payload?.user;
+          const msg = resultAction.payload?.message || (resultAction.payload?.isNewAccount
+            ? 'Account not found — new account created with Google in the database! 🌸'
+            : `Welcome, ${loggedUser?.name || loggedUser?.email || 'Valued Customer'}! 🌸`);
+          toast.success(msg);
+          sessionStorage.removeItem('dhanvikk_auth_redirect_target');
+          if (loggedUser?.role === 'admin' || loggedUser?.role === 'super_admin') {
+            window.location.replace('/admin/dashboard');
+          } else {
+            window.location.replace(targetDestination);
+          }
         }
       }
-    } catch {
-      toast.error('Google sign-in could not be completed.');
+    } catch (err) {
+      console.error('Google sign-in error:', err);
+      const code = err?.code || '';
+      if (code === 'auth/popup-closed-by-user' || code === 'auth/cancelled-popup-request') {
+        toast.info('Google sign-in was canceled.');
+      } else if (code === 'auth/unauthorized-domain') {
+        toast.error('The domain "dhanvikk-exports-main.vercel.app" is not authorized in Firebase Auth. Please verify Authorized Domains in Firebase Console.', { duration: 9000 });
+      } else {
+        toast.error(err?.message || 'Google sign-in could not be completed.');
+      }
     }
   };
 
