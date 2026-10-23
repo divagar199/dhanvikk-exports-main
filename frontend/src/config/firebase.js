@@ -21,10 +21,23 @@ import {
   serverTimestamp,
 } from 'firebase/firestore';
 
+// Resolve optimal authDomain:
+// Uses same-origin reverse-proxy on Vercel/production to completely prevent Chrome Bounce Tracking Mitigations
+// and third-party cookie restrictions, falling back gracefully to standard authDomain in local development.
+const getResolvedAuthDomain = () => {
+  if (typeof window !== 'undefined') {
+    const host = window.location.hostname;
+    if (host && (host.includes('vercel.app') || host.includes('dhanvikkexports.com'))) {
+      return host;
+    }
+  }
+  return import.meta.env.VITE_FIREBASE_AUTH_DOMAIN || 'auth-checker-1-main.firebaseapp.com';
+};
+
 // Firebase configuration for project: auth-checker-1-main (Web App)
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY || 'AIzaSyC1hipp0dBNuKNRcT11fb-yj9KHZjFAQdE',
-  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN || 'auth-checker-1-main.firebaseapp.com',
+  authDomain: getResolvedAuthDomain(),
   projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID || 'auth-checker-1-main',
   storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET || 'auth-checker-1-main.firebasestorage.app',
   messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID || '160660053649',

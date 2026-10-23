@@ -1,5 +1,5 @@
 {
-  "buildCommand": "npm run build:frontend",
+  "buildCommand": "node scripts/build-frontend.js",
   "outputDirectory": "frontend/dist",
   "headers": [
     {

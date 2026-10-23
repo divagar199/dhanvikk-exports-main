@@ -9,7 +9,7 @@
     "dev:all": "concurrently -n \"BACKEND,FRONTEND\" -c \"blue,magenta\" \"npm run dev:backend\" \"npm run dev:frontend\"",
     "dev:frontend": "npm run dev --prefix frontend",
     "dev:backend": "npm run dev --prefix backend",
-    "build:frontend": "npm run build --prefix frontend",
+    "build:frontend": "node scripts/build-frontend.js",
     "start:backend": "npm run start --prefix backend",
     "seed:catalog": "python backend/scripts/build_final_products_files.py",
     "install:all": "npm install --prefix frontend && npm install --prefix backend",
