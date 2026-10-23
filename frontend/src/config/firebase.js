@@ -20,18 +20,31 @@ import {
   serverTimestamp,
 } from 'firebase/firestore';
 
-// Firebase configuration for project: auth-checker-1-main
+// Firebase configuration for project: auth-checker-1-main (Web App)
 const firebaseConfig = {
-  apiKey: import.meta.env.VITE_FIREBASE_API_KEY || 'AIzaSyDoBSnVKgCP7S9ETM7_R-v3VSzw1zh6JNk',
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY || 'AIzaSyC1hipp0dBNuKNRcT11fb-yj9KHZjFAQdE',
   authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN || 'auth-checker-1-main.firebaseapp.com',
   projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID || 'auth-checker-1-main',
   storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET || 'auth-checker-1-main.firebasestorage.app',
   messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID || '160660053649',
-  appId: import.meta.env.VITE_FIREBASE_APP_ID || '1:160660053649:web:dhanvikk-web',
+  appId: import.meta.env.VITE_FIREBASE_APP_ID || '1:160660053649:web:3133a668cc3085163e6930',
+  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID || 'G-0Q9KCWM5N5',
 };
 
 // Initialize Firebase App
 const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
+
+// Initialize Analytics safely in browser
+export let analytics = null;
+if (typeof window !== 'undefined') {
+  import('firebase/analytics')
+    .then(({ getAnalytics, isSupported }) => {
+      isSupported().then((supported) => {
+        if (supported) analytics = getAnalytics(app);
+      }).catch(() => {});
+    })
+    .catch(() => {});
+}
 
 // Initialize Services
 export const auth = getAuth(app);
