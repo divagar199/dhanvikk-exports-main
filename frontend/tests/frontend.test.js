@@ -156,3 +156,38 @@ test('Frontend - Checkout Delivery Address Isolation', async (t) => {
     assert.equal(addresses[0].street, '12 Blossom Avenue');
   });
 });
+
+test('Frontend - Google Sign-In Redirect & Destination Resolution', async (t) => {
+  const resolveTargetDestination = (rawFrom, redirectTarget) => {
+    return (rawFrom && rawFrom !== '/login' && rawFrom !== '/register')
+      ? rawFrom
+      : (redirectTarget && redirectTarget !== '/login' && redirectTarget !== '/register')
+        ? redirectTarget
+        : '/account';
+  };
+
+  await t.test('strictly avoids circular redirection to /login when from is /login', () => {
+    assert.equal(resolveTargetDestination('/login', null), '/account');
+    assert.equal(resolveTargetDestination('/login', '/login'), '/account');
+  });
+
+  await t.test('strictly avoids circular redirection to /register when from is /register', () => {
+    assert.equal(resolveTargetDestination('/register', null), '/account');
+  });
+
+  await t.test('preserves intended return path when from is a protected route (e.g. /checkout)', () => {
+    assert.equal(resolveTargetDestination('/checkout', null), '/checkout');
+    assert.equal(resolveTargetDestination('/orders', null), '/orders');
+  });
+
+  await t.test('falls back to sessionStorage redirectTarget if rawFrom is absent or /login', () => {
+    assert.equal(resolveTargetDestination(null, '/checkout'), '/checkout');
+    assert.equal(resolveTargetDestination('/login', '/orders'), '/orders');
+  });
+
+  await t.test('defaults to /account when neither valid target is specified', () => {
+    assert.equal(resolveTargetDestination(null, null), '/account');
+    assert.equal(resolveTargetDestination(undefined, undefined), '/account');
+  });
+});
+

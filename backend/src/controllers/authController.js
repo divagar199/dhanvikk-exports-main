@@ -301,36 +301,47 @@ export const googleLogin = async (req, res, next) => {
 
     let user = null;
     if (getDBStatus()) {
-      user = await UserModel.findOne({ email: targetEmail });
-      if (!user) {
-        isCreatedNew = true;
-        user = await UserModel.create({
-          name: targetName,
-          email: targetEmail,
-          phone: phone || '',
-          passwordHash: bcrypt.hashSync(`google_auth_${Date.now()}`, 10),
-          role: 'customer',
-          avatar: targetAvatar,
-          loginHistory: [
-            {
-              timestamp: new Date(),
-              ip: req.ip || req.headers['x-forwarded-for'] || '127.0.0.1',
-              userAgent: req.headers['user-agent'] || 'Firebase Auth',
-              method: 'google',
-            },
-          ],
-        });
-      } else {
-        if (phone && !user.phone) user.phone = phone;
-        user.loginHistory.push({
-          timestamp: new Date(),
-          ip: req.ip || req.headers['x-forwarded-for'] || '127.0.0.1',
-          userAgent: req.headers['user-agent'] || 'Firebase Auth',
-          method: 'google',
-        });
-        await user.save();
+      try {
+        user = await Promise.race([
+          UserModel.findOne({ email: targetEmail }),
+          new Promise((_, reject) => setTimeout(() => reject(new Error('DB lookup timeout')), 2500)),
+        ]);
+        if (!user) {
+          isCreatedNew = true;
+          user = await UserModel.create({
+            name: targetName,
+            email: targetEmail,
+            phone: phone || '',
+            passwordHash: bcrypt.hashSync(`google_auth_${Date.now()}`, 10),
+            role: 'customer',
+            avatar: targetAvatar,
+            loginHistory: [
+              {
+                timestamp: new Date(),
+                ip: req.ip || req.headers['x-forwarded-for'] || '127.0.0.1',
+                userAgent: req.headers['user-agent'] || 'Firebase Auth',
+                method: 'google',
+              },
+            ],
+          });
+        } else {
+          if (phone && !user.phone) user.phone = phone;
+          user.loginHistory = user.loginHistory || [];
+          user.loginHistory.push({
+            timestamp: new Date(),
+            ip: req.ip || req.headers['x-forwarded-for'] || '127.0.0.1',
+            userAgent: req.headers['user-agent'] || 'Firebase Auth',
+            method: 'google',
+          });
+          await user.save().catch(() => {});
+        }
+      } catch (dbErr) {
+        console.warn('googleLogin DB fallback note:', dbErr.message);
+        user = null;
       }
-    } else {
+    }
+
+    if (!user) {
       const memUser = USERS.find((u) => u.email === targetEmail);
       if (!memUser) {
         isCreatedNew = true;
@@ -384,7 +395,7 @@ export const googleLogin = async (req, res, next) => {
     res.cookie('dhanvikk_token', token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
+      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 

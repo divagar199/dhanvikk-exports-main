@@ -122,7 +122,10 @@ export const signInWithGoogleFirebase = async () => {
       try {
         console.info('Google Popup blocked by browser; falling back seamlessly to Google redirect sign-in...');
         if (typeof window !== 'undefined') {
-          sessionStorage.setItem('dhanvikk_auth_redirect_target', window.location.pathname + window.location.search);
+          const currentTarget = window.location.pathname.includes('/login') || window.location.pathname.includes('/register')
+            ? '/account'
+            : window.location.pathname + window.location.search;
+          sessionStorage.setItem('dhanvikk_auth_redirect_target', currentTarget);
         }
         await signInWithRedirect(auth, googleProvider);
         return { redirecting: true };
@@ -138,9 +141,12 @@ export const signInWithGoogleFirebase = async () => {
 /**
  * Direct Google Redirect sign in
  */
-export const signInWithGoogleRedirect = async () => {
+export const signInWithGoogleRedirect = async (customTarget = '/account') => {
   if (typeof window !== 'undefined') {
-    sessionStorage.setItem('dhanvikk_auth_redirect_target', window.location.pathname + window.location.search);
+    const target = customTarget && !customTarget.includes('/login') && !customTarget.includes('/register')
+      ? customTarget
+      : '/account';
+    sessionStorage.setItem('dhanvikk_auth_redirect_target', target);
   }
   await signInWithRedirect(auth, googleProvider);
 };
@@ -151,8 +157,14 @@ export const signInWithGoogleRedirect = async () => {
 export const checkGoogleRedirectResult = async () => {
   try {
     const result = await getRedirectResult(auth);
-    if (!result?.user) return null;
-    const user = result.user;
+    let user = result?.user;
+
+    // Fallback: If getRedirectResult returned null, check auth.currentUser
+    if (!user && auth.currentUser) {
+      user = auth.currentUser;
+    }
+
+    if (!user) return null;
     const token = await user.getIdToken();
 
     const cleanEmail = user.email || '';
@@ -177,6 +189,29 @@ export const checkGoogleRedirectResult = async () => {
     };
   } catch (error) {
     console.warn('Redirect check notice:', error.message);
+    if (auth.currentUser) {
+      try {
+        const user = auth.currentUser;
+        const token = await user.getIdToken();
+        const cleanEmail = user.email || '';
+        const resolvedName = user.displayName || (cleanEmail ? cleanEmail.split('@')[0] : 'Google Customer');
+        const resolvedAvatar = user.photoURL || (cleanEmail ? `https://unavatar.io/google/${encodeURIComponent(cleanEmail)}` : '');
+        return {
+          success: true,
+          user: {
+            id: user.uid,
+            uid: user.uid,
+            googleUid: user.uid,
+            name: resolvedName,
+            email: cleanEmail,
+            avatar: resolvedAvatar,
+            phone: user.phoneNumber || '',
+            role: 'customer',
+          },
+          token,
+        };
+      } catch {}
+    }
     return null;
   }
 };

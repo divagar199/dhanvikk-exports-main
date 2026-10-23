@@ -14,13 +14,32 @@ export default function LoginPage() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const { loading, error: authError } = useSelector((state) => state.auth);
+  const { isAuthenticated, user, loading, error: authError } = useSelector((state) => state.auth);
 
-  // Target destination redirect (e.g. /checkout or /account)
-  const from =
+  // Target destination redirect (strictly prevents circular redirect back to /login)
+  const rawFrom =
     typeof location.state?.from === 'string'
       ? location.state.from
-      : location.state?.from?.pathname || '/account';
+      : location.state?.from?.pathname;
+  const redirectTarget = typeof window !== 'undefined' ? sessionStorage.getItem('dhanvikk_auth_redirect_target') : null;
+  const targetDestination =
+    (rawFrom && rawFrom !== '/login' && rawFrom !== '/register')
+      ? rawFrom
+      : (redirectTarget && redirectTarget !== '/login' && redirectTarget !== '/register')
+        ? redirectTarget
+        : '/account';
+
+  // Automatically redirect if already authenticated or when login finishes
+  React.useEffect(() => {
+    if (isAuthenticated && user) {
+      sessionStorage.removeItem('dhanvikk_auth_redirect_target');
+      if (user.role === 'admin' || user.role === 'super_admin') {
+        navigate('/admin/dashboard', { replace: true });
+      } else {
+        navigate(targetDestination, { replace: true });
+      }
+    }
+  }, [isAuthenticated, user, targetDestination, navigate]);
 
   // Form submission handler
   const handleLoginSubmit = async (data) => {
@@ -39,11 +58,11 @@ export default function LoginPage() {
           ? 'Account not found — new account created for you in the database & Firebase! 🌸'
           : 'Welcome back to Dhanvikk Blooms & Exports 🌸');
         toast.success(msg);
-        const user = resultAction.payload.user;
-        if (user.role === 'admin' || user.role === 'super_admin') {
+        const loggedUser = resultAction.payload.user;
+        if (loggedUser.role === 'admin' || loggedUser.role === 'super_admin') {
           navigate('/admin/dashboard', { replace: true });
         } else {
-          navigate(from || '/account', { replace: true });
+          navigate(targetDestination, { replace: true });
         }
       } else {
         toast.error(resultAction.payload || 'Unable to sign in. Please check your credentials.');
@@ -68,7 +87,12 @@ export default function LoginPage() {
           ? 'Account not found — new account created with Google in the database! 🌸'
           : `Welcome, ${loggedUser?.name || loggedUser?.email || 'Valued Customer'}! 🌸`);
         toast.success(msg);
-        navigate(from || '/account', { replace: true });
+        sessionStorage.removeItem('dhanvikk_auth_redirect_target');
+        if (loggedUser?.role === 'admin' || loggedUser?.role === 'super_admin') {
+          navigate('/admin/dashboard', { replace: true });
+        } else {
+          navigate(targetDestination, { replace: true });
+        }
       } else {
         const errMsg = resultAction.payload || 'Unable to sign in with Google. Please try again.';
         if (errMsg.includes('canceled')) {
@@ -84,26 +108,59 @@ export default function LoginPage() {
     }
   };
 
-  // Check if returning from Google Redirect
+  // Check if returning from Google Redirect or active Firebase session
   React.useEffect(() => {
     let isMounted = true;
+    let unsubscribe = null;
+
     (async () => {
       try {
-        const { checkGoogleRedirectResult } = await import('../../config/firebase');
+        const { checkGoogleRedirectResult, auth, onAuthStateChanged } = await import('../../config/firebase');
+
+        // 1. Check getRedirectResult
         const res = await checkGoogleRedirectResult();
         if (res && isMounted) {
-          const action = await dispatch(loginWithGoogleThunk(res.user));
+          const action = await dispatch(loginWithGoogleThunk({ ...res.user, token: res.token }));
           if (loginWithGoogleThunk.fulfilled.match(action)) {
             toast.success(`Welcome back, ${res.user.name || 'Customer'}! 🌸`);
-            navigate(from || '/account', { replace: true });
+            sessionStorage.removeItem('dhanvikk_auth_redirect_target');
+            navigate(targetDestination, { replace: true });
+            return;
           }
         }
+
+        // 2. Synchronize with Firebase Auth state for seamless redirect completion
+        unsubscribe = onAuthStateChanged(auth, async (fbUser) => {
+          if (fbUser && isMounted) {
+            const token = await fbUser.getIdToken().catch(() => '');
+            const cleanEmail = fbUser.email || '';
+            const action = await dispatch(
+              loginWithGoogleThunk({
+                googleUid: fbUser.uid,
+                id: fbUser.uid,
+                name: fbUser.displayName || (cleanEmail ? cleanEmail.split('@')[0] : 'Customer'),
+                email: cleanEmail,
+                avatar: fbUser.photoURL || '',
+                phone: fbUser.phoneNumber || '',
+                token,
+              })
+            );
+            if (loginWithGoogleThunk.fulfilled.match(action)) {
+              sessionStorage.removeItem('dhanvikk_auth_redirect_target');
+              navigate(targetDestination, { replace: true });
+            }
+          }
+        });
       } catch (e) {
         console.warn('Redirect result check note:', e);
       }
     })();
-    return () => { isMounted = false; };
-  }, [dispatch, from, navigate]);
+
+    return () => {
+      isMounted = false;
+      if (unsubscribe) unsubscribe();
+    };
+  }, [dispatch, targetDestination, navigate]);
 
   return (
     <div className="w-full max-w-[420px] sm:max-w-[440px] mx-auto flex flex-col justify-center py-4">

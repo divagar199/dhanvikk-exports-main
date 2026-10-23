@@ -47,7 +47,14 @@ const PRESET_CITIES = {
 export default function Register() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { loading: authLoading, error: authError } = useSelector((state) => state.auth);
+  const { isAuthenticated, user, loading: authLoading, error: authError } = useSelector((state) => state.auth);
+
+  // Automatically redirect if already authenticated
+  useEffect(() => {
+    if (isAuthenticated && user) {
+      navigate('/account', { replace: true });
+    }
+  }, [isAuthenticated, user, navigate]);
 
   // Form states
   const [googleUser, setGoogleUser] = useState(null);
