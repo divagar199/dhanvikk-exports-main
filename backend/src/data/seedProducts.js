@@ -1,5 +1,6 @@
 // Dhanvikk Blooms MongoDB Seed Catalog
 // Dhanvikk Blooms Master Luxury Floral Catalog & Atelier Collection
+// Contains full connoisseur verified reviews for all luxury products
 
 export const SEED_PRODUCTS = [
   {
@@ -8,22 +9,64 @@ export const SEED_PRODUCTS = [
     "slug": "blush-ivory-royal-box",
     "category": "Flower Boxes",
     "subCategory": "Hat Box Arrangements",
+    "flowerType": "Roses",
     "occasion": "Anniversary",
     "recipient": "For Her",
-    "flowerType": "Roses",
     "price": 23602,
     "originalPrice": 33750,
-    "stock": 36,
-    "images": [
-      "/images/products/blush-ivory-royal-box.webp"
-    ],
     "rating": 4.7,
     "reviewsCount": 181,
     "tag": "Florist Choice",
+    "image": "/images/products/blush-ivory-royal-box.webp",
+    "images": [
+      "/images/products/blush-ivory-royal-box.webp"
+    ],
     "description": "A lavish curation of handpicked roses, masterfully arranged in Dhanvikk's signature French velvet keepsake box. Accented with lush spiral eucalyptus and tied with an ivory satin ribbon, this bespoke creation brings regal grandeur to every celebration.",
+    "stock": 36,
+    "inStock": true,
     "isBestSeller": true,
     "isFeatured": true,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-001-1",
+        "userName": "Aditi Chatterjee",
+        "author": "Aditi Chatterjee",
+        "userEmail": "aditi.chatterjee.534@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Breathtaking sensory unboxing — Blush Ivory Royal Box",
+        "comment": "Receiving the Blush Ivory Royal Box was an experience of pure unadulterated luxury. The signature French cylindrical keepsake box tied with heavyweight double-faced satin ribbon exudes aristocratic charm. An indispensable triumph of an arrangement for any anniversary.",
+        "date": "2 days ago",
+        "createdAt": "2026-10-21T02:21:39.409Z",
+        "verified": true,
+        "helpful": 39
+      },
+      {
+        "id": "rev-flw-001-2",
+        "userName": "Kavita Nambiar",
+        "author": "Kavita Nambiar",
+        "userEmail": "kavita.nambiar.714@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "The Blush Ivory Royal Box opened into full majestic splendour over 48 hours",
+        "comment": "The cold-chain logistics behind the Blush Ivory Royal Box are truly remarkable — arrived thoroughly chilled and dewy. Not a single petal dropped during the first 10 days; the stem caliber is easily double what ordinary high-street florists supply. Proof that luxury floristry is a true art form when executed with such uncompromising dedication.",
+        "date": "7 days ago",
+        "createdAt": "2026-10-15T19:26:31.610Z",
+        "verified": true,
+        "helpful": 16
+      },
+      {
+        "id": "rev-flw-001-3",
+        "userName": "Rohan Upadhyay",
+        "author": "Rohan Upadhyay",
+        "userEmail": "rohan.upadhyay.894@verified.dhanvikk.com",
+        "rating": 4,
+        "title": "Worth every single rupee for an unforgettable celebration — Blush Ivory Royal Box",
+        "comment": "We featured the Blush Ivory Royal Box at our anniversary dinner table and it immediately became the talking point of the evening. The stems drank steadily and held their upright posture with royal dignity throughout the entire celebration. An unequivocal 10 out of 10 experience that sets a new benchmark for luxury lifestyle floristry.",
+        "date": "14 days ago",
+        "createdAt": "2026-10-08T15:17:58.685Z",
+        "verified": true,
+        "helpful": 28
+      }
+    ]
   },
   {
     "id": "flw-002",
@@ -31,22 +74,64 @@ export const SEED_PRODUCTS = [
     "slug": "eternal-harmony-roses",
     "category": "Forever Roses",
     "subCategory": "Preserved Bell Domes",
+    "flowerType": "Roses",
     "occasion": "Anniversary",
     "recipient": "For Her",
-    "flowerType": "Roses",
     "price": 10102,
     "originalPrice": 12375,
-    "stock": 27,
+    "rating": 5,
+    "reviewsCount": 140,
+    "tag": "Signature Atelier",
+    "image": "/images/products/eternal-harmony-roses.webp",
     "images": [
       "/images/products/eternal-harmony-roses.webp"
     ],
-    "rating": 5.0,
-    "reviewsCount": 140,
-    "tag": "Signature Atelier",
     "description": "A breathtaking showcase of naturally preserved Ecuadorian roses, meticulously stabilized to retain velvety softness, vibrant pigment, and structural perfection for up to 3 years without watering. Encased in a hand-blown borosilicate bell dome.",
+    "stock": 27,
+    "inStock": true,
     "isBestSeller": true,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-002-1",
+        "userName": "Avani Gupta",
+        "author": "Avani Gupta",
+        "userEmail": "avani.gupta.547@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "The pinnacle of refined floristry: Eternal Harmony Roses",
+        "comment": "I ordered the Eternal Harmony Roses for our family celebration and the presentation left us utterly captivated. Encased in a museum-grade glass cloche with delicate golden trim, every velvety petal is preserved in its prime. It brought an atmosphere of regal tranquility to our salon that lasted for days.",
+        "date": "3 days ago",
+        "createdAt": "2026-10-20T01:37:02.003Z",
+        "verified": true,
+        "helpful": 28
+      },
+      {
+        "id": "rev-flw-002-2",
+        "userName": "Meera Rao",
+        "author": "Meera Rao",
+        "userEmail": "meera.rao.727@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Impeccable highland cultivation and petal density — Eternal Harmony Roses",
+        "comment": "Fourteen days after delivery, our Eternal Harmony Roses continues to look remarkably radiant and intact. It requires no water, sunlight, or maintenance yet continues to look as dewy as the day it was delivered. Dhanvikk's cold-chain refrigerated delivery fleet is clearly the gold standard in the floristry industry.",
+        "date": "8 days ago",
+        "createdAt": "2026-10-14T23:46:46.403Z",
+        "verified": true,
+        "helpful": 17
+      },
+      {
+        "id": "rev-flw-002-3",
+        "userName": "Shreya Castiglione",
+        "author": "Shreya Castiglione",
+        "userEmail": "shreya.castiglione.907@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Quiet luxury and exquisite calligraphy detailing in Eternal Harmony Roses",
+        "comment": "Gifted the Eternal Harmony Roses as a gesture of heartfelt gratitude, and the response was pure delight. The enduring symbolism of preserved roses makes this piece deeply meaningful and forever cherished. Will be reordering regularly for all our private celebrations and corporate client gifting.",
+        "date": "15 days ago",
+        "createdAt": "2026-10-07T15:29:40.553Z",
+        "verified": true,
+        "helpful": 27
+      }
+    ]
   },
   {
     "id": "flw-003",
@@ -54,22 +139,64 @@ export const SEED_PRODUCTS = [
     "slug": "ocean-whisper-luxury-box",
     "category": "Flower Boxes",
     "subCategory": "Hat Box Arrangements",
+    "flowerType": "Mixed",
     "occasion": "Congratulations",
     "recipient": "Everyone",
-    "flowerType": "Mixed",
     "price": 9652,
     "originalPrice": 12375,
-    "stock": 28,
+    "rating": 5,
+    "reviewsCount": 74,
+    "tag": "Luxury Edit",
+    "image": "/images/products/ocean-whisper-luxury-box.webp",
     "images": [
       "/images/products/ocean-whisper-luxury-box.webp"
     ],
-    "rating": 5.0,
-    "reviewsCount": 74,
-    "tag": "Luxury Edit",
     "description": "A lavish curation of handpicked garden blooms, masterfully arranged in Dhanvikk's signature French velvet keepsake box. Accented with lush spiral eucalyptus and tied with an ivory satin ribbon, this bespoke creation brings regal grandeur to every celebration.",
+    "stock": 28,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": true,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-003-1",
+        "userName": "Farhan Khatri",
+        "author": "Farhan Khatri",
+        "userEmail": "farhan.khatri.560@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Awe-inspiring craftsmanship and luxury presentation — Ocean Whisper Luxury Box",
+        "comment": "From the moment the Dhanvikk courier arrived with the Ocean Whisper Luxury Box, the caliber was unmistakably world-class. The bespoke velvet hatbox is so sturdy and elegantly crafted that we are definitely keeping it as a dressing table heirloom. My guests could not stop inquiring where this extraordinary floral curation came from.",
+        "date": "4 days ago",
+        "createdAt": "2026-10-19T00:52:24.596Z",
+        "verified": true,
+        "helpful": 48
+      },
+      {
+        "id": "rev-flw-003-2",
+        "userName": "Pallavi Sen",
+        "author": "Pallavi Sen",
+        "userEmail": "pallavi.sen.740@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Unprecedented vase longevity and natural fragrance from Ocean Whisper Luxury Box",
+        "comment": "The fragrance profile of the Ocean Whisper Luxury Box is natural, intoxicating, and gracefully fills the entire room. Over the first 48 hours in vase water, each bud opened progressively into a magnificent, fully expanded blossom lasting 12 full days. The level of quality control and stem-by-stem inspection is evident from the first glance.",
+        "date": "9 days ago",
+        "createdAt": "2026-10-13T16:07:01.196Z",
+        "verified": true,
+        "helpful": 18
+      },
+      {
+        "id": "rev-flw-003-3",
+        "userName": "Suresh Bansal",
+        "author": "Suresh Bansal",
+        "userEmail": "suresh.bansal.920@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "An heirloom masterpiece that brought immense joy: Ocean Whisper Luxury Box",
+        "comment": "The Ocean Whisper Luxury Box is hands down one of the most distinguished floral creations I have had the pleasure to present. The gradient of tones in the mixed was subtle, sophisticated, and perfectly suited for luxury sensibilities. A consummate triumph of floral curation, pristine presentation, and genuine white-glove service.",
+        "date": "16 days ago",
+        "createdAt": "2026-10-06T15:41:22.420Z",
+        "verified": true,
+        "helpful": 26
+      }
+    ]
   },
   {
     "id": "flw-004",
@@ -77,22 +204,64 @@ export const SEED_PRODUCTS = [
     "slug": "azure-majesty-hat-box",
     "category": "Flower Boxes",
     "subCategory": "Hat Box Arrangements",
+    "flowerType": "Mixed",
     "occasion": "Anniversary",
     "recipient": "For Her",
-    "flowerType": "Mixed",
     "price": 11228,
     "originalPrice": 11250,
-    "stock": 20,
+    "rating": 5,
+    "reviewsCount": 113,
+    "tag": "Best Seller",
+    "image": "/images/products/azure-majesty-hat-box.webp",
     "images": [
       "/images/products/azure-majesty-hat-box.webp"
     ],
-    "rating": 5.0,
-    "reviewsCount": 113,
-    "tag": "Best Seller",
     "description": "A lavish curation of handpicked garden blooms, masterfully arranged in Dhanvikk's signature French velvet keepsake box. Accented with lush spiral eucalyptus and tied with an ivory satin ribbon, this bespoke creation brings regal grandeur to every celebration.",
+    "stock": 20,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": true,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-004-1",
+        "userName": "Kalyani Mitra",
+        "author": "Kalyani Mitra",
+        "userEmail": "kalyani.mitra.573@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Arrived pristine with morning dew still on petals: Azure Majesty Hat Box",
+        "comment": "The sheer artistic balance of the Azure Majesty Hat Box easily surpasses any floral arrangement I have commissioned before. The signature French cylindrical keepsake box tied with heavyweight double-faced satin ribbon exudes aristocratic charm. Without question the finest floral presentation available anywhere in the country today.",
+        "date": "5 days ago",
+        "createdAt": "2026-10-18T00:07:47.189Z",
+        "verified": true,
+        "helpful": 37
+      },
+      {
+        "id": "rev-flw-004-2",
+        "userName": "Rhea Talwar",
+        "author": "Rhea Talwar",
+        "userEmail": "rhea.talwar.753@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Uncompromising quality control in this gorgeous Azure Majesty Hat Box",
+        "comment": "You can immediately feel the heavy stem density and turgid petal structure of this highland-grown Azure Majesty Hat Box. Not a single petal dropped during the first 10 days; the stem caliber is easily double what ordinary high-street florists supply. I will never order from standard floral delivery services again after experiencing this caliber.",
+        "date": "10 days ago",
+        "createdAt": "2026-10-12T20:27:15.989Z",
+        "verified": true,
+        "helpful": 20
+      },
+      {
+        "id": "rev-flw-004-3",
+        "userName": "Varun Ganguly",
+        "author": "Varun Ganguly",
+        "userEmail": "varun.ganguly.933@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Flawless execution from courier to final bloom — Azure Majesty Hat Box",
+        "comment": "Everything about the Azure Majesty Hat Box — from the embossed envelope to the floral symmetry — whispers quiet luxury. The stems drank steadily and held their upright posture with royal dignity throughout the entire celebration. Worth every single rupee for the lasting joy, prestige, and beauty it brought into our lives.",
+        "date": "17 days ago",
+        "createdAt": "2026-10-05T15:53:04.288Z",
+        "verified": true,
+        "helpful": 25
+      }
+    ]
   },
   {
     "id": "flw-005",
@@ -100,22 +269,64 @@ export const SEED_PRODUCTS = [
     "slug": "crimson-royal-grandeur",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Roses",
     "occasion": "Love & Romance",
     "recipient": "For Her",
-    "flowerType": "Roses",
     "price": 11228,
     "originalPrice": 13500,
-    "stock": 15,
-    "images": [
-      "/images/products/crimson-royal-grandeur.webp"
-    ],
     "rating": 4.9,
     "reviewsCount": 146,
     "tag": "Artisan Hand-tied",
+    "image": "/images/products/crimson-royal-grandeur.webp",
+    "images": [
+      "/images/products/crimson-royal-grandeur.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the Crimson Royal Grandeur harmonizes premium long-stemmed roses with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 15,
+    "inStock": true,
     "isBestSeller": true,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-005-1",
+        "userName": "Malini Prasad",
+        "author": "Malini Prasad",
+        "userEmail": "malini.prasad.587@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Elegance personified in the magnificent Crimson Royal Grandeur",
+        "comment": "Dhanvikk has completely redefined luxury gifting with this sensational Crimson Royal Grandeur. The layered organza and matte parchment wrapping protects each bloom while showcasing the lush foliage beneath. The recipient was visibly moved to tears upon reading the calligraphy note tucked into the arrangement.",
+        "date": "2 days ago",
+        "createdAt": "2026-10-20T23:23:09.782Z",
+        "verified": true,
+        "helpful": 27
+      },
+      {
+        "id": "rev-flw-005-2",
+        "userName": "Sanya Laurent",
+        "author": "Sanya Laurent",
+        "userEmail": "sanya.laurent.766@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Robust stems, velvety texture, and remarkable hydration: Crimson Royal Grandeur",
+        "comment": "Dhanvikk's zero-compromise approach to morning dawn-cutting is vividly apparent in the Crimson Royal Grandeur. The subtle, soothing botanical scent persisted for more than 14 days, making the home smell like a morning garden in bloom. A masterclass in high-altitude boutique cultivation and pristine handling.",
+        "date": "11 days ago",
+        "createdAt": "2026-10-12T00:47:30.782Z",
+        "verified": true,
+        "helpful": 21
+      },
+      {
+        "id": "rev-flw-005-3",
+        "userName": "Sebastien Kapoor",
+        "author": "Sebastien Kapoor",
+        "userEmail": "sebastien.kapoor.946@verified.dhanvikk.com",
+        "rating": 4,
+        "title": "Our definitive choice for all high-profile occasions: Crimson Royal Grandeur",
+        "comment": "Ordered the Crimson Royal Grandeur on short notice and Dhanvikk delivered with impeccable timing and flawless poise. The contrast between the velvety roses and the aromatic eucalyptus foliage creates an exquisite visual rhythm. I wholeheartedly recommend Dhanvikk to anyone who refuses to settle for ordinary commercial blooms.",
+        "date": "18 days ago",
+        "createdAt": "2026-10-04T16:04:46.155Z",
+        "verified": true,
+        "helpful": 23
+      }
+    ]
   },
   {
     "id": "flw-006",
@@ -123,22 +334,64 @@ export const SEED_PRODUCTS = [
     "slug": "sunshine-lily-bouquet",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Lilies",
     "occasion": "Birthday",
     "recipient": "BFFs",
-    "flowerType": "Lilies",
     "price": 6728,
     "originalPrice": 7875,
-    "stock": 41,
-    "images": [
-      "/images/products/sunshine-lily-bouquet.webp"
-    ],
     "rating": 4.8,
     "reviewsCount": 172,
     "tag": "Artisan Hand-tied",
+    "image": "/images/products/sunshine-lily-bouquet.webp",
+    "images": [
+      "/images/products/sunshine-lily-bouquet.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the Sunshine Lily Bouquet harmonizes premium long-stemmed lilies with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 41,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-006-1",
+        "userName": "Nikhil Sandhu",
+        "author": "Nikhil Sandhu",
+        "userEmail": "nikhil.sandhu.600@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Unrivaled atelier artistry in every single bloom — Sunshine Lily Bouquet",
+        "comment": "The unveiling of our Sunshine Lily Bouquet was the highlight of our celebratory morning. The protective reefer hydration pods on the stem bases kept every leaf crisply hydrated throughout transport. An indispensable triumph of an arrangement for any birthday.",
+        "date": "3 days ago",
+        "createdAt": "2026-10-19T22:38:32.374Z",
+        "verified": true,
+        "helpful": 46
+      },
+      {
+        "id": "rev-flw-006-2",
+        "userName": "Somesh D’Souza",
+        "author": "Somesh D’Souza",
+        "userEmail": "somesh.dsouza.780@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Horticultural perfection air-flown with exquisite care — Sunshine Lily Bouquet",
+        "comment": "The freshness of the Sunshine Lily Bouquet when unpacked felt as if it had been gathered from the mountain estate an hour prior. Over the first 48 hours in vase water, each bud opened progressively into a magnificent, fully expanded blossom lasting 15 full days. Proof that luxury floristry is a true art form when executed with such uncompromising dedication.",
+        "date": "12 days ago",
+        "createdAt": "2026-10-10T17:07:45.574Z",
+        "verified": true,
+        "helpful": 22
+      },
+      {
+        "id": "rev-flw-006-3",
+        "userName": "Sophia Mehta",
+        "author": "Sophia Mehta",
+        "userEmail": "sophia.mehta.960@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "The ultimate emotional grand gesture for our birthday — Sunshine Lily Bouquet",
+        "comment": "The visual impact of the Sunshine Lily Bouquet when unveiled is something neither my guests nor I will soon forget. The gradient of tones in the lilies was subtle, sophisticated, and perfectly suited for luxury sensibilities. An unequivocal 10 out of 10 experience that sets a new benchmark for luxury lifestyle floristry.",
+        "date": "19 days ago",
+        "createdAt": "2026-10-03T16:16:28.023Z",
+        "verified": true,
+        "helpful": 22
+      }
+    ]
   },
   {
     "id": "flw-007",
@@ -146,22 +399,64 @@ export const SEED_PRODUCTS = [
     "slug": "golden-lily-bouquet",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Lilies",
     "occasion": "Anniversary",
     "recipient": "For Her",
-    "flowerType": "Lilies",
     "price": 6728,
     "originalPrice": 7875,
-    "stock": 38,
-    "images": [
-      "/images/products/golden-lily-bouquet.webp"
-    ],
     "rating": 4.7,
     "reviewsCount": 45,
     "tag": "Limited Edition",
+    "image": "/images/products/golden-lily-bouquet.webp",
+    "images": [
+      "/images/products/golden-lily-bouquet.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the Golden Lily Bouquet harmonizes premium long-stemmed lilies with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 38,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": true,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-007-1",
+        "userName": "Rahul Somani",
+        "author": "Rahul Somani",
+        "userEmail": "rahul.somani.613@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Haute couture floral design at its finest: Golden Lily Bouquet",
+        "comment": "Exquisite does not even begin to capture how breathtaking the Golden Lily Bouquet looks in person. The imported European waterproof wrap and hand-tied gold-embossed silk ribbon give the bouquet an unmistakable haute couture flair. It brought an atmosphere of regal tranquility to our salon that lasted for days.",
+        "date": "4 days ago",
+        "createdAt": "2026-10-18T21:53:54.967Z",
+        "verified": true,
+        "helpful": 36
+      },
+      {
+        "id": "rev-flw-007-2",
+        "userName": "Utkarsh Deshmukh",
+        "author": "Utkarsh Deshmukh",
+        "userEmail": "utkarsh.deshmukh.793@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Remarkably fresh for nearly two weeks in our salon: Golden Lily Bouquet",
+        "comment": "The sheer volume and petal count packed into the Golden Lily Bouquet makes it an extraordinary value for high connoisseurs. Not a single petal dropped during the first 10 days; the stem caliber is easily double what ordinary high-street florists supply. Dhanvikk's cold-chain refrigerated delivery fleet is clearly the gold standard in the floristry industry.",
+        "date": "7 days ago",
+        "createdAt": "2026-10-15T21:28:00.367Z",
+        "verified": true,
+        "helpful": 23
+      },
+      {
+        "id": "rev-flw-007-3",
+        "userName": "Henri Nayar",
+        "author": "Henri Nayar",
+        "userEmail": "henri.nayar.973@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Left all our dinner guests completely captivated: Golden Lily Bouquet",
+        "comment": "I selected the Golden Lily Bouquet specifically for a milestone anniversary surprise. The stems drank steadily and held their upright posture with royal dignity throughout the entire celebration. Will be reordering regularly for all our private celebrations and corporate client gifting.",
+        "date": "20 days ago",
+        "createdAt": "2026-10-02T16:28:09.890Z",
+        "verified": true,
+        "helpful": 21
+      }
+    ]
   },
   {
     "id": "flw-008",
@@ -169,22 +464,64 @@ export const SEED_PRODUCTS = [
     "slug": "sunset-orange-lily-vase",
     "category": "Flowers",
     "subCategory": "Vase Arrangements",
+    "flowerType": "Lilies",
     "occasion": "Anniversary",
     "recipient": "For Her",
-    "flowerType": "Lilies",
     "price": 4478,
     "originalPrice": 5625,
-    "stock": 42,
-    "images": [
-      "/images/products/sunset-orange-lily-vase.webp"
-    ],
     "rating": 4.8,
     "reviewsCount": 141,
     "tag": "Best Seller",
+    "image": "/images/products/sunset-orange-lily-vase.webp",
+    "images": [
+      "/images/products/sunset-orange-lily-vase.webp"
+    ],
     "description": "Architecturally balanced lilies nestled in an artisan fluted lead-free crystal glass vase. Styled with fragrant silvery spiral eucalyptus and ethereal gypsophila sprays for an effortless centerpiece statement.",
+    "stock": 42,
+    "inStock": true,
     "isBestSeller": true,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-008-1",
+        "userName": "Sameer Verma",
+        "author": "Sameer Verma",
+        "userEmail": "sameer.verma.626@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "An unforgettable grand entrance with Sunset Orange Lily Vase",
+        "comment": "As a lifelong admirer of fine floristry, the architectural symmetry of the Sunset Orange Lily Vase is awe-inspiring. The layered organza and matte parchment wrapping protects each bloom while showcasing the lush foliage beneath. My guests could not stop inquiring where this extraordinary floral curation came from.",
+        "date": "5 days ago",
+        "createdAt": "2026-10-17T21:09:17.560Z",
+        "verified": true,
+        "helpful": 25
+      },
+      {
+        "id": "rev-flw-008-2",
+        "userName": "Zara Iyer",
+        "author": "Zara Iyer",
+        "userEmail": "zara.iyer.806@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Lasted over 10 full days in pristine condition — Sunset Orange Lily Vase",
+        "comment": "Every single stem in our Sunset Orange Lily Vase was hand-selected at the exact micro-stage of opening for maximum longevity. The subtle, soothing botanical scent persisted for more than 10 days, making the home smell like a morning garden in bloom. The level of quality control and stem-by-stem inspection is evident from the first glance.",
+        "date": "8 days ago",
+        "createdAt": "2026-10-15T01:48:15.160Z",
+        "verified": true,
+        "helpful": 25
+      },
+      {
+        "id": "rev-flw-008-3",
+        "userName": "Astrid Roy",
+        "author": "Astrid Roy",
+        "userEmail": "astrid.roy.986@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "A distinguished luxury statement piece: Sunset Orange Lily Vase",
+        "comment": "Our executive boardroom needed a commanding centerpiece, and the Sunset Orange Lily Vase delivered majestic grandeur. The contrast between the velvety lilies and the aromatic eucalyptus foliage creates an exquisite visual rhythm. A consummate triumph of floral curation, pristine presentation, and genuine white-glove service.",
+        "date": "21 days ago",
+        "createdAt": "2026-10-01T16:39:51.758Z",
+        "verified": true,
+        "helpful": 20
+      }
+    ]
   },
   {
     "id": "flw-009",
@@ -192,22 +529,64 @@ export const SEED_PRODUCTS = [
     "slug": "pink-lily-grace-vase",
     "category": "Flowers",
     "subCategory": "Vase Arrangements",
+    "flowerType": "Lilies",
     "occasion": "Congratulations",
     "recipient": "For Her",
-    "flowerType": "Lilies",
     "price": 6728,
     "originalPrice": 7875,
-    "stock": 29,
+    "rating": 5,
+    "reviewsCount": 123,
+    "tag": "Luxury Edit",
+    "image": "/images/products/pink-lily-grace-vase.webp",
     "images": [
       "/images/products/pink-lily-grace-vase.webp"
     ],
-    "rating": 5.0,
-    "reviewsCount": 123,
-    "tag": "Luxury Edit",
     "description": "Architecturally balanced lilies nestled in an artisan fluted lead-free crystal glass vase. Styled with fragrant silvery spiral eucalyptus and ethereal gypsophila sprays for an effortless centerpiece statement.",
+    "stock": 29,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-009-1",
+        "userName": "Sneha Sterling",
+        "author": "Sneha Sterling",
+        "userEmail": "sneha.sterling.639@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Sublime symmetry and velvet perfection in Pink Lily Grace Vase",
+        "comment": "Commissioned the Pink Lily Grace Vase as a surprise, and the doorstep presentation was cinematic in its perfection. The protective reefer hydration pods on the stem bases kept every leaf crisply hydrated throughout transport. Without question the finest floral presentation available anywhere in the country today.",
+        "date": "2 days ago",
+        "createdAt": "2026-10-20T20:24:40.153Z",
+        "verified": true,
+        "helpful": 44
+      },
+      {
+        "id": "rev-flw-009-2",
+        "userName": "Isabella Kumar",
+        "author": "Isabella Kumar",
+        "userEmail": "isabella.kumar.819@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Intoxicating aroma and extraordinary stem caliber in Pink Lily Grace Vase",
+        "comment": "What sets the Pink Lily Grace Vase apart is the exceptional horticultural caliber of the lilies. Over the first 48 hours in vase water, each bud opened progressively into a magnificent, fully expanded blossom lasting 11 full days. I will never order from standard floral delivery services again after experiencing this caliber.",
+        "date": "9 days ago",
+        "createdAt": "2026-10-13T18:08:29.953Z",
+        "verified": true,
+        "helpful": 26
+      },
+      {
+        "id": "rev-flw-009-3",
+        "userName": "Amina Sharma",
+        "author": "Amina Sharma",
+        "userEmail": "amina.sharma.100@verified.dhanvikk.com",
+        "rating": 4,
+        "title": "Heartfelt tears of joy upon opening the Pink Lily Grace Vase",
+        "comment": "Surprised my partner with the Pink Lily Grace Vase and the emotional resonance was beyond words. The gradient of tones in the lilies was subtle, sophisticated, and perfectly suited for luxury sensibilities. Worth every single rupee for the lasting joy, prestige, and beauty it brought into our lives.",
+        "date": "22 days ago",
+        "createdAt": "2026-09-30T16:51:33.625Z",
+        "verified": true,
+        "helpful": 18
+      }
+    ]
   },
   {
     "id": "flw-010",
@@ -215,22 +594,64 @@ export const SEED_PRODUCTS = [
     "slug": "celestial-paradise-vase",
     "category": "Flowers",
     "subCategory": "Vase Arrangements",
+    "flowerType": "Mixed",
     "occasion": "Birthday",
     "recipient": "Everyone",
-    "flowerType": "Mixed",
     "price": 11228,
     "originalPrice": 13500,
-    "stock": 34,
-    "images": [
-      "/images/products/celestial-paradise-vase.webp"
-    ],
     "rating": 4.9,
     "reviewsCount": 78,
     "tag": "Artisan Hand-tied",
+    "image": "/images/products/celestial-paradise-vase.webp",
+    "images": [
+      "/images/products/celestial-paradise-vase.webp"
+    ],
     "description": "Architecturally balanced garden blooms nestled in an artisan fluted lead-free crystal glass vase. Styled with fragrant silvery spiral eucalyptus and ethereal gypsophila sprays for an effortless centerpiece statement.",
+    "stock": 34,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": true,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-010-1",
+        "userName": "Tarun Chakraborty",
+        "author": "Tarun Chakraborty",
+        "userEmail": "tarun.chakraborty.652@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Surpassed our highest expectations: Celestial Paradise Vase",
+        "comment": "The Celestial Paradise Vase arrived looking so freshly sculpted it felt like an exhibit from a Parisian floral atelier. The imported European waterproof wrap and hand-tied gold-embossed silk ribbon give the bouquet an unmistakable haute couture flair. The recipient was visibly moved to tears upon reading the calligraphy note tucked into the arrangement.",
+        "date": "3 days ago",
+        "createdAt": "2026-10-19T19:40:02.746Z",
+        "verified": true,
+        "helpful": 34
+      },
+      {
+        "id": "rev-flw-010-2",
+        "userName": "Zayd Naidu",
+        "author": "Zayd Naidu",
+        "userEmail": "zayd.naidu.832@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "World-class cold chain delivery and dewy freshness: Celestial Paradise Vase",
+        "comment": "Having ordered luxury florals in London and Milan, I can confirm that Dhanvikk's Celestial Paradise Vase stands on the global podium. Not a single petal dropped during the first 10 days; the stem caliber is easily double what ordinary high-street florists supply. A masterclass in high-altitude boutique cultivation and pristine handling.",
+        "date": "10 days ago",
+        "createdAt": "2026-10-12T22:28:44.746Z",
+        "verified": true,
+        "helpful": 27
+      },
+      {
+        "id": "rev-flw-010-3",
+        "userName": "Chetan Trivedi",
+        "author": "Chetan Trivedi",
+        "userEmail": "chetan.trivedi.113@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "The gold standard for our birthday celebration — Celestial Paradise Vase",
+        "comment": "If you are looking for an unforgettable statement piece, the Celestial Paradise Vase is utterly peerless. The stems drank steadily and held their upright posture with royal dignity throughout the entire celebration. I wholeheartedly recommend Dhanvikk to anyone who refuses to settle for ordinary commercial blooms.",
+        "date": "23 days ago",
+        "createdAt": "2026-09-29T17:03:15.493Z",
+        "verified": true,
+        "helpful": 17
+      }
+    ]
   },
   {
     "id": "flw-011",
@@ -238,22 +659,64 @@ export const SEED_PRODUCTS = [
     "slug": "crimson-elegance-in-pinnacle",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Roses",
     "occasion": "Love & Romance",
     "recipient": "For Her",
-    "flowerType": "Roses",
     "price": 270000,
     "originalPrice": 351000,
-    "stock": 33,
-    "images": [
-      "/images/products/crimson-elegance-in-pinnacle.webp"
-    ],
     "rating": 4.8,
     "reviewsCount": 172,
     "tag": "Artisan Hand-tied",
+    "image": "/images/products/crimson-elegance-in-pinnacle.webp",
+    "images": [
+      "/images/products/crimson-elegance-in-pinnacle.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the Crimson Elegance in Pinnacle harmonizes premium long-stemmed roses with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 33,
+    "inStock": true,
     "isBestSeller": true,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-011-1",
+        "userName": "Vandana Goswami",
+        "author": "Vandana Goswami",
+        "userEmail": "vandana.goswami.666@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Breathtaking sensory unboxing — Crimson Elegance in Pinnacle",
+        "comment": "Receiving the Crimson Elegance in Pinnacle was an experience of pure unadulterated luxury. The layered organza and matte parchment wrapping protects each bloom while showcasing the lush foliage beneath. An indispensable triumph of an arrangement for any love & romance.",
+        "date": "4 days ago",
+        "createdAt": "2026-10-18T18:55:25.338Z",
+        "verified": true,
+        "helpful": 23
+      },
+      {
+        "id": "rev-flw-011-2",
+        "userName": "Svetlana Ramachandran",
+        "author": "Svetlana Ramachandran",
+        "userEmail": "svetlana.ramachandran.846@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "The Crimson Elegance in Pinnacle opened into full majestic splendour over 48 hours",
+        "comment": "The cold-chain logistics behind the Crimson Elegance in Pinnacle are truly remarkable — arrived thoroughly chilled and dewy. The subtle, soothing botanical scent persisted for more than 13 days, making the home smell like a morning garden in bloom. Proof that luxury floristry is a true art form when executed with such uncompromising dedication.",
+        "date": "11 days ago",
+        "createdAt": "2026-10-12T02:48:59.539Z",
+        "verified": true,
+        "helpful": 28
+      },
+      {
+        "id": "rev-flw-011-3",
+        "userName": "Gayatri Beaumont",
+        "author": "Gayatri Beaumont",
+        "userEmail": "gayatri.beaumont.127@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Worth every single rupee for an unforgettable celebration — Crimson Elegance in Pinnacle",
+        "comment": "We featured the Crimson Elegance in Pinnacle at our anniversary dinner table and it immediately became the talking point of the evening. The contrast between the velvety roses and the aromatic eucalyptus foliage creates an exquisite visual rhythm. An unequivocal 10 out of 10 experience that sets a new benchmark for luxury lifestyle floristry.",
+        "date": "24 days ago",
+        "createdAt": "2026-09-28T17:14:57.360Z",
+        "verified": true,
+        "helpful": 16
+      }
+    ]
   },
   {
     "id": "flw-012",
@@ -261,22 +724,64 @@ export const SEED_PRODUCTS = [
     "slug": "eternal-ivory-majesty",
     "category": "Forever Roses",
     "subCategory": "Preserved Bell Domes",
+    "flowerType": "Mixed",
     "occasion": "Anniversary",
     "recipient": "For Her",
-    "flowerType": "Mixed",
     "price": 112478,
     "originalPrice": 146228,
-    "stock": 15,
-    "images": [
-      "/images/products/eternal-ivory-majesty.webp"
-    ],
     "rating": 4.7,
     "reviewsCount": 94,
     "tag": "Artisan Hand-tied",
+    "image": "/images/products/eternal-ivory-majesty.webp",
+    "images": [
+      "/images/products/eternal-ivory-majesty.webp"
+    ],
     "description": "A breathtaking showcase of naturally preserved Ecuadorian garden blooms, meticulously stabilized to retain velvety softness, vibrant pigment, and structural perfection for up to 3 years without watering. Encased in a hand-blown borosilicate bell dome.",
+    "stock": 15,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": true,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-012-1",
+        "userName": "Charlotte Khanna",
+        "author": "Charlotte Khanna",
+        "userEmail": "charlotte.khanna.679@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "The pinnacle of refined floristry: Eternal Ivory Majesty",
+        "comment": "I ordered the Eternal Ivory Majesty for our family celebration and the presentation left us utterly captivated. The dome presentation is masterfully proportioned, catching the ambient light and illuminating the intricate petal geometry. It brought an atmosphere of regal tranquility to our salon that lasted for days.",
+        "date": "5 days ago",
+        "createdAt": "2026-10-17T18:10:47.931Z",
+        "verified": true,
+        "helpful": 43
+      },
+      {
+        "id": "rev-flw-012-2",
+        "userName": "Aditi Sehgal",
+        "author": "Aditi Sehgal",
+        "userEmail": "aditi.sehgal.859@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Impeccable highland cultivation and petal density — Eternal Ivory Majesty",
+        "comment": "Fourteen days after delivery, our Eternal Ivory Majesty continues to look remarkably radiant and intact. The proprietary bio-preservation leaves the blooms soft to the touch without any chemical odor, promising over 24 months of beauty. Dhanvikk's cold-chain refrigerated delivery fleet is clearly the gold standard in the floristry industry.",
+        "date": "12 days ago",
+        "createdAt": "2026-10-10T19:09:14.331Z",
+        "verified": true,
+        "helpful": 30
+      },
+      {
+        "id": "rev-flw-012-3",
+        "userName": "Kavita Bandyopadhyay",
+        "author": "Kavita Bandyopadhyay",
+        "userEmail": "kavita.bandyopadhyay.140@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Quiet luxury and exquisite calligraphy detailing in Eternal Ivory Majesty",
+        "comment": "Gifted the Eternal Ivory Majesty as a gesture of heartfelt gratitude, and the response was pure delight. It sits proudly on our mantlepiece, an enduring reminder of our special milestone that never fades. Will be reordering regularly for all our private celebrations and corporate client gifting.",
+        "date": "25 days ago",
+        "createdAt": "2026-09-27T17:26:39.228Z",
+        "verified": true,
+        "helpful": 15
+      }
+    ]
   },
   {
     "id": "flw-013",
@@ -284,22 +789,64 @@ export const SEED_PRODUCTS = [
     "slug": "royal-harvest-grandeur",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
     "occasion": "Congratulations",
     "recipient": "Everyone",
-    "flowerType": "Mixed",
     "price": 33750,
     "originalPrice": 43875,
-    "stock": 35,
-    "images": [
-      "/images/products/royal-harvest-grandeur.webp"
-    ],
     "rating": 4.8,
     "reviewsCount": 49,
     "tag": "Trending Now",
+    "image": "/images/products/royal-harvest-grandeur.webp",
+    "images": [
+      "/images/products/royal-harvest-grandeur.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the Royal Harvest Grandeur harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 35,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": true,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-013-1",
+        "userName": "Tariq Mishra",
+        "author": "Tariq Mishra",
+        "userEmail": "tariq.mishra.692@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Awe-inspiring craftsmanship and luxury presentation — Royal Harvest Grandeur",
+        "comment": "From the moment the Dhanvikk courier arrived with the Royal Harvest Grandeur, the caliber was unmistakably world-class. The imported European waterproof wrap and hand-tied gold-embossed silk ribbon give the bouquet an unmistakable haute couture flair. My guests could not stop inquiring where this extraordinary floral curation came from.",
+        "date": "2 days ago",
+        "createdAt": "2026-10-20T17:26:10.524Z",
+        "verified": true,
+        "helpful": 32
+      },
+      {
+        "id": "rev-flw-013-2",
+        "userName": "Avani Sundaram",
+        "author": "Avani Sundaram",
+        "userEmail": "avani.sundaram.872@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Unprecedented vase longevity and natural fragrance from Royal Harvest Grandeur",
+        "comment": "The fragrance profile of the Royal Harvest Grandeur is natural, intoxicating, and gracefully fills the entire room. Not a single petal dropped during the first 10 days; the stem caliber is easily double what ordinary high-street florists supply. The level of quality control and stem-by-stem inspection is evident from the first glance.",
+        "date": "7 days ago",
+        "createdAt": "2026-10-15T23:29:29.124Z",
+        "verified": true,
+        "helpful": 31
+      },
+      {
+        "id": "rev-flw-013-3",
+        "userName": "Meera Fernandes",
+        "author": "Meera Fernandes",
+        "userEmail": "meera.fernandes.153@verified.dhanvikk.com",
+        "rating": 4,
+        "title": "An heirloom masterpiece that brought immense joy: Royal Harvest Grandeur",
+        "comment": "The Royal Harvest Grandeur is hands down one of the most distinguished floral creations I have had the pleasure to present. The stems drank steadily and held their upright posture with royal dignity throughout the entire celebration. A consummate triumph of floral curation, pristine presentation, and genuine white-glove service.",
+        "date": "26 days ago",
+        "createdAt": "2026-09-26T17:38:21.095Z",
+        "verified": true,
+        "helpful": 13
+      }
+    ]
   },
   {
     "id": "flw-014",
@@ -307,22 +854,64 @@ export const SEED_PRODUCTS = [
     "slug": "champagne-garden-luxe",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
     "occasion": "Birthday",
     "recipient": "Everyone",
-    "flowerType": "Mixed",
     "price": 15728,
     "originalPrice": 20452,
-    "stock": 21,
+    "rating": 5,
+    "reviewsCount": 74,
+    "tag": "Signature Atelier",
+    "image": "/images/products/champagne-garden-luxe.webp",
     "images": [
       "/images/products/champagne-garden-luxe.webp"
     ],
-    "rating": 5.0,
-    "reviewsCount": 74,
-    "tag": "Signature Atelier",
     "description": "Hand-tied by master Parisian florists, the Champagne Garden Luxe harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 21,
+    "inStock": true,
     "isBestSeller": true,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-014-1",
+        "userName": "Valentina Pillai",
+        "author": "Valentina Pillai",
+        "userEmail": "valentina.pillai.705@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Arrived pristine with morning dew still on petals: Champagne Garden Luxe",
+        "comment": "The sheer artistic balance of the Champagne Garden Luxe easily surpasses any floral arrangement I have commissioned before. The layered organza and matte parchment wrapping protects each bloom while showcasing the lush foliage beneath. Without question the finest floral presentation available anywhere in the country today.",
+        "date": "3 days ago",
+        "createdAt": "2026-10-19T16:41:33.117Z",
+        "verified": true,
+        "helpful": 22
+      },
+      {
+        "id": "rev-flw-014-2",
+        "userName": "Farhan Dubois",
+        "author": "Farhan Dubois",
+        "userEmail": "farhan.dubois.885@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Uncompromising quality control in this gorgeous Champagne Garden Luxe",
+        "comment": "You can immediately feel the heavy stem density and turgid petal structure of this highland-grown Champagne Garden Luxe. The subtle, soothing botanical scent persisted for more than 16 days, making the home smell like a morning garden in bloom. I will never order from standard floral delivery services again after experiencing this caliber.",
+        "date": "8 days ago",
+        "createdAt": "2026-10-14T15:49:43.917Z",
+        "verified": true,
+        "helpful": 32
+      },
+      {
+        "id": "rev-flw-014-3",
+        "userName": "Pallavi Joshi",
+        "author": "Pallavi Joshi",
+        "userEmail": "pallavi.joshi.166@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Flawless execution from courier to final bloom — Champagne Garden Luxe",
+        "comment": "Everything about the Champagne Garden Luxe — from the embossed envelope to the floral symmetry — whispers quiet luxury. The contrast between the velvety mixed and the aromatic eucalyptus foliage creates an exquisite visual rhythm. Worth every single rupee for the lasting joy, prestige, and beauty it brought into our lives.",
+        "date": "27 days ago",
+        "createdAt": "2026-09-25T17:50:02.963Z",
+        "verified": true,
+        "helpful": 12
+      }
+    ]
   },
   {
     "id": "flw-015",
@@ -330,22 +919,64 @@ export const SEED_PRODUCTS = [
     "slug": "baby-boy-harmony-celebration-box",
     "category": "Flower Boxes",
     "subCategory": "Hat Box Arrangements",
+    "flowerType": "Mixed",
     "occasion": "Congratulations",
     "recipient": "Everyone",
-    "flowerType": "Mixed",
     "price": 14602,
     "originalPrice": 18990,
-    "stock": 33,
-    "images": [
-      "/images/products/baby-boy-harmony-celebration-box.webp"
-    ],
     "rating": 4.9,
     "reviewsCount": 177,
     "tag": "Best Seller",
+    "image": "/images/products/baby-boy-harmony-celebration-box.webp",
+    "images": [
+      "/images/products/baby-boy-harmony-celebration-box.webp"
+    ],
     "description": "A lavish curation of handpicked garden blooms, masterfully arranged in Dhanvikk's signature French velvet keepsake box. Accented with lush spiral eucalyptus and tied with an ivory satin ribbon, this bespoke creation brings regal grandeur to every celebration.",
+    "stock": 33,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": true,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-015-1",
+        "userName": "Aanya Samant",
+        "author": "Aanya Samant",
+        "userEmail": "aanya.samant.718@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Elegance personified in the magnificent Baby Boy Harmony Celebration Box",
+        "comment": "Dhanvikk has completely redefined luxury gifting with this sensational Baby Boy Harmony Celebration Box. The bespoke velvet hatbox is so sturdy and elegantly crafted that we are definitely keeping it as a dressing table heirloom. The recipient was visibly moved to tears upon reading the calligraphy note tucked into the arrangement.",
+        "date": "4 days ago",
+        "createdAt": "2026-10-18T15:56:55.710Z",
+        "verified": true,
+        "helpful": 41
+      },
+      {
+        "id": "rev-flw-015-2",
+        "userName": "Kalyani Kensington",
+        "author": "Kalyani Kensington",
+        "userEmail": "kalyani.kensington.898@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Robust stems, velvety texture, and remarkable hydration: Baby Boy Harmony Celebration Box",
+        "comment": "Dhanvikk's zero-compromise approach to morning dawn-cutting is vividly apparent in the Baby Boy Harmony Celebration Box. Over the first 48 hours in vase water, each bud opened progressively into a magnificent, fully expanded blossom lasting 10 full days. A masterclass in high-altitude boutique cultivation and pristine handling.",
+        "date": "9 days ago",
+        "createdAt": "2026-10-13T20:09:58.710Z",
+        "verified": true,
+        "helpful": 33
+      },
+      {
+        "id": "rev-flw-015-3",
+        "userName": "Rhea Malhotra",
+        "author": "Rhea Malhotra",
+        "userEmail": "rhea.malhotra.179@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Our definitive choice for all high-profile occasions: Baby Boy Harmony Celebration Box",
+        "comment": "Ordered the Baby Boy Harmony Celebration Box on short notice and Dhanvikk delivered with impeccable timing and flawless poise. The gradient of tones in the mixed was subtle, sophisticated, and perfectly suited for luxury sensibilities. I wholeheartedly recommend Dhanvikk to anyone who refuses to settle for ordinary commercial blooms.",
+        "date": "14 days ago",
+        "createdAt": "2026-10-08T18:01:44.830Z",
+        "verified": true,
+        "helpful": 11
+      }
+    ]
   },
   {
     "id": "flw-016",
@@ -353,22 +984,64 @@ export const SEED_PRODUCTS = [
     "slug": "serenity-blush-and-azure-breeze",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Roses",
     "occasion": "Love & Romance",
     "recipient": "For Her",
-    "flowerType": "Roses",
     "price": 3352,
     "originalPrice": 4365,
-    "stock": 27,
-    "images": [
-      "/images/products/serenity-blush-and-azure-breeze.webp"
-    ],
     "rating": 4.8,
     "reviewsCount": 66,
     "tag": "Luxury Edit",
+    "image": "/images/products/serenity-blush-and-azure-breeze.webp",
+    "images": [
+      "/images/products/serenity-blush-and-azure-breeze.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the Serenity Blush and Azure Breeze harmonizes premium long-stemmed roses with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 27,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-016-1",
+        "userName": "Anushka Singhania",
+        "author": "Anushka Singhania",
+        "userEmail": "anushka.singhania.732@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Unrivaled atelier artistry in every single bloom — Serenity Blush and Azure Breeze",
+        "comment": "The unveiling of our Serenity Blush and Azure Breeze was the highlight of our celebratory morning. The imported European waterproof wrap and hand-tied gold-embossed silk ribbon give the bouquet an unmistakable haute couture flair. An indispensable triumph of an arrangement for any love & romance.",
+        "date": "5 days ago",
+        "createdAt": "2026-10-17T15:12:18.303Z",
+        "verified": true,
+        "helpful": 30
+      },
+      {
+        "id": "rev-flw-016-2",
+        "userName": "Malini Choudhury",
+        "author": "Malini Choudhury",
+        "userEmail": "malini.choudhury.912@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Horticultural perfection air-flown with exquisite care — Serenity Blush and Azure Breeze",
+        "comment": "The freshness of the Serenity Blush and Azure Breeze when unpacked felt as if it had been gathered from the mountain estate an hour prior. Not a single petal dropped during the first 10 days; the stem caliber is easily double what ordinary high-street florists supply. Proof that luxury floristry is a true art form when executed with such uncompromising dedication.",
+        "date": "10 days ago",
+        "createdAt": "2026-10-13T00:30:13.503Z",
+        "verified": true,
+        "helpful": 35
+      },
+      {
+        "id": "rev-flw-016-3",
+        "userName": "Sanya Narayan",
+        "author": "Sanya Narayan",
+        "userEmail": "sanya.narayan.193@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "The ultimate emotional grand gesture for our love & romance — Serenity Blush and Azure Breeze",
+        "comment": "The visual impact of the Serenity Blush and Azure Breeze when unveiled is something neither my guests nor I will soon forget. The stems drank steadily and held their upright posture with royal dignity throughout the entire celebration. An unequivocal 10 out of 10 experience that sets a new benchmark for luxury lifestyle floristry.",
+        "date": "15 days ago",
+        "createdAt": "2026-10-07T18:13:26.698Z",
+        "verified": true,
+        "helpful": 10
+      }
+    ]
   },
   {
     "id": "flw-017",
@@ -376,22 +1049,64 @@ export const SEED_PRODUCTS = [
     "slug": "harmony-hydrangea-grandeur",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
     "occasion": "Congratulations",
     "recipient": "Everyone",
-    "flowerType": "Mixed",
     "price": 11228,
     "originalPrice": 14602,
-    "stock": 33,
-    "images": [
-      "/images/products/harmony-hydrangea-grandeur.webp"
-    ],
     "rating": 4.9,
     "reviewsCount": 70,
     "tag": "Signature Atelier",
+    "image": "/images/products/harmony-hydrangea-grandeur.webp",
+    "images": [
+      "/images/products/harmony-hydrangea-grandeur.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the Harmony Hydrangea Grandeur harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 33,
+    "inStock": true,
     "isBestSeller": true,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-017-1",
+        "userName": "Diya Venkatesh",
+        "author": "Diya Venkatesh",
+        "userEmail": "diya.venkatesh.745@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Haute couture floral design at its finest: Harmony Hydrangea Grandeur",
+        "comment": "Exquisite does not even begin to capture how breathtaking the Harmony Hydrangea Grandeur looks in person. The layered organza and matte parchment wrapping protects each bloom while showcasing the lush foliage beneath. It brought an atmosphere of regal tranquility to our salon that lasted for days.",
+        "date": "2 days ago",
+        "createdAt": "2026-10-21T02:27:40.895Z",
+        "verified": true,
+        "helpful": 20
+      },
+      {
+        "id": "rev-flw-017-2",
+        "userName": "Nikhil Iyengar",
+        "author": "Nikhil Iyengar",
+        "userEmail": "nikhil.iyengar.925@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Remarkably fresh for nearly two weeks in our salon: Harmony Hydrangea Grandeur",
+        "comment": "The sheer volume and petal count packed into the Harmony Hydrangea Grandeur makes it an extraordinary value for high connoisseurs. The subtle, soothing botanical scent persisted for more than 12 days, making the home smell like a morning garden in bloom. Dhanvikk's cold-chain refrigerated delivery fleet is clearly the gold standard in the floristry industry.",
+        "date": "11 days ago",
+        "createdAt": "2026-10-11T16:50:28.295Z",
+        "verified": true,
+        "helpful": 36
+      },
+      {
+        "id": "rev-flw-017-3",
+        "userName": "Somesh Reddy",
+        "author": "Somesh Reddy",
+        "userEmail": "somesh.reddy.206@verified.dhanvikk.com",
+        "rating": 4,
+        "title": "Left all our dinner guests completely captivated: Harmony Hydrangea Grandeur",
+        "comment": "I selected the Harmony Hydrangea Grandeur specifically for a milestone congratulations surprise. The contrast between the velvety mixed and the aromatic eucalyptus foliage creates an exquisite visual rhythm. Will be reordering regularly for all our private celebrations and corporate client gifting.",
+        "date": "16 days ago",
+        "createdAt": "2026-10-06T18:25:08.565Z",
+        "verified": true,
+        "helpful": 28
+      }
+    ]
   },
   {
     "id": "flw-018",
@@ -399,22 +1114,64 @@ export const SEED_PRODUCTS = [
     "slug": "imperial-pink-tulip-majesty",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Tulips",
     "occasion": "Anniversary",
     "recipient": "For Her",
-    "flowerType": "Tulips",
     "price": 84352,
     "originalPrice": 109665,
-    "stock": 41,
+    "rating": 5,
+    "reviewsCount": 70,
+    "tag": "Signature Atelier",
+    "image": "/images/products/imperial-pink-tulip-majesty.webp",
     "images": [
       "/images/products/imperial-pink-tulip-majesty.webp"
     ],
-    "rating": 5.0,
-    "reviewsCount": 70,
-    "tag": "Signature Atelier",
     "description": "Hand-tied by master Parisian florists, the Imperial Pink Tulip Majesty harmonizes premium long-stemmed tulips with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 41,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-018-1",
+        "userName": "Jahnavi Rochester",
+        "author": "Jahnavi Rochester",
+        "userEmail": "jahnavi.rochester.758@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "An unforgettable grand entrance with Imperial Pink Tulip Majesty",
+        "comment": "As a lifelong admirer of fine floristry, the architectural symmetry of the Imperial Pink Tulip Majesty is awe-inspiring. The protective reefer hydration pods on the stem bases kept every leaf crisply hydrated throughout transport. My guests could not stop inquiring where this extraordinary floral curation came from.",
+        "date": "3 days ago",
+        "createdAt": "2026-10-20T01:43:03.488Z",
+        "verified": true,
+        "helpful": 39
+      },
+      {
+        "id": "rev-flw-018-2",
+        "userName": "Rahul Kulkarni",
+        "author": "Rahul Kulkarni",
+        "userEmail": "rahul.kulkarni.938@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Lasted over 13 full days in pristine condition — Imperial Pink Tulip Majesty",
+        "comment": "Every single stem in our Imperial Pink Tulip Majesty was hand-selected at the exact micro-stage of opening for maximum longevity. Over the first 48 hours in vase water, each bud opened progressively into a magnificent, fully expanded blossom lasting 13 full days. The level of quality control and stem-by-stem inspection is evident from the first glance.",
+        "date": "12 days ago",
+        "createdAt": "2026-10-10T21:10:43.088Z",
+        "verified": true,
+        "helpful": 37
+      },
+      {
+        "id": "rev-flw-018-3",
+        "userName": "Utkarsh Seth",
+        "author": "Utkarsh Seth",
+        "userEmail": "utkarsh.seth.219@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "A distinguished luxury statement piece: Imperial Pink Tulip Majesty",
+        "comment": "Our executive boardroom needed a commanding centerpiece, and the Imperial Pink Tulip Majesty delivered majestic grandeur. The gradient of tones in the tulips was subtle, sophisticated, and perfectly suited for luxury sensibilities. A consummate triumph of floral curation, pristine presentation, and genuine white-glove service.",
+        "date": "17 days ago",
+        "createdAt": "2026-10-05T18:36:50.433Z",
+        "verified": true,
+        "helpful": 27
+      }
+    ]
   },
   {
     "id": "flw-019",
@@ -422,22 +1179,64 @@ export const SEED_PRODUCTS = [
     "slug": "bountiful-tulip-serenity",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Tulips",
     "occasion": "Birthday",
     "recipient": "BFFs",
-    "flowerType": "Tulips",
     "price": 34852,
     "originalPrice": 45315,
-    "stock": 43,
-    "images": [
-      "/images/products/bountiful-tulip-serenity.webp"
-    ],
     "rating": 4.9,
     "reviewsCount": 72,
     "tag": "Signature Atelier",
+    "image": "/images/products/bountiful-tulip-serenity.webp",
+    "images": [
+      "/images/products/bountiful-tulip-serenity.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the Bountiful Tulip Serenity harmonizes premium long-stemmed tulips with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 43,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": true,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-019-1",
+        "userName": "Lavanya Bhattacharya",
+        "author": "Lavanya Bhattacharya",
+        "userEmail": "lavanya.bhattacharya.771@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Sublime symmetry and velvet perfection in Bountiful Tulip Serenity",
+        "comment": "Commissioned the Bountiful Tulip Serenity as a surprise, and the doorstep presentation was cinematic in its perfection. The imported European waterproof wrap and hand-tied gold-embossed silk ribbon give the bouquet an unmistakable haute couture flair. Without question the finest floral presentation available anywhere in the country today.",
+        "date": "4 days ago",
+        "createdAt": "2026-10-19T00:58:26.081Z",
+        "verified": true,
+        "helpful": 29
+      },
+      {
+        "id": "rev-flw-019-2",
+        "userName": "Sameer Nadar",
+        "author": "Sameer Nadar",
+        "userEmail": "sameer.nadar.951@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Intoxicating aroma and extraordinary stem caliber in Bountiful Tulip Serenity",
+        "comment": "What sets the Bountiful Tulip Serenity apart is the exceptional horticultural caliber of the tulips. Not a single petal dropped during the first 10 days; the stem caliber is easily double what ordinary high-street florists supply. I will never order from standard floral delivery services again after experiencing this caliber.",
+        "date": "7 days ago",
+        "createdAt": "2026-10-16T01:30:57.881Z",
+        "verified": true,
+        "helpful": 38
+      },
+      {
+        "id": "rev-flw-019-3",
+        "userName": "Zara Thakur",
+        "author": "Zara Thakur",
+        "userEmail": "zara.thakur.232@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Heartfelt tears of joy upon opening the Bountiful Tulip Serenity",
+        "comment": "Surprised my partner with the Bountiful Tulip Serenity and the emotional resonance was beyond words. The stems drank steadily and held their upright posture with royal dignity throughout the entire celebration. Worth every single rupee for the lasting joy, prestige, and beauty it brought into our lives.",
+        "date": "18 days ago",
+        "createdAt": "2026-10-04T18:48:32.300Z",
+        "verified": true,
+        "helpful": 26
+      }
+    ]
   },
   {
     "id": "flw-020",
@@ -445,22 +1244,64 @@ export const SEED_PRODUCTS = [
     "slug": "midnight-sapphire-and-ivory-majesty",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
     "occasion": "Anniversary",
     "recipient": "For Her",
-    "flowerType": "Mixed",
     "price": 6728,
     "originalPrice": 8752,
-    "stock": 39,
-    "images": [
-      "/images/products/midnight-sapphire-and-ivory-majesty.webp"
-    ],
     "rating": 4.7,
     "reviewsCount": 173,
     "tag": "Florist Choice",
+    "image": "/images/products/midnight-sapphire-and-ivory-majesty.webp",
+    "images": [
+      "/images/products/midnight-sapphire-and-ivory-majesty.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the Midnight Sapphire and  Ivory Majesty harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 39,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-020-1",
+        "userName": "Navin Gokhale",
+        "author": "Navin Gokhale",
+        "userEmail": "navin.gokhale.784@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Surpassed our highest expectations: Midnight Sapphire and  Ivory Majesty",
+        "comment": "The Midnight Sapphire and  Ivory Majesty arrived looking so freshly sculpted it felt like an exhibit from a Parisian floral atelier. The layered organza and matte parchment wrapping protects each bloom while showcasing the lush foliage beneath. The recipient was visibly moved to tears upon reading the calligraphy note tucked into the arrangement.",
+        "date": "5 days ago",
+        "createdAt": "2026-10-18T00:13:48.674Z",
+        "verified": true,
+        "helpful": 48
+      },
+      {
+        "id": "rev-flw-020-2",
+        "userName": "Sneha Rajan",
+        "author": "Sneha Rajan",
+        "userEmail": "sneha.rajan.964@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "World-class cold chain delivery and dewy freshness: Midnight Sapphire and  Ivory Majesty",
+        "comment": "Having ordered luxury florals in London and Milan, I can confirm that Dhanvikk's Midnight Sapphire and  Ivory Majesty stands on the global podium. The subtle, soothing botanical scent persisted for more than 15 days, making the home smell like a morning garden in bloom. A masterclass in high-altitude boutique cultivation and pristine handling.",
+        "date": "8 days ago",
+        "createdAt": "2026-10-14T17:51:12.674Z",
+        "verified": true,
+        "helpful": 15
+      },
+      {
+        "id": "rev-flw-020-3",
+        "userName": "Isabella Vanderbilt",
+        "author": "Isabella Vanderbilt",
+        "userEmail": "isabella.vanderbilt.245@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "The gold standard for our anniversary celebration — Midnight Sapphire and  Ivory Majesty",
+        "comment": "If you are looking for an unforgettable statement piece, the Midnight Sapphire and  Ivory Majesty is utterly peerless. The contrast between the velvety mixed and the aromatic eucalyptus foliage creates an exquisite visual rhythm. I wholeheartedly recommend Dhanvikk to anyone who refuses to settle for ordinary commercial blooms.",
+        "date": "19 days ago",
+        "createdAt": "2026-10-03T19:00:14.168Z",
+        "verified": true,
+        "helpful": 25
+      }
+    ]
   },
   {
     "id": "flw-021",
@@ -468,22 +1309,64 @@ export const SEED_PRODUCTS = [
     "slug": "white-bloom-elegance",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
     "occasion": "Congratulations",
     "recipient": "Everyone",
-    "flowerType": "Mixed",
     "price": 11228,
     "originalPrice": 14602,
-    "stock": 33,
-    "images": [
-      "/images/products/white-bloom-elegance.webp"
-    ],
     "rating": 4.9,
     "reviewsCount": 176,
     "tag": "Luxury Bloom",
+    "image": "/images/products/white-bloom-elegance.webp",
+    "images": [
+      "/images/products/white-bloom-elegance.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the White Bloom Elegance harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 33,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-021-1",
+        "userName": "Priyanka Kaul",
+        "author": "Priyanka Kaul",
+        "userEmail": "priyanka.kaul.798@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Breathtaking sensory unboxing — White Bloom Elegance",
+        "comment": "Receiving the White Bloom Elegance was an experience of pure unadulterated luxury. The protective reefer hydration pods on the stem bases kept every leaf crisply hydrated throughout transport. An indispensable triumph of an arrangement for any congratulations.",
+        "date": "2 days ago",
+        "createdAt": "2026-10-20T23:29:11.267Z",
+        "verified": true,
+        "helpful": 38
+      },
+      {
+        "id": "rev-flw-021-2",
+        "userName": "Tarun Saxena",
+        "author": "Tarun Saxena",
+        "userEmail": "tarun.saxena.978@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "The White Bloom Elegance opened into full majestic splendour over 48 hours",
+        "comment": "The cold-chain logistics behind the White Bloom Elegance are truly remarkable — arrived thoroughly chilled and dewy. Over the first 48 hours in vase water, each bud opened progressively into a magnificent, fully expanded blossom lasting 16 full days. Proof that luxury floristry is a true art form when executed with such uncompromising dedication.",
+        "date": "9 days ago",
+        "createdAt": "2026-10-13T22:11:27.467Z",
+        "verified": true,
+        "helpful": 16
+      },
+      {
+        "id": "rev-flw-021-3",
+        "userName": "Zayd Al-Mansoor",
+        "author": "Zayd Al-Mansoor",
+        "userEmail": "zayd.almansoor.259@verified.dhanvikk.com",
+        "rating": 4,
+        "title": "Worth every single rupee for an unforgettable celebration — White Bloom Elegance",
+        "comment": "We featured the White Bloom Elegance at our anniversary dinner table and it immediately became the talking point of the evening. The gradient of tones in the mixed was subtle, sophisticated, and perfectly suited for luxury sensibilities. An unequivocal 10 out of 10 experience that sets a new benchmark for luxury lifestyle floristry.",
+        "date": "20 days ago",
+        "createdAt": "2026-10-02T19:11:56.035Z",
+        "verified": true,
+        "helpful": 23
+      }
+    ]
   },
   {
     "id": "flw-022",
@@ -491,22 +1374,64 @@ export const SEED_PRODUCTS = [
     "slug": "rustic-pink-collection",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
     "occasion": "Birthday",
     "recipient": "Everyone",
-    "flowerType": "Mixed",
     "price": 6728,
     "originalPrice": 8752,
-    "stock": 40,
-    "images": [
-      "/images/products/rustic-pink-collection.webp"
-    ],
     "rating": 4.7,
     "reviewsCount": 46,
     "tag": "Limited Edition",
+    "image": "/images/products/rustic-pink-collection.webp",
+    "images": [
+      "/images/products/rustic-pink-collection.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the Rustic Pink Collection harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 40,
+    "inStock": true,
     "isBestSeller": true,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-022-1",
+        "userName": "Roshni Mirza",
+        "author": "Roshni Mirza",
+        "userEmail": "roshni.mirza.811@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "The pinnacle of refined floristry: Rustic Pink Collection",
+        "comment": "I ordered the Rustic Pink Collection for our family celebration and the presentation left us utterly captivated. The imported European waterproof wrap and hand-tied gold-embossed silk ribbon give the bouquet an unmistakable haute couture flair. It brought an atmosphere of regal tranquility to our salon that lasted for days.",
+        "date": "3 days ago",
+        "createdAt": "2026-10-19T22:44:33.859Z",
+        "verified": true,
+        "helpful": 27
+      },
+      {
+        "id": "rev-flw-022-2",
+        "userName": "Vandana Subramanian",
+        "author": "Vandana Subramanian",
+        "userEmail": "vandana.subramanian.991@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Impeccable highland cultivation and petal density — Rustic Pink Collection",
+        "comment": "Fourteen days after delivery, our Rustic Pink Collection continues to look remarkably radiant and intact. Not a single petal dropped during the first 10 days; the stem caliber is easily double what ordinary high-street florists supply. Dhanvikk's cold-chain refrigerated delivery fleet is clearly the gold standard in the floristry industry.",
+        "date": "10 days ago",
+        "createdAt": "2026-10-13T02:31:42.260Z",
+        "verified": true,
+        "helpful": 17
+      },
+      {
+        "id": "rev-flw-022-3",
+        "userName": "Svetlana Dubey",
+        "author": "Svetlana Dubey",
+        "userEmail": "svetlana.dubey.272@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Quiet luxury and exquisite calligraphy detailing in Rustic Pink Collection",
+        "comment": "Gifted the Rustic Pink Collection as a gesture of heartfelt gratitude, and the response was pure delight. The stems drank steadily and held their upright posture with royal dignity throughout the entire celebration. Will be reordering regularly for all our private celebrations and corporate client gifting.",
+        "date": "21 days ago",
+        "createdAt": "2026-10-01T19:23:37.903Z",
+        "verified": true,
+        "helpful": 22
+      }
+    ]
   },
   {
     "id": "flw-023",
@@ -514,22 +1439,64 @@ export const SEED_PRODUCTS = [
     "slug": "blushing-harmony-blend",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Roses",
     "occasion": "Love & Romance",
     "recipient": "For Her",
-    "flowerType": "Roses",
     "price": 5625,
     "originalPrice": 7312,
-    "stock": 14,
+    "rating": 5,
+    "reviewsCount": 164,
+    "tag": "Luxury Bloom",
+    "image": "/images/products/blushing-harmony-blend.webp",
     "images": [
       "/images/products/blushing-harmony-blend.webp"
     ],
-    "rating": 5.0,
-    "reviewsCount": 164,
-    "tag": "Luxury Bloom",
     "description": "Hand-tied by master Parisian florists, the Blushing Harmony Blend harmonizes premium long-stemmed roses with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 14,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-023-1",
+        "userName": "Siddharth Pandey",
+        "author": "Siddharth Pandey",
+        "userEmail": "siddharth.pandey.824@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Awe-inspiring craftsmanship and luxury presentation — Blushing Harmony Blend",
+        "comment": "From the moment the Dhanvikk courier arrived with the Blushing Harmony Blend, the caliber was unmistakably world-class. The layered organza and matte parchment wrapping protects each bloom while showcasing the lush foliage beneath. My guests could not stop inquiring where this extraordinary floral curation came from.",
+        "date": "4 days ago",
+        "createdAt": "2026-10-18T21:59:56.452Z",
+        "verified": true,
+        "helpful": 46
+      },
+      {
+        "id": "rev-flw-023-2",
+        "userName": "Charlotte Yadav",
+        "author": "Charlotte Yadav",
+        "userEmail": "charlotte.yadav.105@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Unprecedented vase longevity and natural fragrance from Blushing Harmony Blend",
+        "comment": "The fragrance profile of the Blushing Harmony Blend is natural, intoxicating, and gracefully fills the entire room. The subtle, soothing botanical scent persisted for more than 11 days, making the home smell like a morning garden in bloom. The level of quality control and stem-by-stem inspection is evident from the first glance.",
+        "date": "11 days ago",
+        "createdAt": "2026-10-11T18:51:57.052Z",
+        "verified": true,
+        "helpful": 18
+      },
+      {
+        "id": "rev-flw-023-3",
+        "userName": "Aditi Jain",
+        "author": "Aditi Jain",
+        "userEmail": "aditi.jain.285@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "An heirloom masterpiece that brought immense joy: Blushing Harmony Blend",
+        "comment": "The Blushing Harmony Blend is hands down one of the most distinguished floral creations I have had the pleasure to present. The contrast between the velvety roses and the aromatic eucalyptus foliage creates an exquisite visual rhythm. A consummate triumph of floral curation, pristine presentation, and genuine white-glove service.",
+        "date": "22 days ago",
+        "createdAt": "2026-09-30T19:35:19.770Z",
+        "verified": true,
+        "helpful": 21
+      }
+    ]
   },
   {
     "id": "flw-024",
@@ -537,22 +1504,64 @@ export const SEED_PRODUCTS = [
     "slug": "dual-blossom-charm",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
     "occasion": "Birthday",
     "recipient": "Everyone",
-    "flowerType": "Mixed",
     "price": 11228,
     "originalPrice": 14602,
-    "stock": 33,
+    "rating": 5,
+    "reviewsCount": 80,
+    "tag": "Florist Choice",
+    "image": "/images/products/dual-blossom-charm.webp",
     "images": [
       "/images/products/dual-blossom-charm.webp"
     ],
-    "rating": 5.0,
-    "reviewsCount": 80,
-    "tag": "Florist Choice",
     "description": "Hand-tied by master Parisian florists, the Dual Blossom Charm harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 33,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-024-1",
+        "userName": "Swati Salunkhe",
+        "author": "Swati Salunkhe",
+        "userEmail": "swati.salunkhe.837@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Arrived pristine with morning dew still on petals: Dual Blossom Charm",
+        "comment": "The sheer artistic balance of the Dual Blossom Charm easily surpasses any floral arrangement I have commissioned before. The protective reefer hydration pods on the stem bases kept every leaf crisply hydrated throughout transport. Without question the finest floral presentation available anywhere in the country today.",
+        "date": "5 days ago",
+        "createdAt": "2026-10-17T21:15:19.045Z",
+        "verified": true,
+        "helpful": 36
+      },
+      {
+        "id": "rev-flw-024-2",
+        "userName": "Tariq Montague",
+        "author": "Tariq Montague",
+        "userEmail": "tariq.montague.118@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Uncompromising quality control in this gorgeous Dual Blossom Charm",
+        "comment": "You can immediately feel the heavy stem density and turgid petal structure of this highland-grown Dual Blossom Charm. Over the first 48 hours in vase water, each bud opened progressively into a magnificent, fully expanded blossom lasting 12 full days. I will never order from standard floral delivery services again after experiencing this caliber.",
+        "date": "12 days ago",
+        "createdAt": "2026-10-10T23:12:11.845Z",
+        "verified": true,
+        "helpful": 20
+      },
+      {
+        "id": "rev-flw-024-3",
+        "userName": "Avani Mahajan",
+        "author": "Avani Mahajan",
+        "userEmail": "avani.mahajan.298@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Flawless execution from courier to final bloom — Dual Blossom Charm",
+        "comment": "Everything about the Dual Blossom Charm — from the embossed envelope to the floral symmetry — whispers quiet luxury. The gradient of tones in the mixed was subtle, sophisticated, and perfectly suited for luxury sensibilities. Worth every single rupee for the lasting joy, prestige, and beauty it brought into our lives.",
+        "date": "23 days ago",
+        "createdAt": "2026-09-29T19:47:01.638Z",
+        "verified": true,
+        "helpful": 20
+      }
+    ]
   },
   {
     "id": "flw-025",
@@ -560,22 +1569,64 @@ export const SEED_PRODUCTS = [
     "slug": "infinite-blush-grandeur",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Roses",
     "occasion": "Congratulations",
     "recipient": "Everyone",
-    "flowerType": "Roses",
     "price": 31478,
     "originalPrice": 40928,
-    "stock": 43,
-    "images": [
-      "/images/products/infinite-blush-grandeur.webp"
-    ],
     "rating": 4.9,
     "reviewsCount": 171,
     "tag": "Luxury Bloom",
+    "image": "/images/products/infinite-blush-grandeur.webp",
+    "images": [
+      "/images/products/infinite-blush-grandeur.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the Infinite Blush Grandeur harmonizes premium long-stemmed roses with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 43,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": true,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-025-1",
+        "userName": "Vidya Shroff",
+        "author": "Vidya Shroff",
+        "userEmail": "vidya.shroff.850@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Elegance personified in the magnificent Infinite Blush Grandeur",
+        "comment": "Dhanvikk has completely redefined luxury gifting with this sensational Infinite Blush Grandeur. The imported European waterproof wrap and hand-tied gold-embossed silk ribbon give the bouquet an unmistakable haute couture flair. The recipient was visibly moved to tears upon reading the calligraphy note tucked into the arrangement.",
+        "date": "2 days ago",
+        "createdAt": "2026-10-20T20:30:41.638Z",
+        "verified": true,
+        "helpful": 25
+      },
+      {
+        "id": "rev-flw-025-2",
+        "userName": "Valentina Chauhan",
+        "author": "Valentina Chauhan",
+        "userEmail": "valentina.chauhan.131@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Robust stems, velvety texture, and remarkable hydration: Infinite Blush Grandeur",
+        "comment": "Dhanvikk's zero-compromise approach to morning dawn-cutting is vividly apparent in the Infinite Blush Grandeur. Not a single petal dropped during the first 10 days; the stem caliber is easily double what ordinary high-street florists supply. A masterclass in high-altitude boutique cultivation and pristine handling.",
+        "date": "7 days ago",
+        "createdAt": "2026-10-15T15:32:26.638Z",
+        "verified": true,
+        "helpful": 21
+      },
+      {
+        "id": "rev-flw-025-3",
+        "userName": "Farhan Narang",
+        "author": "Farhan Narang",
+        "userEmail": "farhan.narang.311@verified.dhanvikk.com",
+        "rating": 4,
+        "title": "Our definitive choice for all high-profile occasions: Infinite Blush Grandeur",
+        "comment": "Ordered the Infinite Blush Grandeur on short notice and Dhanvikk delivered with impeccable timing and flawless poise. The stems drank steadily and held their upright posture with royal dignity throughout the entire celebration. I wholeheartedly recommend Dhanvikk to anyone who refuses to settle for ordinary commercial blooms.",
+        "date": "24 days ago",
+        "createdAt": "2026-09-28T19:58:43.505Z",
+        "verified": true,
+        "helpful": 18
+      }
+    ]
   },
   {
     "id": "flw-026",
@@ -583,22 +1634,64 @@ export const SEED_PRODUCTS = [
     "slug": "rustic-romance-meadow",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Roses",
     "occasion": "Love & Romance",
     "recipient": "For Her",
-    "flowerType": "Roses",
     "price": 8078,
     "originalPrice": 10508,
-    "stock": 20,
-    "images": [
-      "/images/products/rustic-romance-meadow.webp"
-    ],
     "rating": 4.7,
     "reviewsCount": 183,
     "tag": "Best Seller",
+    "image": "/images/products/rustic-romance-meadow.webp",
+    "images": [
+      "/images/products/rustic-romance-meadow.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the Rustic Romance Meadow harmonizes premium long-stemmed roses with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 20,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-026-1",
+        "userName": "Julian Varma",
+        "author": "Julian Varma",
+        "userEmail": "julian.varma.864@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Unrivaled atelier artistry in every single bloom — Rustic Romance Meadow",
+        "comment": "The unveiling of our Rustic Romance Meadow was the highlight of our celebratory morning. The layered organza and matte parchment wrapping protects each bloom while showcasing the lush foliage beneath. An indispensable triumph of an arrangement for any love & romance.",
+        "date": "3 days ago",
+        "createdAt": "2026-10-19T19:46:04.231Z",
+        "verified": true,
+        "helpful": 45
+      },
+      {
+        "id": "rev-flw-026-2",
+        "userName": "Aanya Hegde",
+        "author": "Aanya Hegde",
+        "userEmail": "aanya.hegde.145@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Horticultural perfection air-flown with exquisite care — Rustic Romance Meadow",
+        "comment": "The freshness of the Rustic Romance Meadow when unpacked felt as if it had been gathered from the mountain estate an hour prior. The subtle, soothing botanical scent persisted for more than 14 days, making the home smell like a morning garden in bloom. Proof that luxury floristry is a true art form when executed with such uncompromising dedication.",
+        "date": "8 days ago",
+        "createdAt": "2026-10-14T19:52:41.431Z",
+        "verified": true,
+        "helpful": 22
+      },
+      {
+        "id": "rev-flw-026-3",
+        "userName": "Kalyani Rathore",
+        "author": "Kalyani Rathore",
+        "userEmail": "kalyani.rathore.325@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "The ultimate emotional grand gesture for our love & romance — Rustic Romance Meadow",
+        "comment": "The visual impact of the Rustic Romance Meadow when unveiled is something neither my guests nor I will soon forget. The contrast between the velvety roses and the aromatic eucalyptus foliage creates an exquisite visual rhythm. An unequivocal 10 out of 10 experience that sets a new benchmark for luxury lifestyle floristry.",
+        "date": "25 days ago",
+        "createdAt": "2026-09-27T20:10:25.373Z",
+        "verified": true,
+        "helpful": 17
+      }
+    ]
   },
   {
     "id": "flw-027",
@@ -606,22 +1699,64 @@ export const SEED_PRODUCTS = [
     "slug": "ethereal-white-grandeur",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
     "occasion": "Congratulations",
     "recipient": "Everyone",
-    "flowerType": "Mixed",
     "price": 11228,
     "originalPrice": 14602,
-    "stock": 39,
+    "rating": 5,
+    "reviewsCount": 84,
+    "tag": "Luxury Bloom",
+    "image": "/images/products/ethereal-white-grandeur.webp",
     "images": [
       "/images/products/ethereal-white-grandeur.webp"
     ],
-    "rating": 5.0,
-    "reviewsCount": 84,
-    "tag": "Luxury Bloom",
     "description": "Hand-tied by master Parisian florists, the Ethereal White Grandeur harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 39,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-027-1",
+        "userName": "Benjamin Fontaine",
+        "author": "Benjamin Fontaine",
+        "userEmail": "benjamin.fontaine.877@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Haute couture floral design at its finest: Ethereal White Grandeur",
+        "comment": "Exquisite does not even begin to capture how breathtaking the Ethereal White Grandeur looks in person. The protective reefer hydration pods on the stem bases kept every leaf crisply hydrated throughout transport. It brought an atmosphere of regal tranquility to our salon that lasted for days.",
+        "date": "4 days ago",
+        "createdAt": "2026-10-18T19:01:26.824Z",
+        "verified": true,
+        "helpful": 34
+      },
+      {
+        "id": "rev-flw-027-2",
+        "userName": "Anushka Kirloskar",
+        "author": "Anushka Kirloskar",
+        "userEmail": "anushka.kirloskar.158@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Remarkably fresh for nearly two weeks in our salon: Ethereal White Grandeur",
+        "comment": "The sheer volume and petal count packed into the Ethereal White Grandeur makes it an extraordinary value for high connoisseurs. Over the first 48 hours in vase water, each bud opened progressively into a magnificent, fully expanded blossom lasting 15 full days. Dhanvikk's cold-chain refrigerated delivery fleet is clearly the gold standard in the floristry industry.",
+        "date": "9 days ago",
+        "createdAt": "2026-10-14T00:12:56.224Z",
+        "verified": true,
+        "helpful": 24
+      },
+      {
+        "id": "rev-flw-027-3",
+        "userName": "Malini Sengupta",
+        "author": "Malini Sengupta",
+        "userEmail": "malini.sengupta.338@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Left all our dinner guests completely captivated: Ethereal White Grandeur",
+        "comment": "I selected the Ethereal White Grandeur specifically for a milestone congratulations surprise. The gradient of tones in the mixed was subtle, sophisticated, and perfectly suited for luxury sensibilities. Will be reordering regularly for all our private celebrations and corporate client gifting.",
+        "date": "26 days ago",
+        "createdAt": "2026-09-26T20:22:07.240Z",
+        "verified": true,
+        "helpful": 16
+      }
+    ]
   },
   {
     "id": "flw-028",
@@ -629,22 +1764,64 @@ export const SEED_PRODUCTS = [
     "slug": "golden-lily-radiance",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Lilies",
     "occasion": "Anniversary",
     "recipient": "For Her",
-    "flowerType": "Lilies",
     "price": 6728,
     "originalPrice": 8752,
-    "stock": 31,
-    "images": [
-      "/images/products/golden-lily-radiance.webp"
-    ],
     "rating": 4.9,
     "reviewsCount": 157,
     "tag": "Best Seller",
+    "image": "/images/products/golden-lily-radiance.webp",
+    "images": [
+      "/images/products/golden-lily-radiance.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the Golden Lily Radiance harmonizes premium long-stemmed lilies with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 31,
+    "inStock": true,
     "isBestSeller": true,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-028-1",
+        "userName": "Aurelia Bhardwaj",
+        "author": "Aurelia Bhardwaj",
+        "userEmail": "aurelia.bhardwaj.890@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "An unforgettable grand entrance with Golden Lily Radiance",
+        "comment": "As a lifelong admirer of fine floristry, the architectural symmetry of the Golden Lily Radiance is awe-inspiring. The imported European waterproof wrap and hand-tied gold-embossed silk ribbon give the bouquet an unmistakable haute couture flair. My guests could not stop inquiring where this extraordinary floral curation came from.",
+        "date": "5 days ago",
+        "createdAt": "2026-10-17T18:16:49.416Z",
+        "verified": true,
+        "helpful": 24
+      },
+      {
+        "id": "rev-flw-028-2",
+        "userName": "Diya Mukherjee",
+        "author": "Diya Mukherjee",
+        "userEmail": "diya.mukherjee.171@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Lasted over 16 full days in pristine condition — Golden Lily Radiance",
+        "comment": "Every single stem in our Golden Lily Radiance was hand-selected at the exact micro-stage of opening for maximum longevity. Not a single petal dropped during the first 10 days; the stem caliber is easily double what ordinary high-street florists supply. The level of quality control and stem-by-stem inspection is evident from the first glance.",
+        "date": "10 days ago",
+        "createdAt": "2026-10-12T16:33:11.016Z",
+        "verified": true,
+        "helpful": 25
+      },
+      {
+        "id": "rev-flw-028-3",
+        "userName": "Nikhil Tandon",
+        "author": "Nikhil Tandon",
+        "userEmail": "nikhil.tandon.351@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "A distinguished luxury statement piece: Golden Lily Radiance",
+        "comment": "Our executive boardroom needed a commanding centerpiece, and the Golden Lily Radiance delivered majestic grandeur. The stems drank steadily and held their upright posture with royal dignity throughout the entire celebration. A consummate triumph of floral curation, pristine presentation, and genuine white-glove service.",
+        "date": "27 days ago",
+        "createdAt": "2026-09-25T20:33:49.108Z",
+        "verified": true,
+        "helpful": 15
+      }
+    ]
   },
   {
     "id": "flw-029",
@@ -652,22 +1829,64 @@ export const SEED_PRODUCTS = [
     "slug": "blue-serenity-bouquet",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
     "occasion": "Birthday",
     "recipient": "Everyone",
-    "flowerType": "Mixed",
     "price": 13478,
     "originalPrice": 17528,
-    "stock": 42,
-    "images": [
-      "/images/products/blue-serenity-bouquet.webp"
-    ],
     "rating": 4.9,
     "reviewsCount": 93,
     "tag": "Luxury Bloom",
+    "image": "/images/products/blue-serenity-bouquet.webp",
+    "images": [
+      "/images/products/blue-serenity-bouquet.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the Blue Serenity Bouquet harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 42,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-029-1",
+        "userName": "Nils Garg",
+        "author": "Nils Garg",
+        "userEmail": "nils.garg.903@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Sublime symmetry and velvet perfection in Blue Serenity Bouquet",
+        "comment": "Commissioned the Blue Serenity Bouquet as a surprise, and the doorstep presentation was cinematic in its perfection. The layered organza and matte parchment wrapping protects each bloom while showcasing the lush foliage beneath. Without question the finest floral presentation available anywhere in the country today.",
+        "date": "2 days ago",
+        "createdAt": "2026-10-20T17:32:12.009Z",
+        "verified": true,
+        "helpful": 43
+      },
+      {
+        "id": "rev-flw-029-2",
+        "userName": "Jahnavi Puri",
+        "author": "Jahnavi Puri",
+        "userEmail": "jahnavi.puri.184@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Intoxicating aroma and extraordinary stem caliber in Blue Serenity Bouquet",
+        "comment": "What sets the Blue Serenity Bouquet apart is the exceptional horticultural caliber of the mixed. The subtle, soothing botanical scent persisted for more than 10 days, making the home smell like a morning garden in bloom. I will never order from standard floral delivery services again after experiencing this caliber.",
+        "date": "11 days ago",
+        "createdAt": "2026-10-11T20:53:25.809Z",
+        "verified": true,
+        "helpful": 26
+      },
+      {
+        "id": "rev-flw-029-3",
+        "userName": "Rahul Mercier",
+        "author": "Rahul Mercier",
+        "userEmail": "rahul.mercier.364@verified.dhanvikk.com",
+        "rating": 4,
+        "title": "Heartfelt tears of joy upon opening the Blue Serenity Bouquet",
+        "comment": "Surprised my partner with the Blue Serenity Bouquet and the emotional resonance was beyond words. The contrast between the velvety mixed and the aromatic eucalyptus foliage creates an exquisite visual rhythm. Worth every single rupee for the lasting joy, prestige, and beauty it brought into our lives.",
+        "date": "14 days ago",
+        "createdAt": "2026-10-08T20:45:30.975Z",
+        "verified": true,
+        "helpful": 13
+      }
+    ]
   },
   {
     "id": "flw-030",
@@ -675,22 +1894,64 @@ export const SEED_PRODUCTS = [
     "slug": "midnight-blue-charm",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
     "occasion": "Birthday",
     "recipient": "Everyone",
-    "flowerType": "Mixed",
     "price": 2678,
     "originalPrice": 3488,
-    "stock": 19,
-    "images": [
-      "/images/products/midnight-blue-charm.webp"
-    ],
     "rating": 4.8,
     "reviewsCount": 154,
     "tag": "Luxury Edit",
+    "image": "/images/products/midnight-blue-charm.webp",
+    "images": [
+      "/images/products/midnight-blue-charm.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the Midnight Blue Charm harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 19,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": true,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-030-1",
+        "userName": "Ananya Kashyap",
+        "author": "Ananya Kashyap",
+        "userEmail": "ananya.kashyap.916@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Surpassed our highest expectations: Midnight Blue Charm",
+        "comment": "The Midnight Blue Charm arrived looking so freshly sculpted it felt like an exhibit from a Parisian floral atelier. The protective reefer hydration pods on the stem bases kept every leaf crisply hydrated throughout transport. The recipient was visibly moved to tears upon reading the calligraphy note tucked into the arrangement.",
+        "date": "3 days ago",
+        "createdAt": "2026-10-19T16:47:34.602Z",
+        "verified": true,
+        "helpful": 32
+      },
+      {
+        "id": "rev-flw-030-2",
+        "userName": "Lavanya Sarin",
+        "author": "Lavanya Sarin",
+        "userEmail": "lavanya.sarin.197@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "World-class cold chain delivery and dewy freshness: Midnight Blue Charm",
+        "comment": "Having ordered luxury florals in London and Milan, I can confirm that Dhanvikk's Midnight Blue Charm stands on the global podium. Over the first 48 hours in vase water, each bud opened progressively into a magnificent, fully expanded blossom lasting 11 full days. A masterclass in high-altitude boutique cultivation and pristine handling.",
+        "date": "12 days ago",
+        "createdAt": "2026-10-11T01:13:40.602Z",
+        "verified": true,
+        "helpful": 27
+      },
+      {
+        "id": "rev-flw-030-3",
+        "userName": "Sameer Al-Maktoum",
+        "author": "Sameer Al-Maktoum",
+        "userEmail": "sameer.almaktoum.377@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "The gold standard for our birthday celebration — Midnight Blue Charm",
+        "comment": "If you are looking for an unforgettable statement piece, the Midnight Blue Charm is utterly peerless. The gradient of tones in the mixed was subtle, sophisticated, and perfectly suited for luxury sensibilities. I wholeheartedly recommend Dhanvikk to anyone who refuses to settle for ordinary commercial blooms.",
+        "date": "15 days ago",
+        "createdAt": "2026-10-07T20:57:12.843Z",
+        "verified": true,
+        "helpful": 12
+      }
+    ]
   },
   {
     "id": "flw-031",
@@ -698,22 +1959,64 @@ export const SEED_PRODUCTS = [
     "slug": "lavender-dream-serenity",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
     "occasion": "Birthday",
     "recipient": "Everyone",
-    "flowerType": "Mixed",
     "price": 4478,
     "originalPrice": 5828,
-    "stock": 17,
-    "images": [
-      "/images/products/lavender-dream-serenity.webp"
-    ],
     "rating": 4.8,
     "reviewsCount": 128,
     "tag": "Luxury Bloom",
+    "image": "/images/products/lavender-dream-serenity.webp",
+    "images": [
+      "/images/products/lavender-dream-serenity.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the Lavender Dream Serenity harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 17,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-031-1",
+        "userName": "Devika Menon",
+        "author": "Devika Menon",
+        "userEmail": "devika.menon.930@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Breathtaking sensory unboxing — Lavender Dream Serenity",
+        "comment": "Receiving the Lavender Dream Serenity was an experience of pure unadulterated luxury. The imported European waterproof wrap and hand-tied gold-embossed silk ribbon give the bouquet an unmistakable haute couture flair. An indispensable triumph of an arrangement for any birthday.",
+        "date": "4 days ago",
+        "createdAt": "2026-10-18T16:02:57.196Z",
+        "verified": true,
+        "helpful": 22
+      },
+      {
+        "id": "rev-flw-031-2",
+        "userName": "Navin Srinivasan",
+        "author": "Navin Srinivasan",
+        "userEmail": "navin.srinivasan.211@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "The Lavender Dream Serenity opened into full majestic splendour over 48 hours",
+        "comment": "The cold-chain logistics behind the Lavender Dream Serenity are truly remarkable — arrived thoroughly chilled and dewy. Not a single petal dropped during the first 10 days; the stem caliber is easily double what ordinary high-street florists supply. Proof that luxury floristry is a true art form when executed with such uncompromising dedication.",
+        "date": "7 days ago",
+        "createdAt": "2026-10-15T17:33:55.396Z",
+        "verified": true,
+        "helpful": 29
+      },
+      {
+        "id": "rev-flw-031-3",
+        "userName": "Sneha Dhillon",
+        "author": "Sneha Dhillon",
+        "userEmail": "sneha.dhillon.391@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Worth every single rupee for an unforgettable celebration — Lavender Dream Serenity",
+        "comment": "We featured the Lavender Dream Serenity at our anniversary dinner table and it immediately became the talking point of the evening. The stems drank steadily and held their upright posture with royal dignity throughout the entire celebration. An unequivocal 10 out of 10 experience that sets a new benchmark for luxury lifestyle floristry.",
+        "date": "16 days ago",
+        "createdAt": "2026-10-06T21:08:54.711Z",
+        "verified": true,
+        "helpful": 11
+      }
+    ]
   },
   {
     "id": "flw-032",
@@ -721,22 +2024,64 @@ export const SEED_PRODUCTS = [
     "slug": "sunny-tulip-glow",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Tulips",
     "occasion": "Birthday",
     "recipient": "BFFs",
-    "flowerType": "Tulips",
     "price": 3352,
     "originalPrice": 4365,
-    "stock": 34,
-    "images": [
-      "/images/products/sunny-tulip-glow.webp"
-    ],
     "rating": 4.8,
     "reviewsCount": 147,
     "tag": "Fresh Harvest",
+    "image": "/images/products/sunny-tulip-glow.webp",
+    "images": [
+      "/images/products/sunny-tulip-glow.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the Sunny Tulip Glow harmonizes premium long-stemmed tulips with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 34,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-032-1",
+        "userName": "Harish Oberoi",
+        "author": "Harish Oberoi",
+        "userEmail": "harish.oberoi.943@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "The pinnacle of refined floristry: Sunny Tulip Glow",
+        "comment": "I ordered the Sunny Tulip Glow for our family celebration and the presentation left us utterly captivated. The layered organza and matte parchment wrapping protects each bloom while showcasing the lush foliage beneath. It brought an atmosphere of regal tranquility to our salon that lasted for days.",
+        "date": "5 days ago",
+        "createdAt": "2026-10-17T15:18:19.789Z",
+        "verified": true,
+        "helpful": 41
+      },
+      {
+        "id": "rev-flw-032-2",
+        "userName": "Priyanka Walia",
+        "author": "Priyanka Walia",
+        "userEmail": "priyanka.walia.224@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Impeccable highland cultivation and petal density — Sunny Tulip Glow",
+        "comment": "Fourteen days after delivery, our Sunny Tulip Glow continues to look remarkably radiant and intact. The subtle, soothing botanical scent persisted for more than 13 days, making the home smell like a morning garden in bloom. Dhanvikk's cold-chain refrigerated delivery fleet is clearly the gold standard in the floristry industry.",
+        "date": "8 days ago",
+        "createdAt": "2026-10-14T21:54:10.189Z",
+        "verified": true,
+        "helpful": 30
+      },
+      {
+        "id": "rev-flw-032-3",
+        "userName": "Tarun Jadhav",
+        "author": "Tarun Jadhav",
+        "userEmail": "tarun.jadhav.404@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Quiet luxury and exquisite calligraphy detailing in Sunny Tulip Glow",
+        "comment": "Gifted the Sunny Tulip Glow as a gesture of heartfelt gratitude, and the response was pure delight. The contrast between the velvety tulips and the aromatic eucalyptus foliage creates an exquisite visual rhythm. Will be reordering regularly for all our private celebrations and corporate client gifting.",
+        "date": "17 days ago",
+        "createdAt": "2026-10-05T21:20:36.579Z",
+        "verified": true,
+        "helpful": 10
+      }
+    ]
   },
   {
     "id": "flw-033",
@@ -744,22 +2089,64 @@ export const SEED_PRODUCTS = [
     "slug": "blushing-spring-elegance",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Roses",
     "occasion": "Congratulations",
     "recipient": "For Her",
-    "flowerType": "Roses",
     "price": 6728,
     "originalPrice": 8752,
-    "stock": 22,
-    "images": [
-      "/images/products/blushing-spring-elegance.webp"
-    ],
     "rating": 4.8,
     "reviewsCount": 74,
     "tag": "Luxury Bloom",
+    "image": "/images/products/blushing-spring-elegance.webp",
+    "images": [
+      "/images/products/blushing-spring-elegance.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the Blushing Spring Elegance harmonizes premium long-stemmed roses with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 22,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-033-1",
+        "userName": "Khaled Sachdev",
+        "author": "Khaled Sachdev",
+        "userEmail": "khaled.sachdev.956@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Awe-inspiring craftsmanship and luxury presentation — Blushing Spring Elegance",
+        "comment": "From the moment the Dhanvikk courier arrived with the Blushing Spring Elegance, the caliber was unmistakably world-class. The protective reefer hydration pods on the stem bases kept every leaf crisply hydrated throughout transport. My guests could not stop inquiring where this extraordinary floral curation came from.",
+        "date": "2 days ago",
+        "createdAt": "2026-10-21T02:33:42.381Z",
+        "verified": true,
+        "helpful": 31
+      },
+      {
+        "id": "rev-flw-033-2",
+        "userName": "Roshni Sinclair",
+        "author": "Roshni Sinclair",
+        "userEmail": "roshni.sinclair.237@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Unprecedented vase longevity and natural fragrance from Blushing Spring Elegance",
+        "comment": "The fragrance profile of the Blushing Spring Elegance is natural, intoxicating, and gracefully fills the entire room. Over the first 48 hours in vase water, each bud opened progressively into a magnificent, fully expanded blossom lasting 14 full days. The level of quality control and stem-by-stem inspection is evident from the first glance.",
+        "date": "9 days ago",
+        "createdAt": "2026-10-14T02:14:24.982Z",
+        "verified": true,
+        "helpful": 31
+      },
+      {
+        "id": "rev-flw-033-3",
+        "userName": "Vandana Lahiri",
+        "author": "Vandana Lahiri",
+        "userEmail": "vandana.lahiri.417@verified.dhanvikk.com",
+        "rating": 4,
+        "title": "An heirloom masterpiece that brought immense joy: Blushing Spring Elegance",
+        "comment": "The Blushing Spring Elegance is hands down one of the most distinguished floral creations I have had the pleasure to present. The gradient of tones in the roses was subtle, sophisticated, and perfectly suited for luxury sensibilities. A consummate triumph of floral curation, pristine presentation, and genuine white-glove service.",
+        "date": "18 days ago",
+        "createdAt": "2026-10-04T21:32:18.446Z",
+        "verified": true,
+        "helpful": 28
+      }
+    ]
   },
   {
     "id": "flw-034",
@@ -767,22 +2154,64 @@ export const SEED_PRODUCTS = [
     "slug": "eternal-passion-harmony",
     "category": "Forever Roses",
     "subCategory": "Preserved Bell Domes",
+    "flowerType": "Mixed",
     "occasion": "Love & Romance",
     "recipient": "For Her",
-    "flowerType": "Mixed",
     "price": 3352,
     "originalPrice": 4365,
-    "stock": 31,
-    "images": [
-      "/images/products/eternal-passion-harmony.webp"
-    ],
     "rating": 4.9,
     "reviewsCount": 184,
     "tag": "Artisan Hand-tied",
+    "image": "/images/products/eternal-passion-harmony.webp",
+    "images": [
+      "/images/products/eternal-passion-harmony.webp"
+    ],
     "description": "A breathtaking showcase of naturally preserved Ecuadorian garden blooms, meticulously stabilized to retain velvety softness, vibrant pigment, and structural perfection for up to 3 years without watering. Encased in a hand-blown borosilicate bell dome.",
+    "stock": 31,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-034-1",
+        "userName": "Mihir Shetty",
+        "author": "Mihir Shetty",
+        "userEmail": "mihir.shetty.969@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Arrived pristine with morning dew still on petals: Eternal Passion Harmony",
+        "comment": "The sheer artistic balance of the Eternal Passion Harmony easily surpasses any floral arrangement I have commissioned before. The crystal-clear hand-blown bell dome and gilded wooden base showcase the preserved mixed with royal majesty. Without question the finest floral presentation available anywhere in the country today.",
+        "date": "3 days ago",
+        "createdAt": "2026-10-20T01:49:04.974Z",
+        "verified": true,
+        "helpful": 20
+      },
+      {
+        "id": "rev-flw-034-2",
+        "userName": "Siddharth Chatterjee",
+        "author": "Siddharth Chatterjee",
+        "userEmail": "siddharth.chatterjee.250@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Uncompromising quality control in this gorgeous Eternal Passion Harmony",
+        "comment": "You can immediately feel the heavy stem density and turgid petal structure of this highland-grown Eternal Passion Harmony. The rich, saturated pigment of the petals has remained completely unaffected by ambient room lighting. I will never order from standard floral delivery services again after experiencing this caliber.",
+        "date": "10 days ago",
+        "createdAt": "2026-10-12T18:34:39.774Z",
+        "verified": true,
+        "helpful": 32
+      },
+      {
+        "id": "rev-flw-034-3",
+        "userName": "Charlotte Nambiar",
+        "author": "Charlotte Nambiar",
+        "userEmail": "charlotte.nambiar.430@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Flawless execution from courier to final bloom — Eternal Passion Harmony",
+        "comment": "Everything about the Eternal Passion Harmony — from the embossed envelope to the floral symmetry — whispers quiet luxury. An heirloom luxury creation that outshines conventional ephemeral bouquets in every conceivable dimension. Worth every single rupee for the lasting joy, prestige, and beauty it brought into our lives.",
+        "date": "19 days ago",
+        "createdAt": "2026-10-03T21:44:00.314Z",
+        "verified": true,
+        "helpful": 27
+      }
+    ]
   },
   {
     "id": "flw-035",
@@ -790,45 +2219,129 @@ export const SEED_PRODUCTS = [
     "slug": "pastel-harmony-oasis",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
     "occasion": "Birthday",
     "recipient": "BFFs",
-    "flowerType": "Mixed",
     "price": 3802,
     "originalPrice": 4950,
-    "stock": 17,
-    "images": [
-      "/images/products/pastel-harmony-oasis.webp"
-    ],
     "rating": 4.9,
     "reviewsCount": 159,
     "tag": "Luxury Bloom",
+    "image": "/images/products/pastel-harmony-oasis.webp",
+    "images": [
+      "/images/products/pastel-harmony-oasis.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the Pastel Harmony Oasis harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 17,
+    "inStock": true,
     "isBestSeller": true,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-035-1",
+        "userName": "Pranav Upadhyay",
+        "author": "Pranav Upadhyay",
+        "userEmail": "pranav.upadhyay.982@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Elegance personified in the magnificent Pastel Harmony Oasis",
+        "comment": "Dhanvikk has completely redefined luxury gifting with this sensational Pastel Harmony Oasis. The layered organza and matte parchment wrapping protects each bloom while showcasing the lush foliage beneath. The recipient was visibly moved to tears upon reading the calligraphy note tucked into the arrangement.",
+        "date": "4 days ago",
+        "createdAt": "2026-10-19T01:04:27.567Z",
+        "verified": true,
+        "helpful": 40
+      },
+      {
+        "id": "rev-flw-035-2",
+        "userName": "Swati Gupta",
+        "author": "Swati Gupta",
+        "userEmail": "swati.gupta.263@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Robust stems, velvety texture, and remarkable hydration: Pastel Harmony Oasis",
+        "comment": "Dhanvikk's zero-compromise approach to morning dawn-cutting is vividly apparent in the Pastel Harmony Oasis. The subtle, soothing botanical scent persisted for more than 16 days, making the home smell like a morning garden in bloom. A masterclass in high-altitude boutique cultivation and pristine handling.",
+        "date": "11 days ago",
+        "createdAt": "2026-10-11T22:54:54.567Z",
+        "verified": true,
+        "helpful": 34
+      },
+      {
+        "id": "rev-flw-035-3",
+        "userName": "Tariq Rao",
+        "author": "Tariq Rao",
+        "userEmail": "tariq.rao.443@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Our definitive choice for all high-profile occasions: Pastel Harmony Oasis",
+        "comment": "Ordered the Pastel Harmony Oasis on short notice and Dhanvikk delivered with impeccable timing and flawless poise. The contrast between the velvety mixed and the aromatic eucalyptus foliage creates an exquisite visual rhythm. I wholeheartedly recommend Dhanvikk to anyone who refuses to settle for ordinary commercial blooms.",
+        "date": "20 days ago",
+        "createdAt": "2026-10-02T21:55:42.181Z",
+        "verified": true,
+        "helpful": 26
+      }
+    ]
   },
   {
     "id": "flw-036",
     "name": "Midnight Orchid Serenity",
     "slug": "midnight-orchid-serenity",
-    "category": "Plants",
-    "subCategory": "Living Orchids",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Orchids",
     "occasion": "Congratulations",
     "recipient": "Everyone",
-    "flowerType": "Orchids",
     "price": 4478,
     "originalPrice": 5828,
-    "stock": 34,
-    "images": [
-      "/images/products/midnight-orchid-serenity.webp"
-    ],
     "rating": 4.7,
     "reviewsCount": 128,
     "tag": "Trending Now",
-    "description": "Exotic living orchids nurtured to peak flowering perfection, displayed in a handcrafted artisan ceramic planter. Includes custom nutrient moss bedding, moisture-retaining base, and Dhanvikk botanical plant care guide.",
+    "image": "/images/products/midnight-orchid-serenity.webp",
+    "images": [
+      "/images/products/midnight-orchid-serenity.webp"
+    ],
+    "description": "Exotic deep-blue Dendrobium orchids and white garden sprays hand-tied in frosted Parisian wrap with double-faced Dhanvikk satin ribbon.",
+    "stock": 34,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-036-1",
+        "userName": "Rishabh Castiglione",
+        "author": "Rishabh Castiglione",
+        "userEmail": "rishabh.castiglione.996@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Unrivaled atelier artistry in every single bloom — Midnight Orchid Serenity",
+        "comment": "The unveiling of our Midnight Orchid Serenity was the highlight of our celebratory morning. The protective reefer hydration pods on the stem bases kept every leaf crisply hydrated throughout transport. An indispensable triumph of an arrangement for any congratulations.",
+        "date": "5 days ago",
+        "createdAt": "2026-10-18T00:19:50.160Z",
+        "verified": true,
+        "helpful": 29
+      },
+      {
+        "id": "rev-flw-036-2",
+        "userName": "Vidya Khatri",
+        "author": "Vidya Khatri",
+        "userEmail": "vidya.khatri.277@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Horticultural perfection air-flown with exquisite care — Midnight Orchid Serenity",
+        "comment": "The freshness of the Midnight Orchid Serenity when unpacked felt as if it had been gathered from the mountain estate an hour prior. Over the first 48 hours in vase water, each bud opened progressively into a magnificent, fully expanded blossom lasting 10 full days. Proof that luxury floristry is a true art form when executed with such uncompromising dedication.",
+        "date": "12 days ago",
+        "createdAt": "2026-10-10T15:15:09.360Z",
+        "verified": true,
+        "helpful": 35
+      },
+      {
+        "id": "rev-flw-036-3",
+        "userName": "Valentina Sen",
+        "author": "Valentina Sen",
+        "userEmail": "valentina.sen.457@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "The ultimate emotional grand gesture for our congratulations — Midnight Orchid Serenity",
+        "comment": "The visual impact of the Midnight Orchid Serenity when unveiled is something neither my guests nor I will soon forget. The gradient of tones in the orchids was subtle, sophisticated, and perfectly suited for luxury sensibilities. An unequivocal 10 out of 10 experience that sets a new benchmark for luxury lifestyle floristry.",
+        "date": "21 days ago",
+        "createdAt": "2026-10-01T22:07:24.049Z",
+        "verified": true,
+        "helpful": 25
+      }
+    ]
   },
   {
     "id": "flw-037",
@@ -836,22 +2349,64 @@ export const SEED_PRODUCTS = [
     "slug": "crimson-carnation-grandeur",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Roses",
     "occasion": "Love & Romance",
     "recipient": "For Her",
-    "flowerType": "Roses",
     "price": 1552,
     "originalPrice": 2025,
-    "stock": 33,
-    "images": [
-      "/images/products/crimson-carnation-grandeur.webp"
-    ],
     "rating": 4.8,
     "reviewsCount": 139,
     "tag": "Luxury Bloom",
+    "image": "/images/products/crimson-carnation-grandeur.webp",
+    "images": [
+      "/images/products/crimson-carnation-grandeur.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the Crimson Carnation Grandeur harmonizes premium long-stemmed roses with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 33,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-037-1",
+        "userName": "Shalini Bansal",
+        "author": "Shalini Bansal",
+        "userEmail": "shalini.bansal.110@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Haute couture floral design at its finest: Crimson Carnation Grandeur",
+        "comment": "Exquisite does not even begin to capture how breathtaking the Crimson Carnation Grandeur looks in person. The imported European waterproof wrap and hand-tied gold-embossed silk ribbon give the bouquet an unmistakable haute couture flair. It brought an atmosphere of regal tranquility to our salon that lasted for days.",
+        "date": "2 days ago",
+        "createdAt": "2026-10-20T23:35:12.753Z",
+        "verified": true,
+        "helpful": 48
+      },
+      {
+        "id": "rev-flw-037-2",
+        "userName": "Julian Mitra",
+        "author": "Julian Mitra",
+        "userEmail": "julian.mitra.290@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Remarkably fresh for nearly two weeks in our salon: Crimson Carnation Grandeur",
+        "comment": "The sheer volume and petal count packed into the Crimson Carnation Grandeur makes it an extraordinary value for high connoisseurs. Not a single petal dropped during the first 10 days; the stem caliber is easily double what ordinary high-street florists supply. Dhanvikk's cold-chain refrigerated delivery fleet is clearly the gold standard in the floristry industry.",
+        "date": "7 days ago",
+        "createdAt": "2026-10-15T19:35:24.153Z",
+        "verified": true,
+        "helpful": 36
+      },
+      {
+        "id": "rev-flw-037-3",
+        "userName": "Aanya Talwar",
+        "author": "Aanya Talwar",
+        "userEmail": "aanya.talwar.470@verified.dhanvikk.com",
+        "rating": 4,
+        "title": "Left all our dinner guests completely captivated: Crimson Carnation Grandeur",
+        "comment": "I selected the Crimson Carnation Grandeur specifically for a milestone love & romance surprise. The stems drank steadily and held their upright posture with royal dignity throughout the entire celebration. Will be reordering regularly for all our private celebrations and corporate client gifting.",
+        "date": "22 days ago",
+        "createdAt": "2026-09-30T22:19:05.916Z",
+        "verified": true,
+        "helpful": 23
+      }
+    ]
   },
   {
     "id": "flw-038",
@@ -859,22 +2414,64 @@ export const SEED_PRODUCTS = [
     "slug": "blushing-harmony-blend-2",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Roses",
     "occasion": "Love & Romance",
     "recipient": "For Her",
-    "flowerType": "Roses",
     "price": 7852,
     "originalPrice": 10215,
-    "stock": 33,
-    "images": [
-      "/images/products/blushing-harmony-blend-2.webp"
-    ],
     "rating": 4.7,
     "reviewsCount": 181,
     "tag": "Best Seller",
+    "image": "/images/products/blushing-harmony-blend-2.webp",
+    "images": [
+      "/images/products/blushing-harmony-blend-2.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the Blushing Harmony Blend harmonizes premium long-stemmed roses with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 33,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-038-1",
+        "userName": "Sunita Ganguly",
+        "author": "Sunita Ganguly",
+        "userEmail": "sunita.ganguly.123@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "An unforgettable grand entrance with Blushing Harmony Blend",
+        "comment": "As a lifelong admirer of fine floristry, the architectural symmetry of the Blushing Harmony Blend is awe-inspiring. The layered organza and matte parchment wrapping protects each bloom while showcasing the lush foliage beneath. My guests could not stop inquiring where this extraordinary floral curation came from.",
+        "date": "3 days ago",
+        "createdAt": "2026-10-19T22:50:35.345Z",
+        "verified": true,
+        "helpful": 38
+      },
+      {
+        "id": "rev-flw-038-2",
+        "userName": "Benjamin Prasad",
+        "author": "Benjamin Prasad",
+        "userEmail": "benjamin.prasad.303@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Lasted over 12 full days in pristine condition — Blushing Harmony Blend",
+        "comment": "Every single stem in our Blushing Harmony Blend was hand-selected at the exact micro-stage of opening for maximum longevity. The subtle, soothing botanical scent persisted for more than 12 days, making the home smell like a morning garden in bloom. The level of quality control and stem-by-stem inspection is evident from the first glance.",
+        "date": "8 days ago",
+        "createdAt": "2026-10-14T23:55:38.946Z",
+        "verified": true,
+        "helpful": 37
+      },
+      {
+        "id": "rev-flw-038-3",
+        "userName": "Anushka Laurent",
+        "author": "Anushka Laurent",
+        "userEmail": "anushka.laurent.483@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "A distinguished luxury statement piece: Blushing Harmony Blend",
+        "comment": "Our executive boardroom needed a commanding centerpiece, and the Blushing Harmony Blend delivered majestic grandeur. The contrast between the velvety roses and the aromatic eucalyptus foliage creates an exquisite visual rhythm. A consummate triumph of floral curation, pristine presentation, and genuine white-glove service.",
+        "date": "23 days ago",
+        "createdAt": "2026-09-29T22:30:47.784Z",
+        "verified": true,
+        "helpful": 22
+      }
+    ]
   },
   {
     "id": "flw-039",
@@ -882,22 +2479,64 @@ export const SEED_PRODUCTS = [
     "slug": "prism-of-affection-grandeur",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
     "occasion": "Love & Romance",
     "recipient": "For Her",
-    "flowerType": "Mixed",
     "price": 24728,
     "originalPrice": 32152,
-    "stock": 15,
-    "images": [
-      "/images/products/prism-of-affection-grandeur.webp"
-    ],
     "rating": 4.9,
     "reviewsCount": 48,
     "tag": "Luxury Bloom",
+    "image": "/images/products/prism-of-affection-grandeur.webp",
+    "images": [
+      "/images/products/prism-of-affection-grandeur.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the Prism of Affection Grandeur harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 15,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-039-1",
+        "userName": "Vaishnavi Kapoor",
+        "author": "Vaishnavi Kapoor",
+        "userEmail": "vaishnavi.kapoor.136@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Sublime symmetry and velvet perfection in Prism of Affection Grandeur",
+        "comment": "Commissioned the Prism of Affection Grandeur as a surprise, and the doorstep presentation was cinematic in its perfection. The protective reefer hydration pods on the stem bases kept every leaf crisply hydrated throughout transport. Without question the finest floral presentation available anywhere in the country today.",
+        "date": "4 days ago",
+        "createdAt": "2026-10-18T22:05:57.938Z",
+        "verified": true,
+        "helpful": 27
+      },
+      {
+        "id": "rev-flw-039-2",
+        "userName": "Aurelia Sandhu",
+        "author": "Aurelia Sandhu",
+        "userEmail": "aurelia.sandhu.316@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Intoxicating aroma and extraordinary stem caliber in Prism of Affection Grandeur",
+        "comment": "What sets the Prism of Affection Grandeur apart is the exceptional horticultural caliber of the mixed. Over the first 48 hours in vase water, each bud opened progressively into a magnificent, fully expanded blossom lasting 13 full days. I will never order from standard floral delivery services again after experiencing this caliber.",
+        "date": "9 days ago",
+        "createdAt": "2026-10-13T16:15:53.739Z",
+        "verified": true,
+        "helpful": 39
+      },
+      {
+        "id": "rev-flw-039-3",
+        "userName": "Diya D’Souza",
+        "author": "Diya D’Souza",
+        "userEmail": "diya.dsouza.496@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Heartfelt tears of joy upon opening the Prism of Affection Grandeur",
+        "comment": "Surprised my partner with the Prism of Affection Grandeur and the emotional resonance was beyond words. The gradient of tones in the mixed was subtle, sophisticated, and perfectly suited for luxury sensibilities. Worth every single rupee for the lasting joy, prestige, and beauty it brought into our lives.",
+        "date": "24 days ago",
+        "createdAt": "2026-09-28T22:42:29.651Z",
+        "verified": true,
+        "helpful": 21
+      }
+    ]
   },
   {
     "id": "flw-040",
@@ -905,22 +2544,64 @@ export const SEED_PRODUCTS = [
     "slug": "twilight-lavender-noir",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
     "occasion": "Birthday",
     "recipient": "Everyone",
-    "flowerType": "Mixed",
     "price": 2678,
     "originalPrice": 3488,
-    "stock": 44,
-    "images": [
-      "/images/products/twilight-lavender-noir.webp"
-    ],
     "rating": 4.9,
     "reviewsCount": 31,
     "tag": "Florist Choice",
+    "image": "/images/products/twilight-lavender-noir.webp",
+    "images": [
+      "/images/products/twilight-lavender-noir.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the Twilight Lavender Noir harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 44,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": true,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-040-1",
+        "userName": "Camille Mehta",
+        "author": "Camille Mehta",
+        "userEmail": "camille.mehta.149@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Surpassed our highest expectations: Twilight Lavender Noir",
+        "comment": "The Twilight Lavender Noir arrived looking so freshly sculpted it felt like an exhibit from a Parisian floral atelier. The imported European waterproof wrap and hand-tied gold-embossed silk ribbon give the bouquet an unmistakable haute couture flair. The recipient was visibly moved to tears upon reading the calligraphy note tucked into the arrangement.",
+        "date": "5 days ago",
+        "createdAt": "2026-10-17T21:21:20.531Z",
+        "verified": true,
+        "helpful": 47
+      },
+      {
+        "id": "rev-flw-040-2",
+        "userName": "Nils Somani",
+        "author": "Nils Somani",
+        "userEmail": "nils.somani.329@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "World-class cold chain delivery and dewy freshness: Twilight Lavender Noir",
+        "comment": "Having ordered luxury florals in London and Milan, I can confirm that Dhanvikk's Twilight Lavender Noir stands on the global podium. Not a single petal dropped during the first 10 days; the stem caliber is easily double what ordinary high-street florists supply. A masterclass in high-altitude boutique cultivation and pristine handling.",
+        "date": "10 days ago",
+        "createdAt": "2026-10-12T20:36:08.531Z",
+        "verified": true,
+        "helpful": 15
+      },
+      {
+        "id": "rev-flw-040-3",
+        "userName": "Jahnavi Deshmukh",
+        "author": "Jahnavi Deshmukh",
+        "userEmail": "jahnavi.deshmukh.509@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "The gold standard for our birthday celebration — Twilight Lavender Noir",
+        "comment": "If you are looking for an unforgettable statement piece, the Twilight Lavender Noir is utterly peerless. The stems drank steadily and held their upright posture with royal dignity throughout the entire celebration. I wholeheartedly recommend Dhanvikk to anyone who refuses to settle for ordinary commercial blooms.",
+        "date": "25 days ago",
+        "createdAt": "2026-09-27T22:54:11.519Z",
+        "verified": true,
+        "helpful": 20
+      }
+    ]
   },
   {
     "id": "flw-041",
@@ -928,22 +2609,64 @@ export const SEED_PRODUCTS = [
     "slug": "peach-delight",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
     "occasion": "Birthday",
     "recipient": "Everyone",
-    "flowerType": "Mixed",
     "price": 2228,
     "originalPrice": 2902,
-    "stock": 24,
-    "images": [
-      "/images/products/peach-delight.webp"
-    ],
     "rating": 4.9,
     "reviewsCount": 148,
     "tag": "Luxury Bloom",
+    "image": "/images/products/peach-delight.webp",
+    "images": [
+      "/images/products/peach-delight.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the Peach Delight harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 24,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-041-1",
+        "userName": "Alexander Nayar",
+        "author": "Alexander Nayar",
+        "userEmail": "alexander.nayar.163@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Breathtaking sensory unboxing — Peach Delight",
+        "comment": "Receiving the Peach Delight was an experience of pure unadulterated luxury. The layered organza and matte parchment wrapping protects each bloom while showcasing the lush foliage beneath. An indispensable triumph of an arrangement for any birthday.",
+        "date": "2 days ago",
+        "createdAt": "2026-10-20T20:36:43.124Z",
+        "verified": true,
+        "helpful": 36
+      },
+      {
+        "id": "rev-flw-041-2",
+        "userName": "Ananya Verma",
+        "author": "Ananya Verma",
+        "userEmail": "ananya.verma.343@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "The Peach Delight opened into full majestic splendour over 48 hours",
+        "comment": "The cold-chain logistics behind the Peach Delight are truly remarkable — arrived thoroughly chilled and dewy. The subtle, soothing botanical scent persisted for more than 15 days, making the home smell like a morning garden in bloom. Proof that luxury floristry is a true art form when executed with such uncompromising dedication.",
+        "date": "11 days ago",
+        "createdAt": "2026-10-12T00:56:23.324Z",
+        "verified": true,
+        "helpful": 16
+      },
+      {
+        "id": "rev-flw-041-3",
+        "userName": "Lavanya Iyer",
+        "author": "Lavanya Iyer",
+        "userEmail": "lavanya.iyer.523@verified.dhanvikk.com",
+        "rating": 4,
+        "title": "Worth every single rupee for an unforgettable celebration — Peach Delight",
+        "comment": "We featured the Peach Delight at our anniversary dinner table and it immediately became the talking point of the evening. The contrast between the velvety mixed and the aromatic eucalyptus foliage creates an exquisite visual rhythm. An unequivocal 10 out of 10 experience that sets a new benchmark for luxury lifestyle floristry.",
+        "date": "26 days ago",
+        "createdAt": "2026-09-26T23:05:53.386Z",
+        "verified": true,
+        "helpful": 18
+      }
+    ]
   },
   {
     "id": "flw-042",
@@ -951,22 +2674,64 @@ export const SEED_PRODUCTS = [
     "slug": "midnight-passion-noir",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
     "occasion": "Love & Romance",
     "recipient": "For Her",
-    "flowerType": "Mixed",
     "price": 3128,
     "originalPrice": 4072,
-    "stock": 15,
+    "rating": 5,
+    "reviewsCount": 35,
+    "tag": "Trending Now",
+    "image": "/images/products/midnight-passion-noir.webp",
     "images": [
       "/images/products/midnight-passion-noir.webp"
     ],
-    "rating": 5.0,
-    "reviewsCount": 35,
-    "tag": "Trending Now",
     "description": "Hand-tied by master Parisian florists, the Midnight Passion Noir harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 15,
+    "inStock": true,
     "isBestSeller": true,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-042-1",
+        "userName": "Genevieve Roy",
+        "author": "Genevieve Roy",
+        "userEmail": "genevieve.roy.176@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "The pinnacle of refined floristry: Midnight Passion Noir",
+        "comment": "I ordered the Midnight Passion Noir for our family celebration and the presentation left us utterly captivated. The protective reefer hydration pods on the stem bases kept every leaf crisply hydrated throughout transport. It brought an atmosphere of regal tranquility to our salon that lasted for days.",
+        "date": "3 days ago",
+        "createdAt": "2026-10-19T19:52:05.717Z",
+        "verified": true,
+        "helpful": 26
+      },
+      {
+        "id": "rev-flw-042-2",
+        "userName": "Devika Sterling",
+        "author": "Devika Sterling",
+        "userEmail": "devika.sterling.356@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Impeccable highland cultivation and petal density — Midnight Passion Noir",
+        "comment": "Fourteen days after delivery, our Midnight Passion Noir continues to look remarkably radiant and intact. Over the first 48 hours in vase water, each bud opened progressively into a magnificent, fully expanded blossom lasting 16 full days. Dhanvikk's cold-chain refrigerated delivery fleet is clearly the gold standard in the floristry industry.",
+        "date": "12 days ago",
+        "createdAt": "2026-10-10T17:16:38.117Z",
+        "verified": true,
+        "helpful": 17
+      },
+      {
+        "id": "rev-flw-042-3",
+        "userName": "Navin Kumar",
+        "author": "Navin Kumar",
+        "userEmail": "navin.kumar.536@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Quiet luxury and exquisite calligraphy detailing in Midnight Passion Noir",
+        "comment": "Gifted the Midnight Passion Noir as a gesture of heartfelt gratitude, and the response was pure delight. The gradient of tones in the mixed was subtle, sophisticated, and perfectly suited for luxury sensibilities. Will be reordering regularly for all our private celebrations and corporate client gifting.",
+        "date": "27 days ago",
+        "createdAt": "2026-09-25T23:17:35.254Z",
+        "verified": true,
+        "helpful": 17
+      }
+    ]
   },
   {
     "id": "flw-043",
@@ -974,22 +2739,64 @@ export const SEED_PRODUCTS = [
     "slug": "revival-romance",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Roses",
     "occasion": "Love & Romance",
     "recipient": "For Her",
-    "flowerType": "Roses",
     "price": 3352,
     "originalPrice": 4365,
-    "stock": 19,
-    "images": [
-      "/images/products/revival-romance.webp"
-    ],
     "rating": 4.8,
     "reviewsCount": 140,
     "tag": "Luxury Bloom",
+    "image": "/images/products/revival-romance.webp",
+    "images": [
+      "/images/products/revival-romance.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the Revival Romance harmonizes premium long-stemmed roses with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 19,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-043-1",
+        "userName": "Frederic Sharma",
+        "author": "Frederic Sharma",
+        "userEmail": "frederic.sharma.189@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Awe-inspiring craftsmanship and luxury presentation — Revival Romance",
+        "comment": "From the moment the Dhanvikk courier arrived with the Revival Romance, the caliber was unmistakably world-class. The imported European waterproof wrap and hand-tied gold-embossed silk ribbon give the bouquet an unmistakable haute couture flair. My guests could not stop inquiring where this extraordinary floral curation came from.",
+        "date": "4 days ago",
+        "createdAt": "2026-10-18T19:07:28.310Z",
+        "verified": true,
+        "helpful": 45
+      },
+      {
+        "id": "rev-flw-043-2",
+        "userName": "Harish Chakraborty",
+        "author": "Harish Chakraborty",
+        "userEmail": "harish.chakraborty.369@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Unprecedented vase longevity and natural fragrance from Revival Romance",
+        "comment": "The fragrance profile of the Revival Romance is natural, intoxicating, and gracefully fills the entire room. Not a single petal dropped during the first 10 days; the stem caliber is easily double what ordinary high-street florists supply. The level of quality control and stem-by-stem inspection is evident from the first glance.",
+        "date": "7 days ago",
+        "createdAt": "2026-10-15T21:36:52.910Z",
+        "verified": true,
+        "helpful": 19
+      },
+      {
+        "id": "rev-flw-043-3",
+        "userName": "Priyanka Naidu",
+        "author": "Priyanka Naidu",
+        "userEmail": "priyanka.naidu.549@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "An heirloom masterpiece that brought immense joy: Revival Romance",
+        "comment": "The Revival Romance is hands down one of the most distinguished floral creations I have had the pleasure to present. The stems drank steadily and held their upright posture with royal dignity throughout the entire celebration. A consummate triumph of floral curation, pristine presentation, and genuine white-glove service.",
+        "date": "14 days ago",
+        "createdAt": "2026-10-08T23:29:17.121Z",
+        "verified": true,
+        "helpful": 16
+      }
+    ]
   },
   {
     "id": "flw-044",
@@ -997,22 +2804,64 @@ export const SEED_PRODUCTS = [
     "slug": "sweet-blush-serenity",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Roses",
     "occasion": "Love & Romance",
     "recipient": "For Her",
-    "flowerType": "Roses",
     "price": 3352,
     "originalPrice": 4365,
-    "stock": 14,
+    "rating": 5,
+    "reviewsCount": 132,
+    "tag": "Artisan Hand-tied",
+    "image": "/images/products/sweet-blush-serenity.webp",
     "images": [
       "/images/products/sweet-blush-serenity.webp"
     ],
-    "rating": 5.0,
-    "reviewsCount": 132,
-    "tag": "Artisan Hand-tied",
     "description": "Hand-tied by master Parisian florists, the Sweet Blush Serenity harmonizes premium long-stemmed roses with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 14,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-044-1",
+        "userName": "Alia Trivedi",
+        "author": "Alia Trivedi",
+        "userEmail": "alia.trivedi.202@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Arrived pristine with morning dew still on petals: Sweet Blush Serenity",
+        "comment": "The sheer artistic balance of the Sweet Blush Serenity easily surpasses any floral arrangement I have commissioned before. The layered organza and matte parchment wrapping protects each bloom while showcasing the lush foliage beneath. Without question the finest floral presentation available anywhere in the country today.",
+        "date": "5 days ago",
+        "createdAt": "2026-10-17T18:22:50.902Z",
+        "verified": true,
+        "helpful": 35
+      },
+      {
+        "id": "rev-flw-044-2",
+        "userName": "Khaled Goswami",
+        "author": "Khaled Goswami",
+        "userEmail": "khaled.goswami.382@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Uncompromising quality control in this gorgeous Sweet Blush Serenity",
+        "comment": "You can immediately feel the heavy stem density and turgid petal structure of this highland-grown Sweet Blush Serenity. The subtle, soothing botanical scent persisted for more than 11 days, making the home smell like a morning garden in bloom. I will never order from standard floral delivery services again after experiencing this caliber.",
+        "date": "8 days ago",
+        "createdAt": "2026-10-15T01:57:07.703Z",
+        "verified": true,
+        "helpful": 20
+      },
+      {
+        "id": "rev-flw-044-3",
+        "userName": "Roshni Ramachandran",
+        "author": "Roshni Ramachandran",
+        "userEmail": "roshni.ramachandran.562@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Flawless execution from courier to final bloom — Sweet Blush Serenity",
+        "comment": "Everything about the Sweet Blush Serenity — from the embossed envelope to the floral symmetry — whispers quiet luxury. The contrast between the velvety roses and the aromatic eucalyptus foliage creates an exquisite visual rhythm. Worth every single rupee for the lasting joy, prestige, and beauty it brought into our lives.",
+        "date": "15 days ago",
+        "createdAt": "2026-10-07T23:40:58.989Z",
+        "verified": true,
+        "helpful": 15
+      }
+    ]
   },
   {
     "id": "flw-045",
@@ -1020,22 +2869,64 @@ export const SEED_PRODUCTS = [
     "slug": "blushing-hydrangea-dream-tem",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Roses",
     "occasion": "Love & Romance",
     "recipient": "For Her",
-    "flowerType": "Roses",
     "price": 2228,
     "originalPrice": 2902,
-    "stock": 35,
-    "images": [
-      "/images/products/blushing-hydrangea-dream-tem.webp"
-    ],
     "rating": 4.7,
     "reviewsCount": 183,
     "tag": "Luxury Bloom",
+    "image": "/images/products/blushing-hydrangea-dream-tem.webp",
+    "images": [
+      "/images/products/blushing-hydrangea-dream-tem.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the Blushing Hydrangea Dream tem harmonizes premium long-stemmed roses with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 35,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-045-1",
+        "userName": "Bhavna Beaumont",
+        "author": "Bhavna Beaumont",
+        "userEmail": "bhavna.beaumont.215@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Elegance personified in the magnificent Blushing Hydrangea Dream tem",
+        "comment": "Dhanvikk has completely redefined luxury gifting with this sensational Blushing Hydrangea Dream tem. The protective reefer hydration pods on the stem bases kept every leaf crisply hydrated throughout transport. The recipient was visibly moved to tears upon reading the calligraphy note tucked into the arrangement.",
+        "date": "2 days ago",
+        "createdAt": "2026-10-20T17:38:13.495Z",
+        "verified": true,
+        "helpful": 24
+      },
+      {
+        "id": "rev-flw-045-2",
+        "userName": "Mihir Khanna",
+        "author": "Mihir Khanna",
+        "userEmail": "mihir.khanna.395@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Robust stems, velvety texture, and remarkable hydration: Blushing Hydrangea Dream tem",
+        "comment": "Dhanvikk's zero-compromise approach to morning dawn-cutting is vividly apparent in the Blushing Hydrangea Dream tem. Over the first 48 hours in vase water, each bud opened progressively into a magnificent, fully expanded blossom lasting 12 full days. A masterclass in high-altitude boutique cultivation and pristine handling.",
+        "date": "9 days ago",
+        "createdAt": "2026-10-13T18:17:22.495Z",
+        "verified": true,
+        "helpful": 21
+      },
+      {
+        "id": "rev-flw-045-3",
+        "userName": "Siddharth Sehgal",
+        "author": "Siddharth Sehgal",
+        "userEmail": "siddharth.sehgal.575@verified.dhanvikk.com",
+        "rating": 4,
+        "title": "Our definitive choice for all high-profile occasions: Blushing Hydrangea Dream tem",
+        "comment": "Ordered the Blushing Hydrangea Dream tem on short notice and Dhanvikk delivered with impeccable timing and flawless poise. The gradient of tones in the roses was subtle, sophisticated, and perfectly suited for luxury sensibilities. I wholeheartedly recommend Dhanvikk to anyone who refuses to settle for ordinary commercial blooms.",
+        "date": "16 days ago",
+        "createdAt": "2026-10-06T23:52:40.856Z",
+        "verified": true,
+        "helpful": 14
+      }
+    ]
   },
   {
     "id": "flw-046",
@@ -1043,22 +2934,64 @@ export const SEED_PRODUCTS = [
     "slug": "sunny-radiance",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
     "occasion": "Birthday",
     "recipient": "BFFs",
-    "flowerType": "Mixed",
     "price": 2228,
     "originalPrice": 2902,
-    "stock": 39,
-    "images": [
-      "/images/products/sunny-radiance.webp"
-    ],
     "rating": 4.9,
     "reviewsCount": 62,
     "tag": "Artisan Hand-tied",
+    "image": "/images/products/sunny-radiance.webp",
+    "images": [
+      "/images/products/sunny-radiance.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the Sunny Radiance harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 39,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-046-1",
+        "userName": "Gaurav Bandyopadhyay",
+        "author": "Gaurav Bandyopadhyay",
+        "userEmail": "gaurav.bandyopadhyay.229@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Unrivaled atelier artistry in every single bloom — Sunny Radiance",
+        "comment": "The unveiling of our Sunny Radiance was the highlight of our celebratory morning. The imported European waterproof wrap and hand-tied gold-embossed silk ribbon give the bouquet an unmistakable haute couture flair. An indispensable triumph of an arrangement for any birthday.",
+        "date": "3 days ago",
+        "createdAt": "2026-10-19T16:53:36.088Z",
+        "verified": true,
+        "helpful": 43
+      },
+      {
+        "id": "rev-flw-046-2",
+        "userName": "Pranav Mishra",
+        "author": "Pranav Mishra",
+        "userEmail": "pranav.mishra.409@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Horticultural perfection air-flown with exquisite care — Sunny Radiance",
+        "comment": "The freshness of the Sunny Radiance when unpacked felt as if it had been gathered from the mountain estate an hour prior. Not a single petal dropped during the first 10 days; the stem caliber is easily double what ordinary high-street florists supply. Proof that luxury floristry is a true art form when executed with such uncompromising dedication.",
+        "date": "10 days ago",
+        "createdAt": "2026-10-12T22:37:37.288Z",
+        "verified": true,
+        "helpful": 22
+      },
+      {
+        "id": "rev-flw-046-3",
+        "userName": "Swati Sundaram",
+        "author": "Swati Sundaram",
+        "userEmail": "swati.sundaram.588@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "The ultimate emotional grand gesture for our birthday — Sunny Radiance",
+        "comment": "The visual impact of the Sunny Radiance when unveiled is something neither my guests nor I will soon forget. The stems drank steadily and held their upright posture with royal dignity throughout the entire celebration. An unequivocal 10 out of 10 experience that sets a new benchmark for luxury lifestyle floristry.",
+        "date": "17 days ago",
+        "createdAt": "2026-10-06T00:04:22.724Z",
+        "verified": true,
+        "helpful": 12
+      }
+    ]
   },
   {
     "id": "flw-047",
@@ -1066,22 +2999,64 @@ export const SEED_PRODUCTS = [
     "slug": "eternal-blush-grandeur",
     "category": "Forever Roses",
     "subCategory": "Preserved Bell Domes",
+    "flowerType": "Roses",
     "occasion": "Congratulations",
     "recipient": "Everyone",
-    "flowerType": "Roses",
     "price": 11228,
     "originalPrice": 14602,
-    "stock": 16,
-    "images": [
-      "/images/products/eternal-blush-grandeur.webp"
-    ],
     "rating": 4.8,
     "reviewsCount": 186,
     "tag": "Luxury Bloom",
+    "image": "/images/products/eternal-blush-grandeur.webp",
+    "images": [
+      "/images/products/eternal-blush-grandeur.webp"
+    ],
     "description": "A breathtaking showcase of naturally preserved Ecuadorian roses, meticulously stabilized to retain velvety softness, vibrant pigment, and structural perfection for up to 3 years without watering. Encased in a hand-blown borosilicate bell dome.",
+    "stock": 16,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-047-1",
+        "userName": "Karan Fernandes",
+        "author": "Karan Fernandes",
+        "userEmail": "karan.fernandes.242@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Haute couture floral design at its finest: Eternal Blush Grandeur",
+        "comment": "Exquisite does not even begin to capture how breathtaking the Eternal Blush Grandeur looks in person. Encased in a museum-grade glass cloche with delicate golden trim, every velvety petal is preserved in its prime. It brought an atmosphere of regal tranquility to our salon that lasted for days.",
+        "date": "4 days ago",
+        "createdAt": "2026-10-18T16:08:58.681Z",
+        "verified": true,
+        "helpful": 33
+      },
+      {
+        "id": "rev-flw-047-2",
+        "userName": "Rishabh Pillai",
+        "author": "Rishabh Pillai",
+        "userEmail": "rishabh.pillai.422@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Remarkably fresh for nearly two weeks in our salon: Eternal Blush Grandeur",
+        "comment": "The sheer volume and petal count packed into the Eternal Blush Grandeur makes it an extraordinary value for high connoisseurs. It requires no water, sunlight, or maintenance yet continues to look as dewy as the day it was delivered. Dhanvikk's cold-chain refrigerated delivery fleet is clearly the gold standard in the floristry industry.",
+        "date": "11 days ago",
+        "createdAt": "2026-10-12T02:57:52.081Z",
+        "verified": true,
+        "helpful": 24
+      },
+      {
+        "id": "rev-flw-047-3",
+        "userName": "Vidya Dubois",
+        "author": "Vidya Dubois",
+        "userEmail": "vidya.dubois.602@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Left all our dinner guests completely captivated: Eternal Blush Grandeur",
+        "comment": "I selected the Eternal Blush Grandeur specifically for a milestone congratulations surprise. The enduring symbolism of preserved roses makes this piece deeply meaningful and forever cherished. Will be reordering regularly for all our private celebrations and corporate client gifting.",
+        "date": "18 days ago",
+        "createdAt": "2026-10-05T00:16:04.591Z",
+        "verified": true,
+        "helpful": 11
+      }
+    ]
   },
   {
     "id": "flw-048",
@@ -1089,22 +3064,64 @@ export const SEED_PRODUCTS = [
     "slug": "sweet-gypsy-charm",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
     "occasion": "Love & Romance",
     "recipient": "For Her",
-    "flowerType": "Mixed",
     "price": 13478,
     "originalPrice": 17528,
-    "stock": 38,
-    "images": [
-      "/images/products/sweet-gypsy-charm.webp"
-    ],
     "rating": 4.7,
     "reviewsCount": 88,
     "tag": "Florist Choice",
+    "image": "/images/products/sweet-gypsy-charm.webp",
+    "images": [
+      "/images/products/sweet-gypsy-charm.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the Sweet Gypsy Charm harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 38,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-048-1",
+        "userName": "Manish Joshi",
+        "author": "Manish Joshi",
+        "userEmail": "manish.joshi.255@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "An unforgettable grand entrance with Sweet Gypsy Charm",
+        "comment": "As a lifelong admirer of fine floristry, the architectural symmetry of the Sweet Gypsy Charm is awe-inspiring. The protective reefer hydration pods on the stem bases kept every leaf crisply hydrated throughout transport. My guests could not stop inquiring where this extraordinary floral curation came from.",
+        "date": "5 days ago",
+        "createdAt": "2026-10-17T15:24:21.274Z",
+        "verified": true,
+        "helpful": 22
+      },
+      {
+        "id": "rev-flw-048-2",
+        "userName": "Shalini Samant",
+        "author": "Shalini Samant",
+        "userEmail": "shalini.samant.435@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Lasted over 15 full days in pristine condition — Sweet Gypsy Charm",
+        "comment": "Every single stem in our Sweet Gypsy Charm was hand-selected at the exact micro-stage of opening for maximum longevity. Over the first 48 hours in vase water, each bud opened progressively into a magnificent, fully expanded blossom lasting 15 full days. The level of quality control and stem-by-stem inspection is evident from the first glance.",
+        "date": "12 days ago",
+        "createdAt": "2026-10-10T19:18:06.874Z",
+        "verified": true,
+        "helpful": 25
+      },
+      {
+        "id": "rev-flw-048-3",
+        "userName": "Julian Kensington",
+        "author": "Julian Kensington",
+        "userEmail": "julian.kensington.615@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "A distinguished luxury statement piece: Sweet Gypsy Charm",
+        "comment": "Our executive boardroom needed a commanding centerpiece, and the Sweet Gypsy Charm delivered majestic grandeur. The gradient of tones in the mixed was subtle, sophisticated, and perfectly suited for luxury sensibilities. A consummate triumph of floral curation, pristine presentation, and genuine white-glove service.",
+        "date": "19 days ago",
+        "createdAt": "2026-10-04T00:27:46.459Z",
+        "verified": true,
+        "helpful": 10
+      }
+    ]
   },
   {
     "id": "flw-049",
@@ -1112,22 +3129,64 @@ export const SEED_PRODUCTS = [
     "slug": "kaleidoscope-harmony",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
     "occasion": "Birthday",
     "recipient": "Everyone",
-    "flowerType": "Mixed",
     "price": 6728,
     "originalPrice": 8752,
-    "stock": 26,
-    "images": [
-      "/images/products/kaleidoscope-harmony.webp"
-    ],
     "rating": 4.9,
     "reviewsCount": 126,
     "tag": "Luxury Bloom",
+    "image": "/images/products/kaleidoscope-harmony.webp",
+    "images": [
+      "/images/products/kaleidoscope-harmony.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the Kaleidoscope Harmony harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 26,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-049-1",
+        "userName": "Nisha Malhotra",
+        "author": "Nisha Malhotra",
+        "userEmail": "nisha.malhotra.268@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Sublime symmetry and velvet perfection in Kaleidoscope Harmony",
+        "comment": "Commissioned the Kaleidoscope Harmony as a surprise, and the doorstep presentation was cinematic in its perfection. The imported European waterproof wrap and hand-tied gold-embossed silk ribbon give the bouquet an unmistakable haute couture flair. Without question the finest floral presentation available anywhere in the country today.",
+        "date": "2 days ago",
+        "createdAt": "2026-10-21T02:39:43.866Z",
+        "verified": true,
+        "helpful": 42
+      },
+      {
+        "id": "rev-flw-049-2",
+        "userName": "Sunita Singhania",
+        "author": "Sunita Singhania",
+        "userEmail": "sunita.singhania.448@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Intoxicating aroma and extraordinary stem caliber in Kaleidoscope Harmony",
+        "comment": "What sets the Kaleidoscope Harmony apart is the exceptional horticultural caliber of the mixed. Not a single petal dropped during the first 10 days; the stem caliber is easily double what ordinary high-street florists supply. I will never order from standard floral delivery services again after experiencing this caliber.",
+        "date": "7 days ago",
+        "createdAt": "2026-10-15T23:38:21.667Z",
+        "verified": true,
+        "helpful": 26
+      },
+      {
+        "id": "rev-flw-049-3",
+        "userName": "Benjamin Choudhury",
+        "author": "Benjamin Choudhury",
+        "userEmail": "benjamin.choudhury.628@verified.dhanvikk.com",
+        "rating": 4,
+        "title": "Heartfelt tears of joy upon opening the Kaleidoscope Harmony",
+        "comment": "Surprised my partner with the Kaleidoscope Harmony and the emotional resonance was beyond words. The stems drank steadily and held their upright posture with royal dignity throughout the entire celebration. Worth every single rupee for the lasting joy, prestige, and beauty it brought into our lives.",
+        "date": "20 days ago",
+        "createdAt": "2026-10-03T00:39:28.326Z",
+        "verified": true,
+        "helpful": 29
+      }
+    ]
   },
   {
     "id": "flw-050",
@@ -1135,22 +3194,64 @@ export const SEED_PRODUCTS = [
     "slug": "midnight-sapphire-grandeur",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
     "occasion": "Congratulations",
     "recipient": "Everyone",
-    "flowerType": "Mixed",
     "price": 13478,
     "originalPrice": 17528,
-    "stock": 27,
-    "images": [
-      "/images/products/midnight-sapphire-grandeur.webp"
-    ],
     "rating": 4.9,
     "reviewsCount": 185,
     "tag": "Fresh Harvest",
+    "image": "/images/products/midnight-sapphire-grandeur.webp",
+    "images": [
+      "/images/products/midnight-sapphire-grandeur.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the Midnight Sapphire Grandeur harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 27,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": true,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-050-1",
+        "userName": "Rajesh Narayan",
+        "author": "Rajesh Narayan",
+        "userEmail": "rajesh.narayan.281@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Surpassed our highest expectations: Midnight Sapphire Grandeur",
+        "comment": "The Midnight Sapphire Grandeur arrived looking so freshly sculpted it felt like an exhibit from a Parisian floral atelier. The layered organza and matte parchment wrapping protects each bloom while showcasing the lush foliage beneath. The recipient was visibly moved to tears upon reading the calligraphy note tucked into the arrangement.",
+        "date": "3 days ago",
+        "createdAt": "2026-10-20T01:55:06.459Z",
+        "verified": true,
+        "helpful": 31
+      },
+      {
+        "id": "rev-flw-050-2",
+        "userName": "Vaishnavi Venkatesh",
+        "author": "Vaishnavi Venkatesh",
+        "userEmail": "vaishnavi.venkatesh.461@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "World-class cold chain delivery and dewy freshness: Midnight Sapphire Grandeur",
+        "comment": "Having ordered luxury florals in London and Milan, I can confirm that Dhanvikk's Midnight Sapphire Grandeur stands on the global podium. The subtle, soothing botanical scent persisted for more than 10 days, making the home smell like a morning garden in bloom. A masterclass in high-altitude boutique cultivation and pristine handling.",
+        "date": "8 days ago",
+        "createdAt": "2026-10-14T15:58:36.460Z",
+        "verified": true,
+        "helpful": 27
+      },
+      {
+        "id": "rev-flw-050-3",
+        "userName": "Aurelia Iyengar",
+        "author": "Aurelia Iyengar",
+        "userEmail": "aurelia.iyengar.641@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "The gold standard for our congratulations celebration — Midnight Sapphire Grandeur",
+        "comment": "If you are looking for an unforgettable statement piece, the Midnight Sapphire Grandeur is utterly peerless. The contrast between the velvety mixed and the aromatic eucalyptus foliage creates an exquisite visual rhythm. I wholeheartedly recommend Dhanvikk to anyone who refuses to settle for ordinary commercial blooms.",
+        "date": "21 days ago",
+        "createdAt": "2026-10-02T00:51:10.194Z",
+        "verified": true,
+        "helpful": 27
+      }
+    ]
   },
   {
     "id": "flw-051",
@@ -1158,22 +3259,64 @@ export const SEED_PRODUCTS = [
     "slug": "lavender-ethereal-grace",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
     "occasion": "Congratulations",
     "recipient": "For Her",
-    "flowerType": "Mixed",
     "price": 3352,
     "originalPrice": 4365,
-    "stock": 23,
+    "rating": 5,
+    "reviewsCount": 124,
+    "tag": "Luxury Bloom",
+    "image": "/images/products/lavender-ethereal-grace.webp",
     "images": [
       "/images/products/lavender-ethereal-grace.webp"
     ],
-    "rating": 5.0,
-    "reviewsCount": 124,
-    "tag": "Luxury Bloom",
     "description": "Hand-tied by master Parisian florists, the Lavender Ethereal Grace harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 23,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-051-1",
+        "userName": "Sanjana Reddy",
+        "author": "Sanjana Reddy",
+        "userEmail": "sanjana.reddy.295@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Breathtaking sensory unboxing — Lavender Ethereal Grace",
+        "comment": "Receiving the Lavender Ethereal Grace was an experience of pure unadulterated luxury. The protective reefer hydration pods on the stem bases kept every leaf crisply hydrated throughout transport. An indispensable triumph of an arrangement for any congratulations.",
+        "date": "4 days ago",
+        "createdAt": "2026-10-19T01:10:29.052Z",
+        "verified": true,
+        "helpful": 21
+      },
+      {
+        "id": "rev-flw-051-2",
+        "userName": "Camille Rochester",
+        "author": "Camille Rochester",
+        "userEmail": "camille.rochester.475@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "The Lavender Ethereal Grace opened into full majestic splendour over 48 hours",
+        "comment": "The cold-chain logistics behind the Lavender Ethereal Grace are truly remarkable — arrived thoroughly chilled and dewy. Over the first 48 hours in vase water, each bud opened progressively into a magnificent, fully expanded blossom lasting 11 full days. Proof that luxury floristry is a true art form when executed with such uncompromising dedication.",
+        "date": "9 days ago",
+        "createdAt": "2026-10-13T20:18:51.252Z",
+        "verified": true,
+        "helpful": 29
+      },
+      {
+        "id": "rev-flw-051-3",
+        "userName": "Nils Kulkarni",
+        "author": "Nils Kulkarni",
+        "userEmail": "nils.kulkarni.654@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Worth every single rupee for an unforgettable celebration — Lavender Ethereal Grace",
+        "comment": "We featured the Lavender Ethereal Grace at our anniversary dinner table and it immediately became the talking point of the evening. The gradient of tones in the mixed was subtle, sophisticated, and perfectly suited for luxury sensibilities. An unequivocal 10 out of 10 experience that sets a new benchmark for luxury lifestyle floristry.",
+        "date": "22 days ago",
+        "createdAt": "2026-10-01T01:02:52.061Z",
+        "verified": true,
+        "helpful": 26
+      }
+    ]
   },
   {
     "id": "flw-052",
@@ -1181,22 +3324,64 @@ export const SEED_PRODUCTS = [
     "slug": "the-floral-cloud-box",
     "category": "Flower Boxes",
     "subCategory": "Hat Box Arrangements",
+    "flowerType": "Mixed",
     "occasion": "Birthday",
     "recipient": "Everyone",
-    "flowerType": "Mixed",
     "price": 11228,
     "originalPrice": 14602,
-    "stock": 16,
+    "rating": 5,
+    "reviewsCount": 43,
+    "tag": "Limited Edition",
+    "image": "/images/products/the-floral-cloud-box.webp",
     "images": [
       "/images/products/the-floral-cloud-box.webp"
     ],
-    "rating": 5.0,
-    "reviewsCount": 43,
-    "tag": "Limited Edition",
     "description": "A lavish curation of handpicked garden blooms, masterfully arranged in Dhanvikk's signature French velvet keepsake box. Accented with lush spiral eucalyptus and tied with an ivory satin ribbon, this bespoke creation brings regal grandeur to every celebration.",
+    "stock": 16,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-052-1",
+        "userName": "Soham Seth",
+        "author": "Soham Seth",
+        "userEmail": "soham.seth.308@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "The pinnacle of refined floristry: The Floral Cloud Box",
+        "comment": "I ordered the The Floral Cloud Box for our family celebration and the presentation left us utterly captivated. The signature French cylindrical keepsake box tied with heavyweight double-faced satin ribbon exudes aristocratic charm. It brought an atmosphere of regal tranquility to our salon that lasted for days.",
+        "date": "5 days ago",
+        "createdAt": "2026-10-18T00:25:51.645Z",
+        "verified": true,
+        "helpful": 40
+      },
+      {
+        "id": "rev-flw-052-2",
+        "userName": "Alexander Bhattacharya",
+        "author": "Alexander Bhattacharya",
+        "userEmail": "alexander.bhattacharya.488@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Impeccable highland cultivation and petal density — The Floral Cloud Box",
+        "comment": "Fourteen days after delivery, our The Floral Cloud Box continues to look remarkably radiant and intact. Not a single petal dropped during the first 10 days; the stem caliber is easily double what ordinary high-street florists supply. Dhanvikk's cold-chain refrigerated delivery fleet is clearly the gold standard in the floristry industry.",
+        "date": "10 days ago",
+        "createdAt": "2026-10-13T00:39:06.045Z",
+        "verified": true,
+        "helpful": 30
+      },
+      {
+        "id": "rev-flw-052-3",
+        "userName": "Ananya Nadar",
+        "author": "Ananya Nadar",
+        "userEmail": "ananya.nadar.668@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Quiet luxury and exquisite calligraphy detailing in The Floral Cloud Box",
+        "comment": "Gifted the The Floral Cloud Box as a gesture of heartfelt gratitude, and the response was pure delight. The stems drank steadily and held their upright posture with royal dignity throughout the entire celebration. Will be reordering regularly for all our private celebrations and corporate client gifting.",
+        "date": "23 days ago",
+        "createdAt": "2026-09-30T01:14:33.929Z",
+        "verified": true,
+        "helpful": 25
+      }
+    ]
   },
   {
     "id": "flw-053",
@@ -1204,22 +3389,64 @@ export const SEED_PRODUCTS = [
     "slug": "eternal-blush-grandeur-2",
     "category": "Forever Roses",
     "subCategory": "Preserved Bell Domes",
+    "flowerType": "Roses",
     "occasion": "Congratulations",
     "recipient": "Everyone",
-    "flowerType": "Roses",
     "price": 11228,
     "originalPrice": 14602,
-    "stock": 45,
-    "images": [
-      "/images/products/eternal-blush-grandeur-2.webp"
-    ],
     "rating": 4.8,
     "reviewsCount": 120,
     "tag": "Luxury Bloom",
+    "image": "/images/products/eternal-blush-grandeur-2.webp",
+    "images": [
+      "/images/products/eternal-blush-grandeur-2.webp"
+    ],
     "description": "A breathtaking showcase of naturally preserved Ecuadorian roses, meticulously stabilized to retain velvety softness, vibrant pigment, and structural perfection for up to 3 years without watering. Encased in a hand-blown borosilicate bell dome.",
+    "stock": 45,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-053-1",
+        "userName": "Trisha Thakur",
+        "author": "Trisha Thakur",
+        "userEmail": "trisha.thakur.321@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Awe-inspiring craftsmanship and luxury presentation — Eternal Blush Grandeur",
+        "comment": "From the moment the Dhanvikk courier arrived with the Eternal Blush Grandeur, the caliber was unmistakably world-class. Encased in a museum-grade glass cloche with delicate golden trim, every velvety petal is preserved in its prime. My guests could not stop inquiring where this extraordinary floral curation came from.",
+        "date": "2 days ago",
+        "createdAt": "2026-10-20T23:41:14.238Z",
+        "verified": true,
+        "helpful": 29
+      },
+      {
+        "id": "rev-flw-053-2",
+        "userName": "Genevieve Gokhale",
+        "author": "Genevieve Gokhale",
+        "userEmail": "genevieve.gokhale.501@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Unprecedented vase longevity and natural fragrance from Eternal Blush Grandeur",
+        "comment": "The fragrance profile of the Eternal Blush Grandeur is natural, intoxicating, and gracefully fills the entire room. It requires no water, sunlight, or maintenance yet continues to look as dewy as the day it was delivered. The level of quality control and stem-by-stem inspection is evident from the first glance.",
+        "date": "11 days ago",
+        "createdAt": "2026-10-11T16:59:20.838Z",
+        "verified": true,
+        "helpful": 31
+      },
+      {
+        "id": "rev-flw-053-3",
+        "userName": "Devika Rajan",
+        "author": "Devika Rajan",
+        "userEmail": "devika.rajan.681@verified.dhanvikk.com",
+        "rating": 4,
+        "title": "An heirloom masterpiece that brought immense joy: Eternal Blush Grandeur",
+        "comment": "The Eternal Blush Grandeur is hands down one of the most distinguished floral creations I have had the pleasure to present. The enduring symbolism of preserved roses makes this piece deeply meaningful and forever cherished. A consummate triumph of floral curation, pristine presentation, and genuine white-glove service.",
+        "date": "24 days ago",
+        "createdAt": "2026-09-29T01:26:15.796Z",
+        "verified": true,
+        "helpful": 24
+      }
+    ]
   },
   {
     "id": "flw-054",
@@ -1227,22 +3454,64 @@ export const SEED_PRODUCTS = [
     "slug": "the-passion-box",
     "category": "Flower Boxes",
     "subCategory": "Hat Box Arrangements",
+    "flowerType": "Mixed",
     "occasion": "Love & Romance",
     "recipient": "For Her",
-    "flowerType": "Mixed",
     "price": 12352,
     "originalPrice": 16065,
-    "stock": 32,
-    "images": [
-      "/images/products/the-passion-box.webp"
-    ],
     "rating": 4.9,
     "reviewsCount": 162,
     "tag": "Luxury Edit",
+    "image": "/images/products/the-passion-box.webp",
+    "images": [
+      "/images/products/the-passion-box.webp"
+    ],
     "description": "A lavish curation of handpicked garden blooms, masterfully arranged in Dhanvikk's signature French velvet keepsake box. Accented with lush spiral eucalyptus and tied with an ivory satin ribbon, this bespoke creation brings regal grandeur to every celebration.",
+    "stock": 32,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-054-1",
+        "userName": "Yash Vanderbilt",
+        "author": "Yash Vanderbilt",
+        "userEmail": "yash.vanderbilt.334@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Arrived pristine with morning dew still on petals: The Passion Box",
+        "comment": "The sheer artistic balance of the The Passion Box easily surpasses any floral arrangement I have commissioned before. The bespoke velvet hatbox is so sturdy and elegantly crafted that we are definitely keeping it as a dressing table heirloom. Without question the finest floral presentation available anywhere in the country today.",
+        "date": "3 days ago",
+        "createdAt": "2026-10-19T22:56:36.831Z",
+        "verified": true,
+        "helpful": 49
+      },
+      {
+        "id": "rev-flw-054-2",
+        "userName": "Frederic Kaul",
+        "author": "Frederic Kaul",
+        "userEmail": "frederic.kaul.514@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Uncompromising quality control in this gorgeous The Passion Box",
+        "comment": "You can immediately feel the heavy stem density and turgid petal structure of this highland-grown The Passion Box. Over the first 48 hours in vase water, each bud opened progressively into a magnificent, fully expanded blossom lasting 14 full days. I will never order from standard floral delivery services again after experiencing this caliber.",
+        "date": "12 days ago",
+        "createdAt": "2026-10-10T21:19:35.631Z",
+        "verified": true,
+        "helpful": 33
+      },
+      {
+        "id": "rev-flw-054-3",
+        "userName": "Harish Saxena",
+        "author": "Harish Saxena",
+        "userEmail": "harish.saxena.694@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Flawless execution from courier to final bloom — The Passion Box",
+        "comment": "Everything about the The Passion Box — from the embossed envelope to the floral symmetry — whispers quiet luxury. The gradient of tones in the mixed was subtle, sophisticated, and perfectly suited for luxury sensibilities. Worth every single rupee for the lasting joy, prestige, and beauty it brought into our lives.",
+        "date": "25 days ago",
+        "createdAt": "2026-09-28T01:37:57.664Z",
+        "verified": true,
+        "helpful": 22
+      }
+    ]
   },
   {
     "id": "flw-055",
@@ -1250,22 +3519,64 @@ export const SEED_PRODUCTS = [
     "slug": "the-blue-sky-box",
     "category": "Flower Boxes",
     "subCategory": "Hat Box Arrangements",
+    "flowerType": "Mixed",
     "occasion": "Birthday",
     "recipient": "Everyone",
-    "flowerType": "Mixed",
     "price": 7852,
     "originalPrice": 10215,
-    "stock": 36,
-    "images": [
-      "/images/products/the-blue-sky-box.webp"
-    ],
     "rating": 4.8,
     "reviewsCount": 87,
     "tag": "Luxury Bloom",
+    "image": "/images/products/the-blue-sky-box.webp",
+    "images": [
+      "/images/products/the-blue-sky-box.webp"
+    ],
     "description": "A lavish curation of handpicked garden blooms, masterfully arranged in Dhanvikk's signature French velvet keepsake box. Accented with lush spiral eucalyptus and tied with an ivory satin ribbon, this bespoke creation brings regal grandeur to every celebration.",
+    "stock": 36,
+    "inStock": true,
     "isBestSeller": true,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-055-1",
+        "userName": "Oliver Al-Mansoor",
+        "author": "Oliver Al-Mansoor",
+        "userEmail": "oliver.almansoor.347@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Elegance personified in the magnificent The Blue Sky Box",
+        "comment": "Dhanvikk has completely redefined luxury gifting with this sensational The Blue Sky Box. The signature French cylindrical keepsake box tied with heavyweight double-faced satin ribbon exudes aristocratic charm. The recipient was visibly moved to tears upon reading the calligraphy note tucked into the arrangement.",
+        "date": "4 days ago",
+        "createdAt": "2026-10-18T22:11:59.423Z",
+        "verified": true,
+        "helpful": 38
+      },
+      {
+        "id": "rev-flw-055-2",
+        "userName": "Alia Mirza",
+        "author": "Alia Mirza",
+        "userEmail": "alia.mirza.527@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Robust stems, velvety texture, and remarkable hydration: The Blue Sky Box",
+        "comment": "Dhanvikk's zero-compromise approach to morning dawn-cutting is vividly apparent in the The Blue Sky Box. Not a single petal dropped during the first 10 days; the stem caliber is easily double what ordinary high-street florists supply. A masterclass in high-altitude boutique cultivation and pristine handling.",
+        "date": "7 days ago",
+        "createdAt": "2026-10-16T01:39:50.424Z",
+        "verified": true,
+        "helpful": 34
+      },
+      {
+        "id": "rev-flw-055-3",
+        "userName": "Khaled Subramanian",
+        "author": "Khaled Subramanian",
+        "userEmail": "khaled.subramanian.707@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Our definitive choice for all high-profile occasions: The Blue Sky Box",
+        "comment": "Ordered the The Blue Sky Box on short notice and Dhanvikk delivered with impeccable timing and flawless poise. The stems drank steadily and held their upright posture with royal dignity throughout the entire celebration. I wholeheartedly recommend Dhanvikk to anyone who refuses to settle for ordinary commercial blooms.",
+        "date": "26 days ago",
+        "createdAt": "2026-09-27T01:49:39.531Z",
+        "verified": true,
+        "helpful": 21
+      }
+    ]
   },
   {
     "id": "flw-056",
@@ -1273,22 +3584,64 @@ export const SEED_PRODUCTS = [
     "slug": "the-tuscan-meadow-box",
     "category": "Flower Boxes",
     "subCategory": "Hat Box Arrangements",
+    "flowerType": "Mixed",
     "occasion": "Congratulations",
     "recipient": "For Her",
-    "flowerType": "Mixed",
     "price": 7852,
     "originalPrice": 10215,
-    "stock": 24,
-    "images": [
-      "/images/products/the-tuscan-meadow-box.webp"
-    ],
     "rating": 4.9,
     "reviewsCount": 81,
     "tag": "Best Seller",
+    "image": "/images/products/the-tuscan-meadow-box.webp",
+    "images": [
+      "/images/products/the-tuscan-meadow-box.webp"
+    ],
     "description": "A lavish curation of handpicked garden blooms, masterfully arranged in Dhanvikk's signature French velvet keepsake box. Accented with lush spiral eucalyptus and tied with an ivory satin ribbon, this bespoke creation brings regal grandeur to every celebration.",
+    "stock": 24,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-056-1",
+        "userName": "Leila Dubey",
+        "author": "Leila Dubey",
+        "userEmail": "leila.dubey.361@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Unrivaled atelier artistry in every single bloom — The Tuscan Meadow Box",
+        "comment": "The unveiling of our The Tuscan Meadow Box was the highlight of our celebratory morning. The velvet touch of the luxury cylinder packaging combined with the gold-hot-stamped Dhanvikk seal is simply magnificent. An indispensable triumph of an arrangement for any congratulations.",
+        "date": "5 days ago",
+        "createdAt": "2026-10-17T21:27:22.016Z",
+        "verified": true,
+        "helpful": 28
+      },
+      {
+        "id": "rev-flw-056-2",
+        "userName": "Bhavna Pandey",
+        "author": "Bhavna Pandey",
+        "userEmail": "bhavna.pandey.541@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Horticultural perfection air-flown with exquisite care — The Tuscan Meadow Box",
+        "comment": "The freshness of the The Tuscan Meadow Box when unpacked felt as if it had been gathered from the mountain estate an hour prior. The subtle, soothing botanical scent persisted for more than 16 days, making the home smell like a morning garden in bloom. Proof that luxury floristry is a true art form when executed with such uncompromising dedication.",
+        "date": "8 days ago",
+        "createdAt": "2026-10-14T18:00:05.216Z",
+        "verified": true,
+        "helpful": 35
+      },
+      {
+        "id": "rev-flw-056-3",
+        "userName": "Mihir Yadav",
+        "author": "Mihir Yadav",
+        "userEmail": "mihir.yadav.720@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "The ultimate emotional grand gesture for our congratulations — The Tuscan Meadow Box",
+        "comment": "The visual impact of the The Tuscan Meadow Box when unveiled is something neither my guests nor I will soon forget. The contrast between the velvety mixed and the aromatic eucalyptus foliage creates an exquisite visual rhythm. An unequivocal 10 out of 10 experience that sets a new benchmark for luxury lifestyle floristry.",
+        "date": "27 days ago",
+        "createdAt": "2026-09-26T02:01:21.399Z",
+        "verified": true,
+        "helpful": 20
+      }
+    ]
   },
   {
     "id": "flw-057",
@@ -1296,22 +3649,64 @@ export const SEED_PRODUCTS = [
     "slug": "british-garden-heritage",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
     "occasion": "Birthday",
     "recipient": "Everyone",
-    "flowerType": "Mixed",
     "price": 35978,
     "originalPrice": 46778,
-    "stock": 20,
-    "images": [
-      "/images/products/british-garden-heritage.webp"
-    ],
     "rating": 4.9,
     "reviewsCount": 80,
     "tag": "Luxury Bloom",
+    "image": "/images/products/british-garden-heritage.webp",
+    "images": [
+      "/images/products/british-garden-heritage.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the British Garden Heritage harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 20,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-057-1",
+        "userName": "Maximilian Jain",
+        "author": "Maximilian Jain",
+        "userEmail": "maximilian.jain.374@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Haute couture floral design at its finest: British Garden Heritage",
+        "comment": "Exquisite does not even begin to capture how breathtaking the British Garden Heritage looks in person. The protective reefer hydration pods on the stem bases kept every leaf crisply hydrated throughout transport. It brought an atmosphere of regal tranquility to our salon that lasted for days.",
+        "date": "2 days ago",
+        "createdAt": "2026-10-20T20:42:44.609Z",
+        "verified": true,
+        "helpful": 47
+      },
+      {
+        "id": "rev-flw-057-2",
+        "userName": "Gaurav Salunkhe",
+        "author": "Gaurav Salunkhe",
+        "userEmail": "gaurav.salunkhe.554@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Remarkably fresh for nearly two weeks in our salon: British Garden Heritage",
+        "comment": "The sheer volume and petal count packed into the British Garden Heritage makes it an extraordinary value for high connoisseurs. Over the first 48 hours in vase water, each bud opened progressively into a magnificent, fully expanded blossom lasting 10 full days. Dhanvikk's cold-chain refrigerated delivery fleet is clearly the gold standard in the floristry industry.",
+        "date": "9 days ago",
+        "createdAt": "2026-10-13T22:20:20.009Z",
+        "verified": true,
+        "helpful": 36
+      },
+      {
+        "id": "rev-flw-057-3",
+        "userName": "Pranav Montague",
+        "author": "Pranav Montague",
+        "userEmail": "pranav.montague.734@verified.dhanvikk.com",
+        "rating": 4,
+        "title": "Left all our dinner guests completely captivated: British Garden Heritage",
+        "comment": "I selected the British Garden Heritage specifically for a milestone birthday surprise. The gradient of tones in the mixed was subtle, sophisticated, and perfectly suited for luxury sensibilities. Will be reordering regularly for all our private celebrations and corporate client gifting.",
+        "date": "14 days ago",
+        "createdAt": "2026-10-09T02:13:03.266Z",
+        "verified": true,
+        "helpful": 19
+      }
+    ]
   },
   {
     "id": "flw-058",
@@ -1319,22 +3714,64 @@ export const SEED_PRODUCTS = [
     "slug": "the-elegance-box",
     "category": "Flower Boxes",
     "subCategory": "Hat Box Arrangements",
+    "flowerType": "Mixed",
     "occasion": "Birthday",
     "recipient": "Everyone",
-    "flowerType": "Mixed",
     "price": 10102,
     "originalPrice": 13140,
-    "stock": 29,
-    "images": [
-      "/images/products/the-elegance-box.webp"
-    ],
     "rating": 4.8,
     "reviewsCount": 138,
     "tag": "Trending Now",
+    "image": "/images/products/the-elegance-box.webp",
+    "images": [
+      "/images/products/the-elegance-box.webp"
+    ],
     "description": "A lavish curation of handpicked garden blooms, masterfully arranged in Dhanvikk's signature French velvet keepsake box. Accented with lush spiral eucalyptus and tied with an ivory satin ribbon, this bespoke creation brings regal grandeur to every celebration.",
+    "stock": 29,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-058-1",
+        "userName": "Aarav Mahajan",
+        "author": "Aarav Mahajan",
+        "userEmail": "aarav.mahajan.387@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "An unforgettable grand entrance with The Elegance Box",
+        "comment": "As a lifelong admirer of fine floristry, the architectural symmetry of the The Elegance Box is awe-inspiring. The signature French cylindrical keepsake box tied with heavyweight double-faced satin ribbon exudes aristocratic charm. My guests could not stop inquiring where this extraordinary floral curation came from.",
+        "date": "3 days ago",
+        "createdAt": "2026-10-19T19:58:07.202Z",
+        "verified": true,
+        "helpful": 37
+      },
+      {
+        "id": "rev-flw-058-2",
+        "userName": "Karan Shroff",
+        "author": "Karan Shroff",
+        "userEmail": "karan.shroff.567@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Lasted over 11 full days in pristine condition — The Elegance Box",
+        "comment": "Every single stem in our The Elegance Box was hand-selected at the exact micro-stage of opening for maximum longevity. Not a single petal dropped during the first 10 days; the stem caliber is easily double what ordinary high-street florists supply. The level of quality control and stem-by-stem inspection is evident from the first glance.",
+        "date": "10 days ago",
+        "createdAt": "2026-10-13T02:40:34.802Z",
+        "verified": true,
+        "helpful": 38
+      },
+      {
+        "id": "rev-flw-058-3",
+        "userName": "Rishabh Chauhan",
+        "author": "Rishabh Chauhan",
+        "userEmail": "rishabh.chauhan.747@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "A distinguished luxury statement piece: The Elegance Box",
+        "comment": "Our executive boardroom needed a commanding centerpiece, and the The Elegance Box delivered majestic grandeur. The stems drank steadily and held their upright posture with royal dignity throughout the entire celebration. A consummate triumph of floral curation, pristine presentation, and genuine white-glove service.",
+        "date": "15 days ago",
+        "createdAt": "2026-10-08T02:24:45.134Z",
+        "verified": true,
+        "helpful": 17
+      }
+    ]
   },
   {
     "id": "flw-059",
@@ -1342,22 +3779,64 @@ export const SEED_PRODUCTS = [
     "slug": "le-jardin-de-violette-the-violet-garde",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
     "occasion": "Birthday",
     "recipient": "Everyone",
-    "flowerType": "Mixed",
     "price": 22478,
     "originalPrice": 29228,
-    "stock": 39,
-    "images": [
-      "/images/products/le-jardin-de-violette-the-violet-garde.webp"
-    ],
     "rating": 4.7,
     "reviewsCount": 111,
     "tag": "Luxury Bloom",
+    "image": "/images/products/le-jardin-de-violette-the-violet-garde.webp",
+    "images": [
+      "/images/products/le-jardin-de-violette-the-violet-garde.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the Le Jardin de Violette ( The Violet Garde ) harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 39,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-059-1",
+        "userName": "Arjun Narang",
+        "author": "Arjun Narang",
+        "userEmail": "arjun.narang.400@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Sublime symmetry and velvet perfection in Le Jardin de Violette ( The Violet Garde )",
+        "comment": "Commissioned the Le Jardin de Violette ( The Violet Garde ) as a surprise, and the doorstep presentation was cinematic in its perfection. The layered organza and matte parchment wrapping protects each bloom while showcasing the lush foliage beneath. Without question the finest floral presentation available anywhere in the country today.",
+        "date": "4 days ago",
+        "createdAt": "2026-10-18T19:13:29.795Z",
+        "verified": true,
+        "helpful": 26
+      },
+      {
+        "id": "rev-flw-059-2",
+        "userName": "Manish Varma",
+        "author": "Manish Varma",
+        "userEmail": "manish.varma.580@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Intoxicating aroma and extraordinary stem caliber in Le Jardin de Violette ( The Violet Garde )",
+        "comment": "What sets the Le Jardin de Violette ( The Violet Garde ) apart is the exceptional horticultural caliber of the mixed. The subtle, soothing botanical scent persisted for more than 12 days, making the home smell like a morning garden in bloom. I will never order from standard floral delivery services again after experiencing this caliber.",
+        "date": "11 days ago",
+        "createdAt": "2026-10-11T19:00:49.595Z",
+        "verified": true,
+        "helpful": 39
+      },
+      {
+        "id": "rev-flw-059-3",
+        "userName": "Shalini Hegde",
+        "author": "Shalini Hegde",
+        "userEmail": "shalini.hegde.760@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Heartfelt tears of joy upon opening the Le Jardin de Violette ( The Violet Garde )",
+        "comment": "Surprised my partner with the Le Jardin de Violette ( The Violet Garde ) and the emotional resonance was beyond words. The contrast between the velvety mixed and the aromatic eucalyptus foliage creates an exquisite visual rhythm. Worth every single rupee for the lasting joy, prestige, and beauty it brought into our lives.",
+        "date": "16 days ago",
+        "createdAt": "2026-10-07T02:36:27.001Z",
+        "verified": true,
+        "helpful": 16
+      }
+    ]
   },
   {
     "id": "flw-060",
@@ -1365,22 +3844,64 @@ export const SEED_PRODUCTS = [
     "slug": "the-provence-meadow",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
     "occasion": "Congratulations",
     "recipient": "For Her",
-    "flowerType": "Mixed",
     "price": 15728,
     "originalPrice": 20452,
-    "stock": 24,
-    "images": [
-      "/images/products/the-provence-meadow.webp"
-    ],
     "rating": 4.9,
     "reviewsCount": 164,
     "tag": "Trending Now",
+    "image": "/images/products/the-provence-meadow.webp",
+    "images": [
+      "/images/products/the-provence-meadow.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the The Provence Meadow harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 24,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": true,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-060-1",
+        "userName": "Eleanor Rathore",
+        "author": "Eleanor Rathore",
+        "userEmail": "eleanor.rathore.413@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Surpassed our highest expectations: The Provence Meadow",
+        "comment": "The The Provence Meadow arrived looking so freshly sculpted it felt like an exhibit from a Parisian floral atelier. The protective reefer hydration pods on the stem bases kept every leaf crisply hydrated throughout transport. The recipient was visibly moved to tears upon reading the calligraphy note tucked into the arrangement.",
+        "date": "5 days ago",
+        "createdAt": "2026-10-17T18:28:52.387Z",
+        "verified": true,
+        "helpful": 45
+      },
+      {
+        "id": "rev-flw-060-2",
+        "userName": "Nisha Fontaine",
+        "author": "Nisha Fontaine",
+        "userEmail": "nisha.fontaine.593@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "World-class cold chain delivery and dewy freshness: The Provence Meadow",
+        "comment": "Having ordered luxury florals in London and Milan, I can confirm that Dhanvikk's The Provence Meadow stands on the global podium. Over the first 48 hours in vase water, each bud opened progressively into a magnificent, fully expanded blossom lasting 13 full days. A masterclass in high-altitude boutique cultivation and pristine handling.",
+        "date": "12 days ago",
+        "createdAt": "2026-10-10T23:21:04.388Z",
+        "verified": true,
+        "helpful": 15
+      },
+      {
+        "id": "rev-flw-060-3",
+        "userName": "Sunita Kirloskar",
+        "author": "Sunita Kirloskar",
+        "userEmail": "sunita.kirloskar.773@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "The gold standard for our congratulations celebration — The Provence Meadow",
+        "comment": "If you are looking for an unforgettable statement piece, the The Provence Meadow is utterly peerless. The gradient of tones in the mixed was subtle, sophisticated, and perfectly suited for luxury sensibilities. I wholeheartedly recommend Dhanvikk to anyone who refuses to settle for ordinary commercial blooms.",
+        "date": "17 days ago",
+        "createdAt": "2026-10-06T02:48:08.869Z",
+        "verified": true,
+        "helpful": 15
+      }
+    ]
   },
   {
     "id": "flw-061",
@@ -1388,22 +3909,64 @@ export const SEED_PRODUCTS = [
     "slug": "the-enchanted-garden",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
     "occasion": "Birthday",
     "recipient": "Everyone",
-    "flowerType": "Mixed",
     "price": 22478,
     "originalPrice": 29228,
-    "stock": 27,
-    "images": [
-      "/images/products/the-enchanted-garden.webp"
-    ],
     "rating": 4.7,
     "reviewsCount": 184,
     "tag": "Luxury Bloom",
+    "image": "/images/products/the-enchanted-garden.webp",
+    "images": [
+      "/images/products/the-enchanted-garden.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the The Enchanted Garden harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 27,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-061-1",
+        "userName": "Kabir Sengupta",
+        "author": "Kabir Sengupta",
+        "userEmail": "kabir.sengupta.427@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Breathtaking sensory unboxing — The Enchanted Garden",
+        "comment": "Receiving the The Enchanted Garden was an experience of pure unadulterated luxury. The imported European waterproof wrap and hand-tied gold-embossed silk ribbon give the bouquet an unmistakable haute couture flair. An indispensable triumph of an arrangement for any birthday.",
+        "date": "2 days ago",
+        "createdAt": "2026-10-20T17:44:14.980Z",
+        "verified": true,
+        "helpful": 35
+      },
+      {
+        "id": "rev-flw-061-2",
+        "userName": "Rajesh Bhardwaj",
+        "author": "Rajesh Bhardwaj",
+        "userEmail": "rajesh.bhardwaj.607@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "The The Enchanted Garden opened into full majestic splendour over 48 hours",
+        "comment": "The cold-chain logistics behind the The Enchanted Garden are truly remarkable — arrived thoroughly chilled and dewy. Not a single petal dropped during the first 10 days; the stem caliber is easily double what ordinary high-street florists supply. Proof that luxury floristry is a true art form when executed with such uncompromising dedication.",
+        "date": "7 days ago",
+        "createdAt": "2026-10-15T15:41:19.181Z",
+        "verified": true,
+        "helpful": 16
+      },
+      {
+        "id": "rev-flw-061-3",
+        "userName": "Vaishnavi Mukherjee",
+        "author": "Vaishnavi Mukherjee",
+        "userEmail": "vaishnavi.mukherjee.786@verified.dhanvikk.com",
+        "rating": 4,
+        "title": "Worth every single rupee for an unforgettable celebration — The Enchanted Garden",
+        "comment": "We featured the The Enchanted Garden at our anniversary dinner table and it immediately became the talking point of the evening. The stems drank steadily and held their upright posture with royal dignity throughout the entire celebration. An unequivocal 10 out of 10 experience that sets a new benchmark for luxury lifestyle floristry.",
+        "date": "18 days ago",
+        "createdAt": "2026-10-05T02:59:50.736Z",
+        "verified": true,
+        "helpful": 14
+      }
+    ]
   },
   {
     "id": "flw-062",
@@ -1411,22 +3974,64 @@ export const SEED_PRODUCTS = [
     "slug": "the-continental-romance-basket",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Roses",
     "occasion": "Love & Romance",
     "recipient": "For Her",
-    "flowerType": "Roses",
     "price": 23602,
     "originalPrice": 30690,
-    "stock": 25,
-    "images": [
-      "/images/products/the-continental-romance-basket.webp"
-    ],
     "rating": 4.9,
     "reviewsCount": 141,
     "tag": "Artisan Hand-tied",
+    "image": "/images/products/the-continental-romance-basket.webp",
+    "images": [
+      "/images/products/the-continental-romance-basket.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the The Continental Romance Basket harmonizes premium long-stemmed roses with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 25,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-062-1",
+        "userName": "Madhav Tandon",
+        "author": "Madhav Tandon",
+        "userEmail": "madhav.tandon.440@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "The pinnacle of refined floristry: The Continental Romance Basket",
+        "comment": "I ordered the The Continental Romance Basket for our family celebration and the presentation left us utterly captivated. The layered organza and matte parchment wrapping protects each bloom while showcasing the lush foliage beneath. It brought an atmosphere of regal tranquility to our salon that lasted for days.",
+        "date": "3 days ago",
+        "createdAt": "2026-10-19T16:59:37.573Z",
+        "verified": true,
+        "helpful": 24
+      },
+      {
+        "id": "rev-flw-062-2",
+        "userName": "Sanjana Garg",
+        "author": "Sanjana Garg",
+        "userEmail": "sanjana.garg.620@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Impeccable highland cultivation and petal density — The Continental Romance Basket",
+        "comment": "Fourteen days after delivery, our The Continental Romance Basket continues to look remarkably radiant and intact. The subtle, soothing botanical scent persisted for more than 15 days, making the home smell like a morning garden in bloom. Dhanvikk's cold-chain refrigerated delivery fleet is clearly the gold standard in the floristry industry.",
+        "date": "8 days ago",
+        "createdAt": "2026-10-14T20:01:33.973Z",
+        "verified": true,
+        "helpful": 18
+      },
+      {
+        "id": "rev-flw-062-3",
+        "userName": "Camille Puri",
+        "author": "Camille Puri",
+        "userEmail": "camille.puri.800@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Quiet luxury and exquisite calligraphy detailing in The Continental Romance Basket",
+        "comment": "Gifted the The Continental Romance Basket as a gesture of heartfelt gratitude, and the response was pure delight. The contrast between the velvety roses and the aromatic eucalyptus foliage creates an exquisite visual rhythm. Will be reordering regularly for all our private celebrations and corporate client gifting.",
+        "date": "19 days ago",
+        "createdAt": "2026-10-03T15:11:32.604Z",
+        "verified": true,
+        "helpful": 12
+      }
+    ]
   },
   {
     "id": "flw-063",
@@ -1434,22 +4039,64 @@ export const SEED_PRODUCTS = [
     "slug": "the-basket-of-purity",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
     "occasion": "Congratulations",
     "recipient": "Everyone",
-    "flowerType": "Mixed",
     "price": 12352,
     "originalPrice": 16065,
-    "stock": 30,
-    "images": [
-      "/images/products/the-basket-of-purity.webp"
-    ],
     "rating": 4.7,
     "reviewsCount": 101,
     "tag": "Luxury Bloom",
+    "image": "/images/products/the-basket-of-purity.webp",
+    "images": [
+      "/images/products/the-basket-of-purity.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the The Basket of Purity harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 30,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-063-1",
+        "userName": "Neelam Mercier",
+        "author": "Neelam Mercier",
+        "userEmail": "neelam.mercier.453@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Awe-inspiring craftsmanship and luxury presentation — The Basket of Purity",
+        "comment": "From the moment the Dhanvikk courier arrived with the The Basket of Purity, the caliber was unmistakably world-class. The protective reefer hydration pods on the stem bases kept every leaf crisply hydrated throughout transport. My guests could not stop inquiring where this extraordinary floral curation came from.",
+        "date": "4 days ago",
+        "createdAt": "2026-10-18T16:15:00.166Z",
+        "verified": true,
+        "helpful": 44
+      },
+      {
+        "id": "rev-flw-063-2",
+        "userName": "Soham Kashyap",
+        "author": "Soham Kashyap",
+        "userEmail": "soham.kashyap.633@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Unprecedented vase longevity and natural fragrance from The Basket of Purity",
+        "comment": "The fragrance profile of the The Basket of Purity is natural, intoxicating, and gracefully fills the entire room. Over the first 48 hours in vase water, each bud opened progressively into a magnificent, fully expanded blossom lasting 16 full days. The level of quality control and stem-by-stem inspection is evident from the first glance.",
+        "date": "9 days ago",
+        "createdAt": "2026-10-14T00:21:48.766Z",
+        "verified": true,
+        "helpful": 19
+      },
+      {
+        "id": "rev-flw-063-3",
+        "userName": "Alexander Sarin",
+        "author": "Alexander Sarin",
+        "userEmail": "alexander.sarin.813@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "An heirloom masterpiece that brought immense joy: The Basket of Purity",
+        "comment": "The The Basket of Purity is hands down one of the most distinguished floral creations I have had the pleasure to present. The gradient of tones in the mixed was subtle, sophisticated, and perfectly suited for luxury sensibilities. A consummate triumph of floral curation, pristine presentation, and genuine white-glove service.",
+        "date": "20 days ago",
+        "createdAt": "2026-10-02T15:23:14.471Z",
+        "verified": true,
+        "helpful": 11
+      }
+    ]
   },
   {
     "id": "flw-064",
@@ -1457,22 +4104,64 @@ export const SEED_PRODUCTS = [
     "slug": "serenity-blush",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Roses",
     "occasion": "Love & Romance",
     "recipient": "For Her",
-    "flowerType": "Roses",
     "price": 2678,
     "originalPrice": 3488,
-    "stock": 18,
-    "images": [
-      "/images/products/serenity-blush.webp"
-    ],
     "rating": 4.7,
     "reviewsCount": 134,
     "tag": "Artisan Hand-tied",
+    "image": "/images/products/serenity-blush.webp",
+    "images": [
+      "/images/products/serenity-blush.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the Serenity Blush harmonizes premium long-stemmed roses with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 18,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-064-1",
+        "userName": "Radhika Al-Maktoum",
+        "author": "Radhika Al-Maktoum",
+        "userEmail": "radhika.almaktoum.466@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Arrived pristine with morning dew still on petals: Serenity Blush",
+        "comment": "The sheer artistic balance of the Serenity Blush easily surpasses any floral arrangement I have commissioned before. The imported European waterproof wrap and hand-tied gold-embossed silk ribbon give the bouquet an unmistakable haute couture flair. Without question the finest floral presentation available anywhere in the country today.",
+        "date": "5 days ago",
+        "createdAt": "2026-10-17T15:30:22.759Z",
+        "verified": true,
+        "helpful": 33
+      },
+      {
+        "id": "rev-flw-064-2",
+        "userName": "Trisha Menon",
+        "author": "Trisha Menon",
+        "userEmail": "trisha.menon.646@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Uncompromising quality control in this gorgeous Serenity Blush",
+        "comment": "You can immediately feel the heavy stem density and turgid petal structure of this highland-grown Serenity Blush. Not a single petal dropped during the first 10 days; the stem caliber is easily double what ordinary high-street florists supply. I will never order from standard floral delivery services again after experiencing this caliber.",
+        "date": "10 days ago",
+        "createdAt": "2026-10-12T16:42:03.559Z",
+        "verified": true,
+        "helpful": 20
+      },
+      {
+        "id": "rev-flw-064-3",
+        "userName": "Genevieve Srinivasan",
+        "author": "Genevieve Srinivasan",
+        "userEmail": "genevieve.srinivasan.826@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Flawless execution from courier to final bloom — Serenity Blush",
+        "comment": "Everything about the Serenity Blush — from the embossed envelope to the floral symmetry — whispers quiet luxury. The stems drank steadily and held their upright posture with royal dignity throughout the entire celebration. Worth every single rupee for the lasting joy, prestige, and beauty it brought into our lives.",
+        "date": "21 days ago",
+        "createdAt": "2026-10-01T15:34:56.339Z",
+        "verified": true,
+        "helpful": 10
+      }
+    ]
   },
   {
     "id": "flw-065",
@@ -1480,22 +4169,64 @@ export const SEED_PRODUCTS = [
     "slug": "celestial-harmony",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
     "occasion": "Birthday",
     "recipient": "Everyone",
-    "flowerType": "Mixed",
     "price": 8978,
     "originalPrice": 11678,
-    "stock": 40,
-    "images": [
-      "/images/products/celestial-harmony.webp"
-    ],
     "rating": 4.8,
     "reviewsCount": 178,
     "tag": "Luxury Bloom",
+    "image": "/images/products/celestial-harmony.webp",
+    "images": [
+      "/images/products/celestial-harmony.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the Celestial Harmony harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 40,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-065-1",
+        "userName": "Sahil Dhillon",
+        "author": "Sahil Dhillon",
+        "userEmail": "sahil.dhillon.479@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Elegance personified in the magnificent Celestial Harmony",
+        "comment": "Dhanvikk has completely redefined luxury gifting with this sensational Celestial Harmony. The layered organza and matte parchment wrapping protects each bloom while showcasing the lush foliage beneath. The recipient was visibly moved to tears upon reading the calligraphy note tucked into the arrangement.",
+        "date": "2 days ago",
+        "createdAt": "2026-10-21T02:45:45.351Z",
+        "verified": true,
+        "helpful": 23
+      },
+      {
+        "id": "rev-flw-065-2",
+        "userName": "Yash Oberoi",
+        "author": "Yash Oberoi",
+        "userEmail": "yash.oberoi.659@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Robust stems, velvety texture, and remarkable hydration: Celestial Harmony",
+        "comment": "Dhanvikk's zero-compromise approach to morning dawn-cutting is vividly apparent in the Celestial Harmony. The subtle, soothing botanical scent persisted for more than 11 days, making the home smell like a morning garden in bloom. A masterclass in high-altitude boutique cultivation and pristine handling.",
+        "date": "11 days ago",
+        "createdAt": "2026-10-11T21:02:18.352Z",
+        "verified": true,
+        "helpful": 21
+      },
+      {
+        "id": "rev-flw-065-3",
+        "userName": "Frederic Walia",
+        "author": "Frederic Walia",
+        "userEmail": "frederic.walia.839@verified.dhanvikk.com",
+        "rating": 4,
+        "title": "Our definitive choice for all high-profile occasions: Celestial Harmony",
+        "comment": "Ordered the Celestial Harmony on short notice and Dhanvikk delivered with impeccable timing and flawless poise. The contrast between the velvety mixed and the aromatic eucalyptus foliage creates an exquisite visual rhythm. I wholeheartedly recommend Dhanvikk to anyone who refuses to settle for ordinary commercial blooms.",
+        "date": "22 days ago",
+        "createdAt": "2026-09-30T15:46:38.206Z",
+        "verified": true,
+        "helpful": 29
+      }
+    ]
   },
   {
     "id": "flw-066",
@@ -1503,22 +4234,64 @@ export const SEED_PRODUCTS = [
     "slug": "sunny-meadows",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
     "occasion": "Birthday",
     "recipient": "BFFs",
-    "flowerType": "Mixed",
     "price": 13478,
     "originalPrice": 17528,
-    "stock": 35,
-    "images": [
-      "/images/products/sunny-meadows.webp"
-    ],
     "rating": 4.8,
     "reviewsCount": 46,
     "tag": "Luxury Edit",
+    "image": "/images/products/sunny-meadows.webp",
+    "images": [
+      "/images/products/sunny-meadows.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the Sunny Meadows harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 35,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-066-1",
+        "userName": "Simran Jadhav",
+        "author": "Simran Jadhav",
+        "userEmail": "simran.jadhav.493@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Unrivaled atelier artistry in every single bloom — Sunny Meadows",
+        "comment": "The unveiling of our Sunny Meadows was the highlight of our celebratory morning. The protective reefer hydration pods on the stem bases kept every leaf crisply hydrated throughout transport. An indispensable triumph of an arrangement for any birthday.",
+        "date": "3 days ago",
+        "createdAt": "2026-10-20T02:01:07.944Z",
+        "verified": true,
+        "helpful": 42
+      },
+      {
+        "id": "rev-flw-066-2",
+        "userName": "Oliver Sachdev",
+        "author": "Oliver Sachdev",
+        "userEmail": "oliver.sachdev.673@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Horticultural perfection air-flown with exquisite care — Sunny Meadows",
+        "comment": "The freshness of the Sunny Meadows when unpacked felt as if it had been gathered from the mountain estate an hour prior. Over the first 48 hours in vase water, each bud opened progressively into a magnificent, fully expanded blossom lasting 12 full days. Proof that luxury floristry is a true art form when executed with such uncompromising dedication.",
+        "date": "12 days ago",
+        "createdAt": "2026-10-11T01:22:33.145Z",
+        "verified": true,
+        "helpful": 23
+      },
+      {
+        "id": "rev-flw-066-3",
+        "userName": "Alia Sinclair",
+        "author": "Alia Sinclair",
+        "userEmail": "alia.sinclair.852@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "The ultimate emotional grand gesture for our birthday — Sunny Meadows",
+        "comment": "The visual impact of the Sunny Meadows when unveiled is something neither my guests nor I will soon forget. The gradient of tones in the mixed was subtle, sophisticated, and perfectly suited for luxury sensibilities. An unequivocal 10 out of 10 experience that sets a new benchmark for luxury lifestyle floristry.",
+        "date": "23 days ago",
+        "createdAt": "2026-09-29T15:58:20.074Z",
+        "verified": true,
+        "helpful": 27
+      }
+    ]
   },
   {
     "id": "flw-067",
@@ -1526,22 +4299,64 @@ export const SEED_PRODUCTS = [
     "slug": "pure-pink-lilies",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Lilies",
     "occasion": "Anniversary",
     "recipient": "For Her",
-    "flowerType": "Lilies",
     "price": 5602,
     "originalPrice": 7290,
-    "stock": 37,
-    "images": [
-      "/images/products/pure-pink-lilies.webp"
-    ],
     "rating": 4.9,
     "reviewsCount": 156,
     "tag": "Luxury Bloom",
+    "image": "/images/products/pure-pink-lilies.webp",
+    "images": [
+      "/images/products/pure-pink-lilies.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the Pure Pink Lilies harmonizes premium long-stemmed lilies with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 37,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-067-1",
+        "userName": "Tanvi Lahiri",
+        "author": "Tanvi Lahiri",
+        "userEmail": "tanvi.lahiri.506@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Haute couture floral design at its finest: Pure Pink Lilies",
+        "comment": "Exquisite does not even begin to capture how breathtaking the Pure Pink Lilies looks in person. The imported European waterproof wrap and hand-tied gold-embossed silk ribbon give the bouquet an unmistakable haute couture flair. It brought an atmosphere of regal tranquility to our salon that lasted for days.",
+        "date": "4 days ago",
+        "createdAt": "2026-10-19T01:16:30.537Z",
+        "verified": true,
+        "helpful": 31
+      },
+      {
+        "id": "rev-flw-067-2",
+        "userName": "Leila Shetty",
+        "author": "Leila Shetty",
+        "userEmail": "leila.shetty.686@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Remarkably fresh for nearly two weeks in our salon: Pure Pink Lilies",
+        "comment": "The sheer volume and petal count packed into the Pure Pink Lilies makes it an extraordinary value for high connoisseurs. Not a single petal dropped during the first 10 days; the stem caliber is easily double what ordinary high-street florists supply. Dhanvikk's cold-chain refrigerated delivery fleet is clearly the gold standard in the floristry industry.",
+        "date": "7 days ago",
+        "createdAt": "2026-10-15T17:42:47.938Z",
+        "verified": true,
+        "helpful": 24
+      },
+      {
+        "id": "rev-flw-067-3",
+        "userName": "Bhavna Chatterjee",
+        "author": "Bhavna Chatterjee",
+        "userEmail": "bhavna.chatterjee.866@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Left all our dinner guests completely captivated: Pure Pink Lilies",
+        "comment": "I selected the Pure Pink Lilies specifically for a milestone anniversary surprise. The stems drank steadily and held their upright posture with royal dignity throughout the entire celebration. Will be reordering regularly for all our private celebrations and corporate client gifting.",
+        "date": "24 days ago",
+        "createdAt": "2026-09-28T16:10:01.941Z",
+        "verified": true,
+        "helpful": 26
+      }
+    ]
   },
   {
     "id": "flw-068",
@@ -1549,22 +4364,64 @@ export const SEED_PRODUCTS = [
     "slug": "kaleidoscope-radiance",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
     "occasion": "Birthday",
     "recipient": "Everyone",
-    "flowerType": "Mixed",
     "price": 22478,
     "originalPrice": 29228,
-    "stock": 25,
-    "images": [
-      "/images/products/kaleidoscope-radiance.webp"
-    ],
     "rating": 4.8,
     "reviewsCount": 183,
     "tag": "Signature Atelier",
+    "image": "/images/products/kaleidoscope-radiance.webp",
+    "images": [
+      "/images/products/kaleidoscope-radiance.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the Kaleidoscope Radiance harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 25,
+    "inStock": true,
     "isBestSeller": true,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-068-1",
+        "userName": "Vikram Nambiar",
+        "author": "Vikram Nambiar",
+        "userEmail": "vikram.nambiar.519@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "An unforgettable grand entrance with Kaleidoscope Radiance",
+        "comment": "As a lifelong admirer of fine floristry, the architectural symmetry of the Kaleidoscope Radiance is awe-inspiring. The layered organza and matte parchment wrapping protects each bloom while showcasing the lush foliage beneath. My guests could not stop inquiring where this extraordinary floral curation came from.",
+        "date": "5 days ago",
+        "createdAt": "2026-10-18T00:31:53.130Z",
+        "verified": true,
+        "helpful": 21
+      },
+      {
+        "id": "rev-flw-068-2",
+        "userName": "Maximilian Upadhyay",
+        "author": "Maximilian Upadhyay",
+        "userEmail": "maximilian.upadhyay.699@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Lasted over 14 full days in pristine condition — Kaleidoscope Radiance",
+        "comment": "Every single stem in our Kaleidoscope Radiance was hand-selected at the exact micro-stage of opening for maximum longevity. The subtle, soothing botanical scent persisted for more than 14 days, making the home smell like a morning garden in bloom. The level of quality control and stem-by-stem inspection is evident from the first glance.",
+        "date": "8 days ago",
+        "createdAt": "2026-10-14T22:03:02.730Z",
+        "verified": true,
+        "helpful": 25
+      },
+      {
+        "id": "rev-flw-068-3",
+        "userName": "Gaurav Gupta",
+        "author": "Gaurav Gupta",
+        "userEmail": "gaurav.gupta.879@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "A distinguished luxury statement piece: Kaleidoscope Radiance",
+        "comment": "Our executive boardroom needed a commanding centerpiece, and the Kaleidoscope Radiance delivered majestic grandeur. The contrast between the velvety mixed and the aromatic eucalyptus foliage creates an exquisite visual rhythm. A consummate triumph of floral curation, pristine presentation, and genuine white-glove service.",
+        "date": "25 days ago",
+        "createdAt": "2026-09-27T16:21:43.809Z",
+        "verified": true,
+        "helpful": 25
+      }
+    ]
   },
   {
     "id": "flw-069",
@@ -1572,22 +4429,64 @@ export const SEED_PRODUCTS = [
     "slug": "ethereal-blush",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Roses",
     "occasion": "Love & Romance",
     "recipient": "For Her",
-    "flowerType": "Roses",
     "price": 7852,
     "originalPrice": 10215,
-    "stock": 34,
-    "images": [
-      "/images/products/ethereal-blush.webp"
-    ],
     "rating": 4.9,
     "reviewsCount": 174,
     "tag": "Luxury Bloom",
+    "image": "/images/products/ethereal-blush.webp",
+    "images": [
+      "/images/products/ethereal-blush.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the Ethereal Blush harmonizes premium long-stemmed roses with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 34,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-069-1",
+        "userName": "Matteo Rao",
+        "author": "Matteo Rao",
+        "userEmail": "matteo.rao.532@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Sublime symmetry and velvet perfection in Ethereal Blush",
+        "comment": "Commissioned the Ethereal Blush as a surprise, and the doorstep presentation was cinematic in its perfection. The protective reefer hydration pods on the stem bases kept every leaf crisply hydrated throughout transport. Without question the finest floral presentation available anywhere in the country today.",
+        "date": "2 days ago",
+        "createdAt": "2026-10-20T23:47:15.723Z",
+        "verified": true,
+        "helpful": 40
+      },
+      {
+        "id": "rev-flw-069-2",
+        "userName": "Aarav Castiglione",
+        "author": "Aarav Castiglione",
+        "userEmail": "aarav.castiglione.712@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Intoxicating aroma and extraordinary stem caliber in Ethereal Blush",
+        "comment": "What sets the Ethereal Blush apart is the exceptional horticultural caliber of the roses. Over the first 48 hours in vase water, each bud opened progressively into a magnificent, fully expanded blossom lasting 15 full days. I will never order from standard floral delivery services again after experiencing this caliber.",
+        "date": "9 days ago",
+        "createdAt": "2026-10-14T02:23:17.523Z",
+        "verified": true,
+        "helpful": 26
+      },
+      {
+        "id": "rev-flw-069-3",
+        "userName": "Karan Khatri",
+        "author": "Karan Khatri",
+        "userEmail": "karan.khatri.892@verified.dhanvikk.com",
+        "rating": 4,
+        "title": "Heartfelt tears of joy upon opening the Ethereal Blush",
+        "comment": "Surprised my partner with the Ethereal Blush and the emotional resonance was beyond words. The gradient of tones in the roses was subtle, sophisticated, and perfectly suited for luxury sensibilities. Worth every single rupee for the lasting joy, prestige, and beauty it brought into our lives.",
+        "date": "26 days ago",
+        "createdAt": "2026-09-26T16:33:25.676Z",
+        "verified": true,
+        "helpful": 24
+      }
+    ]
   },
   {
     "id": "flw-070",
@@ -1595,22 +4494,64 @@ export const SEED_PRODUCTS = [
     "slug": "ocean-royal-contrast",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
     "occasion": "Anniversary",
     "recipient": "For Her",
-    "flowerType": "Mixed",
     "price": 12352,
     "originalPrice": 16065,
-    "stock": 38,
-    "images": [
-      "/images/products/ocean-royal-contrast.webp"
-    ],
     "rating": 4.9,
     "reviewsCount": 167,
     "tag": "Luxury Edit",
+    "image": "/images/products/ocean-royal-contrast.webp",
+    "images": [
+      "/images/products/ocean-royal-contrast.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the Ocean Royal Contrast harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 38,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-070-1",
+        "userName": "Amara Sen",
+        "author": "Amara Sen",
+        "userEmail": "amara.sen.545@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Surpassed our highest expectations: Ocean Royal Contrast",
+        "comment": "The Ocean Royal Contrast arrived looking so freshly sculpted it felt like an exhibit from a Parisian floral atelier. The imported European waterproof wrap and hand-tied gold-embossed silk ribbon give the bouquet an unmistakable haute couture flair. The recipient was visibly moved to tears upon reading the calligraphy note tucked into the arrangement.",
+        "date": "3 days ago",
+        "createdAt": "2026-10-19T23:02:38.316Z",
+        "verified": true,
+        "helpful": 30
+      },
+      {
+        "id": "rev-flw-070-2",
+        "userName": "Arjun Bansal",
+        "author": "Arjun Bansal",
+        "userEmail": "arjun.bansal.725@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "World-class cold chain delivery and dewy freshness: Ocean Royal Contrast",
+        "comment": "Having ordered luxury florals in London and Milan, I can confirm that Dhanvikk's Ocean Royal Contrast stands on the global podium. Not a single petal dropped during the first 10 days; the stem caliber is easily double what ordinary high-street florists supply. A masterclass in high-altitude boutique cultivation and pristine handling.",
+        "date": "10 days ago",
+        "createdAt": "2026-10-12T18:43:32.316Z",
+        "verified": true,
+        "helpful": 28
+      },
+      {
+        "id": "rev-flw-070-3",
+        "userName": "Manish Mitra",
+        "author": "Manish Mitra",
+        "userEmail": "manish.mitra.905@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "The gold standard for our anniversary celebration — Ocean Royal Contrast",
+        "comment": "If you are looking for an unforgettable statement piece, the Ocean Royal Contrast is utterly peerless. The stems drank steadily and held their upright posture with royal dignity throughout the entire celebration. I wholeheartedly recommend Dhanvikk to anyone who refuses to settle for ordinary commercial blooms.",
+        "date": "27 days ago",
+        "createdAt": "2026-09-25T16:45:07.544Z",
+        "verified": true,
+        "helpful": 22
+      }
+    ]
   },
   {
     "id": "flw-071",
@@ -1618,22 +4559,64 @@ export const SEED_PRODUCTS = [
     "slug": "golden-flame",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
     "occasion": "Anniversary",
     "recipient": "For Her",
-    "flowerType": "Mixed",
     "price": 11228,
     "originalPrice": 14602,
-    "stock": 33,
-    "images": [
-      "/images/products/golden-flame.webp"
-    ],
     "rating": 4.8,
     "reviewsCount": 78,
     "tag": "Luxury Bloom",
+    "image": "/images/products/golden-flame.webp",
+    "images": [
+      "/images/products/golden-flame.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the Golden Flame harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 33,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-071-1",
+        "userName": "Domenico Talwar",
+        "author": "Domenico Talwar",
+        "userEmail": "domenico.talwar.559@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Breathtaking sensory unboxing — Golden Flame",
+        "comment": "Receiving the Golden Flame was an experience of pure unadulterated luxury. The layered organza and matte parchment wrapping protects each bloom while showcasing the lush foliage beneath. An indispensable triumph of an arrangement for any anniversary.",
+        "date": "4 days ago",
+        "createdAt": "2026-10-18T22:18:00.908Z",
+        "verified": true,
+        "helpful": 49
+      },
+      {
+        "id": "rev-flw-071-2",
+        "userName": "Eleanor Ganguly",
+        "author": "Eleanor Ganguly",
+        "userEmail": "eleanor.ganguly.739@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "The Golden Flame opened into full majestic splendour over 48 hours",
+        "comment": "The cold-chain logistics behind the Golden Flame are truly remarkable — arrived thoroughly chilled and dewy. The subtle, soothing botanical scent persisted for more than 10 days, making the home smell like a morning garden in bloom. Proof that luxury floristry is a true art form when executed with such uncompromising dedication.",
+        "date": "11 days ago",
+        "createdAt": "2026-10-11T23:03:47.109Z",
+        "verified": true,
+        "helpful": 29
+      },
+      {
+        "id": "rev-flw-071-3",
+        "userName": "Nisha Prasad",
+        "author": "Nisha Prasad",
+        "userEmail": "nisha.prasad.918@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Worth every single rupee for an unforgettable celebration — Golden Flame",
+        "comment": "We featured the Golden Flame at our anniversary dinner table and it immediately became the talking point of the evening. The contrast between the velvety mixed and the aromatic eucalyptus foliage creates an exquisite visual rhythm. An unequivocal 10 out of 10 experience that sets a new benchmark for luxury lifestyle floristry.",
+        "date": "14 days ago",
+        "createdAt": "2026-10-08T16:56:49.411Z",
+        "verified": true,
+        "helpful": 21
+      }
+    ]
   },
   {
     "id": "flw-072",
@@ -1641,22 +4624,64 @@ export const SEED_PRODUCTS = [
     "slug": "midnight-solstice",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
     "occasion": "Birthday",
     "recipient": "Everyone",
-    "flowerType": "Mixed",
     "price": 12352,
     "originalPrice": 16065,
-    "stock": 37,
-    "images": [
-      "/images/products/midnight-solstice.webp"
-    ],
     "rating": 4.8,
     "reviewsCount": 154,
     "tag": "Trending Now",
+    "image": "/images/products/midnight-solstice.webp",
+    "images": [
+      "/images/products/midnight-solstice.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the Midnight Solstice harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 37,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-072-1",
+        "userName": "Aaditya Laurent",
+        "author": "Aaditya Laurent",
+        "userEmail": "aaditya.laurent.572@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "The pinnacle of refined floristry: Midnight Solstice",
+        "comment": "I ordered the Midnight Solstice for our family celebration and the presentation left us utterly captivated. The protective reefer hydration pods on the stem bases kept every leaf crisply hydrated throughout transport. It brought an atmosphere of regal tranquility to our salon that lasted for days.",
+        "date": "5 days ago",
+        "createdAt": "2026-10-17T21:33:23.501Z",
+        "verified": true,
+        "helpful": 39
+      },
+      {
+        "id": "rev-flw-072-2",
+        "userName": "Kabir Kapoor",
+        "author": "Kabir Kapoor",
+        "userEmail": "kabir.kapoor.752@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Impeccable highland cultivation and petal density — Midnight Solstice",
+        "comment": "Fourteen days after delivery, our Midnight Solstice continues to look remarkably radiant and intact. Over the first 48 hours in vase water, each bud opened progressively into a magnificent, fully expanded blossom lasting 11 full days. Dhanvikk's cold-chain refrigerated delivery fleet is clearly the gold standard in the floristry industry.",
+        "date": "12 days ago",
+        "createdAt": "2026-10-10T15:24:01.902Z",
+        "verified": true,
+        "helpful": 30
+      },
+      {
+        "id": "rev-flw-072-3",
+        "userName": "Rajesh Sandhu",
+        "author": "Rajesh Sandhu",
+        "userEmail": "rajesh.sandhu.932@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Quiet luxury and exquisite calligraphy detailing in Midnight Solstice",
+        "comment": "Gifted the Midnight Solstice as a gesture of heartfelt gratitude, and the response was pure delight. The gradient of tones in the mixed was subtle, sophisticated, and perfectly suited for luxury sensibilities. Will be reordering regularly for all our private celebrations and corporate client gifting.",
+        "date": "15 days ago",
+        "createdAt": "2026-10-07T17:08:31.279Z",
+        "verified": true,
+        "helpful": 20
+      }
+    ]
   },
   {
     "id": "flw-073",
@@ -1664,22 +4689,64 @@ export const SEED_PRODUCTS = [
     "slug": "pink-gypsy-delight",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
     "occasion": "Birthday",
     "recipient": "Everyone",
-    "flowerType": "Mixed",
     "price": 2228,
     "originalPrice": 2902,
-    "stock": 15,
-    "images": [
-      "/images/products/pink-gypsy-delight.webp"
-    ],
     "rating": 4.9,
     "reviewsCount": 137,
     "tag": "Luxury Bloom",
+    "image": "/images/products/pink-gypsy-delight.webp",
+    "images": [
+      "/images/products/pink-gypsy-delight.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the Pink Gypsy Delight harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 15,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-073-1",
+        "userName": "Anirudh D’Souza",
+        "author": "Anirudh D’Souza",
+        "userEmail": "anirudh.dsouza.585@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Awe-inspiring craftsmanship and luxury presentation — Pink Gypsy Delight",
+        "comment": "From the moment the Dhanvikk courier arrived with the Pink Gypsy Delight, the caliber was unmistakably world-class. The imported European waterproof wrap and hand-tied gold-embossed silk ribbon give the bouquet an unmistakable haute couture flair. My guests could not stop inquiring where this extraordinary floral curation came from.",
+        "date": "2 days ago",
+        "createdAt": "2026-10-20T20:48:46.094Z",
+        "verified": true,
+        "helpful": 28
+      },
+      {
+        "id": "rev-flw-073-2",
+        "userName": "Madhav Mehta",
+        "author": "Madhav Mehta",
+        "userEmail": "madhav.mehta.765@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Unprecedented vase longevity and natural fragrance from Pink Gypsy Delight",
+        "comment": "The fragrance profile of the Pink Gypsy Delight is natural, intoxicating, and gracefully fills the entire room. Not a single petal dropped during the first 10 days; the stem caliber is easily double what ordinary high-street florists supply. The level of quality control and stem-by-stem inspection is evident from the first glance.",
+        "date": "7 days ago",
+        "createdAt": "2026-10-15T19:44:16.694Z",
+        "verified": true,
+        "helpful": 31
+      },
+      {
+        "id": "rev-flw-073-3",
+        "userName": "Sanjana Somani",
+        "author": "Sanjana Somani",
+        "userEmail": "sanjana.somani.945@verified.dhanvikk.com",
+        "rating": 4,
+        "title": "An heirloom masterpiece that brought immense joy: Pink Gypsy Delight",
+        "comment": "The Pink Gypsy Delight is hands down one of the most distinguished floral creations I have had the pleasure to present. The stems drank steadily and held their upright posture with royal dignity throughout the entire celebration. A consummate triumph of floral curation, pristine presentation, and genuine white-glove service.",
+        "date": "16 days ago",
+        "createdAt": "2026-10-06T17:20:13.147Z",
+        "verified": true,
+        "helpful": 19
+      }
+    ]
   },
   {
     "id": "flw-074",
@@ -1687,22 +4754,64 @@ export const SEED_PRODUCTS = [
     "slug": "crimson-serenade",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Roses",
     "occasion": "Love & Romance",
     "recipient": "For Her",
-    "flowerType": "Roses",
     "price": 5152,
     "originalPrice": 6705,
-    "stock": 26,
-    "images": [
-      "/images/products/crimson-serenade.webp"
-    ],
     "rating": 4.8,
     "reviewsCount": 37,
     "tag": "Limited Edition",
+    "image": "/images/products/crimson-serenade.webp",
+    "images": [
+      "/images/products/crimson-serenade.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the Crimson Serenade harmonizes premium long-stemmed roses with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 26,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-074-1",
+        "userName": "Dhruv Deshmukh",
+        "author": "Dhruv Deshmukh",
+        "userEmail": "dhruv.deshmukh.598@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Arrived pristine with morning dew still on petals: Crimson Serenade",
+        "comment": "The sheer artistic balance of the Crimson Serenade easily surpasses any floral arrangement I have commissioned before. The layered organza and matte parchment wrapping protects each bloom while showcasing the lush foliage beneath. Without question the finest floral presentation available anywhere in the country today.",
+        "date": "3 days ago",
+        "createdAt": "2026-10-19T20:04:08.687Z",
+        "verified": true,
+        "helpful": 47
+      },
+      {
+        "id": "rev-flw-074-2",
+        "userName": "Neelam Nayar",
+        "author": "Neelam Nayar",
+        "userEmail": "neelam.nayar.778@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Uncompromising quality control in this gorgeous Crimson Serenade",
+        "comment": "You can immediately feel the heavy stem density and turgid petal structure of this highland-grown Crimson Serenade. The subtle, soothing botanical scent persisted for more than 13 days, making the home smell like a morning garden in bloom. I will never order from standard floral delivery services again after experiencing this caliber.",
+        "date": "8 days ago",
+        "createdAt": "2026-10-15T00:04:31.487Z",
+        "verified": true,
+        "helpful": 33
+      },
+      {
+        "id": "rev-flw-074-3",
+        "userName": "Soham Verma",
+        "author": "Soham Verma",
+        "userEmail": "soham.verma.958@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Flawless execution from courier to final bloom — Crimson Serenade",
+        "comment": "Everything about the Crimson Serenade — from the embossed envelope to the floral symmetry — whispers quiet luxury. The contrast between the velvety roses and the aromatic eucalyptus foliage creates an exquisite visual rhythm. Worth every single rupee for the lasting joy, prestige, and beauty it brought into our lives.",
+        "date": "17 days ago",
+        "createdAt": "2026-10-05T17:31:55.014Z",
+        "verified": true,
+        "helpful": 17
+      }
+    ]
   },
   {
     "id": "flw-075",
@@ -1710,22 +4819,64 @@ export const SEED_PRODUCTS = [
     "slug": "soft-whisper",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
     "occasion": "Congratulations",
     "recipient": "Everyone",
-    "flowerType": "Mixed",
     "price": 1552,
     "originalPrice": 2025,
-    "stock": 21,
-    "images": [
-      "/images/products/soft-whisper.webp"
-    ],
     "rating": 4.7,
     "reviewsCount": 81,
     "tag": "Luxury Bloom",
+    "image": "/images/products/soft-whisper.webp",
+    "images": [
+      "/images/products/soft-whisper.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the Soft Whisper harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 21,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": true,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-075-1",
+        "userName": "Ishaan Iyer",
+        "author": "Ishaan Iyer",
+        "userEmail": "ishaan.iyer.611@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Elegance personified in the magnificent Soft Whisper",
+        "comment": "Dhanvikk has completely redefined luxury gifting with this sensational Soft Whisper. The protective reefer hydration pods on the stem bases kept every leaf crisply hydrated throughout transport. The recipient was visibly moved to tears upon reading the calligraphy note tucked into the arrangement.",
+        "date": "4 days ago",
+        "createdAt": "2026-10-18T19:19:31.280Z",
+        "verified": true,
+        "helpful": 37
+      },
+      {
+        "id": "rev-flw-075-2",
+        "userName": "Radhika Roy",
+        "author": "Radhika Roy",
+        "userEmail": "radhika.roy.791@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Robust stems, velvety texture, and remarkable hydration: Soft Whisper",
+        "comment": "Dhanvikk's zero-compromise approach to morning dawn-cutting is vividly apparent in the Soft Whisper. Over the first 48 hours in vase water, each bud opened progressively into a magnificent, fully expanded blossom lasting 14 full days. A masterclass in high-altitude boutique cultivation and pristine handling.",
+        "date": "9 days ago",
+        "createdAt": "2026-10-13T16:24:46.280Z",
+        "verified": true,
+        "helpful": 34
+      },
+      {
+        "id": "rev-flw-075-3",
+        "userName": "Trisha Sterling",
+        "author": "Trisha Sterling",
+        "userEmail": "trisha.sterling.971@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Our definitive choice for all high-profile occasions: Soft Whisper",
+        "comment": "Ordered the Soft Whisper on short notice and Dhanvikk delivered with impeccable timing and flawless poise. The gradient of tones in the mixed was subtle, sophisticated, and perfectly suited for luxury sensibilities. I wholeheartedly recommend Dhanvikk to anyone who refuses to settle for ordinary commercial blooms.",
+        "date": "18 days ago",
+        "createdAt": "2026-10-04T17:43:36.882Z",
+        "verified": true,
+        "helpful": 16
+      }
+    ]
   },
   {
     "id": "flw-076",
@@ -1733,22 +4884,64 @@ export const SEED_PRODUCTS = [
     "slug": "solar-radiance",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
     "occasion": "Birthday",
     "recipient": "Everyone",
-    "flowerType": "Mixed",
     "price": 2678,
     "originalPrice": 3488,
-    "stock": 40,
+    "rating": 5,
+    "reviewsCount": 151,
+    "tag": "Trending Now",
+    "image": "/images/products/solar-radiance.webp",
     "images": [
       "/images/products/solar-radiance.webp"
     ],
-    "rating": 5.0,
-    "reviewsCount": 151,
-    "tag": "Trending Now",
     "description": "Hand-tied by master Parisian florists, the Solar Radiance harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 40,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-076-1",
+        "userName": "Kiran Kumar",
+        "author": "Kiran Kumar",
+        "userEmail": "kiran.kumar.625@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Unrivaled atelier artistry in every single bloom — Solar Radiance",
+        "comment": "The unveiling of our Solar Radiance was the highlight of our celebratory morning. The imported European waterproof wrap and hand-tied gold-embossed silk ribbon give the bouquet an unmistakable haute couture flair. An indispensable triumph of an arrangement for any birthday.",
+        "date": "5 days ago",
+        "createdAt": "2026-10-17T18:34:53.872Z",
+        "verified": true,
+        "helpful": 26
+      },
+      {
+        "id": "rev-flw-076-2",
+        "userName": "Sahil Sharma",
+        "author": "Sahil Sharma",
+        "userEmail": "sahil.sharma.805@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Horticultural perfection air-flown with exquisite care — Solar Radiance",
+        "comment": "The freshness of the Solar Radiance when unpacked felt as if it had been gathered from the mountain estate an hour prior. Not a single petal dropped during the first 10 days; the stem caliber is easily double what ordinary high-street florists supply. Proof that luxury floristry is a true art form when executed with such uncompromising dedication.",
+        "date": "10 days ago",
+        "createdAt": "2026-10-12T20:45:01.073Z",
+        "verified": true,
+        "helpful": 35
+      },
+      {
+        "id": "rev-flw-076-3",
+        "userName": "Yash Chakraborty",
+        "author": "Yash Chakraborty",
+        "userEmail": "yash.chakraborty.984@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "The ultimate emotional grand gesture for our birthday — Solar Radiance",
+        "comment": "The visual impact of the Solar Radiance when unveiled is something neither my guests nor I will soon forget. The stems drank steadily and held their upright posture with royal dignity throughout the entire celebration. An unequivocal 10 out of 10 experience that sets a new benchmark for luxury lifestyle floristry.",
+        "date": "19 days ago",
+        "createdAt": "2026-10-03T17:55:18.749Z",
+        "verified": true,
+        "helpful": 15
+      }
+    ]
   },
   {
     "id": "flw-077",
@@ -1756,22 +4949,64 @@ export const SEED_PRODUCTS = [
     "slug": "eternal-passion",
     "category": "Forever Roses",
     "subCategory": "Preserved Bell Domes",
+    "flowerType": "Mixed",
     "occasion": "Love & Romance",
     "recipient": "For Her",
-    "flowerType": "Mixed",
     "price": 40478,
     "originalPrice": 52628,
-    "stock": 43,
+    "rating": 5,
+    "reviewsCount": 166,
+    "tag": "Luxury Bloom",
+    "image": "/images/products/eternal-passion.webp",
     "images": [
       "/images/products/eternal-passion.webp"
     ],
-    "rating": 5.0,
-    "reviewsCount": 166,
-    "tag": "Luxury Bloom",
     "description": "A breathtaking showcase of naturally preserved Ecuadorian garden blooms, meticulously stabilized to retain velvety softness, vibrant pigment, and structural perfection for up to 3 years without watering. Encased in a hand-blown borosilicate bell dome.",
+    "stock": 43,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-077-1",
+        "userName": "Nandini Naidu",
+        "author": "Nandini Naidu",
+        "userEmail": "nandini.naidu.638@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Haute couture floral design at its finest: Eternal Passion",
+        "comment": "Exquisite does not even begin to capture how breathtaking the Eternal Passion looks in person. Encased in a museum-grade glass cloche with delicate golden trim, every velvety petal is preserved in its prime. It brought an atmosphere of regal tranquility to our salon that lasted for days.",
+        "date": "2 days ago",
+        "createdAt": "2026-10-20T17:50:16.465Z",
+        "verified": true,
+        "helpful": 46
+      },
+      {
+        "id": "rev-flw-077-2",
+        "userName": "Simran Trivedi",
+        "author": "Simran Trivedi",
+        "userEmail": "simran.trivedi.818@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Remarkably fresh for nearly two weeks in our salon: Eternal Passion",
+        "comment": "The sheer volume and petal count packed into the Eternal Passion makes it an extraordinary value for high connoisseurs. It requires no water, sunlight, or maintenance yet continues to look as dewy as the day it was delivered. Dhanvikk's cold-chain refrigerated delivery fleet is clearly the gold standard in the floristry industry.",
+        "date": "11 days ago",
+        "createdAt": "2026-10-12T01:05:15.866Z",
+        "verified": true,
+        "helpful": 37
+      },
+      {
+        "id": "rev-flw-077-3",
+        "userName": "Oliver Goswami",
+        "author": "Oliver Goswami",
+        "userEmail": "oliver.goswami.998@verified.dhanvikk.com",
+        "rating": 4,
+        "title": "Left all our dinner guests completely captivated: Eternal Passion",
+        "comment": "I selected the Eternal Passion specifically for a milestone love & romance surprise. The enduring symbolism of preserved mixed makes this piece deeply meaningful and forever cherished. Will be reordering regularly for all our private celebrations and corporate client gifting.",
+        "date": "20 days ago",
+        "createdAt": "2026-10-02T18:07:00.617Z",
+        "verified": true,
+        "helpful": 14
+      }
+    ]
   },
   {
     "id": "flw-078",
@@ -1779,22 +5014,64 @@ export const SEED_PRODUCTS = [
     "slug": "midnight-majesty",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
     "occasion": "Anniversary",
     "recipient": "For Her",
-    "flowerType": "Mixed",
     "price": 11228,
     "originalPrice": 14602,
-    "stock": 21,
+    "rating": 5,
+    "reviewsCount": 74,
+    "tag": "Signature Atelier",
+    "image": "/images/products/midnight-majesty.webp",
     "images": [
       "/images/products/midnight-majesty.webp"
     ],
-    "rating": 5.0,
-    "reviewsCount": 74,
-    "tag": "Signature Atelier",
     "description": "Hand-tied by master Parisian florists, the Midnight Majesty harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 21,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-078-1",
+        "userName": "Prerna Ramachandran",
+        "author": "Prerna Ramachandran",
+        "userEmail": "prerna.ramachandran.651@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "An unforgettable grand entrance with Midnight Majesty",
+        "comment": "As a lifelong admirer of fine floristry, the architectural symmetry of the Midnight Majesty is awe-inspiring. The protective reefer hydration pods on the stem bases kept every leaf crisply hydrated throughout transport. My guests could not stop inquiring where this extraordinary floral curation came from.",
+        "date": "3 days ago",
+        "createdAt": "2026-10-19T17:05:39.058Z",
+        "verified": true,
+        "helpful": 35
+      },
+      {
+        "id": "rev-flw-078-2",
+        "userName": "Tanvi Beaumont",
+        "author": "Tanvi Beaumont",
+        "userEmail": "tanvi.beaumont.831@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Lasted over 10 full days in pristine condition — Midnight Majesty",
+        "comment": "Every single stem in our Midnight Majesty was hand-selected at the exact micro-stage of opening for maximum longevity. Over the first 48 hours in vase water, each bud opened progressively into a magnificent, fully expanded blossom lasting 10 full days. The level of quality control and stem-by-stem inspection is evident from the first glance.",
+        "date": "12 days ago",
+        "createdAt": "2026-10-10T17:25:30.659Z",
+        "verified": true,
+        "helpful": 38
+      },
+      {
+        "id": "rev-flw-078-3",
+        "userName": "Leila Khanna",
+        "author": "Leila Khanna",
+        "userEmail": "leila.khanna.112@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "A distinguished luxury statement piece: Midnight Majesty",
+        "comment": "Our executive boardroom needed a commanding centerpiece, and the Midnight Majesty delivered majestic grandeur. The gradient of tones in the mixed was subtle, sophisticated, and perfectly suited for luxury sensibilities. A consummate triumph of floral curation, pristine presentation, and genuine white-glove service.",
+        "date": "21 days ago",
+        "createdAt": "2026-10-01T18:18:42.484Z",
+        "verified": true,
+        "helpful": 12
+      }
+    ]
   },
   {
     "id": "flw-079",
@@ -1802,22 +5079,64 @@ export const SEED_PRODUCTS = [
     "slug": "grandeur-romance",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Roses",
     "occasion": "Love & Romance",
     "recipient": "For Her",
-    "flowerType": "Roses",
     "price": 11228,
     "originalPrice": 14602,
-    "stock": 30,
-    "images": [
-      "/images/products/grandeur-romance.webp"
-    ],
     "rating": 4.7,
     "reviewsCount": 26,
     "tag": "Luxury Bloom",
+    "image": "/images/products/grandeur-romance.webp",
+    "images": [
+      "/images/products/grandeur-romance.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the Grandeur Romance harmonizes premium long-stemmed roses with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 30,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-079-1",
+        "userName": "Rohan Sehgal",
+        "author": "Rohan Sehgal",
+        "userEmail": "rohan.sehgal.664@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Sublime symmetry and velvet perfection in Grandeur Romance",
+        "comment": "Commissioned the Grandeur Romance as a surprise, and the doorstep presentation was cinematic in its perfection. The imported European waterproof wrap and hand-tied gold-embossed silk ribbon give the bouquet an unmistakable haute couture flair. Without question the finest floral presentation available anywhere in the country today.",
+        "date": "4 days ago",
+        "createdAt": "2026-10-18T16:21:01.651Z",
+        "verified": true,
+        "helpful": 25
+      },
+      {
+        "id": "rev-flw-079-2",
+        "userName": "Vikram Bandyopadhyay",
+        "author": "Vikram Bandyopadhyay",
+        "userEmail": "vikram.bandyopadhyay.844@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Intoxicating aroma and extraordinary stem caliber in Grandeur Romance",
+        "comment": "What sets the Grandeur Romance apart is the exceptional horticultural caliber of the roses. Not a single petal dropped during the first 10 days; the stem caliber is easily double what ordinary high-street florists supply. I will never order from standard floral delivery services again after experiencing this caliber.",
+        "date": "7 days ago",
+        "createdAt": "2026-10-15T21:45:45.451Z",
+        "verified": true,
+        "helpful": 39
+      },
+      {
+        "id": "rev-flw-079-3",
+        "userName": "Maximilian Mishra",
+        "author": "Maximilian Mishra",
+        "userEmail": "maximilian.mishra.125@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Heartfelt tears of joy upon opening the Grandeur Romance",
+        "comment": "Surprised my partner with the Grandeur Romance and the emotional resonance was beyond words. The stems drank steadily and held their upright posture with royal dignity throughout the entire celebration. Worth every single rupee for the lasting joy, prestige, and beauty it brought into our lives.",
+        "date": "22 days ago",
+        "createdAt": "2026-09-30T18:30:24.352Z",
+        "verified": true,
+        "helpful": 11
+      }
+    ]
   },
   {
     "id": "flw-080",
@@ -1825,22 +5144,64 @@ export const SEED_PRODUCTS = [
     "slug": "elegance-redefined",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
     "occasion": "Birthday",
     "recipient": "Everyone",
-    "flowerType": "Mixed",
     "price": 6728,
     "originalPrice": 8752,
-    "stock": 17,
-    "images": [
-      "/images/products/elegance-redefined.webp"
-    ],
     "rating": 4.9,
     "reviewsCount": 50,
     "tag": "Fresh Harvest",
+    "image": "/images/products/elegance-redefined.webp",
+    "images": [
+      "/images/products/elegance-redefined.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the Elegance Redefined harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 17,
+    "inStock": true,
     "isBestSeller": true,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-080-1",
+        "userName": "Shreya Sundaram",
+        "author": "Shreya Sundaram",
+        "userEmail": "shreya.sundaram.677@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Surpassed our highest expectations: Elegance Redefined",
+        "comment": "The Elegance Redefined arrived looking so freshly sculpted it felt like an exhibit from a Parisian floral atelier. The layered organza and matte parchment wrapping protects each bloom while showcasing the lush foliage beneath. The recipient was visibly moved to tears upon reading the calligraphy note tucked into the arrangement.",
+        "date": "5 days ago",
+        "createdAt": "2026-10-17T15:36:24.244Z",
+        "verified": true,
+        "helpful": 44
+      },
+      {
+        "id": "rev-flw-080-2",
+        "userName": "Matteo Fernandes",
+        "author": "Matteo Fernandes",
+        "userEmail": "matteo.fernandes.857@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "World-class cold chain delivery and dewy freshness: Elegance Redefined",
+        "comment": "Having ordered luxury florals in London and Milan, I can confirm that Dhanvikk's Elegance Redefined stands on the global podium. The subtle, soothing botanical scent persisted for more than 12 days, making the home smell like a morning garden in bloom. A masterclass in high-altitude boutique cultivation and pristine handling.",
+        "date": "8 days ago",
+        "createdAt": "2026-10-15T02:06:00.244Z",
+        "verified": true,
+        "helpful": 15
+      },
+      {
+        "id": "rev-flw-080-3",
+        "userName": "Aarav Pillai",
+        "author": "Aarav Pillai",
+        "userEmail": "aarav.pillai.138@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "The gold standard for our birthday celebration — Elegance Redefined",
+        "comment": "If you are looking for an unforgettable statement piece, the Elegance Redefined is utterly peerless. The contrast between the velvety mixed and the aromatic eucalyptus foliage creates an exquisite visual rhythm. I wholeheartedly recommend Dhanvikk to anyone who refuses to settle for ordinary commercial blooms.",
+        "date": "23 days ago",
+        "createdAt": "2026-09-29T18:42:06.219Z",
+        "verified": true,
+        "helpful": 10
+      }
+    ]
   },
   {
     "id": "flw-081",
@@ -1848,22 +5209,64 @@ export const SEED_PRODUCTS = [
     "slug": "petite-crimson-love",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Roses",
     "occasion": "Love & Romance",
     "recipient": "For Her",
-    "flowerType": "Roses",
     "price": 1102,
     "originalPrice": 1440,
-    "stock": 28,
-    "images": [
-      "/images/products/petite-crimson-love.webp"
-    ],
     "rating": 4.8,
     "reviewsCount": 83,
     "tag": "Luxury Bloom",
+    "image": "/images/products/petite-crimson-love.webp",
+    "images": [
+      "/images/products/petite-crimson-love.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the Petite Crimson Love harmonizes premium long-stemmed roses with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 28,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-081-1",
+        "userName": "Suresh Dubois",
+        "author": "Suresh Dubois",
+        "userEmail": "suresh.dubois.691@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Breathtaking sensory unboxing — Petite Crimson Love",
+        "comment": "Receiving the Petite Crimson Love was an experience of pure unadulterated luxury. The protective reefer hydration pods on the stem bases kept every leaf crisply hydrated throughout transport. An indispensable triumph of an arrangement for any love & romance.",
+        "date": "2 days ago",
+        "createdAt": "2026-10-21T02:51:46.837Z",
+        "verified": true,
+        "helpful": 34
+      },
+      {
+        "id": "rev-flw-081-2",
+        "userName": "Amara Joshi",
+        "author": "Amara Joshi",
+        "userEmail": "amara.joshi.870@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "The Petite Crimson Love opened into full majestic splendour over 48 hours",
+        "comment": "The cold-chain logistics behind the Petite Crimson Love are truly remarkable — arrived thoroughly chilled and dewy. Over the first 48 hours in vase water, each bud opened progressively into a magnificent, fully expanded blossom lasting 13 full days. Proof that luxury floristry is a true art form when executed with such uncompromising dedication.",
+        "date": "9 days ago",
+        "createdAt": "2026-10-13T18:26:15.037Z",
+        "verified": true,
+        "helpful": 17
+      },
+      {
+        "id": "rev-flw-081-3",
+        "userName": "Arjun Samant",
+        "author": "Arjun Samant",
+        "userEmail": "arjun.samant.151@verified.dhanvikk.com",
+        "rating": 4,
+        "title": "Worth every single rupee for an unforgettable celebration — Petite Crimson Love",
+        "comment": "We featured the Petite Crimson Love at our anniversary dinner table and it immediately became the talking point of the evening. The gradient of tones in the roses was subtle, sophisticated, and perfectly suited for luxury sensibilities. An unequivocal 10 out of 10 experience that sets a new benchmark for luxury lifestyle floristry.",
+        "date": "24 days ago",
+        "createdAt": "2026-09-28T18:53:48.087Z",
+        "verified": true,
+        "helpful": 29
+      }
+    ]
   },
   {
     "id": "flw-082",
@@ -1871,22 +5274,64 @@ export const SEED_PRODUCTS = [
     "slug": "golden-touch",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
     "occasion": "Anniversary",
     "recipient": "For Her",
-    "flowerType": "Mixed",
     "price": 1552,
     "originalPrice": 2025,
-    "stock": 36,
-    "images": [
-      "/images/products/golden-touch.webp"
-    ],
     "rating": 4.7,
     "reviewsCount": 24,
     "tag": "Limited Edition",
+    "image": "/images/products/golden-touch.webp",
+    "images": [
+      "/images/products/golden-touch.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the Golden Touch harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 36,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-082-1",
+        "userName": "Varun Kensington",
+        "author": "Varun Kensington",
+        "userEmail": "varun.kensington.704@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "The pinnacle of refined floristry: Golden Touch",
+        "comment": "I ordered the Golden Touch for our family celebration and the presentation left us utterly captivated. The imported European waterproof wrap and hand-tied gold-embossed silk ribbon give the bouquet an unmistakable haute couture flair. It brought an atmosphere of regal tranquility to our salon that lasted for days.",
+        "date": "3 days ago",
+        "createdAt": "2026-10-20T02:07:09.429Z",
+        "verified": true,
+        "helpful": 23
+      },
+      {
+        "id": "rev-flw-082-2",
+        "userName": "Domenico Malhotra",
+        "author": "Domenico Malhotra",
+        "userEmail": "domenico.malhotra.884@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Impeccable highland cultivation and petal density — Golden Touch",
+        "comment": "Fourteen days after delivery, our Golden Touch continues to look remarkably radiant and intact. Not a single petal dropped during the first 10 days; the stem caliber is easily double what ordinary high-street florists supply. Dhanvikk's cold-chain refrigerated delivery fleet is clearly the gold standard in the floristry industry.",
+        "date": "10 days ago",
+        "createdAt": "2026-10-12T22:46:29.830Z",
+        "verified": true,
+        "helpful": 18
+      },
+      {
+        "id": "rev-flw-082-3",
+        "userName": "Eleanor Singhania",
+        "author": "Eleanor Singhania",
+        "userEmail": "eleanor.singhania.165@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Quiet luxury and exquisite calligraphy detailing in Golden Touch",
+        "comment": "Gifted the Golden Touch as a gesture of heartfelt gratitude, and the response was pure delight. The stems drank steadily and held their upright posture with royal dignity throughout the entire celebration. Will be reordering regularly for all our private celebrations and corporate client gifting.",
+        "date": "25 days ago",
+        "createdAt": "2026-09-27T19:05:29.954Z",
+        "verified": true,
+        "helpful": 27
+      }
+    ]
   },
   {
     "id": "flw-083",
@@ -1894,22 +5339,64 @@ export const SEED_PRODUCTS = [
     "slug": "ivory-cube",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
     "occasion": "Congratulations",
     "recipient": "Everyone",
-    "flowerType": "Mixed",
     "price": 4478,
     "originalPrice": 5828,
-    "stock": 34,
-    "images": [
-      "/images/products/ivory-cube.webp"
-    ],
     "rating": 4.8,
     "reviewsCount": 85,
     "tag": "Luxury Bloom",
+    "image": "/images/products/ivory-cube.webp",
+    "images": [
+      "/images/products/ivory-cube.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the Ivory Cube harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 34,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-083-1",
+        "userName": "Sebastien Choudhury",
+        "author": "Sebastien Choudhury",
+        "userEmail": "sebastien.choudhury.717@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Awe-inspiring craftsmanship and luxury presentation — Ivory Cube",
+        "comment": "From the moment the Dhanvikk courier arrived with the Ivory Cube, the caliber was unmistakably world-class. The layered organza and matte parchment wrapping protects each bloom while showcasing the lush foliage beneath. My guests could not stop inquiring where this extraordinary floral curation came from.",
+        "date": "4 days ago",
+        "createdAt": "2026-10-19T01:22:32.022Z",
+        "verified": true,
+        "helpful": 42
+      },
+      {
+        "id": "rev-flw-083-2",
+        "userName": "Aaditya Narayan",
+        "author": "Aaditya Narayan",
+        "userEmail": "aaditya.narayan.897@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Unprecedented vase longevity and natural fragrance from Ivory Cube",
+        "comment": "The fragrance profile of the Ivory Cube is natural, intoxicating, and gracefully fills the entire room. The subtle, soothing botanical scent persisted for more than 15 days, making the home smell like a morning garden in bloom. The level of quality control and stem-by-stem inspection is evident from the first glance.",
+        "date": "11 days ago",
+        "createdAt": "2026-10-11T15:06:44.623Z",
+        "verified": true,
+        "helpful": 19
+      },
+      {
+        "id": "rev-flw-083-3",
+        "userName": "Kabir Venkatesh",
+        "author": "Kabir Venkatesh",
+        "userEmail": "kabir.venkatesh.178@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "An heirloom masterpiece that brought immense joy: Ivory Cube",
+        "comment": "The Ivory Cube is hands down one of the most distinguished floral creations I have had the pleasure to present. The contrast between the velvety mixed and the aromatic eucalyptus foliage creates an exquisite visual rhythm. A consummate triumph of floral curation, pristine presentation, and genuine white-glove service.",
+        "date": "26 days ago",
+        "createdAt": "2026-09-26T19:17:11.822Z",
+        "verified": true,
+        "helpful": 26
+      }
+    ]
   },
   {
     "id": "flw-084",
@@ -1917,22 +5404,64 @@ export const SEED_PRODUCTS = [
     "slug": "imperial-grandeur",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
     "occasion": "Congratulations",
     "recipient": "Everyone",
-    "flowerType": "Mixed",
     "price": 24728,
     "originalPrice": 32152,
-    "stock": 23,
+    "rating": 5,
+    "reviewsCount": 52,
+    "tag": "Florist Choice",
+    "image": "/images/products/imperial-grandeur.webp",
     "images": [
       "/images/products/imperial-grandeur.webp"
     ],
-    "rating": 5.0,
-    "reviewsCount": 52,
-    "tag": "Florist Choice",
     "description": "Hand-tied by master Parisian florists, the Imperial Grandeur harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 23,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-084-1",
+        "userName": "Sophia Iyengar",
+        "author": "Sophia Iyengar",
+        "userEmail": "sophia.iyengar.730@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Arrived pristine with morning dew still on petals: Imperial Grandeur",
+        "comment": "The sheer artistic balance of the Imperial Grandeur easily surpasses any floral arrangement I have commissioned before. The protective reefer hydration pods on the stem bases kept every leaf crisply hydrated throughout transport. Without question the finest floral presentation available anywhere in the country today.",
+        "date": "5 days ago",
+        "createdAt": "2026-10-18T00:37:54.615Z",
+        "verified": true,
+        "helpful": 32
+      },
+      {
+        "id": "rev-flw-084-2",
+        "userName": "Anirudh Reddy",
+        "author": "Anirudh Reddy",
+        "userEmail": "anirudh.reddy.910@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Uncompromising quality control in this gorgeous Imperial Grandeur",
+        "comment": "You can immediately feel the heavy stem density and turgid petal structure of this highland-grown Imperial Grandeur. Over the first 48 hours in vase water, each bud opened progressively into a magnificent, fully expanded blossom lasting 16 full days. I will never order from standard floral delivery services again after experiencing this caliber.",
+        "date": "12 days ago",
+        "createdAt": "2026-10-10T19:26:59.415Z",
+        "verified": true,
+        "helpful": 20
+      },
+      {
+        "id": "rev-flw-084-3",
+        "userName": "Madhav Rochester",
+        "author": "Madhav Rochester",
+        "userEmail": "madhav.rochester.191@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Flawless execution from courier to final bloom — Imperial Grandeur",
+        "comment": "Everything about the Imperial Grandeur — from the embossed envelope to the floral symmetry — whispers quiet luxury. The gradient of tones in the mixed was subtle, sophisticated, and perfectly suited for luxury sensibilities. Worth every single rupee for the lasting joy, prestige, and beauty it brought into our lives.",
+        "date": "27 days ago",
+        "createdAt": "2026-09-25T19:28:53.689Z",
+        "verified": true,
+        "helpful": 25
+      }
+    ]
   },
   {
     "id": "flw-085",
@@ -1940,22 +5469,64 @@ export const SEED_PRODUCTS = [
     "slug": "harmonious-bonds",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
     "occasion": "Birthday",
     "recipient": "Everyone",
-    "flowerType": "Mixed",
     "price": 4928,
     "originalPrice": 6412,
-    "stock": 42,
-    "images": [
-      "/images/products/harmonious-bonds.webp"
-    ],
     "rating": 4.8,
     "reviewsCount": 130,
     "tag": "Luxury Bloom",
+    "image": "/images/products/harmonious-bonds.webp",
+    "images": [
+      "/images/products/harmonious-bonds.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the Harmonious Bonds harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 42,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-085-1",
+        "userName": "Henri Kulkarni",
+        "author": "Henri Kulkarni",
+        "userEmail": "henri.kulkarni.743@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Elegance personified in the magnificent Harmonious Bonds",
+        "comment": "Dhanvikk has completely redefined luxury gifting with this sensational Harmonious Bonds. The imported European waterproof wrap and hand-tied gold-embossed silk ribbon give the bouquet an unmistakable haute couture flair. The recipient was visibly moved to tears upon reading the calligraphy note tucked into the arrangement.",
+        "date": "2 days ago",
+        "createdAt": "2026-10-20T23:53:17.208Z",
+        "verified": true,
+        "helpful": 21
+      },
+      {
+        "id": "rev-flw-085-2",
+        "userName": "Dhruv Seth",
+        "author": "Dhruv Seth",
+        "userEmail": "dhruv.seth.923@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Robust stems, velvety texture, and remarkable hydration: Harmonious Bonds",
+        "comment": "Dhanvikk's zero-compromise approach to morning dawn-cutting is vividly apparent in the Harmonious Bonds. Not a single petal dropped during the first 10 days; the stem caliber is easily double what ordinary high-street florists supply. A masterclass in high-altitude boutique cultivation and pristine handling.",
+        "date": "7 days ago",
+        "createdAt": "2026-10-15T23:47:14.208Z",
+        "verified": true,
+        "helpful": 22
+      },
+      {
+        "id": "rev-flw-085-3",
+        "userName": "Neelam Bhattacharya",
+        "author": "Neelam Bhattacharya",
+        "userEmail": "neelam.bhattacharya.204@verified.dhanvikk.com",
+        "rating": 4,
+        "title": "Our definitive choice for all high-profile occasions: Harmonious Bonds",
+        "comment": "Ordered the Harmonious Bonds on short notice and Dhanvikk delivered with impeccable timing and flawless poise. The stems drank steadily and held their upright posture with royal dignity throughout the entire celebration. I wholeheartedly recommend Dhanvikk to anyone who refuses to settle for ordinary commercial blooms.",
+        "date": "14 days ago",
+        "createdAt": "2026-10-08T19:40:35.557Z",
+        "verified": true,
+        "helpful": 24
+      }
+    ]
   },
   {
     "id": "flw-086",
@@ -1963,22 +5534,64 @@ export const SEED_PRODUCTS = [
     "slug": "golden-sunshine",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Sunflowers",
     "occasion": "Anniversary",
     "recipient": "For Her",
-    "flowerType": "Sunflowers",
     "price": 2678,
     "originalPrice": 3488,
-    "stock": 23,
-    "images": [
-      "/images/products/golden-sunshine.webp"
-    ],
     "rating": 4.8,
     "reviewsCount": 145,
     "tag": "Best Seller",
+    "image": "/images/products/golden-sunshine.webp",
+    "images": [
+      "/images/products/golden-sunshine.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the Golden Sunshine harmonizes premium long-stemmed sunflowers with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 23,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-086-1",
+        "userName": "Astrid Nadar",
+        "author": "Astrid Nadar",
+        "userEmail": "astrid.nadar.757@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Unrivaled atelier artistry in every single bloom — Golden Sunshine",
+        "comment": "The unveiling of our Golden Sunshine was the highlight of our celebratory morning. The layered organza and matte parchment wrapping protects each bloom while showcasing the lush foliage beneath. An indispensable triumph of an arrangement for any anniversary.",
+        "date": "3 days ago",
+        "createdAt": "2026-10-19T23:08:39.801Z",
+        "verified": true,
+        "helpful": 41
+      },
+      {
+        "id": "rev-flw-086-2",
+        "userName": "Ishaan Thakur",
+        "author": "Ishaan Thakur",
+        "userEmail": "ishaan.thakur.936@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Horticultural perfection air-flown with exquisite care — Golden Sunshine",
+        "comment": "The freshness of the Golden Sunshine when unpacked felt as if it had been gathered from the mountain estate an hour prior. The subtle, soothing botanical scent persisted for more than 11 days, making the home smell like a morning garden in bloom. Proof that luxury floristry is a true art form when executed with such uncompromising dedication.",
+        "date": "8 days ago",
+        "createdAt": "2026-10-14T16:07:29.001Z",
+        "verified": true,
+        "helpful": 23
+      },
+      {
+        "id": "rev-flw-086-3",
+        "userName": "Radhika Gokhale",
+        "author": "Radhika Gokhale",
+        "userEmail": "radhika.gokhale.217@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "The ultimate emotional grand gesture for our anniversary — Golden Sunshine",
+        "comment": "The visual impact of the Golden Sunshine when unveiled is something neither my guests nor I will soon forget. The contrast between the velvety sunflowers and the aromatic eucalyptus foliage creates an exquisite visual rhythm. An unequivocal 10 out of 10 experience that sets a new benchmark for luxury lifestyle floristry.",
+        "date": "15 days ago",
+        "createdAt": "2026-10-07T19:52:17.424Z",
+        "verified": true,
+        "helpful": 23
+      }
+    ]
   },
   {
     "id": "flw-087",
@@ -1986,22 +5599,64 @@ export const SEED_PRODUCTS = [
     "slug": "golden-red-splendor",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
     "occasion": "Anniversary",
     "recipient": "For Her",
-    "flowerType": "Mixed",
     "price": 12352,
     "originalPrice": 16065,
-    "stock": 30,
-    "images": [
-      "/images/products/golden-red-splendor.webp"
-    ],
     "rating": 4.9,
     "reviewsCount": 80,
     "tag": "Luxury Bloom",
+    "image": "/images/products/golden-red-splendor.webp",
+    "images": [
+      "/images/products/golden-red-splendor.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the Golden Red Splendor harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 30,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-087-1",
+        "userName": "Amina Rajan",
+        "author": "Amina Rajan",
+        "userEmail": "amina.rajan.770@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Haute couture floral design at its finest: Golden Red Splendor",
+        "comment": "Exquisite does not even begin to capture how breathtaking the Golden Red Splendor looks in person. The protective reefer hydration pods on the stem bases kept every leaf crisply hydrated throughout transport. It brought an atmosphere of regal tranquility to our salon that lasted for days.",
+        "date": "4 days ago",
+        "createdAt": "2026-10-18T22:24:02.393Z",
+        "verified": true,
+        "helpful": 30
+      },
+      {
+        "id": "rev-flw-087-2",
+        "userName": "Kiran Vanderbilt",
+        "author": "Kiran Vanderbilt",
+        "userEmail": "kiran.vanderbilt.950@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Remarkably fresh for nearly two weeks in our salon: Golden Red Splendor",
+        "comment": "The sheer volume and petal count packed into the Golden Red Splendor makes it an extraordinary value for high connoisseurs. Over the first 48 hours in vase water, each bud opened progressively into a magnificent, fully expanded blossom lasting 12 full days. Dhanvikk's cold-chain refrigerated delivery fleet is clearly the gold standard in the floristry industry.",
+        "date": "9 days ago",
+        "createdAt": "2026-10-13T20:27:43.794Z",
+        "verified": true,
+        "helpful": 24
+      },
+      {
+        "id": "rev-flw-087-3",
+        "userName": "Sahil Kaul",
+        "author": "Sahil Kaul",
+        "userEmail": "sahil.kaul.231@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Left all our dinner guests completely captivated: Golden Red Splendor",
+        "comment": "I selected the Golden Red Splendor specifically for a milestone anniversary surprise. The gradient of tones in the mixed was subtle, sophisticated, and perfectly suited for luxury sensibilities. Will be reordering regularly for all our private celebrations and corporate client gifting.",
+        "date": "16 days ago",
+        "createdAt": "2026-10-06T20:03:59.292Z",
+        "verified": true,
+        "helpful": 21
+      }
+    ]
   },
   {
     "id": "flw-088",
@@ -2009,22 +5664,64 @@ export const SEED_PRODUCTS = [
     "slug": "the-white-dome-box",
     "category": "Flower Boxes",
     "subCategory": "Hat Box Arrangements",
+    "flowerType": "Mixed",
     "occasion": "Congratulations",
     "recipient": "Everyone",
-    "flowerType": "Mixed",
     "price": 3352,
     "originalPrice": 4365,
-    "stock": 23,
-    "images": [
-      "/images/products/the-white-dome-box.webp"
-    ],
     "rating": 4.8,
     "reviewsCount": 94,
     "tag": "Signature Atelier",
+    "image": "/images/products/the-white-dome-box.webp",
+    "images": [
+      "/images/products/the-white-dome-box.webp"
+    ],
     "description": "A lavish curation of handpicked garden blooms, masterfully arranged in Dhanvikk's signature French velvet keepsake box. Accented with lush spiral eucalyptus and tied with an ivory satin ribbon, this bespoke creation brings regal grandeur to every celebration.",
+    "stock": 23,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-088-1",
+        "userName": "Chetan Saxena",
+        "author": "Chetan Saxena",
+        "userEmail": "chetan.saxena.783@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "An unforgettable grand entrance with The White Dome Box",
+        "comment": "As a lifelong admirer of fine floristry, the architectural symmetry of the The White Dome Box is awe-inspiring. The signature French cylindrical keepsake box tied with heavyweight double-faced satin ribbon exudes aristocratic charm. My guests could not stop inquiring where this extraordinary floral curation came from.",
+        "date": "5 days ago",
+        "createdAt": "2026-10-17T21:39:24.987Z",
+        "verified": true,
+        "helpful": 20
+      },
+      {
+        "id": "rev-flw-088-2",
+        "userName": "Nandini Al-Mansoor",
+        "author": "Nandini Al-Mansoor",
+        "userEmail": "nandini.almansoor.963@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Lasted over 13 full days in pristine condition — The White Dome Box",
+        "comment": "Every single stem in our The White Dome Box was hand-selected at the exact micro-stage of opening for maximum longevity. Not a single petal dropped during the first 10 days; the stem caliber is easily double what ordinary high-street florists supply. The level of quality control and stem-by-stem inspection is evident from the first glance.",
+        "date": "10 days ago",
+        "createdAt": "2026-10-13T00:47:58.588Z",
+        "verified": true,
+        "helpful": 25
+      },
+      {
+        "id": "rev-flw-088-3",
+        "userName": "Simran Mirza",
+        "author": "Simran Mirza",
+        "userEmail": "simran.mirza.244@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "A distinguished luxury statement piece: The White Dome Box",
+        "comment": "Our executive boardroom needed a commanding centerpiece, and the The White Dome Box delivered majestic grandeur. The stems drank steadily and held their upright posture with royal dignity throughout the entire celebration. A consummate triumph of floral curation, pristine presentation, and genuine white-glove service.",
+        "date": "17 days ago",
+        "createdAt": "2026-10-05T20:15:41.160Z",
+        "verified": true,
+        "helpful": 20
+      }
+    ]
   },
   {
     "id": "flw-089",
@@ -2032,22 +5729,64 @@ export const SEED_PRODUCTS = [
     "slug": "soft-white-bloom",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
     "occasion": "Congratulations",
     "recipient": "Everyone",
-    "flowerType": "Mixed",
     "price": 2678,
     "originalPrice": 3488,
-    "stock": 37,
-    "images": [
-      "/images/products/soft-white-bloom.webp"
-    ],
     "rating": 4.7,
     "reviewsCount": 109,
     "tag": "Luxury Bloom",
+    "image": "/images/products/soft-white-bloom.webp",
+    "images": [
+      "/images/products/soft-white-bloom.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the Soft White Bloom harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 37,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-089-1",
+        "userName": "Gayatri Subramanian",
+        "author": "Gayatri Subramanian",
+        "userEmail": "gayatri.subramanian.796@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Sublime symmetry and velvet perfection in Soft White Bloom",
+        "comment": "Commissioned the Soft White Bloom as a surprise, and the doorstep presentation was cinematic in its perfection. The layered organza and matte parchment wrapping protects each bloom while showcasing the lush foliage beneath. Without question the finest floral presentation available anywhere in the country today.",
+        "date": "2 days ago",
+        "createdAt": "2026-10-20T20:54:47.580Z",
+        "verified": true,
+        "helpful": 39
+      },
+      {
+        "id": "rev-flw-089-2",
+        "userName": "Prerna Dubey",
+        "author": "Prerna Dubey",
+        "userEmail": "prerna.dubey.976@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Intoxicating aroma and extraordinary stem caliber in Soft White Bloom",
+        "comment": "What sets the Soft White Bloom apart is the exceptional horticultural caliber of the mixed. The subtle, soothing botanical scent persisted for more than 14 days, making the home smell like a morning garden in bloom. I will never order from standard floral delivery services again after experiencing this caliber.",
+        "date": "11 days ago",
+        "createdAt": "2026-10-11T17:08:13.381Z",
+        "verified": true,
+        "helpful": 27
+      },
+      {
+        "id": "rev-flw-089-3",
+        "userName": "Tanvi Pandey",
+        "author": "Tanvi Pandey",
+        "userEmail": "tanvi.pandey.257@verified.dhanvikk.com",
+        "rating": 4,
+        "title": "Heartfelt tears of joy upon opening the Soft White Bloom",
+        "comment": "Surprised my partner with the Soft White Bloom and the emotional resonance was beyond words. The contrast between the velvety mixed and the aromatic eucalyptus foliage creates an exquisite visual rhythm. Worth every single rupee for the lasting joy, prestige, and beauty it brought into our lives.",
+        "date": "18 days ago",
+        "createdAt": "2026-10-04T20:27:23.028Z",
+        "verified": true,
+        "helpful": 19
+      }
+    ]
   },
   {
     "id": "flw-090",
@@ -2055,22 +5794,64 @@ export const SEED_PRODUCTS = [
     "slug": "golden-radiance-vase",
     "category": "Flowers",
     "subCategory": "Vase Arrangements",
+    "flowerType": "Mixed",
     "occasion": "Anniversary",
     "recipient": "For Her",
-    "flowerType": "Mixed",
     "price": 5602,
     "originalPrice": 7290,
-    "stock": 23,
-    "images": [
-      "/images/products/golden-radiance-vase.webp"
-    ],
     "rating": 4.9,
     "reviewsCount": 165,
     "tag": "Luxury Edit",
+    "image": "/images/products/golden-radiance-vase.webp",
+    "images": [
+      "/images/products/golden-radiance-vase.webp"
+    ],
     "description": "Architecturally balanced garden blooms nestled in an artisan fluted lead-free crystal glass vase. Styled with fragrant silvery spiral eucalyptus and ethereal gypsophila sprays for an effortless centerpiece statement.",
+    "stock": 23,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": true,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-090-1",
+        "userName": "Kavita Yadav",
+        "author": "Kavita Yadav",
+        "userEmail": "kavita.yadav.809@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Surpassed our highest expectations: Golden Radiance Vase",
+        "comment": "The Golden Radiance Vase arrived looking so freshly sculpted it felt like an exhibit from a Parisian floral atelier. The protective reefer hydration pods on the stem bases kept every leaf crisply hydrated throughout transport. The recipient was visibly moved to tears upon reading the calligraphy note tucked into the arrangement.",
+        "date": "3 days ago",
+        "createdAt": "2026-10-19T20:10:10.173Z",
+        "verified": true,
+        "helpful": 28
+      },
+      {
+        "id": "rev-flw-090-2",
+        "userName": "Rohan Jain",
+        "author": "Rohan Jain",
+        "userEmail": "rohan.jain.989@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "World-class cold chain delivery and dewy freshness: Golden Radiance Vase",
+        "comment": "Having ordered luxury florals in London and Milan, I can confirm that Dhanvikk's Golden Radiance Vase stands on the global podium. Over the first 48 hours in vase water, each bud opened progressively into a magnificent, fully expanded blossom lasting 15 full days. A masterclass in high-altitude boutique cultivation and pristine handling.",
+        "date": "12 days ago",
+        "createdAt": "2026-10-10T21:28:28.173Z",
+        "verified": true,
+        "helpful": 28
+      },
+      {
+        "id": "rev-flw-090-3",
+        "userName": "Vikram Salunkhe",
+        "author": "Vikram Salunkhe",
+        "userEmail": "vikram.salunkhe.270@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "The gold standard for our anniversary celebration — Golden Radiance Vase",
+        "comment": "If you are looking for an unforgettable statement piece, the Golden Radiance Vase is utterly peerless. The gradient of tones in the mixed was subtle, sophisticated, and perfectly suited for luxury sensibilities. I wholeheartedly recommend Dhanvikk to anyone who refuses to settle for ordinary commercial blooms.",
+        "date": "19 days ago",
+        "createdAt": "2026-10-03T20:39:04.895Z",
+        "verified": true,
+        "helpful": 18
+      }
+    ]
   },
   {
     "id": "flw-091",
@@ -2078,22 +5859,64 @@ export const SEED_PRODUCTS = [
     "slug": "golden-serenity",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
     "occasion": "Anniversary",
     "recipient": "For Her",
-    "flowerType": "Mixed",
     "price": 3352,
     "originalPrice": 4365,
-    "stock": 19,
-    "images": [
-      "/images/products/golden-serenity.webp"
-    ],
     "rating": 4.8,
     "reviewsCount": 100,
     "tag": "Luxury Bloom",
+    "image": "/images/products/golden-serenity.webp",
+    "images": [
+      "/images/products/golden-serenity.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the Golden Serenity harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 19,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-091-1",
+        "userName": "Meera Montague",
+        "author": "Meera Montague",
+        "userEmail": "meera.montague.823@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Breathtaking sensory unboxing — Golden Serenity",
+        "comment": "Receiving the Golden Serenity was an experience of pure unadulterated luxury. The imported European waterproof wrap and hand-tied gold-embossed silk ribbon give the bouquet an unmistakable haute couture flair. An indispensable triumph of an arrangement for any anniversary.",
+        "date": "4 days ago",
+        "createdAt": "2026-10-18T19:25:32.766Z",
+        "verified": true,
+        "helpful": 48
+      },
+      {
+        "id": "rev-flw-091-2",
+        "userName": "Shreya Mahajan",
+        "author": "Shreya Mahajan",
+        "userEmail": "shreya.mahajan.103@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "The Golden Serenity opened into full majestic splendour over 48 hours",
+        "comment": "The cold-chain logistics behind the Golden Serenity are truly remarkable — arrived thoroughly chilled and dewy. Not a single petal dropped during the first 10 days; the stem caliber is easily double what ordinary high-street florists supply. Proof that luxury floristry is a true art form when executed with such uncompromising dedication.",
+        "date": "7 days ago",
+        "createdAt": "2026-10-16T01:48:42.966Z",
+        "verified": true,
+        "helpful": 29
+      },
+      {
+        "id": "rev-flw-091-3",
+        "userName": "Matteo Shroff",
+        "author": "Matteo Shroff",
+        "userEmail": "matteo.shroff.283@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Worth every single rupee for an unforgettable celebration — Golden Serenity",
+        "comment": "We featured the Golden Serenity at our anniversary dinner table and it immediately became the talking point of the evening. The stems drank steadily and held their upright posture with royal dignity throughout the entire celebration. An unequivocal 10 out of 10 experience that sets a new benchmark for luxury lifestyle floristry.",
+        "date": "20 days ago",
+        "createdAt": "2026-10-02T20:50:46.763Z",
+        "verified": true,
+        "helpful": 16
+      }
+    ]
   },
   {
     "id": "flw-092",
@@ -2101,22 +5924,64 @@ export const SEED_PRODUCTS = [
     "slug": "lavender-dream",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
     "occasion": "Birthday",
     "recipient": "Everyone",
-    "flowerType": "Mixed",
     "price": 2678,
     "originalPrice": 3488,
-    "stock": 33,
-    "images": [
-      "/images/products/lavender-dream.webp"
-    ],
     "rating": 4.9,
     "reviewsCount": 68,
     "tag": "Limited Edition",
+    "image": "/images/products/lavender-dream.webp",
+    "images": [
+      "/images/products/lavender-dream.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the Lavender Dream harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 33,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-092-1",
+        "userName": "Pallavi Chauhan",
+        "author": "Pallavi Chauhan",
+        "userEmail": "pallavi.chauhan.836@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "The pinnacle of refined floristry: Lavender Dream",
+        "comment": "I ordered the Lavender Dream for our family celebration and the presentation left us utterly captivated. The layered organza and matte parchment wrapping protects each bloom while showcasing the lush foliage beneath. It brought an atmosphere of regal tranquility to our salon that lasted for days.",
+        "date": "5 days ago",
+        "createdAt": "2026-10-17T18:40:55.359Z",
+        "verified": true,
+        "helpful": 37
+      },
+      {
+        "id": "rev-flw-092-2",
+        "userName": "Suresh Narang",
+        "author": "Suresh Narang",
+        "userEmail": "suresh.narang.117@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Impeccable highland cultivation and petal density — Lavender Dream",
+        "comment": "Fourteen days after delivery, our Lavender Dream continues to look remarkably radiant and intact. The subtle, soothing botanical scent persisted for more than 10 days, making the home smell like a morning garden in bloom. Dhanvikk's cold-chain refrigerated delivery fleet is clearly the gold standard in the floristry industry.",
+        "date": "8 days ago",
+        "createdAt": "2026-10-14T18:08:57.759Z",
+        "verified": true,
+        "helpful": 30
+      },
+      {
+        "id": "rev-flw-092-3",
+        "userName": "Amara Varma",
+        "author": "Amara Varma",
+        "userEmail": "amara.varma.297@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Quiet luxury and exquisite calligraphy detailing in Lavender Dream",
+        "comment": "Gifted the Lavender Dream as a gesture of heartfelt gratitude, and the response was pure delight. The contrast between the velvety mixed and the aromatic eucalyptus foliage creates an exquisite visual rhythm. Will be reordering regularly for all our private celebrations and corporate client gifting.",
+        "date": "21 days ago",
+        "createdAt": "2026-10-01T21:02:28.630Z",
+        "verified": true,
+        "helpful": 15
+      }
+    ]
   },
   {
     "id": "flw-093",
@@ -2124,22 +5989,64 @@ export const SEED_PRODUCTS = [
     "slug": "sweet-romance",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Roses",
     "occasion": "Love & Romance",
     "recipient": "For Her",
-    "flowerType": "Roses",
     "price": 5602,
     "originalPrice": 7290,
-    "stock": 23,
-    "images": [
-      "/images/products/sweet-romance.webp"
-    ],
     "rating": 4.9,
     "reviewsCount": 41,
     "tag": "Luxury Bloom",
+    "image": "/images/products/sweet-romance.webp",
+    "images": [
+      "/images/products/sweet-romance.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the Sweet Romance harmonizes premium long-stemmed roses with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 23,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-093-1",
+        "userName": "Rhea Hegde",
+        "author": "Rhea Hegde",
+        "userEmail": "rhea.hegde.849@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Awe-inspiring craftsmanship and luxury presentation — Sweet Romance",
+        "comment": "From the moment the Dhanvikk courier arrived with the Sweet Romance, the caliber was unmistakably world-class. The protective reefer hydration pods on the stem bases kept every leaf crisply hydrated throughout transport. My guests could not stop inquiring where this extraordinary floral curation came from.",
+        "date": "2 days ago",
+        "createdAt": "2026-10-20T17:56:17.951Z",
+        "verified": true,
+        "helpful": 27
+      },
+      {
+        "id": "rev-flw-093-2",
+        "userName": "Varun Rathore",
+        "author": "Varun Rathore",
+        "userEmail": "varun.rathore.130@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Unprecedented vase longevity and natural fragrance from Sweet Romance",
+        "comment": "The fragrance profile of the Sweet Romance is natural, intoxicating, and gracefully fills the entire room. Over the first 48 hours in vase water, each bud opened progressively into a magnificent, fully expanded blossom lasting 11 full days. The level of quality control and stem-by-stem inspection is evident from the first glance.",
+        "date": "9 days ago",
+        "createdAt": "2026-10-13T22:29:12.552Z",
+        "verified": true,
+        "helpful": 32
+      },
+      {
+        "id": "rev-flw-093-3",
+        "userName": "Domenico Fontaine",
+        "author": "Domenico Fontaine",
+        "userEmail": "domenico.fontaine.310@verified.dhanvikk.com",
+        "rating": 4,
+        "title": "An heirloom masterpiece that brought immense joy: Sweet Romance",
+        "comment": "The Sweet Romance is hands down one of the most distinguished floral creations I have had the pleasure to present. The gradient of tones in the roses was subtle, sophisticated, and perfectly suited for luxury sensibilities. A consummate triumph of floral curation, pristine presentation, and genuine white-glove service.",
+        "date": "22 days ago",
+        "createdAt": "2026-09-30T21:14:10.498Z",
+        "verified": true,
+        "helpful": 14
+      }
+    ]
   },
   {
     "id": "flw-094",
@@ -2147,22 +6054,64 @@ export const SEED_PRODUCTS = [
     "slug": "trio-of-love",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
     "occasion": "Love & Romance",
     "recipient": "For Her",
-    "flowerType": "Mixed",
     "price": 31478,
     "originalPrice": 40928,
-    "stock": 26,
-    "images": [
-      "/images/products/trio-of-love.webp"
-    ],
     "rating": 4.9,
     "reviewsCount": 34,
     "tag": "Trending Now",
+    "image": "/images/products/trio-of-love.webp",
+    "images": [
+      "/images/products/trio-of-love.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the Trio of Love harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 26,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-094-1",
+        "userName": "Sanya Kirloskar",
+        "author": "Sanya Kirloskar",
+        "userEmail": "sanya.kirloskar.862@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Arrived pristine with morning dew still on petals: Trio of Love",
+        "comment": "The sheer artistic balance of the Trio of Love easily surpasses any floral arrangement I have commissioned before. The imported European waterproof wrap and hand-tied gold-embossed silk ribbon give the bouquet an unmistakable haute couture flair. Without question the finest floral presentation available anywhere in the country today.",
+        "date": "3 days ago",
+        "createdAt": "2026-10-19T17:11:40.544Z",
+        "verified": true,
+        "helpful": 46
+      },
+      {
+        "id": "rev-flw-094-2",
+        "userName": "Sebastien Sengupta",
+        "author": "Sebastien Sengupta",
+        "userEmail": "sebastien.sengupta.143@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Uncompromising quality control in this gorgeous Trio of Love",
+        "comment": "You can immediately feel the heavy stem density and turgid petal structure of this highland-grown Trio of Love. Not a single petal dropped during the first 10 days; the stem caliber is easily double what ordinary high-street florists supply. I will never order from standard floral delivery services again after experiencing this caliber.",
+        "date": "10 days ago",
+        "createdAt": "2026-10-13T02:49:27.345Z",
+        "verified": true,
+        "helpful": 33
+      },
+      {
+        "id": "rev-flw-094-3",
+        "userName": "Aaditya Bhardwaj",
+        "author": "Aaditya Bhardwaj",
+        "userEmail": "aaditya.bhardwaj.323@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Flawless execution from courier to final bloom — Trio of Love",
+        "comment": "Everything about the Trio of Love — from the embossed envelope to the floral symmetry — whispers quiet luxury. The stems drank steadily and held their upright posture with royal dignity throughout the entire celebration. Worth every single rupee for the lasting joy, prestige, and beauty it brought into our lives.",
+        "date": "23 days ago",
+        "createdAt": "2026-09-29T21:25:52.365Z",
+        "verified": true,
+        "helpful": 13
+      }
+    ]
   },
   {
     "id": "flw-095",
@@ -2170,22 +6119,64 @@ export const SEED_PRODUCTS = [
     "slug": "blush-romance",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Roses",
     "occasion": "Love & Romance",
     "recipient": "For Her",
-    "flowerType": "Roses",
     "price": 2678,
     "originalPrice": 3488,
-    "stock": 27,
-    "images": [
-      "/images/products/blush-romance.webp"
-    ],
     "rating": 4.9,
     "reviewsCount": 31,
     "tag": "Luxury Bloom",
+    "image": "/images/products/blush-romance.webp",
+    "images": [
+      "/images/products/blush-romance.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the Blush Romance harmonizes premium long-stemmed roses with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 27,
+    "inStock": true,
     "isBestSeller": true,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-095-1",
+        "userName": "Somesh Mukherjee",
+        "author": "Somesh Mukherjee",
+        "userEmail": "somesh.mukherjee.875@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Elegance personified in the magnificent Blush Romance",
+        "comment": "Dhanvikk has completely redefined luxury gifting with this sensational Blush Romance. The layered organza and matte parchment wrapping protects each bloom while showcasing the lush foliage beneath. The recipient was visibly moved to tears upon reading the calligraphy note tucked into the arrangement.",
+        "date": "4 days ago",
+        "createdAt": "2026-10-18T16:27:03.137Z",
+        "verified": true,
+        "helpful": 36
+      },
+      {
+        "id": "rev-flw-095-2",
+        "userName": "Sophia Tandon",
+        "author": "Sophia Tandon",
+        "userEmail": "sophia.tandon.156@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Robust stems, velvety texture, and remarkable hydration: Blush Romance",
+        "comment": "Dhanvikk's zero-compromise approach to morning dawn-cutting is vividly apparent in the Blush Romance. The subtle, soothing botanical scent persisted for more than 13 days, making the home smell like a morning garden in bloom. A masterclass in high-altitude boutique cultivation and pristine handling.",
+        "date": "11 days ago",
+        "createdAt": "2026-10-11T19:09:42.138Z",
+        "verified": true,
+        "helpful": 34
+      },
+      {
+        "id": "rev-flw-095-3",
+        "userName": "Anirudh Garg",
+        "author": "Anirudh Garg",
+        "userEmail": "anirudh.garg.336@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Our definitive choice for all high-profile occasions: Blush Romance",
+        "comment": "Ordered the Blush Romance on short notice and Dhanvikk delivered with impeccable timing and flawless poise. The contrast between the velvety roses and the aromatic eucalyptus foliage creates an exquisite visual rhythm. I wholeheartedly recommend Dhanvikk to anyone who refuses to settle for ordinary commercial blooms.",
+        "date": "24 days ago",
+        "createdAt": "2026-09-28T21:37:34.233Z",
+        "verified": true,
+        "helpful": 11
+      }
+    ]
   },
   {
     "id": "flw-096",
@@ -2193,22 +6184,64 @@ export const SEED_PRODUCTS = [
     "slug": "ethereal-blush-raam",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Roses",
     "occasion": "Love & Romance",
     "recipient": "For Her",
-    "flowerType": "Roses",
     "price": 7852,
     "originalPrice": 10215,
-    "stock": 24,
-    "images": [
-      "/images/products/ethereal-blush-raam.webp"
-    ],
     "rating": 4.9,
     "reviewsCount": 57,
     "tag": "Best Seller",
+    "image": "/images/products/ethereal-blush-raam.webp",
+    "images": [
+      "/images/products/ethereal-blush-raam.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the Ethereal Blush Raam harmonizes premium long-stemmed roses with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 24,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-096-1",
+        "userName": "Utkarsh Puri",
+        "author": "Utkarsh Puri",
+        "userEmail": "utkarsh.puri.889@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Unrivaled atelier artistry in every single bloom — Ethereal Blush Raam",
+        "comment": "The unveiling of our Ethereal Blush Raam was the highlight of our celebratory morning. The protective reefer hydration pods on the stem bases kept every leaf crisply hydrated throughout transport. An indispensable triumph of an arrangement for any love & romance.",
+        "date": "5 days ago",
+        "createdAt": "2026-10-17T15:42:25.730Z",
+        "verified": true,
+        "helpful": 25
+      },
+      {
+        "id": "rev-flw-096-2",
+        "userName": "Henri Mercier",
+        "author": "Henri Mercier",
+        "userEmail": "henri.mercier.169@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Horticultural perfection air-flown with exquisite care — Ethereal Blush Raam",
+        "comment": "The freshness of the Ethereal Blush Raam when unpacked felt as if it had been gathered from the mountain estate an hour prior. Over the first 48 hours in vase water, each bud opened progressively into a magnificent, fully expanded blossom lasting 14 full days. Proof that luxury floristry is a true art form when executed with such uncompromising dedication.",
+        "date": "12 days ago",
+        "createdAt": "2026-10-10T23:29:56.930Z",
+        "verified": true,
+        "helpful": 35
+      },
+      {
+        "id": "rev-flw-096-3",
+        "userName": "Dhruv Kashyap",
+        "author": "Dhruv Kashyap",
+        "userEmail": "dhruv.kashyap.349@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "The ultimate emotional grand gesture for our love & romance — Ethereal Blush Raam",
+        "comment": "The visual impact of the Ethereal Blush Raam when unveiled is something neither my guests nor I will soon forget. The gradient of tones in the roses was subtle, sophisticated, and perfectly suited for luxury sensibilities. An unequivocal 10 out of 10 experience that sets a new benchmark for luxury lifestyle floristry.",
+        "date": "25 days ago",
+        "createdAt": "2026-09-27T21:49:16.100Z",
+        "verified": true,
+        "helpful": 10
+      }
+    ]
   },
   {
     "id": "flw-097",
@@ -2216,22 +6249,64 @@ export const SEED_PRODUCTS = [
     "slug": "golden-radiance",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
     "occasion": "Anniversary",
     "recipient": "For Her",
-    "flowerType": "Mixed",
     "price": 4478,
     "originalPrice": 5828,
-    "stock": 20,
-    "images": [
-      "/images/products/golden-radiance.webp"
-    ],
     "rating": 4.7,
     "reviewsCount": 147,
     "tag": "Luxury Bloom",
+    "image": "/images/products/golden-radiance.webp",
+    "images": [
+      "/images/products/golden-radiance.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the Golden Radiance harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 20,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-097-1",
+        "userName": "Zara Sarin",
+        "author": "Zara Sarin",
+        "userEmail": "zara.sarin.902@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Haute couture floral design at its finest: Golden Radiance",
+        "comment": "Exquisite does not even begin to capture how breathtaking the Golden Radiance looks in person. The imported European waterproof wrap and hand-tied gold-embossed silk ribbon give the bouquet an unmistakable haute couture flair. It brought an atmosphere of regal tranquility to our salon that lasted for days.",
+        "date": "2 days ago",
+        "createdAt": "2026-10-21T02:57:48.323Z",
+        "verified": true,
+        "helpful": 44
+      },
+      {
+        "id": "rev-flw-097-2",
+        "userName": "Astrid Al-Maktoum",
+        "author": "Astrid Al-Maktoum",
+        "userEmail": "astrid.almaktoum.183@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Remarkably fresh for nearly two weeks in our salon: Golden Radiance",
+        "comment": "The sheer volume and petal count packed into the Golden Radiance makes it an extraordinary value for high connoisseurs. Not a single petal dropped during the first 10 days; the stem caliber is easily double what ordinary high-street florists supply. Dhanvikk's cold-chain refrigerated delivery fleet is clearly the gold standard in the floristry industry.",
+        "date": "7 days ago",
+        "createdAt": "2026-10-15T15:50:11.723Z",
+        "verified": true,
+        "helpful": 37
+      },
+      {
+        "id": "rev-flw-097-3",
+        "userName": "Ishaan Menon",
+        "author": "Ishaan Menon",
+        "userEmail": "ishaan.menon.363@verified.dhanvikk.com",
+        "rating": 4,
+        "title": "Left all our dinner guests completely captivated: Golden Radiance",
+        "comment": "I selected the Golden Radiance specifically for a milestone anniversary surprise. The stems drank steadily and held their upright posture with royal dignity throughout the entire celebration. Will be reordering regularly for all our private celebrations and corporate client gifting.",
+        "date": "26 days ago",
+        "createdAt": "2026-09-26T22:00:57.968Z",
+        "verified": true,
+        "helpful": 29
+      }
+    ]
   },
   {
     "id": "flw-098",
@@ -2239,22 +6314,64 @@ export const SEED_PRODUCTS = [
     "slug": "classic-red-wrap",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
     "occasion": "Birthday",
     "recipient": "Everyone",
-    "flowerType": "Mixed",
     "price": 6728,
     "originalPrice": 8752,
-    "stock": 31,
-    "images": [
-      "/images/products/classic-red-wrap.webp"
-    ],
     "rating": 4.8,
     "reviewsCount": 124,
     "tag": "Limited Edition",
+    "image": "/images/products/classic-red-wrap.webp",
+    "images": [
+      "/images/products/classic-red-wrap.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the Classic Red Wrap harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 31,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-098-1",
+        "userName": "Isabella Srinivasan",
+        "author": "Isabella Srinivasan",
+        "userEmail": "isabella.srinivasan.915@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "An unforgettable grand entrance with Classic Red Wrap",
+        "comment": "As a lifelong admirer of fine floristry, the architectural symmetry of the Classic Red Wrap is awe-inspiring. The layered organza and matte parchment wrapping protects each bloom while showcasing the lush foliage beneath. My guests could not stop inquiring where this extraordinary floral curation came from.",
+        "date": "3 days ago",
+        "createdAt": "2026-10-20T02:13:10.915Z",
+        "verified": true,
+        "helpful": 34
+      },
+      {
+        "id": "rev-flw-098-2",
+        "userName": "Amina Dhillon",
+        "author": "Amina Dhillon",
+        "userEmail": "amina.dhillon.196@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Lasted over 16 full days in pristine condition — Classic Red Wrap",
+        "comment": "Every single stem in our Classic Red Wrap was hand-selected at the exact micro-stage of opening for maximum longevity. The subtle, soothing botanical scent persisted for more than 16 days, making the home smell like a morning garden in bloom. The level of quality control and stem-by-stem inspection is evident from the first glance.",
+        "date": "8 days ago",
+        "createdAt": "2026-10-14T20:10:26.516Z",
+        "verified": true,
+        "helpful": 38
+      },
+      {
+        "id": "rev-flw-098-3",
+        "userName": "Kiran Oberoi",
+        "author": "Kiran Oberoi",
+        "userEmail": "kiran.oberoi.376@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "A distinguished luxury statement piece: Classic Red Wrap",
+        "comment": "Our executive boardroom needed a commanding centerpiece, and the Classic Red Wrap delivered majestic grandeur. The contrast between the velvety mixed and the aromatic eucalyptus foliage creates an exquisite visual rhythm. A consummate triumph of floral curation, pristine presentation, and genuine white-glove service.",
+        "date": "27 days ago",
+        "createdAt": "2026-09-25T22:12:39.835Z",
+        "verified": true,
+        "helpful": 28
+      }
+    ]
   },
   {
     "id": "flw-099",
@@ -2262,22 +6379,64 @@ export const SEED_PRODUCTS = [
     "slug": "sunny-yellow-delight",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
     "occasion": "Birthday",
     "recipient": "BFFs",
-    "flowerType": "Mixed",
     "price": 11228,
     "originalPrice": 14602,
-    "stock": 15,
-    "images": [
-      "/images/products/sunny-yellow-delight.webp"
-    ],
     "rating": 4.7,
     "reviewsCount": 76,
     "tag": "Luxury Bloom",
+    "image": "/images/products/sunny-yellow-delight.webp",
+    "images": [
+      "/images/products/sunny-yellow-delight.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the Sunny Yellow Delight harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 15,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-099-1",
+        "userName": "Zayd Walia",
+        "author": "Zayd Walia",
+        "userEmail": "zayd.walia.928@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Sublime symmetry and velvet perfection in Sunny Yellow Delight",
+        "comment": "Commissioned the Sunny Yellow Delight as a surprise, and the doorstep presentation was cinematic in its perfection. The protective reefer hydration pods on the stem bases kept every leaf crisply hydrated throughout transport. Without question the finest floral presentation available anywhere in the country today.",
+        "date": "4 days ago",
+        "createdAt": "2026-10-19T01:28:33.508Z",
+        "verified": true,
+        "helpful": 23
+      },
+      {
+        "id": "rev-flw-099-2",
+        "userName": "Chetan Jadhav",
+        "author": "Chetan Jadhav",
+        "userEmail": "chetan.jadhav.209@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Intoxicating aroma and extraordinary stem caliber in Sunny Yellow Delight",
+        "comment": "What sets the Sunny Yellow Delight apart is the exceptional horticultural caliber of the mixed. Over the first 48 hours in vase water, each bud opened progressively into a magnificent, fully expanded blossom lasting 10 full days. I will never order from standard floral delivery services again after experiencing this caliber.",
+        "date": "9 days ago",
+        "createdAt": "2026-10-14T00:30:41.309Z",
+        "verified": true,
+        "helpful": 39
+      },
+      {
+        "id": "rev-flw-099-3",
+        "userName": "Nandini Sachdev",
+        "author": "Nandini Sachdev",
+        "userEmail": "nandini.sachdev.389@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Heartfelt tears of joy upon opening the Sunny Yellow Delight",
+        "comment": "Surprised my partner with the Sunny Yellow Delight and the emotional resonance was beyond words. The gradient of tones in the mixed was subtle, sophisticated, and perfectly suited for luxury sensibilities. Worth every single rupee for the lasting joy, prestige, and beauty it brought into our lives.",
+        "date": "14 days ago",
+        "createdAt": "2026-10-08T22:24:21.703Z",
+        "verified": true,
+        "helpful": 26
+      }
+    ]
   },
   {
     "id": "flw-100",
@@ -2285,22 +6444,64 @@ export const SEED_PRODUCTS = [
     "slug": "red-gypsy-charm",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
     "occasion": "Birthday",
     "recipient": "Everyone",
-    "flowerType": "Mixed",
     "price": 6728,
     "originalPrice": 8752,
-    "stock": 40,
-    "images": [
-      "/images/products/red-gypsy-charm.webp"
-    ],
     "rating": 4.7,
     "reviewsCount": 107,
     "tag": "Best Seller",
+    "image": "/images/products/red-gypsy-charm.webp",
+    "images": [
+      "/images/products/red-gypsy-charm.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the Red Gypsy Charm harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 40,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-100-1",
+        "userName": "Svetlana Sinclair",
+        "author": "Svetlana Sinclair",
+        "userEmail": "svetlana.sinclair.941@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Surpassed our highest expectations: Red Gypsy Charm",
+        "comment": "The Red Gypsy Charm arrived looking so freshly sculpted it felt like an exhibit from a Parisian floral atelier. The imported European waterproof wrap and hand-tied gold-embossed silk ribbon give the bouquet an unmistakable haute couture flair. The recipient was visibly moved to tears upon reading the calligraphy note tucked into the arrangement.",
+        "date": "5 days ago",
+        "createdAt": "2026-10-18T00:43:56.101Z",
+        "verified": true,
+        "helpful": 43
+      },
+      {
+        "id": "rev-flw-100-2",
+        "userName": "Gayatri Lahiri",
+        "author": "Gayatri Lahiri",
+        "userEmail": "gayatri.lahiri.222@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "World-class cold chain delivery and dewy freshness: Red Gypsy Charm",
+        "comment": "Having ordered luxury florals in London and Milan, I can confirm that Dhanvikk's Red Gypsy Charm stands on the global podium. Not a single petal dropped during the first 10 days; the stem caliber is easily double what ordinary high-street florists supply. A masterclass in high-altitude boutique cultivation and pristine handling.",
+        "date": "10 days ago",
+        "createdAt": "2026-10-12T16:50:56.102Z",
+        "verified": true,
+        "helpful": 15
+      },
+      {
+        "id": "rev-flw-100-3",
+        "userName": "Prerna Shetty",
+        "author": "Prerna Shetty",
+        "userEmail": "prerna.shetty.402@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "The gold standard for our birthday celebration — Red Gypsy Charm",
+        "comment": "If you are looking for an unforgettable statement piece, the Red Gypsy Charm is utterly peerless. The stems drank steadily and held their upright posture with royal dignity throughout the entire celebration. I wholeheartedly recommend Dhanvikk to anyone who refuses to settle for ordinary commercial blooms.",
+        "date": "15 days ago",
+        "createdAt": "2026-10-07T22:36:03.570Z",
+        "verified": true,
+        "helpful": 25
+      }
+    ]
   },
   {
     "id": "flw-101",
@@ -2308,22 +6509,64 @@ export const SEED_PRODUCTS = [
     "slug": "the-azure-horizon-box",
     "category": "Flower Boxes",
     "subCategory": "Hat Box Arrangements",
+    "flowerType": "Mixed",
     "occasion": "Birthday",
     "recipient": "Everyone",
-    "flowerType": "Mixed",
     "price": 7852,
     "originalPrice": 10215,
-    "stock": 40,
-    "images": [
-      "/images/products/the-azure-horizon-box.webp"
-    ],
     "rating": 4.9,
     "reviewsCount": 144,
     "tag": "Luxury Bloom",
+    "image": "/images/products/the-azure-horizon-box.webp",
+    "images": [
+      "/images/products/the-azure-horizon-box.webp"
+    ],
     "description": "A lavish curation of handpicked garden blooms, masterfully arranged in Dhanvikk's signature French velvet keepsake box. Accented with lush spiral eucalyptus and tied with an ivory satin ribbon, this bespoke creation brings regal grandeur to every celebration.",
+    "stock": 40,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-101-1",
+        "userName": "Aditi Chatterjee",
+        "author": "Aditi Chatterjee",
+        "userEmail": "aditi.chatterjee.955@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Breathtaking sensory unboxing — The Azure Horizon Box",
+        "comment": "Receiving the The Azure Horizon Box was an experience of pure unadulterated luxury. The velvet touch of the luxury cylinder packaging combined with the gold-hot-stamped Dhanvikk seal is simply magnificent. An indispensable triumph of an arrangement for any birthday.",
+        "date": "2 days ago",
+        "createdAt": "2026-10-20T23:59:18.694Z",
+        "verified": true,
+        "helpful": 32
+      },
+      {
+        "id": "rev-flw-101-2",
+        "userName": "Kavita Nambiar",
+        "author": "Kavita Nambiar",
+        "userEmail": "kavita.nambiar.235@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "The The Azure Horizon Box opened into full majestic splendour over 48 hours",
+        "comment": "The cold-chain logistics behind the The Azure Horizon Box are truly remarkable — arrived thoroughly chilled and dewy. The subtle, soothing botanical scent persisted for more than 12 days, making the home smell like a morning garden in bloom. Proof that luxury floristry is a true art form when executed with such uncompromising dedication.",
+        "date": "11 days ago",
+        "createdAt": "2026-10-11T21:11:10.894Z",
+        "verified": true,
+        "helpful": 17
+      },
+      {
+        "id": "rev-flw-101-3",
+        "userName": "Rohan Upadhyay",
+        "author": "Rohan Upadhyay",
+        "userEmail": "rohan.upadhyay.415@verified.dhanvikk.com",
+        "rating": 4,
+        "title": "Worth every single rupee for an unforgettable celebration — The Azure Horizon Box",
+        "comment": "We featured the The Azure Horizon Box at our anniversary dinner table and it immediately became the talking point of the evening. The contrast between the velvety mixed and the aromatic eucalyptus foliage creates an exquisite visual rhythm. An unequivocal 10 out of 10 experience that sets a new benchmark for luxury lifestyle floristry.",
+        "date": "16 days ago",
+        "createdAt": "2026-10-06T22:47:45.438Z",
+        "verified": true,
+        "helpful": 24
+      }
+    ]
   },
   {
     "id": "flw-102",
@@ -2331,22 +6574,64 @@ export const SEED_PRODUCTS = [
     "slug": "snowy-elegance",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
     "occasion": "Birthday",
     "recipient": "Everyone",
-    "flowerType": "Mixed",
     "price": 22478,
     "originalPrice": 29228,
-    "stock": 27,
-    "images": [
-      "/images/products/snowy-elegance.webp"
-    ],
     "rating": 4.7,
     "reviewsCount": 149,
     "tag": "Best Seller",
+    "image": "/images/products/snowy-elegance.webp",
+    "images": [
+      "/images/products/snowy-elegance.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the Snowy Elegance harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 27,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-102-1",
+        "userName": "Avani Gupta",
+        "author": "Avani Gupta",
+        "userEmail": "avani.gupta.968@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "The pinnacle of refined floristry: Snowy Elegance",
+        "comment": "I ordered the Snowy Elegance for our family celebration and the presentation left us utterly captivated. The protective reefer hydration pods on the stem bases kept every leaf crisply hydrated throughout transport. It brought an atmosphere of regal tranquility to our salon that lasted for days.",
+        "date": "3 days ago",
+        "createdAt": "2026-10-19T23:14:41.287Z",
+        "verified": true,
+        "helpful": 22
+      },
+      {
+        "id": "rev-flw-102-2",
+        "userName": "Meera Rao",
+        "author": "Meera Rao",
+        "userEmail": "meera.rao.249@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Impeccable highland cultivation and petal density — Snowy Elegance",
+        "comment": "Fourteen days after delivery, our Snowy Elegance continues to look remarkably radiant and intact. Over the first 48 hours in vase water, each bud opened progressively into a magnificent, fully expanded blossom lasting 13 full days. Dhanvikk's cold-chain refrigerated delivery fleet is clearly the gold standard in the floristry industry.",
+        "date": "12 days ago",
+        "createdAt": "2026-10-11T01:31:25.687Z",
+        "verified": true,
+        "helpful": 18
+      },
+      {
+        "id": "rev-flw-102-3",
+        "userName": "Shreya Castiglione",
+        "author": "Shreya Castiglione",
+        "userEmail": "shreya.castiglione.429@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Quiet luxury and exquisite calligraphy detailing in Snowy Elegance",
+        "comment": "Gifted the Snowy Elegance as a gesture of heartfelt gratitude, and the response was pure delight. The gradient of tones in the mixed was subtle, sophisticated, and perfectly suited for luxury sensibilities. Will be reordering regularly for all our private celebrations and corporate client gifting.",
+        "date": "17 days ago",
+        "createdAt": "2026-10-05T22:59:27.305Z",
+        "verified": true,
+        "helpful": 23
+      }
+    ]
   },
   {
     "id": "flw-103",
@@ -2354,22 +6639,64 @@ export const SEED_PRODUCTS = [
     "slug": "pure-white-box",
     "category": "Flower Boxes",
     "subCategory": "Hat Box Arrangements",
+    "flowerType": "Mixed",
     "occasion": "Congratulations",
     "recipient": "Everyone",
-    "flowerType": "Mixed",
     "price": 7852,
     "originalPrice": 10215,
-    "stock": 27,
-    "images": [
-      "/images/products/pure-white-box.webp"
-    ],
     "rating": 4.8,
     "reviewsCount": 45,
     "tag": "Luxury Bloom",
+    "image": "/images/products/pure-white-box.webp",
+    "images": [
+      "/images/products/pure-white-box.webp"
+    ],
     "description": "A lavish curation of handpicked garden blooms, masterfully arranged in Dhanvikk's signature French velvet keepsake box. Accented with lush spiral eucalyptus and tied with an ivory satin ribbon, this bespoke creation brings regal grandeur to every celebration.",
+    "stock": 27,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-103-1",
+        "userName": "Farhan Khatri",
+        "author": "Farhan Khatri",
+        "userEmail": "farhan.khatri.981@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Awe-inspiring craftsmanship and luxury presentation — Pure White Box",
+        "comment": "From the moment the Dhanvikk courier arrived with the Pure White Box, the caliber was unmistakably world-class. The signature French cylindrical keepsake box tied with heavyweight double-faced satin ribbon exudes aristocratic charm. My guests could not stop inquiring where this extraordinary floral curation came from.",
+        "date": "4 days ago",
+        "createdAt": "2026-10-18T22:30:03.879Z",
+        "verified": true,
+        "helpful": 41
+      },
+      {
+        "id": "rev-flw-103-2",
+        "userName": "Pallavi Sen",
+        "author": "Pallavi Sen",
+        "userEmail": "pallavi.sen.262@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Unprecedented vase longevity and natural fragrance from Pure White Box",
+        "comment": "The fragrance profile of the Pure White Box is natural, intoxicating, and gracefully fills the entire room. Not a single petal dropped during the first 10 days; the stem caliber is easily double what ordinary high-street florists supply. The level of quality control and stem-by-stem inspection is evident from the first glance.",
+        "date": "7 days ago",
+        "createdAt": "2026-10-15T17:51:40.480Z",
+        "verified": true,
+        "helpful": 19
+      },
+      {
+        "id": "rev-flw-103-3",
+        "userName": "Suresh Bansal",
+        "author": "Suresh Bansal",
+        "userEmail": "suresh.bansal.442@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "An heirloom masterpiece that brought immense joy: Pure White Box",
+        "comment": "The Pure White Box is hands down one of the most distinguished floral creations I have had the pleasure to present. The stems drank steadily and held their upright posture with royal dignity throughout the entire celebration. A consummate triumph of floral curation, pristine presentation, and genuine white-glove service.",
+        "date": "18 days ago",
+        "createdAt": "2026-10-04T23:11:09.173Z",
+        "verified": true,
+        "helpful": 21
+      }
+    ]
   },
   {
     "id": "flw-104",
@@ -2377,45 +6704,129 @@ export const SEED_PRODUCTS = [
     "slug": "radiant-joy",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
     "occasion": "Birthday",
     "recipient": "Everyone",
-    "flowerType": "Mixed",
     "price": 6728,
     "originalPrice": 8752,
-    "stock": 45,
-    "images": [
-      "/images/products/radiant-joy.webp"
-    ],
     "rating": 4.8,
     "reviewsCount": 49,
     "tag": "Artisan Hand-tied",
+    "image": "/images/products/radiant-joy.webp",
+    "images": [
+      "/images/products/radiant-joy.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the Radiant Joy harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 45,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-104-1",
+        "userName": "Kalyani Mitra",
+        "author": "Kalyani Mitra",
+        "userEmail": "kalyani.mitra.994@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Arrived pristine with morning dew still on petals: Radiant Joy",
+        "comment": "The sheer artistic balance of the Radiant Joy easily surpasses any floral arrangement I have commissioned before. The layered organza and matte parchment wrapping protects each bloom while showcasing the lush foliage beneath. Without question the finest floral presentation available anywhere in the country today.",
+        "date": "5 days ago",
+        "createdAt": "2026-10-17T21:45:26.472Z",
+        "verified": true,
+        "helpful": 30
+      },
+      {
+        "id": "rev-flw-104-2",
+        "userName": "Rhea Talwar",
+        "author": "Rhea Talwar",
+        "userEmail": "rhea.talwar.275@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Uncompromising quality control in this gorgeous Radiant Joy",
+        "comment": "You can immediately feel the heavy stem density and turgid petal structure of this highland-grown Radiant Joy. The subtle, soothing botanical scent persisted for more than 15 days, making the home smell like a morning garden in bloom. I will never order from standard floral delivery services again after experiencing this caliber.",
+        "date": "8 days ago",
+        "createdAt": "2026-10-14T22:11:55.273Z",
+        "verified": true,
+        "helpful": 21
+      },
+      {
+        "id": "rev-flw-104-3",
+        "userName": "Varun Ganguly",
+        "author": "Varun Ganguly",
+        "userEmail": "varun.ganguly.455@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Flawless execution from courier to final bloom — Radiant Joy",
+        "comment": "Everything about the Radiant Joy — from the embossed envelope to the floral symmetry — whispers quiet luxury. The contrast between the velvety mixed and the aromatic eucalyptus foliage creates an exquisite visual rhythm. Worth every single rupee for the lasting joy, prestige, and beauty it brought into our lives.",
+        "date": "19 days ago",
+        "createdAt": "2026-10-03T23:22:51.040Z",
+        "verified": true,
+        "helpful": 20
+      }
+    ]
   },
   {
     "id": "flw-105",
     "name": "Orchid Serenity",
     "slug": "orchid-serenity",
-    "category": "Plants",
-    "subCategory": "Living Orchids",
+    "category": "Flowers",
+    "subCategory": "Hand Bouquets",
+    "flowerType": "Orchids",
     "occasion": "Congratulations",
     "recipient": "Everyone",
-    "flowerType": "Orchids",
     "price": 6728,
     "originalPrice": 8752,
-    "stock": 28,
-    "images": [
-      "/images/products/orchid-serenity.webp"
-    ],
     "rating": 4.7,
     "reviewsCount": 102,
     "tag": "Luxury Bloom",
-    "description": "Exotic living orchids nurtured to peak flowering perfection, displayed in a handcrafted artisan ceramic planter. Includes custom nutrient moss bedding, moisture-retaining base, and Dhanvikk botanical plant care guide.",
+    "image": "/images/products/orchid-serenity.webp",
+    "images": [
+      "/images/products/orchid-serenity.webp"
+    ],
+    "description": "Pure white Phalaenopsis and Dendrobium cut orchid blossoms gathered in hand-tied presentation wrap with ivory organza ribbons.",
+    "stock": 28,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-105-1",
+        "userName": "Malini Prasad",
+        "author": "Malini Prasad",
+        "userEmail": "malini.prasad.108@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Elegance personified in the magnificent Orchid Serenity",
+        "comment": "Dhanvikk has completely redefined luxury gifting with this sensational Orchid Serenity. The protective reefer hydration pods on the stem bases kept every leaf crisply hydrated throughout transport. The recipient was visibly moved to tears upon reading the calligraphy note tucked into the arrangement.",
+        "date": "2 days ago",
+        "createdAt": "2026-10-20T21:00:49.065Z",
+        "verified": true,
+        "helpful": 20
+      },
+      {
+        "id": "rev-flw-105-2",
+        "userName": "Sanya Laurent",
+        "author": "Sanya Laurent",
+        "userEmail": "sanya.laurent.288@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Robust stems, velvety texture, and remarkable hydration: Orchid Serenity",
+        "comment": "Dhanvikk's zero-compromise approach to morning dawn-cutting is vividly apparent in the Orchid Serenity. Over the first 48 hours in vase water, each bud opened progressively into a magnificent, fully expanded blossom lasting 16 full days. A masterclass in high-altitude boutique cultivation and pristine handling.",
+        "date": "9 days ago",
+        "createdAt": "2026-10-14T02:32:10.066Z",
+        "verified": true,
+        "helpful": 22
+      },
+      {
+        "id": "rev-flw-105-3",
+        "userName": "Sebastien Kapoor",
+        "author": "Sebastien Kapoor",
+        "userEmail": "sebastien.kapoor.468@verified.dhanvikk.com",
+        "rating": 4,
+        "title": "Our definitive choice for all high-profile occasions: Orchid Serenity",
+        "comment": "Ordered the Orchid Serenity on short notice and Dhanvikk delivered with impeccable timing and flawless poise. The gradient of tones in the orchids was subtle, sophisticated, and perfectly suited for luxury sensibilities. I wholeheartedly recommend Dhanvikk to anyone who refuses to settle for ordinary commercial blooms.",
+        "date": "20 days ago",
+        "createdAt": "2026-10-02T23:34:32.908Z",
+        "verified": true,
+        "helpful": 19
+      }
+    ]
   },
   {
     "id": "flw-106",
@@ -2423,22 +6834,64 @@ export const SEED_PRODUCTS = [
     "slug": "blush-gypsy",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Roses",
     "occasion": "Love & Romance",
     "recipient": "For Her",
-    "flowerType": "Roses",
     "price": 2902,
     "originalPrice": 3780,
-    "stock": 28,
-    "images": [
-      "/images/products/blush-gypsy.webp"
-    ],
     "rating": 4.9,
     "reviewsCount": 179,
     "tag": "Florist Choice",
+    "image": "/images/products/blush-gypsy.webp",
+    "images": [
+      "/images/products/blush-gypsy.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the Blush Gypsy harmonizes premium long-stemmed roses with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 28,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-106-1",
+        "userName": "Nikhil Sandhu",
+        "author": "Nikhil Sandhu",
+        "userEmail": "nikhil.sandhu.122@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Unrivaled atelier artistry in every single bloom — Blush Gypsy",
+        "comment": "The unveiling of our Blush Gypsy was the highlight of our celebratory morning. The imported European waterproof wrap and hand-tied gold-embossed silk ribbon give the bouquet an unmistakable haute couture flair. An indispensable triumph of an arrangement for any love & romance.",
+        "date": "3 days ago",
+        "createdAt": "2026-10-19T20:16:11.658Z",
+        "verified": true,
+        "helpful": 39
+      },
+      {
+        "id": "rev-flw-106-2",
+        "userName": "Somesh D’Souza",
+        "author": "Somesh D’Souza",
+        "userEmail": "somesh.dsouza.301@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Horticultural perfection air-flown with exquisite care — Blush Gypsy",
+        "comment": "The freshness of the Blush Gypsy when unpacked felt as if it had been gathered from the mountain estate an hour prior. Not a single petal dropped during the first 10 days; the stem caliber is easily double what ordinary high-street florists supply. Proof that luxury floristry is a true art form when executed with such uncompromising dedication.",
+        "date": "10 days ago",
+        "createdAt": "2026-10-12T18:52:24.859Z",
+        "verified": true,
+        "helpful": 23
+      },
+      {
+        "id": "rev-flw-106-3",
+        "userName": "Sophia Mehta",
+        "author": "Sophia Mehta",
+        "userEmail": "sophia.mehta.481@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "The ultimate emotional grand gesture for our love & romance — Blush Gypsy",
+        "comment": "The visual impact of the Blush Gypsy when unveiled is something neither my guests nor I will soon forget. The stems drank steadily and held their upright posture with royal dignity throughout the entire celebration. An unequivocal 10 out of 10 experience that sets a new benchmark for luxury lifestyle floristry.",
+        "date": "21 days ago",
+        "createdAt": "2026-10-01T23:46:14.775Z",
+        "verified": true,
+        "helpful": 18
+      }
+    ]
   },
   {
     "id": "flw-107",
@@ -2446,22 +6899,64 @@ export const SEED_PRODUCTS = [
     "slug": "sweet-scarlet-box",
     "category": "Flower Boxes",
     "subCategory": "Hat Box Arrangements",
+    "flowerType": "Roses",
     "occasion": "Love & Romance",
     "recipient": "For Her",
-    "flowerType": "Roses",
     "price": 6728,
     "originalPrice": 8752,
-    "stock": 17,
-    "images": [
-      "/images/products/sweet-scarlet-box.webp"
-    ],
     "rating": 4.8,
     "reviewsCount": 74,
     "tag": "Luxury Bloom",
+    "image": "/images/products/sweet-scarlet-box.webp",
+    "images": [
+      "/images/products/sweet-scarlet-box.webp"
+    ],
     "description": "A lavish curation of handpicked roses, masterfully arranged in Dhanvikk's signature French velvet keepsake box. Accented with lush spiral eucalyptus and tied with an ivory satin ribbon, this bespoke creation brings regal grandeur to every celebration.",
+    "stock": 17,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-107-1",
+        "userName": "Rahul Somani",
+        "author": "Rahul Somani",
+        "userEmail": "rahul.somani.135@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Haute couture floral design at its finest: Sweet Scarlet Box",
+        "comment": "Exquisite does not even begin to capture how breathtaking the Sweet Scarlet Box looks in person. The velvet touch of the luxury cylinder packaging combined with the gold-hot-stamped Dhanvikk seal is simply magnificent. It brought an atmosphere of regal tranquility to our salon that lasted for days.",
+        "date": "4 days ago",
+        "createdAt": "2026-10-18T19:31:34.251Z",
+        "verified": true,
+        "helpful": 29
+      },
+      {
+        "id": "rev-flw-107-2",
+        "userName": "Utkarsh Deshmukh",
+        "author": "Utkarsh Deshmukh",
+        "userEmail": "utkarsh.deshmukh.315@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Remarkably fresh for nearly two weeks in our salon: Sweet Scarlet Box",
+        "comment": "The sheer volume and petal count packed into the Sweet Scarlet Box makes it an extraordinary value for high connoisseurs. The subtle, soothing botanical scent persisted for more than 11 days, making the home smell like a morning garden in bloom. Dhanvikk's cold-chain refrigerated delivery fleet is clearly the gold standard in the floristry industry.",
+        "date": "11 days ago",
+        "createdAt": "2026-10-11T23:12:39.651Z",
+        "verified": true,
+        "helpful": 24
+      },
+      {
+        "id": "rev-flw-107-3",
+        "userName": "Henri Nayar",
+        "author": "Henri Nayar",
+        "userEmail": "henri.nayar.495@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Left all our dinner guests completely captivated: Sweet Scarlet Box",
+        "comment": "I selected the Sweet Scarlet Box specifically for a milestone love & romance surprise. The contrast between the velvety roses and the aromatic eucalyptus foliage creates an exquisite visual rhythm. Will be reordering regularly for all our private celebrations and corporate client gifting.",
+        "date": "22 days ago",
+        "createdAt": "2026-09-30T23:57:56.643Z",
+        "verified": true,
+        "helpful": 16
+      }
+    ]
   },
   {
     "id": "flw-108",
@@ -2469,22 +6964,64 @@ export const SEED_PRODUCTS = [
     "slug": "mixed-rose-floral-cloud-box",
     "category": "Flower Boxes",
     "subCategory": "Hat Box Arrangements",
+    "flowerType": "Roses",
     "occasion": "Love & Romance",
     "recipient": "For Her",
-    "flowerType": "Roses",
     "price": 11228,
     "originalPrice": 14602,
-    "stock": 24,
-    "images": [
-      "/images/products/mixed-rose-floral-cloud-box.webp"
-    ],
     "rating": 4.9,
     "reviewsCount": 29,
     "tag": "Limited Edition",
+    "image": "/images/products/mixed-rose-floral-cloud-box.webp",
+    "images": [
+      "/images/products/mixed-rose-floral-cloud-box.webp"
+    ],
     "description": "A lavish curation of handpicked roses, masterfully arranged in Dhanvikk's signature French velvet keepsake box. Accented with lush spiral eucalyptus and tied with an ivory satin ribbon, this bespoke creation brings regal grandeur to every celebration.",
+    "stock": 24,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-108-1",
+        "userName": "Sameer Verma",
+        "author": "Sameer Verma",
+        "userEmail": "sameer.verma.148@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "An unforgettable grand entrance with Mixed Rose Floral Cloud Box",
+        "comment": "As a lifelong admirer of fine floristry, the architectural symmetry of the Mixed Rose Floral Cloud Box is awe-inspiring. The bespoke velvet hatbox is so sturdy and elegantly crafted that we are definitely keeping it as a dressing table heirloom. My guests could not stop inquiring where this extraordinary floral curation came from.",
+        "date": "5 days ago",
+        "createdAt": "2026-10-17T18:46:56.844Z",
+        "verified": true,
+        "helpful": 48
+      },
+      {
+        "id": "rev-flw-108-2",
+        "userName": "Zara Iyer",
+        "author": "Zara Iyer",
+        "userEmail": "zara.iyer.328@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Lasted over 12 full days in pristine condition — Mixed Rose Floral Cloud Box",
+        "comment": "Every single stem in our Mixed Rose Floral Cloud Box was hand-selected at the exact micro-stage of opening for maximum longevity. Over the first 48 hours in vase water, each bud opened progressively into a magnificent, fully expanded blossom lasting 12 full days. The level of quality control and stem-by-stem inspection is evident from the first glance.",
+        "date": "12 days ago",
+        "createdAt": "2026-10-10T15:32:54.444Z",
+        "verified": true,
+        "helpful": 26
+      },
+      {
+        "id": "rev-flw-108-3",
+        "userName": "Astrid Roy",
+        "author": "Astrid Roy",
+        "userEmail": "astrid.roy.508@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "A distinguished luxury statement piece: Mixed Rose Floral Cloud Box",
+        "comment": "Our executive boardroom needed a commanding centerpiece, and the Mixed Rose Floral Cloud Box delivered majestic grandeur. The gradient of tones in the roses was subtle, sophisticated, and perfectly suited for luxury sensibilities. A consummate triumph of floral curation, pristine presentation, and genuine white-glove service.",
+        "date": "23 days ago",
+        "createdAt": "2026-09-30T00:09:38.510Z",
+        "verified": true,
+        "helpful": 15
+      }
+    ]
   },
   {
     "id": "flw-109",
@@ -2492,22 +7029,64 @@ export const SEED_PRODUCTS = [
     "slug": "baby-rose-delight",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Roses",
     "occasion": "Love & Romance",
     "recipient": "For Her",
-    "flowerType": "Roses",
     "price": 10102,
     "originalPrice": 13140,
-    "stock": 24,
-    "images": [
-      "/images/products/baby-rose-delight.webp"
-    ],
     "rating": 4.8,
     "reviewsCount": 127,
     "tag": "Luxury Bloom",
+    "image": "/images/products/baby-rose-delight.webp",
+    "images": [
+      "/images/products/baby-rose-delight.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the Baby Rose Delight harmonizes premium long-stemmed roses with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 24,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-109-1",
+        "userName": "Sneha Sterling",
+        "author": "Sneha Sterling",
+        "userEmail": "sneha.sterling.161@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Sublime symmetry and velvet perfection in Baby Rose Delight",
+        "comment": "Commissioned the Baby Rose Delight as a surprise, and the doorstep presentation was cinematic in its perfection. The imported European waterproof wrap and hand-tied gold-embossed silk ribbon give the bouquet an unmistakable haute couture flair. Without question the finest floral presentation available anywhere in the country today.",
+        "date": "2 days ago",
+        "createdAt": "2026-10-20T18:02:19.436Z",
+        "verified": true,
+        "helpful": 38
+      },
+      {
+        "id": "rev-flw-109-2",
+        "userName": "Isabella Kumar",
+        "author": "Isabella Kumar",
+        "userEmail": "isabella.kumar.341@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Intoxicating aroma and extraordinary stem caliber in Baby Rose Delight",
+        "comment": "What sets the Baby Rose Delight apart is the exceptional horticultural caliber of the roses. Not a single petal dropped during the first 10 days; the stem caliber is easily double what ordinary high-street florists supply. I will never order from standard floral delivery services again after experiencing this caliber.",
+        "date": "7 days ago",
+        "createdAt": "2026-10-15T19:53:09.237Z",
+        "verified": true,
+        "helpful": 27
+      },
+      {
+        "id": "rev-flw-109-3",
+        "userName": "Amina Sharma",
+        "author": "Amina Sharma",
+        "userEmail": "amina.sharma.521@verified.dhanvikk.com",
+        "rating": 4,
+        "title": "Heartfelt tears of joy upon opening the Baby Rose Delight",
+        "comment": "Surprised my partner with the Baby Rose Delight and the emotional resonance was beyond words. The stems drank steadily and held their upright posture with royal dignity throughout the entire celebration. Worth every single rupee for the lasting joy, prestige, and beauty it brought into our lives.",
+        "date": "24 days ago",
+        "createdAt": "2026-09-29T00:21:20.378Z",
+        "verified": true,
+        "helpful": 14
+      }
+    ]
   },
   {
     "id": "flw-110",
@@ -2515,22 +7094,64 @@ export const SEED_PRODUCTS = [
     "slug": "kaleidoscope-of-joy",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
     "occasion": "Birthday",
     "recipient": "Everyone",
-    "flowerType": "Mixed",
     "price": 8978,
     "originalPrice": 11678,
-    "stock": 15,
-    "images": [
-      "/images/products/kaleidoscope-of-joy.webp"
-    ],
     "rating": 4.9,
     "reviewsCount": 85,
     "tag": "Fresh Harvest",
+    "image": "/images/products/kaleidoscope-of-joy.webp",
+    "images": [
+      "/images/products/kaleidoscope-of-joy.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the Kaleidoscope of Joy harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 15,
+    "inStock": true,
     "isBestSeller": true,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-110-1",
+        "userName": "Tarun Chakraborty",
+        "author": "Tarun Chakraborty",
+        "userEmail": "tarun.chakraborty.174@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Surpassed our highest expectations: Kaleidoscope of Joy",
+        "comment": "The Kaleidoscope of Joy arrived looking so freshly sculpted it felt like an exhibit from a Parisian floral atelier. The layered organza and matte parchment wrapping protects each bloom while showcasing the lush foliage beneath. The recipient was visibly moved to tears upon reading the calligraphy note tucked into the arrangement.",
+        "date": "3 days ago",
+        "createdAt": "2026-10-19T17:17:42.029Z",
+        "verified": true,
+        "helpful": 27
+      },
+      {
+        "id": "rev-flw-110-2",
+        "userName": "Zayd Naidu",
+        "author": "Zayd Naidu",
+        "userEmail": "zayd.naidu.354@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "World-class cold chain delivery and dewy freshness: Kaleidoscope of Joy",
+        "comment": "Having ordered luxury florals in London and Milan, I can confirm that Dhanvikk's Kaleidoscope of Joy stands on the global podium. The subtle, soothing botanical scent persisted for more than 14 days, making the home smell like a morning garden in bloom. A masterclass in high-altitude boutique cultivation and pristine handling.",
+        "date": "8 days ago",
+        "createdAt": "2026-10-15T00:13:24.030Z",
+        "verified": true,
+        "helpful": 28
+      },
+      {
+        "id": "rev-flw-110-3",
+        "userName": "Chetan Trivedi",
+        "author": "Chetan Trivedi",
+        "userEmail": "chetan.trivedi.534@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "The gold standard for our birthday celebration — Kaleidoscope of Joy",
+        "comment": "If you are looking for an unforgettable statement piece, the Kaleidoscope of Joy is utterly peerless. The contrast between the velvety mixed and the aromatic eucalyptus foliage creates an exquisite visual rhythm. I wholeheartedly recommend Dhanvikk to anyone who refuses to settle for ordinary commercial blooms.",
+        "date": "25 days ago",
+        "createdAt": "2026-09-28T00:33:02.245Z",
+        "verified": true,
+        "helpful": 13
+      }
+    ]
   },
   {
     "id": "flw-111",
@@ -2538,22 +7159,64 @@ export const SEED_PRODUCTS = [
     "slug": "the-pink-rose-elegance-box",
     "category": "Flower Boxes",
     "subCategory": "Hat Box Arrangements",
+    "flowerType": "Roses",
     "occasion": "Love & Romance",
     "recipient": "For Her",
-    "flowerType": "Roses",
     "price": 13478,
     "originalPrice": 17528,
-    "stock": 17,
-    "images": [
-      "/images/products/the-pink-rose-elegance-box.webp"
-    ],
     "rating": 4.8,
     "reviewsCount": 34,
     "tag": "Luxury Bloom",
+    "image": "/images/products/the-pink-rose-elegance-box.webp",
+    "images": [
+      "/images/products/the-pink-rose-elegance-box.webp"
+    ],
     "description": "A lavish curation of handpicked roses, masterfully arranged in Dhanvikk's signature French velvet keepsake box. Accented with lush spiral eucalyptus and tied with an ivory satin ribbon, this bespoke creation brings regal grandeur to every celebration.",
+    "stock": 17,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-111-1",
+        "userName": "Vandana Goswami",
+        "author": "Vandana Goswami",
+        "userEmail": "vandana.goswami.188@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Breathtaking sensory unboxing — The Pink Rose Elegance Box",
+        "comment": "Receiving the The Pink Rose Elegance Box was an experience of pure unadulterated luxury. The bespoke velvet hatbox is so sturdy and elegantly crafted that we are definitely keeping it as a dressing table heirloom. An indispensable triumph of an arrangement for any love & romance.",
+        "date": "4 days ago",
+        "createdAt": "2026-10-18T16:33:04.622Z",
+        "verified": true,
+        "helpful": 46
+      },
+      {
+        "id": "rev-flw-111-2",
+        "userName": "Svetlana Ramachandran",
+        "author": "Svetlana Ramachandran",
+        "userEmail": "svetlana.ramachandran.367@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "The The Pink Rose Elegance Box opened into full majestic splendour over 48 hours",
+        "comment": "The cold-chain logistics behind the The Pink Rose Elegance Box are truly remarkable — arrived thoroughly chilled and dewy. Over the first 48 hours in vase water, each bud opened progressively into a magnificent, fully expanded blossom lasting 15 full days. Proof that luxury floristry is a true art form when executed with such uncompromising dedication.",
+        "date": "9 days ago",
+        "createdAt": "2026-10-13T16:33:38.823Z",
+        "verified": true,
+        "helpful": 29
+      },
+      {
+        "id": "rev-flw-111-3",
+        "userName": "Gayatri Beaumont",
+        "author": "Gayatri Beaumont",
+        "userEmail": "gayatri.beaumont.547@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Worth every single rupee for an unforgettable celebration — The Pink Rose Elegance Box",
+        "comment": "We featured the The Pink Rose Elegance Box at our anniversary dinner table and it immediately became the talking point of the evening. The gradient of tones in the roses was subtle, sophisticated, and perfectly suited for luxury sensibilities. An unequivocal 10 out of 10 experience that sets a new benchmark for luxury lifestyle floristry.",
+        "date": "26 days ago",
+        "createdAt": "2026-09-27T00:44:44.113Z",
+        "verified": true,
+        "helpful": 11
+      }
+    ]
   },
   {
     "id": "flw-112",
@@ -2561,22 +7224,64 @@ export const SEED_PRODUCTS = [
     "slug": "pink-lily-serenity",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Lilies",
     "occasion": "Anniversary",
     "recipient": "For Her",
-    "flowerType": "Lilies",
     "price": 3128,
     "originalPrice": 4072,
-    "stock": 32,
-    "images": [
-      "/images/products/pink-lily-serenity.webp"
-    ],
     "rating": 4.7,
     "reviewsCount": 80,
     "tag": "Best Seller",
+    "image": "/images/products/pink-lily-serenity.webp",
+    "images": [
+      "/images/products/pink-lily-serenity.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the Pink Lily Serenity harmonizes premium long-stemmed lilies with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 32,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-112-1",
+        "userName": "Charlotte Khanna",
+        "author": "Charlotte Khanna",
+        "userEmail": "charlotte.khanna.201@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "The pinnacle of refined floristry: Pink Lily Serenity",
+        "comment": "I ordered the Pink Lily Serenity for our family celebration and the presentation left us utterly captivated. The imported European waterproof wrap and hand-tied gold-embossed silk ribbon give the bouquet an unmistakable haute couture flair. It brought an atmosphere of regal tranquility to our salon that lasted for days.",
+        "date": "5 days ago",
+        "createdAt": "2026-10-17T15:48:27.215Z",
+        "verified": true,
+        "helpful": 36
+      },
+      {
+        "id": "rev-flw-112-2",
+        "userName": "Aditi Sehgal",
+        "author": "Aditi Sehgal",
+        "userEmail": "aditi.sehgal.381@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Impeccable highland cultivation and petal density — Pink Lily Serenity",
+        "comment": "Fourteen days after delivery, our Pink Lily Serenity continues to look remarkably radiant and intact. Not a single petal dropped during the first 10 days; the stem caliber is easily double what ordinary high-street florists supply. Dhanvikk's cold-chain refrigerated delivery fleet is clearly the gold standard in the floristry industry.",
+        "date": "10 days ago",
+        "createdAt": "2026-10-12T20:53:53.615Z",
+        "verified": true,
+        "helpful": 31
+      },
+      {
+        "id": "rev-flw-112-3",
+        "userName": "Kavita Bandyopadhyay",
+        "author": "Kavita Bandyopadhyay",
+        "userEmail": "kavita.bandyopadhyay.561@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Quiet luxury and exquisite calligraphy detailing in Pink Lily Serenity",
+        "comment": "Gifted the Pink Lily Serenity as a gesture of heartfelt gratitude, and the response was pure delight. The stems drank steadily and held their upright posture with royal dignity throughout the entire celebration. Will be reordering regularly for all our private celebrations and corporate client gifting.",
+        "date": "27 days ago",
+        "createdAt": "2026-09-26T00:56:25.980Z",
+        "verified": true,
+        "helpful": 10
+      }
+    ]
   },
   {
     "id": "flw-113",
@@ -2584,22 +7289,64 @@ export const SEED_PRODUCTS = [
     "slug": "the-rainbow-celebration-box",
     "category": "Flower Boxes",
     "subCategory": "Hat Box Arrangements",
+    "flowerType": "Mixed",
     "occasion": "Birthday",
     "recipient": "BFFs",
-    "flowerType": "Mixed",
     "price": 5602,
     "originalPrice": 7290,
-    "stock": 40,
-    "images": [
-      "/images/products/the-rainbow-celebration-box.webp"
-    ],
     "rating": 4.9,
     "reviewsCount": 114,
     "tag": "Luxury Bloom",
+    "image": "/images/products/the-rainbow-celebration-box.webp",
+    "images": [
+      "/images/products/the-rainbow-celebration-box.webp"
+    ],
     "description": "A lavish curation of handpicked garden blooms, masterfully arranged in Dhanvikk's signature French velvet keepsake box. Accented with lush spiral eucalyptus and tied with an ivory satin ribbon, this bespoke creation brings regal grandeur to every celebration.",
+    "stock": 40,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-113-1",
+        "userName": "Tariq Mishra",
+        "author": "Tariq Mishra",
+        "userEmail": "tariq.mishra.214@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Awe-inspiring craftsmanship and luxury presentation — The Rainbow Celebration Box",
+        "comment": "From the moment the Dhanvikk courier arrived with the The Rainbow Celebration Box, the caliber was unmistakably world-class. The velvet touch of the luxury cylinder packaging combined with the gold-hot-stamped Dhanvikk seal is simply magnificent. My guests could not stop inquiring where this extraordinary floral curation came from.",
+        "date": "2 days ago",
+        "createdAt": "2026-10-21T03:03:49.808Z",
+        "verified": true,
+        "helpful": 25
+      },
+      {
+        "id": "rev-flw-113-2",
+        "userName": "Avani Sundaram",
+        "author": "Avani Sundaram",
+        "userEmail": "avani.sundaram.394@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Unprecedented vase longevity and natural fragrance from The Rainbow Celebration Box",
+        "comment": "The fragrance profile of the The Rainbow Celebration Box is natural, intoxicating, and gracefully fills the entire room. The subtle, soothing botanical scent persisted for more than 10 days, making the home smell like a morning garden in bloom. The level of quality control and stem-by-stem inspection is evident from the first glance.",
+        "date": "11 days ago",
+        "createdAt": "2026-10-12T01:14:08.408Z",
+        "verified": true,
+        "helpful": 32
+      },
+      {
+        "id": "rev-flw-113-3",
+        "userName": "Meera Fernandes",
+        "author": "Meera Fernandes",
+        "userEmail": "meera.fernandes.574@verified.dhanvikk.com",
+        "rating": 4,
+        "title": "An heirloom masterpiece that brought immense joy: The Rainbow Celebration Box",
+        "comment": "The The Rainbow Celebration Box is hands down one of the most distinguished floral creations I have had the pleasure to present. The contrast between the velvety mixed and the aromatic eucalyptus foliage creates an exquisite visual rhythm. A consummate triumph of floral curation, pristine presentation, and genuine white-glove service.",
+        "date": "14 days ago",
+        "createdAt": "2026-10-09T01:08:07.848Z",
+        "verified": true,
+        "helpful": 29
+      }
+    ]
   },
   {
     "id": "flw-114",
@@ -2607,22 +7354,64 @@ export const SEED_PRODUCTS = [
     "slug": "graceful-serenity",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
     "occasion": "Congratulations",
     "recipient": "For Her",
-    "flowerType": "Mixed",
     "price": 4478,
     "originalPrice": 5828,
-    "stock": 20,
-    "images": [
-      "/images/products/graceful-serenity.webp"
-    ],
     "rating": 4.7,
     "reviewsCount": 108,
     "tag": "Limited Edition",
+    "image": "/images/products/graceful-serenity.webp",
+    "images": [
+      "/images/products/graceful-serenity.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the Graceful Serenity harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 20,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-114-1",
+        "userName": "Valentina Pillai",
+        "author": "Valentina Pillai",
+        "userEmail": "valentina.pillai.227@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Arrived pristine with morning dew still on petals: Graceful Serenity",
+        "comment": "The sheer artistic balance of the Graceful Serenity easily surpasses any floral arrangement I have commissioned before. The protective reefer hydration pods on the stem bases kept every leaf crisply hydrated throughout transport. Without question the finest floral presentation available anywhere in the country today.",
+        "date": "3 days ago",
+        "createdAt": "2026-10-20T02:19:12.400Z",
+        "verified": true,
+        "helpful": 45
+      },
+      {
+        "id": "rev-flw-114-2",
+        "userName": "Farhan Dubois",
+        "author": "Farhan Dubois",
+        "userEmail": "farhan.dubois.407@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Uncompromising quality control in this gorgeous Graceful Serenity",
+        "comment": "You can immediately feel the heavy stem density and turgid petal structure of this highland-grown Graceful Serenity. Over the first 48 hours in vase water, each bud opened progressively into a magnificent, fully expanded blossom lasting 11 full days. I will never order from standard floral delivery services again after experiencing this caliber.",
+        "date": "12 days ago",
+        "createdAt": "2026-10-10T17:34:23.201Z",
+        "verified": true,
+        "helpful": 33
+      },
+      {
+        "id": "rev-flw-114-3",
+        "userName": "Pallavi Joshi",
+        "author": "Pallavi Joshi",
+        "userEmail": "pallavi.joshi.587@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Flawless execution from courier to final bloom — Graceful Serenity",
+        "comment": "Everything about the Graceful Serenity — from the embossed envelope to the floral symmetry — whispers quiet luxury. The gradient of tones in the mixed was subtle, sophisticated, and perfectly suited for luxury sensibilities. Worth every single rupee for the lasting joy, prestige, and beauty it brought into our lives.",
+        "date": "15 days ago",
+        "createdAt": "2026-10-08T01:19:49.715Z",
+        "verified": true,
+        "helpful": 28
+      }
+    ]
   },
   {
     "id": "flw-115",
@@ -2630,22 +7419,64 @@ export const SEED_PRODUCTS = [
     "slug": "pristine-grace",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
     "occasion": "Congratulations",
     "recipient": "For Her",
-    "flowerType": "Mixed",
     "price": 2678,
     "originalPrice": 3488,
-    "stock": 44,
+    "rating": 5,
+    "reviewsCount": 71,
+    "tag": "Luxury Bloom",
+    "image": "/images/products/pristine-grace.webp",
     "images": [
       "/images/products/pristine-grace.webp"
     ],
-    "rating": 5.0,
-    "reviewsCount": 71,
-    "tag": "Luxury Bloom",
     "description": "Hand-tied by master Parisian florists, the Pristine Grace harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 44,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-115-1",
+        "userName": "Aanya Samant",
+        "author": "Aanya Samant",
+        "userEmail": "aanya.samant.240@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Elegance personified in the magnificent Pristine Grace",
+        "comment": "Dhanvikk has completely redefined luxury gifting with this sensational Pristine Grace. The imported European waterproof wrap and hand-tied gold-embossed silk ribbon give the bouquet an unmistakable haute couture flair. The recipient was visibly moved to tears upon reading the calligraphy note tucked into the arrangement.",
+        "date": "4 days ago",
+        "createdAt": "2026-10-19T01:34:34.993Z",
+        "verified": true,
+        "helpful": 34
+      },
+      {
+        "id": "rev-flw-115-2",
+        "userName": "Kalyani Kensington",
+        "author": "Kalyani Kensington",
+        "userEmail": "kalyani.kensington.420@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Robust stems, velvety texture, and remarkable hydration: Pristine Grace",
+        "comment": "Dhanvikk's zero-compromise approach to morning dawn-cutting is vividly apparent in the Pristine Grace. Not a single petal dropped during the first 10 days; the stem caliber is easily double what ordinary high-street florists supply. A masterclass in high-altitude boutique cultivation and pristine handling.",
+        "date": "7 days ago",
+        "createdAt": "2026-10-15T21:54:37.994Z",
+        "verified": true,
+        "helpful": 34
+      },
+      {
+        "id": "rev-flw-115-3",
+        "userName": "Rhea Malhotra",
+        "author": "Rhea Malhotra",
+        "userEmail": "rhea.malhotra.600@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Our definitive choice for all high-profile occasions: Pristine Grace",
+        "comment": "Ordered the Pristine Grace on short notice and Dhanvikk delivered with impeccable timing and flawless poise. The stems drank steadily and held their upright posture with royal dignity throughout the entire celebration. I wholeheartedly recommend Dhanvikk to anyone who refuses to settle for ordinary commercial blooms.",
+        "date": "16 days ago",
+        "createdAt": "2026-10-07T01:31:31.583Z",
+        "verified": true,
+        "helpful": 26
+      }
+    ]
   },
   {
     "id": "flw-116",
@@ -2653,22 +7484,64 @@ export const SEED_PRODUCTS = [
     "slug": "pure-white-grace",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
     "occasion": "Congratulations",
     "recipient": "Everyone",
-    "flowerType": "Mixed",
     "price": 6728,
     "originalPrice": 8752,
-    "stock": 25,
+    "rating": 5,
+    "reviewsCount": 84,
+    "tag": "Limited Edition",
+    "image": "/images/products/pure-white-grace.webp",
     "images": [
       "/images/products/pure-white-grace.webp"
     ],
-    "rating": 5.0,
-    "reviewsCount": 84,
-    "tag": "Limited Edition",
     "description": "Hand-tied by master Parisian florists, the Pure White Grace harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 25,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-116-1",
+        "userName": "Anushka Singhania",
+        "author": "Anushka Singhania",
+        "userEmail": "anushka.singhania.254@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Unrivaled atelier artistry in every single bloom — Pure White Grace",
+        "comment": "The unveiling of our Pure White Grace was the highlight of our celebratory morning. The layered organza and matte parchment wrapping protects each bloom while showcasing the lush foliage beneath. An indispensable triumph of an arrangement for any congratulations.",
+        "date": "5 days ago",
+        "createdAt": "2026-10-18T00:49:57.586Z",
+        "verified": true,
+        "helpful": 24
+      },
+      {
+        "id": "rev-flw-116-2",
+        "userName": "Malini Choudhury",
+        "author": "Malini Choudhury",
+        "userEmail": "malini.choudhury.433@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Horticultural perfection air-flown with exquisite care — Pure White Grace",
+        "comment": "The freshness of the Pure White Grace when unpacked felt as if it had been gathered from the mountain estate an hour prior. The subtle, soothing botanical scent persisted for more than 13 days, making the home smell like a morning garden in bloom. Proof that luxury floristry is a true art form when executed with such uncompromising dedication.",
+        "date": "8 days ago",
+        "createdAt": "2026-10-15T02:14:52.787Z",
+        "verified": true,
+        "helpful": 36
+      },
+      {
+        "id": "rev-flw-116-3",
+        "userName": "Sanya Narayan",
+        "author": "Sanya Narayan",
+        "userEmail": "sanya.narayan.613@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "The ultimate emotional grand gesture for our congratulations — Pure White Grace",
+        "comment": "The visual impact of the Pure White Grace when unveiled is something neither my guests nor I will soon forget. The contrast between the velvety mixed and the aromatic eucalyptus foliage creates an exquisite visual rhythm. An unequivocal 10 out of 10 experience that sets a new benchmark for luxury lifestyle floristry.",
+        "date": "17 days ago",
+        "createdAt": "2026-10-06T01:43:13.450Z",
+        "verified": true,
+        "helpful": 25
+      }
+    ]
   },
   {
     "id": "flw-117",
@@ -2676,22 +7549,64 @@ export const SEED_PRODUCTS = [
     "slug": "red-eucalyptus-elegance",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
     "occasion": "Birthday",
     "recipient": "Everyone",
-    "flowerType": "Mixed",
     "price": 2902,
     "originalPrice": 3780,
-    "stock": 36,
-    "images": [
-      "/images/products/red-eucalyptus-elegance.webp"
-    ],
     "rating": 4.8,
     "reviewsCount": 51,
     "tag": "Luxury Bloom",
+    "image": "/images/products/red-eucalyptus-elegance.webp",
+    "images": [
+      "/images/products/red-eucalyptus-elegance.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the Red Eucalyptus Elegance harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 36,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-117-1",
+        "userName": "Diya Venkatesh",
+        "author": "Diya Venkatesh",
+        "userEmail": "diya.venkatesh.267@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Haute couture floral design at its finest: Red Eucalyptus Elegance",
+        "comment": "Exquisite does not even begin to capture how breathtaking the Red Eucalyptus Elegance looks in person. The protective reefer hydration pods on the stem bases kept every leaf crisply hydrated throughout transport. It brought an atmosphere of regal tranquility to our salon that lasted for days.",
+        "date": "2 days ago",
+        "createdAt": "2026-10-21T00:05:20.179Z",
+        "verified": true,
+        "helpful": 43
+      },
+      {
+        "id": "rev-flw-117-2",
+        "userName": "Nikhil Iyengar",
+        "author": "Nikhil Iyengar",
+        "userEmail": "nikhil.iyengar.447@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Remarkably fresh for nearly two weeks in our salon: Red Eucalyptus Elegance",
+        "comment": "The sheer volume and petal count packed into the Red Eucalyptus Elegance makes it an extraordinary value for high connoisseurs. Over the first 48 hours in vase water, each bud opened progressively into a magnificent, fully expanded blossom lasting 14 full days. Dhanvikk's cold-chain refrigerated delivery fleet is clearly the gold standard in the floristry industry.",
+        "date": "9 days ago",
+        "createdAt": "2026-10-13T18:35:07.580Z",
+        "verified": true,
+        "helpful": 37
+      },
+      {
+        "id": "rev-flw-117-3",
+        "userName": "Somesh Reddy",
+        "author": "Somesh Reddy",
+        "userEmail": "somesh.reddy.627@verified.dhanvikk.com",
+        "rating": 4,
+        "title": "Left all our dinner guests completely captivated: Red Eucalyptus Elegance",
+        "comment": "I selected the Red Eucalyptus Elegance specifically for a milestone birthday surprise. The gradient of tones in the mixed was subtle, sophisticated, and perfectly suited for luxury sensibilities. Will be reordering regularly for all our private celebrations and corporate client gifting.",
+        "date": "18 days ago",
+        "createdAt": "2026-10-05T01:54:55.318Z",
+        "verified": true,
+        "helpful": 24
+      }
+    ]
   },
   {
     "id": "flw-118",
@@ -2699,22 +7614,64 @@ export const SEED_PRODUCTS = [
     "slug": "the-golden-garden",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
     "occasion": "Anniversary",
     "recipient": "For Her",
-    "flowerType": "Mixed",
     "price": 26978,
     "originalPrice": 35078,
-    "stock": 16,
-    "images": [
-      "/images/products/the-golden-garden.webp"
-    ],
     "rating": 4.9,
     "reviewsCount": 111,
     "tag": "Fresh Harvest",
+    "image": "/images/products/the-golden-garden.webp",
+    "images": [
+      "/images/products/the-golden-garden.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the The Golden Garden harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 16,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-118-1",
+        "userName": "Jahnavi Rochester",
+        "author": "Jahnavi Rochester",
+        "userEmail": "jahnavi.rochester.280@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "An unforgettable grand entrance with The Golden Garden",
+        "comment": "As a lifelong admirer of fine floristry, the architectural symmetry of the The Golden Garden is awe-inspiring. The imported European waterproof wrap and hand-tied gold-embossed silk ribbon give the bouquet an unmistakable haute couture flair. My guests could not stop inquiring where this extraordinary floral curation came from.",
+        "date": "3 days ago",
+        "createdAt": "2026-10-19T23:20:42.772Z",
+        "verified": true,
+        "helpful": 33
+      },
+      {
+        "id": "rev-flw-118-2",
+        "userName": "Rahul Kulkarni",
+        "author": "Rahul Kulkarni",
+        "userEmail": "rahul.kulkarni.460@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Lasted over 15 full days in pristine condition — The Golden Garden",
+        "comment": "Every single stem in our The Golden Garden was hand-selected at the exact micro-stage of opening for maximum longevity. Not a single petal dropped during the first 10 days; the stem caliber is easily double what ordinary high-street florists supply. The level of quality control and stem-by-stem inspection is evident from the first glance.",
+        "date": "10 days ago",
+        "createdAt": "2026-10-12T22:55:22.372Z",
+        "verified": true,
+        "helpful": 38
+      },
+      {
+        "id": "rev-flw-118-3",
+        "userName": "Utkarsh Seth",
+        "author": "Utkarsh Seth",
+        "userEmail": "utkarsh.seth.640@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "A distinguished luxury statement piece: The Golden Garden",
+        "comment": "Our executive boardroom needed a commanding centerpiece, and the The Golden Garden delivered majestic grandeur. The stems drank steadily and held their upright posture with royal dignity throughout the entire celebration. A consummate triumph of floral curation, pristine presentation, and genuine white-glove service.",
+        "date": "19 days ago",
+        "createdAt": "2026-10-04T02:06:37.185Z",
+        "verified": true,
+        "helpful": 23
+      }
+    ]
   },
   {
     "id": "flw-119",
@@ -2722,22 +7679,64 @@ export const SEED_PRODUCTS = [
     "slug": "the-pearl-empire-box",
     "category": "Flower Boxes",
     "subCategory": "Hat Box Arrangements",
+    "flowerType": "Mixed",
     "occasion": "Congratulations",
     "recipient": "Everyone",
-    "flowerType": "Mixed",
     "price": 24728,
     "originalPrice": 32152,
-    "stock": 29,
-    "images": [
-      "/images/products/the-pearl-empire-box.webp"
-    ],
     "rating": 4.9,
     "reviewsCount": 83,
     "tag": "Luxury Bloom",
+    "image": "/images/products/the-pearl-empire-box.webp",
+    "images": [
+      "/images/products/the-pearl-empire-box.webp"
+    ],
     "description": "A lavish curation of handpicked garden blooms, masterfully arranged in Dhanvikk's signature French velvet keepsake box. Accented with lush spiral eucalyptus and tied with an ivory satin ribbon, this bespoke creation brings regal grandeur to every celebration.",
+    "stock": 29,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-119-1",
+        "userName": "Lavanya Bhattacharya",
+        "author": "Lavanya Bhattacharya",
+        "userEmail": "lavanya.bhattacharya.293@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Sublime symmetry and velvet perfection in The Pearl Empire Box",
+        "comment": "Commissioned the The Pearl Empire Box as a surprise, and the doorstep presentation was cinematic in its perfection. The velvet touch of the luxury cylinder packaging combined with the gold-hot-stamped Dhanvikk seal is simply magnificent. Without question the finest floral presentation available anywhere in the country today.",
+        "date": "4 days ago",
+        "createdAt": "2026-10-18T22:36:05.365Z",
+        "verified": true,
+        "helpful": 22
+      },
+      {
+        "id": "rev-flw-119-2",
+        "userName": "Sameer Nadar",
+        "author": "Sameer Nadar",
+        "userEmail": "sameer.nadar.473@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Intoxicating aroma and extraordinary stem caliber in The Pearl Empire Box",
+        "comment": "What sets the The Pearl Empire Box apart is the exceptional horticultural caliber of the mixed. The subtle, soothing botanical scent persisted for more than 16 days, making the home smell like a morning garden in bloom. I will never order from standard floral delivery services again after experiencing this caliber.",
+        "date": "11 days ago",
+        "createdAt": "2026-10-11T15:15:37.165Z",
+        "verified": true,
+        "helpful": 39
+      },
+      {
+        "id": "rev-flw-119-3",
+        "userName": "Zara Thakur",
+        "author": "Zara Thakur",
+        "userEmail": "zara.thakur.653@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Heartfelt tears of joy upon opening the The Pearl Empire Box",
+        "comment": "Surprised my partner with the The Pearl Empire Box and the emotional resonance was beyond words. The contrast between the velvety mixed and the aromatic eucalyptus foliage creates an exquisite visual rhythm. Worth every single rupee for the lasting joy, prestige, and beauty it brought into our lives.",
+        "date": "20 days ago",
+        "createdAt": "2026-10-03T02:18:19.053Z",
+        "verified": true,
+        "helpful": 21
+      }
+    ]
   },
   {
     "id": "flw-120",
@@ -2745,22 +7744,64 @@ export const SEED_PRODUCTS = [
     "slug": "eternal-red-and-white",
     "category": "Forever Roses",
     "subCategory": "Preserved Bell Domes",
+    "flowerType": "Mixed",
     "occasion": "Anniversary",
     "recipient": "For Her",
-    "flowerType": "Mixed",
     "price": 11228,
     "originalPrice": 14602,
-    "stock": 45,
-    "images": [
-      "/images/products/eternal-red-and-white.webp"
-    ],
     "rating": 4.8,
     "reviewsCount": 47,
     "tag": "Limited Edition",
+    "image": "/images/products/eternal-red-and-white.webp",
+    "images": [
+      "/images/products/eternal-red-and-white.webp"
+    ],
     "description": "A breathtaking showcase of naturally preserved Ecuadorian garden blooms, meticulously stabilized to retain velvety softness, vibrant pigment, and structural perfection for up to 3 years without watering. Encased in a hand-blown borosilicate bell dome.",
+    "stock": 45,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": true,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-120-1",
+        "userName": "Navin Gokhale",
+        "author": "Navin Gokhale",
+        "userEmail": "navin.gokhale.306@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Surpassed our highest expectations: Eternal Red and White",
+        "comment": "The Eternal Red and White arrived looking so freshly sculpted it felt like an exhibit from a Parisian floral atelier. The dome presentation is masterfully proportioned, catching the ambient light and illuminating the intricate petal geometry. The recipient was visibly moved to tears upon reading the calligraphy note tucked into the arrangement.",
+        "date": "5 days ago",
+        "createdAt": "2026-10-17T21:51:27.957Z",
+        "verified": true,
+        "helpful": 41
+      },
+      {
+        "id": "rev-flw-120-2",
+        "userName": "Sneha Rajan",
+        "author": "Sneha Rajan",
+        "userEmail": "sneha.rajan.486@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "World-class cold chain delivery and dewy freshness: Eternal Red and White",
+        "comment": "Having ordered luxury florals in London and Milan, I can confirm that Dhanvikk's Eternal Red and White stands on the global podium. The proprietary bio-preservation leaves the blooms soft to the touch without any chemical odor, promising over 24 months of beauty. A masterclass in high-altitude boutique cultivation and pristine handling.",
+        "date": "12 days ago",
+        "createdAt": "2026-10-10T19:35:51.958Z",
+        "verified": true,
+        "helpful": 16
+      },
+      {
+        "id": "rev-flw-120-3",
+        "userName": "Isabella Vanderbilt",
+        "author": "Isabella Vanderbilt",
+        "userEmail": "isabella.vanderbilt.666@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "The gold standard for our anniversary celebration — Eternal Red and White",
+        "comment": "If you are looking for an unforgettable statement piece, the Eternal Red and White is utterly peerless. It sits proudly on our mantlepiece, an enduring reminder of our special milestone that never fades. I wholeheartedly recommend Dhanvikk to anyone who refuses to settle for ordinary commercial blooms.",
+        "date": "21 days ago",
+        "createdAt": "2026-10-02T02:30:00.920Z",
+        "verified": true,
+        "helpful": 20
+      }
+    ]
   },
   {
     "id": "flw-121",
@@ -2768,22 +7809,64 @@ export const SEED_PRODUCTS = [
     "slug": "radiant-affection",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
     "occasion": "Love & Romance",
     "recipient": "For Her",
-    "flowerType": "Mixed",
     "price": 7852,
     "originalPrice": 10215,
-    "stock": 32,
-    "images": [
-      "/images/products/radiant-affection.webp"
-    ],
     "rating": 4.9,
     "reviewsCount": 84,
     "tag": "Luxury Bloom",
+    "image": "/images/products/radiant-affection.webp",
+    "images": [
+      "/images/products/radiant-affection.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the Radiant Affection harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 32,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-121-1",
+        "userName": "Priyanka Kaul",
+        "author": "Priyanka Kaul",
+        "userEmail": "priyanka.kaul.319@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Breathtaking sensory unboxing — Radiant Affection",
+        "comment": "Receiving the Radiant Affection was an experience of pure unadulterated luxury. The imported European waterproof wrap and hand-tied gold-embossed silk ribbon give the bouquet an unmistakable haute couture flair. An indispensable triumph of an arrangement for any love & romance.",
+        "date": "2 days ago",
+        "createdAt": "2026-10-20T21:06:50.550Z",
+        "verified": true,
+        "helpful": 31
+      },
+      {
+        "id": "rev-flw-121-2",
+        "userName": "Tarun Saxena",
+        "author": "Tarun Saxena",
+        "userEmail": "tarun.saxena.499@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "The Radiant Affection opened into full majestic splendour over 48 hours",
+        "comment": "The cold-chain logistics behind the Radiant Affection are truly remarkable — arrived thoroughly chilled and dewy. Not a single petal dropped during the first 10 days; the stem caliber is easily double what ordinary high-street florists supply. Proof that luxury floristry is a true art form when executed with such uncompromising dedication.",
+        "date": "7 days ago",
+        "createdAt": "2026-10-15T23:56:06.751Z",
+        "verified": true,
+        "helpful": 17
+      },
+      {
+        "id": "rev-flw-121-3",
+        "userName": "Zayd Al-Mansoor",
+        "author": "Zayd Al-Mansoor",
+        "userEmail": "zayd.almansoor.679@verified.dhanvikk.com",
+        "rating": 4,
+        "title": "Worth every single rupee for an unforgettable celebration — Radiant Affection",
+        "comment": "We featured the Radiant Affection at our anniversary dinner table and it immediately became the talking point of the evening. The stems drank steadily and held their upright posture with royal dignity throughout the entire celebration. An unequivocal 10 out of 10 experience that sets a new benchmark for luxury lifestyle floristry.",
+        "date": "22 days ago",
+        "createdAt": "2026-10-01T02:41:42.788Z",
+        "verified": true,
+        "helpful": 19
+      }
+    ]
   },
   {
     "id": "flw-122",
@@ -2791,22 +7874,64 @@ export const SEED_PRODUCTS = [
     "slug": "timeless-devotion",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
     "occasion": "Love & Romance",
     "recipient": "For Her",
-    "flowerType": "Mixed",
     "price": 5602,
     "originalPrice": 7290,
-    "stock": 26,
-    "images": [
-      "/images/products/timeless-devotion.webp"
-    ],
     "rating": 4.8,
     "reviewsCount": 136,
     "tag": "Luxury Edit",
+    "image": "/images/products/timeless-devotion.webp",
+    "images": [
+      "/images/products/timeless-devotion.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the Timeless Devotion harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 26,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-122-1",
+        "userName": "Roshni Mirza",
+        "author": "Roshni Mirza",
+        "userEmail": "roshni.mirza.333@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "The pinnacle of refined floristry: Timeless Devotion",
+        "comment": "I ordered the Timeless Devotion for our family celebration and the presentation left us utterly captivated. The layered organza and matte parchment wrapping protects each bloom while showcasing the lush foliage beneath. It brought an atmosphere of regal tranquility to our salon that lasted for days.",
+        "date": "3 days ago",
+        "createdAt": "2026-10-19T20:22:13.143Z",
+        "verified": true,
+        "helpful": 20
+      },
+      {
+        "id": "rev-flw-122-2",
+        "userName": "Vandana Subramanian",
+        "author": "Vandana Subramanian",
+        "userEmail": "vandana.subramanian.513@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Impeccable highland cultivation and petal density — Timeless Devotion",
+        "comment": "Fourteen days after delivery, our Timeless Devotion continues to look remarkably radiant and intact. The subtle, soothing botanical scent persisted for more than 12 days, making the home smell like a morning garden in bloom. Dhanvikk's cold-chain refrigerated delivery fleet is clearly the gold standard in the floristry industry.",
+        "date": "8 days ago",
+        "createdAt": "2026-10-14T16:16:21.544Z",
+        "verified": true,
+        "helpful": 18
+      },
+      {
+        "id": "rev-flw-122-3",
+        "userName": "Svetlana Dubey",
+        "author": "Svetlana Dubey",
+        "userEmail": "svetlana.dubey.693@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Quiet luxury and exquisite calligraphy detailing in Timeless Devotion",
+        "comment": "Gifted the Timeless Devotion as a gesture of heartfelt gratitude, and the response was pure delight. The contrast between the velvety mixed and the aromatic eucalyptus foliage creates an exquisite visual rhythm. Will be reordering regularly for all our private celebrations and corporate client gifting.",
+        "date": "23 days ago",
+        "createdAt": "2026-09-30T02:53:24.655Z",
+        "verified": true,
+        "helpful": 18
+      }
+    ]
   },
   {
     "id": "flw-123",
@@ -2814,22 +7939,64 @@ export const SEED_PRODUCTS = [
     "slug": "velvet-elegance",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Roses",
     "occasion": "Love & Romance",
     "recipient": "For Her",
-    "flowerType": "Roses",
     "price": 3802,
     "originalPrice": 4950,
-    "stock": 43,
-    "images": [
-      "/images/products/velvet-elegance.webp"
-    ],
     "rating": 4.7,
     "reviewsCount": 72,
     "tag": "Luxury Bloom",
+    "image": "/images/products/velvet-elegance.webp",
+    "images": [
+      "/images/products/velvet-elegance.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the Velvet Elegance harmonizes premium long-stemmed roses with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 43,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-123-1",
+        "userName": "Siddharth Pandey",
+        "author": "Siddharth Pandey",
+        "userEmail": "siddharth.pandey.346@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Awe-inspiring craftsmanship and luxury presentation — Velvet Elegance",
+        "comment": "From the moment the Dhanvikk courier arrived with the Velvet Elegance, the caliber was unmistakably world-class. The protective reefer hydration pods on the stem bases kept every leaf crisply hydrated throughout transport. My guests could not stop inquiring where this extraordinary floral curation came from.",
+        "date": "4 days ago",
+        "createdAt": "2026-10-18T19:37:35.736Z",
+        "verified": true,
+        "helpful": 40
+      },
+      {
+        "id": "rev-flw-123-2",
+        "userName": "Charlotte Yadav",
+        "author": "Charlotte Yadav",
+        "userEmail": "charlotte.yadav.526@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Unprecedented vase longevity and natural fragrance from Velvet Elegance",
+        "comment": "The fragrance profile of the Velvet Elegance is natural, intoxicating, and gracefully fills the entire room. Over the first 48 hours in vase water, each bud opened progressively into a magnificent, fully expanded blossom lasting 13 full days. The level of quality control and stem-by-stem inspection is evident from the first glance.",
+        "date": "9 days ago",
+        "createdAt": "2026-10-13T20:36:36.337Z",
+        "verified": true,
+        "helpful": 19
+      },
+      {
+        "id": "rev-flw-123-3",
+        "userName": "Aditi Jain",
+        "author": "Aditi Jain",
+        "userEmail": "aditi.jain.706@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "An heirloom masterpiece that brought immense joy: Velvet Elegance",
+        "comment": "The Velvet Elegance is hands down one of the most distinguished floral creations I have had the pleasure to present. The gradient of tones in the roses was subtle, sophisticated, and perfectly suited for luxury sensibilities. A consummate triumph of floral curation, pristine presentation, and genuine white-glove service.",
+        "date": "24 days ago",
+        "createdAt": "2026-09-29T03:05:06.523Z",
+        "verified": true,
+        "helpful": 16
+      }
+    ]
   },
   {
     "id": "flw-124",
@@ -2837,22 +8004,64 @@ export const SEED_PRODUCTS = [
     "slug": "passionate-serenity-noir",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
     "occasion": "Love & Romance",
     "recipient": "For Her",
-    "flowerType": "Mixed",
     "price": 3802,
     "originalPrice": 4950,
-    "stock": 25,
-    "images": [
-      "/images/products/passionate-serenity-noir.webp"
-    ],
     "rating": 4.9,
     "reviewsCount": 85,
     "tag": "Florist Choice",
+    "image": "/images/products/passionate-serenity-noir.webp",
+    "images": [
+      "/images/products/passionate-serenity-noir.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the Passionate Serenity noir harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 25,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-124-1",
+        "userName": "Swati Salunkhe",
+        "author": "Swati Salunkhe",
+        "userEmail": "swati.salunkhe.359@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Arrived pristine with morning dew still on petals: Passionate Serenity noir",
+        "comment": "The sheer artistic balance of the Passionate Serenity noir easily surpasses any floral arrangement I have commissioned before. The imported European waterproof wrap and hand-tied gold-embossed silk ribbon give the bouquet an unmistakable haute couture flair. Without question the finest floral presentation available anywhere in the country today.",
+        "date": "5 days ago",
+        "createdAt": "2026-10-17T18:52:58.329Z",
+        "verified": true,
+        "helpful": 29
+      },
+      {
+        "id": "rev-flw-124-2",
+        "userName": "Tariq Montague",
+        "author": "Tariq Montague",
+        "userEmail": "tariq.montague.539@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Uncompromising quality control in this gorgeous Passionate Serenity noir",
+        "comment": "You can immediately feel the heavy stem density and turgid petal structure of this highland-grown Passionate Serenity noir. Not a single petal dropped during the first 10 days; the stem caliber is easily double what ordinary high-street florists supply. I will never order from standard floral delivery services again after experiencing this caliber.",
+        "date": "10 days ago",
+        "createdAt": "2026-10-13T00:56:51.129Z",
+        "verified": true,
+        "helpful": 21
+      },
+      {
+        "id": "rev-flw-124-3",
+        "userName": "Avani Mahajan",
+        "author": "Avani Mahajan",
+        "userEmail": "avani.mahajan.719@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Flawless execution from courier to final bloom — Passionate Serenity noir",
+        "comment": "Everything about the Passionate Serenity noir — from the embossed envelope to the floral symmetry — whispers quiet luxury. The stems drank steadily and held their upright posture with royal dignity throughout the entire celebration. Worth every single rupee for the lasting joy, prestige, and beauty it brought into our lives.",
+        "date": "25 days ago",
+        "createdAt": "2026-09-27T15:16:48.390Z",
+        "verified": true,
+        "helpful": 15
+      }
+    ]
   },
   {
     "id": "flw-125",
@@ -2860,22 +8069,64 @@ export const SEED_PRODUCTS = [
     "slug": "red-passion-wrap",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
     "occasion": "Love & Romance",
     "recipient": "For Her",
-    "flowerType": "Mixed",
     "price": 2678,
     "originalPrice": 3488,
-    "stock": 17,
-    "images": [
-      "/images/products/red-passion-wrap.webp"
-    ],
     "rating": 4.8,
     "reviewsCount": 164,
     "tag": "Luxury Bloom",
+    "image": "/images/products/red-passion-wrap.webp",
+    "images": [
+      "/images/products/red-passion-wrap.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the Red Passion Wrap harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 17,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-125-1",
+        "userName": "Vidya Shroff",
+        "author": "Vidya Shroff",
+        "userEmail": "vidya.shroff.372@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Elegance personified in the magnificent Red Passion Wrap",
+        "comment": "Dhanvikk has completely redefined luxury gifting with this sensational Red Passion Wrap. The layered organza and matte parchment wrapping protects each bloom while showcasing the lush foliage beneath. The recipient was visibly moved to tears upon reading the calligraphy note tucked into the arrangement.",
+        "date": "2 days ago",
+        "createdAt": "2026-10-20T18:08:20.921Z",
+        "verified": true,
+        "helpful": 49
+      },
+      {
+        "id": "rev-flw-125-2",
+        "userName": "Valentina Chauhan",
+        "author": "Valentina Chauhan",
+        "userEmail": "valentina.chauhan.552@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Robust stems, velvety texture, and remarkable hydration: Red Passion Wrap",
+        "comment": "Dhanvikk's zero-compromise approach to morning dawn-cutting is vividly apparent in the Red Passion Wrap. The subtle, soothing botanical scent persisted for more than 15 days, making the home smell like a morning garden in bloom. A masterclass in high-altitude boutique cultivation and pristine handling.",
+        "date": "11 days ago",
+        "createdAt": "2026-10-11T17:17:05.922Z",
+        "verified": true,
+        "helpful": 22
+      },
+      {
+        "id": "rev-flw-125-3",
+        "userName": "Farhan Narang",
+        "author": "Farhan Narang",
+        "userEmail": "farhan.narang.732@verified.dhanvikk.com",
+        "rating": 4,
+        "title": "Our definitive choice for all high-profile occasions: Red Passion Wrap",
+        "comment": "Ordered the Red Passion Wrap on short notice and Dhanvikk delivered with impeccable timing and flawless poise. The contrast between the velvety mixed and the aromatic eucalyptus foliage creates an exquisite visual rhythm. I wholeheartedly recommend Dhanvikk to anyone who refuses to settle for ordinary commercial blooms.",
+        "date": "26 days ago",
+        "createdAt": "2026-09-26T15:28:30.258Z",
+        "verified": true,
+        "helpful": 14
+      }
+    ]
   },
   {
     "id": "flw-126",
@@ -2883,22 +8134,64 @@ export const SEED_PRODUCTS = [
     "slug": "blushing-singles",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Roses",
     "occasion": "Love & Romance",
     "recipient": "For Her",
-    "flowerType": "Roses",
     "price": 3352,
     "originalPrice": 4365,
-    "stock": 19,
-    "images": [
-      "/images/products/blushing-singles.webp"
-    ],
     "rating": 4.8,
     "reviewsCount": 118,
     "tag": "Artisan Hand-tied",
+    "image": "/images/products/blushing-singles.webp",
+    "images": [
+      "/images/products/blushing-singles.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the Blushing Singles harmonizes premium long-stemmed roses with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 19,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-126-1",
+        "userName": "Julian Varma",
+        "author": "Julian Varma",
+        "userEmail": "julian.varma.385@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Unrivaled atelier artistry in every single bloom — Blushing Singles",
+        "comment": "The unveiling of our Blushing Singles was the highlight of our celebratory morning. The protective reefer hydration pods on the stem bases kept every leaf crisply hydrated throughout transport. An indispensable triumph of an arrangement for any love & romance.",
+        "date": "3 days ago",
+        "createdAt": "2026-10-19T17:23:43.514Z",
+        "verified": true,
+        "helpful": 38
+      },
+      {
+        "id": "rev-flw-126-2",
+        "userName": "Aanya Hegde",
+        "author": "Aanya Hegde",
+        "userEmail": "aanya.hegde.565@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Horticultural perfection air-flown with exquisite care — Blushing Singles",
+        "comment": "The freshness of the Blushing Singles when unpacked felt as if it had been gathered from the mountain estate an hour prior. Over the first 48 hours in vase water, each bud opened progressively into a magnificent, fully expanded blossom lasting 16 full days. Proof that luxury floristry is a true art form when executed with such uncompromising dedication.",
+        "date": "12 days ago",
+        "createdAt": "2026-10-10T21:37:20.715Z",
+        "verified": true,
+        "helpful": 23
+      },
+      {
+        "id": "rev-flw-126-3",
+        "userName": "Kalyani Rathore",
+        "author": "Kalyani Rathore",
+        "userEmail": "kalyani.rathore.745@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "The ultimate emotional grand gesture for our love & romance — Blushing Singles",
+        "comment": "The visual impact of the Blushing Singles when unveiled is something neither my guests nor I will soon forget. The gradient of tones in the roses was subtle, sophisticated, and perfectly suited for luxury sensibilities. An unequivocal 10 out of 10 experience that sets a new benchmark for luxury lifestyle floristry.",
+        "date": "27 days ago",
+        "createdAt": "2026-09-25T15:40:12.125Z",
+        "verified": true,
+        "helpful": 13
+      }
+    ]
   },
   {
     "id": "flw-127",
@@ -2906,22 +8199,64 @@ export const SEED_PRODUCTS = [
     "slug": "white-serenity-singles",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
     "occasion": "Congratulations",
     "recipient": "Everyone",
-    "flowerType": "Mixed",
     "price": 6728,
     "originalPrice": 8752,
-    "stock": 28,
+    "rating": 5,
+    "reviewsCount": 80,
+    "tag": "Luxury Bloom",
+    "image": "/images/products/white-serenity-singles.webp",
     "images": [
       "/images/products/white-serenity-singles.webp"
     ],
-    "rating": 5.0,
-    "reviewsCount": 80,
-    "tag": "Luxury Bloom",
     "description": "Hand-tied by master Parisian florists, the White Serenity Singles harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 28,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-127-1",
+        "userName": "Benjamin Fontaine",
+        "author": "Benjamin Fontaine",
+        "userEmail": "benjamin.fontaine.399@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Haute couture floral design at its finest: White Serenity Singles",
+        "comment": "Exquisite does not even begin to capture how breathtaking the White Serenity Singles looks in person. The imported European waterproof wrap and hand-tied gold-embossed silk ribbon give the bouquet an unmistakable haute couture flair. It brought an atmosphere of regal tranquility to our salon that lasted for days.",
+        "date": "4 days ago",
+        "createdAt": "2026-10-18T16:39:06.107Z",
+        "verified": true,
+        "helpful": 27
+      },
+      {
+        "id": "rev-flw-127-2",
+        "userName": "Anushka Kirloskar",
+        "author": "Anushka Kirloskar",
+        "userEmail": "anushka.kirloskar.579@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Remarkably fresh for nearly two weeks in our salon: White Serenity Singles",
+        "comment": "The sheer volume and petal count packed into the White Serenity Singles makes it an extraordinary value for high connoisseurs. Not a single petal dropped during the first 10 days; the stem caliber is easily double what ordinary high-street florists supply. Dhanvikk's cold-chain refrigerated delivery fleet is clearly the gold standard in the floristry industry.",
+        "date": "7 days ago",
+        "createdAt": "2026-10-16T01:57:35.508Z",
+        "verified": true,
+        "helpful": 25
+      },
+      {
+        "id": "rev-flw-127-3",
+        "userName": "Malini Sengupta",
+        "author": "Malini Sengupta",
+        "userEmail": "malini.sengupta.759@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Left all our dinner guests completely captivated: White Serenity Singles",
+        "comment": "I selected the White Serenity Singles specifically for a milestone congratulations surprise. The stems drank steadily and held their upright posture with royal dignity throughout the entire celebration. Will be reordering regularly for all our private celebrations and corporate client gifting.",
+        "date": "14 days ago",
+        "createdAt": "2026-10-08T15:51:53.993Z",
+        "verified": true,
+        "helpful": 12
+      }
+    ]
   },
   {
     "id": "flw-128",
@@ -2929,22 +8264,64 @@ export const SEED_PRODUCTS = [
     "slug": "affectionate-gestures",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
     "occasion": "Love & Romance",
     "recipient": "For Her",
-    "flowerType": "Mixed",
     "price": 2678,
     "originalPrice": 3488,
-    "stock": 41,
-    "images": [
-      "/images/products/affectionate-gestures.webp"
-    ],
     "rating": 4.9,
     "reviewsCount": 81,
     "tag": "Limited Edition",
+    "image": "/images/products/affectionate-gestures.webp",
+    "images": [
+      "/images/products/affectionate-gestures.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the Affectionate Gestures harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 41,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-128-1",
+        "userName": "Aurelia Bhardwaj",
+        "author": "Aurelia Bhardwaj",
+        "userEmail": "aurelia.bhardwaj.412@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "An unforgettable grand entrance with Affectionate Gestures",
+        "comment": "As a lifelong admirer of fine floristry, the architectural symmetry of the Affectionate Gestures is awe-inspiring. The layered organza and matte parchment wrapping protects each bloom while showcasing the lush foliage beneath. My guests could not stop inquiring where this extraordinary floral curation came from.",
+        "date": "5 days ago",
+        "createdAt": "2026-10-17T15:54:28.700Z",
+        "verified": true,
+        "helpful": 47
+      },
+      {
+        "id": "rev-flw-128-2",
+        "userName": "Diya Mukherjee",
+        "author": "Diya Mukherjee",
+        "userEmail": "diya.mukherjee.592@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Lasted over 11 full days in pristine condition — Affectionate Gestures",
+        "comment": "Every single stem in our Affectionate Gestures was hand-selected at the exact micro-stage of opening for maximum longevity. The subtle, soothing botanical scent persisted for more than 11 days, making the home smell like a morning garden in bloom. The level of quality control and stem-by-stem inspection is evident from the first glance.",
+        "date": "8 days ago",
+        "createdAt": "2026-10-14T18:17:50.301Z",
+        "verified": true,
+        "helpful": 26
+      },
+      {
+        "id": "rev-flw-128-3",
+        "userName": "Nikhil Tandon",
+        "author": "Nikhil Tandon",
+        "userEmail": "nikhil.tandon.772@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "A distinguished luxury statement piece: Affectionate Gestures",
+        "comment": "Our executive boardroom needed a commanding centerpiece, and the Affectionate Gestures delivered majestic grandeur. The contrast between the velvety mixed and the aromatic eucalyptus foliage creates an exquisite visual rhythm. A consummate triumph of floral curation, pristine presentation, and genuine white-glove service.",
+        "date": "15 days ago",
+        "createdAt": "2026-10-07T16:03:35.860Z",
+        "verified": true,
+        "helpful": 10
+      }
+    ]
   },
   {
     "id": "flw-129",
@@ -2952,22 +8329,64 @@ export const SEED_PRODUCTS = [
     "slug": "sweet-affection",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
     "occasion": "Love & Romance",
     "recipient": "For Her",
-    "flowerType": "Mixed",
     "price": 2228,
     "originalPrice": 2902,
-    "stock": 15,
-    "images": [
-      "/images/products/sweet-affection.webp"
-    ],
     "rating": 4.9,
     "reviewsCount": 101,
     "tag": "Luxury Bloom",
+    "image": "/images/products/sweet-affection.webp",
+    "images": [
+      "/images/products/sweet-affection.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the Sweet Affection harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 15,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-129-1",
+        "userName": "Nils Garg",
+        "author": "Nils Garg",
+        "userEmail": "nils.garg.425@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Sublime symmetry and velvet perfection in Sweet Affection",
+        "comment": "Commissioned the Sweet Affection as a surprise, and the doorstep presentation was cinematic in its perfection. The protective reefer hydration pods on the stem bases kept every leaf crisply hydrated throughout transport. Without question the finest floral presentation available anywhere in the country today.",
+        "date": "2 days ago",
+        "createdAt": "2026-10-20T15:09:51.293Z",
+        "verified": true,
+        "helpful": 36
+      },
+      {
+        "id": "rev-flw-129-2",
+        "userName": "Jahnavi Puri",
+        "author": "Jahnavi Puri",
+        "userEmail": "jahnavi.puri.605@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Intoxicating aroma and extraordinary stem caliber in Sweet Affection",
+        "comment": "What sets the Sweet Affection apart is the exceptional horticultural caliber of the mixed. Over the first 48 hours in vase water, each bud opened progressively into a magnificent, fully expanded blossom lasting 12 full days. I will never order from standard floral delivery services again after experiencing this caliber.",
+        "date": "9 days ago",
+        "createdAt": "2026-10-13T22:38:05.093Z",
+        "verified": true,
+        "helpful": 27
+      },
+      {
+        "id": "rev-flw-129-3",
+        "userName": "Rahul Mercier",
+        "author": "Rahul Mercier",
+        "userEmail": "rahul.mercier.785@verified.dhanvikk.com",
+        "rating": 4,
+        "title": "Heartfelt tears of joy upon opening the Sweet Affection",
+        "comment": "Surprised my partner with the Sweet Affection and the emotional resonance was beyond words. The gradient of tones in the mixed was subtle, sophisticated, and perfectly suited for luxury sensibilities. Worth every single rupee for the lasting joy, prestige, and beauty it brought into our lives.",
+        "date": "16 days ago",
+        "createdAt": "2026-10-06T16:15:17.728Z",
+        "verified": true,
+        "helpful": 29
+      }
+    ]
   },
   {
     "id": "flw-130",
@@ -2975,22 +8394,64 @@ export const SEED_PRODUCTS = [
     "slug": "ivory-splendor",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
     "occasion": "Congratulations",
     "recipient": "Everyone",
-    "flowerType": "Mixed",
     "price": 7852,
     "originalPrice": 10215,
-    "stock": 38,
+    "rating": 5,
+    "reviewsCount": 56,
+    "tag": "Fresh Harvest",
+    "image": "/images/products/ivory-splendor.webp",
     "images": [
       "/images/products/ivory-splendor.webp"
     ],
-    "rating": 5.0,
-    "reviewsCount": 56,
-    "tag": "Fresh Harvest",
     "description": "Hand-tied by master Parisian florists, the Ivory Splendor harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 38,
+    "inStock": true,
     "isBestSeller": true,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-130-1",
+        "userName": "Ananya Kashyap",
+        "author": "Ananya Kashyap",
+        "userEmail": "ananya.kashyap.438@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Surpassed our highest expectations: Ivory Splendor",
+        "comment": "The Ivory Splendor arrived looking so freshly sculpted it felt like an exhibit from a Parisian floral atelier. The imported European waterproof wrap and hand-tied gold-embossed silk ribbon give the bouquet an unmistakable haute couture flair. The recipient was visibly moved to tears upon reading the calligraphy note tucked into the arrangement.",
+        "date": "3 days ago",
+        "createdAt": "2026-10-20T02:25:13.885Z",
+        "verified": true,
+        "helpful": 26
+      },
+      {
+        "id": "rev-flw-130-2",
+        "userName": "Lavanya Sarin",
+        "author": "Lavanya Sarin",
+        "userEmail": "lavanya.sarin.618@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "World-class cold chain delivery and dewy freshness: Ivory Splendor",
+        "comment": "Having ordered luxury florals in London and Milan, I can confirm that Dhanvikk's Ivory Splendor stands on the global podium. Not a single petal dropped during the first 10 days; the stem caliber is easily double what ordinary high-street florists supply. A masterclass in high-altitude boutique cultivation and pristine handling.",
+        "date": "10 days ago",
+        "createdAt": "2026-10-13T02:58:19.886Z",
+        "verified": true,
+        "helpful": 28
+      },
+      {
+        "id": "rev-flw-130-3",
+        "userName": "Sameer Al-Maktoum",
+        "author": "Sameer Al-Maktoum",
+        "userEmail": "sameer.almaktoum.798@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "The gold standard for our congratulations celebration — Ivory Splendor",
+        "comment": "If you are looking for an unforgettable statement piece, the Ivory Splendor is utterly peerless. The stems drank steadily and held their upright posture with royal dignity throughout the entire celebration. I wholeheartedly recommend Dhanvikk to anyone who refuses to settle for ordinary commercial blooms.",
+        "date": "17 days ago",
+        "createdAt": "2026-10-05T16:26:59.595Z",
+        "verified": true,
+        "helpful": 28
+      }
+    ]
   },
   {
     "id": "flw-131",
@@ -2998,22 +8459,64 @@ export const SEED_PRODUCTS = [
     "slug": "sunny-sunflower-bliss",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Sunflowers",
     "occasion": "Birthday",
     "recipient": "BFFs",
-    "flowerType": "Sunflowers",
     "price": 3128,
     "originalPrice": 4072,
-    "stock": 19,
-    "images": [
-      "/images/products/sunny-sunflower-bliss.webp"
-    ],
     "rating": 4.8,
     "reviewsCount": 83,
     "tag": "Luxury Bloom",
+    "image": "/images/products/sunny-sunflower-bliss.webp",
+    "images": [
+      "/images/products/sunny-sunflower-bliss.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the Sunny Sunflower Bliss harmonizes premium long-stemmed sunflowers with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 19,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-131-1",
+        "userName": "Devika Menon",
+        "author": "Devika Menon",
+        "userEmail": "devika.menon.451@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Breathtaking sensory unboxing — Sunny Sunflower Bliss",
+        "comment": "Receiving the Sunny Sunflower Bliss was an experience of pure unadulterated luxury. The layered organza and matte parchment wrapping protects each bloom while showcasing the lush foliage beneath. An indispensable triumph of an arrangement for any birthday.",
+        "date": "4 days ago",
+        "createdAt": "2026-10-19T01:40:36.478Z",
+        "verified": true,
+        "helpful": 45
+      },
+      {
+        "id": "rev-flw-131-2",
+        "userName": "Navin Srinivasan",
+        "author": "Navin Srinivasan",
+        "userEmail": "navin.srinivasan.631@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "The Sunny Sunflower Bliss opened into full majestic splendour over 48 hours",
+        "comment": "The cold-chain logistics behind the Sunny Sunflower Bliss are truly remarkable — arrived thoroughly chilled and dewy. The subtle, soothing botanical scent persisted for more than 14 days, making the home smell like a morning garden in bloom. Proof that luxury floristry is a true art form when executed with such uncompromising dedication.",
+        "date": "11 days ago",
+        "createdAt": "2026-10-11T19:18:34.679Z",
+        "verified": true,
+        "helpful": 30
+      },
+      {
+        "id": "rev-flw-131-3",
+        "userName": "Sneha Dhillon",
+        "author": "Sneha Dhillon",
+        "userEmail": "sneha.dhillon.811@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Worth every single rupee for an unforgettable celebration — Sunny Sunflower Bliss",
+        "comment": "We featured the Sunny Sunflower Bliss at our anniversary dinner table and it immediately became the talking point of the evening. The contrast between the velvety sunflowers and the aromatic eucalyptus foliage creates an exquisite visual rhythm. An unequivocal 10 out of 10 experience that sets a new benchmark for luxury lifestyle floristry.",
+        "date": "18 days ago",
+        "createdAt": "2026-10-04T16:38:41.463Z",
+        "verified": true,
+        "helpful": 27
+      }
+    ]
   },
   {
     "id": "flw-132",
@@ -3021,22 +8524,64 @@ export const SEED_PRODUCTS = [
     "slug": "eternal-crimson",
     "category": "Forever Roses",
     "subCategory": "Preserved Bell Domes",
+    "flowerType": "Roses",
     "occasion": "Love & Romance",
     "recipient": "For Her",
-    "flowerType": "Roses",
     "price": 6728,
     "originalPrice": 8752,
-    "stock": 25,
-    "images": [
-      "/images/products/eternal-crimson.webp"
-    ],
     "rating": 4.9,
     "reviewsCount": 184,
     "tag": "Trending Now",
+    "image": "/images/products/eternal-crimson.webp",
+    "images": [
+      "/images/products/eternal-crimson.webp"
+    ],
     "description": "A breathtaking showcase of naturally preserved Ecuadorian roses, meticulously stabilized to retain velvety softness, vibrant pigment, and structural perfection for up to 3 years without watering. Encased in a hand-blown borosilicate bell dome.",
+    "stock": 25,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-132-1",
+        "userName": "Harish Oberoi",
+        "author": "Harish Oberoi",
+        "userEmail": "harish.oberoi.465@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "The pinnacle of refined floristry: Eternal Crimson",
+        "comment": "I ordered the Eternal Crimson for our family celebration and the presentation left us utterly captivated. The dome presentation is masterfully proportioned, catching the ambient light and illuminating the intricate petal geometry. It brought an atmosphere of regal tranquility to our salon that lasted for days.",
+        "date": "5 days ago",
+        "createdAt": "2026-10-18T00:55:59.071Z",
+        "verified": true,
+        "helpful": 35
+      },
+      {
+        "id": "rev-flw-132-2",
+        "userName": "Priyanka Walia",
+        "author": "Priyanka Walia",
+        "userEmail": "priyanka.walia.645@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Impeccable highland cultivation and petal density — Eternal Crimson",
+        "comment": "Fourteen days after delivery, our Eternal Crimson continues to look remarkably radiant and intact. The proprietary bio-preservation leaves the blooms soft to the touch without any chemical odor, promising over 24 months of beauty. Dhanvikk's cold-chain refrigerated delivery fleet is clearly the gold standard in the floristry industry.",
+        "date": "12 days ago",
+        "createdAt": "2026-10-10T23:38:49.472Z",
+        "verified": true,
+        "helpful": 31
+      },
+      {
+        "id": "rev-flw-132-3",
+        "userName": "Tarun Jadhav",
+        "author": "Tarun Jadhav",
+        "userEmail": "tarun.jadhav.825@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Quiet luxury and exquisite calligraphy detailing in Eternal Crimson",
+        "comment": "Gifted the Eternal Crimson as a gesture of heartfelt gratitude, and the response was pure delight. It sits proudly on our mantlepiece, an enduring reminder of our special milestone that never fades. Will be reordering regularly for all our private celebrations and corporate client gifting.",
+        "date": "19 days ago",
+        "createdAt": "2026-10-03T16:50:23.330Z",
+        "verified": true,
+        "helpful": 25
+      }
+    ]
   },
   {
     "id": "flw-133",
@@ -3044,22 +8589,64 @@ export const SEED_PRODUCTS = [
     "slug": "ivory-purity",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
     "occasion": "Congratulations",
     "recipient": "Everyone",
-    "flowerType": "Mixed",
     "price": 8978,
     "originalPrice": 11678,
-    "stock": 40,
-    "images": [
-      "/images/products/ivory-purity.webp"
-    ],
     "rating": 4.8,
     "reviewsCount": 38,
     "tag": "Luxury Bloom",
+    "image": "/images/products/ivory-purity.webp",
+    "images": [
+      "/images/products/ivory-purity.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the Ivory Purity harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 40,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-133-1",
+        "userName": "Khaled Sachdev",
+        "author": "Khaled Sachdev",
+        "userEmail": "khaled.sachdev.478@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Awe-inspiring craftsmanship and luxury presentation — Ivory Purity",
+        "comment": "From the moment the Dhanvikk courier arrived with the Ivory Purity, the caliber was unmistakably world-class. The imported European waterproof wrap and hand-tied gold-embossed silk ribbon give the bouquet an unmistakable haute couture flair. My guests could not stop inquiring where this extraordinary floral curation came from.",
+        "date": "2 days ago",
+        "createdAt": "2026-10-21T00:11:21.664Z",
+        "verified": true,
+        "helpful": 24
+      },
+      {
+        "id": "rev-flw-133-2",
+        "userName": "Roshni Sinclair",
+        "author": "Roshni Sinclair",
+        "userEmail": "roshni.sinclair.658@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Unprecedented vase longevity and natural fragrance from Ivory Purity",
+        "comment": "The fragrance profile of the Ivory Purity is natural, intoxicating, and gracefully fills the entire room. Not a single petal dropped during the first 10 days; the stem caliber is easily double what ordinary high-street florists supply. The level of quality control and stem-by-stem inspection is evident from the first glance.",
+        "date": "7 days ago",
+        "createdAt": "2026-10-15T15:59:04.265Z",
+        "verified": true,
+        "helpful": 32
+      },
+      {
+        "id": "rev-flw-133-3",
+        "userName": "Vandana Lahiri",
+        "author": "Vandana Lahiri",
+        "userEmail": "vandana.lahiri.838@verified.dhanvikk.com",
+        "rating": 4,
+        "title": "An heirloom masterpiece that brought immense joy: Ivory Purity",
+        "comment": "The Ivory Purity is hands down one of the most distinguished floral creations I have had the pleasure to present. The stems drank steadily and held their upright posture with royal dignity throughout the entire celebration. A consummate triumph of floral curation, pristine presentation, and genuine white-glove service.",
+        "date": "20 days ago",
+        "createdAt": "2026-10-02T17:02:05.198Z",
+        "verified": true,
+        "helpful": 24
+      }
+    ]
   },
   {
     "id": "flw-134",
@@ -3067,22 +8654,64 @@ export const SEED_PRODUCTS = [
     "slug": "rustic-sunflower-bouquet",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Sunflowers",
     "occasion": "Birthday",
     "recipient": "BFFs",
-    "flowerType": "Sunflowers",
     "price": 1778,
     "originalPrice": 2318,
-    "stock": 16,
-    "images": [
-      "/images/products/rustic-sunflower-bouquet.webp"
-    ],
     "rating": 4.8,
     "reviewsCount": 155,
     "tag": "Trending Now",
+    "image": "/images/products/rustic-sunflower-bouquet.webp",
+    "images": [
+      "/images/products/rustic-sunflower-bouquet.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the Rustic Sunflower Bouquet harmonizes premium long-stemmed sunflowers with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 16,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-134-1",
+        "userName": "Mihir Shetty",
+        "author": "Mihir Shetty",
+        "userEmail": "mihir.shetty.491@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Arrived pristine with morning dew still on petals: Rustic Sunflower Bouquet",
+        "comment": "The sheer artistic balance of the Rustic Sunflower Bouquet easily surpasses any floral arrangement I have commissioned before. The layered organza and matte parchment wrapping protects each bloom while showcasing the lush foliage beneath. Without question the finest floral presentation available anywhere in the country today.",
+        "date": "3 days ago",
+        "createdAt": "2026-10-19T23:26:44.257Z",
+        "verified": true,
+        "helpful": 43
+      },
+      {
+        "id": "rev-flw-134-2",
+        "userName": "Siddharth Chatterjee",
+        "author": "Siddharth Chatterjee",
+        "userEmail": "siddharth.chatterjee.671@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Uncompromising quality control in this gorgeous Rustic Sunflower Bouquet",
+        "comment": "You can immediately feel the heavy stem density and turgid petal structure of this highland-grown Rustic Sunflower Bouquet. The subtle, soothing botanical scent persisted for more than 10 days, making the home smell like a morning garden in bloom. I will never order from standard floral delivery services again after experiencing this caliber.",
+        "date": "8 days ago",
+        "createdAt": "2026-10-14T20:19:19.058Z",
+        "verified": true,
+        "helpful": 33
+      },
+      {
+        "id": "rev-flw-134-3",
+        "userName": "Charlotte Nambiar",
+        "author": "Charlotte Nambiar",
+        "userEmail": "charlotte.nambiar.851@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Flawless execution from courier to final bloom — Rustic Sunflower Bouquet",
+        "comment": "Everything about the Rustic Sunflower Bouquet — from the embossed envelope to the floral symmetry — whispers quiet luxury. The contrast between the velvety sunflowers and the aromatic eucalyptus foliage creates an exquisite visual rhythm. Worth every single rupee for the lasting joy, prestige, and beauty it brought into our lives.",
+        "date": "21 days ago",
+        "createdAt": "2026-10-01T17:13:47.065Z",
+        "verified": true,
+        "helpful": 23
+      }
+    ]
   },
   {
     "id": "flw-135",
@@ -3090,22 +8719,64 @@ export const SEED_PRODUCTS = [
     "slug": "petite-sunshine",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Sunflowers",
     "occasion": "Birthday",
     "recipient": "BFFs",
-    "flowerType": "Sunflowers",
     "price": 878,
     "originalPrice": 1148,
-    "stock": 36,
-    "images": [
-      "/images/products/petite-sunshine.webp"
-    ],
     "rating": 4.9,
     "reviewsCount": 150,
     "tag": "Luxury Bloom",
+    "image": "/images/products/petite-sunshine.webp",
+    "images": [
+      "/images/products/petite-sunshine.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the Petite Sunshine harmonizes premium long-stemmed sunflowers with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 36,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-135-1",
+        "userName": "Pranav Upadhyay",
+        "author": "Pranav Upadhyay",
+        "userEmail": "pranav.upadhyay.504@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Elegance personified in the magnificent Petite Sunshine",
+        "comment": "Dhanvikk has completely redefined luxury gifting with this sensational Petite Sunshine. The protective reefer hydration pods on the stem bases kept every leaf crisply hydrated throughout transport. The recipient was visibly moved to tears upon reading the calligraphy note tucked into the arrangement.",
+        "date": "4 days ago",
+        "createdAt": "2026-10-18T22:42:06.850Z",
+        "verified": true,
+        "helpful": 33
+      },
+      {
+        "id": "rev-flw-135-2",
+        "userName": "Swati Gupta",
+        "author": "Swati Gupta",
+        "userEmail": "swati.gupta.684@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Robust stems, velvety texture, and remarkable hydration: Petite Sunshine",
+        "comment": "Dhanvikk's zero-compromise approach to morning dawn-cutting is vividly apparent in the Petite Sunshine. Over the first 48 hours in vase water, each bud opened progressively into a magnificent, fully expanded blossom lasting 11 full days. A masterclass in high-altitude boutique cultivation and pristine handling.",
+        "date": "9 days ago",
+        "createdAt": "2026-10-14T00:39:33.850Z",
+        "verified": true,
+        "helpful": 35
+      },
+      {
+        "id": "rev-flw-135-3",
+        "userName": "Tariq Rao",
+        "author": "Tariq Rao",
+        "userEmail": "tariq.rao.864@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Our definitive choice for all high-profile occasions: Petite Sunshine",
+        "comment": "Ordered the Petite Sunshine on short notice and Dhanvikk delivered with impeccable timing and flawless poise. The gradient of tones in the sunflowers was subtle, sophisticated, and perfectly suited for luxury sensibilities. I wholeheartedly recommend Dhanvikk to anyone who refuses to settle for ordinary commercial blooms.",
+        "date": "22 days ago",
+        "createdAt": "2026-09-30T17:25:28.933Z",
+        "verified": true,
+        "helpful": 22
+      }
+    ]
   },
   {
     "id": "flw-136",
@@ -3113,22 +8784,64 @@ export const SEED_PRODUCTS = [
     "slug": "crimson-heart",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Roses",
     "occasion": "Love & Romance",
     "recipient": "For Her",
-    "flowerType": "Roses",
     "price": 12352,
     "originalPrice": 16065,
-    "stock": 29,
-    "images": [
-      "/images/products/crimson-heart.webp"
-    ],
     "rating": 4.9,
     "reviewsCount": 67,
     "tag": "Luxury Edit",
+    "image": "/images/products/crimson-heart.webp",
+    "images": [
+      "/images/products/crimson-heart.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the Crimson Heart harmonizes premium long-stemmed roses with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 29,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-136-1",
+        "userName": "Rishabh Castiglione",
+        "author": "Rishabh Castiglione",
+        "userEmail": "rishabh.castiglione.517@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Unrivaled atelier artistry in every single bloom — Crimson Heart",
+        "comment": "The unveiling of our Crimson Heart was the highlight of our celebratory morning. The imported European waterproof wrap and hand-tied gold-embossed silk ribbon give the bouquet an unmistakable haute couture flair. An indispensable triumph of an arrangement for any love & romance.",
+        "date": "5 days ago",
+        "createdAt": "2026-10-17T21:57:29.442Z",
+        "verified": true,
+        "helpful": 22
+      },
+      {
+        "id": "rev-flw-136-2",
+        "userName": "Vidya Khatri",
+        "author": "Vidya Khatri",
+        "userEmail": "vidya.khatri.697@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Horticultural perfection air-flown with exquisite care — Crimson Heart",
+        "comment": "The freshness of the Crimson Heart when unpacked felt as if it had been gathered from the mountain estate an hour prior. Not a single petal dropped during the first 10 days; the stem caliber is easily double what ordinary high-street florists supply. Proof that luxury floristry is a true art form when executed with such uncompromising dedication.",
+        "date": "10 days ago",
+        "createdAt": "2026-10-12T16:59:48.643Z",
+        "verified": true,
+        "helpful": 36
+      },
+      {
+        "id": "rev-flw-136-3",
+        "userName": "Valentina Sen",
+        "author": "Valentina Sen",
+        "userEmail": "valentina.sen.877@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "The ultimate emotional grand gesture for our love & romance — Crimson Heart",
+        "comment": "The visual impact of the Crimson Heart when unveiled is something neither my guests nor I will soon forget. The stems drank steadily and held their upright posture with royal dignity throughout the entire celebration. An unequivocal 10 out of 10 experience that sets a new benchmark for luxury lifestyle floristry.",
+        "date": "23 days ago",
+        "createdAt": "2026-09-29T17:37:10.800Z",
+        "verified": true,
+        "helpful": 20
+      }
+    ]
   },
   {
     "id": "flw-137",
@@ -3136,22 +8849,64 @@ export const SEED_PRODUCTS = [
     "slug": "trifecta-luxe",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
     "occasion": "Birthday",
     "recipient": "Everyone",
-    "flowerType": "Mixed",
     "price": 5602,
     "originalPrice": 7290,
-    "stock": 41,
-    "images": [
-      "/images/products/trifecta-luxe.webp"
-    ],
     "rating": 4.9,
     "reviewsCount": 47,
     "tag": "Luxury Bloom",
+    "image": "/images/products/trifecta-luxe.webp",
+    "images": [
+      "/images/products/trifecta-luxe.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the Trifecta Luxe harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 41,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-137-1",
+        "userName": "Shalini Bansal",
+        "author": "Shalini Bansal",
+        "userEmail": "shalini.bansal.531@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Haute couture floral design at its finest: Trifecta Luxe",
+        "comment": "Exquisite does not even begin to capture how breathtaking the Trifecta Luxe looks in person. The layered organza and matte parchment wrapping protects each bloom while showcasing the lush foliage beneath. It brought an atmosphere of regal tranquility to our salon that lasted for days.",
+        "date": "2 days ago",
+        "createdAt": "2026-10-20T21:12:52.035Z",
+        "verified": true,
+        "helpful": 42
+      },
+      {
+        "id": "rev-flw-137-2",
+        "userName": "Julian Mitra",
+        "author": "Julian Mitra",
+        "userEmail": "julian.mitra.711@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Remarkably fresh for nearly two weeks in our salon: Trifecta Luxe",
+        "comment": "The sheer volume and petal count packed into the Trifecta Luxe makes it an extraordinary value for high connoisseurs. The subtle, soothing botanical scent persisted for more than 13 days, making the home smell like a morning garden in bloom. Dhanvikk's cold-chain refrigerated delivery fleet is clearly the gold standard in the floristry industry.",
+        "date": "11 days ago",
+        "createdAt": "2026-10-11T21:20:03.436Z",
+        "verified": true,
+        "helpful": 37
+      },
+      {
+        "id": "rev-flw-137-3",
+        "userName": "Aanya Talwar",
+        "author": "Aanya Talwar",
+        "userEmail": "aanya.talwar.891@verified.dhanvikk.com",
+        "rating": 4,
+        "title": "Left all our dinner guests completely captivated: Trifecta Luxe",
+        "comment": "I selected the Trifecta Luxe specifically for a milestone birthday surprise. The contrast between the velvety mixed and the aromatic eucalyptus foliage creates an exquisite visual rhythm. Will be reordering regularly for all our private celebrations and corporate client gifting.",
+        "date": "24 days ago",
+        "createdAt": "2026-09-28T17:48:52.668Z",
+        "verified": true,
+        "helpful": 19
+      }
+    ]
   },
   {
     "id": "flw-138",
@@ -3159,22 +8914,64 @@ export const SEED_PRODUCTS = [
     "slug": "red-eucalyptus-elegance-2",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
     "occasion": "Birthday",
     "recipient": "Everyone",
-    "flowerType": "Mixed",
     "price": 2902,
     "originalPrice": 3780,
-    "stock": 40,
-    "images": [
-      "/images/products/red-eucalyptus-elegance-2.webp"
-    ],
     "rating": 4.7,
     "reviewsCount": 62,
     "tag": "Signature Atelier",
+    "image": "/images/products/red-eucalyptus-elegance-2.webp",
+    "images": [
+      "/images/products/red-eucalyptus-elegance-2.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the Red Eucalyptus Elegance harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 40,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-138-1",
+        "userName": "Sunita Ganguly",
+        "author": "Sunita Ganguly",
+        "userEmail": "sunita.ganguly.544@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "An unforgettable grand entrance with Red Eucalyptus Elegance",
+        "comment": "As a lifelong admirer of fine floristry, the architectural symmetry of the Red Eucalyptus Elegance is awe-inspiring. The protective reefer hydration pods on the stem bases kept every leaf crisply hydrated throughout transport. My guests could not stop inquiring where this extraordinary floral curation came from.",
+        "date": "3 days ago",
+        "createdAt": "2026-10-19T20:28:14.628Z",
+        "verified": true,
+        "helpful": 31
+      },
+      {
+        "id": "rev-flw-138-2",
+        "userName": "Benjamin Prasad",
+        "author": "Benjamin Prasad",
+        "userEmail": "benjamin.prasad.724@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Lasted over 14 full days in pristine condition — Red Eucalyptus Elegance",
+        "comment": "Every single stem in our Red Eucalyptus Elegance was hand-selected at the exact micro-stage of opening for maximum longevity. Over the first 48 hours in vase water, each bud opened progressively into a magnificent, fully expanded blossom lasting 14 full days. The level of quality control and stem-by-stem inspection is evident from the first glance.",
+        "date": "12 days ago",
+        "createdAt": "2026-10-11T01:40:18.229Z",
+        "verified": true,
+        "helpful": 38
+      },
+      {
+        "id": "rev-flw-138-3",
+        "userName": "Anushka Laurent",
+        "author": "Anushka Laurent",
+        "userEmail": "anushka.laurent.904@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "A distinguished luxury statement piece: Red Eucalyptus Elegance",
+        "comment": "Our executive boardroom needed a commanding centerpiece, and the Red Eucalyptus Elegance delivered majestic grandeur. The gradient of tones in the mixed was subtle, sophisticated, and perfectly suited for luxury sensibilities. A consummate triumph of floral curation, pristine presentation, and genuine white-glove service.",
+        "date": "25 days ago",
+        "createdAt": "2026-09-27T18:00:34.535Z",
+        "verified": true,
+        "helpful": 18
+      }
+    ]
   },
   {
     "id": "flw-139",
@@ -3182,22 +8979,64 @@ export const SEED_PRODUCTS = [
     "slug": "blushing-romance",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Roses",
     "occasion": "Love & Romance",
     "recipient": "For Her",
-    "flowerType": "Roses",
     "price": 5602,
     "originalPrice": 7290,
-    "stock": 16,
+    "rating": 5,
+    "reviewsCount": 39,
+    "tag": "Luxury Bloom",
+    "image": "/images/products/blushing-romance.webp",
     "images": [
       "/images/products/blushing-romance.webp"
     ],
-    "rating": 5.0,
-    "reviewsCount": 39,
-    "tag": "Luxury Bloom",
     "description": "Hand-tied by master Parisian florists, the Blushing Romance harmonizes premium long-stemmed roses with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 16,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-139-1",
+        "userName": "Vaishnavi Kapoor",
+        "author": "Vaishnavi Kapoor",
+        "userEmail": "vaishnavi.kapoor.557@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Sublime symmetry and velvet perfection in Blushing Romance",
+        "comment": "Commissioned the Blushing Romance as a surprise, and the doorstep presentation was cinematic in its perfection. The imported European waterproof wrap and hand-tied gold-embossed silk ribbon give the bouquet an unmistakable haute couture flair. Without question the finest floral presentation available anywhere in the country today.",
+        "date": "4 days ago",
+        "createdAt": "2026-10-18T19:43:37.221Z",
+        "verified": true,
+        "helpful": 21
+      },
+      {
+        "id": "rev-flw-139-2",
+        "userName": "Aurelia Sandhu",
+        "author": "Aurelia Sandhu",
+        "userEmail": "aurelia.sandhu.737@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Intoxicating aroma and extraordinary stem caliber in Blushing Romance",
+        "comment": "What sets the Blushing Romance apart is the exceptional horticultural caliber of the roses. Not a single petal dropped during the first 10 days; the stem caliber is easily double what ordinary high-street florists supply. I will never order from standard floral delivery services again after experiencing this caliber.",
+        "date": "7 days ago",
+        "createdAt": "2026-10-15T18:00:33.022Z",
+        "verified": true,
+        "helpful": 15
+      },
+      {
+        "id": "rev-flw-139-3",
+        "userName": "Diya D’Souza",
+        "author": "Diya D’Souza",
+        "userEmail": "diya.dsouza.917@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Heartfelt tears of joy upon opening the Blushing Romance",
+        "comment": "Surprised my partner with the Blushing Romance and the emotional resonance was beyond words. The stems drank steadily and held their upright posture with royal dignity throughout the entire celebration. Worth every single rupee for the lasting joy, prestige, and beauty it brought into our lives.",
+        "date": "26 days ago",
+        "createdAt": "2026-09-26T18:12:16.403Z",
+        "verified": true,
+        "helpful": 17
+      }
+    ]
   },
   {
     "id": "flw-140",
@@ -3205,22 +9044,64 @@ export const SEED_PRODUCTS = [
     "slug": "blushing-duo",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Roses",
     "occasion": "Love & Romance",
     "recipient": "For Her",
-    "flowerType": "Roses",
     "price": 5602,
     "originalPrice": 7290,
-    "stock": 36,
-    "images": [
-      "/images/products/blushing-duo.webp"
-    ],
     "rating": 4.9,
     "reviewsCount": 50,
     "tag": "Signature Atelier",
+    "image": "/images/products/blushing-duo.webp",
+    "images": [
+      "/images/products/blushing-duo.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the Blushing Duo harmonizes premium long-stemmed roses with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 36,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": true,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-140-1",
+        "userName": "Camille Mehta",
+        "author": "Camille Mehta",
+        "userEmail": "camille.mehta.570@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Surpassed our highest expectations: Blushing Duo",
+        "comment": "The Blushing Duo arrived looking so freshly sculpted it felt like an exhibit from a Parisian floral atelier. The layered organza and matte parchment wrapping protects each bloom while showcasing the lush foliage beneath. The recipient was visibly moved to tears upon reading the calligraphy note tucked into the arrangement.",
+        "date": "5 days ago",
+        "createdAt": "2026-10-17T18:58:59.814Z",
+        "verified": true,
+        "helpful": 40
+      },
+      {
+        "id": "rev-flw-140-2",
+        "userName": "Nils Somani",
+        "author": "Nils Somani",
+        "userEmail": "nils.somani.750@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "World-class cold chain delivery and dewy freshness: Blushing Duo",
+        "comment": "Having ordered luxury florals in London and Milan, I can confirm that Dhanvikk's Blushing Duo stands on the global podium. The subtle, soothing botanical scent persisted for more than 16 days, making the home smell like a morning garden in bloom. A masterclass in high-altitude boutique cultivation and pristine handling.",
+        "date": "8 days ago",
+        "createdAt": "2026-10-14T22:20:47.814Z",
+        "verified": true,
+        "helpful": 16
+      },
+      {
+        "id": "rev-flw-140-3",
+        "userName": "Jahnavi Deshmukh",
+        "author": "Jahnavi Deshmukh",
+        "userEmail": "jahnavi.deshmukh.930@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "The gold standard for our love & romance celebration — Blushing Duo",
+        "comment": "If you are looking for an unforgettable statement piece, the Blushing Duo is utterly peerless. The contrast between the velvety roses and the aromatic eucalyptus foliage creates an exquisite visual rhythm. I wholeheartedly recommend Dhanvikk to anyone who refuses to settle for ordinary commercial blooms.",
+        "date": "27 days ago",
+        "createdAt": "2026-09-25T18:23:58.270Z",
+        "verified": true,
+        "helpful": 15
+      }
+    ]
   },
   {
     "id": "flw-141",
@@ -3228,22 +9109,64 @@ export const SEED_PRODUCTS = [
     "slug": "white-gold-elegance",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
     "occasion": "Anniversary",
     "recipient": "For Her",
-    "flowerType": "Mixed",
     "price": 16875,
     "originalPrice": 21938,
-    "stock": 45,
-    "images": [
-      "/images/products/white-gold-elegance.webp"
-    ],
     "rating": 4.8,
     "reviewsCount": 151,
     "tag": "Luxury Bloom",
+    "image": "/images/products/white-gold-elegance.webp",
+    "images": [
+      "/images/products/white-gold-elegance.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the White Gold Elegance harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 45,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-141-1",
+        "userName": "Alexander Nayar",
+        "author": "Alexander Nayar",
+        "userEmail": "alexander.nayar.583@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Breathtaking sensory unboxing — White Gold Elegance",
+        "comment": "Receiving the White Gold Elegance was an experience of pure unadulterated luxury. The protective reefer hydration pods on the stem bases kept every leaf crisply hydrated throughout transport. An indispensable triumph of an arrangement for any anniversary.",
+        "date": "2 days ago",
+        "createdAt": "2026-10-20T18:14:22.406Z",
+        "verified": true,
+        "helpful": 29
+      },
+      {
+        "id": "rev-flw-141-2",
+        "userName": "Ananya Verma",
+        "author": "Ananya Verma",
+        "userEmail": "ananya.verma.763@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "The White Gold Elegance opened into full majestic splendour over 48 hours",
+        "comment": "The cold-chain logistics behind the White Gold Elegance are truly remarkable — arrived thoroughly chilled and dewy. Over the first 48 hours in vase water, each bud opened progressively into a magnificent, fully expanded blossom lasting 10 full days. Proof that luxury floristry is a true art form when executed with such uncompromising dedication.",
+        "date": "9 days ago",
+        "createdAt": "2026-10-14T02:41:02.607Z",
+        "verified": true,
+        "helpful": 17
+      },
+      {
+        "id": "rev-flw-141-3",
+        "userName": "Lavanya Iyer",
+        "author": "Lavanya Iyer",
+        "userEmail": "lavanya.iyer.943@verified.dhanvikk.com",
+        "rating": 4,
+        "title": "Worth every single rupee for an unforgettable celebration — White Gold Elegance",
+        "comment": "We featured the White Gold Elegance at our anniversary dinner table and it immediately became the talking point of the evening. The gradient of tones in the mixed was subtle, sophisticated, and perfectly suited for luxury sensibilities. An unequivocal 10 out of 10 experience that sets a new benchmark for luxury lifestyle floristry.",
+        "date": "14 days ago",
+        "createdAt": "2026-10-08T18:35:40.138Z",
+        "verified": true,
+        "helpful": 14
+      }
+    ]
   },
   {
     "id": "flw-142",
@@ -3251,22 +9174,64 @@ export const SEED_PRODUCTS = [
     "slug": "the-pink-glow-box",
     "category": "Flower Boxes",
     "subCategory": "Hat Box Arrangements",
+    "flowerType": "Mixed",
     "occasion": "Birthday",
     "recipient": "Everyone",
-    "flowerType": "Mixed",
     "price": 23625,
     "originalPrice": 30712,
-    "stock": 34,
+    "rating": 5,
+    "reviewsCount": 158,
+    "tag": "Luxury Edit",
+    "image": "/images/products/the-pink-glow-box.webp",
     "images": [
       "/images/products/the-pink-glow-box.webp"
     ],
-    "rating": 5.0,
-    "reviewsCount": 158,
-    "tag": "Luxury Edit",
     "description": "A lavish curation of handpicked garden blooms, masterfully arranged in Dhanvikk's signature French velvet keepsake box. Accented with lush spiral eucalyptus and tied with an ivory satin ribbon, this bespoke creation brings regal grandeur to every celebration.",
+    "stock": 34,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-142-1",
+        "userName": "Genevieve Roy",
+        "author": "Genevieve Roy",
+        "userEmail": "genevieve.roy.597@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "The pinnacle of refined floristry: The Pink Glow Box",
+        "comment": "I ordered the The Pink Glow Box for our family celebration and the presentation left us utterly captivated. The signature French cylindrical keepsake box tied with heavyweight double-faced satin ribbon exudes aristocratic charm. It brought an atmosphere of regal tranquility to our salon that lasted for days.",
+        "date": "3 days ago",
+        "createdAt": "2026-10-19T17:29:44.999Z",
+        "verified": true,
+        "helpful": 49
+      },
+      {
+        "id": "rev-flw-142-2",
+        "userName": "Devika Sterling",
+        "author": "Devika Sterling",
+        "userEmail": "devika.sterling.777@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Impeccable highland cultivation and petal density — The Pink Glow Box",
+        "comment": "Fourteen days after delivery, our The Pink Glow Box continues to look remarkably radiant and intact. Not a single petal dropped during the first 10 days; the stem caliber is easily double what ordinary high-street florists supply. Dhanvikk's cold-chain refrigerated delivery fleet is clearly the gold standard in the floristry industry.",
+        "date": "10 days ago",
+        "createdAt": "2026-10-12T19:01:17.400Z",
+        "verified": true,
+        "helpful": 18
+      },
+      {
+        "id": "rev-flw-142-3",
+        "userName": "Navin Kumar",
+        "author": "Navin Kumar",
+        "userEmail": "navin.kumar.957@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Quiet luxury and exquisite calligraphy detailing in The Pink Glow Box",
+        "comment": "Gifted the The Pink Glow Box as a gesture of heartfelt gratitude, and the response was pure delight. The stems drank steadily and held their upright posture with royal dignity throughout the entire celebration. Will be reordering regularly for all our private celebrations and corporate client gifting.",
+        "date": "15 days ago",
+        "createdAt": "2026-10-07T18:47:22.005Z",
+        "verified": true,
+        "helpful": 13
+      }
+    ]
   },
   {
     "id": "flw-143",
@@ -3274,22 +9239,64 @@ export const SEED_PRODUCTS = [
     "slug": "midnight-black-beauty",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
     "occasion": "Birthday",
     "recipient": "Everyone",
-    "flowerType": "Mixed",
     "price": 16875,
     "originalPrice": 21938,
-    "stock": 38,
+    "rating": 5,
+    "reviewsCount": 128,
+    "tag": "Luxury Bloom",
+    "image": "/images/products/midnight-black-beauty.webp",
     "images": [
       "/images/products/midnight-black-beauty.webp"
     ],
-    "rating": 5.0,
-    "reviewsCount": 128,
-    "tag": "Luxury Bloom",
     "description": "Hand-tied by master Parisian florists, the Midnight Black Beauty harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 38,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-143-1",
+        "userName": "Frederic Sharma",
+        "author": "Frederic Sharma",
+        "userEmail": "frederic.sharma.610@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Awe-inspiring craftsmanship and luxury presentation — Midnight Black Beauty",
+        "comment": "From the moment the Dhanvikk courier arrived with the Midnight Black Beauty, the caliber was unmistakably world-class. The layered organza and matte parchment wrapping protects each bloom while showcasing the lush foliage beneath. My guests could not stop inquiring where this extraordinary floral curation came from.",
+        "date": "4 days ago",
+        "createdAt": "2026-10-18T16:45:07.592Z",
+        "verified": true,
+        "helpful": 38
+      },
+      {
+        "id": "rev-flw-143-2",
+        "userName": "Harish Chakraborty",
+        "author": "Harish Chakraborty",
+        "userEmail": "harish.chakraborty.790@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Unprecedented vase longevity and natural fragrance from Midnight Black Beauty",
+        "comment": "The fragrance profile of the Midnight Black Beauty is natural, intoxicating, and gracefully fills the entire room. The subtle, soothing botanical scent persisted for more than 12 days, making the home smell like a morning garden in bloom. The level of quality control and stem-by-stem inspection is evident from the first glance.",
+        "date": "11 days ago",
+        "createdAt": "2026-10-11T23:21:32.193Z",
+        "verified": true,
+        "helpful": 20
+      },
+      {
+        "id": "rev-flw-143-3",
+        "userName": "Priyanka Naidu",
+        "author": "Priyanka Naidu",
+        "userEmail": "priyanka.naidu.970@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "An heirloom masterpiece that brought immense joy: Midnight Black Beauty",
+        "comment": "The Midnight Black Beauty is hands down one of the most distinguished floral creations I have had the pleasure to present. The contrast between the velvety mixed and the aromatic eucalyptus foliage creates an exquisite visual rhythm. A consummate triumph of floral curation, pristine presentation, and genuine white-glove service.",
+        "date": "16 days ago",
+        "createdAt": "2026-10-06T18:59:03.873Z",
+        "verified": true,
+        "helpful": 12
+      }
+    ]
   },
   {
     "id": "flw-144",
@@ -3297,22 +9304,64 @@ export const SEED_PRODUCTS = [
     "slug": "the-golden-heart-box",
     "category": "Flower Boxes",
     "subCategory": "Hat Box Arrangements",
+    "flowerType": "Mixed",
     "occasion": "Love & Romance",
     "recipient": "For Her",
-    "flowerType": "Mixed",
     "price": 16875,
     "originalPrice": 21938,
-    "stock": 18,
-    "images": [
-      "/images/products/the-golden-heart-box.webp"
-    ],
     "rating": 4.7,
     "reviewsCount": 144,
     "tag": "Artisan Hand-tied",
+    "image": "/images/products/the-golden-heart-box.webp",
+    "images": [
+      "/images/products/the-golden-heart-box.webp"
+    ],
     "description": "A lavish curation of handpicked garden blooms, masterfully arranged in Dhanvikk's signature French velvet keepsake box. Accented with lush spiral eucalyptus and tied with an ivory satin ribbon, this bespoke creation brings regal grandeur to every celebration.",
+    "stock": 18,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-144-1",
+        "userName": "Alia Trivedi",
+        "author": "Alia Trivedi",
+        "userEmail": "alia.trivedi.623@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Arrived pristine with morning dew still on petals: The Golden Heart Box",
+        "comment": "The sheer artistic balance of the The Golden Heart Box easily surpasses any floral arrangement I have commissioned before. The bespoke velvet hatbox is so sturdy and elegantly crafted that we are definitely keeping it as a dressing table heirloom. Without question the finest floral presentation available anywhere in the country today.",
+        "date": "5 days ago",
+        "createdAt": "2026-10-17T16:00:30.185Z",
+        "verified": true,
+        "helpful": 28
+      },
+      {
+        "id": "rev-flw-144-2",
+        "userName": "Khaled Goswami",
+        "author": "Khaled Goswami",
+        "userEmail": "khaled.goswami.803@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Uncompromising quality control in this gorgeous The Golden Heart Box",
+        "comment": "You can immediately feel the heavy stem density and turgid petal structure of this highland-grown The Golden Heart Box. Over the first 48 hours in vase water, each bud opened progressively into a magnificent, fully expanded blossom lasting 13 full days. I will never order from standard floral delivery services again after experiencing this caliber.",
+        "date": "12 days ago",
+        "createdAt": "2026-10-10T15:41:46.986Z",
+        "verified": true,
+        "helpful": 21
+      },
+      {
+        "id": "rev-flw-144-3",
+        "userName": "Roshni Ramachandran",
+        "author": "Roshni Ramachandran",
+        "userEmail": "roshni.ramachandran.983@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Flawless execution from courier to final bloom — The Golden Heart Box",
+        "comment": "Everything about the The Golden Heart Box — from the embossed envelope to the floral symmetry — whispers quiet luxury. The gradient of tones in the mixed was subtle, sophisticated, and perfectly suited for luxury sensibilities. Worth every single rupee for the lasting joy, prestige, and beauty it brought into our lives.",
+        "date": "17 days ago",
+        "createdAt": "2026-10-05T19:10:45.741Z",
+        "verified": true,
+        "helpful": 10
+      }
+    ]
   },
   {
     "id": "flw-145",
@@ -3320,22 +9369,64 @@ export const SEED_PRODUCTS = [
     "slug": "radiant-unity",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
     "occasion": "Birthday",
     "recipient": "Everyone",
-    "flowerType": "Mixed",
     "price": 5625,
     "originalPrice": 7312,
-    "stock": 38,
+    "rating": 5,
+    "reviewsCount": 156,
+    "tag": "Luxury Bloom",
+    "image": "/images/products/radiant-unity.webp",
     "images": [
       "/images/products/radiant-unity.webp"
     ],
-    "rating": 5.0,
-    "reviewsCount": 156,
-    "tag": "Luxury Bloom",
     "description": "Hand-tied by master Parisian florists, the Radiant Unity harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 38,
+    "inStock": true,
     "isBestSeller": true,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-145-1",
+        "userName": "Bhavna Beaumont",
+        "author": "Bhavna Beaumont",
+        "userEmail": "bhavna.beaumont.636@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Elegance personified in the magnificent Radiant Unity",
+        "comment": "Dhanvikk has completely redefined luxury gifting with this sensational Radiant Unity. The imported European waterproof wrap and hand-tied gold-embossed silk ribbon give the bouquet an unmistakable haute couture flair. The recipient was visibly moved to tears upon reading the calligraphy note tucked into the arrangement.",
+        "date": "2 days ago",
+        "createdAt": "2026-10-20T15:15:52.778Z",
+        "verified": true,
+        "helpful": 47
+      },
+      {
+        "id": "rev-flw-145-2",
+        "userName": "Mihir Khanna",
+        "author": "Mihir Khanna",
+        "userEmail": "mihir.khanna.816@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Robust stems, velvety texture, and remarkable hydration: Radiant Unity",
+        "comment": "Dhanvikk's zero-compromise approach to morning dawn-cutting is vividly apparent in the Radiant Unity. Not a single petal dropped during the first 10 days; the stem caliber is easily double what ordinary high-street florists supply. A masterclass in high-altitude boutique cultivation and pristine handling.",
+        "date": "7 days ago",
+        "createdAt": "2026-10-15T20:02:01.779Z",
+        "verified": true,
+        "helpful": 22
+      },
+      {
+        "id": "rev-flw-145-3",
+        "userName": "Siddharth Sehgal",
+        "author": "Siddharth Sehgal",
+        "userEmail": "siddharth.sehgal.996@verified.dhanvikk.com",
+        "rating": 4,
+        "title": "Our definitive choice for all high-profile occasions: Radiant Unity",
+        "comment": "Ordered the Radiant Unity on short notice and Dhanvikk delivered with impeccable timing and flawless poise. The stems drank steadily and held their upright posture with royal dignity throughout the entire celebration. I wholeheartedly recommend Dhanvikk to anyone who refuses to settle for ordinary commercial blooms.",
+        "date": "18 days ago",
+        "createdAt": "2026-10-04T19:22:27.608Z",
+        "verified": true,
+        "helpful": 29
+      }
+    ]
   },
   {
     "id": "flw-146",
@@ -3343,22 +9434,64 @@ export const SEED_PRODUCTS = [
     "slug": "white-serenity",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
     "occasion": "Congratulations",
     "recipient": "Everyone",
-    "flowerType": "Mixed",
     "price": 5625,
     "originalPrice": 7312,
-    "stock": 36,
-    "images": [
-      "/images/products/white-serenity.webp"
-    ],
     "rating": 4.8,
     "reviewsCount": 29,
     "tag": "Artisan Hand-tied",
+    "image": "/images/products/white-serenity.webp",
+    "images": [
+      "/images/products/white-serenity.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the White Serenity harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 36,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-146-1",
+        "userName": "Gaurav Bandyopadhyay",
+        "author": "Gaurav Bandyopadhyay",
+        "userEmail": "gaurav.bandyopadhyay.649@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Unrivaled atelier artistry in every single bloom — White Serenity",
+        "comment": "The unveiling of our White Serenity was the highlight of our celebratory morning. The layered organza and matte parchment wrapping protects each bloom while showcasing the lush foliage beneath. An indispensable triumph of an arrangement for any congratulations.",
+        "date": "3 days ago",
+        "createdAt": "2026-10-20T02:31:15.371Z",
+        "verified": true,
+        "helpful": 37
+      },
+      {
+        "id": "rev-flw-146-2",
+        "userName": "Pranav Mishra",
+        "author": "Pranav Mishra",
+        "userEmail": "pranav.mishra.829@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Horticultural perfection air-flown with exquisite care — White Serenity",
+        "comment": "The freshness of the White Serenity when unpacked felt as if it had been gathered from the mountain estate an hour prior. The subtle, soothing botanical scent persisted for more than 15 days, making the home smell like a morning garden in bloom. Proof that luxury floristry is a true art form when executed with such uncompromising dedication.",
+        "date": "8 days ago",
+        "createdAt": "2026-10-15T00:22:16.571Z",
+        "verified": true,
+        "helpful": 23
+      },
+      {
+        "id": "rev-flw-146-3",
+        "userName": "Swati Sundaram",
+        "author": "Swati Sundaram",
+        "userEmail": "swati.sundaram.110@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "The ultimate emotional grand gesture for our congratulations — White Serenity",
+        "comment": "The visual impact of the White Serenity when unveiled is something neither my guests nor I will soon forget. The contrast between the velvety mixed and the aromatic eucalyptus foliage creates an exquisite visual rhythm. An unequivocal 10 out of 10 experience that sets a new benchmark for luxury lifestyle floristry.",
+        "date": "19 days ago",
+        "createdAt": "2026-10-03T19:34:09.476Z",
+        "verified": true,
+        "helpful": 28
+      }
+    ]
   },
   {
     "id": "flw-147",
@@ -3366,22 +9499,64 @@ export const SEED_PRODUCTS = [
     "slug": "crimson-elegance",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Roses",
     "occasion": "Love & Romance",
     "recipient": "For Her",
-    "flowerType": "Roses",
     "price": 7852,
     "originalPrice": 10215,
-    "stock": 26,
+    "rating": 5,
+    "reviewsCount": 146,
+    "tag": "Luxury Bloom",
+    "image": "/images/products/crimson-elegance.webp",
     "images": [
       "/images/products/crimson-elegance.webp"
     ],
-    "rating": 5.0,
-    "reviewsCount": 146,
-    "tag": "Luxury Bloom",
     "description": "Hand-tied by master Parisian florists, the Crimson Elegance harmonizes premium long-stemmed roses with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 26,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-147-1",
+        "userName": "Karan Fernandes",
+        "author": "Karan Fernandes",
+        "userEmail": "karan.fernandes.663@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Haute couture floral design at its finest: Crimson Elegance",
+        "comment": "Exquisite does not even begin to capture how breathtaking the Crimson Elegance looks in person. The protective reefer hydration pods on the stem bases kept every leaf crisply hydrated throughout transport. It brought an atmosphere of regal tranquility to our salon that lasted for days.",
+        "date": "4 days ago",
+        "createdAt": "2026-10-19T01:46:37.963Z",
+        "verified": true,
+        "helpful": 26
+      },
+      {
+        "id": "rev-flw-147-2",
+        "userName": "Rishabh Pillai",
+        "author": "Rishabh Pillai",
+        "userEmail": "rishabh.pillai.843@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Remarkably fresh for nearly two weeks in our salon: Crimson Elegance",
+        "comment": "The sheer volume and petal count packed into the Crimson Elegance makes it an extraordinary value for high connoisseurs. Over the first 48 hours in vase water, each bud opened progressively into a magnificent, fully expanded blossom lasting 16 full days. Dhanvikk's cold-chain refrigerated delivery fleet is clearly the gold standard in the floristry industry.",
+        "date": "9 days ago",
+        "createdAt": "2026-10-13T16:42:31.364Z",
+        "verified": true,
+        "helpful": 25
+      },
+      {
+        "id": "rev-flw-147-3",
+        "userName": "Vidya Dubois",
+        "author": "Vidya Dubois",
+        "userEmail": "vidya.dubois.124@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Left all our dinner guests completely captivated: Crimson Elegance",
+        "comment": "I selected the Crimson Elegance specifically for a milestone love & romance surprise. The gradient of tones in the roses was subtle, sophisticated, and perfectly suited for luxury sensibilities. Will be reordering regularly for all our private celebrations and corporate client gifting.",
+        "date": "20 days ago",
+        "createdAt": "2026-10-02T19:45:51.343Z",
+        "verified": true,
+        "helpful": 27
+      }
+    ]
   },
   {
     "id": "flw-148",
@@ -3389,22 +9564,64 @@ export const SEED_PRODUCTS = [
     "slug": "sunny-yellow-blooms",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
     "occasion": "Birthday",
     "recipient": "BFFs",
-    "flowerType": "Mixed",
     "price": 6750,
     "originalPrice": 8775,
-    "stock": 31,
-    "images": [
-      "/images/products/sunny-yellow-blooms.webp"
-    ],
     "rating": 4.8,
     "reviewsCount": 178,
     "tag": "Artisan Hand-tied",
+    "image": "/images/products/sunny-yellow-blooms.webp",
+    "images": [
+      "/images/products/sunny-yellow-blooms.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the Sunny Yellow Blooms harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 31,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-148-1",
+        "userName": "Manish Joshi",
+        "author": "Manish Joshi",
+        "userEmail": "manish.joshi.676@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "An unforgettable grand entrance with Sunny Yellow Blooms",
+        "comment": "As a lifelong admirer of fine floristry, the architectural symmetry of the Sunny Yellow Blooms is awe-inspiring. The imported European waterproof wrap and hand-tied gold-embossed silk ribbon give the bouquet an unmistakable haute couture flair. My guests could not stop inquiring where this extraordinary floral curation came from.",
+        "date": "5 days ago",
+        "createdAt": "2026-10-18T01:02:00.556Z",
+        "verified": true,
+        "helpful": 45
+      },
+      {
+        "id": "rev-flw-148-2",
+        "userName": "Shalini Samant",
+        "author": "Shalini Samant",
+        "userEmail": "shalini.samant.856@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Lasted over 10 full days in pristine condition — Sunny Yellow Blooms",
+        "comment": "Every single stem in our Sunny Yellow Blooms was hand-selected at the exact micro-stage of opening for maximum longevity. Not a single petal dropped during the first 10 days; the stem caliber is easily double what ordinary high-street florists supply. The level of quality control and stem-by-stem inspection is evident from the first glance.",
+        "date": "10 days ago",
+        "createdAt": "2026-10-12T21:02:46.157Z",
+        "verified": true,
+        "helpful": 26
+      },
+      {
+        "id": "rev-flw-148-3",
+        "userName": "Julian Kensington",
+        "author": "Julian Kensington",
+        "userEmail": "julian.kensington.137@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "A distinguished luxury statement piece: Sunny Yellow Blooms",
+        "comment": "Our executive boardroom needed a commanding centerpiece, and the Sunny Yellow Blooms delivered majestic grandeur. The stems drank steadily and held their upright posture with royal dignity throughout the entire celebration. A consummate triumph of floral curation, pristine presentation, and genuine white-glove service.",
+        "date": "21 days ago",
+        "createdAt": "2026-10-01T19:57:33.211Z",
+        "verified": true,
+        "helpful": 25
+      }
+    ]
   },
   {
     "id": "flw-149",
@@ -3412,22 +9629,64 @@ export const SEED_PRODUCTS = [
     "slug": "classic-red-tulips",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Tulips",
     "occasion": "Birthday",
     "recipient": "BFFs",
-    "flowerType": "Tulips",
     "price": 8438,
     "originalPrice": 10980,
-    "stock": 18,
-    "images": [
-      "/images/products/classic-red-tulips.webp"
-    ],
     "rating": 4.8,
     "reviewsCount": 64,
     "tag": "Luxury Bloom",
+    "image": "/images/products/classic-red-tulips.webp",
+    "images": [
+      "/images/products/classic-red-tulips.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the Classic Red Tulips harmonizes premium long-stemmed tulips with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 18,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-149-1",
+        "userName": "Nisha Malhotra",
+        "author": "Nisha Malhotra",
+        "userEmail": "nisha.malhotra.689@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Sublime symmetry and velvet perfection in Classic Red Tulips",
+        "comment": "Commissioned the Classic Red Tulips as a surprise, and the doorstep presentation was cinematic in its perfection. The layered organza and matte parchment wrapping protects each bloom while showcasing the lush foliage beneath. Without question the finest floral presentation available anywhere in the country today.",
+        "date": "2 days ago",
+        "createdAt": "2026-10-21T00:17:23.149Z",
+        "verified": true,
+        "helpful": 35
+      },
+      {
+        "id": "rev-flw-149-2",
+        "userName": "Sunita Singhania",
+        "author": "Sunita Singhania",
+        "userEmail": "sunita.singhania.869@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Intoxicating aroma and extraordinary stem caliber in Classic Red Tulips",
+        "comment": "What sets the Classic Red Tulips apart is the exceptional horticultural caliber of the tulips. The subtle, soothing botanical scent persisted for more than 11 days, making the home smell like a morning garden in bloom. I will never order from standard floral delivery services again after experiencing this caliber.",
+        "date": "11 days ago",
+        "createdAt": "2026-10-12T01:23:00.950Z",
+        "verified": true,
+        "helpful": 27
+      },
+      {
+        "id": "rev-flw-149-3",
+        "userName": "Benjamin Choudhury",
+        "author": "Benjamin Choudhury",
+        "userEmail": "benjamin.choudhury.150@verified.dhanvikk.com",
+        "rating": 4,
+        "title": "Heartfelt tears of joy upon opening the Classic Red Tulips",
+        "comment": "Surprised my partner with the Classic Red Tulips and the emotional resonance was beyond words. The contrast between the velvety tulips and the aromatic eucalyptus foliage creates an exquisite visual rhythm. Worth every single rupee for the lasting joy, prestige, and beauty it brought into our lives.",
+        "date": "22 days ago",
+        "createdAt": "2026-09-30T20:09:15.078Z",
+        "verified": true,
+        "helpful": 24
+      }
+    ]
   },
   {
     "id": "flw-150",
@@ -3435,22 +9694,64 @@ export const SEED_PRODUCTS = [
     "slug": "midnight-red-tulip",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Tulips",
     "occasion": "Birthday",
     "recipient": "BFFs",
-    "flowerType": "Tulips",
     "price": 5062,
     "originalPrice": 6592,
-    "stock": 43,
-    "images": [
-      "/images/products/midnight-red-tulip.webp"
-    ],
     "rating": 4.8,
     "reviewsCount": 121,
     "tag": "Trending Now",
+    "image": "/images/products/midnight-red-tulip.webp",
+    "images": [
+      "/images/products/midnight-red-tulip.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the Midnight Red Tulip harmonizes premium long-stemmed tulips with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 43,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": true,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-150-1",
+        "userName": "Rajesh Narayan",
+        "author": "Rajesh Narayan",
+        "userEmail": "rajesh.narayan.702@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Surpassed our highest expectations: Midnight Red Tulip",
+        "comment": "The Midnight Red Tulip arrived looking so freshly sculpted it felt like an exhibit from a Parisian floral atelier. The protective reefer hydration pods on the stem bases kept every leaf crisply hydrated throughout transport. The recipient was visibly moved to tears upon reading the calligraphy note tucked into the arrangement.",
+        "date": "3 days ago",
+        "createdAt": "2026-10-19T23:32:45.742Z",
+        "verified": true,
+        "helpful": 24
+      },
+      {
+        "id": "rev-flw-150-2",
+        "userName": "Vaishnavi Venkatesh",
+        "author": "Vaishnavi Venkatesh",
+        "userEmail": "vaishnavi.venkatesh.882@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "World-class cold chain delivery and dewy freshness: Midnight Red Tulip",
+        "comment": "Having ordered luxury florals in London and Milan, I can confirm that Dhanvikk's Midnight Red Tulip stands on the global podium. Over the first 48 hours in vase water, each bud opened progressively into a magnificent, fully expanded blossom lasting 12 full days. A masterclass in high-altitude boutique cultivation and pristine handling.",
+        "date": "12 days ago",
+        "createdAt": "2026-10-10T17:43:15.743Z",
+        "verified": true,
+        "helpful": 28
+      },
+      {
+        "id": "rev-flw-150-3",
+        "userName": "Aurelia Iyengar",
+        "author": "Aurelia Iyengar",
+        "userEmail": "aurelia.iyengar.163@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "The gold standard for our birthday celebration — Midnight Red Tulip",
+        "comment": "If you are looking for an unforgettable statement piece, the Midnight Red Tulip is utterly peerless. The gradient of tones in the tulips was subtle, sophisticated, and perfectly suited for luxury sensibilities. I wholeheartedly recommend Dhanvikk to anyone who refuses to settle for ordinary commercial blooms.",
+        "date": "23 days ago",
+        "createdAt": "2026-09-29T20:20:56.946Z",
+        "verified": true,
+        "helpful": 23
+      }
+    ]
   },
   {
     "id": "flw-151",
@@ -3458,22 +9759,64 @@ export const SEED_PRODUCTS = [
     "slug": "rustic-red-bloom",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
     "occasion": "Birthday",
     "recipient": "Everyone",
-    "flowerType": "Mixed",
     "price": 3938,
     "originalPrice": 5130,
-    "stock": 32,
-    "images": [
-      "/images/products/rustic-red-bloom.webp"
-    ],
     "rating": 4.9,
     "reviewsCount": 28,
     "tag": "Luxury Bloom",
+    "image": "/images/products/rustic-red-bloom.webp",
+    "images": [
+      "/images/products/rustic-red-bloom.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the Rustic Red Bloom harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 32,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-151-1",
+        "userName": "Sanjana Reddy",
+        "author": "Sanjana Reddy",
+        "userEmail": "sanjana.reddy.715@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Breathtaking sensory unboxing — Rustic Red Bloom",
+        "comment": "Receiving the Rustic Red Bloom was an experience of pure unadulterated luxury. The imported European waterproof wrap and hand-tied gold-embossed silk ribbon give the bouquet an unmistakable haute couture flair. An indispensable triumph of an arrangement for any birthday.",
+        "date": "4 days ago",
+        "createdAt": "2026-10-18T22:48:08.335Z",
+        "verified": true,
+        "helpful": 44
+      },
+      {
+        "id": "rev-flw-151-2",
+        "userName": "Camille Rochester",
+        "author": "Camille Rochester",
+        "userEmail": "camille.rochester.895@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "The Rustic Red Bloom opened into full majestic splendour over 48 hours",
+        "comment": "The cold-chain logistics behind the Rustic Red Bloom are truly remarkable — arrived thoroughly chilled and dewy. Not a single petal dropped during the first 10 days; the stem caliber is easily double what ordinary high-street florists supply. Proof that luxury floristry is a true art form when executed with such uncompromising dedication.",
+        "date": "7 days ago",
+        "createdAt": "2026-10-15T22:03:30.536Z",
+        "verified": true,
+        "helpful": 30
+      },
+      {
+        "id": "rev-flw-151-3",
+        "userName": "Nils Kulkarni",
+        "author": "Nils Kulkarni",
+        "userEmail": "nils.kulkarni.176@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Worth every single rupee for an unforgettable celebration — Rustic Red Bloom",
+        "comment": "We featured the Rustic Red Bloom at our anniversary dinner table and it immediately became the talking point of the evening. The stems drank steadily and held their upright posture with royal dignity throughout the entire celebration. An unequivocal 10 out of 10 experience that sets a new benchmark for luxury lifestyle floristry.",
+        "date": "24 days ago",
+        "createdAt": "2026-09-28T20:32:38.813Z",
+        "verified": true,
+        "helpful": 22
+      }
+    ]
   },
   {
     "id": "flw-152",
@@ -3481,22 +9824,64 @@ export const SEED_PRODUCTS = [
     "slug": "crimson-green-delight",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Roses",
     "occasion": "Love & Romance",
     "recipient": "For Her",
-    "flowerType": "Roses",
     "price": 10102,
     "originalPrice": 13140,
-    "stock": 40,
-    "images": [
-      "/images/products/crimson-green-delight.webp"
-    ],
     "rating": 4.9,
     "reviewsCount": 121,
     "tag": "Florist Choice",
+    "image": "/images/products/crimson-green-delight.webp",
+    "images": [
+      "/images/products/crimson-green-delight.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the Crimson Green Delight harmonizes premium long-stemmed roses with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 40,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-152-1",
+        "userName": "Soham Seth",
+        "author": "Soham Seth",
+        "userEmail": "soham.seth.729@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "The pinnacle of refined floristry: Crimson Green Delight",
+        "comment": "I ordered the Crimson Green Delight for our family celebration and the presentation left us utterly captivated. The layered organza and matte parchment wrapping protects each bloom while showcasing the lush foliage beneath. It brought an atmosphere of regal tranquility to our salon that lasted for days.",
+        "date": "5 days ago",
+        "createdAt": "2026-10-17T22:03:30.927Z",
+        "verified": true,
+        "helpful": 33
+      },
+      {
+        "id": "rev-flw-152-2",
+        "userName": "Alexander Bhattacharya",
+        "author": "Alexander Bhattacharya",
+        "userEmail": "alexander.bhattacharya.909@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Impeccable highland cultivation and petal density — Crimson Green Delight",
+        "comment": "Fourteen days after delivery, our Crimson Green Delight continues to look remarkably radiant and intact. The subtle, soothing botanical scent persisted for more than 14 days, making the home smell like a morning garden in bloom. Dhanvikk's cold-chain refrigerated delivery fleet is clearly the gold standard in the floristry industry.",
+        "date": "8 days ago",
+        "createdAt": "2026-10-15T02:23:45.328Z",
+        "verified": true,
+        "helpful": 31
+      },
+      {
+        "id": "rev-flw-152-3",
+        "userName": "Ananya Nadar",
+        "author": "Ananya Nadar",
+        "userEmail": "ananya.nadar.190@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Quiet luxury and exquisite calligraphy detailing in Crimson Green Delight",
+        "comment": "Gifted the Crimson Green Delight as a gesture of heartfelt gratitude, and the response was pure delight. The contrast between the velvety roses and the aromatic eucalyptus foliage creates an exquisite visual rhythm. Will be reordering regularly for all our private celebrations and corporate client gifting.",
+        "date": "25 days ago",
+        "createdAt": "2026-09-27T20:44:20.681Z",
+        "verified": true,
+        "helpful": 20
+      }
+    ]
   },
   {
     "id": "flw-153",
@@ -3504,22 +9889,64 @@ export const SEED_PRODUCTS = [
     "slug": "serene-pastel",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
     "occasion": "Birthday",
     "recipient": "BFFs",
-    "flowerType": "Mixed",
     "price": 10125,
     "originalPrice": 13162,
-    "stock": 40,
-    "images": [
-      "/images/products/serene-pastel.webp"
-    ],
     "rating": 4.8,
     "reviewsCount": 88,
     "tag": "Luxury Bloom",
+    "image": "/images/products/serene-pastel.webp",
+    "images": [
+      "/images/products/serene-pastel.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the Serene Pastel harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 40,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-153-1",
+        "userName": "Trisha Thakur",
+        "author": "Trisha Thakur",
+        "userEmail": "trisha.thakur.742@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Awe-inspiring craftsmanship and luxury presentation — Serene Pastel",
+        "comment": "From the moment the Dhanvikk courier arrived with the Serene Pastel, the caliber was unmistakably world-class. The protective reefer hydration pods on the stem bases kept every leaf crisply hydrated throughout transport. My guests could not stop inquiring where this extraordinary floral curation came from.",
+        "date": "2 days ago",
+        "createdAt": "2026-10-20T21:18:53.520Z",
+        "verified": true,
+        "helpful": 23
+      },
+      {
+        "id": "rev-flw-153-2",
+        "userName": "Genevieve Gokhale",
+        "author": "Genevieve Gokhale",
+        "userEmail": "genevieve.gokhale.922@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Unprecedented vase longevity and natural fragrance from Serene Pastel",
+        "comment": "The fragrance profile of the Serene Pastel is natural, intoxicating, and gracefully fills the entire room. Over the first 48 hours in vase water, each bud opened progressively into a magnificent, fully expanded blossom lasting 15 full days. The level of quality control and stem-by-stem inspection is evident from the first glance.",
+        "date": "9 days ago",
+        "createdAt": "2026-10-13T18:44:00.121Z",
+        "verified": true,
+        "helpful": 32
+      },
+      {
+        "id": "rev-flw-153-3",
+        "userName": "Devika Rajan",
+        "author": "Devika Rajan",
+        "userEmail": "devika.rajan.203@verified.dhanvikk.com",
+        "rating": 4,
+        "title": "An heirloom masterpiece that brought immense joy: Serene Pastel",
+        "comment": "The Serene Pastel is hands down one of the most distinguished floral creations I have had the pleasure to present. The gradient of tones in the mixed was subtle, sophisticated, and perfectly suited for luxury sensibilities. A consummate triumph of floral curation, pristine presentation, and genuine white-glove service.",
+        "date": "26 days ago",
+        "createdAt": "2026-09-26T20:56:02.548Z",
+        "verified": true,
+        "helpful": 19
+      }
+    ]
   },
   {
     "id": "flw-154",
@@ -3527,22 +9954,64 @@ export const SEED_PRODUCTS = [
     "slug": "passionate-harmony",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
     "occasion": "Love & Romance",
     "recipient": "For Her",
-    "flowerType": "Mixed",
     "price": 10125,
     "originalPrice": 13162,
-    "stock": 16,
-    "images": [
-      "/images/products/passionate-harmony.webp"
-    ],
     "rating": 4.7,
     "reviewsCount": 186,
     "tag": "Fresh Harvest",
+    "image": "/images/products/passionate-harmony.webp",
+    "images": [
+      "/images/products/passionate-harmony.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the Passionate Harmony harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 16,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-154-1",
+        "userName": "Yash Vanderbilt",
+        "author": "Yash Vanderbilt",
+        "userEmail": "yash.vanderbilt.755@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Arrived pristine with morning dew still on petals: Passionate Harmony",
+        "comment": "The sheer artistic balance of the Passionate Harmony easily surpasses any floral arrangement I have commissioned before. The imported European waterproof wrap and hand-tied gold-embossed silk ribbon give the bouquet an unmistakable haute couture flair. Without question the finest floral presentation available anywhere in the country today.",
+        "date": "3 days ago",
+        "createdAt": "2026-10-19T20:34:16.113Z",
+        "verified": true,
+        "helpful": 42
+      },
+      {
+        "id": "rev-flw-154-2",
+        "userName": "Frederic Kaul",
+        "author": "Frederic Kaul",
+        "userEmail": "frederic.kaul.935@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Uncompromising quality control in this gorgeous Passionate Harmony",
+        "comment": "You can immediately feel the heavy stem density and turgid petal structure of this highland-grown Passionate Harmony. Not a single petal dropped during the first 10 days; the stem caliber is easily double what ordinary high-street florists supply. I will never order from standard floral delivery services again after experiencing this caliber.",
+        "date": "10 days ago",
+        "createdAt": "2026-10-12T23:04:14.914Z",
+        "verified": true,
+        "helpful": 34
+      },
+      {
+        "id": "rev-flw-154-3",
+        "userName": "Harish Saxena",
+        "author": "Harish Saxena",
+        "userEmail": "harish.saxena.216@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Flawless execution from courier to final bloom — Passionate Harmony",
+        "comment": "Everything about the Passionate Harmony — from the embossed envelope to the floral symmetry — whispers quiet luxury. The stems drank steadily and held their upright posture with royal dignity throughout the entire celebration. Worth every single rupee for the lasting joy, prestige, and beauty it brought into our lives.",
+        "date": "27 days ago",
+        "createdAt": "2026-09-25T21:07:44.416Z",
+        "verified": true,
+        "helpful": 18
+      }
+    ]
   },
   {
     "id": "flw-155",
@@ -3550,22 +10019,64 @@ export const SEED_PRODUCTS = [
     "slug": "orange-tulip-delight",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Tulips",
     "occasion": "Birthday",
     "recipient": "BFFs",
-    "flowerType": "Tulips",
     "price": 5625,
     "originalPrice": 7312,
-    "stock": 37,
-    "images": [
-      "/images/products/orange-tulip-delight.webp"
-    ],
     "rating": 4.8,
     "reviewsCount": 134,
     "tag": "Luxury Bloom",
+    "image": "/images/products/orange-tulip-delight.webp",
+    "images": [
+      "/images/products/orange-tulip-delight.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the Orange Tulip Delight harmonizes premium long-stemmed tulips with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 37,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-155-1",
+        "userName": "Oliver Al-Mansoor",
+        "author": "Oliver Al-Mansoor",
+        "userEmail": "oliver.almansoor.768@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Elegance personified in the magnificent Orange Tulip Delight",
+        "comment": "Dhanvikk has completely redefined luxury gifting with this sensational Orange Tulip Delight. The layered organza and matte parchment wrapping protects each bloom while showcasing the lush foliage beneath. The recipient was visibly moved to tears upon reading the calligraphy note tucked into the arrangement.",
+        "date": "4 days ago",
+        "createdAt": "2026-10-18T19:49:38.706Z",
+        "verified": true,
+        "helpful": 32
+      },
+      {
+        "id": "rev-flw-155-2",
+        "userName": "Alia Mirza",
+        "author": "Alia Mirza",
+        "userEmail": "alia.mirza.948@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Robust stems, velvety texture, and remarkable hydration: Orange Tulip Delight",
+        "comment": "Dhanvikk's zero-compromise approach to morning dawn-cutting is vividly apparent in the Orange Tulip Delight. The subtle, soothing botanical scent persisted for more than 10 days, making the home smell like a morning garden in bloom. A masterclass in high-altitude boutique cultivation and pristine handling.",
+        "date": "11 days ago",
+        "createdAt": "2026-10-11T15:24:29.707Z",
+        "verified": true,
+        "helpful": 35
+      },
+      {
+        "id": "rev-flw-155-3",
+        "userName": "Khaled Subramanian",
+        "author": "Khaled Subramanian",
+        "userEmail": "khaled.subramanian.229@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Our definitive choice for all high-profile occasions: Orange Tulip Delight",
+        "comment": "Ordered the Orange Tulip Delight on short notice and Dhanvikk delivered with impeccable timing and flawless poise. The contrast between the velvety tulips and the aromatic eucalyptus foliage creates an exquisite visual rhythm. I wholeheartedly recommend Dhanvikk to anyone who refuses to settle for ordinary commercial blooms.",
+        "date": "14 days ago",
+        "createdAt": "2026-10-08T21:19:26.283Z",
+        "verified": true,
+        "helpful": 17
+      }
+    ]
   },
   {
     "id": "flw-156",
@@ -3573,22 +10084,64 @@ export const SEED_PRODUCTS = [
     "slug": "magenta-serenity",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
     "occasion": "Birthday",
     "recipient": "Everyone",
-    "flowerType": "Mixed",
     "price": 10125,
     "originalPrice": 13162,
-    "stock": 31,
-    "images": [
-      "/images/products/magenta-serenity.webp"
-    ],
     "rating": 4.8,
     "reviewsCount": 49,
     "tag": "Trending Now",
+    "image": "/images/products/magenta-serenity.webp",
+    "images": [
+      "/images/products/magenta-serenity.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the Magenta Serenity harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 31,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-156-1",
+        "userName": "Leila Dubey",
+        "author": "Leila Dubey",
+        "userEmail": "leila.dubey.781@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Unrivaled atelier artistry in every single bloom — Magenta Serenity",
+        "comment": "The unveiling of our Magenta Serenity was the highlight of our celebratory morning. The protective reefer hydration pods on the stem bases kept every leaf crisply hydrated throughout transport. An indispensable triumph of an arrangement for any birthday.",
+        "date": "5 days ago",
+        "createdAt": "2026-10-17T19:05:01.299Z",
+        "verified": true,
+        "helpful": 21
+      },
+      {
+        "id": "rev-flw-156-2",
+        "userName": "Bhavna Pandey",
+        "author": "Bhavna Pandey",
+        "userEmail": "bhavna.pandey.961@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Horticultural perfection air-flown with exquisite care — Magenta Serenity",
+        "comment": "The freshness of the Magenta Serenity when unpacked felt as if it had been gathered from the mountain estate an hour prior. Over the first 48 hours in vase water, each bud opened progressively into a magnificent, fully expanded blossom lasting 11 full days. Proof that luxury floristry is a true art form when executed with such uncompromising dedication.",
+        "date": "12 days ago",
+        "createdAt": "2026-10-10T19:44:44.500Z",
+        "verified": true,
+        "helpful": 36
+      },
+      {
+        "id": "rev-flw-156-3",
+        "userName": "Mihir Yadav",
+        "author": "Mihir Yadav",
+        "userEmail": "mihir.yadav.242@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "The ultimate emotional grand gesture for our birthday — Magenta Serenity",
+        "comment": "The visual impact of the Magenta Serenity when unveiled is something neither my guests nor I will soon forget. The gradient of tones in the mixed was subtle, sophisticated, and perfectly suited for luxury sensibilities. An unequivocal 10 out of 10 experience that sets a new benchmark for luxury lifestyle floristry.",
+        "date": "15 days ago",
+        "createdAt": "2026-10-07T21:31:08.151Z",
+        "verified": true,
+        "helpful": 15
+      }
+    ]
   },
   {
     "id": "flw-157",
@@ -3596,22 +10149,64 @@ export const SEED_PRODUCTS = [
     "slug": "blushing-grace",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Roses",
     "occasion": "Congratulations",
     "recipient": "For Her",
-    "flowerType": "Roses",
     "price": 4478,
     "originalPrice": 5625,
-    "stock": 23,
-    "images": [
-      "/images/products/blushing-grace.webp"
-    ],
     "rating": 4.9,
     "reviewsCount": 42,
     "tag": "Luxury Bloom",
+    "image": "/images/products/blushing-grace.webp",
+    "images": [
+      "/images/products/blushing-grace.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the Blushing Grace harmonizes premium long-stemmed roses with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 23,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-157-1",
+        "userName": "Maximilian Jain",
+        "author": "Maximilian Jain",
+        "userEmail": "maximilian.jain.795@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Haute couture floral design at its finest: Blushing Grace",
+        "comment": "Exquisite does not even begin to capture how breathtaking the Blushing Grace looks in person. The imported European waterproof wrap and hand-tied gold-embossed silk ribbon give the bouquet an unmistakable haute couture flair. It brought an atmosphere of regal tranquility to our salon that lasted for days.",
+        "date": "2 days ago",
+        "createdAt": "2026-10-20T18:20:23.891Z",
+        "verified": true,
+        "helpful": 40
+      },
+      {
+        "id": "rev-flw-157-2",
+        "userName": "Gaurav Salunkhe",
+        "author": "Gaurav Salunkhe",
+        "userEmail": "gaurav.salunkhe.975@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Remarkably fresh for nearly two weeks in our salon: Blushing Grace",
+        "comment": "The sheer volume and petal count packed into the Blushing Grace makes it an extraordinary value for high connoisseurs. Not a single petal dropped during the first 10 days; the stem caliber is easily double what ordinary high-street florists supply. Dhanvikk's cold-chain refrigerated delivery fleet is clearly the gold standard in the floristry industry.",
+        "date": "7 days ago",
+        "createdAt": "2026-10-16T00:04:59.292Z",
+        "verified": true,
+        "helpful": 37
+      },
+      {
+        "id": "rev-flw-157-3",
+        "userName": "Pranav Montague",
+        "author": "Pranav Montague",
+        "userEmail": "pranav.montague.255@verified.dhanvikk.com",
+        "rating": 4,
+        "title": "Left all our dinner guests completely captivated: Blushing Grace",
+        "comment": "I selected the Blushing Grace specifically for a milestone congratulations surprise. The stems drank steadily and held their upright posture with royal dignity throughout the entire celebration. Will be reordering regularly for all our private celebrations and corporate client gifting.",
+        "date": "16 days ago",
+        "createdAt": "2026-10-06T21:42:50.018Z",
+        "verified": true,
+        "helpful": 14
+      }
+    ]
   },
   {
     "id": "flw-158",
@@ -3619,22 +10214,64 @@ export const SEED_PRODUCTS = [
     "slug": "white-tulip-whisper",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Tulips",
     "occasion": "Congratulations",
     "recipient": "Everyone",
-    "flowerType": "Tulips",
     "price": 4478,
     "originalPrice": 4500,
-    "stock": 19,
-    "images": [
-      "/images/products/white-tulip-whisper.webp"
-    ],
     "rating": 4.7,
     "reviewsCount": 164,
     "tag": "Luxury Edit",
+    "image": "/images/products/white-tulip-whisper.webp",
+    "images": [
+      "/images/products/white-tulip-whisper.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the White Tulip Whisper harmonizes premium long-stemmed tulips with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 19,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-158-1",
+        "userName": "Aarav Mahajan",
+        "author": "Aarav Mahajan",
+        "userEmail": "aarav.mahajan.808@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "An unforgettable grand entrance with White Tulip Whisper",
+        "comment": "As a lifelong admirer of fine floristry, the architectural symmetry of the White Tulip Whisper is awe-inspiring. The layered organza and matte parchment wrapping protects each bloom while showcasing the lush foliage beneath. My guests could not stop inquiring where this extraordinary floral curation came from.",
+        "date": "3 days ago",
+        "createdAt": "2026-10-19T17:35:46.484Z",
+        "verified": true,
+        "helpful": 30
+      },
+      {
+        "id": "rev-flw-158-2",
+        "userName": "Karan Shroff",
+        "author": "Karan Shroff",
+        "userEmail": "karan.shroff.988@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Lasted over 13 full days in pristine condition — White Tulip Whisper",
+        "comment": "Every single stem in our White Tulip Whisper was hand-selected at the exact micro-stage of opening for maximum longevity. The subtle, soothing botanical scent persisted for more than 13 days, making the home smell like a morning garden in bloom. The level of quality control and stem-by-stem inspection is evident from the first glance.",
+        "date": "8 days ago",
+        "createdAt": "2026-10-14T16:25:14.085Z",
+        "verified": true,
+        "helpful": 39
+      },
+      {
+        "id": "rev-flw-158-3",
+        "userName": "Rishabh Chauhan",
+        "author": "Rishabh Chauhan",
+        "userEmail": "rishabh.chauhan.269@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "A distinguished luxury statement piece: White Tulip Whisper",
+        "comment": "Our executive boardroom needed a commanding centerpiece, and the White Tulip Whisper delivered majestic grandeur. The contrast between the velvety tulips and the aromatic eucalyptus foliage creates an exquisite visual rhythm. A consummate triumph of floral curation, pristine presentation, and genuine white-glove service.",
+        "date": "17 days ago",
+        "createdAt": "2026-10-05T21:54:31.886Z",
+        "verified": true,
+        "helpful": 13
+      }
+    ]
   },
   {
     "id": "flw-159",
@@ -3642,22 +10279,64 @@ export const SEED_PRODUCTS = [
     "slug": "pastel-harmony",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
     "occasion": "Birthday",
     "recipient": "BFFs",
-    "flowerType": "Mixed",
     "price": 17978,
     "originalPrice": 22500,
-    "stock": 44,
-    "images": [
-      "/images/products/pastel-harmony.webp"
-    ],
     "rating": 4.8,
     "reviewsCount": 128,
     "tag": "Luxury Bloom",
+    "image": "/images/products/pastel-harmony.webp",
+    "images": [
+      "/images/products/pastel-harmony.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the Pastel Harmony harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 44,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-159-1",
+        "userName": "Arjun Narang",
+        "author": "Arjun Narang",
+        "userEmail": "arjun.narang.821@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Sublime symmetry and velvet perfection in Pastel Harmony",
+        "comment": "Commissioned the Pastel Harmony as a surprise, and the doorstep presentation was cinematic in its perfection. The protective reefer hydration pods on the stem bases kept every leaf crisply hydrated throughout transport. Without question the finest floral presentation available anywhere in the country today.",
+        "date": "4 days ago",
+        "createdAt": "2026-10-18T16:51:09.077Z",
+        "verified": true,
+        "helpful": 49
+      },
+      {
+        "id": "rev-flw-159-2",
+        "userName": "Manish Varma",
+        "author": "Manish Varma",
+        "userEmail": "manish.varma.102@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Intoxicating aroma and extraordinary stem caliber in Pastel Harmony",
+        "comment": "What sets the Pastel Harmony apart is the exceptional horticultural caliber of the mixed. Over the first 48 hours in vase water, each bud opened progressively into a magnificent, fully expanded blossom lasting 14 full days. I will never order from standard floral delivery services again after experiencing this caliber.",
+        "date": "9 days ago",
+        "createdAt": "2026-10-13T20:45:28.878Z",
+        "verified": true,
+        "helpful": 15
+      },
+      {
+        "id": "rev-flw-159-3",
+        "userName": "Shalini Hegde",
+        "author": "Shalini Hegde",
+        "userEmail": "shalini.hegde.282@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Heartfelt tears of joy upon opening the Pastel Harmony",
+        "comment": "Surprised my partner with the Pastel Harmony and the emotional resonance was beyond words. The gradient of tones in the mixed was subtle, sophisticated, and perfectly suited for luxury sensibilities. Worth every single rupee for the lasting joy, prestige, and beauty it brought into our lives.",
+        "date": "18 days ago",
+        "createdAt": "2026-10-04T22:06:13.753Z",
+        "verified": true,
+        "helpful": 12
+      }
+    ]
   },
   {
     "id": "flw-160",
@@ -3665,22 +10344,64 @@ export const SEED_PRODUCTS = [
     "slug": "unity-in-contrast",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
     "occasion": "Birthday",
     "recipient": "Everyone",
-    "flowerType": "Mixed",
     "price": 11228,
     "originalPrice": 14602,
-    "stock": 25,
-    "images": [
-      "/images/products/unity-in-contrast.webp"
-    ],
     "rating": 4.8,
     "reviewsCount": 31,
     "tag": "Best Seller",
+    "image": "/images/products/unity-in-contrast.webp",
+    "images": [
+      "/images/products/unity-in-contrast.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the Unity in Contrast harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 25,
+    "inStock": true,
     "isBestSeller": true,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-160-1",
+        "userName": "Eleanor Rathore",
+        "author": "Eleanor Rathore",
+        "userEmail": "eleanor.rathore.834@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Surpassed our highest expectations: Unity in Contrast",
+        "comment": "The Unity in Contrast arrived looking so freshly sculpted it felt like an exhibit from a Parisian floral atelier. The imported European waterproof wrap and hand-tied gold-embossed silk ribbon give the bouquet an unmistakable haute couture flair. The recipient was visibly moved to tears upon reading the calligraphy note tucked into the arrangement.",
+        "date": "5 days ago",
+        "createdAt": "2026-10-17T16:06:31.670Z",
+        "verified": true,
+        "helpful": 39
+      },
+      {
+        "id": "rev-flw-160-2",
+        "userName": "Nisha Fontaine",
+        "author": "Nisha Fontaine",
+        "userEmail": "nisha.fontaine.115@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "World-class cold chain delivery and dewy freshness: Unity in Contrast",
+        "comment": "Having ordered luxury florals in London and Milan, I can confirm that Dhanvikk's Unity in Contrast stands on the global podium. Not a single petal dropped during the first 10 days; the stem caliber is easily double what ordinary high-street florists supply. A masterclass in high-altitude boutique cultivation and pristine handling.",
+        "date": "10 days ago",
+        "createdAt": "2026-10-13T01:05:43.671Z",
+        "verified": true,
+        "helpful": 16
+      },
+      {
+        "id": "rev-flw-160-3",
+        "userName": "Sunita Kirloskar",
+        "author": "Sunita Kirloskar",
+        "userEmail": "sunita.kirloskar.295@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "The gold standard for our birthday celebration — Unity in Contrast",
+        "comment": "If you are looking for an unforgettable statement piece, the Unity in Contrast is utterly peerless. The stems drank steadily and held their upright posture with royal dignity throughout the entire celebration. I wholeheartedly recommend Dhanvikk to anyone who refuses to settle for ordinary commercial blooms.",
+        "date": "19 days ago",
+        "createdAt": "2026-10-03T22:17:55.621Z",
+        "verified": true,
+        "helpful": 10
+      }
+    ]
   },
   {
     "id": "flw-161",
@@ -3688,22 +10409,64 @@ export const SEED_PRODUCTS = [
     "slug": "classic-single-red",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
     "occasion": "Birthday",
     "recipient": "Everyone",
-    "flowerType": "Mixed",
     "price": 225,
     "originalPrice": 292,
-    "stock": 40,
-    "images": [
-      "/images/products/classic-single-red.webp"
-    ],
     "rating": 4.8,
     "reviewsCount": 160,
     "tag": "Luxury Bloom",
+    "image": "/images/products/classic-single-red.webp",
+    "images": [
+      "/images/products/classic-single-red.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the Classic Single Red harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 40,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-161-1",
+        "userName": "Kabir Sengupta",
+        "author": "Kabir Sengupta",
+        "userEmail": "kabir.sengupta.847@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Breathtaking sensory unboxing — Classic Single Red",
+        "comment": "Receiving the Classic Single Red was an experience of pure unadulterated luxury. The layered organza and matte parchment wrapping protects each bloom while showcasing the lush foliage beneath. An indispensable triumph of an arrangement for any birthday.",
+        "date": "2 days ago",
+        "createdAt": "2026-10-20T15:21:54.263Z",
+        "verified": true,
+        "helpful": 28
+      },
+      {
+        "id": "rev-flw-161-2",
+        "userName": "Rajesh Bhardwaj",
+        "author": "Rajesh Bhardwaj",
+        "userEmail": "rajesh.bhardwaj.128@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "The Classic Single Red opened into full majestic splendour over 48 hours",
+        "comment": "The cold-chain logistics behind the Classic Single Red are truly remarkable — arrived thoroughly chilled and dewy. The subtle, soothing botanical scent persisted for more than 16 days, making the home smell like a morning garden in bloom. Proof that luxury floristry is a true art form when executed with such uncompromising dedication.",
+        "date": "11 days ago",
+        "createdAt": "2026-10-11T17:25:58.464Z",
+        "verified": true,
+        "helpful": 17
+      },
+      {
+        "id": "rev-flw-161-3",
+        "userName": "Vaishnavi Mukherjee",
+        "author": "Vaishnavi Mukherjee",
+        "userEmail": "vaishnavi.mukherjee.308@verified.dhanvikk.com",
+        "rating": 4,
+        "title": "Worth every single rupee for an unforgettable celebration — Classic Single Red",
+        "comment": "We featured the Classic Single Red at our anniversary dinner table and it immediately became the talking point of the evening. The contrast between the velvety mixed and the aromatic eucalyptus foliage creates an exquisite visual rhythm. An unequivocal 10 out of 10 experience that sets a new benchmark for luxury lifestyle floristry.",
+        "date": "20 days ago",
+        "createdAt": "2026-10-02T22:29:37.488Z",
+        "verified": true,
+        "helpful": 29
+      }
+    ]
   },
   {
     "id": "flw-162",
@@ -3711,22 +10474,64 @@ export const SEED_PRODUCTS = [
     "slug": "blushing-romance-2",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Roses",
     "occasion": "Love & Romance",
     "recipient": "For Her",
-    "flowerType": "Roses",
     "price": 16875,
     "originalPrice": 21938,
-    "stock": 35,
-    "images": [
-      "/images/products/blushing-romance-2.webp"
-    ],
     "rating": 4.9,
     "reviewsCount": 133,
     "tag": "Luxury Edit",
+    "image": "/images/products/blushing-romance-2.webp",
+    "images": [
+      "/images/products/blushing-romance-2.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the Blushing Romance harmonizes premium long-stemmed roses with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 35,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-162-1",
+        "userName": "Madhav Tandon",
+        "author": "Madhav Tandon",
+        "userEmail": "madhav.tandon.861@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "The pinnacle of refined floristry: Blushing Romance",
+        "comment": "I ordered the Blushing Romance for our family celebration and the presentation left us utterly captivated. The protective reefer hydration pods on the stem bases kept every leaf crisply hydrated throughout transport. It brought an atmosphere of regal tranquility to our salon that lasted for days.",
+        "date": "3 days ago",
+        "createdAt": "2026-10-20T02:37:16.856Z",
+        "verified": true,
+        "helpful": 48
+      },
+      {
+        "id": "rev-flw-162-2",
+        "userName": "Sanjana Garg",
+        "author": "Sanjana Garg",
+        "userEmail": "sanjana.garg.142@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Impeccable highland cultivation and petal density — Blushing Romance",
+        "comment": "Fourteen days after delivery, our Blushing Romance continues to look remarkably radiant and intact. Over the first 48 hours in vase water, each bud opened progressively into a magnificent, fully expanded blossom lasting 10 full days. Dhanvikk's cold-chain refrigerated delivery fleet is clearly the gold standard in the floristry industry.",
+        "date": "12 days ago",
+        "createdAt": "2026-10-10T21:46:13.257Z",
+        "verified": true,
+        "helpful": 19
+      },
+      {
+        "id": "rev-flw-162-3",
+        "userName": "Camille Puri",
+        "author": "Camille Puri",
+        "userEmail": "camille.puri.321@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Quiet luxury and exquisite calligraphy detailing in Blushing Romance",
+        "comment": "Gifted the Blushing Romance as a gesture of heartfelt gratitude, and the response was pure delight. The gradient of tones in the roses was subtle, sophisticated, and perfectly suited for luxury sensibilities. Will be reordering regularly for all our private celebrations and corporate client gifting.",
+        "date": "21 days ago",
+        "createdAt": "2026-10-01T22:41:19.356Z",
+        "verified": true,
+        "helpful": 28
+      }
+    ]
   },
   {
     "id": "flw-163",
@@ -3734,22 +10539,64 @@ export const SEED_PRODUCTS = [
     "slug": "eternal-devotion",
     "category": "Forever Roses",
     "subCategory": "Preserved Bell Domes",
+    "flowerType": "Mixed",
     "occasion": "Love & Romance",
     "recipient": "For Her",
-    "flowerType": "Mixed",
     "price": 42728,
     "originalPrice": 55552,
-    "stock": 26,
-    "images": [
-      "/images/products/eternal-devotion.webp"
-    ],
     "rating": 4.9,
     "reviewsCount": 98,
     "tag": "Luxury Bloom",
+    "image": "/images/products/eternal-devotion.webp",
+    "images": [
+      "/images/products/eternal-devotion.webp"
+    ],
     "description": "A breathtaking showcase of naturally preserved Ecuadorian garden blooms, meticulously stabilized to retain velvety softness, vibrant pigment, and structural perfection for up to 3 years without watering. Encased in a hand-blown borosilicate bell dome.",
+    "stock": 26,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-163-1",
+        "userName": "Neelam Mercier",
+        "author": "Neelam Mercier",
+        "userEmail": "neelam.mercier.874@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Awe-inspiring craftsmanship and luxury presentation — Eternal Devotion",
+        "comment": "From the moment the Dhanvikk courier arrived with the Eternal Devotion, the caliber was unmistakably world-class. The crystal-clear hand-blown bell dome and gilded wooden base showcase the preserved mixed with royal majesty. My guests could not stop inquiring where this extraordinary floral curation came from.",
+        "date": "4 days ago",
+        "createdAt": "2026-10-19T01:52:39.448Z",
+        "verified": true,
+        "helpful": 37
+      },
+      {
+        "id": "rev-flw-163-2",
+        "userName": "Soham Kashyap",
+        "author": "Soham Kashyap",
+        "userEmail": "soham.kashyap.155@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Unprecedented vase longevity and natural fragrance from Eternal Devotion",
+        "comment": "The fragrance profile of the Eternal Devotion is natural, intoxicating, and gracefully fills the entire room. The rich, saturated pigment of the petals has remained completely unaffected by ambient room lighting. The level of quality control and stem-by-stem inspection is evident from the first glance.",
+        "date": "7 days ago",
+        "createdAt": "2026-10-16T02:06:28.049Z",
+        "verified": true,
+        "helpful": 20
+      },
+      {
+        "id": "rev-flw-163-3",
+        "userName": "Alexander Sarin",
+        "author": "Alexander Sarin",
+        "userEmail": "alexander.sarin.335@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "An heirloom masterpiece that brought immense joy: Eternal Devotion",
+        "comment": "The Eternal Devotion is hands down one of the most distinguished floral creations I have had the pleasure to present. An heirloom luxury creation that outshines conventional ephemeral bouquets in every conceivable dimension. A consummate triumph of floral curation, pristine presentation, and genuine white-glove service.",
+        "date": "22 days ago",
+        "createdAt": "2026-09-30T22:53:01.223Z",
+        "verified": true,
+        "helpful": 27
+      }
+    ]
   },
   {
     "id": "flw-164",
@@ -3757,22 +10604,64 @@ export const SEED_PRODUCTS = [
     "slug": "blush-pink-delight",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Roses",
     "occasion": "Love & Romance",
     "recipient": "For Her",
-    "flowerType": "Roses",
     "price": 7875,
     "originalPrice": 10238,
-    "stock": 34,
-    "images": [
-      "/images/products/blush-pink-delight.webp"
-    ],
     "rating": 4.9,
     "reviewsCount": 146,
     "tag": "Artisan Hand-tied",
+    "image": "/images/products/blush-pink-delight.webp",
+    "images": [
+      "/images/products/blush-pink-delight.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the Blush Pink Delight harmonizes premium long-stemmed roses with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 34,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-164-1",
+        "userName": "Radhika Al-Maktoum",
+        "author": "Radhika Al-Maktoum",
+        "userEmail": "radhika.almaktoum.887@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Arrived pristine with morning dew still on petals: Blush Pink Delight",
+        "comment": "The sheer artistic balance of the Blush Pink Delight easily surpasses any floral arrangement I have commissioned before. The layered organza and matte parchment wrapping protects each bloom while showcasing the lush foliage beneath. Without question the finest floral presentation available anywhere in the country today.",
+        "date": "5 days ago",
+        "createdAt": "2026-10-18T01:08:02.041Z",
+        "verified": true,
+        "helpful": 26
+      },
+      {
+        "id": "rev-flw-164-2",
+        "userName": "Trisha Menon",
+        "author": "Trisha Menon",
+        "userEmail": "trisha.menon.168@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Uncompromising quality control in this gorgeous Blush Pink Delight",
+        "comment": "You can immediately feel the heavy stem density and turgid petal structure of this highland-grown Blush Pink Delight. The subtle, soothing botanical scent persisted for more than 12 days, making the home smell like a morning garden in bloom. I will never order from standard floral delivery services again after experiencing this caliber.",
+        "date": "8 days ago",
+        "createdAt": "2026-10-14T18:26:42.842Z",
+        "verified": true,
+        "helpful": 21
+      },
+      {
+        "id": "rev-flw-164-3",
+        "userName": "Genevieve Srinivasan",
+        "author": "Genevieve Srinivasan",
+        "userEmail": "genevieve.srinivasan.348@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Flawless execution from courier to final bloom — Blush Pink Delight",
+        "comment": "Everything about the Blush Pink Delight — from the embossed envelope to the floral symmetry — whispers quiet luxury. The contrast between the velvety roses and the aromatic eucalyptus foliage creates an exquisite visual rhythm. Worth every single rupee for the lasting joy, prestige, and beauty it brought into our lives.",
+        "date": "23 days ago",
+        "createdAt": "2026-09-29T23:04:43.091Z",
+        "verified": true,
+        "helpful": 25
+      }
+    ]
   },
   {
     "id": "flw-165",
@@ -3780,22 +10669,64 @@ export const SEED_PRODUCTS = [
     "slug": "orange-radiance",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
     "occasion": "Birthday",
     "recipient": "Everyone",
-    "flowerType": "Mixed",
     "price": 4478,
     "originalPrice": 5828,
-    "stock": 20,
+    "rating": 5,
+    "reviewsCount": 162,
+    "tag": "Luxury Bloom",
+    "image": "/images/products/orange-radiance.webp",
     "images": [
       "/images/products/orange-radiance.webp"
     ],
-    "rating": 5.0,
-    "reviewsCount": 162,
-    "tag": "Luxury Bloom",
     "description": "Hand-tied by master Parisian florists, the Orange Radiance harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 20,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-165-1",
+        "userName": "Sahil Dhillon",
+        "author": "Sahil Dhillon",
+        "userEmail": "sahil.dhillon.900@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Elegance personified in the magnificent Orange Radiance",
+        "comment": "Dhanvikk has completely redefined luxury gifting with this sensational Orange Radiance. The protective reefer hydration pods on the stem bases kept every leaf crisply hydrated throughout transport. The recipient was visibly moved to tears upon reading the calligraphy note tucked into the arrangement.",
+        "date": "2 days ago",
+        "createdAt": "2026-10-21T00:23:24.634Z",
+        "verified": true,
+        "helpful": 46
+      },
+      {
+        "id": "rev-flw-165-2",
+        "userName": "Yash Oberoi",
+        "author": "Yash Oberoi",
+        "userEmail": "yash.oberoi.181@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Robust stems, velvety texture, and remarkable hydration: Orange Radiance",
+        "comment": "Dhanvikk's zero-compromise approach to morning dawn-cutting is vividly apparent in the Orange Radiance. Over the first 48 hours in vase water, each bud opened progressively into a magnificent, fully expanded blossom lasting 13 full days. A masterclass in high-altitude boutique cultivation and pristine handling.",
+        "date": "9 days ago",
+        "createdAt": "2026-10-13T22:46:57.635Z",
+        "verified": true,
+        "helpful": 22
+      },
+      {
+        "id": "rev-flw-165-3",
+        "userName": "Frederic Walia",
+        "author": "Frederic Walia",
+        "userEmail": "frederic.walia.361@verified.dhanvikk.com",
+        "rating": 4,
+        "title": "Our definitive choice for all high-profile occasions: Orange Radiance",
+        "comment": "Ordered the Orange Radiance on short notice and Dhanvikk delivered with impeccable timing and flawless poise. The gradient of tones in the mixed was subtle, sophisticated, and perfectly suited for luxury sensibilities. I wholeheartedly recommend Dhanvikk to anyone who refuses to settle for ordinary commercial blooms.",
+        "date": "24 days ago",
+        "createdAt": "2026-09-28T23:16:24.958Z",
+        "verified": true,
+        "helpful": 24
+      }
+    ]
   },
   {
     "id": "flw-166",
@@ -3803,22 +10734,64 @@ export const SEED_PRODUCTS = [
     "slug": "pure-white-serenity",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
     "occasion": "Congratulations",
     "recipient": "Everyone",
-    "flowerType": "Mixed",
     "price": 3352,
     "originalPrice": 4365,
-    "stock": 35,
-    "images": [
-      "/images/products/pure-white-serenity.webp"
-    ],
     "rating": 4.8,
     "reviewsCount": 137,
     "tag": "Signature Atelier",
+    "image": "/images/products/pure-white-serenity.webp",
+    "images": [
+      "/images/products/pure-white-serenity.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the Pure White Serenity harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 35,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-166-1",
+        "userName": "Simran Jadhav",
+        "author": "Simran Jadhav",
+        "userEmail": "simran.jadhav.913@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Unrivaled atelier artistry in every single bloom — Pure White Serenity",
+        "comment": "The unveiling of our Pure White Serenity was the highlight of our celebratory morning. The imported European waterproof wrap and hand-tied gold-embossed silk ribbon give the bouquet an unmistakable haute couture flair. An indispensable triumph of an arrangement for any congratulations.",
+        "date": "3 days ago",
+        "createdAt": "2026-10-19T23:38:47.227Z",
+        "verified": true,
+        "helpful": 35
+      },
+      {
+        "id": "rev-flw-166-2",
+        "userName": "Oliver Sachdev",
+        "author": "Oliver Sachdev",
+        "userEmail": "oliver.sachdev.194@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Horticultural perfection air-flown with exquisite care — Pure White Serenity",
+        "comment": "The freshness of the Pure White Serenity when unpacked felt as if it had been gathered from the mountain estate an hour prior. Not a single petal dropped during the first 10 days; the stem caliber is easily double what ordinary high-street florists supply. Proof that luxury floristry is a true art form when executed with such uncompromising dedication.",
+        "date": "10 days ago",
+        "createdAt": "2026-10-12T15:07:12.428Z",
+        "verified": true,
+        "helpful": 24
+      },
+      {
+        "id": "rev-flw-166-3",
+        "userName": "Alia Sinclair",
+        "author": "Alia Sinclair",
+        "userEmail": "alia.sinclair.374@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "The ultimate emotional grand gesture for our congratulations — Pure White Serenity",
+        "comment": "The visual impact of the Pure White Serenity when unveiled is something neither my guests nor I will soon forget. The stems drank steadily and held their upright posture with royal dignity throughout the entire celebration. An unequivocal 10 out of 10 experience that sets a new benchmark for luxury lifestyle floristry.",
+        "date": "25 days ago",
+        "createdAt": "2026-09-27T23:28:06.826Z",
+        "verified": true,
+        "helpful": 23
+      }
+    ]
   },
   {
     "id": "flw-167",
@@ -3826,22 +10799,64 @@ export const SEED_PRODUCTS = [
     "slug": "sweet-scarlet-heart",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Roses",
     "occasion": "Love & Romance",
     "recipient": "For Her",
-    "flowerType": "Roses",
     "price": 7852,
     "originalPrice": 10215,
-    "stock": 34,
-    "images": [
-      "/images/products/sweet-scarlet-heart.webp"
-    ],
     "rating": 4.9,
     "reviewsCount": 160,
     "tag": "Luxury Bloom",
+    "image": "/images/products/sweet-scarlet-heart.webp",
+    "images": [
+      "/images/products/sweet-scarlet-heart.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the Sweet Scarlet Heart harmonizes premium long-stemmed roses with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 34,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-167-1",
+        "userName": "Tanvi Lahiri",
+        "author": "Tanvi Lahiri",
+        "userEmail": "tanvi.lahiri.927@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Haute couture floral design at its finest: Sweet Scarlet Heart",
+        "comment": "Exquisite does not even begin to capture how breathtaking the Sweet Scarlet Heart looks in person. The layered organza and matte parchment wrapping protects each bloom while showcasing the lush foliage beneath. It brought an atmosphere of regal tranquility to our salon that lasted for days.",
+        "date": "4 days ago",
+        "createdAt": "2026-10-18T22:54:09.820Z",
+        "verified": true,
+        "helpful": 25
+      },
+      {
+        "id": "rev-flw-167-2",
+        "userName": "Leila Shetty",
+        "author": "Leila Shetty",
+        "userEmail": "leila.shetty.208@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Remarkably fresh for nearly two weeks in our salon: Sweet Scarlet Heart",
+        "comment": "The sheer volume and petal count packed into the Sweet Scarlet Heart makes it an extraordinary value for high connoisseurs. The subtle, soothing botanical scent persisted for more than 15 days, making the home smell like a morning garden in bloom. Dhanvikk's cold-chain refrigerated delivery fleet is clearly the gold standard in the floristry industry.",
+        "date": "11 days ago",
+        "createdAt": "2026-10-11T19:27:27.221Z",
+        "verified": true,
+        "helpful": 25
+      },
+      {
+        "id": "rev-flw-167-3",
+        "userName": "Bhavna Chatterjee",
+        "author": "Bhavna Chatterjee",
+        "userEmail": "bhavna.chatterjee.387@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Left all our dinner guests completely captivated: Sweet Scarlet Heart",
+        "comment": "I selected the Sweet Scarlet Heart specifically for a milestone love & romance surprise. The contrast between the velvety roses and the aromatic eucalyptus foliage creates an exquisite visual rhythm. Will be reordering regularly for all our private celebrations and corporate client gifting.",
+        "date": "26 days ago",
+        "createdAt": "2026-09-26T23:39:48.693Z",
+        "verified": true,
+        "helpful": 22
+      }
+    ]
   },
   {
     "id": "flw-168",
@@ -3849,22 +10864,64 @@ export const SEED_PRODUCTS = [
     "slug": "hydrangea-bliss",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
     "occasion": "Birthday",
     "recipient": "BFFs",
-    "flowerType": "Mixed",
     "price": 3352,
     "originalPrice": 4365,
-    "stock": 33,
-    "images": [
-      "/images/products/hydrangea-bliss.webp"
-    ],
     "rating": 4.7,
     "reviewsCount": 40,
     "tag": "Trending Now",
+    "image": "/images/products/hydrangea-bliss.webp",
+    "images": [
+      "/images/products/hydrangea-bliss.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the Hydrangea Bliss harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 33,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-168-1",
+        "userName": "Vikram Nambiar",
+        "author": "Vikram Nambiar",
+        "userEmail": "vikram.nambiar.940@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "An unforgettable grand entrance with Hydrangea Bliss",
+        "comment": "As a lifelong admirer of fine floristry, the architectural symmetry of the Hydrangea Bliss is awe-inspiring. The protective reefer hydration pods on the stem bases kept every leaf crisply hydrated throughout transport. My guests could not stop inquiring where this extraordinary floral curation came from.",
+        "date": "5 days ago",
+        "createdAt": "2026-10-17T22:09:32.412Z",
+        "verified": true,
+        "helpful": 44
+      },
+      {
+        "id": "rev-flw-168-2",
+        "userName": "Maximilian Upadhyay",
+        "author": "Maximilian Upadhyay",
+        "userEmail": "maximilian.upadhyay.221@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Lasted over 16 full days in pristine condition — Hydrangea Bliss",
+        "comment": "Every single stem in our Hydrangea Bliss was hand-selected at the exact micro-stage of opening for maximum longevity. Over the first 48 hours in vase water, each bud opened progressively into a magnificent, fully expanded blossom lasting 16 full days. The level of quality control and stem-by-stem inspection is evident from the first glance.",
+        "date": "12 days ago",
+        "createdAt": "2026-10-10T23:47:42.013Z",
+        "verified": true,
+        "helpful": 26
+      },
+      {
+        "id": "rev-flw-168-3",
+        "userName": "Gaurav Gupta",
+        "author": "Gaurav Gupta",
+        "userEmail": "gaurav.gupta.401@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "A distinguished luxury statement piece: Hydrangea Bliss",
+        "comment": "Our executive boardroom needed a commanding centerpiece, and the Hydrangea Bliss delivered majestic grandeur. The gradient of tones in the mixed was subtle, sophisticated, and perfectly suited for luxury sensibilities. A consummate triumph of floral curation, pristine presentation, and genuine white-glove service.",
+        "date": "27 days ago",
+        "createdAt": "2026-09-25T23:51:30.561Z",
+        "verified": true,
+        "helpful": 20
+      }
+    ]
   },
   {
     "id": "flw-169",
@@ -3872,22 +10929,64 @@ export const SEED_PRODUCTS = [
     "slug": "purple-eucalyptus-elegance",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
     "occasion": "Birthday",
     "recipient": "Everyone",
-    "flowerType": "Mixed",
     "price": 2228,
     "originalPrice": 2902,
-    "stock": 19,
+    "rating": 5,
+    "reviewsCount": 115,
+    "tag": "Luxury Bloom",
+    "image": "/images/products/purple-eucalyptus-elegance.webp",
     "images": [
       "/images/products/purple-eucalyptus-elegance.webp"
     ],
-    "rating": 5.0,
-    "reviewsCount": 115,
-    "tag": "Luxury Bloom",
     "description": "Hand-tied by master Parisian florists, the Purple Eucalyptus Elegance harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 19,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-169-1",
+        "userName": "Matteo Rao",
+        "author": "Matteo Rao",
+        "userEmail": "matteo.rao.953@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Sublime symmetry and velvet perfection in Purple Eucalyptus Elegance",
+        "comment": "Commissioned the Purple Eucalyptus Elegance as a surprise, and the doorstep presentation was cinematic in its perfection. The imported European waterproof wrap and hand-tied gold-embossed silk ribbon give the bouquet an unmistakable haute couture flair. Without question the finest floral presentation available anywhere in the country today.",
+        "date": "2 days ago",
+        "createdAt": "2026-10-20T21:24:55.005Z",
+        "verified": true,
+        "helpful": 34
+      },
+      {
+        "id": "rev-flw-169-2",
+        "userName": "Aarav Castiglione",
+        "author": "Aarav Castiglione",
+        "userEmail": "aarav.castiglione.234@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Intoxicating aroma and extraordinary stem caliber in Purple Eucalyptus Elegance",
+        "comment": "What sets the Purple Eucalyptus Elegance apart is the exceptional horticultural caliber of the mixed. Not a single petal dropped during the first 10 days; the stem caliber is easily double what ordinary high-street florists supply. I will never order from standard floral delivery services again after experiencing this caliber.",
+        "date": "7 days ago",
+        "createdAt": "2026-10-15T16:07:56.806Z",
+        "verified": true,
+        "helpful": 27
+      },
+      {
+        "id": "rev-flw-169-3",
+        "userName": "Karan Khatri",
+        "author": "Karan Khatri",
+        "userEmail": "karan.khatri.414@verified.dhanvikk.com",
+        "rating": 4,
+        "title": "Heartfelt tears of joy upon opening the Purple Eucalyptus Elegance",
+        "comment": "Surprised my partner with the Purple Eucalyptus Elegance and the emotional resonance was beyond words. The stems drank steadily and held their upright posture with royal dignity throughout the entire celebration. Worth every single rupee for the lasting joy, prestige, and beauty it brought into our lives.",
+        "date": "14 days ago",
+        "createdAt": "2026-10-09T00:03:12.428Z",
+        "verified": true,
+        "helpful": 19
+      }
+    ]
   },
   {
     "id": "flw-170",
@@ -3895,22 +10994,64 @@ export const SEED_PRODUCTS = [
     "slug": "rustic-sunbeam",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Sunflowers",
     "occasion": "Birthday",
     "recipient": "Everyone",
-    "flowerType": "Sunflowers",
     "price": 2228,
     "originalPrice": 2902,
-    "stock": 35,
-    "images": [
-      "/images/products/rustic-sunbeam.webp"
-    ],
     "rating": 4.8,
     "reviewsCount": 115,
     "tag": "Florist Choice",
+    "image": "/images/products/rustic-sunbeam.webp",
+    "images": [
+      "/images/products/rustic-sunbeam.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the Rustic Sunbeam harmonizes premium long-stemmed sunflowers with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 35,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": true,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-170-1",
+        "userName": "Amara Sen",
+        "author": "Amara Sen",
+        "userEmail": "amara.sen.966@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Surpassed our highest expectations: Rustic Sunbeam",
+        "comment": "The Rustic Sunbeam arrived looking so freshly sculpted it felt like an exhibit from a Parisian floral atelier. The layered organza and matte parchment wrapping protects each bloom while showcasing the lush foliage beneath. The recipient was visibly moved to tears upon reading the calligraphy note tucked into the arrangement.",
+        "date": "3 days ago",
+        "createdAt": "2026-10-19T20:40:17.598Z",
+        "verified": true,
+        "helpful": 23
+      },
+      {
+        "id": "rev-flw-170-2",
+        "userName": "Arjun Bansal",
+        "author": "Arjun Bansal",
+        "userEmail": "arjun.bansal.247@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "World-class cold chain delivery and dewy freshness: Rustic Sunbeam",
+        "comment": "Having ordered luxury florals in London and Milan, I can confirm that Dhanvikk's Rustic Sunbeam stands on the global podium. The subtle, soothing botanical scent persisted for more than 11 days, making the home smell like a morning garden in bloom. A masterclass in high-altitude boutique cultivation and pristine handling.",
+        "date": "8 days ago",
+        "createdAt": "2026-10-14T20:28:11.599Z",
+        "verified": true,
+        "helpful": 29
+      },
+      {
+        "id": "rev-flw-170-3",
+        "userName": "Manish Mitra",
+        "author": "Manish Mitra",
+        "userEmail": "manish.mitra.427@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "The gold standard for our birthday celebration — Rustic Sunbeam",
+        "comment": "If you are looking for an unforgettable statement piece, the Rustic Sunbeam is utterly peerless. The contrast between the velvety sunflowers and the aromatic eucalyptus foliage creates an exquisite visual rhythm. I wholeheartedly recommend Dhanvikk to anyone who refuses to settle for ordinary commercial blooms.",
+        "date": "15 days ago",
+        "createdAt": "2026-10-08T00:14:54.296Z",
+        "verified": true,
+        "helpful": 18
+      }
+    ]
   },
   {
     "id": "flw-171",
@@ -3918,22 +11059,64 @@ export const SEED_PRODUCTS = [
     "slug": "eucalyptus-grace",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
     "occasion": "Congratulations",
     "recipient": "For Her",
-    "flowerType": "Mixed",
     "price": 338,
     "originalPrice": 450,
-    "stock": 18,
+    "rating": 5,
+    "reviewsCount": 115,
+    "tag": "Luxury Bloom",
+    "image": "/images/products/eucalyptus-grace.webp",
     "images": [
       "/images/products/eucalyptus-grace.webp"
     ],
-    "rating": 5.0,
-    "reviewsCount": 115,
-    "tag": "Luxury Bloom",
     "description": "Hand-tied by master Parisian florists, the Eucalyptus Grace harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 18,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-171-1",
+        "userName": "Domenico Talwar",
+        "author": "Domenico Talwar",
+        "userEmail": "domenico.talwar.979@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Breathtaking sensory unboxing — Eucalyptus Grace",
+        "comment": "Receiving the Eucalyptus Grace was an experience of pure unadulterated luxury. The protective reefer hydration pods on the stem bases kept every leaf crisply hydrated throughout transport. An indispensable triumph of an arrangement for any congratulations.",
+        "date": "4 days ago",
+        "createdAt": "2026-10-18T19:55:40.191Z",
+        "verified": true,
+        "helpful": 42
+      },
+      {
+        "id": "rev-flw-171-2",
+        "userName": "Eleanor Ganguly",
+        "author": "Eleanor Ganguly",
+        "userEmail": "eleanor.ganguly.260@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "The Eucalyptus Grace opened into full majestic splendour over 48 hours",
+        "comment": "The cold-chain logistics behind the Eucalyptus Grace are truly remarkable — arrived thoroughly chilled and dewy. Over the first 48 hours in vase water, each bud opened progressively into a magnificent, fully expanded blossom lasting 12 full days. Proof that luxury floristry is a true art form when executed with such uncompromising dedication.",
+        "date": "9 days ago",
+        "createdAt": "2026-10-14T00:48:26.392Z",
+        "verified": true,
+        "helpful": 30
+      },
+      {
+        "id": "rev-flw-171-3",
+        "userName": "Nisha Prasad",
+        "author": "Nisha Prasad",
+        "userEmail": "nisha.prasad.440@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Worth every single rupee for an unforgettable celebration — Eucalyptus Grace",
+        "comment": "We featured the Eucalyptus Grace at our anniversary dinner table and it immediately became the talking point of the evening. The gradient of tones in the mixed was subtle, sophisticated, and perfectly suited for luxury sensibilities. An unequivocal 10 out of 10 experience that sets a new benchmark for luxury lifestyle floristry.",
+        "date": "16 days ago",
+        "createdAt": "2026-10-07T00:26:36.163Z",
+        "verified": true,
+        "helpful": 17
+      }
+    ]
   },
   {
     "id": "flw-172",
@@ -3941,22 +11124,64 @@ export const SEED_PRODUCTS = [
     "slug": "autumn-warmth",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
     "occasion": "Congratulations",
     "recipient": "For Her",
-    "flowerType": "Mixed",
     "price": 11228,
     "originalPrice": 14602,
-    "stock": 29,
-    "images": [
-      "/images/products/autumn-warmth.webp"
-    ],
     "rating": 4.8,
     "reviewsCount": 186,
     "tag": "Limited Edition",
+    "image": "/images/products/autumn-warmth.webp",
+    "images": [
+      "/images/products/autumn-warmth.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the Autumn Warmth harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 29,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-172-1",
+        "userName": "Aaditya Laurent",
+        "author": "Aaditya Laurent",
+        "userEmail": "aaditya.laurent.993@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "The pinnacle of refined floristry: Autumn Warmth",
+        "comment": "I ordered the Autumn Warmth for our family celebration and the presentation left us utterly captivated. The imported European waterproof wrap and hand-tied gold-embossed silk ribbon give the bouquet an unmistakable haute couture flair. It brought an atmosphere of regal tranquility to our salon that lasted for days.",
+        "date": "5 days ago",
+        "createdAt": "2026-10-17T19:11:02.784Z",
+        "verified": true,
+        "helpful": 32
+      },
+      {
+        "id": "rev-flw-172-2",
+        "userName": "Kabir Kapoor",
+        "author": "Kabir Kapoor",
+        "userEmail": "kabir.kapoor.274@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Impeccable highland cultivation and petal density — Autumn Warmth",
+        "comment": "Fourteen days after delivery, our Autumn Warmth continues to look remarkably radiant and intact. Not a single petal dropped during the first 10 days; the stem caliber is easily double what ordinary high-street florists supply. Dhanvikk's cold-chain refrigerated delivery fleet is clearly the gold standard in the floristry industry.",
+        "date": "10 days ago",
+        "createdAt": "2026-10-12T17:08:41.185Z",
+        "verified": true,
+        "helpful": 31
+      },
+      {
+        "id": "rev-flw-172-3",
+        "userName": "Rajesh Sandhu",
+        "author": "Rajesh Sandhu",
+        "userEmail": "rajesh.sandhu.453@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Quiet luxury and exquisite calligraphy detailing in Autumn Warmth",
+        "comment": "Gifted the Autumn Warmth as a gesture of heartfelt gratitude, and the response was pure delight. The stems drank steadily and held their upright posture with royal dignity throughout the entire celebration. Will be reordering regularly for all our private celebrations and corporate client gifting.",
+        "date": "17 days ago",
+        "createdAt": "2026-10-06T00:38:18.031Z",
+        "verified": true,
+        "helpful": 16
+      }
+    ]
   },
   {
     "id": "flw-173",
@@ -3964,22 +11189,64 @@ export const SEED_PRODUCTS = [
     "slug": "meadow-radiance",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
     "occasion": "Congratulations",
     "recipient": "For Her",
-    "flowerType": "Mixed",
     "price": 16875,
     "originalPrice": 21938,
-    "stock": 40,
-    "images": [
-      "/images/products/meadow-radiance.webp"
-    ],
     "rating": 4.7,
     "reviewsCount": 118,
     "tag": "Luxury Bloom",
+    "image": "/images/products/meadow-radiance.webp",
+    "images": [
+      "/images/products/meadow-radiance.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the Meadow Radiance harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 40,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-173-1",
+        "userName": "Anirudh D’Souza",
+        "author": "Anirudh D’Souza",
+        "userEmail": "anirudh.dsouza.107@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Awe-inspiring craftsmanship and luxury presentation — Meadow Radiance",
+        "comment": "From the moment the Dhanvikk courier arrived with the Meadow Radiance, the caliber was unmistakably world-class. The layered organza and matte parchment wrapping protects each bloom while showcasing the lush foliage beneath. My guests could not stop inquiring where this extraordinary floral curation came from.",
+        "date": "2 days ago",
+        "createdAt": "2026-10-20T18:26:25.377Z",
+        "verified": true,
+        "helpful": 21
+      },
+      {
+        "id": "rev-flw-173-2",
+        "userName": "Madhav Mehta",
+        "author": "Madhav Mehta",
+        "userEmail": "madhav.mehta.287@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Unprecedented vase longevity and natural fragrance from Meadow Radiance",
+        "comment": "The fragrance profile of the Meadow Radiance is natural, intoxicating, and gracefully fills the entire room. The subtle, soothing botanical scent persisted for more than 14 days, making the home smell like a morning garden in bloom. The level of quality control and stem-by-stem inspection is evident from the first glance.",
+        "date": "11 days ago",
+        "createdAt": "2026-10-11T21:28:55.978Z",
+        "verified": true,
+        "helpful": 32
+      },
+      {
+        "id": "rev-flw-173-3",
+        "userName": "Sanjana Somani",
+        "author": "Sanjana Somani",
+        "userEmail": "sanjana.somani.467@verified.dhanvikk.com",
+        "rating": 4,
+        "title": "An heirloom masterpiece that brought immense joy: Meadow Radiance",
+        "comment": "The Meadow Radiance is hands down one of the most distinguished floral creations I have had the pleasure to present. The contrast between the velvety mixed and the aromatic eucalyptus foliage creates an exquisite visual rhythm. A consummate triumph of floral curation, pristine presentation, and genuine white-glove service.",
+        "date": "18 days ago",
+        "createdAt": "2026-10-05T00:49:59.898Z",
+        "verified": true,
+        "helpful": 14
+      }
+    ]
   },
   {
     "id": "flw-174",
@@ -3987,22 +11254,64 @@ export const SEED_PRODUCTS = [
     "slug": "ethereal-blush-2",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Roses",
     "occasion": "Love & Romance",
     "recipient": "For Her",
-    "flowerType": "Roses",
     "price": 28125,
     "originalPrice": 36562,
-    "stock": 37,
-    "images": [
-      "/images/products/ethereal-blush-2.webp"
-    ],
     "rating": 4.9,
     "reviewsCount": 55,
     "tag": "Limited Edition",
+    "image": "/images/products/ethereal-blush-2.webp",
+    "images": [
+      "/images/products/ethereal-blush-2.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the Ethereal Blush harmonizes premium long-stemmed roses with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 37,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-174-1",
+        "userName": "Dhruv Deshmukh",
+        "author": "Dhruv Deshmukh",
+        "userEmail": "dhruv.deshmukh.120@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Arrived pristine with morning dew still on petals: Ethereal Blush",
+        "comment": "The sheer artistic balance of the Ethereal Blush easily surpasses any floral arrangement I have commissioned before. The protective reefer hydration pods on the stem bases kept every leaf crisply hydrated throughout transport. Without question the finest floral presentation available anywhere in the country today.",
+        "date": "3 days ago",
+        "createdAt": "2026-10-19T17:41:47.969Z",
+        "verified": true,
+        "helpful": 41
+      },
+      {
+        "id": "rev-flw-174-2",
+        "userName": "Neelam Nayar",
+        "author": "Neelam Nayar",
+        "userEmail": "neelam.nayar.300@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Uncompromising quality control in this gorgeous Ethereal Blush",
+        "comment": "You can immediately feel the heavy stem density and turgid petal structure of this highland-grown Ethereal Blush. Over the first 48 hours in vase water, each bud opened progressively into a magnificent, fully expanded blossom lasting 15 full days. I will never order from standard floral delivery services again after experiencing this caliber.",
+        "date": "12 days ago",
+        "createdAt": "2026-10-11T01:49:10.770Z",
+        "verified": true,
+        "helpful": 34
+      },
+      {
+        "id": "rev-flw-174-3",
+        "userName": "Soham Verma",
+        "author": "Soham Verma",
+        "userEmail": "soham.verma.480@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Flawless execution from courier to final bloom — Ethereal Blush",
+        "comment": "Everything about the Ethereal Blush — from the embossed envelope to the floral symmetry — whispers quiet luxury. The gradient of tones in the roses was subtle, sophisticated, and perfectly suited for luxury sensibilities. Worth every single rupee for the lasting joy, prestige, and beauty it brought into our lives.",
+        "date": "19 days ago",
+        "createdAt": "2026-10-04T01:01:41.766Z",
+        "verified": true,
+        "helpful": 13
+      }
+    ]
   },
   {
     "id": "flw-175",
@@ -4010,22 +11319,64 @@ export const SEED_PRODUCTS = [
     "slug": "golden-sunrise",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
     "occasion": "Anniversary",
     "recipient": "For Her",
-    "flowerType": "Mixed",
     "price": 7875,
     "originalPrice": 10238,
-    "stock": 34,
-    "images": [
-      "/images/products/golden-sunrise.webp"
-    ],
     "rating": 4.8,
     "reviewsCount": 74,
     "tag": "Luxury Bloom",
+    "image": "/images/products/golden-sunrise.webp",
+    "images": [
+      "/images/products/golden-sunrise.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the Golden Sunrise harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 34,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-175-1",
+        "userName": "Ishaan Iyer",
+        "author": "Ishaan Iyer",
+        "userEmail": "ishaan.iyer.133@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Elegance personified in the magnificent Golden Sunrise",
+        "comment": "Dhanvikk has completely redefined luxury gifting with this sensational Golden Sunrise. The imported European waterproof wrap and hand-tied gold-embossed silk ribbon give the bouquet an unmistakable haute couture flair. The recipient was visibly moved to tears upon reading the calligraphy note tucked into the arrangement.",
+        "date": "4 days ago",
+        "createdAt": "2026-10-18T16:57:10.562Z",
+        "verified": true,
+        "helpful": 30
+      },
+      {
+        "id": "rev-flw-175-2",
+        "userName": "Radhika Roy",
+        "author": "Radhika Roy",
+        "userEmail": "radhika.roy.313@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Robust stems, velvety texture, and remarkable hydration: Golden Sunrise",
+        "comment": "Dhanvikk's zero-compromise approach to morning dawn-cutting is vividly apparent in the Golden Sunrise. Not a single petal dropped during the first 10 days; the stem caliber is easily double what ordinary high-street florists supply. A masterclass in high-altitude boutique cultivation and pristine handling.",
+        "date": "7 days ago",
+        "createdAt": "2026-10-15T18:09:25.563Z",
+        "verified": true,
+        "helpful": 35
+      },
+      {
+        "id": "rev-flw-175-3",
+        "userName": "Trisha Sterling",
+        "author": "Trisha Sterling",
+        "userEmail": "trisha.sterling.493@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Our definitive choice for all high-profile occasions: Golden Sunrise",
+        "comment": "Ordered the Golden Sunrise on short notice and Dhanvikk delivered with impeccable timing and flawless poise. The stems drank steadily and held their upright posture with royal dignity throughout the entire celebration. I wholeheartedly recommend Dhanvikk to anyone who refuses to settle for ordinary commercial blooms.",
+        "date": "20 days ago",
+        "createdAt": "2026-10-03T01:13:23.633Z",
+        "verified": true,
+        "helpful": 12
+      }
+    ]
   },
   {
     "id": "flw-176",
@@ -4033,22 +11384,64 @@ export const SEED_PRODUCTS = [
     "slug": "pink-gypsy-grace",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
     "occasion": "Congratulations",
     "recipient": "For Her",
-    "flowerType": "Mixed",
     "price": 2228,
     "originalPrice": 2902,
-    "stock": 27,
+    "rating": 5,
+    "reviewsCount": 71,
+    "tag": "Best Seller",
+    "image": "/images/products/pink-gypsy-grace.webp",
     "images": [
       "/images/products/pink-gypsy-grace.webp"
     ],
-    "rating": 5.0,
-    "reviewsCount": 71,
-    "tag": "Best Seller",
     "description": "Hand-tied by master Parisian florists, the Pink Gypsy Grace harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 27,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-176-1",
+        "userName": "Kiran Kumar",
+        "author": "Kiran Kumar",
+        "userEmail": "kiran.kumar.146@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Unrivaled atelier artistry in every single bloom — Pink Gypsy Grace",
+        "comment": "The unveiling of our Pink Gypsy Grace was the highlight of our celebratory morning. The layered organza and matte parchment wrapping protects each bloom while showcasing the lush foliage beneath. An indispensable triumph of an arrangement for any congratulations.",
+        "date": "5 days ago",
+        "createdAt": "2026-10-17T16:12:33.155Z",
+        "verified": true,
+        "helpful": 20
+      },
+      {
+        "id": "rev-flw-176-2",
+        "userName": "Sahil Sharma",
+        "author": "Sahil Sharma",
+        "userEmail": "sahil.sharma.326@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Horticultural perfection air-flown with exquisite care — Pink Gypsy Grace",
+        "comment": "The freshness of the Pink Gypsy Grace when unpacked felt as if it had been gathered from the mountain estate an hour prior. The subtle, soothing botanical scent persisted for more than 10 days, making the home smell like a morning garden in bloom. Proof that luxury floristry is a true art form when executed with such uncompromising dedication.",
+        "date": "8 days ago",
+        "createdAt": "2026-10-14T22:29:40.356Z",
+        "verified": true,
+        "helpful": 36
+      },
+      {
+        "id": "rev-flw-176-3",
+        "userName": "Yash Chakraborty",
+        "author": "Yash Chakraborty",
+        "userEmail": "yash.chakraborty.506@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "The ultimate emotional grand gesture for our congratulations — Pink Gypsy Grace",
+        "comment": "The visual impact of the Pink Gypsy Grace when unveiled is something neither my guests nor I will soon forget. The contrast between the velvety mixed and the aromatic eucalyptus foliage creates an exquisite visual rhythm. An unequivocal 10 out of 10 experience that sets a new benchmark for luxury lifestyle floristry.",
+        "date": "21 days ago",
+        "createdAt": "2026-10-02T01:25:05.501Z",
+        "verified": true,
+        "helpful": 11
+      }
+    ]
   },
   {
     "id": "flw-177",
@@ -4056,22 +11449,64 @@ export const SEED_PRODUCTS = [
     "slug": "eucalyptus-scarlet-blend",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Roses",
     "occasion": "Love & Romance",
     "recipient": "For Her",
-    "flowerType": "Roses",
     "price": 2475,
     "originalPrice": 3218,
-    "stock": 31,
+    "rating": 5,
+    "reviewsCount": 151,
+    "tag": "Luxury Bloom",
+    "image": "/images/products/eucalyptus-scarlet-blend.webp",
     "images": [
       "/images/products/eucalyptus-scarlet-blend.webp"
     ],
-    "rating": 5.0,
-    "reviewsCount": 151,
-    "tag": "Luxury Bloom",
     "description": "Hand-tied by master Parisian florists, the Eucalyptus Scarlet Blend harmonizes premium long-stemmed roses with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 31,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-177-1",
+        "userName": "Nandini Naidu",
+        "author": "Nandini Naidu",
+        "userEmail": "nandini.naidu.160@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Haute couture floral design at its finest: Eucalyptus Scarlet Blend",
+        "comment": "Exquisite does not even begin to capture how breathtaking the Eucalyptus Scarlet Blend looks in person. The protective reefer hydration pods on the stem bases kept every leaf crisply hydrated throughout transport. It brought an atmosphere of regal tranquility to our salon that lasted for days.",
+        "date": "2 days ago",
+        "createdAt": "2026-10-20T15:27:55.748Z",
+        "verified": true,
+        "helpful": 39
+      },
+      {
+        "id": "rev-flw-177-2",
+        "userName": "Simran Trivedi",
+        "author": "Simran Trivedi",
+        "userEmail": "simran.trivedi.340@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Remarkably fresh for nearly two weeks in our salon: Eucalyptus Scarlet Blend",
+        "comment": "The sheer volume and petal count packed into the Eucalyptus Scarlet Blend makes it an extraordinary value for high connoisseurs. Over the first 48 hours in vase water, each bud opened progressively into a magnificent, fully expanded blossom lasting 11 full days. Dhanvikk's cold-chain refrigerated delivery fleet is clearly the gold standard in the floristry industry.",
+        "date": "9 days ago",
+        "createdAt": "2026-10-14T02:49:55.149Z",
+        "verified": true,
+        "helpful": 37
+      },
+      {
+        "id": "rev-flw-177-3",
+        "userName": "Oliver Goswami",
+        "author": "Oliver Goswami",
+        "userEmail": "oliver.goswami.519@verified.dhanvikk.com",
+        "rating": 4,
+        "title": "Left all our dinner guests completely captivated: Eucalyptus Scarlet Blend",
+        "comment": "I selected the Eucalyptus Scarlet Blend specifically for a milestone love & romance surprise. The gradient of tones in the roses was subtle, sophisticated, and perfectly suited for luxury sensibilities. Will be reordering regularly for all our private celebrations and corporate client gifting.",
+        "date": "22 days ago",
+        "createdAt": "2026-10-01T01:36:47.368Z",
+        "verified": true,
+        "helpful": 29
+      }
+    ]
   },
   {
     "id": "flw-178",
@@ -4079,22 +11514,64 @@ export const SEED_PRODUCTS = [
     "slug": "the-pastel-wonder-box",
     "category": "Flower Boxes",
     "subCategory": "Hat Box Arrangements",
+    "flowerType": "Mixed",
     "occasion": "Birthday",
     "recipient": "BFFs",
-    "flowerType": "Mixed",
     "price": 33728,
     "originalPrice": 43852,
-    "stock": 45,
-    "images": [
-      "/images/products/the-pastel-wonder-box.webp"
-    ],
     "rating": 4.8,
     "reviewsCount": 37,
     "tag": "Florist Choice",
+    "image": "/images/products/the-pastel-wonder-box.webp",
+    "images": [
+      "/images/products/the-pastel-wonder-box.webp"
+    ],
     "description": "A lavish curation of handpicked garden blooms, masterfully arranged in Dhanvikk's signature French velvet keepsake box. Accented with lush spiral eucalyptus and tied with an ivory satin ribbon, this bespoke creation brings regal grandeur to every celebration.",
+    "stock": 45,
+    "inStock": true,
     "isBestSeller": true,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-178-1",
+        "userName": "Prerna Ramachandran",
+        "author": "Prerna Ramachandran",
+        "userEmail": "prerna.ramachandran.173@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "An unforgettable grand entrance with The Pastel Wonder Box",
+        "comment": "As a lifelong admirer of fine floristry, the architectural symmetry of the The Pastel Wonder Box is awe-inspiring. The signature French cylindrical keepsake box tied with heavyweight double-faced satin ribbon exudes aristocratic charm. My guests could not stop inquiring where this extraordinary floral curation came from.",
+        "date": "3 days ago",
+        "createdAt": "2026-10-20T02:43:18.341Z",
+        "verified": true,
+        "helpful": 28
+      },
+      {
+        "id": "rev-flw-178-2",
+        "userName": "Tanvi Beaumont",
+        "author": "Tanvi Beaumont",
+        "userEmail": "tanvi.beaumont.353@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Lasted over 12 full days in pristine condition — The Pastel Wonder Box",
+        "comment": "Every single stem in our The Pastel Wonder Box was hand-selected at the exact micro-stage of opening for maximum longevity. Not a single petal dropped during the first 10 days; the stem caliber is easily double what ordinary high-street florists supply. The level of quality control and stem-by-stem inspection is evident from the first glance.",
+        "date": "10 days ago",
+        "createdAt": "2026-10-12T19:10:09.942Z",
+        "verified": true,
+        "helpful": 39
+      },
+      {
+        "id": "rev-flw-178-3",
+        "userName": "Leila Khanna",
+        "author": "Leila Khanna",
+        "userEmail": "leila.khanna.533@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "A distinguished luxury statement piece: The Pastel Wonder Box",
+        "comment": "Our executive boardroom needed a commanding centerpiece, and the The Pastel Wonder Box delivered majestic grandeur. The stems drank steadily and held their upright posture with royal dignity throughout the entire celebration. A consummate triumph of floral curation, pristine presentation, and genuine white-glove service.",
+        "date": "23 days ago",
+        "createdAt": "2026-09-30T01:48:29.236Z",
+        "verified": true,
+        "helpful": 28
+      }
+    ]
   },
   {
     "id": "flw-179",
@@ -4102,22 +11579,64 @@ export const SEED_PRODUCTS = [
     "slug": "midnight-passion",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
     "occasion": "Love & Romance",
     "recipient": "For Her",
-    "flowerType": "Mixed",
     "price": 3375,
     "originalPrice": 4388,
-    "stock": 30,
-    "images": [
-      "/images/products/midnight-passion.webp"
-    ],
     "rating": 4.8,
     "reviewsCount": 45,
     "tag": "Luxury Bloom",
+    "image": "/images/products/midnight-passion.webp",
+    "images": [
+      "/images/products/midnight-passion.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the Midnight Passion harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 30,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-179-1",
+        "userName": "Rohan Sehgal",
+        "author": "Rohan Sehgal",
+        "userEmail": "rohan.sehgal.186@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Sublime symmetry and velvet perfection in Midnight Passion",
+        "comment": "Commissioned the Midnight Passion as a surprise, and the doorstep presentation was cinematic in its perfection. The layered organza and matte parchment wrapping protects each bloom while showcasing the lush foliage beneath. Without question the finest floral presentation available anywhere in the country today.",
+        "date": "4 days ago",
+        "createdAt": "2026-10-19T01:58:40.933Z",
+        "verified": true,
+        "helpful": 48
+      },
+      {
+        "id": "rev-flw-179-2",
+        "userName": "Vikram Bandyopadhyay",
+        "author": "Vikram Bandyopadhyay",
+        "userEmail": "vikram.bandyopadhyay.366@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Intoxicating aroma and extraordinary stem caliber in Midnight Passion",
+        "comment": "What sets the Midnight Passion apart is the exceptional horticultural caliber of the mixed. The subtle, soothing botanical scent persisted for more than 13 days, making the home smell like a morning garden in bloom. I will never order from standard floral delivery services again after experiencing this caliber.",
+        "date": "11 days ago",
+        "createdAt": "2026-10-11T23:30:24.735Z",
+        "verified": true,
+        "helpful": 15
+      },
+      {
+        "id": "rev-flw-179-3",
+        "userName": "Maximilian Mishra",
+        "author": "Maximilian Mishra",
+        "userEmail": "maximilian.mishra.546@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Heartfelt tears of joy upon opening the Midnight Passion",
+        "comment": "Surprised my partner with the Midnight Passion and the emotional resonance was beyond words. The contrast between the velvety mixed and the aromatic eucalyptus foliage creates an exquisite visual rhythm. Worth every single rupee for the lasting joy, prestige, and beauty it brought into our lives.",
+        "date": "24 days ago",
+        "createdAt": "2026-09-29T02:00:11.103Z",
+        "verified": true,
+        "helpful": 27
+      }
+    ]
   },
   {
     "id": "flw-180",
@@ -4125,22 +11644,64 @@ export const SEED_PRODUCTS = [
     "slug": "the-pearl-serenade-box",
     "category": "Flower Boxes",
     "subCategory": "Hat Box Arrangements",
+    "flowerType": "Mixed",
     "occasion": "Congratulations",
     "recipient": "Everyone",
-    "flowerType": "Mixed",
     "price": 11228,
     "originalPrice": 14602,
-    "stock": 21,
-    "images": [
-      "/images/products/the-pearl-serenade-box.webp"
-    ],
     "rating": 4.7,
     "reviewsCount": 88,
     "tag": "Artisan Hand-tied",
+    "image": "/images/products/the-pearl-serenade-box.webp",
+    "images": [
+      "/images/products/the-pearl-serenade-box.webp"
+    ],
     "description": "A lavish curation of handpicked garden blooms, masterfully arranged in Dhanvikk's signature French velvet keepsake box. Accented with lush spiral eucalyptus and tied with an ivory satin ribbon, this bespoke creation brings regal grandeur to every celebration.",
+    "stock": 21,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-180-1",
+        "userName": "Shreya Sundaram",
+        "author": "Shreya Sundaram",
+        "userEmail": "shreya.sundaram.199@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Surpassed our highest expectations: The Pearl Serenade Box",
+        "comment": "The The Pearl Serenade Box arrived looking so freshly sculpted it felt like an exhibit from a Parisian floral atelier. The bespoke velvet hatbox is so sturdy and elegantly crafted that we are definitely keeping it as a dressing table heirloom. The recipient was visibly moved to tears upon reading the calligraphy note tucked into the arrangement.",
+        "date": "5 days ago",
+        "createdAt": "2026-10-18T01:14:03.526Z",
+        "verified": true,
+        "helpful": 37
+      },
+      {
+        "id": "rev-flw-180-2",
+        "userName": "Matteo Fernandes",
+        "author": "Matteo Fernandes",
+        "userEmail": "matteo.fernandes.379@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "World-class cold chain delivery and dewy freshness: The Pearl Serenade Box",
+        "comment": "Having ordered luxury florals in London and Milan, I can confirm that Dhanvikk's The Pearl Serenade Box stands on the global podium. Over the first 48 hours in vase water, each bud opened progressively into a magnificent, fully expanded blossom lasting 14 full days. A masterclass in high-altitude boutique cultivation and pristine handling.",
+        "date": "12 days ago",
+        "createdAt": "2026-10-10T15:50:39.527Z",
+        "verified": true,
+        "helpful": 16
+      },
+      {
+        "id": "rev-flw-180-3",
+        "userName": "Aarav Pillai",
+        "author": "Aarav Pillai",
+        "userEmail": "aarav.pillai.559@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "The gold standard for our congratulations celebration — The Pearl Serenade Box",
+        "comment": "If you are looking for an unforgettable statement piece, the The Pearl Serenade Box is utterly peerless. The gradient of tones in the mixed was subtle, sophisticated, and perfectly suited for luxury sensibilities. I wholeheartedly recommend Dhanvikk to anyone who refuses to settle for ordinary commercial blooms.",
+        "date": "25 days ago",
+        "createdAt": "2026-09-28T02:11:52.971Z",
+        "verified": true,
+        "helpful": 26
+      }
+    ]
   },
   {
     "id": "flw-181",
@@ -4148,22 +11709,64 @@ export const SEED_PRODUCTS = [
     "slug": "the-silk-wonder-box",
     "category": "Flower Boxes",
     "subCategory": "Hat Box Arrangements",
+    "flowerType": "Mixed",
     "occasion": "Birthday",
     "recipient": "BFFs",
-    "flowerType": "Mixed",
     "price": 16852,
     "originalPrice": 21915,
-    "stock": 38,
-    "images": [
-      "/images/products/the-silk-wonder-box.webp"
-    ],
     "rating": 4.9,
     "reviewsCount": 146,
     "tag": "Luxury Bloom",
+    "image": "/images/products/the-silk-wonder-box.webp",
+    "images": [
+      "/images/products/the-silk-wonder-box.webp"
+    ],
     "description": "A lavish curation of handpicked garden blooms, masterfully arranged in Dhanvikk's signature French velvet keepsake box. Accented with lush spiral eucalyptus and tied with an ivory satin ribbon, this bespoke creation brings regal grandeur to every celebration.",
+    "stock": 38,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-181-1",
+        "userName": "Suresh Dubois",
+        "author": "Suresh Dubois",
+        "userEmail": "suresh.dubois.212@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Breathtaking sensory unboxing — The Silk Wonder Box",
+        "comment": "Receiving the The Silk Wonder Box was an experience of pure unadulterated luxury. The signature French cylindrical keepsake box tied with heavyweight double-faced satin ribbon exudes aristocratic charm. An indispensable triumph of an arrangement for any birthday.",
+        "date": "2 days ago",
+        "createdAt": "2026-10-21T00:29:26.119Z",
+        "verified": true,
+        "helpful": 27
+      },
+      {
+        "id": "rev-flw-181-2",
+        "userName": "Amara Joshi",
+        "author": "Amara Joshi",
+        "userEmail": "amara.joshi.392@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "The The Silk Wonder Box opened into full majestic splendour over 48 hours",
+        "comment": "The cold-chain logistics behind the The Silk Wonder Box are truly remarkable — arrived thoroughly chilled and dewy. Not a single petal dropped during the first 10 days; the stem caliber is easily double what ordinary high-street florists supply. Proof that luxury floristry is a true art form when executed with such uncompromising dedication.",
+        "date": "7 days ago",
+        "createdAt": "2026-10-15T20:10:54.320Z",
+        "verified": true,
+        "helpful": 18
+      },
+      {
+        "id": "rev-flw-181-3",
+        "userName": "Arjun Samant",
+        "author": "Arjun Samant",
+        "userEmail": "arjun.samant.572@verified.dhanvikk.com",
+        "rating": 4,
+        "title": "Worth every single rupee for an unforgettable celebration — The Silk Wonder Box",
+        "comment": "We featured the The Silk Wonder Box at our anniversary dinner table and it immediately became the talking point of the evening. The stems drank steadily and held their upright posture with royal dignity throughout the entire celebration. An unequivocal 10 out of 10 experience that sets a new benchmark for luxury lifestyle floristry.",
+        "date": "26 days ago",
+        "createdAt": "2026-09-27T02:23:34.838Z",
+        "verified": true,
+        "helpful": 24
+      }
+    ]
   },
   {
     "id": "flw-182",
@@ -4171,22 +11774,64 @@ export const SEED_PRODUCTS = [
     "slug": "pink-and-red-harmony",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
     "occasion": "Birthday",
     "recipient": "Everyone",
-    "flowerType": "Mixed",
     "price": 22478,
     "originalPrice": 29228,
-    "stock": 30,
-    "images": [
-      "/images/products/pink-and-red-harmony.webp"
-    ],
     "rating": 4.9,
     "reviewsCount": 58,
     "tag": "Artisan Hand-tied",
+    "image": "/images/products/pink-and-red-harmony.webp",
+    "images": [
+      "/images/products/pink-and-red-harmony.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the Pink and Red Harmony harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 30,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-182-1",
+        "userName": "Varun Kensington",
+        "author": "Varun Kensington",
+        "userEmail": "varun.kensington.226@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "The pinnacle of refined floristry: Pink and Red Harmony",
+        "comment": "I ordered the Pink and Red Harmony for our family celebration and the presentation left us utterly captivated. The layered organza and matte parchment wrapping protects each bloom while showcasing the lush foliage beneath. It brought an atmosphere of regal tranquility to our salon that lasted for days.",
+        "date": "3 days ago",
+        "createdAt": "2026-10-19T23:44:48.712Z",
+        "verified": true,
+        "helpful": 46
+      },
+      {
+        "id": "rev-flw-182-2",
+        "userName": "Domenico Malhotra",
+        "author": "Domenico Malhotra",
+        "userEmail": "domenico.malhotra.406@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Impeccable highland cultivation and petal density — Pink and Red Harmony",
+        "comment": "Fourteen days after delivery, our Pink and Red Harmony continues to look remarkably radiant and intact. The subtle, soothing botanical scent persisted for more than 16 days, making the home smell like a morning garden in bloom. Dhanvikk's cold-chain refrigerated delivery fleet is clearly the gold standard in the floristry industry.",
+        "date": "8 days ago",
+        "createdAt": "2026-10-15T00:31:09.113Z",
+        "verified": true,
+        "helpful": 19
+      },
+      {
+        "id": "rev-flw-182-3",
+        "userName": "Eleanor Singhania",
+        "author": "Eleanor Singhania",
+        "userEmail": "eleanor.singhania.585@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Quiet luxury and exquisite calligraphy detailing in Pink and Red Harmony",
+        "comment": "Gifted the Pink and Red Harmony as a gesture of heartfelt gratitude, and the response was pure delight. The contrast between the velvety mixed and the aromatic eucalyptus foliage creates an exquisite visual rhythm. Will be reordering regularly for all our private celebrations and corporate client gifting.",
+        "date": "27 days ago",
+        "createdAt": "2026-09-26T02:35:16.706Z",
+        "verified": true,
+        "helpful": 23
+      }
+    ]
   },
   {
     "id": "flw-183",
@@ -4194,22 +11839,64 @@ export const SEED_PRODUCTS = [
     "slug": "midnight-black",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
     "occasion": "Birthday",
     "recipient": "Everyone",
-    "flowerType": "Mixed",
     "price": 26978,
     "originalPrice": 35078,
-    "stock": 37,
-    "images": [
-      "/images/products/midnight-black.webp"
-    ],
     "rating": 4.7,
     "reviewsCount": 95,
     "tag": "Luxury Bloom",
+    "image": "/images/products/midnight-black.webp",
+    "images": [
+      "/images/products/midnight-black.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the Midnight Black harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 37,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-183-1",
+        "userName": "Sebastien Choudhury",
+        "author": "Sebastien Choudhury",
+        "userEmail": "sebastien.choudhury.239@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Awe-inspiring craftsmanship and luxury presentation — Midnight Black",
+        "comment": "From the moment the Dhanvikk courier arrived with the Midnight Black, the caliber was unmistakably world-class. The protective reefer hydration pods on the stem bases kept every leaf crisply hydrated throughout transport. My guests could not stop inquiring where this extraordinary floral curation came from.",
+        "date": "4 days ago",
+        "createdAt": "2026-10-18T23:00:11.305Z",
+        "verified": true,
+        "helpful": 36
+      },
+      {
+        "id": "rev-flw-183-2",
+        "userName": "Aaditya Narayan",
+        "author": "Aaditya Narayan",
+        "userEmail": "aaditya.narayan.419@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Unprecedented vase longevity and natural fragrance from Midnight Black",
+        "comment": "The fragrance profile of the Midnight Black is natural, intoxicating, and gracefully fills the entire room. Over the first 48 hours in vase water, each bud opened progressively into a magnificent, fully expanded blossom lasting 10 full days. The level of quality control and stem-by-stem inspection is evident from the first glance.",
+        "date": "9 days ago",
+        "createdAt": "2026-10-13T16:51:23.906Z",
+        "verified": true,
+        "helpful": 20
+      },
+      {
+        "id": "rev-flw-183-3",
+        "userName": "Kabir Venkatesh",
+        "author": "Kabir Venkatesh",
+        "userEmail": "kabir.venkatesh.599@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "An heirloom masterpiece that brought immense joy: Midnight Black",
+        "comment": "The Midnight Black is hands down one of the most distinguished floral creations I have had the pleasure to present. The gradient of tones in the mixed was subtle, sophisticated, and perfectly suited for luxury sensibilities. A consummate triumph of floral curation, pristine presentation, and genuine white-glove service.",
+        "date": "14 days ago",
+        "createdAt": "2026-10-09T02:46:58.573Z",
+        "verified": true,
+        "helpful": 22
+      }
+    ]
   },
   {
     "id": "flw-184",
@@ -4217,22 +11904,64 @@ export const SEED_PRODUCTS = [
     "slug": "regenbogenfest-box",
     "category": "Flower Boxes",
     "subCategory": "Hat Box Arrangements",
+    "flowerType": "Mixed",
     "occasion": "Birthday",
     "recipient": "BFFs",
-    "flowerType": "Mixed",
     "price": 16852,
     "originalPrice": 21915,
-    "stock": 43,
-    "images": [
-      "/images/products/regenbogenfest-box.webp"
-    ],
     "rating": 4.9,
     "reviewsCount": 123,
     "tag": "Signature Atelier",
+    "image": "/images/products/regenbogenfest-box.webp",
+    "images": [
+      "/images/products/regenbogenfest-box.webp"
+    ],
     "description": "A lavish curation of handpicked garden blooms, masterfully arranged in Dhanvikk's signature French velvet keepsake box. Accented with lush spiral eucalyptus and tied with an ivory satin ribbon, this bespoke creation brings regal grandeur to every celebration.",
+    "stock": 43,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-184-1",
+        "userName": "Sophia Iyengar",
+        "author": "Sophia Iyengar",
+        "userEmail": "sophia.iyengar.252@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Arrived pristine with morning dew still on petals: Regenbogenfest Box",
+        "comment": "The sheer artistic balance of the Regenbogenfest Box easily surpasses any floral arrangement I have commissioned before. The signature French cylindrical keepsake box tied with heavyweight double-faced satin ribbon exudes aristocratic charm. Without question the finest floral presentation available anywhere in the country today.",
+        "date": "5 days ago",
+        "createdAt": "2026-10-17T22:15:33.898Z",
+        "verified": true,
+        "helpful": 25
+      },
+      {
+        "id": "rev-flw-184-2",
+        "userName": "Anirudh Reddy",
+        "author": "Anirudh Reddy",
+        "userEmail": "anirudh.reddy.432@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Uncompromising quality control in this gorgeous Regenbogenfest Box",
+        "comment": "You can immediately feel the heavy stem density and turgid petal structure of this highland-grown Regenbogenfest Box. Not a single petal dropped during the first 10 days; the stem caliber is easily double what ordinary high-street florists supply. I will never order from standard floral delivery services again after experiencing this caliber.",
+        "date": "10 days ago",
+        "createdAt": "2026-10-12T21:11:38.699Z",
+        "verified": true,
+        "helpful": 21
+      },
+      {
+        "id": "rev-flw-184-3",
+        "userName": "Madhav Rochester",
+        "author": "Madhav Rochester",
+        "userEmail": "madhav.rochester.612@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Flawless execution from courier to final bloom — Regenbogenfest Box",
+        "comment": "Everything about the Regenbogenfest Box — from the embossed envelope to the floral symmetry — whispers quiet luxury. The stems drank steadily and held their upright posture with royal dignity throughout the entire celebration. Worth every single rupee for the lasting joy, prestige, and beauty it brought into our lives.",
+        "date": "15 days ago",
+        "createdAt": "2026-10-08T02:58:40.441Z",
+        "verified": true,
+        "helpful": 21
+      }
+    ]
   },
   {
     "id": "flw-185",
@@ -4240,22 +11969,64 @@ export const SEED_PRODUCTS = [
     "slug": "golden-solitaire",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Roses",
     "occasion": "Anniversary",
     "recipient": "For Her",
-    "flowerType": "Roses",
     "price": 338,
     "originalPrice": 450,
-    "stock": 18,
-    "images": [
-      "/images/products/golden-solitaire.webp"
-    ],
     "rating": 4.8,
     "reviewsCount": 105,
     "tag": "Luxury Bloom",
+    "image": "/images/products/golden-solitaire.webp",
+    "images": [
+      "/images/products/golden-solitaire.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the Golden Solitaire harmonizes premium long-stemmed roses with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 18,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": true,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-185-1",
+        "userName": "Henri Kulkarni",
+        "author": "Henri Kulkarni",
+        "userEmail": "henri.kulkarni.265@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Elegance personified in the magnificent Golden Solitaire",
+        "comment": "Dhanvikk has completely redefined luxury gifting with this sensational Golden Solitaire. The layered organza and matte parchment wrapping protects each bloom while showcasing the lush foliage beneath. The recipient was visibly moved to tears upon reading the calligraphy note tucked into the arrangement.",
+        "date": "2 days ago",
+        "createdAt": "2026-10-20T21:30:56.490Z",
+        "verified": true,
+        "helpful": 44
+      },
+      {
+        "id": "rev-flw-185-2",
+        "userName": "Dhruv Seth",
+        "author": "Dhruv Seth",
+        "userEmail": "dhruv.seth.445@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Robust stems, velvety texture, and remarkable hydration: Golden Solitaire",
+        "comment": "Dhanvikk's zero-compromise approach to morning dawn-cutting is vividly apparent in the Golden Solitaire. The subtle, soothing botanical scent persisted for more than 12 days, making the home smell like a morning garden in bloom. A masterclass in high-altitude boutique cultivation and pristine handling.",
+        "date": "11 days ago",
+        "createdAt": "2026-10-12T01:31:53.491Z",
+        "verified": true,
+        "helpful": 23
+      },
+      {
+        "id": "rev-flw-185-3",
+        "userName": "Neelam Bhattacharya",
+        "author": "Neelam Bhattacharya",
+        "userEmail": "neelam.bhattacharya.625@verified.dhanvikk.com",
+        "rating": 4,
+        "title": "Our definitive choice for all high-profile occasions: Golden Solitaire",
+        "comment": "Ordered the Golden Solitaire on short notice and Dhanvikk delivered with impeccable timing and flawless poise. The contrast between the velvety roses and the aromatic eucalyptus foliage creates an exquisite visual rhythm. I wholeheartedly recommend Dhanvikk to anyone who refuses to settle for ordinary commercial blooms.",
+        "date": "16 days ago",
+        "createdAt": "2026-10-06T15:10:22.308Z",
+        "verified": true,
+        "helpful": 19
+      }
+    ]
   },
   {
     "id": "flw-186",
@@ -4263,22 +12034,64 @@ export const SEED_PRODUCTS = [
     "slug": "golden-eucalyptus-radiance",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
     "occasion": "Anniversary",
     "recipient": "For Her",
-    "flowerType": "Mixed",
     "price": 5602,
     "originalPrice": 7290,
-    "stock": 30,
-    "images": [
-      "/images/products/golden-eucalyptus-radiance.webp"
-    ],
     "rating": 4.9,
     "reviewsCount": 104,
     "tag": "Signature Atelier",
+    "image": "/images/products/golden-eucalyptus-radiance.webp",
+    "images": [
+      "/images/products/golden-eucalyptus-radiance.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the Golden Eucalyptus Radiance harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 30,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-186-1",
+        "userName": "Astrid Nadar",
+        "author": "Astrid Nadar",
+        "userEmail": "astrid.nadar.278@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Unrivaled atelier artistry in every single bloom — Golden Eucalyptus Radiance",
+        "comment": "The unveiling of our Golden Eucalyptus Radiance was the highlight of our celebratory morning. The protective reefer hydration pods on the stem bases kept every leaf crisply hydrated throughout transport. An indispensable triumph of an arrangement for any anniversary.",
+        "date": "3 days ago",
+        "createdAt": "2026-10-19T20:46:19.083Z",
+        "verified": true,
+        "helpful": 34
+      },
+      {
+        "id": "rev-flw-186-2",
+        "userName": "Ishaan Thakur",
+        "author": "Ishaan Thakur",
+        "userEmail": "ishaan.thakur.458@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Horticultural perfection air-flown with exquisite care — Golden Eucalyptus Radiance",
+        "comment": "The freshness of the Golden Eucalyptus Radiance when unpacked felt as if it had been gathered from the mountain estate an hour prior. Over the first 48 hours in vase water, each bud opened progressively into a magnificent, fully expanded blossom lasting 13 full days. Proof that luxury floristry is a true art form when executed with such uncompromising dedication.",
+        "date": "12 days ago",
+        "createdAt": "2026-10-10T17:52:08.284Z",
+        "verified": true,
+        "helpful": 24
+      },
+      {
+        "id": "rev-flw-186-3",
+        "userName": "Radhika Gokhale",
+        "author": "Radhika Gokhale",
+        "userEmail": "radhika.gokhale.638@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "The ultimate emotional grand gesture for our anniversary — Golden Eucalyptus Radiance",
+        "comment": "The visual impact of the Golden Eucalyptus Radiance when unveiled is something neither my guests nor I will soon forget. The gradient of tones in the mixed was subtle, sophisticated, and perfectly suited for luxury sensibilities. An unequivocal 10 out of 10 experience that sets a new benchmark for luxury lifestyle floristry.",
+        "date": "17 days ago",
+        "createdAt": "2026-10-05T15:22:04.176Z",
+        "verified": true,
+        "helpful": 18
+      }
+    ]
   },
   {
     "id": "flw-187",
@@ -4286,22 +12099,64 @@ export const SEED_PRODUCTS = [
     "slug": "sunshine-roses",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Roses",
     "occasion": "Birthday",
     "recipient": "BFFs",
-    "flowerType": "Roses",
     "price": 4702,
     "originalPrice": 6120,
-    "stock": 45,
+    "rating": 5,
+    "reviewsCount": 96,
+    "tag": "Luxury Bloom",
+    "image": "/images/products/sunshine-roses.webp",
     "images": [
       "/images/products/sunshine-roses.webp"
     ],
-    "rating": 5.0,
-    "reviewsCount": 96,
-    "tag": "Luxury Bloom",
     "description": "Hand-tied by master Parisian florists, the Sunshine Roses harmonizes premium long-stemmed roses with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 45,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-187-1",
+        "userName": "Amina Rajan",
+        "author": "Amina Rajan",
+        "userEmail": "amina.rajan.292@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Haute couture floral design at its finest: Sunshine Roses",
+        "comment": "Exquisite does not even begin to capture how breathtaking the Sunshine Roses looks in person. The imported European waterproof wrap and hand-tied gold-embossed silk ribbon give the bouquet an unmistakable haute couture flair. It brought an atmosphere of regal tranquility to our salon that lasted for days.",
+        "date": "4 days ago",
+        "createdAt": "2026-10-18T20:01:41.676Z",
+        "verified": true,
+        "helpful": 23
+      },
+      {
+        "id": "rev-flw-187-2",
+        "userName": "Kiran Vanderbilt",
+        "author": "Kiran Vanderbilt",
+        "userEmail": "kiran.vanderbilt.472@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Remarkably fresh for nearly two weeks in our salon: Sunshine Roses",
+        "comment": "The sheer volume and petal count packed into the Sunshine Roses makes it an extraordinary value for high connoisseurs. Not a single petal dropped during the first 10 days; the stem caliber is easily double what ordinary high-street florists supply. Dhanvikk's cold-chain refrigerated delivery fleet is clearly the gold standard in the floristry industry.",
+        "date": "7 days ago",
+        "createdAt": "2026-10-15T22:12:23.077Z",
+        "verified": true,
+        "helpful": 25
+      },
+      {
+        "id": "rev-flw-187-3",
+        "userName": "Sahil Kaul",
+        "author": "Sahil Kaul",
+        "userEmail": "sahil.kaul.651@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Left all our dinner guests completely captivated: Sunshine Roses",
+        "comment": "I selected the Sunshine Roses specifically for a milestone birthday surprise. The stems drank steadily and held their upright posture with royal dignity throughout the entire celebration. Will be reordering regularly for all our private celebrations and corporate client gifting.",
+        "date": "18 days ago",
+        "createdAt": "2026-10-04T15:33:46.043Z",
+        "verified": true,
+        "helpful": 17
+      }
+    ]
   },
   {
     "id": "flw-188",
@@ -4309,22 +12164,64 @@ export const SEED_PRODUCTS = [
     "slug": "passionate-serenity",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
     "occasion": "Love & Romance",
     "recipient": "For Her",
-    "flowerType": "Mixed",
     "price": 12352,
     "originalPrice": 16065,
-    "stock": 25,
+    "rating": 5,
+    "reviewsCount": 93,
+    "tag": "Signature Atelier",
+    "image": "/images/products/passionate-serenity.webp",
     "images": [
       "/images/products/passionate-serenity.webp"
     ],
-    "rating": 5.0,
-    "reviewsCount": 93,
-    "tag": "Signature Atelier",
     "description": "Hand-tied by master Parisian florists, the Passionate Serenity harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 25,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-188-1",
+        "userName": "Chetan Saxena",
+        "author": "Chetan Saxena",
+        "userEmail": "chetan.saxena.305@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "An unforgettable grand entrance with Passionate Serenity",
+        "comment": "As a lifelong admirer of fine floristry, the architectural symmetry of the Passionate Serenity is awe-inspiring. The layered organza and matte parchment wrapping protects each bloom while showcasing the lush foliage beneath. My guests could not stop inquiring where this extraordinary floral curation came from.",
+        "date": "5 days ago",
+        "createdAt": "2026-10-17T19:17:04.269Z",
+        "verified": true,
+        "helpful": 43
+      },
+      {
+        "id": "rev-flw-188-2",
+        "userName": "Nandini Al-Mansoor",
+        "author": "Nandini Al-Mansoor",
+        "userEmail": "nandini.almansoor.485@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Lasted over 15 full days in pristine condition — Passionate Serenity",
+        "comment": "Every single stem in our Passionate Serenity was hand-selected at the exact micro-stage of opening for maximum longevity. The subtle, soothing botanical scent persisted for more than 15 days, making the home smell like a morning garden in bloom. The level of quality control and stem-by-stem inspection is evident from the first glance.",
+        "date": "8 days ago",
+        "createdAt": "2026-10-15T02:32:37.870Z",
+        "verified": true,
+        "helpful": 26
+      },
+      {
+        "id": "rev-flw-188-3",
+        "userName": "Simran Mirza",
+        "author": "Simran Mirza",
+        "userEmail": "simran.mirza.665@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "A distinguished luxury statement piece: Passionate Serenity",
+        "comment": "Our executive boardroom needed a commanding centerpiece, and the Passionate Serenity delivered majestic grandeur. The contrast between the velvety mixed and the aromatic eucalyptus foliage creates an exquisite visual rhythm. A consummate triumph of floral curation, pristine presentation, and genuine white-glove service.",
+        "date": "19 days ago",
+        "createdAt": "2026-10-03T15:45:27.911Z",
+        "verified": true,
+        "helpful": 16
+      }
+    ]
   },
   {
     "id": "flw-189",
@@ -4332,22 +12229,64 @@ export const SEED_PRODUCTS = [
     "slug": "singular-devotion",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
     "occasion": "Love & Romance",
     "recipient": "For Her",
-    "flowerType": "Mixed",
     "price": 450,
     "originalPrice": 585,
-    "stock": 45,
-    "images": [
-      "/images/products/singular-devotion.webp"
-    ],
     "rating": 4.9,
     "reviewsCount": 110,
     "tag": "Luxury Bloom",
+    "image": "/images/products/singular-devotion.webp",
+    "images": [
+      "/images/products/singular-devotion.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the Singular Devotion harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 45,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-189-1",
+        "userName": "Gayatri Subramanian",
+        "author": "Gayatri Subramanian",
+        "userEmail": "gayatri.subramanian.318@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Sublime symmetry and velvet perfection in Singular Devotion",
+        "comment": "Commissioned the Singular Devotion as a surprise, and the doorstep presentation was cinematic in its perfection. The protective reefer hydration pods on the stem bases kept every leaf crisply hydrated throughout transport. Without question the finest floral presentation available anywhere in the country today.",
+        "date": "2 days ago",
+        "createdAt": "2026-10-20T18:32:26.862Z",
+        "verified": true,
+        "helpful": 32
+      },
+      {
+        "id": "rev-flw-189-2",
+        "userName": "Prerna Dubey",
+        "author": "Prerna Dubey",
+        "userEmail": "prerna.dubey.498@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Intoxicating aroma and extraordinary stem caliber in Singular Devotion",
+        "comment": "What sets the Singular Devotion apart is the exceptional horticultural caliber of the mixed. Over the first 48 hours in vase water, each bud opened progressively into a magnificent, fully expanded blossom lasting 16 full days. I will never order from standard floral delivery services again after experiencing this caliber.",
+        "date": "9 days ago",
+        "createdAt": "2026-10-13T18:52:52.663Z",
+        "verified": true,
+        "helpful": 28
+      },
+      {
+        "id": "rev-flw-189-3",
+        "userName": "Tanvi Pandey",
+        "author": "Tanvi Pandey",
+        "userEmail": "tanvi.pandey.678@verified.dhanvikk.com",
+        "rating": 4,
+        "title": "Heartfelt tears of joy upon opening the Singular Devotion",
+        "comment": "Surprised my partner with the Singular Devotion and the emotional resonance was beyond words. The gradient of tones in the mixed was subtle, sophisticated, and perfectly suited for luxury sensibilities. Worth every single rupee for the lasting joy, prestige, and beauty it brought into our lives.",
+        "date": "20 days ago",
+        "createdAt": "2026-10-02T15:57:09.778Z",
+        "verified": true,
+        "helpful": 14
+      }
+    ]
   },
   {
     "id": "flw-190",
@@ -4355,22 +12294,64 @@ export const SEED_PRODUCTS = [
     "slug": "passionate-romance",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Roses",
     "occasion": "Love & Romance",
     "recipient": "For Her",
-    "flowerType": "Roses",
     "price": 4478,
     "originalPrice": 5828,
-    "stock": 19,
-    "images": [
-      "/images/products/passionate-romance.webp"
-    ],
     "rating": 4.9,
     "reviewsCount": 186,
     "tag": "Luxury Edit",
+    "image": "/images/products/passionate-romance.webp",
+    "images": [
+      "/images/products/passionate-romance.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the Passionate Romance harmonizes premium long-stemmed roses with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 19,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-190-1",
+        "userName": "Kavita Yadav",
+        "author": "Kavita Yadav",
+        "userEmail": "kavita.yadav.331@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Surpassed our highest expectations: Passionate Romance",
+        "comment": "The Passionate Romance arrived looking so freshly sculpted it felt like an exhibit from a Parisian floral atelier. The imported European waterproof wrap and hand-tied gold-embossed silk ribbon give the bouquet an unmistakable haute couture flair. The recipient was visibly moved to tears upon reading the calligraphy note tucked into the arrangement.",
+        "date": "3 days ago",
+        "createdAt": "2026-10-19T17:47:49.454Z",
+        "verified": true,
+        "helpful": 22
+      },
+      {
+        "id": "rev-flw-190-2",
+        "userName": "Rohan Jain",
+        "author": "Rohan Jain",
+        "userEmail": "rohan.jain.511@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "World-class cold chain delivery and dewy freshness: Passionate Romance",
+        "comment": "Having ordered luxury florals in London and Milan, I can confirm that Dhanvikk's Passionate Romance stands on the global podium. Not a single petal dropped during the first 10 days; the stem caliber is easily double what ordinary high-street florists supply. A masterclass in high-altitude boutique cultivation and pristine handling.",
+        "date": "10 days ago",
+        "createdAt": "2026-10-12T23:13:07.456Z",
+        "verified": true,
+        "helpful": 29
+      },
+      {
+        "id": "rev-flw-190-3",
+        "userName": "Vikram Salunkhe",
+        "author": "Vikram Salunkhe",
+        "userEmail": "vikram.salunkhe.691@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "The gold standard for our love & romance celebration — Passionate Romance",
+        "comment": "If you are looking for an unforgettable statement piece, the Passionate Romance is utterly peerless. The stems drank steadily and held their upright posture with royal dignity throughout the entire celebration. I wholeheartedly recommend Dhanvikk to anyone who refuses to settle for ordinary commercial blooms.",
+        "date": "21 days ago",
+        "createdAt": "2026-10-01T16:08:51.646Z",
+        "verified": true,
+        "helpful": 13
+      }
+    ]
   },
   {
     "id": "flw-191",
@@ -4378,22 +12359,64 @@ export const SEED_PRODUCTS = [
     "slug": "sweet-rose-greens",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Roses",
     "occasion": "Love & Romance",
     "recipient": "For Her",
-    "flowerType": "Roses",
     "price": 4478,
     "originalPrice": 5828,
-    "stock": 23,
-    "images": [
-      "/images/products/sweet-rose-greens.webp"
-    ],
     "rating": 4.9,
     "reviewsCount": 98,
     "tag": "Luxury Bloom",
+    "image": "/images/products/sweet-rose-greens.webp",
+    "images": [
+      "/images/products/sweet-rose-greens.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the Sweet Rose Greens harmonizes premium long-stemmed roses with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 23,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-191-1",
+        "userName": "Meera Montague",
+        "author": "Meera Montague",
+        "userEmail": "meera.montague.344@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Breathtaking sensory unboxing — Sweet Rose Greens",
+        "comment": "Receiving the Sweet Rose Greens was an experience of pure unadulterated luxury. The layered organza and matte parchment wrapping protects each bloom while showcasing the lush foliage beneath. An indispensable triumph of an arrangement for any love & romance.",
+        "date": "4 days ago",
+        "createdAt": "2026-10-18T17:03:12.047Z",
+        "verified": true,
+        "helpful": 41
+      },
+      {
+        "id": "rev-flw-191-2",
+        "userName": "Shreya Mahajan",
+        "author": "Shreya Mahajan",
+        "userEmail": "shreya.mahajan.524@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "The Sweet Rose Greens opened into full majestic splendour over 48 hours",
+        "comment": "The cold-chain logistics behind the Sweet Rose Greens are truly remarkable — arrived thoroughly chilled and dewy. The subtle, soothing botanical scent persisted for more than 11 days, making the home smell like a morning garden in bloom. Proof that luxury floristry is a true art form when executed with such uncompromising dedication.",
+        "date": "11 days ago",
+        "createdAt": "2026-10-11T15:33:22.248Z",
+        "verified": true,
+        "helpful": 30
+      },
+      {
+        "id": "rev-flw-191-3",
+        "userName": "Matteo Shroff",
+        "author": "Matteo Shroff",
+        "userEmail": "matteo.shroff.704@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Worth every single rupee for an unforgettable celebration — Sweet Rose Greens",
+        "comment": "We featured the Sweet Rose Greens at our anniversary dinner table and it immediately became the talking point of the evening. The contrast between the velvety roses and the aromatic eucalyptus foliage creates an exquisite visual rhythm. An unequivocal 10 out of 10 experience that sets a new benchmark for luxury lifestyle floristry.",
+        "date": "22 days ago",
+        "createdAt": "2026-09-30T16:20:33.513Z",
+        "verified": true,
+        "helpful": 12
+      }
+    ]
   },
   {
     "id": "flw-192",
@@ -4401,22 +12424,64 @@ export const SEED_PRODUCTS = [
     "slug": "ohara-blossom",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
     "occasion": "Birthday",
     "recipient": "Everyone",
-    "flowerType": "Mixed",
     "price": 7852,
     "originalPrice": 10215,
-    "stock": 28,
-    "images": [
-      "/images/products/ohara-blossom.webp"
-    ],
     "rating": 4.8,
     "reviewsCount": 53,
     "tag": "Luxury Edit",
+    "image": "/images/products/ohara-blossom.webp",
+    "images": [
+      "/images/products/ohara-blossom.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the Ohara Blossom harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 28,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-192-1",
+        "userName": "Pallavi Chauhan",
+        "author": "Pallavi Chauhan",
+        "userEmail": "pallavi.chauhan.358@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "The pinnacle of refined floristry: Ohara Blossom",
+        "comment": "I ordered the Ohara Blossom for our family celebration and the presentation left us utterly captivated. The protective reefer hydration pods on the stem bases kept every leaf crisply hydrated throughout transport. It brought an atmosphere of regal tranquility to our salon that lasted for days.",
+        "date": "5 days ago",
+        "createdAt": "2026-10-17T16:18:34.640Z",
+        "verified": true,
+        "helpful": 31
+      },
+      {
+        "id": "rev-flw-192-2",
+        "userName": "Suresh Narang",
+        "author": "Suresh Narang",
+        "userEmail": "suresh.narang.537@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Impeccable highland cultivation and petal density — Ohara Blossom",
+        "comment": "Fourteen days after delivery, our Ohara Blossom continues to look remarkably radiant and intact. Over the first 48 hours in vase water, each bud opened progressively into a magnificent, fully expanded blossom lasting 12 full days. Dhanvikk's cold-chain refrigerated delivery fleet is clearly the gold standard in the floristry industry.",
+        "date": "12 days ago",
+        "createdAt": "2026-10-10T19:53:37.041Z",
+        "verified": true,
+        "helpful": 31
+      },
+      {
+        "id": "rev-flw-192-3",
+        "userName": "Amara Varma",
+        "author": "Amara Varma",
+        "userEmail": "amara.varma.717@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Quiet luxury and exquisite calligraphy detailing in Ohara Blossom",
+        "comment": "Gifted the Ohara Blossom as a gesture of heartfelt gratitude, and the response was pure delight. The gradient of tones in the mixed was subtle, sophisticated, and perfectly suited for luxury sensibilities. Will be reordering regularly for all our private celebrations and corporate client gifting.",
+        "date": "23 days ago",
+        "createdAt": "2026-09-29T16:32:15.381Z",
+        "verified": true,
+        "helpful": 11
+      }
+    ]
   },
   {
     "id": "flw-193",
@@ -4424,22 +12489,64 @@ export const SEED_PRODUCTS = [
     "slug": "pastel-petals",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
     "occasion": "Birthday",
     "recipient": "BFFs",
-    "flowerType": "Mixed",
     "price": 11228,
     "originalPrice": 14602,
-    "stock": 26,
-    "images": [
-      "/images/products/pastel-petals.webp"
-    ],
     "rating": 4.8,
     "reviewsCount": 147,
     "tag": "Luxury Bloom",
+    "image": "/images/products/pastel-petals.webp",
+    "images": [
+      "/images/products/pastel-petals.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the Pastel Petals harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 26,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-193-1",
+        "userName": "Rhea Hegde",
+        "author": "Rhea Hegde",
+        "userEmail": "rhea.hegde.371@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Awe-inspiring craftsmanship and luxury presentation — Pastel Petals",
+        "comment": "From the moment the Dhanvikk courier arrived with the Pastel Petals, the caliber was unmistakably world-class. The imported European waterproof wrap and hand-tied gold-embossed silk ribbon give the bouquet an unmistakable haute couture flair. My guests could not stop inquiring where this extraordinary floral curation came from.",
+        "date": "2 days ago",
+        "createdAt": "2026-10-20T15:33:57.233Z",
+        "verified": true,
+        "helpful": 20
+      },
+      {
+        "id": "rev-flw-193-2",
+        "userName": "Varun Rathore",
+        "author": "Varun Rathore",
+        "userEmail": "varun.rathore.551@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Unprecedented vase longevity and natural fragrance from Pastel Petals",
+        "comment": "The fragrance profile of the Pastel Petals is natural, intoxicating, and gracefully fills the entire room. Not a single petal dropped during the first 10 days; the stem caliber is easily double what ordinary high-street florists supply. The level of quality control and stem-by-stem inspection is evident from the first glance.",
+        "date": "7 days ago",
+        "createdAt": "2026-10-16T00:13:51.834Z",
+        "verified": true,
+        "helpful": 33
+      },
+      {
+        "id": "rev-flw-193-3",
+        "userName": "Domenico Fontaine",
+        "author": "Domenico Fontaine",
+        "userEmail": "domenico.fontaine.731@verified.dhanvikk.com",
+        "rating": 4,
+        "title": "An heirloom masterpiece that brought immense joy: Pastel Petals",
+        "comment": "The Pastel Petals is hands down one of the most distinguished floral creations I have had the pleasure to present. The stems drank steadily and held their upright posture with royal dignity throughout the entire celebration. A consummate triumph of floral curation, pristine presentation, and genuine white-glove service.",
+        "date": "24 days ago",
+        "createdAt": "2026-09-28T16:43:57.248Z",
+        "verified": true,
+        "helpful": 29
+      }
+    ]
   },
   {
     "id": "flw-194",
@@ -4447,22 +12554,64 @@ export const SEED_PRODUCTS = [
     "slug": "crimson-majesty",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Roses",
     "occasion": "Love & Romance",
     "recipient": "For Her",
-    "flowerType": "Roses",
     "price": 3352,
     "originalPrice": 4365,
-    "stock": 44,
+    "rating": 5,
+    "reviewsCount": 96,
+    "tag": "Fresh Harvest",
+    "image": "/images/products/crimson-majesty.webp",
     "images": [
       "/images/products/crimson-majesty.webp"
     ],
-    "rating": 5.0,
-    "reviewsCount": 96,
-    "tag": "Fresh Harvest",
     "description": "Hand-tied by master Parisian florists, the Crimson Majesty harmonizes premium long-stemmed roses with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 44,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-194-1",
+        "userName": "Sanya Kirloskar",
+        "author": "Sanya Kirloskar",
+        "userEmail": "sanya.kirloskar.384@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Arrived pristine with morning dew still on petals: Crimson Majesty",
+        "comment": "The sheer artistic balance of the Crimson Majesty easily surpasses any floral arrangement I have commissioned before. The layered organza and matte parchment wrapping protects each bloom while showcasing the lush foliage beneath. Without question the finest floral presentation available anywhere in the country today.",
+        "date": "3 days ago",
+        "createdAt": "2026-10-20T02:49:19.826Z",
+        "verified": true,
+        "helpful": 39
+      },
+      {
+        "id": "rev-flw-194-2",
+        "userName": "Sebastien Sengupta",
+        "author": "Sebastien Sengupta",
+        "userEmail": "sebastien.sengupta.564@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Uncompromising quality control in this gorgeous Crimson Majesty",
+        "comment": "You can immediately feel the heavy stem density and turgid petal structure of this highland-grown Crimson Majesty. The subtle, soothing botanical scent persisted for more than 14 days, making the home smell like a morning garden in bloom. I will never order from standard floral delivery services again after experiencing this caliber.",
+        "date": "8 days ago",
+        "createdAt": "2026-10-14T16:34:06.627Z",
+        "verified": true,
+        "helpful": 34
+      },
+      {
+        "id": "rev-flw-194-3",
+        "userName": "Aaditya Bhardwaj",
+        "author": "Aaditya Bhardwaj",
+        "userEmail": "aaditya.bhardwaj.744@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Flawless execution from courier to final bloom — Crimson Majesty",
+        "comment": "Everything about the Crimson Majesty — from the embossed envelope to the floral symmetry — whispers quiet luxury. The contrast between the velvety roses and the aromatic eucalyptus foliage creates an exquisite visual rhythm. Worth every single rupee for the lasting joy, prestige, and beauty it brought into our lives.",
+        "date": "25 days ago",
+        "createdAt": "2026-09-27T16:55:39.116Z",
+        "verified": true,
+        "helpful": 28
+      }
+    ]
   },
   {
     "id": "flw-195",
@@ -4470,22 +12619,64 @@ export const SEED_PRODUCTS = [
     "slug": "charming-contrast",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
     "occasion": "Birthday",
     "recipient": "Everyone",
-    "flowerType": "Mixed",
     "price": 2228,
     "originalPrice": 2902,
-    "stock": 37,
-    "images": [
-      "/images/products/charming-contrast.webp"
-    ],
     "rating": 4.7,
     "reviewsCount": 88,
     "tag": "Luxury Bloom",
+    "image": "/images/products/charming-contrast.webp",
+    "images": [
+      "/images/products/charming-contrast.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the Charming Contrast harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 37,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": true,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-195-1",
+        "userName": "Somesh Mukherjee",
+        "author": "Somesh Mukherjee",
+        "userEmail": "somesh.mukherjee.397@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Elegance personified in the magnificent Charming Contrast",
+        "comment": "Dhanvikk has completely redefined luxury gifting with this sensational Charming Contrast. The protective reefer hydration pods on the stem bases kept every leaf crisply hydrated throughout transport. The recipient was visibly moved to tears upon reading the calligraphy note tucked into the arrangement.",
+        "date": "4 days ago",
+        "createdAt": "2026-10-19T02:04:42.418Z",
+        "verified": true,
+        "helpful": 29
+      },
+      {
+        "id": "rev-flw-195-2",
+        "userName": "Sophia Tandon",
+        "author": "Sophia Tandon",
+        "userEmail": "sophia.tandon.577@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Robust stems, velvety texture, and remarkable hydration: Charming Contrast",
+        "comment": "Dhanvikk's zero-compromise approach to morning dawn-cutting is vividly apparent in the Charming Contrast. Over the first 48 hours in vase water, each bud opened progressively into a magnificent, fully expanded blossom lasting 15 full days. A masterclass in high-altitude boutique cultivation and pristine handling.",
+        "date": "9 days ago",
+        "createdAt": "2026-10-13T20:54:21.420Z",
+        "verified": true,
+        "helpful": 35
+      },
+      {
+        "id": "rev-flw-195-3",
+        "userName": "Anirudh Garg",
+        "author": "Anirudh Garg",
+        "userEmail": "anirudh.garg.757@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Our definitive choice for all high-profile occasions: Charming Contrast",
+        "comment": "Ordered the Charming Contrast on short notice and Dhanvikk delivered with impeccable timing and flawless poise. The gradient of tones in the mixed was subtle, sophisticated, and perfectly suited for luxury sensibilities. I wholeheartedly recommend Dhanvikk to anyone who refuses to settle for ordinary commercial blooms.",
+        "date": "26 days ago",
+        "createdAt": "2026-09-26T17:07:20.983Z",
+        "verified": true,
+        "helpful": 27
+      }
+    ]
   },
   {
     "id": "flw-196",
@@ -4493,22 +12684,64 @@ export const SEED_PRODUCTS = [
     "slug": "soft-serenade",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
     "occasion": "Birthday",
     "recipient": "Everyone",
-    "flowerType": "Mixed",
     "price": 5602,
     "originalPrice": 7290,
-    "stock": 16,
-    "images": [
-      "/images/products/soft-serenade.webp"
-    ],
     "rating": 4.9,
     "reviewsCount": 127,
     "tag": "Fresh Harvest",
+    "image": "/images/products/soft-serenade.webp",
+    "images": [
+      "/images/products/soft-serenade.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the Soft Serenade harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 16,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-196-1",
+        "userName": "Utkarsh Puri",
+        "author": "Utkarsh Puri",
+        "userEmail": "utkarsh.puri.410@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Unrivaled atelier artistry in every single bloom — Soft Serenade",
+        "comment": "The unveiling of our Soft Serenade was the highlight of our celebratory morning. The imported European waterproof wrap and hand-tied gold-embossed silk ribbon give the bouquet an unmistakable haute couture flair. An indispensable triumph of an arrangement for any birthday.",
+        "date": "5 days ago",
+        "createdAt": "2026-10-18T01:20:05.011Z",
+        "verified": true,
+        "helpful": 48
+      },
+      {
+        "id": "rev-flw-196-2",
+        "userName": "Henri Mercier",
+        "author": "Henri Mercier",
+        "userEmail": "henri.mercier.590@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Horticultural perfection air-flown with exquisite care — Soft Serenade",
+        "comment": "The freshness of the Soft Serenade when unpacked felt as if it had been gathered from the mountain estate an hour prior. Not a single petal dropped during the first 10 days; the stem caliber is easily double what ordinary high-street florists supply. Proof that luxury floristry is a true art form when executed with such uncompromising dedication.",
+        "date": "10 days ago",
+        "createdAt": "2026-10-13T01:14:36.212Z",
+        "verified": true,
+        "helpful": 36
+      },
+      {
+        "id": "rev-flw-196-3",
+        "userName": "Dhruv Kashyap",
+        "author": "Dhruv Kashyap",
+        "userEmail": "dhruv.kashyap.770@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "The ultimate emotional grand gesture for our birthday — Soft Serenade",
+        "comment": "The visual impact of the Soft Serenade when unveiled is something neither my guests nor I will soon forget. The stems drank steadily and held their upright posture with royal dignity throughout the entire celebration. An unequivocal 10 out of 10 experience that sets a new benchmark for luxury lifestyle floristry.",
+        "date": "27 days ago",
+        "createdAt": "2026-09-25T17:19:02.851Z",
+        "verified": true,
+        "helpful": 26
+      }
+    ]
   },
   {
     "id": "flw-197",
@@ -4516,22 +12749,64 @@ export const SEED_PRODUCTS = [
     "slug": "midnight-passion-2",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
     "occasion": "Love & Romance",
     "recipient": "For Her",
-    "flowerType": "Mixed",
     "price": 33728,
     "originalPrice": 43852,
-    "stock": 25,
-    "images": [
-      "/images/products/midnight-passion-2.webp"
-    ],
     "rating": 4.8,
     "reviewsCount": 159,
     "tag": "Luxury Bloom",
+    "image": "/images/products/midnight-passion-2.webp",
+    "images": [
+      "/images/products/midnight-passion-2.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the Midnight Passion harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 25,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-197-1",
+        "userName": "Zara Sarin",
+        "author": "Zara Sarin",
+        "userEmail": "zara.sarin.424@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Haute couture floral design at its finest: Midnight Passion",
+        "comment": "Exquisite does not even begin to capture how breathtaking the Midnight Passion looks in person. The layered organza and matte parchment wrapping protects each bloom while showcasing the lush foliage beneath. It brought an atmosphere of regal tranquility to our salon that lasted for days.",
+        "date": "2 days ago",
+        "createdAt": "2026-10-21T00:35:27.604Z",
+        "verified": true,
+        "helpful": 38
+      },
+      {
+        "id": "rev-flw-197-2",
+        "userName": "Astrid Al-Maktoum",
+        "author": "Astrid Al-Maktoum",
+        "userEmail": "astrid.almaktoum.603@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Remarkably fresh for nearly two weeks in our salon: Midnight Passion",
+        "comment": "The sheer volume and petal count packed into the Midnight Passion makes it an extraordinary value for high connoisseurs. The subtle, soothing botanical scent persisted for more than 10 days, making the home smell like a morning garden in bloom. Dhanvikk's cold-chain refrigerated delivery fleet is clearly the gold standard in the floristry industry.",
+        "date": "11 days ago",
+        "createdAt": "2026-10-11T17:34:51.005Z",
+        "verified": true,
+        "helpful": 38
+      },
+      {
+        "id": "rev-flw-197-3",
+        "userName": "Ishaan Menon",
+        "author": "Ishaan Menon",
+        "userEmail": "ishaan.menon.783@verified.dhanvikk.com",
+        "rating": 4,
+        "title": "Left all our dinner guests completely captivated: Midnight Passion",
+        "comment": "I selected the Midnight Passion specifically for a milestone love & romance surprise. The contrast between the velvety mixed and the aromatic eucalyptus foliage creates an exquisite visual rhythm. Will be reordering regularly for all our private celebrations and corporate client gifting.",
+        "date": "14 days ago",
+        "createdAt": "2026-10-08T17:30:44.718Z",
+        "verified": true,
+        "helpful": 24
+      }
+    ]
   },
   {
     "id": "flw-198",
@@ -4539,22 +12814,64 @@ export const SEED_PRODUCTS = [
     "slug": "sweet-sentiment",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
     "occasion": "Love & Romance",
     "recipient": "For Her",
-    "flowerType": "Mixed",
     "price": 338,
     "originalPrice": 450,
-    "stock": 14,
-    "images": [
-      "/images/products/sweet-sentiment.webp"
-    ],
     "rating": 4.8,
     "reviewsCount": 72,
     "tag": "Artisan Hand-tied",
+    "image": "/images/products/sweet-sentiment.webp",
+    "images": [
+      "/images/products/sweet-sentiment.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the Sweet Sentiment harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 14,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-198-1",
+        "userName": "Isabella Srinivasan",
+        "author": "Isabella Srinivasan",
+        "userEmail": "isabella.srinivasan.437@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "An unforgettable grand entrance with Sweet Sentiment",
+        "comment": "As a lifelong admirer of fine floristry, the architectural symmetry of the Sweet Sentiment is awe-inspiring. The protective reefer hydration pods on the stem bases kept every leaf crisply hydrated throughout transport. My guests could not stop inquiring where this extraordinary floral curation came from.",
+        "date": "3 days ago",
+        "createdAt": "2026-10-19T23:50:50.197Z",
+        "verified": true,
+        "helpful": 27
+      },
+      {
+        "id": "rev-flw-198-2",
+        "userName": "Amina Dhillon",
+        "author": "Amina Dhillon",
+        "userEmail": "amina.dhillon.617@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Lasted over 11 full days in pristine condition — Sweet Sentiment",
+        "comment": "Every single stem in our Sweet Sentiment was hand-selected at the exact micro-stage of opening for maximum longevity. Over the first 48 hours in vase water, each bud opened progressively into a magnificent, fully expanded blossom lasting 11 full days. The level of quality control and stem-by-stem inspection is evident from the first glance.",
+        "date": "12 days ago",
+        "createdAt": "2026-10-10T21:55:05.798Z",
+        "verified": true,
+        "helpful": 39
+      },
+      {
+        "id": "rev-flw-198-3",
+        "userName": "Kiran Oberoi",
+        "author": "Kiran Oberoi",
+        "userEmail": "kiran.oberoi.797@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "A distinguished luxury statement piece: Sweet Sentiment",
+        "comment": "Our executive boardroom needed a commanding centerpiece, and the Sweet Sentiment delivered majestic grandeur. The gradient of tones in the mixed was subtle, sophisticated, and perfectly suited for luxury sensibilities. A consummate triumph of floral curation, pristine presentation, and genuine white-glove service.",
+        "date": "15 days ago",
+        "createdAt": "2026-10-07T17:42:26.586Z",
+        "verified": true,
+        "helpful": 23
+      }
+    ]
   },
   {
     "id": "flw-199",
@@ -4562,21 +12879,1364 @@ export const SEED_PRODUCTS = [
     "slug": "serene-blossom",
     "category": "Flowers",
     "subCategory": "Hand Bouquets",
+    "flowerType": "Mixed",
     "occasion": "Congratulations",
     "recipient": "Everyone",
-    "flowerType": "Mixed",
     "price": 15728,
     "originalPrice": 20452,
-    "stock": 14,
-    "images": [
-      "/images/products/serene-blossom.webp"
-    ],
     "rating": 4.9,
     "reviewsCount": 112,
     "tag": "Luxury Bloom",
+    "image": "/images/products/serene-blossom.webp",
+    "images": [
+      "/images/products/serene-blossom.webp"
+    ],
     "description": "Hand-tied by master Parisian florists, the Serene Blossom harmonizes premium long-stemmed garden blooms with fresh seasonal textural greens. Wrapped in Dhanvikk frosted botanical tissue and tied with dual-tone grosgrain ribbon.",
+    "stock": 14,
+    "inStock": true,
     "isBestSeller": false,
     "isFeatured": false,
-    "inStock": true
+    "reviews": [
+      {
+        "id": "rev-flw-199-1",
+        "userName": "Zayd Walia",
+        "author": "Zayd Walia",
+        "userEmail": "zayd.walia.450@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Sublime symmetry and velvet perfection in Serene Blossom",
+        "comment": "Commissioned the Serene Blossom as a surprise, and the doorstep presentation was cinematic in its perfection. The imported European waterproof wrap and hand-tied gold-embossed silk ribbon give the bouquet an unmistakable haute couture flair. Without question the finest floral presentation available anywhere in the country today.",
+        "date": "4 days ago",
+        "createdAt": "2026-10-18T23:06:12.790Z",
+        "verified": true,
+        "helpful": 47
+      },
+      {
+        "id": "rev-flw-199-2",
+        "userName": "Chetan Jadhav",
+        "author": "Chetan Jadhav",
+        "userEmail": "chetan.jadhav.630@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Intoxicating aroma and extraordinary stem caliber in Serene Blossom",
+        "comment": "What sets the Serene Blossom apart is the exceptional horticultural caliber of the mixed. Not a single petal dropped during the first 10 days; the stem caliber is easily double what ordinary high-street florists supply. I will never order from standard floral delivery services again after experiencing this caliber.",
+        "date": "7 days ago",
+        "createdAt": "2026-10-16T02:15:20.591Z",
+        "verified": true,
+        "helpful": 15
+      },
+      {
+        "id": "rev-flw-199-3",
+        "userName": "Nandini Sachdev",
+        "author": "Nandini Sachdev",
+        "userEmail": "nandini.sachdev.810@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Heartfelt tears of joy upon opening the Serene Blossom",
+        "comment": "Surprised my partner with the Serene Blossom and the emotional resonance was beyond words. The stems drank steadily and held their upright posture with royal dignity throughout the entire celebration. Worth every single rupee for the lasting joy, prestige, and beauty it brought into our lives.",
+        "date": "16 days ago",
+        "createdAt": "2026-10-06T17:54:08.453Z",
+        "verified": true,
+        "helpful": 22
+      }
+    ]
+  },
+  {
+    "id": "flw-200",
+    "name": "Cascading Imperial White Orchid",
+    "slug": "cascading-imperial-white-orchid",
+    "category": "Plants",
+    "subCategory": "Living Orchids",
+    "flowerType": "Orchids",
+    "occasion": "Congratulations",
+    "recipient": "Everyone",
+    "price": 5499,
+    "originalPrice": 6999,
+    "rating": 4.9,
+    "reviewsCount": 89,
+    "tag": "Living Botanical",
+    "image": "https://images.unsplash.com/photo-1545241047-6083a3684587?auto=format&fit=crop&w=800&q=80",
+    "images": [
+      "https://images.unsplash.com/photo-1545241047-6083a3684587?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "An imperial double-spike Phalaenopsis white orchid gracefully blooming in an artisan hand-glazed ceramic planter. Cultivated in climate-controlled Nilgiris greenhouses, this living orchid brings refined tranquility and blooms for 8-12 weeks with minimal care.",
+    "stock": 25,
+    "inStock": true,
+    "isBestSeller": true,
+    "isFeatured": true,
+    "reviews": [
+      {
+        "id": "rev-flw-200-1",
+        "userName": "Svetlana Sinclair",
+        "author": "Svetlana Sinclair",
+        "userEmail": "svetlana.sinclair.463@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Surpassed our highest expectations: Cascading Imperial White Orchid",
+        "comment": "The Cascading Imperial White Orchid arrived looking so freshly sculpted it felt like an exhibit from a Parisian floral atelier. The hand-glazed stoneware pot has an organic textured finish that feels both modern and deeply refined. The recipient was visibly moved to tears upon reading the calligraphy note tucked into the arrangement.",
+        "date": "5 days ago",
+        "createdAt": "2026-10-17T22:21:35.383Z",
+        "verified": true,
+        "helpful": 36
+      },
+      {
+        "id": "rev-flw-200-2",
+        "userName": "Gayatri Lahiri",
+        "author": "Gayatri Lahiri",
+        "userEmail": "gayatri.lahiri.643@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "World-class cold chain delivery and dewy freshness: Cascading Imperial White Orchid",
+        "comment": "Having ordered luxury florals in London and Milan, I can confirm that Dhanvikk's Cascading Imperial White Orchid stands on the global podium. The air-purifying qualities and serene sculptural silhouette have completely transformed the energy of our workspace. A masterclass in high-altitude boutique cultivation and pristine handling.",
+        "date": "8 days ago",
+        "createdAt": "2026-10-14T18:35:35.384Z",
+        "verified": true,
+        "helpful": 16
+      },
+      {
+        "id": "rev-flw-200-3",
+        "userName": "Prerna Shetty",
+        "author": "Prerna Shetty",
+        "userEmail": "prerna.shetty.823@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "The gold standard for our congratulations celebration — Cascading Imperial White Orchid",
+        "comment": "If you are looking for an unforgettable statement piece, the Cascading Imperial White Orchid is utterly peerless. It strikes the perfect balance between architectural modernism and timeless organic tranquility. I wholeheartedly recommend Dhanvikk to anyone who refuses to settle for ordinary commercial blooms.",
+        "date": "17 days ago",
+        "createdAt": "2026-10-05T18:05:50.321Z",
+        "verified": true,
+        "helpful": 21
+      }
+    ]
+  },
+  {
+    "id": "flw-201",
+    "name": "Spathiphyllum Peace Lily Elegance",
+    "slug": "spathiphyllum-peace-lily-elegance",
+    "category": "Plants",
+    "subCategory": "Air Purifying Plants",
+    "flowerType": "Plants",
+    "occasion": "Housewarming",
+    "recipient": "Everyone",
+    "price": 3499,
+    "originalPrice": 4499,
+    "rating": 4.8,
+    "reviewsCount": 64,
+    "tag": "Air Purifying",
+    "image": "https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?auto=format&fit=crop&w=800&q=80",
+    "images": [
+      "https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "Known as nature's ultimate air purifier, this lush Peace Lily features glossy emerald foliage crowned with pure white spadix blooms. Presented in a handcrafted stone-textured planter, it actively filters indoor airborne toxins.",
+    "stock": 30,
+    "inStock": true,
+    "isBestSeller": true,
+    "isFeatured": false,
+    "reviews": [
+      {
+        "id": "rev-flw-201-1",
+        "userName": "Aditi Chatterjee",
+        "author": "Aditi Chatterjee",
+        "userEmail": "aditi.chatterjee.476@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Breathtaking sensory unboxing — Spathiphyllum Peace Lily Elegance",
+        "comment": "Receiving the Spathiphyllum Peace Lily Elegance was an experience of pure unadulterated luxury. The botanical specimen arrived nestled in moss-topped organic potting mix without a single speck of spilled earth. An indispensable triumph of an arrangement for any housewarming.",
+        "date": "2 days ago",
+        "createdAt": "2026-10-20T21:36:57.975Z",
+        "verified": true,
+        "helpful": 25
+      },
+      {
+        "id": "rev-flw-201-2",
+        "userName": "Kavita Nambiar",
+        "author": "Kavita Nambiar",
+        "userEmail": "kavita.nambiar.656@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "The Spathiphyllum Peace Lily Elegance opened into full majestic splendour over 48 hours",
+        "comment": "The cold-chain logistics behind the Spathiphyllum Peace Lily Elegance are truly remarkable — arrived thoroughly chilled and dewy. The foliage exhibits zero blemish or discoloration; every leaf has a natural glossy sheen that radiates healthy horticultural care. Proof that luxury floristry is a true art form when executed with such uncompromising dedication.",
+        "date": "9 days ago",
+        "createdAt": "2026-10-13T22:55:50.177Z",
+        "verified": true,
+        "helpful": 18
+      },
+      {
+        "id": "rev-flw-201-3",
+        "userName": "Rohan Upadhyay",
+        "author": "Rohan Upadhyay",
+        "userEmail": "rohan.upadhyay.836@verified.dhanvikk.com",
+        "rating": 4,
+        "title": "Worth every single rupee for an unforgettable celebration — Spathiphyllum Peace Lily Elegance",
+        "comment": "We featured the Spathiphyllum Peace Lily Elegance at our anniversary dinner table and it immediately became the talking point of the evening. The potting harmony and lush foliage structure bring an immediate sense of refined botanical sanctuary. An unequivocal 10 out of 10 experience that sets a new benchmark for luxury lifestyle floristry.",
+        "date": "18 days ago",
+        "createdAt": "2026-10-04T18:17:32.188Z",
+        "verified": true,
+        "helpful": 19
+      }
+    ]
+  },
+  {
+    "id": "flw-202",
+    "name": "Japanese S-Curve Ficus Ginseng Bonsai",
+    "slug": "japanese-s-curve-ficus-ginseng-bonsai",
+    "category": "Plants",
+    "subCategory": "Bonsai Trees",
+    "flowerType": "Plants",
+    "occasion": "Congratulations",
+    "recipient": "For Him",
+    "price": 6999,
+    "originalPrice": 8999,
+    "rating": 4.9,
+    "reviewsCount": 51,
+    "tag": "Artisan Bonsai",
+    "image": "https://images.unsplash.com/photo-1512428813834-c702c7702b78?auto=format&fit=crop&w=800&q=80",
+    "images": [
+      "https://images.unsplash.com/photo-1512428813834-c702c7702b78?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "A miniature living sculpture shaped over 8 years into a classic oriental S-curve trunk with a lush umbrella canopy of glossy green banyan leaves. Set in a traditional glazed ceramic bonsai tray with decorative river river stones.",
+    "stock": 18,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": true,
+    "reviews": [
+      {
+        "id": "rev-flw-202-1",
+        "userName": "Avani Gupta",
+        "author": "Avani Gupta",
+        "userEmail": "avani.gupta.490@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "The pinnacle of refined floristry: Japanese S-Curve Ficus Ginseng Bonsai",
+        "comment": "I ordered the Japanese S-Curve Ficus Ginseng Bonsai for our family celebration and the presentation left us utterly captivated. The heavy artisan matte ceramic planter with drainage under-sauce complements the lush greenery flawlessly. It brought an atmosphere of regal tranquility to our salon that lasted for days.",
+        "date": "3 days ago",
+        "createdAt": "2026-10-19T20:52:20.568Z",
+        "verified": true,
+        "helpful": 45
+      },
+      {
+        "id": "rev-flw-202-2",
+        "userName": "Meera Rao",
+        "author": "Meera Rao",
+        "userEmail": "meera.rao.669@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Impeccable highland cultivation and petal density — Japanese S-Curve Ficus Ginseng Bonsai",
+        "comment": "Fourteen days after delivery, our Japanese S-Curve Ficus Ginseng Bonsai continues to look remarkably radiant and intact. Root health was immaculate upon arrival, and the plant has already produced two vigorous new shoots within the fortnight. Dhanvikk's cold-chain refrigerated delivery fleet is clearly the gold standard in the floristry industry.",
+        "date": "10 days ago",
+        "createdAt": "2026-10-12T15:16:04.969Z",
+        "verified": true,
+        "helpful": 19
+      },
+      {
+        "id": "rev-flw-202-3",
+        "userName": "Shreya Castiglione",
+        "author": "Shreya Castiglione",
+        "userEmail": "shreya.castiglione.849@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Quiet luxury and exquisite calligraphy detailing in Japanese S-Curve Ficus Ginseng Bonsai",
+        "comment": "Gifted the Japanese S-Curve Ficus Ginseng Bonsai as a gesture of heartfelt gratitude, and the response was pure delight. Zero mess, perfectly balanced moisture, and a gorgeous stoneware centerpiece that elevates the entire room. Will be reordering regularly for all our private celebrations and corporate client gifting.",
+        "date": "19 days ago",
+        "createdAt": "2026-10-03T18:29:14.056Z",
+        "verified": true,
+        "helpful": 18
+      }
+    ]
+  },
+  {
+    "id": "flw-203",
+    "name": "Monstera Deliciosa Swiss Cheese Tropical",
+    "slug": "monstera-deliciosa-swiss-cheese-tropical",
+    "category": "Plants",
+    "subCategory": "Indoor Botanicals",
+    "flowerType": "Plants",
+    "occasion": "Housewarming",
+    "recipient": "Everyone",
+    "price": 4299,
+    "originalPrice": 5499,
+    "rating": 4.8,
+    "reviewsCount": 73,
+    "tag": "Trending Green",
+    "image": "https://images.unsplash.com/photo-1614594975525-e45190c55d0b?auto=format&fit=crop&w=800&q=80",
+    "images": [
+      "https://images.unsplash.com/photo-1614594975525-e45190c55d0b?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "A magnificent tropical statement plant featuring bold, fenestrated Swiss-cheese foliage. Potted in an artisanal neutral terracotta planter, the Monstera Deliciosa effortlessly transforms modern apartments and villas into botanical sanctuaries.",
+    "stock": 22,
+    "inStock": true,
+    "isBestSeller": true,
+    "isFeatured": false,
+    "reviews": [
+      {
+        "id": "rev-flw-203-1",
+        "userName": "Farhan Khatri",
+        "author": "Farhan Khatri",
+        "userEmail": "farhan.khatri.503@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Awe-inspiring craftsmanship and luxury presentation — Monstera Deliciosa Swiss Cheese Tropical",
+        "comment": "From the moment the Dhanvikk courier arrived with the Monstera Deliciosa Swiss Cheese Tropical, the caliber was unmistakably world-class. The hand-glazed stoneware pot has an organic textured finish that feels both modern and deeply refined. My guests could not stop inquiring where this extraordinary floral curation came from.",
+        "date": "4 days ago",
+        "createdAt": "2026-10-18T20:07:43.161Z",
+        "verified": true,
+        "helpful": 34
+      },
+      {
+        "id": "rev-flw-203-2",
+        "userName": "Pallavi Sen",
+        "author": "Pallavi Sen",
+        "userEmail": "pallavi.sen.683@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Unprecedented vase longevity and natural fragrance from Monstera Deliciosa Swiss Cheese Tropical",
+        "comment": "The fragrance profile of the Monstera Deliciosa Swiss Cheese Tropical is natural, intoxicating, and gracefully fills the entire room. The air-purifying qualities and serene sculptural silhouette have completely transformed the energy of our workspace. The level of quality control and stem-by-stem inspection is evident from the first glance.",
+        "date": "11 days ago",
+        "createdAt": "2026-10-11T19:36:19.762Z",
+        "verified": true,
+        "helpful": 20
+      },
+      {
+        "id": "rev-flw-203-3",
+        "userName": "Suresh Bansal",
+        "author": "Suresh Bansal",
+        "userEmail": "suresh.bansal.863@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "An heirloom masterpiece that brought immense joy: Monstera Deliciosa Swiss Cheese Tropical",
+        "comment": "The Monstera Deliciosa Swiss Cheese Tropical is hands down one of the most distinguished floral creations I have had the pleasure to present. It strikes the perfect balance between architectural modernism and timeless organic tranquility. A consummate triumph of floral curation, pristine presentation, and genuine white-glove service.",
+        "date": "20 days ago",
+        "createdAt": "2026-10-02T18:40:55.923Z",
+        "verified": true,
+        "helpful": 17
+      }
+    ]
+  },
+  {
+    "id": "flw-204",
+    "name": "Sansevieria Laurentii Golden Snake Plant",
+    "slug": "sansevieria-laurentii-golden-snake-plant",
+    "category": "Plants",
+    "subCategory": "Air Purifying Plants",
+    "flowerType": "Plants",
+    "occasion": "Get Well Soon",
+    "recipient": "Everyone",
+    "price": 2999,
+    "originalPrice": 3899,
+    "rating": 4.9,
+    "reviewsCount": 98,
+    "tag": "Indestructible",
+    "image": "https://images.unsplash.com/photo-1617173944883-6ffbd35d584d?auto=format&fit=crop&w=800&q=80",
+    "images": [
+      "https://images.unsplash.com/photo-1617173944883-6ffbd35d584d?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "Architectural sword-like leaves banded with deep forest green and golden yellow margins. One of the rare plants that releases pure oxygen throughout the night, making it the perfect bedroom or executive office sanctuary companion.",
+    "stock": 40,
+    "inStock": true,
+    "isBestSeller": true,
+    "isFeatured": false,
+    "reviews": [
+      {
+        "id": "rev-flw-204-1",
+        "userName": "Kalyani Mitra",
+        "author": "Kalyani Mitra",
+        "userEmail": "kalyani.mitra.516@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Arrived pristine with morning dew still on petals: Sansevieria Laurentii Golden Snake Plant",
+        "comment": "The sheer artistic balance of the Sansevieria Laurentii Golden Snake Plant easily surpasses any floral arrangement I have commissioned before. The botanical specimen arrived nestled in moss-topped organic potting mix without a single speck of spilled earth. Without question the finest floral presentation available anywhere in the country today.",
+        "date": "5 days ago",
+        "createdAt": "2026-10-17T19:23:05.754Z",
+        "verified": true,
+        "helpful": 24
+      },
+      {
+        "id": "rev-flw-204-2",
+        "userName": "Rhea Talwar",
+        "author": "Rhea Talwar",
+        "userEmail": "rhea.talwar.696@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Uncompromising quality control in this gorgeous Sansevieria Laurentii Golden Snake Plant",
+        "comment": "You can immediately feel the heavy stem density and turgid petal structure of this highland-grown Sansevieria Laurentii Golden Snake Plant. The foliage exhibits zero blemish or discoloration; every leaf has a natural glossy sheen that radiates healthy horticultural care. I will never order from standard floral delivery services again after experiencing this caliber.",
+        "date": "12 days ago",
+        "createdAt": "2026-10-10T23:56:34.555Z",
+        "verified": true,
+        "helpful": 22
+      },
+      {
+        "id": "rev-flw-204-3",
+        "userName": "Varun Ganguly",
+        "author": "Varun Ganguly",
+        "userEmail": "varun.ganguly.876@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Flawless execution from courier to final bloom — Sansevieria Laurentii Golden Snake Plant",
+        "comment": "Everything about the Sansevieria Laurentii Golden Snake Plant — from the embossed envelope to the floral symmetry — whispers quiet luxury. The potting harmony and lush foliage structure bring an immediate sense of refined botanical sanctuary. Worth every single rupee for the lasting joy, prestige, and beauty it brought into our lives.",
+        "date": "21 days ago",
+        "createdAt": "2026-10-01T18:52:37.791Z",
+        "verified": true,
+        "helpful": 16
+      }
+    ]
+  },
+  {
+    "id": "flw-205",
+    "name": "Flamingo Pink Anthurium Blooming Planter",
+    "slug": "flamingo-pink-anthurium-blooming-planter",
+    "category": "Plants",
+    "subCategory": "Flowering Potted Plants",
+    "flowerType": "Plants",
+    "occasion": "Anniversary",
+    "recipient": "For Her",
+    "price": 4199,
+    "originalPrice": 5299,
+    "rating": 4.9,
+    "reviewsCount": 82,
+    "tag": "Constant Bloomer",
+    "image": "https://images.unsplash.com/photo-1600411833196-7c1f6b1a8b90?auto=format&fit=crop&w=800&q=80",
+    "images": [
+      "https://images.unsplash.com/photo-1600411833196-7c1f6b1a8b90?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "Showcasing waxy, heart-shaped blush pink spathes and lush dark emerald leaves. The Anthurium symbolizes lasting hospitality and romance, blooming almost continuously throughout the entire year indoors.",
+    "stock": 26,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": true,
+    "reviews": [
+      {
+        "id": "rev-flw-205-1",
+        "userName": "Malini Prasad",
+        "author": "Malini Prasad",
+        "userEmail": "malini.prasad.529@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Elegance personified in the magnificent Flamingo Pink Anthurium Blooming Planter",
+        "comment": "Dhanvikk has completely redefined luxury gifting with this sensational Flamingo Pink Anthurium Blooming Planter. The heavy artisan matte ceramic planter with drainage under-sauce complements the lush greenery flawlessly. The recipient was visibly moved to tears upon reading the calligraphy note tucked into the arrangement.",
+        "date": "2 days ago",
+        "createdAt": "2026-10-20T18:38:28.347Z",
+        "verified": true,
+        "helpful": 43
+      },
+      {
+        "id": "rev-flw-205-2",
+        "userName": "Sanya Laurent",
+        "author": "Sanya Laurent",
+        "userEmail": "sanya.laurent.709@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Robust stems, velvety texture, and remarkable hydration: Flamingo Pink Anthurium Blooming Planter",
+        "comment": "Dhanvikk's zero-compromise approach to morning dawn-cutting is vividly apparent in the Flamingo Pink Anthurium Blooming Planter. Root health was immaculate upon arrival, and the plant has already produced two vigorous new shoots within the fortnight. A masterclass in high-altitude boutique cultivation and pristine handling.",
+        "date": "7 days ago",
+        "createdAt": "2026-10-15T16:16:49.348Z",
+        "verified": true,
+        "helpful": 23
+      },
+      {
+        "id": "rev-flw-205-3",
+        "userName": "Sebastien Kapoor",
+        "author": "Sebastien Kapoor",
+        "userEmail": "sebastien.kapoor.889@verified.dhanvikk.com",
+        "rating": 4,
+        "title": "Our definitive choice for all high-profile occasions: Flamingo Pink Anthurium Blooming Planter",
+        "comment": "Ordered the Flamingo Pink Anthurium Blooming Planter on short notice and Dhanvikk delivered with impeccable timing and flawless poise. Zero mess, perfectly balanced moisture, and a gorgeous stoneware centerpiece that elevates the entire room. I wholeheartedly recommend Dhanvikk to anyone who refuses to settle for ordinary commercial blooms.",
+        "date": "22 days ago",
+        "createdAt": "2026-09-30T19:04:19.658Z",
+        "verified": true,
+        "helpful": 14
+      }
+    ]
+  },
+  {
+    "id": "flw-206",
+    "name": "Zanzibar Gem (ZZ Plant) Midnight Planter",
+    "slug": "zanzibar-gem-zz-plant-midnight-planter",
+    "category": "Plants",
+    "subCategory": "Air Purifying Plants",
+    "flowerType": "Plants",
+    "occasion": "Housewarming",
+    "recipient": "Everyone",
+    "price": 3899,
+    "originalPrice": 4899,
+    "rating": 4.8,
+    "reviewsCount": 47,
+    "tag": "Ultra Hardy",
+    "image": "https://images.unsplash.com/photo-1632207691143-643e2a9a9361?auto=format&fit=crop&w=800&q=80",
+    "images": [
+      "https://images.unsplash.com/photo-1632207691143-643e2a9a9361?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "Characterized by feather-like stems lined with mirror-gloss emerald leaflets that catch the light like polished gems. The ZZ Plant is famous for its legendary resilience, flourishing even in windowless interior spaces.",
+    "stock": 20,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false,
+    "reviews": [
+      {
+        "id": "rev-flw-206-1",
+        "userName": "Nikhil Sandhu",
+        "author": "Nikhil Sandhu",
+        "userEmail": "nikhil.sandhu.542@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Unrivaled atelier artistry in every single bloom — Zanzibar Gem (ZZ Plant) Midnight Planter",
+        "comment": "The unveiling of our Zanzibar Gem (ZZ Plant) Midnight Planter was the highlight of our celebratory morning. The hand-glazed stoneware pot has an organic textured finish that feels both modern and deeply refined. An indispensable triumph of an arrangement for any housewarming.",
+        "date": "3 days ago",
+        "createdAt": "2026-10-19T17:53:50.939Z",
+        "verified": true,
+        "helpful": 33
+      },
+      {
+        "id": "rev-flw-206-2",
+        "userName": "Somesh D’Souza",
+        "author": "Somesh D’Souza",
+        "userEmail": "somesh.dsouza.722@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Horticultural perfection air-flown with exquisite care — Zanzibar Gem (ZZ Plant) Midnight Planter",
+        "comment": "The freshness of the Zanzibar Gem (ZZ Plant) Midnight Planter when unpacked felt as if it had been gathered from the mountain estate an hour prior. The air-purifying qualities and serene sculptural silhouette have completely transformed the energy of our workspace. Proof that luxury floristry is a true art form when executed with such uncompromising dedication.",
+        "date": "8 days ago",
+        "createdAt": "2026-10-14T20:37:04.141Z",
+        "verified": true,
+        "helpful": 24
+      },
+      {
+        "id": "rev-flw-206-3",
+        "userName": "Sophia Mehta",
+        "author": "Sophia Mehta",
+        "userEmail": "sophia.mehta.902@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "The ultimate emotional grand gesture for our housewarming — Zanzibar Gem (ZZ Plant) Midnight Planter",
+        "comment": "The visual impact of the Zanzibar Gem (ZZ Plant) Midnight Planter when unveiled is something neither my guests nor I will soon forget. It strikes the perfect balance between architectural modernism and timeless organic tranquility. An unequivocal 10 out of 10 experience that sets a new benchmark for luxury lifestyle floristry.",
+        "date": "23 days ago",
+        "createdAt": "2026-09-29T19:16:01.526Z",
+        "verified": true,
+        "helpful": 13
+      }
+    ]
+  },
+  {
+    "id": "flw-207",
+    "name": "Artisan Jade & Echeveria Succulent Dish Garden",
+    "slug": "artisan-jade-echeveria-succulent-dish-garden",
+    "category": "Plants",
+    "subCategory": "Indoor Succulents",
+    "flowerType": "Plants",
+    "occasion": "Birthday",
+    "recipient": "Everyone",
+    "price": 2799,
+    "originalPrice": 3499,
+    "rating": 4.9,
+    "reviewsCount": 63,
+    "tag": "Artisan Arranged",
+    "image": "https://images.unsplash.com/photo-1485955900006-10f4d324d411?auto=format&fit=crop&w=800&q=80",
+    "images": [
+      "https://images.unsplash.com/photo-1485955900006-10f4d324d411?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "A curated landscape of geometric rosette Echeveria, Crassula Jade, and trailing String of Pearls artfully arranged in a shallow handcrafted stone bowl with decorative volcanic moss.",
+    "stock": 35,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false,
+    "reviews": [
+      {
+        "id": "rev-flw-207-1",
+        "userName": "Rahul Somani",
+        "author": "Rahul Somani",
+        "userEmail": "rahul.somani.556@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Haute couture floral design at its finest: Artisan Jade & Echeveria Succulent Dish Garden",
+        "comment": "Exquisite does not even begin to capture how breathtaking the Artisan Jade & Echeveria Succulent Dish Garden looks in person. The botanical specimen arrived nestled in moss-topped organic potting mix without a single speck of spilled earth. It brought an atmosphere of regal tranquility to our salon that lasted for days.",
+        "date": "4 days ago",
+        "createdAt": "2026-10-18T17:09:13.532Z",
+        "verified": true,
+        "helpful": 22
+      },
+      {
+        "id": "rev-flw-207-2",
+        "userName": "Utkarsh Deshmukh",
+        "author": "Utkarsh Deshmukh",
+        "userEmail": "utkarsh.deshmukh.735@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Remarkably fresh for nearly two weeks in our salon: Artisan Jade & Echeveria Succulent Dish Garden",
+        "comment": "The sheer volume and petal count packed into the Artisan Jade & Echeveria Succulent Dish Garden makes it an extraordinary value for high connoisseurs. The foliage exhibits zero blemish or discoloration; every leaf has a natural glossy sheen that radiates healthy horticultural care. Dhanvikk's cold-chain refrigerated delivery fleet is clearly the gold standard in the floristry industry.",
+        "date": "9 days ago",
+        "createdAt": "2026-10-14T00:57:18.934Z",
+        "verified": true,
+        "helpful": 25
+      },
+      {
+        "id": "rev-flw-207-3",
+        "userName": "Henri Nayar",
+        "author": "Henri Nayar",
+        "userEmail": "henri.nayar.915@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Left all our dinner guests completely captivated: Artisan Jade & Echeveria Succulent Dish Garden",
+        "comment": "I selected the Artisan Jade & Echeveria Succulent Dish Garden specifically for a milestone birthday surprise. The potting harmony and lush foliage structure bring an immediate sense of refined botanical sanctuary. Will be reordering regularly for all our private celebrations and corporate client gifting.",
+        "date": "24 days ago",
+        "createdAt": "2026-09-28T19:27:43.393Z",
+        "verified": true,
+        "helpful": 12
+      }
+    ]
+  },
+  {
+    "id": "flw-208",
+    "name": "Twin-Stem Royal Phalaenopsis Magenta Orchid",
+    "slug": "twin-stem-royal-phalaenopsis-magenta-orchid",
+    "category": "Plants",
+    "subCategory": "Living Orchids",
+    "flowerType": "Orchids",
+    "occasion": "Anniversary",
+    "recipient": "For Her",
+    "price": 5899,
+    "originalPrice": 7299,
+    "rating": 4.9,
+    "reviewsCount": 115,
+    "tag": "Exotic Bloom",
+    "image": "https://images.unsplash.com/photo-1525310072745-f49212b5ac6d?auto=format&fit=crop&w=800&q=80",
+    "images": [
+      "https://images.unsplash.com/photo-1525310072745-f49212b5ac6d?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "Two towering stems laden with velvet magenta orchid blossoms, supported by botanical bamboo stakes. Potted in an artisan hand-dipped pearl ceramic vase, this orchid is the epitome of luxurious botanical refinement.",
+    "stock": 20,
+    "inStock": true,
+    "isBestSeller": true,
+    "isFeatured": true,
+    "reviews": [
+      {
+        "id": "rev-flw-208-1",
+        "userName": "Sameer Verma",
+        "author": "Sameer Verma",
+        "userEmail": "sameer.verma.569@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "An unforgettable grand entrance with Twin-Stem Royal Phalaenopsis Magenta Orchid",
+        "comment": "As a lifelong admirer of fine floristry, the architectural symmetry of the Twin-Stem Royal Phalaenopsis Magenta Orchid is awe-inspiring. The heavy artisan matte ceramic planter with drainage under-sauce complements the lush greenery flawlessly. My guests could not stop inquiring where this extraordinary floral curation came from.",
+        "date": "5 days ago",
+        "createdAt": "2026-10-17T16:24:36.125Z",
+        "verified": true,
+        "helpful": 41
+      },
+      {
+        "id": "rev-flw-208-2",
+        "userName": "Zara Iyer",
+        "author": "Zara Iyer",
+        "userEmail": "zara.iyer.749@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Lasted over 14 full days in pristine condition — Twin-Stem Royal Phalaenopsis Magenta Orchid",
+        "comment": "Every single stem in our Twin-Stem Royal Phalaenopsis Magenta Orchid was hand-selected at the exact micro-stage of opening for maximum longevity. Root health was immaculate upon arrival, and the plant has already produced two vigorous new shoots within the fortnight. The level of quality control and stem-by-stem inspection is evident from the first glance.",
+        "date": "10 days ago",
+        "createdAt": "2026-10-12T17:17:33.726Z",
+        "verified": true,
+        "helpful": 27
+      },
+      {
+        "id": "rev-flw-208-3",
+        "userName": "Astrid Roy",
+        "author": "Astrid Roy",
+        "userEmail": "astrid.roy.929@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "A distinguished luxury statement piece: Twin-Stem Royal Phalaenopsis Magenta Orchid",
+        "comment": "Our executive boardroom needed a commanding centerpiece, and the Twin-Stem Royal Phalaenopsis Magenta Orchid delivered majestic grandeur. Zero mess, perfectly balanced moisture, and a gorgeous stoneware centerpiece that elevates the entire room. A consummate triumph of floral curation, pristine presentation, and genuine white-glove service.",
+        "date": "25 days ago",
+        "createdAt": "2026-09-27T19:39:25.261Z",
+        "verified": true,
+        "helpful": 11
+      }
+    ]
+  },
+  {
+    "id": "flw-209",
+    "name": "Nordic Ceramic Planter & Plant Food Care Duo",
+    "slug": "nordic-ceramic-planter-plant-food-care-duo",
+    "category": "Plants",
+    "subCategory": "Artisan Planters",
+    "flowerType": "Plants",
+    "occasion": "Housewarming",
+    "recipient": "Everyone",
+    "price": 1999,
+    "originalPrice": 2499,
+    "rating": 4.8,
+    "reviewsCount": 42,
+    "tag": "Botanical Accessory",
+    "image": "https://images.unsplash.com/photo-1487700160041-babef9c3cb55?auto=format&fit=crop&w=800&q=80",
+    "images": [
+      "https://images.unsplash.com/photo-1487700160041-babef9c3cb55?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "An artisanal handcrafted stoneware planter featuring minimalist Nordic ribs, paired with Dhanvikk's signature organic botanical liquid nourishment mist (250ml) formulated for indoor houseplants.",
+    "stock": 45,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false,
+    "reviews": [
+      {
+        "id": "rev-flw-209-1",
+        "userName": "Sneha Sterling",
+        "author": "Sneha Sterling",
+        "userEmail": "sneha.sterling.582@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Sublime symmetry and velvet perfection in Nordic Ceramic Planter & Plant Food Care Duo",
+        "comment": "Commissioned the Nordic Ceramic Planter & Plant Food Care Duo as a surprise, and the doorstep presentation was cinematic in its perfection. The hand-glazed stoneware pot has an organic textured finish that feels both modern and deeply refined. Without question the finest floral presentation available anywhere in the country today.",
+        "date": "2 days ago",
+        "createdAt": "2026-10-20T15:39:58.718Z",
+        "verified": true,
+        "helpful": 31
+      },
+      {
+        "id": "rev-flw-209-2",
+        "userName": "Isabella Kumar",
+        "author": "Isabella Kumar",
+        "userEmail": "isabella.kumar.762@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Intoxicating aroma and extraordinary stem caliber in Nordic Ceramic Planter & Plant Food Care Duo",
+        "comment": "What sets the Nordic Ceramic Planter & Plant Food Care Duo apart is the exceptional horticultural caliber of the plants. The air-purifying qualities and serene sculptural silhouette have completely transformed the energy of our workspace. I will never order from standard floral delivery services again after experiencing this caliber.",
+        "date": "11 days ago",
+        "createdAt": "2026-10-11T21:37:48.519Z",
+        "verified": true,
+        "helpful": 28
+      },
+      {
+        "id": "rev-flw-209-3",
+        "userName": "Amina Sharma",
+        "author": "Amina Sharma",
+        "userEmail": "amina.sharma.942@verified.dhanvikk.com",
+        "rating": 4,
+        "title": "Heartfelt tears of joy upon opening the Nordic Ceramic Planter & Plant Food Care Duo",
+        "comment": "Surprised my partner with the Nordic Ceramic Planter & Plant Food Care Duo and the emotional resonance was beyond words. It strikes the perfect balance between architectural modernism and timeless organic tranquility. Worth every single rupee for the lasting joy, prestige, and beauty it brought into our lives.",
+        "date": "26 days ago",
+        "createdAt": "2026-09-26T19:51:07.128Z",
+        "verified": true,
+        "helpful": 29
+      }
+    ]
+  },
+  {
+    "id": "flw-210",
+    "name": "Fiddle Leaf Fig Architectural Tree (Ficus Lyrata)",
+    "slug": "fiddle-leaf-fig-architectural-tree-ficus-lyrata",
+    "category": "Plants",
+    "subCategory": "Indoor Botanicals",
+    "flowerType": "Plants",
+    "occasion": "Housewarming",
+    "recipient": "Everyone",
+    "price": 5499,
+    "originalPrice": 6999,
+    "rating": 4.9,
+    "reviewsCount": 89,
+    "tag": "Designer Favorite",
+    "image": "https://images.unsplash.com/photo-1545241047-6083a3684587?auto=format&fit=crop&w=800&q=80",
+    "images": [
+      "https://images.unsplash.com/photo-1545241047-6083a3684587?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "The quintessential interior designer tree. Features dramatic, violin-shaped waxy emerald leaves that command attention in penthouse salons, boutique offices, and grand entryways. Potted in an oversized matte-white cylinder planter.",
+    "stock": 18,
+    "inStock": true,
+    "isBestSeller": true,
+    "isFeatured": true,
+    "reviews": [
+      {
+        "id": "rev-flw-210-1",
+        "userName": "Tarun Chakraborty",
+        "author": "Tarun Chakraborty",
+        "userEmail": "tarun.chakraborty.595@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Surpassed our highest expectations: Fiddle Leaf Fig Architectural Tree (Ficus Lyrata)",
+        "comment": "The Fiddle Leaf Fig Architectural Tree (Ficus Lyrata) arrived looking so freshly sculpted it felt like an exhibit from a Parisian floral atelier. The botanical specimen arrived nestled in moss-topped organic potting mix without a single speck of spilled earth. The recipient was visibly moved to tears upon reading the calligraphy note tucked into the arrangement.",
+        "date": "3 days ago",
+        "createdAt": "2026-10-20T02:55:21.311Z",
+        "verified": true,
+        "helpful": 20
+      },
+      {
+        "id": "rev-flw-210-2",
+        "userName": "Zayd Naidu",
+        "author": "Zayd Naidu",
+        "userEmail": "zayd.naidu.775@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "World-class cold chain delivery and dewy freshness: Fiddle Leaf Fig Architectural Tree (Ficus Lyrata)",
+        "comment": "Having ordered luxury florals in London and Milan, I can confirm that Dhanvikk's Fiddle Leaf Fig Architectural Tree (Ficus Lyrata) stands on the global podium. The foliage exhibits zero blemish or discoloration; every leaf has a natural glossy sheen that radiates healthy horticultural care. A masterclass in high-altitude boutique cultivation and pristine handling.",
+        "date": "12 days ago",
+        "createdAt": "2026-10-11T01:58:03.312Z",
+        "verified": true,
+        "helpful": 29
+      },
+      {
+        "id": "rev-flw-210-3",
+        "userName": "Chetan Trivedi",
+        "author": "Chetan Trivedi",
+        "userEmail": "chetan.trivedi.955@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "The gold standard for our housewarming celebration — Fiddle Leaf Fig Architectural Tree (Ficus Lyrata)",
+        "comment": "If you are looking for an unforgettable statement piece, the Fiddle Leaf Fig Architectural Tree (Ficus Lyrata) is utterly peerless. The potting harmony and lush foliage structure bring an immediate sense of refined botanical sanctuary. I wholeheartedly recommend Dhanvikk to anyone who refuses to settle for ordinary commercial blooms.",
+        "date": "27 days ago",
+        "createdAt": "2026-09-25T20:02:48.996Z",
+        "verified": true,
+        "helpful": 28
+      }
+    ]
+  },
+  {
+    "id": "flw-211",
+    "name": "Calathea Ornata Pinstripe Living Botanical",
+    "slug": "calathea-ornata-pinstripe-living-botanical",
+    "category": "Plants",
+    "subCategory": "Indoor Botanicals",
+    "flowerType": "Plants",
+    "occasion": "Birthday",
+    "recipient": "For Her",
+    "price": 3199,
+    "originalPrice": 3999,
+    "rating": 4.8,
+    "reviewsCount": 54,
+    "tag": "Prayer Plant",
+    "image": "https://images.unsplash.com/photo-1614594975525-e45190c55d0b?auto=format&fit=crop&w=800&q=80",
+    "images": [
+      "https://images.unsplash.com/photo-1614594975525-e45190c55d0b?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "Celebrated as the living 'Prayer Plant', the Calathea Ornata boasts iridescent pink brushstroke stripes across deep olive-green leaves with rich burgundy undersides. Its leaves fold upwards in evening prayer.",
+    "stock": 28,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false,
+    "reviews": [
+      {
+        "id": "rev-flw-211-1",
+        "userName": "Vandana Goswami",
+        "author": "Vandana Goswami",
+        "userEmail": "vandana.goswami.608@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Breathtaking sensory unboxing — Calathea Ornata Pinstripe Living Botanical",
+        "comment": "Receiving the Calathea Ornata Pinstripe Living Botanical was an experience of pure unadulterated luxury. The heavy artisan matte ceramic planter with drainage under-sauce complements the lush greenery flawlessly. An indispensable triumph of an arrangement for any birthday.",
+        "date": "4 days ago",
+        "createdAt": "2026-10-19T02:10:43.904Z",
+        "verified": true,
+        "helpful": 40
+      },
+      {
+        "id": "rev-flw-211-2",
+        "userName": "Svetlana Ramachandran",
+        "author": "Svetlana Ramachandran",
+        "userEmail": "svetlana.ramachandran.788@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "The Calathea Ornata Pinstripe Living Botanical opened into full majestic splendour over 48 hours",
+        "comment": "The cold-chain logistics behind the Calathea Ornata Pinstripe Living Botanical are truly remarkable — arrived thoroughly chilled and dewy. Root health was immaculate upon arrival, and the plant has already produced two vigorous new shoots within the fortnight. Proof that luxury floristry is a true art form when executed with such uncompromising dedication.",
+        "date": "7 days ago",
+        "createdAt": "2026-10-15T18:18:18.105Z",
+        "verified": true,
+        "helpful": 30
+      },
+      {
+        "id": "rev-flw-211-3",
+        "userName": "Gayatri Beaumont",
+        "author": "Gayatri Beaumont",
+        "userEmail": "gayatri.beaumont.968@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Worth every single rupee for an unforgettable celebration — Calathea Ornata Pinstripe Living Botanical",
+        "comment": "We featured the Calathea Ornata Pinstripe Living Botanical at our anniversary dinner table and it immediately became the talking point of the evening. Zero mess, perfectly balanced moisture, and a gorgeous stoneware centerpiece that elevates the entire room. An unequivocal 10 out of 10 experience that sets a new benchmark for luxury lifestyle floristry.",
+        "date": "14 days ago",
+        "createdAt": "2026-10-08T20:14:30.863Z",
+        "verified": true,
+        "helpful": 27
+      }
+    ]
+  },
+  {
+    "id": "flw-212",
+    "name": "Royal White Anthurium Blooming Porcelain Planter",
+    "slug": "royal-white-anthurium-blooming-porcelain-planter",
+    "category": "Plants",
+    "subCategory": "Flowering Potted Plants",
+    "flowerType": "Plants",
+    "occasion": "Congratulations",
+    "recipient": "Everyone",
+    "price": 4499,
+    "originalPrice": 5699,
+    "rating": 4.9,
+    "reviewsCount": 67,
+    "tag": "Continuous Bloom",
+    "image": "https://images.unsplash.com/photo-1600411833196-7c1f6b1a8b90?auto=format&fit=crop&w=800&q=80",
+    "images": [
+      "https://images.unsplash.com/photo-1600411833196-7c1f6b1a8b90?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "Pristine porcelain-white spathes crowned with pale lime spadixes rise above deep glossy heart-shaped foliage. Potted in an elegant ivory fluted planter with matching base, symbolizing pure intentions and luxury hospitality.",
+    "stock": 22,
+    "inStock": true,
+    "isBestSeller": true,
+    "isFeatured": false,
+    "reviews": [
+      {
+        "id": "rev-flw-212-1",
+        "userName": "Charlotte Khanna",
+        "author": "Charlotte Khanna",
+        "userEmail": "charlotte.khanna.622@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "The pinnacle of refined floristry: Royal White Anthurium Blooming Porcelain Planter",
+        "comment": "I ordered the Royal White Anthurium Blooming Porcelain Planter for our family celebration and the presentation left us utterly captivated. The hand-glazed stoneware pot has an organic textured finish that feels both modern and deeply refined. It brought an atmosphere of regal tranquility to our salon that lasted for days.",
+        "date": "5 days ago",
+        "createdAt": "2026-10-18T01:26:06.496Z",
+        "verified": true,
+        "helpful": 29
+      },
+      {
+        "id": "rev-flw-212-2",
+        "userName": "Aditi Sehgal",
+        "author": "Aditi Sehgal",
+        "userEmail": "aditi.sehgal.801@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Impeccable highland cultivation and petal density — Royal White Anthurium Blooming Porcelain Planter",
+        "comment": "Fourteen days after delivery, our Royal White Anthurium Blooming Porcelain Planter continues to look remarkably radiant and intact. The air-purifying qualities and serene sculptural silhouette have completely transformed the energy of our workspace. Dhanvikk's cold-chain refrigerated delivery fleet is clearly the gold standard in the floristry industry.",
+        "date": "8 days ago",
+        "createdAt": "2026-10-14T22:38:32.899Z",
+        "verified": true,
+        "helpful": 32
+      },
+      {
+        "id": "rev-flw-212-3",
+        "userName": "Kavita Bandyopadhyay",
+        "author": "Kavita Bandyopadhyay",
+        "userEmail": "kavita.bandyopadhyay.981@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Quiet luxury and exquisite calligraphy detailing in Royal White Anthurium Blooming Porcelain Planter",
+        "comment": "Gifted the Royal White Anthurium Blooming Porcelain Planter as a gesture of heartfelt gratitude, and the response was pure delight. It strikes the perfect balance between architectural modernism and timeless organic tranquility. Will be reordering regularly for all our private celebrations and corporate client gifting.",
+        "date": "15 days ago",
+        "createdAt": "2026-10-07T20:26:12.732Z",
+        "verified": true,
+        "helpful": 26
+      }
+    ]
+  },
+  {
+    "id": "flw-213",
+    "name": "Cascading Golden Pothos in Hanging Artisan Ceramic",
+    "slug": "cascading-golden-pothos-in-hanging-artisan-ceramic",
+    "category": "Plants",
+    "subCategory": "Air Purifying Plants",
+    "flowerType": "Plants",
+    "occasion": "Get Well Soon",
+    "recipient": "Everyone",
+    "price": 2499,
+    "originalPrice": 3199,
+    "rating": 4.9,
+    "reviewsCount": 112,
+    "tag": "Trailing Vine",
+    "image": "https://images.unsplash.com/photo-1597055181300-e3633a917c9c?auto=format&fit=crop&w=800&q=80",
+    "images": [
+      "https://images.unsplash.com/photo-1597055181300-e3633a917c9c?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "Lush trailing vines of heart-shaped leaves variegated in golden yellow and forest green. Suspended in a handcrafted stoneware hanging bowl with macramé or displayed on bookshelves, creating an effortless living green cascade.",
+    "stock": 35,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false,
+    "reviews": [
+      {
+        "id": "rev-flw-213-1",
+        "userName": "Tariq Mishra",
+        "author": "Tariq Mishra",
+        "userEmail": "tariq.mishra.635@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Awe-inspiring craftsmanship and luxury presentation — Cascading Golden Pothos in Hanging Artisan Ceramic",
+        "comment": "From the moment the Dhanvikk courier arrived with the Cascading Golden Pothos in Hanging Artisan Ceramic, the caliber was unmistakably world-class. The botanical specimen arrived nestled in moss-topped organic potting mix without a single speck of spilled earth. My guests could not stop inquiring where this extraordinary floral curation came from.",
+        "date": "2 days ago",
+        "createdAt": "2026-10-21T00:41:29.090Z",
+        "verified": true,
+        "helpful": 49
+      },
+      {
+        "id": "rev-flw-213-2",
+        "userName": "Avani Sundaram",
+        "author": "Avani Sundaram",
+        "userEmail": "avani.sundaram.815@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Unprecedented vase longevity and natural fragrance from Cascading Golden Pothos in Hanging Artisan Ceramic",
+        "comment": "The fragrance profile of the Cascading Golden Pothos in Hanging Artisan Ceramic is natural, intoxicating, and gracefully fills the entire room. The foliage exhibits zero blemish or discoloration; every leaf has a natural glossy sheen that radiates healthy horticultural care. The level of quality control and stem-by-stem inspection is evident from the first glance.",
+        "date": "9 days ago",
+        "createdAt": "2026-10-14T02:58:47.691Z",
+        "verified": true,
+        "helpful": 33
+      },
+      {
+        "id": "rev-flw-213-3",
+        "userName": "Meera Fernandes",
+        "author": "Meera Fernandes",
+        "userEmail": "meera.fernandes.995@verified.dhanvikk.com",
+        "rating": 4,
+        "title": "An heirloom masterpiece that brought immense joy: Cascading Golden Pothos in Hanging Artisan Ceramic",
+        "comment": "The Cascading Golden Pothos in Hanging Artisan Ceramic is hands down one of the most distinguished floral creations I have had the pleasure to present. The potting harmony and lush foliage structure bring an immediate sense of refined botanical sanctuary. A consummate triumph of floral curation, pristine presentation, and genuine white-glove service.",
+        "date": "16 days ago",
+        "createdAt": "2026-10-06T20:37:54.599Z",
+        "verified": true,
+        "helpful": 25
+      }
+    ]
+  },
+  {
+    "id": "flw-214",
+    "name": "Chinese Elm Imperial Zen Bonsai (10 Years Matured)",
+    "slug": "chinese-elm-imperial-zen-bonsai-10-years-matured",
+    "category": "Plants",
+    "subCategory": "Bonsai Trees",
+    "flowerType": "Plants",
+    "occasion": "Congratulations",
+    "recipient": "For Him",
+    "price": 8499,
+    "originalPrice": 10999,
+    "rating": 5,
+    "reviewsCount": 38,
+    "tag": "Masterpiece",
+    "image": "https://images.unsplash.com/photo-1520412099551-62b6bafeb5bb?auto=format&fit=crop&w=800&q=80",
+    "images": [
+      "https://images.unsplash.com/photo-1520412099551-62b6bafeb5bb?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "A living heirloom shaped through a decade of meticulous bonsai wire training. Features intricate fine ramification, tiny serrated leaves, and an expressive textured trunk resting in a master-glazed cobalt stoneware dish.",
+    "stock": 10,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": true,
+    "reviews": [
+      {
+        "id": "rev-flw-214-1",
+        "userName": "Valentina Pillai",
+        "author": "Valentina Pillai",
+        "userEmail": "valentina.pillai.648@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Arrived pristine with morning dew still on petals: Chinese Elm Imperial Zen Bonsai (10 Years Matured)",
+        "comment": "The sheer artistic balance of the Chinese Elm Imperial Zen Bonsai (10 Years Matured) easily surpasses any floral arrangement I have commissioned before. The heavy artisan matte ceramic planter with drainage under-sauce complements the lush greenery flawlessly. Without question the finest floral presentation available anywhere in the country today.",
+        "date": "3 days ago",
+        "createdAt": "2026-10-19T23:56:51.683Z",
+        "verified": true,
+        "helpful": 38
+      },
+      {
+        "id": "rev-flw-214-2",
+        "userName": "Farhan Dubois",
+        "author": "Farhan Dubois",
+        "userEmail": "farhan.dubois.828@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Uncompromising quality control in this gorgeous Chinese Elm Imperial Zen Bonsai (10 Years Matured)",
+        "comment": "You can immediately feel the heavy stem density and turgid petal structure of this highland-grown Chinese Elm Imperial Zen Bonsai (10 Years Matured). Root health was immaculate upon arrival, and the plant has already produced two vigorous new shoots within the fortnight. I will never order from standard floral delivery services again after experiencing this caliber.",
+        "date": "10 days ago",
+        "createdAt": "2026-10-12T19:19:02.484Z",
+        "verified": true,
+        "helpful": 34
+      },
+      {
+        "id": "rev-flw-214-3",
+        "userName": "Pallavi Joshi",
+        "author": "Pallavi Joshi",
+        "userEmail": "pallavi.joshi.109@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Flawless execution from courier to final bloom — Chinese Elm Imperial Zen Bonsai (10 Years Matured)",
+        "comment": "Everything about the Chinese Elm Imperial Zen Bonsai (10 Years Matured) — from the embossed envelope to the floral symmetry — whispers quiet luxury. Zero mess, perfectly balanced moisture, and a gorgeous stoneware centerpiece that elevates the entire room. Worth every single rupee for the lasting joy, prestige, and beauty it brought into our lives.",
+        "date": "17 days ago",
+        "createdAt": "2026-10-05T20:49:36.467Z",
+        "verified": true,
+        "helpful": 23
+      }
+    ]
+  },
+  {
+    "id": "flw-215",
+    "name": "Zebra Haworthia & Moon Cactus Terracotta Trio",
+    "slug": "zebra-haworthia-moon-cactus-terracotta-trio",
+    "category": "Plants",
+    "subCategory": "Indoor Succulents",
+    "flowerType": "Plants",
+    "occasion": "Birthday",
+    "recipient": "Everyone",
+    "price": 2199,
+    "originalPrice": 2799,
+    "rating": 4.8,
+    "reviewsCount": 59,
+    "tag": "Mini Collection",
+    "image": "https://images.unsplash.com/photo-1509423350716-97f9360b4e09?auto=format&fit=crop&w=800&q=80",
+    "images": [
+      "https://images.unsplash.com/photo-1509423350716-97f9360b4e09?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "A delightful triptych of three petite architectural succulents: Zebra Haworthia with embossed white bands, Ruby Moon Cactus, and Jade miniature in individual handmade Italian terracotta pots lined on a wooden tray.",
+    "stock": 40,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false,
+    "reviews": [
+      {
+        "id": "rev-flw-215-1",
+        "userName": "Aanya Samant",
+        "author": "Aanya Samant",
+        "userEmail": "aanya.samant.661@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Elegance personified in the magnificent Zebra Haworthia & Moon Cactus Terracotta Trio",
+        "comment": "Dhanvikk has completely redefined luxury gifting with this sensational Zebra Haworthia & Moon Cactus Terracotta Trio. The hand-glazed stoneware pot has an organic textured finish that feels both modern and deeply refined. The recipient was visibly moved to tears upon reading the calligraphy note tucked into the arrangement.",
+        "date": "4 days ago",
+        "createdAt": "2026-10-18T23:12:14.276Z",
+        "verified": true,
+        "helpful": 27
+      },
+      {
+        "id": "rev-flw-215-2",
+        "userName": "Kalyani Kensington",
+        "author": "Kalyani Kensington",
+        "userEmail": "kalyani.kensington.841@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Robust stems, velvety texture, and remarkable hydration: Zebra Haworthia & Moon Cactus Terracotta Trio",
+        "comment": "Dhanvikk's zero-compromise approach to morning dawn-cutting is vividly apparent in the Zebra Haworthia & Moon Cactus Terracotta Trio. The air-purifying qualities and serene sculptural silhouette have completely transformed the energy of our workspace. A masterclass in high-altitude boutique cultivation and pristine handling.",
+        "date": "11 days ago",
+        "createdAt": "2026-10-11T23:39:17.277Z",
+        "verified": true,
+        "helpful": 35
+      },
+      {
+        "id": "rev-flw-215-3",
+        "userName": "Rhea Malhotra",
+        "author": "Rhea Malhotra",
+        "userEmail": "rhea.malhotra.122@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Our definitive choice for all high-profile occasions: Zebra Haworthia & Moon Cactus Terracotta Trio",
+        "comment": "Ordered the Zebra Haworthia & Moon Cactus Terracotta Trio on short notice and Dhanvikk delivered with impeccable timing and flawless poise. It strikes the perfect balance between architectural modernism and timeless organic tranquility. I wholeheartedly recommend Dhanvikk to anyone who refuses to settle for ordinary commercial blooms.",
+        "date": "18 days ago",
+        "createdAt": "2026-10-04T21:01:18.335Z",
+        "verified": true,
+        "helpful": 22
+      }
+    ]
+  },
+  {
+    "id": "flw-216",
+    "name": "Boston Fern Lush Air Purifying Sphere",
+    "slug": "boston-fern-lush-air-purifying-sphere",
+    "category": "Plants",
+    "subCategory": "Air Purifying Plants",
+    "flowerType": "Plants",
+    "occasion": "Housewarming",
+    "recipient": "Everyone",
+    "price": 2899,
+    "originalPrice": 3699,
+    "rating": 4.8,
+    "reviewsCount": 44,
+    "tag": "Lush Fronds",
+    "image": "https://images.unsplash.com/photo-1632207691143-643e2a9a9361?auto=format&fit=crop&w=800&q=80",
+    "images": [
+      "https://images.unsplash.com/photo-1632207691143-643e2a9a9361?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "Feathery sword-shaped fronds arching outward in an exuberant sphere of bright chartreuse foliage. Boston Ferns are natural humidifiers that excel at purifying formaldehyde and xylene from indoor air.",
+    "stock": 25,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": false,
+    "reviews": [
+      {
+        "id": "rev-flw-216-1",
+        "userName": "Anushka Singhania",
+        "author": "Anushka Singhania",
+        "userEmail": "anushka.singhania.674@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Unrivaled atelier artistry in every single bloom — Boston Fern Lush Air Purifying Sphere",
+        "comment": "The unveiling of our Boston Fern Lush Air Purifying Sphere was the highlight of our celebratory morning. The botanical specimen arrived nestled in moss-topped organic potting mix without a single speck of spilled earth. An indispensable triumph of an arrangement for any housewarming.",
+        "date": "5 days ago",
+        "createdAt": "2026-10-17T22:27:36.869Z",
+        "verified": true,
+        "helpful": 47
+      },
+      {
+        "id": "rev-flw-216-2",
+        "userName": "Malini Choudhury",
+        "author": "Malini Choudhury",
+        "userEmail": "malini.choudhury.854@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Horticultural perfection air-flown with exquisite care — Boston Fern Lush Air Purifying Sphere",
+        "comment": "The freshness of the Boston Fern Lush Air Purifying Sphere when unpacked felt as if it had been gathered from the mountain estate an hour prior. The foliage exhibits zero blemish or discoloration; every leaf has a natural glossy sheen that radiates healthy horticultural care. Proof that luxury floristry is a true art form when executed with such uncompromising dedication.",
+        "date": "12 days ago",
+        "createdAt": "2026-10-10T15:59:32.070Z",
+        "verified": true,
+        "helpful": 37
+      },
+      {
+        "id": "rev-flw-216-3",
+        "userName": "Sanya Narayan",
+        "author": "Sanya Narayan",
+        "userEmail": "sanya.narayan.135@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "The ultimate emotional grand gesture for our housewarming — Boston Fern Lush Air Purifying Sphere",
+        "comment": "The visual impact of the Boston Fern Lush Air Purifying Sphere when unveiled is something neither my guests nor I will soon forget. The potting harmony and lush foliage structure bring an immediate sense of refined botanical sanctuary. An unequivocal 10 out of 10 experience that sets a new benchmark for luxury lifestyle floristry.",
+        "date": "19 days ago",
+        "createdAt": "2026-10-03T21:13:00.202Z",
+        "verified": true,
+        "helpful": 21
+      }
+    ]
+  },
+  {
+    "id": "flw-217",
+    "name": "Golden Cymbidium Triple-Spike Highland Orchid",
+    "slug": "golden-cymbidium-triple-spike-highland-orchid",
+    "category": "Plants",
+    "subCategory": "Living Orchids",
+    "flowerType": "Orchids",
+    "occasion": "Anniversary",
+    "recipient": "For Her",
+    "price": 7299,
+    "originalPrice": 9299,
+    "rating": 5,
+    "reviewsCount": 86,
+    "tag": "Imperial Orchid",
+    "image": "https://images.unsplash.com/photo-1525310072745-f49212b5ac6d?auto=format&fit=crop&w=800&q=80",
+    "images": [
+      "https://images.unsplash.com/photo-1525310072745-f49212b5ac6d?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "Three grand spikes boasting up to 30 radiant golden-yellow Cymbidium blooms with speckled crimson throats. Set in an opulent hammered brass and ceramic pedestal bowl, symbolizing abundance and high fortune.",
+    "stock": 15,
+    "inStock": true,
+    "isBestSeller": true,
+    "isFeatured": true,
+    "reviews": [
+      {
+        "id": "rev-flw-217-1",
+        "userName": "Diya Venkatesh",
+        "author": "Diya Venkatesh",
+        "userEmail": "diya.venkatesh.688@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Haute couture floral design at its finest: Golden Cymbidium Triple-Spike Highland Orchid",
+        "comment": "Exquisite does not even begin to capture how breathtaking the Golden Cymbidium Triple-Spike Highland Orchid looks in person. The heavy artisan matte ceramic planter with drainage under-sauce complements the lush greenery flawlessly. It brought an atmosphere of regal tranquility to our salon that lasted for days.",
+        "date": "2 days ago",
+        "createdAt": "2026-10-20T21:42:59.461Z",
+        "verified": true,
+        "helpful": 36
+      },
+      {
+        "id": "rev-flw-217-2",
+        "userName": "Nikhil Iyengar",
+        "author": "Nikhil Iyengar",
+        "userEmail": "nikhil.iyengar.867@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Remarkably fresh for nearly two weeks in our salon: Golden Cymbidium Triple-Spike Highland Orchid",
+        "comment": "The sheer volume and petal count packed into the Golden Cymbidium Triple-Spike Highland Orchid makes it an extraordinary value for high connoisseurs. Root health was immaculate upon arrival, and the plant has already produced two vigorous new shoots within the fortnight. Dhanvikk's cold-chain refrigerated delivery fleet is clearly the gold standard in the floristry industry.",
+        "date": "7 days ago",
+        "createdAt": "2026-10-15T20:19:46.863Z",
+        "verified": true,
+        "helpful": 38
+      },
+      {
+        "id": "rev-flw-217-3",
+        "userName": "Somesh Reddy",
+        "author": "Somesh Reddy",
+        "userEmail": "somesh.reddy.148@verified.dhanvikk.com",
+        "rating": 4,
+        "title": "Left all our dinner guests completely captivated: Golden Cymbidium Triple-Spike Highland Orchid",
+        "comment": "I selected the Golden Cymbidium Triple-Spike Highland Orchid specifically for a milestone anniversary surprise. Zero mess, perfectly balanced moisture, and a gorgeous stoneware centerpiece that elevates the entire room. Will be reordering regularly for all our private celebrations and corporate client gifting.",
+        "date": "20 days ago",
+        "createdAt": "2026-10-02T21:24:42.070Z",
+        "verified": true,
+        "helpful": 20
+      }
+    ]
+  },
+  {
+    "id": "flw-218",
+    "name": "Amethyst Phalaenopsis Potted Living Orchid",
+    "slug": "amethyst-phalaenopsis-potted-living-orchid",
+    "category": "Plants",
+    "subCategory": "Living Orchids",
+    "flowerType": "Orchids",
+    "occasion": "Congratulations",
+    "recipient": "Everyone",
+    "price": 5899,
+    "originalPrice": 7499,
+    "rating": 4.9,
+    "reviewsCount": 112,
+    "tag": "Living Botanical",
+    "image": "https://images.unsplash.com/photo-1534885320675-b08aa131cc5e?auto=format&fit=crop&w=800&q=80",
+    "images": [
+      "https://images.unsplash.com/photo-1534885320675-b08aa131cc5e?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1610397648930-477b8c7f0943?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "Double-spike cascading amethyst-violet Phalaenopsis orchid planted in a fluted Nordic matte ceramic pot. Cultivated with living sphagnum moss and organic orchid bark for healthy root aeration and 8-12 weeks of continuous blooming.",
+    "stock": 22,
+    "inStock": true,
+    "isBestSeller": false,
+    "isFeatured": true,
+    "reviews": [
+      {
+        "id": "rev-flw-218-1",
+        "userName": "Jahnavi Rochester",
+        "author": "Jahnavi Rochester",
+        "userEmail": "jahnavi.rochester.701@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "An unforgettable grand entrance with Amethyst Phalaenopsis Potted Living Orchid",
+        "comment": "As a lifelong admirer of fine floristry, the architectural symmetry of the Amethyst Phalaenopsis Potted Living Orchid is awe-inspiring. The hand-glazed stoneware pot has an organic textured finish that feels both modern and deeply refined. My guests could not stop inquiring where this extraordinary floral curation came from.",
+        "date": "3 days ago",
+        "createdAt": "2026-10-19T20:58:22.054Z",
+        "verified": true,
+        "helpful": 26
+      },
+      {
+        "id": "rev-flw-218-2",
+        "userName": "Rahul Kulkarni",
+        "author": "Rahul Kulkarni",
+        "userEmail": "rahul.kulkarni.881@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Lasted over 10 full days in pristine condition — Amethyst Phalaenopsis Potted Living Orchid",
+        "comment": "Every single stem in our Amethyst Phalaenopsis Potted Living Orchid was hand-selected at the exact micro-stage of opening for maximum longevity. The air-purifying qualities and serene sculptural silhouette have completely transformed the energy of our workspace. The level of quality control and stem-by-stem inspection is evident from the first glance.",
+        "date": "8 days ago",
+        "createdAt": "2026-10-15T00:40:01.656Z",
+        "verified": true,
+        "helpful": 39
+      },
+      {
+        "id": "rev-flw-218-3",
+        "userName": "Utkarsh Seth",
+        "author": "Utkarsh Seth",
+        "userEmail": "utkarsh.seth.162@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "A distinguished luxury statement piece: Amethyst Phalaenopsis Potted Living Orchid",
+        "comment": "Our executive boardroom needed a commanding centerpiece, and the Amethyst Phalaenopsis Potted Living Orchid delivered majestic grandeur. It strikes the perfect balance between architectural modernism and timeless organic tranquility. A consummate triumph of floral curation, pristine presentation, and genuine white-glove service.",
+        "date": "21 days ago",
+        "createdAt": "2026-10-01T21:36:23.937Z",
+        "verified": true,
+        "helpful": 18
+      }
+    ]
+  },
+  {
+    "id": "flw-219",
+    "name": "Grand Imperial White Orchid in Marble Stoneware",
+    "slug": "grand-imperial-white-orchid-in-marble-stoneware",
+    "category": "Plants",
+    "subCategory": "Living Orchids",
+    "flowerType": "Orchids",
+    "occasion": "Housewarming",
+    "recipient": "For Home",
+    "price": 6499,
+    "originalPrice": 8299,
+    "rating": 5,
+    "reviewsCount": 94,
+    "tag": "Imperial Orchid",
+    "image": "https://images.unsplash.com/photo-1545241047-6083a3684587?auto=format&fit=crop&w=800&q=80",
+    "images": [
+      "https://images.unsplash.com/photo-1545241047-6083a3684587?auto=format&fit=crop&w=800&q=80"
+    ],
+    "description": "A magnificent triple-stem pure white living Phalaenopsis orchid flourishing in a heavy marbleized stoneware planter. Perfect for luxury entryways and conference credenzas, radiating serene natural refinement.",
+    "stock": 18,
+    "inStock": true,
+    "isBestSeller": true,
+    "isFeatured": true,
+    "reviews": [
+      {
+        "id": "rev-flw-219-1",
+        "userName": "Lavanya Bhattacharya",
+        "author": "Lavanya Bhattacharya",
+        "userEmail": "lavanya.bhattacharya.714@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Sublime symmetry and velvet perfection in Grand Imperial White Orchid in Marble Stoneware",
+        "comment": "Commissioned the Grand Imperial White Orchid in Marble Stoneware as a surprise, and the doorstep presentation was cinematic in its perfection. The botanical specimen arrived nestled in moss-topped organic potting mix without a single speck of spilled earth. Without question the finest floral presentation available anywhere in the country today.",
+        "date": "4 days ago",
+        "createdAt": "2026-10-18T20:13:44.647Z",
+        "verified": true,
+        "helpful": 45
+      },
+      {
+        "id": "rev-flw-219-2",
+        "userName": "Sameer Nadar",
+        "author": "Sameer Nadar",
+        "userEmail": "sameer.nadar.894@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Intoxicating aroma and extraordinary stem caliber in Grand Imperial White Orchid in Marble Stoneware",
+        "comment": "What sets the Grand Imperial White Orchid in Marble Stoneware apart is the exceptional horticultural caliber of the orchids. The foliage exhibits zero blemish or discoloration; every leaf has a natural glossy sheen that radiates healthy horticultural care. I will never order from standard floral delivery services again after experiencing this caliber.",
+        "date": "9 days ago",
+        "createdAt": "2026-10-13T17:00:16.448Z",
+        "verified": true,
+        "helpful": 15
+      },
+      {
+        "id": "rev-flw-219-3",
+        "userName": "Zara Thakur",
+        "author": "Zara Thakur",
+        "userEmail": "zara.thakur.175@verified.dhanvikk.com",
+        "rating": 5,
+        "title": "Heartfelt tears of joy upon opening the Grand Imperial White Orchid in Marble Stoneware",
+        "comment": "Surprised my partner with the Grand Imperial White Orchid in Marble Stoneware and the emotional resonance was beyond words. The potting harmony and lush foliage structure bring an immediate sense of refined botanical sanctuary. Worth every single rupee for the lasting joy, prestige, and beauty it brought into our lives.",
+        "date": "22 days ago",
+        "createdAt": "2026-09-30T21:48:05.805Z",
+        "verified": true,
+        "helpful": 17
+      }
+    ]
   }
 ];

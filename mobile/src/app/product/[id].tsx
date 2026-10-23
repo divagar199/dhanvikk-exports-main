@@ -718,6 +718,9 @@ export default function ProductDetail() {
                   </View>
                 </View>
 
+                {rev.title ? (
+                  <Text style={s.reviewTitle}>{rev.title}</Text>
+                ) : null}
                 {rev.comment ? (
                   <Text style={s.reviewComment}>{rev.comment}</Text>
                 ) : null}
@@ -1562,6 +1565,12 @@ const s = StyleSheet.create({
     fontSize: 10,
     color: colors.muted,
     marginTop: 2,
+  },
+  reviewTitle: {
+    fontSize: 13,
+    fontWeight: '700',
+    color: colors.ink,
+    marginBottom: 2,
   },
   reviewComment: {
     fontSize: 13,

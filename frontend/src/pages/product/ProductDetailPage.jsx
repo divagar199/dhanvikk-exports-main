@@ -186,11 +186,17 @@ export default function ProductDetailPage() {
       const stored = localStorage.getItem(`dhanvikk_reviews_${prodId}`);
       if (stored) {
         setReviewsList(JSON.parse(stored));
+      } else if (Array.isArray(product.reviews) && product.reviews.length > 0) {
+        setReviewsList(product.reviews);
       } else {
         setReviewsList(defaultReviews);
       }
     } catch {
-      setReviewsList(defaultReviews);
+      if (Array.isArray(product.reviews) && product.reviews.length > 0) {
+        setReviewsList(product.reviews);
+      } else {
+        setReviewsList(defaultReviews);
+      }
     }
   }, [product, id]);
 

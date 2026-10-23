@@ -407,32 +407,45 @@ export const getUploadedImages = async (req, res) => {
   }
 };
 
-export const getDefaultReviews = (productName = 'Blooms') => [
-  {
-    id: 'rev-def-1',
-    userName: 'Amina Al-Mansoor',
-    rating: 5,
-    comment: 'Pristine highland blooms! Delivered crisply chilled with morning dew still on the petals. Fragrance lasted over a week.',
-    verified: true,
-    createdAt: new Date(Date.now() - 3 * 86400000).toISOString(),
-  },
-  {
-    id: 'rev-def-2',
-    userName: 'Vikram Malhotra',
-    rating: 5,
-    comment: 'Exceptional floristry. Heavy-caliber stems, velvet packaging, and handwriting card made the occasion deeply memorable.',
-    verified: true,
-    createdAt: new Date(Date.now() - 7 * 86400000).toISOString(),
-  },
-  {
-    id: 'rev-def-3',
-    userName: 'Dr. Priya Sundaram',
-    rating: 4,
-    comment: 'Arrived right on schedule in refrigerated transit. The blossoms opened up magnificently over the next 48 hours.',
-    verified: true,
-    createdAt: new Date(Date.now() - 14 * 86400000).toISOString(),
-  },
-];
+export const getDefaultReviews = (productOrIdentifier = 'Blooms') => {
+  const query = typeof productOrIdentifier === 'string' ? productOrIdentifier.toLowerCase() : '';
+  const prod = inMemoryProducts.find(
+    (p) =>
+      p.id?.toLowerCase() === query ||
+      p.slug?.toLowerCase() === query ||
+      p.name?.toLowerCase() === query ||
+      (typeof productOrIdentifier === 'object' && (p.id === productOrIdentifier?.id || p.slug === productOrIdentifier?.slug))
+  );
+  if (prod && Array.isArray(prod.reviews) && prod.reviews.length > 0) {
+    return prod.reviews;
+  }
+  return [
+    {
+      id: 'rev-def-1',
+      userName: 'Amina Al-Mansoor',
+      rating: 5,
+      comment: 'Pristine highland blooms! Delivered crisply chilled with morning dew still on the petals. Fragrance lasted over a week.',
+      verified: true,
+      createdAt: new Date(Date.now() - 3 * 86400000).toISOString(),
+    },
+    {
+      id: 'rev-def-2',
+      userName: 'Vikram Malhotra',
+      rating: 5,
+      comment: 'Exceptional floristry. Heavy-caliber stems, velvet packaging, and handwriting card made the occasion deeply memorable.',
+      verified: true,
+      createdAt: new Date(Date.now() - 7 * 86400000).toISOString(),
+    },
+    {
+      id: 'rev-def-3',
+      userName: 'Dr. Priya Sundaram',
+      rating: 4,
+      comment: 'Arrived right on schedule in refrigerated transit. The blossoms opened up magnificently over the next 48 hours.',
+      verified: true,
+      createdAt: new Date(Date.now() - 14 * 86400000).toISOString(),
+    },
+  ];
+};
 
 /**
  * @desc Add a review and rating for a product (Auth required)
