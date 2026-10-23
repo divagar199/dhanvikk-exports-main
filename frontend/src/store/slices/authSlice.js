@@ -6,6 +6,7 @@ import {
   signInWithEmailPasswordFirebase,
   signUpWithEmailPassword,
   checkGoogleRedirectResult,
+  logOutFirebase,
 } from '../../config/firebase';
 
 // Safely restore initial auth state
@@ -335,7 +336,6 @@ export const logoutUser = createAsyncThunk(
   async () => {
     try {
       try {
-        const { logOutFirebase } = await import('../../config/firebase');
         await logOutFirebase();
       } catch (fbErr) {
         console.warn('Firebase logout note:', fbErr?.message);

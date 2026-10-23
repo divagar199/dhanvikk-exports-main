@@ -20,5 +20,9 @@
   },
   "devDependencies": {
     "concurrently": "^9.1.2"
+  },
+  "allowScripts": {
+    "@firebase/util": true,
+    "protobufjs": true
   }
 }

@@ -9,7 +9,7 @@ import ProtectedRoute from './components/routes/ProtectedRoute';
 import RoleRoute from './components/routes/RoleRoute';
 import AdminEntryRoute from './components/routes/AdminEntryRoute';
 import Spinner from './components/common/Spinner';
-import { checkGoogleRedirectResult } from './config/firebase';
+import { checkGoogleRedirectResult, auth, onAuthStateChanged } from './config/firebase';
 import { loginWithGoogleThunk } from './store/slices/authSlice';
 
 // Lazy-loaded routes for performance & fast LCP
@@ -84,8 +84,6 @@ function GlobalGoogleRedirectHandler() {
             return;
           }
         }
-
-        const { checkGoogleRedirectResult, auth, onAuthStateChanged } = await import('./config/firebase');
 
         // 1. Process getRedirectResult
         const res = await checkGoogleRedirectResult();
