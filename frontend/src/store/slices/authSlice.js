@@ -58,12 +58,18 @@ export const loginUser = createAsyncThunk(
         }
       }
 
-      // 2. Synchronize with Backend API (if available)
+      // 2. Synchronize with Backend API (with 3.5s timeout guard so users are never stuck)
       let data = null;
       try {
-        data = await authService.login({ email, password });
+        const timeoutPromise = new Promise((_, reject) =>
+          setTimeout(() => reject(new Error('Backend login sync timeout')), 3500)
+        );
+        data = await Promise.race([
+          authService.login({ email, password }),
+          timeoutPromise,
+        ]);
       } catch (apiErr) {
-        // Fallback to Firebase authentication result if backend API is offline
+        // Fallback to Firebase authentication result if backend API is cold-starting or offline
         if (firebaseUser) {
           data = {
             success: true,
@@ -72,6 +78,8 @@ export const loginUser = createAsyncThunk(
             isNewAccount,
             message: isNewAccount ? 'Account not found — new account created for you in Firebase! 🌸' : 'Login successful',
           };
+          // Background sync
+          authService.login({ email, password }).catch(() => {});
         } else {
           throw apiErr;
         }

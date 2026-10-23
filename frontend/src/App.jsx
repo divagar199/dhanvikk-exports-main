@@ -44,27 +44,71 @@ function RouteFallback() {
 function GlobalGoogleRedirectHandler() {
   React.useEffect(() => {
     let active = true;
+    let unsubscribe = null;
+
     (async () => {
       try {
+        const { checkGoogleRedirectResult, auth, onAuthStateChanged } = await import('./config/firebase');
+
+        // 1. Process getRedirectResult
         const res = await checkGoogleRedirectResult();
         if (res?.user && active) {
-          const action = await store.dispatch(loginWithGoogleThunk({
-            ...res.user,
-            token: res.token,
-          }));
+          const action = await store.dispatch(
+            loginWithGoogleThunk({
+              ...res.user,
+              token: res.token,
+            })
+          );
           if (loginWithGoogleThunk.fulfilled.match(action)) {
             const target = sessionStorage.getItem('dhanvikk_auth_redirect_target');
             sessionStorage.removeItem('dhanvikk_auth_redirect_target');
-            if (target && target !== window.location.pathname) {
-              window.location.replace(target);
+            const finalTarget = (target && target !== '/login' && target !== '/register') ? target : '/';
+            if (window.location.pathname === '/login' || window.location.pathname === '/register') {
+              window.location.replace(finalTarget);
             }
+            return;
           }
         }
+
+        // 2. Synchronize active Firebase Auth state across the whole site
+        unsubscribe = onAuthStateChanged(auth, async (fbUser) => {
+          if (fbUser && active) {
+            const currentToken = localStorage.getItem('dhanvikk_auth_token');
+            const currentUser = localStorage.getItem('dhanvikk_user');
+            if (!currentToken || !currentUser) {
+              const token = await fbUser.getIdToken().catch(() => '');
+              const cleanEmail = fbUser.email || '';
+              const action = await store.dispatch(
+                loginWithGoogleThunk({
+                  googleUid: fbUser.uid,
+                  id: fbUser.uid,
+                  name: fbUser.displayName || (cleanEmail ? cleanEmail.split('@')[0] : 'Customer'),
+                  email: cleanEmail,
+                  avatar: fbUser.photoURL || '',
+                  phone: fbUser.phoneNumber || '',
+                  token,
+                })
+              );
+              if (loginWithGoogleThunk.fulfilled.match(action)) {
+                const target = sessionStorage.getItem('dhanvikk_auth_redirect_target');
+                sessionStorage.removeItem('dhanvikk_auth_redirect_target');
+                if (window.location.pathname === '/login' || window.location.pathname === '/register') {
+                  const finalTarget = (target && target !== '/login' && target !== '/register') ? target : '/';
+                  window.location.replace(finalTarget);
+                }
+              }
+            }
+          }
+        });
       } catch (err) {
         console.warn('Google redirect global listener note:', err);
       }
     })();
-    return () => { active = false; };
+
+    return () => {
+      active = false;
+      if (unsubscribe) unsubscribe();
+    };
   }, []);
 
   return null;

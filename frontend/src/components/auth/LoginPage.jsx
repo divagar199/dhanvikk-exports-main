@@ -25,9 +25,9 @@ export default function LoginPage() {
   const targetDestination =
     (rawFrom && rawFrom !== '/login' && rawFrom !== '/register')
       ? rawFrom
-      : (redirectTarget && redirectTarget !== '/login' && redirectTarget !== '/register')
+      : (redirectTarget && redirectTarget !== '/login' && redirectTarget !== '/register' && redirectTarget !== '/account')
         ? redirectTarget
-        : '/account';
+        : '/';
 
   // Automatically redirect if already authenticated or when login finishes
   React.useEffect(() => {

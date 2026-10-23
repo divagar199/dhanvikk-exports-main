@@ -161,18 +161,18 @@ test('Frontend - Google Sign-In Redirect & Destination Resolution', async (t) =>
   const resolveTargetDestination = (rawFrom, redirectTarget) => {
     return (rawFrom && rawFrom !== '/login' && rawFrom !== '/register')
       ? rawFrom
-      : (redirectTarget && redirectTarget !== '/login' && redirectTarget !== '/register')
+      : (redirectTarget && redirectTarget !== '/login' && redirectTarget !== '/register' && redirectTarget !== '/account')
         ? redirectTarget
-        : '/account';
+        : '/';
   };
 
   await t.test('strictly avoids circular redirection to /login when from is /login', () => {
-    assert.equal(resolveTargetDestination('/login', null), '/account');
-    assert.equal(resolveTargetDestination('/login', '/login'), '/account');
+    assert.equal(resolveTargetDestination('/login', null), '/');
+    assert.equal(resolveTargetDestination('/login', '/login'), '/');
   });
 
   await t.test('strictly avoids circular redirection to /register when from is /register', () => {
-    assert.equal(resolveTargetDestination('/register', null), '/account');
+    assert.equal(resolveTargetDestination('/register', null), '/');
   });
 
   await t.test('preserves intended return path when from is a protected route (e.g. /checkout)', () => {
@@ -185,9 +185,10 @@ test('Frontend - Google Sign-In Redirect & Destination Resolution', async (t) =>
     assert.equal(resolveTargetDestination('/login', '/orders'), '/orders');
   });
 
-  await t.test('defaults to /account when neither valid target is specified', () => {
-    assert.equal(resolveTargetDestination(null, null), '/account');
-    assert.equal(resolveTargetDestination(undefined, undefined), '/account');
+  await t.test('defaults to / (main page) when neither valid target is specified', () => {
+    assert.equal(resolveTargetDestination(null, null), '/');
+    assert.equal(resolveTargetDestination(undefined, undefined), '/');
+    assert.equal(resolveTargetDestination(null, '/account'), '/');
   });
 });
 
