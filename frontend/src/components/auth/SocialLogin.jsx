@@ -1,7 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Spinner from '../common/Spinner';
-
-const GOOGLE_CLIENT_ID = '160660053649-1ar8vvfbirn6jgd9bnukihvk0frgluv6.apps.googleusercontent.com';
+import {
+  setGsiCredentialHandler,
+  initGoogleIdentityServices,
+  renderGsiButton,
+} from '../../config/gsi';
 
 export default function SocialLogin({
   onGoogleLogin,
@@ -12,55 +15,64 @@ export default function SocialLogin({
 }) {
   const gsiContainerRef = useRef(null);
   const [gsiReady, setGsiReady] = useState(false);
+  const buttonRenderedRef = useRef(false);
 
+  // Keep credential handler synchronized without re-initializing GSI
   useEffect(() => {
-    let checkInterval = null;
-
-    const initGsi = () => {
-      if (typeof window !== 'undefined' && window.google?.accounts?.id && gsiContainerRef.current) {
-        try {
-          window.google.accounts.id.initialize({
-            client_id: GOOGLE_CLIENT_ID,
-            callback: (response) => {
-              if (response?.credential && typeof onGoogleCredential === 'function') {
-                onGoogleCredential(response.credential);
-              }
-            },
-            auto_select: false,
-            cancel_on_tap_outside: true,
-          });
-
-          // Render official Google button into the container (immune to browser popup blocking)
-          gsiContainerRef.current.innerHTML = '';
-          window.google.accounts.id.renderButton(gsiContainerRef.current, {
-            theme: 'outline',
-            size: 'large',
-            type: 'standard',
-            text: 'continue_with',
-            shape: 'rectangular',
-            logo_alignment: 'left',
-            width: gsiContainerRef.current.offsetWidth || 340,
-          });
-
-          setGsiReady(true);
-          if (checkInterval) clearInterval(checkInterval);
-        } catch (e) {
-          console.warn('GSI render notice:', e);
-        }
-      }
-    };
-
-    initGsi();
-    checkInterval = setInterval(initGsi, 500);
-    const timeout = setTimeout(() => {
-      if (checkInterval) clearInterval(checkInterval);
-    }, 4000);
-
+    if (typeof onGoogleCredential === 'function') {
+      setGsiCredentialHandler(onGoogleCredential);
+    }
     return () => {
-      if (checkInterval) clearInterval(checkInterval);
-      clearTimeout(timeout);
+      setGsiCredentialHandler(null);
     };
   }, [onGoogleCredential]);
+
+  // Mount Google Identity Services Button strictly once
+  useEffect(() => {
+    let checkTimer = null;
+    let isMounted = true;
+
+    const tryRender = () => {
+      if (!isMounted) return false;
+      if (typeof window === 'undefined') return false;
+
+      if (window.google?.accounts?.id && gsiContainerRef.current) {
+        initGoogleIdentityServices();
+        if (!buttonRenderedRef.current) {
+          const success = renderGsiButton(gsiContainerRef.current, {
+            width: gsiContainerRef.current.offsetWidth || 340,
+          });
+          if (success) {
+            buttonRenderedRef.current = true;
+            if (isMounted) setGsiReady(true);
+            return true;
+          }
+        }
+      }
+      return false;
+    };
+
+    // 1. Try immediate render if Google client script is already loaded
+    if (!tryRender()) {
+      // 2. Poll briefly only until window.google.accounts.id is available, then immediately stop
+      let attempts = 0;
+      checkTimer = setInterval(() => {
+        attempts += 1;
+        if (tryRender() || attempts > 20) {
+          clearInterval(checkTimer);
+          checkTimer = null;
+        }
+      }, 250);
+    }
+
+    return () => {
+      isMounted = false;
+      if (checkTimer) {
+        clearInterval(checkTimer);
+        checkTimer = null;
+      }
+    };
+  }, []);
 
   return (
     <div className={`w-full flex flex-col items-center gap-2.5 ${className}`}>

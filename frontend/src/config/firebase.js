@@ -137,13 +137,23 @@ export const signInWithGoogleFirebase = async () => {
       return { canceled: true, message: 'Google sign-in was canceled.' };
     }
 
-    // Popup was blocked by browser settings
+    // Popup was blocked by browser settings -> Seamlessly fallback to redirect flow
     if (error.code === 'auth/popup-blocked') {
-      return {
-        popupBlocked: true,
-        error: error.code,
-        message: 'The Google sign-in popup was blocked by your browser. Please allow popups for this site in your browser settings to continue.',
-      };
+      console.info('Google popup was blocked by browser; smoothly initiating full-page redirect flow...');
+      try {
+        if (typeof window !== 'undefined') {
+          sessionStorage.setItem('dhanvikk_auth_redirect_target', window.location.pathname || '/');
+        }
+        await signInWithRedirect(auth, googleProvider);
+        return { redirecting: true, message: 'Redirecting to Google Sign-In...' };
+      } catch (redirectErr) {
+        console.warn('Redirect fallback attempt notice:', redirectErr);
+        return {
+          popupBlocked: true,
+          error: error.code,
+          message: 'The Google sign-in popup was blocked. Redirecting...',
+        };
+      }
     }
 
     // Domain not authorized in Firebase Console

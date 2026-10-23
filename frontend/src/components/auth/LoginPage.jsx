@@ -81,7 +81,7 @@ export default function LoginPage() {
   };
 
   // Google Identity Services (GSI) credential handler (100% immune to popup blockers)
-  const handleGoogleCredential = async (credential) => {
+  const handleGoogleCredential = React.useCallback(async (credential) => {
     dispatch(clearAuthError());
     try {
       const firebaseRes = await signInWithGoogleCredential(credential);
@@ -111,10 +111,10 @@ export default function LoginPage() {
       console.error('Google credential login error:', err);
       toast.error(err?.message || 'Google sign-in could not be completed.');
     }
-  };
+  }, [dispatch, targetDestination]);
 
   // Google OAuth flow (instant popup directly triggered by user click gesture)
-  const handleGoogleLogin = async () => {
+  const handleGoogleLogin = React.useCallback(async () => {
     dispatch(clearAuthError());
     try {
       const firebaseRes = await signInWithGoogleFirebase();
@@ -122,18 +122,12 @@ export default function LoginPage() {
         toast.info(firebaseRes.message || 'Google sign-in was canceled.');
         return;
       }
+      if (firebaseRes?.redirecting) {
+        toast.info(firebaseRes.message || 'Redirecting to Google Sign-In... 🌸');
+        return;
+      }
       if (firebaseRes?.popupBlocked) {
-        // If popup was blocked, activate Google One Tap or point to direct Google button
-        if (typeof window !== 'undefined' && window.google?.accounts?.id) {
-          toast.info('Popup was blocked. Opening Google One-Tap sign-in...');
-          window.google.accounts.id.prompt((notification) => {
-            if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
-              toast.info('Please tap the Google button to sign in directly.');
-            }
-          });
-          return;
-        }
-        toast.info('Please tap the Google button to sign in directly.');
+        toast.info('Please click the Google button above to sign in directly.');
         return;
       }
       if (firebaseRes?.unauthorizedDomain) {
@@ -175,7 +169,7 @@ export default function LoginPage() {
         toast.error(err?.message || 'Google sign-in could not be completed.');
       }
     }
-  };
+  }, [dispatch, targetDestination]);
 
   // Check if returning from Google Redirect or active Firebase session
   React.useEffect(() => {

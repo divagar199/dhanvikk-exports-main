@@ -1,6 +1,6 @@
 import express from 'express';
 import {
-  login, googleLogin, getMe, logout, register, getProfileData, updateProfile,
+  login, googleLogin, googleRedirectCallback, getMe, logout, register, getProfileData, updateProfile,
   saveAddress, deleteAddress, toggleWishlistBouquet, verifyPortalKey, saveUserCart,
 } from '../controllers/authController.js';
 import { protect } from '../middleware/authMiddleware.js';
@@ -9,6 +9,7 @@ const router = express.Router();
 
 router.post('/login', login);
 router.post('/google', googleLogin);
+router.all('/google/callback', googleRedirectCallback);
 router.post('/register', register);
 router.post('/logout', logout);
 router.get('/me', protect, getMe);

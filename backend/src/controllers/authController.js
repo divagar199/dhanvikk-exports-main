@@ -459,6 +459,101 @@ export const googleLogin = async (req, res, next) => {
 };
 
 /**
+ * @desc    Google OAuth Redirect Callback (handles POST/GET from Google or proxy)
+ * @route   POST /api/auth/google/callback, GET /api/auth/google/callback
+ * @access  Public
+ */
+export const googleRedirectCallback = async (req, res, next) => {
+  try {
+    const credential = req.body?.credential || req.query?.credential || req.query?.token;
+    const clientRedirectUrl = (process.env.CLIENT_URL || 'https://dhanvikk-exports-main.vercel.app').replace(/\/+$/, '');
+
+    if (!credential) {
+      return res.redirect(`${clientRedirectUrl}/login?auth_error=no_credential`);
+    }
+
+    let payload = null;
+    try {
+      const parts = credential.split('.');
+      if (parts.length >= 2) {
+        const base64 = parts[1].replace(/-/g, '+').replace(/_/g, '/');
+        const jsonStr = Buffer.from(base64, 'base64').toString('utf-8');
+        payload = JSON.parse(jsonStr);
+      }
+    } catch (e) {
+      console.warn('Google redirect callback token parse error:', e.message);
+    }
+
+    const email = (payload?.email || req.body?.email || req.query?.email || '').trim().toLowerCase();
+    const name = payload?.name || req.body?.name || (email ? email.split('@')[0] : 'Google Customer');
+    const avatar = payload?.picture || req.body?.avatar || '';
+
+    if (!email) {
+      return res.redirect(`${clientRedirectUrl}/login?auth_error=missing_email`);
+    }
+
+    let user = null;
+    if (getDBStatus()) {
+      user = await UserModel.findOne({ email });
+      if (!user) {
+        user = await UserModel.create({
+          name,
+          email,
+          avatar,
+          passwordHash: bcrypt.hashSync(`google_${Date.now()}`, 10),
+          role: 'customer',
+          isVerified: true,
+          emailVerified: true,
+        });
+      } else {
+        user.isVerified = true;
+        user.emailVerified = true;
+        await user.save().catch(() => {});
+      }
+    }
+
+    if (!user) {
+      user = USERS.find((u) => u.email === email);
+      if (!user) {
+        user = {
+          id: `usr_${Date.now()}`,
+          name,
+          email,
+          role: 'customer',
+          isVerified: true,
+          emailVerified: true,
+          avatar,
+        };
+        USERS.push(user);
+      } else {
+        user.isVerified = true;
+        user.emailVerified = true;
+      }
+    }
+
+    const token = generateToken({
+      id: user._id ? user._id.toString() : user.id,
+      name: user.name,
+      email: user.email,
+      role: user.role,
+    });
+
+    res.cookie('dhanvikk_token', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+    });
+
+    return res.redirect(`${clientRedirectUrl}/?token=${token}&email=${encodeURIComponent(user.email)}`);
+  } catch (error) {
+    console.error('googleRedirectCallback error:', error);
+    const clientRedirectUrl = (process.env.CLIENT_URL || 'https://dhanvikk-exports-main.vercel.app').replace(/\/+$/, '');
+    return res.redirect(`${clientRedirectUrl}/login?auth_error=failed`);
+  }
+};
+
+/**
  * @desc    Get current logged in user
  * @route   GET /api/auth/me
  * @access  Private

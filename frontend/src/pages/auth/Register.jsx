@@ -104,13 +104,12 @@ export default function Register() {
         toast.info(fbRes.message || 'Google sign-in was canceled.');
         return;
       }
+      if (fbRes?.redirecting) {
+        toast.info(fbRes.message || 'Redirecting to Google Sign-In... 🌸');
+        return;
+      }
       if (fbRes?.popupBlocked) {
-        if (typeof window !== 'undefined' && window.google?.accounts?.id) {
-          toast.info('Popup was blocked by your browser. Prompting Google One-Tap...');
-          window.google.accounts.id.prompt();
-          return;
-        }
-        toast.info('Please allow popups or use Google One-Tap to continue.');
+        toast.info('Google sign-in popup was blocked. Please enable popups or retry.');
         return;
       }
       if (fbRes?.unauthorizedDomain) {

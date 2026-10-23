@@ -48,6 +48,43 @@ function GlobalGoogleRedirectHandler() {
 
     (async () => {
       try {
+        // 0. Check URL params for direct OAuth/server callback token
+        if (typeof window !== 'undefined' && window.location.search) {
+          const params = new URLSearchParams(window.location.search);
+          const callbackToken = params.get('token') || params.get('auth_token');
+          const callbackEmail = params.get('email');
+          if (callbackToken && callbackEmail && active) {
+            sessionStorage.removeItem('dhanvikk_logged_out');
+            localStorage.setItem('dhanvikk_auth_token', callbackToken);
+            sessionStorage.setItem('dhanvikk_auth_token', callbackToken);
+            const userObj = {
+              email: callbackEmail,
+              name: callbackEmail.split('@')[0],
+              role: 'customer',
+              isVerified: true,
+              emailVerified: true,
+            };
+            localStorage.setItem('dhanvikk_user', JSON.stringify(userObj));
+            sessionStorage.setItem('dhanvikk_user', JSON.stringify(userObj));
+            store.dispatch(
+              loginWithGoogleThunk({
+                email: callbackEmail,
+                name: userObj.name,
+                token: callbackToken,
+                isVerified: true,
+              })
+            );
+            window.history.replaceState({}, document.title, window.location.pathname);
+            const target = sessionStorage.getItem('dhanvikk_auth_redirect_target');
+            sessionStorage.removeItem('dhanvikk_auth_redirect_target');
+            const finalTarget = target && target !== '/login' && target !== '/register' && target !== '/account' ? target : '/';
+            if (window.location.pathname.startsWith('/login') || window.location.pathname.startsWith('/register')) {
+              window.location.replace(finalTarget);
+            }
+            return;
+          }
+        }
+
         const { checkGoogleRedirectResult, auth, onAuthStateChanged } = await import('./config/firebase');
 
         // 1. Process getRedirectResult
