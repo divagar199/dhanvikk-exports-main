@@ -8,6 +8,8 @@ import SocialLogin from './SocialLogin';
 import AuthDivider from './AuthDivider';
 import AuthTrustMessage from './AuthTrustMessage';
 import { loginUser, loginWithGoogleThunk, clearAuthError } from '../../store/slices/authSlice';
+import { signInWithGoogleFirebase, checkGoogleRedirectResult, auth } from '../../config/firebase';
+import { onAuthStateChanged } from 'firebase/auth';
 
 export default function LoginPage() {
   const dispatch = useDispatch();
@@ -58,6 +60,7 @@ export default function LoginPage() {
           : 'Welcome back to Dhanvikk Blooms & Exports 🌸');
         toast.success(msg);
         sessionStorage.removeItem('dhanvikk_auth_redirect_target');
+        sessionStorage.removeItem('dhanvikk_logged_out');
         const loggedUser = resultAction.payload.user;
         if (loggedUser.role === 'admin' || loggedUser.role === 'super_admin') {
           window.location.replace('/admin/dashboard');
@@ -72,14 +75,21 @@ export default function LoginPage() {
     }
   };
 
-  // Google OAuth flow (instant popup with seamless automatic redirect fallback)
+  // Google OAuth flow (instant popup directly triggered by user click gesture)
   const handleGoogleLogin = async () => {
     dispatch(clearAuthError());
     try {
-      const { signInWithGoogleFirebase } = await import('../../config/firebase');
       const firebaseRes = await signInWithGoogleFirebase();
-      if (firebaseRes?.redirecting) {
-        toast.info('Popup was blocked by your browser. Redirecting to Google Sign-In...');
+      if (firebaseRes?.canceled) {
+        toast.info(firebaseRes.message || 'Google sign-in was canceled.');
+        return;
+      }
+      if (firebaseRes?.popupBlocked) {
+        toast.error(firebaseRes.message, { duration: 8000 });
+        return;
+      }
+      if (firebaseRes?.unauthorizedDomain) {
+        toast.error(firebaseRes.message, { duration: 9000 });
         return;
       }
       if (firebaseRes?.user) {
@@ -96,11 +106,14 @@ export default function LoginPage() {
             : `Welcome, ${loggedUser?.name || loggedUser?.email || 'Valued Customer'}! 🌸`);
           toast.success(msg);
           sessionStorage.removeItem('dhanvikk_auth_redirect_target');
+          sessionStorage.removeItem('dhanvikk_logged_out');
           if (loggedUser?.role === 'admin' || loggedUser?.role === 'super_admin') {
             window.location.replace('/admin/dashboard');
           } else {
             window.location.replace(targetDestination);
           }
+        } else {
+          toast.error(resultAction.payload || 'Google sign-in could not be completed.');
         }
       }
     } catch (err) {
@@ -121,10 +134,12 @@ export default function LoginPage() {
     let isMounted = true;
     let unsubscribe = null;
 
+    if (sessionStorage.getItem('dhanvikk_logged_out') === 'true') {
+      return;
+    }
+
     (async () => {
       try {
-        const { checkGoogleRedirectResult, auth, onAuthStateChanged } = await import('../../config/firebase');
-
         // 1. Check getRedirectResult
         const res = await checkGoogleRedirectResult();
         if (res?.error && isMounted) {
@@ -134,35 +149,43 @@ export default function LoginPage() {
           if (loginWithGoogleThunk.fulfilled.match(action)) {
             toast.success(`Welcome back, ${res.user.name || 'Customer'}! 🌸`);
             sessionStorage.removeItem('dhanvikk_auth_redirect_target');
+            sessionStorage.removeItem('dhanvikk_logged_out');
             window.location.replace(targetDestination);
             return;
           }
         }
 
-        // 2. Synchronize with Firebase Auth state for seamless redirect completion
+        // 2. Synchronize with Firebase Auth state for seamless session recovery
         unsubscribe = onAuthStateChanged(auth, async (fbUser) => {
-          if (fbUser && isMounted) {
-            const token = await fbUser.getIdToken().catch(() => '');
-            const cleanEmail = fbUser.email || '';
-            const action = await dispatch(
-              loginWithGoogleThunk({
-                googleUid: fbUser.uid,
-                id: fbUser.uid,
-                name: fbUser.displayName || (cleanEmail ? cleanEmail.split('@')[0] : 'Customer'),
-                email: cleanEmail,
-                avatar: fbUser.photoURL || '',
-                phone: fbUser.phoneNumber || '',
-                token,
-              })
-            );
-            if (loginWithGoogleThunk.fulfilled.match(action)) {
-              sessionStorage.removeItem('dhanvikk_auth_redirect_target');
-              window.location.replace(targetDestination);
+          if (fbUser && isMounted && sessionStorage.getItem('dhanvikk_logged_out') !== 'true') {
+            const currentToken = localStorage.getItem('dhanvikk_auth_token');
+            const currentUser = localStorage.getItem('dhanvikk_user');
+            if (!currentToken || !currentUser) {
+              const token = await fbUser.getIdToken().catch(() => '');
+              const cleanEmail = fbUser.email || '';
+              const action = await dispatch(
+                loginWithGoogleThunk({
+                  googleUid: fbUser.uid,
+                  id: fbUser.uid,
+                  name: fbUser.displayName || (cleanEmail ? cleanEmail.split('@')[0] : 'Customer'),
+                  email: cleanEmail,
+                  avatar: fbUser.photoURL || '',
+                  phone: fbUser.phoneNumber || '',
+                  token,
+                  isVerified: true,
+                  emailVerified: fbUser.emailVerified ?? true,
+                })
+              );
+              if (loginWithGoogleThunk.fulfilled.match(action)) {
+                sessionStorage.removeItem('dhanvikk_auth_redirect_target');
+                sessionStorage.removeItem('dhanvikk_logged_out');
+                window.location.replace(targetDestination);
+              }
             }
           }
         });
-      } catch (e) {
-        console.warn('Redirect result check note:', e);
+      } catch (err) {
+        console.warn('Login redirect check notice:', err);
       }
     })();
 
@@ -170,7 +193,7 @@ export default function LoginPage() {
       isMounted = false;
       if (unsubscribe) unsubscribe();
     };
-  }, [dispatch, targetDestination, navigate]);
+  }, [dispatch, targetDestination]);
 
   return (
     <div className="w-full max-w-[420px] sm:max-w-[440px] mx-auto flex flex-col justify-center py-4">

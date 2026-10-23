@@ -72,7 +72,7 @@ function GlobalGoogleRedirectHandler() {
 
         // 2. Synchronize active Firebase Auth state across the whole site
         unsubscribe = onAuthStateChanged(auth, async (fbUser) => {
-          if (fbUser && active) {
+          if (fbUser && active && sessionStorage.getItem('dhanvikk_logged_out') !== 'true') {
             const currentToken = localStorage.getItem('dhanvikk_auth_token');
             const currentUser = localStorage.getItem('dhanvikk_user');
             if (!currentToken || !currentUser) {
@@ -87,11 +87,14 @@ function GlobalGoogleRedirectHandler() {
                   avatar: fbUser.photoURL || '',
                   phone: fbUser.phoneNumber || '',
                   token,
+                  isVerified: true,
+                  emailVerified: fbUser.emailVerified ?? true,
                 })
               );
               if (loginWithGoogleThunk.fulfilled.match(action)) {
                 const target = sessionStorage.getItem('dhanvikk_auth_redirect_target');
                 sessionStorage.removeItem('dhanvikk_auth_redirect_target');
+                sessionStorage.removeItem('dhanvikk_logged_out');
                 if (window.location.pathname.startsWith('/login') || window.location.pathname.startsWith('/register')) {
                   const finalTarget = (target && target !== '/login' && target !== '/register' && target !== '/account') ? target : '/';
                   window.location.replace(finalTarget);

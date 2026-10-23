@@ -314,6 +314,8 @@ export const googleLogin = async (req, res, next) => {
             phone: phone || '',
             passwordHash: bcrypt.hashSync(`google_auth_${Date.now()}`, 10),
             role: 'customer',
+            isVerified: true,
+            emailVerified: true,
             avatar: targetAvatar,
             loginHistory: [
               {
@@ -325,6 +327,8 @@ export const googleLogin = async (req, res, next) => {
             ],
           });
         } else {
+          user.isVerified = true;
+          user.emailVerified = true;
           if (phone && !user.phone) user.phone = phone;
           user.loginHistory = user.loginHistory || [];
           user.loginHistory.push({
@@ -351,10 +355,14 @@ export const googleLogin = async (req, res, next) => {
           email: targetEmail,
           phone: phone || '',
           role: 'customer',
+          isVerified: true,
+          emailVerified: true,
           avatar: targetAvatar,
         };
         USERS.push(user);
       } else {
+        memUser.isVerified = true;
+        memUser.emailVerified = true;
         if (phone && !memUser.phone) memUser.phone = phone;
         user = memUser;
       }
@@ -437,6 +445,8 @@ export const googleLogin = async (req, res, next) => {
         name: user.name,
         email: user.email,
         role: user.role,
+        isVerified: true,
+        emailVerified: true,
         phone: user.phone || phone || '',
         avatar: resolvedAvatar,
         encryptedPortalKey,

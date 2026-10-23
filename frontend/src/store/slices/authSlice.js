@@ -289,6 +289,9 @@ export const loginWithGoogleThunk = createAsyncThunk(
           email: firebaseUser.email || data.user?.email,
           avatar: firebaseUser.avatar || data.user?.avatar || '',
           role: data.user?.role || firebaseUser.role || 'customer',
+          isVerified: true,
+          emailVerified: true,
+          provider: 'google',
         };
         const tokenStr = firebaseToken || data.token || `dhanvikk_token_${userObj.id}`;
         sessionStorage.removeItem('dhanvikk_logged_out');

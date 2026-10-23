@@ -95,30 +95,42 @@ export default function Register() {
         addressType: formData.addressType || 'Primary Residence',
       };
 
-      const resultAction = await dispatch(loginWithGoogleThunk(extraData));
-      if (loginWithGoogleThunk.fulfilled.match(resultAction)) {
-        if (resultAction.payload?.redirecting) {
-          toast.info('Popup was blocked by your browser. Redirecting to Google Sign-In...');
-          return;
-        }
-        const loggedUser = resultAction.payload?.user;
-        const msg = resultAction.payload?.message || (resultAction.payload?.isNewAccount
-          ? 'Account not found — new account created with Google in the database! 🌸'
-          : `Welcome to Dhanvikk Blooms, ${loggedUser?.name || loggedUser?.email || 'Valued Customer'}! 🌸`);
-        toast.success(msg);
-        window.location.replace('/');
-      } else {
-        const errMsg = resultAction.payload || 'Unable to sign in with Google. Please try again.';
-        if (errMsg.includes('canceled')) {
-          toast.info(errMsg);
-        } else if (errMsg.includes('Redirecting')) {
-          toast.info('Popup was blocked by your browser. Redirecting to Google Sign-In...');
+      const fbRes = await signInWithGoogleFirebase();
+      if (fbRes?.canceled) {
+        toast.info(fbRes.message || 'Google sign-in was canceled.');
+        return;
+      }
+      if (fbRes?.popupBlocked) {
+        toast.error(fbRes.message, { duration: 8000 });
+        return;
+      }
+      if (fbRes?.unauthorizedDomain) {
+        toast.error(fbRes.message, { duration: 9000 });
+        return;
+      }
+      if (fbRes?.user) {
+        const resultAction = await dispatch(
+          loginWithGoogleThunk({
+            ...fbRes.user,
+            token: fbRes.token,
+            ...extraData,
+          })
+        );
+        if (loginWithGoogleThunk.fulfilled.match(resultAction)) {
+          const loggedUser = resultAction.payload?.user;
+          const msg = resultAction.payload?.message || (resultAction.payload?.isNewAccount
+            ? 'Account not found — new account created with Google in the database! 🌸'
+            : `Welcome to Dhanvikk Blooms, ${loggedUser?.name || loggedUser?.email || 'Valued Customer'}! 🌸`);
+          toast.success(msg);
+          sessionStorage.removeItem('dhanvikk_auth_redirect_target');
+          sessionStorage.removeItem('dhanvikk_logged_out');
+          window.location.replace('/');
         } else {
-          toast.error(errMsg);
+          toast.error(resultAction.payload || 'Unable to sign in with Google. Please try again.');
         }
       }
-    } catch {
-      toast.error('Google sign-in could not be completed. You can register with email and password below.');
+    } catch (err) {
+      toast.error(err?.message || 'Google sign-in could not be completed.');
     } finally {
       setGoogleLoading(false);
     }

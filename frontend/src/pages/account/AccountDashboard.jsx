@@ -3,6 +3,7 @@ import SEO from '../../components/common/SEO';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate, useLocation, useParams, Link, Navigate } from 'react-router-dom';
 import { logoutUser, logoutImmediate, setUserProfile, loginUser, loginWithGoogleThunk } from '../../store/slices/authSlice';
+import { signInWithGoogleFirebase } from '../../config/firebase';
 import { addItem, setUserCart } from '../../store/slices/cartSlice';
 import { removeFromWishlist, setWishlist } from '../../store/slices/wishlistSlice';
 import { useCurrency } from '../../context/CurrencyContext';
@@ -250,10 +251,25 @@ export default function AccountDashboard() {
   const handleGoogleLogin = async () => {
     try {
       setAuthSubmitting(true);
-      sessionStorage.removeItem('dhanvikk_logged_out');
-      const res = await dispatch(loginWithGoogleThunk()).unwrap();
-      toast.success(`Welcome back, ${res.user?.name || res.user?.email || 'Valued Customer'}! 🌸`);
-      await loadUserData();
+      const fbRes = await signInWithGoogleFirebase();
+      if (fbRes?.canceled) {
+        toast.info(fbRes.message || 'Google sign-in was canceled.');
+        return;
+      }
+      if (fbRes?.popupBlocked) {
+        toast.error(fbRes.message, { duration: 8000 });
+        return;
+      }
+      if (fbRes?.unauthorizedDomain) {
+        toast.error(fbRes.message, { duration: 9000 });
+        return;
+      }
+      if (fbRes?.user) {
+        sessionStorage.removeItem('dhanvikk_logged_out');
+        const res = await dispatch(loginWithGoogleThunk({ ...fbRes.user, token: fbRes.token })).unwrap();
+        toast.success(`Welcome back, ${res.user?.name || res.user?.email || 'Valued Customer'}! 🌸`);
+        await loadUserData();
+      }
     } catch (err) {
       if (typeof err === 'string' && err.includes('canceled')) {
         toast.info(err);

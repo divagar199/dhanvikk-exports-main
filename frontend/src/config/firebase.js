@@ -120,33 +120,41 @@ export const signInWithGoogleFirebase = async () => {
         avatar: resolvedAvatar,
         phone: user.phoneNumber || '',
         role: 'customer',
+        isVerified: true,
+        emailVerified: user.emailVerified ?? true,
       },
       token,
     };
   } catch (error) {
     console.warn('Google Sign-In interaction notice:', error.code, error.message);
     
-    // Automatic Seamless Fallback: If browser blocks popups, redirect directly to Google Sign-In
+    // User explicitly closed or canceled the popup
     if (
-      error.code === 'auth/popup-blocked' ||
-      error.code === 'auth/cancelled-popup-request' ||
-      error.message?.includes('popup')
+      error.code === 'auth/popup-closed-by-user' ||
+      error.code === 'auth/cancelled-popup-request'
     ) {
-      try {
-        console.info('Google Popup blocked by browser; falling back seamlessly to Google redirect sign-in...');
-        if (typeof window !== 'undefined') {
-          const currentTarget = window.location.pathname.includes('/login') || window.location.pathname.includes('/register')
-            ? '/'
-            : window.location.pathname + window.location.search;
-          sessionStorage.setItem('dhanvikk_auth_redirect_target', currentTarget);
-        }
-        await signInWithRedirect(auth, googleProvider);
-        return { redirecting: true };
-      } catch (redirectErr) {
-        console.error('Google Redirect error after popup block:', redirectErr);
-        throw redirectErr;
-      }
+      return { canceled: true, message: 'Google sign-in was canceled.' };
     }
+
+    // Popup was blocked by browser settings
+    if (error.code === 'auth/popup-blocked') {
+      return {
+        popupBlocked: true,
+        error: error.code,
+        message: 'The Google sign-in popup was blocked by your browser. Please allow popups for this site in your browser settings to continue.',
+      };
+    }
+
+    // Domain not authorized in Firebase Console
+    if (error.code === 'auth/unauthorized-domain') {
+      const currentHost = typeof window !== 'undefined' ? window.location.hostname : 'current domain';
+      return {
+        unauthorizedDomain: true,
+        error: error.code,
+        message: `The domain "${currentHost}" is not authorized in Firebase Auth. Please verify Authorized Domains in Firebase Console.`,
+      };
+    }
+
     throw error;
   }
 };
@@ -201,6 +209,8 @@ export const checkGoogleRedirectResult = () => {
             avatar: resolvedAvatar,
             phone: user.phoneNumber || '',
             role: 'customer',
+            isVerified: true,
+            emailVerified: user.emailVerified ?? true,
           },
           token,
         };
@@ -230,6 +240,8 @@ export const checkGoogleRedirectResult = () => {
                 avatar: resolvedAvatar,
                 phone: user.phoneNumber || '',
                 role: 'customer',
+                isVerified: true,
+                emailVerified: user.emailVerified ?? true,
               },
               token,
             };

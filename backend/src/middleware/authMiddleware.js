@@ -90,6 +90,8 @@ export const protect = async (req, res, next) => {
       email: user.email,
       role: user.role || 'customer',
       phone: user.phone || '',
+      isVerified: user.isVerified ?? true,
+      emailVerified: user.emailVerified ?? true,
       avatar: user.avatar,
     };
     next();

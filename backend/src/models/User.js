@@ -35,6 +35,14 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: '',
     },
+    isVerified: {
+      type: Boolean,
+      default: true,
+    },
+    emailVerified: {
+      type: Boolean,
+      default: true,
+    },
     savedAddresses: [
       {
         id: { type: String },
