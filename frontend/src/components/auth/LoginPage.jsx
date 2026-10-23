@@ -119,7 +119,9 @@ export default function LoginPage() {
 
         // 1. Check getRedirectResult
         const res = await checkGoogleRedirectResult();
-        if (res && isMounted) {
+        if (res?.error && isMounted) {
+          toast.error(res.message, { duration: 9000 });
+        } else if (res?.user && isMounted) {
           const action = await dispatch(loginWithGoogleThunk({ ...res.user, token: res.token }));
           if (loginWithGoogleThunk.fulfilled.match(action)) {
             toast.success(`Welcome back, ${res.user.name || 'Customer'}! 🌸`);

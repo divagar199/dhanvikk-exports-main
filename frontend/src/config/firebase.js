@@ -20,14 +20,14 @@ import {
   serverTimestamp,
 } from 'firebase/firestore';
 
-// Firebase configuration for project: auth-checker-diva
+// Firebase configuration for project: auth-checker-1-main
 const firebaseConfig = {
-  apiKey: import.meta.env.VITE_FIREBASE_API_KEY || 'AIzaSyDwLPDUMXVPwGY4LtVxpG1YnTNQMHyPeW8',
-  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN || 'auth-checker-diva.firebaseapp.com',
-  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID || 'auth-checker-diva',
-  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET || 'auth-checker-diva.firebasestorage.app',
-  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID || '972583680950',
-  appId: import.meta.env.VITE_FIREBASE_APP_ID || '1:972583680950:web:207e65c929b731f0205f17',
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY || 'AIzaSyDoBSnVKgCP7S9ETM7_R-v3VSzw1zh6JNk',
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN || 'auth-checker-1-main.firebaseapp.com',
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID || 'auth-checker-1-main',
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET || 'auth-checker-1-main.firebasestorage.app',
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID || '160660053649',
+  appId: import.meta.env.VITE_FIREBASE_APP_ID || '1:160660053649:web:dhanvikk-web',
 };
 
 // Initialize Firebase App
@@ -151,51 +151,32 @@ export const signInWithGoogleRedirect = async (customTarget = '/') => {
   await signInWithRedirect(auth, googleProvider);
 };
 
+let redirectResultPromise = null;
+
 /**
  * Handle Google Redirect result if redirect authentication was used
  */
-export const checkGoogleRedirectResult = async () => {
-  try {
-    const result = await getRedirectResult(auth);
-    let user = result?.user;
-
-    // Fallback: If getRedirectResult returned null, check auth.currentUser
-    if (!user && auth.currentUser) {
-      user = auth.currentUser;
-    }
-
-    if (!user) return null;
-    const token = await user.getIdToken();
-
-    const cleanEmail = user.email || '';
-    const resolvedName = user.displayName || (cleanEmail ? cleanEmail.split('@')[0] : 'Google Customer');
-    const resolvedAvatar = user.photoURL || (cleanEmail ? `https://unavatar.io/google/${encodeURIComponent(cleanEmail)}` : '');
-
-    syncUserWithFirestore(user, { provider: 'google' }).catch(() => {});
-
-    return {
-      success: true,
-      user: {
-        id: user.uid,
-        uid: user.uid,
-        googleUid: user.uid,
-        name: resolvedName,
-        email: cleanEmail,
-        avatar: resolvedAvatar,
-        phone: user.phoneNumber || '',
-        role: 'customer',
-      },
-      token,
-    };
-  } catch (error) {
-    console.warn('Redirect check notice:', error.message);
-    if (auth.currentUser) {
+export const checkGoogleRedirectResult = () => {
+  if (!redirectResultPromise) {
+    redirectResultPromise = (async () => {
       try {
-        const user = auth.currentUser;
+        const result = await getRedirectResult(auth);
+        let user = result?.user;
+
+        // Fallback: If getRedirectResult returned null, check auth.currentUser
+        if (!user && auth.currentUser) {
+          user = auth.currentUser;
+        }
+
+        if (!user) return null;
         const token = await user.getIdToken();
+
         const cleanEmail = user.email || '';
         const resolvedName = user.displayName || (cleanEmail ? cleanEmail.split('@')[0] : 'Google Customer');
         const resolvedAvatar = user.photoURL || (cleanEmail ? `https://unavatar.io/google/${encodeURIComponent(cleanEmail)}` : '');
+
+        syncUserWithFirestore(user, { provider: 'google' }).catch(() => {});
+
         return {
           success: true,
           user: {
@@ -210,10 +191,42 @@ export const checkGoogleRedirectResult = async () => {
           },
           token,
         };
-      } catch {}
-    }
-    return null;
+      } catch (error) {
+        console.warn('Redirect check notice:', error.code, error.message);
+        if (error.code === 'auth/unauthorized-domain') {
+          return {
+            error: 'unauthorized-domain',
+            message: 'Domain not authorized in Firebase Console: please add "dhanvikk-exports-main.vercel.app" to Firebase Authentication -> Settings -> Authorized Domains.',
+          };
+        }
+        if (auth.currentUser) {
+          try {
+            const user = auth.currentUser;
+            const token = await user.getIdToken();
+            const cleanEmail = user.email || '';
+            const resolvedName = user.displayName || (cleanEmail ? cleanEmail.split('@')[0] : 'Google Customer');
+            const resolvedAvatar = user.photoURL || (cleanEmail ? `https://unavatar.io/google/${encodeURIComponent(cleanEmail)}` : '');
+            return {
+              success: true,
+              user: {
+                id: user.uid,
+                uid: user.uid,
+                googleUid: user.uid,
+                name: resolvedName,
+                email: cleanEmail,
+                avatar: resolvedAvatar,
+                phone: user.phoneNumber || '',
+                role: 'customer',
+              },
+              token,
+            };
+          } catch {}
+        }
+        return null;
+      }
+    })();
   }
+  return redirectResultPromise;
 };
 
 /**
