@@ -194,3 +194,4 @@ export default function AdminSettings({ settings, onSaveSettings, onLogAudit }) 
     </div>
   );
 }
+

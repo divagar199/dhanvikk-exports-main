@@ -233,3 +233,4 @@ export default function ShipmentsList({ shipments = [], onUpdateStatus, onLogAud
     </div>
   );
 }
+

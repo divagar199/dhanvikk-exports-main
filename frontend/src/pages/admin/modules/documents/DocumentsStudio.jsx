@@ -378,3 +378,4 @@ export default function DocumentsStudio({ settings, products = [], onLogAudit })
     </div>
   );
 }
+

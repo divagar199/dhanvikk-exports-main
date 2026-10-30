@@ -78,3 +78,4 @@ export default function AccessDenied({ requiredRole = 'Admin' }) {
     </div>
   );
 }
+

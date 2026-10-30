@@ -89,3 +89,4 @@ export async function verifyAdminStatus(user) {
     isSuperAdmin: userRole === 'super_admin',
   };
 }
+
