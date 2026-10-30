@@ -1,7 +1,7 @@
 rules_version = '2';
 
 // ===============================================================
-// Dhanvikk Blooms — Cloud Firestore Security Rules
+// Dhanvikk Exports & Blooms — Cloud Firestore Security Rules
 // ===============================================================
 //
 // Assumed Data Models
@@ -10,9 +10,9 @@ rules_version = '2';
 // Collection: users
 // Document ID: {uid}  (must equal request.auth.uid)
 // Fields:
-//   - uid          : string  (required, immutable) — Firebase Auth UID
-//   - id           : string  (optional) — mirror of uid
-//   - email        : string  (required, immutable) — user email; max 254 chars
+//   - uid          : string  (required, immutable) — Firebase Auth UID; 1-128 chars
+//   - id           : string  (optional) — mirror of uid; max 128 chars
+//   - email        : string  (required, immutable) — user email; 3-254 chars
 //   - displayName  : string  (optional) — display name; max 100 chars
 //   - photoURL     : string  (optional) — avatar URL; max 512 chars
 //   - phoneNumber  : string  (optional) — phone; max 20 chars
@@ -25,9 +25,9 @@ rules_version = '2';
 // Collection: products
 // Document ID: {productId}
 // Fields:
-//   - slug          : string  (required) — URL-safe slug; max 120 chars
-//   - name          : string  (required) — product name; max 150 chars
-//   - category      : string  (required) — category; max 60 chars
+//   - slug          : string  (required) — URL-safe slug; 1-120 chars
+//   - name          : string  (required) — product name; 1-150 chars
+//   - category      : string  (required) — category; 1-60 chars
 //   - subCategory   : string  (optional) — sub-category; max 60 chars
 //   - occasion      : string  (optional) — occasion tag; max 60 chars
 //   - recipient     : string  (optional) — recipient tag; max 60 chars
@@ -36,46 +36,134 @@ rules_version = '2';
 //   - originalPrice : number  (optional) — compare-at price; >= 0
 //   - stock         : number  (required) — stock count; >= 0
 //   - inStock       : bool    (optional) — derived from stock
-//   - images        : list    (required) — list of image URLs; max 20 items
+//   - images        : list    (required) — list of image URLs; 1-20 items
 //   - image         : string  (optional) — primary image URL; max 512 chars
 //   - rating        : number  (optional) — average rating; 0-5
 //   - reviewsCount  : number  (optional) — total review count; >= 0
 //   - tag           : string  (optional) — display tag; max 50 chars
-//   - description   : string  (required) — product description; max 2000 chars
+//   - description   : string  (required) — product description; 1-2000 chars
 //   - isFeatured    : bool    (optional)
 //   - isBestSeller  : bool    (optional)
 //   - isNewArrival  : bool    (optional)
 //   - createdAt     : timestamp or string (optional)
+//   - id / _id      : string  (optional) — max 128 chars
 //
 // Collection: orders
 // Document ID: {orderId}
 // Fields:
-//   - userId            : string  (required, immutable) — owner's Firebase Auth UID
-//   - orderId           : string  (required) — human-readable order ID; max 50 chars
-//   - items             : list    (required) — array of order line items; max 100 items
+//   - userId            : string  (required, immutable) — owner's Firebase Auth UID; 1-128 chars
+//   - orderId           : string  (required) — human-readable order ID; 1-50 chars
+//   - items             : list    (required) — array of order line items; 1-100 items
 //   - shippingAddress   : map     (required) — delivery address map
-//   - deliveryDate      : string  (required) — ISO date string; max 30 chars
+//   - deliveryDate      : string  (required) — ISO date string; 1-30 chars
 //   - timeSlot          : string  (optional) — delivery time slot; max 50 chars
 //   - greetingCardMessage : string (optional) — greeting note; max 500 chars
 //   - paymentInfo       : map     (optional) — payment metadata map
 //   - subtotal          : number  (required) — order subtotal; >= 0
 //   - deliveryFee       : number  (required) — delivery fee; >= 0
 //   - totalAmount       : number  (required) — grand total; >= 0
-//   - status            : string  (required) — order status; max 50 chars
+//   - status            : string  (required) — order status; 1-50 chars
+//   - user              : map     (optional) — customer metadata map
+//   - orderStatus       : string  (optional) — status alias; max 50 chars
 //   - createdAt         : timestamp or string (optional, immutable)
 //
 // Collection: reviews
 // Document ID: {reviewId}
 // Fields:
-//   - userId    : string  (required, immutable) — reviewer's Firebase Auth UID
-//   - userName  : string  (required) — reviewer display name; max 100 chars
-//   - productId : string  (required, immutable) — referenced product ID; max 120 chars
+//   - userId    : string  (required, immutable) — reviewer's Firebase Auth UID; 1-128 chars
+//   - userName  : string  (required) — reviewer display name; 1-100 chars
+//   - productId : string  (required, immutable) — referenced product ID; 1-120 chars
 //   - rating    : number  (required) — star rating; 1-5
-//   - comment   : string  (required) — review body; max 1000 chars
+//   - comment   : string  (required) — review body; 1-1000 chars
 //   - title     : string  (optional) — review headline; max 150 chars
-//   - createdAt : timestamp or string (optional, immutable)
+//   - date      : string  (optional) — max 30 chars
+//   - userEmail : string  (optional) — max 254 chars
+//   - author    : string  (optional) — max 100 chars
 //   - verified  : bool    (optional)
 //   - helpful   : number  (optional) — helpful vote count; >= 0
+//   - createdAt : timestamp or string (optional, immutable)
+//
+// Collection: enquiries (RFQs, Export Inquiries & Lead Management)
+// Document ID: {enquiryId}
+// Fields:
+//   - id                : string  (optional) — inquiry reference; max 100 chars
+//   - buyerName         : string  (required) — buyer/contact person name; 1-120 chars
+//   - companyName       : string  (optional) — company name; max 150 chars
+//   - email             : string  (required) — contact email; 3-254 chars
+//   - phone             : string  (optional) — international phone; max 30 chars
+//   - country           : string  (optional) — destination country; max 100 chars
+//   - destinationPort   : string  (optional) — discharge airport/seaport; max 120 chars
+//   - productInterest   : string  (optional) — floral variety / product interest; max 250 chars
+//   - targetVolume      : string  (optional) — stems/cartons volume; max 120 chars
+//   - preferredIncoterm : string  (optional) — CIF, FOB, CFR, EXW; max 30 chars
+//   - message           : string  (optional) — inquiry message / requirements; max 3000 chars
+//   - status            : string  (optional) — 'New' | 'Contacted' | 'Quoted' | 'In Negotiation' | 'Accepted' | 'Closed'; max 50 chars
+//   - quoteAmountUSD    : number  (optional) — commercial quotation amount in USD; >= 0
+//   - assignedToName    : string  (optional) — assigned staff name; max 120 chars
+//   - assignedToEmail   : string  (optional) — assigned staff email; max 254 chars
+//   - internalNotes     : list    (optional) — staff-only operational notes; max 50 items
+//   - timeline          : list    (optional) — inquiry status change history; max 50 items
+//   - createdAt         : timestamp or string (optional)
+//   - updatedAt         : timestamp or string (optional)
+//   - _id               : string  (optional) — max 100 chars
+//
+// Collection: auditLogs (Immutable Administrative Audit Trail)
+// Document ID: {logId}
+// Fields:
+//   - id          : string  (optional) — audit ID; max 100 chars
+//   - timestamp   : string  (optional) — ISO timestamp string; max 60 chars
+//   - action      : string  (required) — e.g. CREATE, UPDATE, DELETE, LOGIN; 1-60 chars
+//   - module      : string  (required) — e.g. PRODUCTS, ORDERS, ENQUIRIES, STAFF; 1-60 chars
+//   - resourceId  : string  (optional) — target entity ID; max 128 chars
+//   - details     : string  (optional) — description / changes; max 2500 chars
+//   - actorEmail  : string  (optional) — email of actor; max 254 chars
+//   - actorName   : string  (optional) — display name of actor; max 120 chars
+//   - actorRole   : string  (optional) — role of actor at event time; max 60 chars
+//   - ipAddress   : string  (optional) — client IP address; max 100 chars
+//   - userAgent   : string  (optional) — client browser / device user agent; max 500 chars
+//   - createdAt   : timestamp or string (optional)
+//
+// Collection: adminAllowlist (Authorized Staff Allowlist & Roles)
+// Document ID: {email}  (lowercase email format)
+// Fields:
+//   - email        : string  (optional) — staff email; max 254 chars
+//   - role         : string  (required) — 'super_admin' | 'admin' | 'editor' | 'viewer' | 'manager' | 'inventory_manager' | 'delivery_manager'
+//   - roleTitle    : string  (optional) — display title; max 120 chars
+//   - status       : string  (required) — 'Active' | 'Inactive' | 'Pending' | 'Suspended'; max 50 chars
+//   - name         : string  (optional) — staff full name; max 120 chars
+//   - phone        : string  (optional) — staff phone; max 30 chars
+//   - avatar       : string  (optional) — avatar image URL; max 512 chars
+//   - isSuperAdmin : bool    (optional) — convenience flag
+//   - joinedDate   : string  (optional) — date string; max 50 chars
+//   - addedBy      : string  (optional) — creating admin email; max 254 chars
+//   - id / _id     : string  (optional) — max 100 chars
+//   - createdAt    : timestamp or string (optional)
+//   - updatedAt    : timestamp or string (optional)
+//
+// Collection: adminSettings (Company Profile, APEDA, GSTIN, Export Settings)
+// Document ID: {settingId}  (e.g. 'export_settings', 'company_profile', 'general')
+// Fields:
+//   - companyName          : string  (optional) — max 200 chars
+//   - iecCode              : string  (optional) — Import Export Code; max 100 chars
+//   - gstin                : string  (optional) — GST Identification Number; max 50 chars
+//   - apedaRegNo           : string  (optional) — APEDA registration number; max 100 chars
+//   - headquarters         : string  (optional) — corporate address; max 500 chars
+//   - exportPort           : string  (optional) — cargo clearance ports; max 250 chars
+//   - contactEmail         : string  (optional) — commercial export email; max 254 chars
+//   - directorEmail        : string  (optional) — director / executive email; max 254 chars
+//   - phone                : string  (optional) — corporate contact phone; max 50 chars
+//   - swiftCode            : string  (optional) — SWIFT / BIC code; max 50 chars
+//   - bankName             : string  (optional) — trade banking partner; max 200 chars
+//   - bankAccountNumber    : string  (optional) — export remittance account; max 100 chars
+//   - bankBranch           : string  (optional) — branch details; max 200 chars
+//   - currency             : string  (optional) — default currency code; max 10 chars
+//   - taxRate              : number  (optional) — tax percentage; >= 0
+//   - maintenanceMode      : bool    (optional) — site maintenance flag
+//   - notificationsEnabled : bool    (optional) — notification dispatch flag
+//   - updatedBy            : string  (optional) — email of updating admin; max 254 chars
+//   - id / _id             : string  (optional) — max 100 chars
+//   - createdAt            : timestamp or string (optional)
+//   - updatedAt            : timestamp or string (optional)
 //
 // ===============================================================
 
@@ -83,7 +171,7 @@ service cloud.firestore {
   match /databases/{database}/documents {
 
     // ===========================================================
-    // Helper Functions
+    // Helper Functions: Authentication & Identity
     // ===========================================================
 
     // Check if the request has a valid authenticated session
@@ -96,66 +184,104 @@ service cloud.firestore {
       return isAuthenticated() && request.auth.uid == userId;
     }
 
-    // Check if the authenticated user's UID equals the document's uid field
+    // Check if the authenticated user's UID equals the document's userId field
     function isDocOwner() {
       return isAuthenticated() && request.auth.uid == resource.data.userId;
     }
 
-    // Admin check: custom token claim OR whitelisted email.
-    // SECURITY: NEVER trust request.resource.data for admin role checks —
-    // always derive authority from request.auth.token (server-issued).
-    function isAdmin() {
+    // Check if user email is part of the hardcoded root super-admin list
+    function isRootAdmin() {
       return isAuthenticated() &&
+        ('email' in request.auth.token) &&
+        request.auth.token.email != null &&
         (
-          request.auth.token.role == 'admin' ||
-          request.auth.token.email in [
+          request.auth.token.email.lower() in [
+            'divagar.m.msc.cs@gmail.com',
             'xzirexatech@gmail.com',
             'admin@dhanvikk.com'
           ]
         );
     }
 
-    // Validate that the incoming document contains ONLY the specified fields.
-    // Prevents schema pollution / extraneous field injection.
-    function hasOnlyAllowedFields(fields) {
-      return request.resource.data.keys().hasOnly(fields);
+    // Check custom token claim role
+    function hasTokenRole(roleName) {
+      return isAuthenticated() &&
+        ('role' in request.auth.token) &&
+        request.auth.token.role == roleName;
     }
 
-    // Validate that all specified fields are present in the incoming document.
-    function hasRequiredFields(fields) {
-      return request.resource.data.keys().hasAll(fields);
+    // Check custom token claim role in list of allowed roles
+    function hasTokenRoleIn(allowedRoles) {
+      return isAuthenticated() &&
+        ('role' in request.auth.token) &&
+        request.auth.token.role in allowedRoles;
     }
 
-    // Validate a string field: must be string and within [minLen, maxLen].
-    function validStr(field, minLen, maxLen) {
-      return request.resource.data[field] is string &&
-             request.resource.data[field].size() >= minLen &&
-             request.resource.data[field].size() <= maxLen;
+    // Check active role in adminAllowlist collection (keyed by lowercase email)
+    function hasAllowlistRole(allowedRoles) {
+      return isAuthenticated() &&
+        ('email' in request.auth.token) &&
+        request.auth.token.email != null &&
+        exists(/databases/$(database)/documents/adminAllowlist/$(request.auth.token.email.lower())) &&
+        get(/databases/$(database)/documents/adminAllowlist/$(request.auth.token.email.lower())).data.status == 'Active' &&
+        get(/databases/$(database)/documents/adminAllowlist/$(request.auth.token.email.lower())).data.role in allowedRoles;
     }
 
-    // Validate an optional string field: if present, must be string and within [minLen, maxLen].
-    function validOptStr(field, minLen, maxLen) {
-      return !(field in request.resource.data) ||
-             (request.resource.data[field] is string &&
-              request.resource.data[field].size() >= minLen &&
-              request.resource.data[field].size() <= maxLen);
+    // Check role in user document (/users/{uid})
+    function hasUserDocRole(allowedRoles) {
+      return isAuthenticated() &&
+        exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+        ('role' in get(/databases/$(database)/documents/users/$(request.auth.uid)).data) &&
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role in allowedRoles;
     }
 
-    // Validate an optional boolean field: if present, must be bool.
-    function validOptBool(field) {
-      return !(field in request.resource.data) ||
-             request.resource.data[field] is bool;
+    // ===========================================================
+    // Helper Functions: Hierarchical Role Resolution
+    // ===========================================================
+    // Hierarchy: super_admin > admin > editor > viewer > customer/user
+
+    // 1. Super Admin: full access to allowlist, settings, audit, staff, catalog
+    function isSuperAdmin() {
+      return isRootAdmin() ||
+        hasTokenRole('super_admin') ||
+        hasAllowlistRole(['super_admin']) ||
+        hasUserDocRole(['super_admin']);
     }
 
-    // Validate an optional non-negative number field.
-    function validOptNonNegNum(field) {
-      return !(field in request.resource.data) ||
-             (request.resource.data[field] is number &&
-              request.resource.data[field] >= 0);
+    // 2. Admin: management over products, orders, settings, users, audit reading
+    function isAdmin() {
+      return isSuperAdmin() ||
+        hasTokenRole('admin') ||
+        hasAllowlistRole(['super_admin', 'admin']) ||
+        hasUserDocRole(['super_admin', 'admin']);
     }
 
-    // Validate that the listed fields have NOT been affected by this write.
-    // Used to protect immutable fields (createdAt, uid, role, userId, etc.).
+    // 3. Editor: content and inquiry management (RFQs, enquiries, products)
+    function isEditor() {
+      return isAdmin() ||
+        hasTokenRole('editor') ||
+        hasAllowlistRole(['super_admin', 'admin', 'editor']) ||
+        hasUserDocRole(['super_admin', 'admin', 'editor', 'manager', 'inventory_manager']);
+    }
+
+    // 4. Viewer: read-only access to operational documents (enquiries, reports, settings)
+    function isViewer() {
+      return isEditor() ||
+        hasTokenRoleIn(['viewer', 'editor', 'admin', 'super_admin']) ||
+        hasAllowlistRole(['super_admin', 'admin', 'editor', 'viewer']) ||
+        hasUserDocRole(['super_admin', 'admin', 'editor', 'viewer', 'manager', 'inventory_manager', 'delivery_manager']);
+    }
+
+    // 5. Authenticated Staff: any user with at least viewer permissions
+    function isStaff() {
+      return isViewer();
+    }
+
+    // ===========================================================
+    // Helper Functions: Schema & Immutability Utilities
+    // ===========================================================
+
+    // Validate that the listed fields have NOT been modified by this write
     function areImmutableFieldsUnchanged(fields) {
       return !request.resource.data.diff(resource.data).affectedKeys().hasAny(fields);
     }
@@ -163,48 +289,38 @@ service cloud.firestore {
     // ===========================================================
     // Domain Validator: users
     // ===========================================================
-    //
-    // Called in BOTH create AND update rules to prevent the "Update Bypass"
-    // vulnerability. Enforces strict schema, type safety, and size limits.
-    //
-    // Allowed fields on create (client-writable):
-    //   uid, id, email, displayName, photoURL, phoneNumber,
-    //   role, provider, createdAt, lastLoginAt
-    //
-    // On create: role MUST be 'user' or 'customer' — never 'admin'.
-    // On update:  role and createdAt MUST be checked as immutable (see rules).
 
     function isValidUserData(data) {
       return
-        // --- Schema: only allow declared fields (no extra payload fields) ---
+        // Schema: only allow declared fields
         data.keys().hasOnly([
           'uid', 'id', 'email', 'displayName', 'photoURL',
           'phoneNumber', 'role', 'provider', 'createdAt', 'lastLoginAt'
         ]) &&
 
-        // --- Required fields ---
+        // Required fields
         data.keys().hasAll(['uid', 'email', 'role']) &&
 
-        // --- uid: string, 1-128 chars ---
+        // uid: string, 1-128 chars
         data.uid is string &&
         data.uid.size() >= 1 &&
         data.uid.size() <= 128 &&
 
-        // --- email: string, basic length bounds (format validated by Firebase Auth) ---
+        // email: string, basic length bounds
         data.email is string &&
         data.email.size() >= 3 &&
         data.email.size() <= 254 &&
 
-        // --- role: string (client may only set 'user' or 'customer') ---
+        // role: client-submitted role must be standard non-privileged
         data.role is string &&
         data.role in ['user', 'customer'] &&
 
-        // --- Optional string fields with DoS size limits ---
-        (!(  'id'          in data) || (data.id          is string && data.id.size()          <= 128)) &&
-        (!(  'displayName' in data) || (data.displayName is string && data.displayName.size() <= 100)) &&
-        (!(  'photoURL'    in data) || (data.photoURL    is string && data.photoURL.size()    <= 512)) &&
-        (!(  'phoneNumber' in data) || (data.phoneNumber is string && data.phoneNumber.size() <= 20))  &&
-        (!('provider'      in data) || (data.provider    is string && data.provider.size()    <= 20));
+        // Optional string fields with DoS size limits
+        (!('id'          in data) || (data.id          is string && data.id.size()          <= 128)) &&
+        (!('displayName' in data) || (data.displayName is string && data.displayName.size() <= 100)) &&
+        (!('photoURL'    in data) || (data.photoURL    is string && data.photoURL.size()    <= 512)) &&
+        (!('phoneNumber' in data) || (data.phoneNumber is string && data.phoneNumber.size() <= 20))  &&
+        (!('provider'    in data) || (data.provider    is string && data.provider.size()    <= 20));
     }
 
     // ===========================================================
@@ -213,7 +329,7 @@ service cloud.firestore {
 
     function isValidProductData(data) {
       return
-        // --- Schema: only allow declared fields ---
+        // Schema: only allow declared fields
         data.keys().hasOnly([
           'slug', 'name', 'category', 'subCategory', 'occasion',
           'recipient', 'flowerType', 'price', 'originalPrice', 'stock',
@@ -222,38 +338,38 @@ service cloud.firestore {
           'createdAt', 'id', '_id'
         ]) &&
 
-        // --- Required fields ---
+        // Required fields
         data.keys().hasAll(['slug', 'name', 'category', 'price', 'stock', 'images', 'description']) &&
 
-        // --- Required strings with size limits ---
+        // Required strings with size limits
         data.slug        is string && data.slug.size()        >= 1 && data.slug.size()        <= 120 &&
         data.name        is string && data.name.size()        >= 1 && data.name.size()        <= 150 &&
         data.category    is string && data.category.size()    >= 1 && data.category.size()    <= 60  &&
         data.description is string && data.description.size() >= 1 && data.description.size() <= 2000 &&
 
-        // --- Required numbers ---
+        // Required numbers
         data.price is number && data.price >= 0 &&
         data.stock is number && data.stock >= 0 &&
 
-        // --- Required list: images ---
+        // Required list: images
         data.images is list && data.images.size() >= 1 && data.images.size() <= 20 &&
 
-        // --- Optional string fields ---
-        (!(  'subCategory' in data) || (data.subCategory is string && data.subCategory.size() <= 60)) &&
-        (!(  'occasion'    in data) || (data.occasion    is string && data.occasion.size()    <= 60)) &&
-        (!(  'recipient'   in data) || (data.recipient   is string && data.recipient.size()   <= 60)) &&
-        (!(  'flowerType'  in data) || (data.flowerType  is string && data.flowerType.size()  <= 60)) &&
-        (!(  'image'       in data) || (data.image       is string && data.image.size()       <= 512)) &&
-        (!(  'tag'         in data) || (data.tag         is string && data.tag.size()         <= 50))  &&
-        (!(  'id'          in data) || (data.id          is string && data.id.size()          <= 128)) &&
-        (!('_id'           in data) || (data._id         is string && data._id.size()         <= 128)) &&
+        // Optional string fields
+        (!('subCategory' in data) || (data.subCategory is string && data.subCategory.size() <= 60)) &&
+        (!('occasion'    in data) || (data.occasion    is string && data.occasion.size()    <= 60)) &&
+        (!('recipient'   in data) || (data.recipient   is string && data.recipient.size()   <= 60)) &&
+        (!('flowerType'  in data) || (data.flowerType  is string && data.flowerType.size()  <= 60)) &&
+        (!('image'       in data) || (data.image       is string && data.image.size()       <= 512)) &&
+        (!('tag'         in data) || (data.tag         is string && data.tag.size()         <= 50))  &&
+        (!('id'          in data) || (data.id          is string && data.id.size()          <= 128)) &&
+        (!('_id'         in data) || (data._id         is string && data._id.size()         <= 128)) &&
 
-        // --- Optional numbers ---
+        // Optional numbers
         (!('originalPrice' in data) || (data.originalPrice is number && data.originalPrice >= 0)) &&
         (!('rating'        in data) || (data.rating        is number && data.rating >= 0 && data.rating <= 5)) &&
         (!('reviewsCount'  in data) || (data.reviewsCount  is number && data.reviewsCount >= 0)) &&
 
-        // --- Optional booleans ---
+        // Optional booleans
         (!('inStock'      in data) || data.inStock      is bool) &&
         (!('isFeatured'   in data) || data.isFeatured   is bool) &&
         (!('isBestSeller' in data) || data.isBestSeller is bool) &&
@@ -266,7 +382,7 @@ service cloud.firestore {
 
     function isValidOrderData(data) {
       return
-        // --- Schema: only allow declared fields ---
+        // Schema: only allow declared fields
         data.keys().hasOnly([
           'userId', 'orderId', 'items', 'shippingAddress',
           'deliveryDate', 'timeSlot', 'greetingCardMessage',
@@ -274,41 +390,41 @@ service cloud.firestore {
           'status', 'createdAt', 'user', 'orderStatus'
         ]) &&
 
-        // --- Required fields ---
+        // Required fields
         data.keys().hasAll([
           'userId', 'orderId', 'items', 'shippingAddress',
           'deliveryDate', 'subtotal', 'deliveryFee', 'totalAmount', 'status'
         ]) &&
 
-        // --- userId: must equal the requesting user's UID (enforced in rule) ---
+        // userId: must equal the requesting user's UID (enforced in rule)
         data.userId is string && data.userId.size() >= 1 && data.userId.size() <= 128 &&
 
-        // --- orderId: string with size limit ---
+        // orderId: string with size limit
         data.orderId is string && data.orderId.size() >= 1 && data.orderId.size() <= 50 &&
 
-        // --- items: non-empty list, max 100 items ---
+        // items: non-empty list, max 100 items
         data.items is list && data.items.size() >= 1 && data.items.size() <= 100 &&
 
-        // --- shippingAddress: must be a map ---
+        // shippingAddress: must be a map
         data.shippingAddress is map &&
 
-        // --- deliveryDate: string, max 30 chars ---
+        // deliveryDate: string, max 30 chars
         data.deliveryDate is string && data.deliveryDate.size() >= 1 && data.deliveryDate.size() <= 30 &&
 
-        // --- numeric amounts: non-negative ---
+        // numeric amounts: non-negative
         data.subtotal    is number && data.subtotal    >= 0 &&
         data.deliveryFee is number && data.deliveryFee >= 0 &&
         data.totalAmount is number && data.totalAmount >= 0 &&
 
-        // --- status: string, max 50 chars ---
+        // status: string, max 50 chars
         data.status is string && data.status.size() >= 1 && data.status.size() <= 50 &&
 
-        // --- optional string fields ---
+        // optional string fields
         (!('timeSlot'             in data) || (data.timeSlot             is string && data.timeSlot.size()             <= 50))  &&
         (!('greetingCardMessage'  in data) || (data.greetingCardMessage  is string && data.greetingCardMessage.size()  <= 500)) &&
         (!('orderStatus'          in data) || (data.orderStatus          is string && data.orderStatus.size()          <= 50))  &&
 
-        // --- optional map fields ---
+        // optional map fields
         (!('paymentInfo' in data) || data.paymentInfo is map) &&
         (!('user'        in data) || data.user        is map);
     }
@@ -319,34 +435,208 @@ service cloud.firestore {
 
     function isValidReviewData(data) {
       return
-        // --- Schema: only allow declared fields ---
+        // Schema: only allow declared fields
         data.keys().hasOnly([
           'userId', 'userName', 'productId', 'rating',
           'comment', 'title', 'createdAt', 'verified', 'helpful',
           'date', 'userEmail', 'author'
         ]) &&
 
-        // --- Required fields ---
+        // Required fields
         data.keys().hasAll(['userId', 'userName', 'productId', 'rating', 'comment']) &&
 
-        // --- userId: must be string ---
+        // userId: must be string
         data.userId    is string && data.userId.size()    >= 1 && data.userId.size()    <= 128 &&
         data.userName  is string && data.userName.size()  >= 1 && data.userName.size()  <= 100 &&
         data.productId is string && data.productId.size() >= 1 && data.productId.size() <= 120 &&
         data.comment   is string && data.comment.size()   >= 1 && data.comment.size()   <= 1000 &&
 
-        // --- rating: integer 1-5 ---
+        // rating: integer 1-5
         data.rating is number && data.rating >= 1 && data.rating <= 5 &&
 
-        // --- optional string fields ---
+        // optional string fields
         (!('title'     in data) || (data.title     is string && data.title.size()     <= 150)) &&
         (!('date'      in data) || (data.date      is string && data.date.size()      <= 30))  &&
         (!('userEmail' in data) || (data.userEmail is string && data.userEmail.size() <= 254)) &&
         (!('author'    in data) || (data.author    is string && data.author.size()    <= 100)) &&
 
-        // --- optional fields ---
+        // optional fields
         (!('verified' in data) || data.verified is bool) &&
         (!('helpful'  in data) || (data.helpful  is number && data.helpful >= 0));
+    }
+
+    // ===========================================================
+    // Domain Validator: enquiries (RFQs & Global Inquiries)
+    // ===========================================================
+
+    function isValidEnquiryData(data) {
+      return
+        // Schema: only allow declared fields
+        data.keys().hasOnly([
+          'id', 'buyerName', 'companyName', 'email', 'phone',
+          'country', 'destinationPort', 'productInterest', 'targetVolume',
+          'preferredIncoterm', 'message', 'status', 'quoteAmountUSD',
+          'assignedToName', 'assignedToEmail', 'internalNotes', 'timeline',
+          'createdAt', 'updatedAt', '_id'
+        ]) &&
+
+        // Required fields for any inquiry
+        data.keys().hasAll(['buyerName', 'email']) &&
+
+        // Required strings with bounds
+        data.buyerName is string && data.buyerName.size() >= 1 && data.buyerName.size() <= 120 &&
+        data.email     is string && data.email.size()     >= 3 && data.email.size()     <= 254 &&
+
+        // Optional string fields with DoS limits
+        (!('id'                in data) || (data.id                is string && data.id.size()                <= 100))  &&
+        (!('companyName'       in data) || (data.companyName       is string && data.companyName.size()       <= 150))  &&
+        (!('phone'             in data) || (data.phone             is string && data.phone.size()             <= 30))   &&
+        (!('country'           in data) || (data.country           is string && data.country.size()           <= 100))  &&
+        (!('destinationPort'   in data) || (data.destinationPort   is string && data.destinationPort.size()   <= 120))  &&
+        (!('productInterest'   in data) || (data.productInterest   is string && data.productInterest.size()   <= 250))  &&
+        (!('targetVolume'      in data) || (data.targetVolume      is string && data.targetVolume.size()      <= 120))  &&
+        (!('preferredIncoterm' in data) || (data.preferredIncoterm is string && data.preferredIncoterm.size() <= 30))   &&
+        (!('message'           in data) || (data.message           is string && data.message.size()           <= 3000)) &&
+        (!('status'            in data) || (data.status            is string && data.status.size()            <= 50))   &&
+        (!('assignedToName'    in data) || (data.assignedToName    is string && data.assignedToName.size()    <= 120))  &&
+        (!('assignedToEmail'   in data) || (data.assignedToEmail   is string && data.assignedToEmail.size()   <= 254))  &&
+        (!('_id'               in data) || (data._id               is string && data._id.size()               <= 100))  &&
+
+        // Optional quote amount
+        (!('quoteAmountUSD'    in data) || (data.quoteAmountUSD    is number && data.quoteAmountUSD           >= 0))    &&
+
+        // Optional list collections with size bounds
+        (!('internalNotes'     in data) || (data.internalNotes     is list   && data.internalNotes.size()     <= 50))   &&
+        (!('timeline'          in data) || (data.timeline          is list   && data.timeline.size()          <= 50));
+    }
+
+    // Public inquiry creation sanitizer: unauthenticated visitors can only submit initial inquiries
+    function isPublicEnquirySubmission(data) {
+      return isValidEnquiryData(data) &&
+        (!('status' in data) || data.status in ['New', 'Pending', 'Inquiry']) &&
+        (!('quoteAmountUSD' in data) || data.quoteAmountUSD == 0) &&
+        (!('assignedToName' in data)) &&
+        (!('assignedToEmail' in data)) &&
+        (!('internalNotes' in data) || data.internalNotes.size() == 0);
+    }
+
+    // ===========================================================
+    // Domain Validator: auditLogs
+    // ===========================================================
+
+    function isValidAuditLogData(data) {
+      return
+        // Schema: only allow declared fields
+        data.keys().hasOnly([
+          'id', 'timestamp', 'action', 'module', 'resourceId',
+          'details', 'actorEmail', 'actorName', 'actorRole',
+          'ipAddress', 'userAgent', 'createdAt'
+        ]) &&
+
+        // Required fields
+        data.keys().hasAll(['action', 'module']) &&
+
+        // Required strings with bounds
+        data.action is string && data.action.size() >= 1 && data.action.size() <= 60 &&
+        data.module is string && data.module.size() >= 1 && data.module.size() <= 60 &&
+
+        // Optional strings with DoS limits
+        (!('id'         in data) || (data.id         is string && data.id.size()         <= 100))  &&
+        (!('timestamp'  in data) || (data.timestamp  is string && data.timestamp.size()  <= 60))   &&
+        (!('resourceId' in data) || (data.resourceId is string && data.resourceId.size() <= 128))  &&
+        (!('details'    in data) || (data.details    is string && data.details.size()    <= 2500)) &&
+        (!('actorEmail' in data) || (data.actorEmail is string && data.actorEmail.size() <= 254))  &&
+        (!('actorName'  in data) || (data.actorName  is string && data.actorName.size()  <= 120))  &&
+        (!('actorRole'  in data) || (data.actorRole  is string && data.actorRole.size()  <= 60))   &&
+        (!('ipAddress'  in data) || (data.ipAddress  is string && data.ipAddress.size()  <= 100))  &&
+        (!('userAgent'  in data) || (data.userAgent  is string && data.userAgent.size()  <= 500))  &&
+
+        // Optional timestamp or string createdAt
+        (!('createdAt'  in data) || data.createdAt is timestamp || data.createdAt is string);
+    }
+
+    // ===========================================================
+    // Domain Validator: adminAllowlist
+    // ===========================================================
+
+    function isValidAdminAllowlistData(data) {
+      return
+        // Schema: only allow declared fields
+        data.keys().hasOnly([
+          'id', 'name', 'email', 'role', 'roleTitle', 'phone',
+          'status', 'avatar', 'isSuperAdmin', 'joinedDate',
+          'createdAt', 'updatedAt', 'addedBy', '_id'
+        ]) &&
+
+        // Required fields
+        data.keys().hasAll(['role', 'status']) &&
+
+        // role: must belong to approved staff roles
+        data.role is string &&
+        data.role in [
+          'super_admin', 'admin', 'editor', 'viewer',
+          'manager', 'inventory_manager', 'delivery_manager'
+        ] &&
+
+        // status: must be recognized administrative status
+        data.status is string &&
+        data.status in ['Active', 'Inactive', 'Pending', 'Suspended'] &&
+
+        // Optional strings with size bounds
+        (!('email'      in data) || (data.email      is string && data.email.size()      <= 254)) &&
+        (!('name'       in data) || (data.name       is string && data.name.size()       <= 120)) &&
+        (!('roleTitle'  in data) || (data.roleTitle  is string && data.roleTitle.size()  <= 120)) &&
+        (!('phone'      in data) || (data.phone      is string && data.phone.size()      <= 30))  &&
+        (!('avatar'     in data) || (data.avatar     is string && data.avatar.size()     <= 512)) &&
+        (!('joinedDate' in data) || (data.joinedDate is string && data.joinedDate.size() <= 50))  &&
+        (!('addedBy'    in data) || (data.addedBy    is string && data.addedBy.size()    <= 254)) &&
+        (!('id'         in data) || (data.id         is string && data.id.size()         <= 100)) &&
+        (!('_id'        in data) || (data._id        is string && data._id.size()        <= 100)) &&
+
+        // Optional boolean
+        (!('isSuperAdmin' in data) || data.isSuperAdmin is bool);
+    }
+
+    // ===========================================================
+    // Domain Validator: adminSettings
+    // ===========================================================
+
+    function isValidAdminSettingsData(data) {
+      return
+        // Schema: only allow declared fields
+        data.keys().hasOnly([
+          'companyName', 'iecCode', 'gstin', 'apedaRegNo', 'headquarters',
+          'exportPort', 'contactEmail', 'directorEmail', 'phone', 'swiftCode',
+          'bankName', 'bankAccountNumber', 'bankBranch', 'currency', 'taxRate',
+          'maintenanceMode', 'notificationsEnabled', 'updatedAt', 'updatedBy',
+          'createdAt', 'id', '_id'
+        ]) &&
+
+        // Optional string fields with length limits
+        (!('companyName'          in data) || (data.companyName          is string && data.companyName.size()          <= 200)) &&
+        (!('iecCode'              in data) || (data.iecCode              is string && data.iecCode.size()              <= 100)) &&
+        (!('gstin'                in data) || (data.gstin                is string && data.gstin.size()                <= 50))  &&
+        (!('apedaRegNo'           in data) || (data.apedaRegNo           is string && data.apedaRegNo.size()           <= 100)) &&
+        (!('headquarters'         in data) || (data.headquarters         is string && data.headquarters.size()         <= 500)) &&
+        (!('exportPort'           in data) || (data.exportPort           is string && data.exportPort.size()           <= 250)) &&
+        (!('contactEmail'         in data) || (data.contactEmail         is string && data.contactEmail.size()         <= 254)) &&
+        (!('directorEmail'        in data) || (data.directorEmail        is string && data.directorEmail.size()        <= 254)) &&
+        (!('phone'                in data) || (data.phone                is string && data.phone.size()                <= 50))  &&
+        (!('swiftCode'            in data) || (data.swiftCode            is string && data.swiftCode.size()            <= 50))  &&
+        (!('bankName'             in data) || (data.bankName             is string && data.bankName.size()             <= 200)) &&
+        (!('bankAccountNumber'    in data) || (data.bankAccountNumber    is string && data.bankAccountNumber.size()    <= 100)) &&
+        (!('bankBranch'           in data) || (data.bankBranch           is string && data.bankBranch.size()           <= 200)) &&
+        (!('currency'             in data) || (data.currency             is string && data.currency.size()             <= 10))  &&
+        (!('updatedBy'            in data) || (data.updatedBy            is string && data.updatedBy.size()            <= 254)) &&
+        (!('id'                   in data) || (data.id                   is string && data.id.size()                   <= 100)) &&
+        (!('_id'                  in data) || (data._id                  is string && data._id.size()                  <= 100)) &&
+
+        // Optional numbers
+        (!('taxRate'              in data) || (data.taxRate              is number && data.taxRate                     >= 0))   &&
+
+        // Optional booleans
+        (!('maintenanceMode'      in data) || data.maintenanceMode      is bool) &&
+        (!('notificationsEnabled' in data) || data.notificationsEnabled is bool);
     }
 
     // ===========================================================
@@ -355,32 +645,30 @@ service cloud.firestore {
 
     match /users/{userId} {
 
-      // READ: Only the document owner or an admin may read user profiles.
-      // Prevents cross-user PII (email, phone) exposure.
+      // READ: Only the document owner or an authorized administrator may read user profiles.
+      // Prevents cross-user PII (email, phone, address) exposure.
       allow read: if isOwner(userId) || isAdmin();
 
       // CREATE: Owner creates their own document.
       //   - Document ID must equal the requesting user's UID (isOwner).
       //   - uid field in data must equal the requesting user's UID.
       //   - isValidUserData enforces: role ∈ ['user','customer'] (no 'admin' self-grant).
-      //   - Privilege escalation via 'admin' role on create is BLOCKED by the validator.
       allow create: if isOwner(userId) &&
                        request.resource.data.uid == request.auth.uid &&
                        isValidUserData(request.resource.data);
 
-      // UPDATE: Owner may update their own document OR admin may update any.
-      //   - For non-admin owners: role, createdAt, and uid are immutable.
-      //   - isValidUserData is called to enforce schema and type safety on every update.
-      //   - Prevents the "Update Bypass" vulnerability (1MB injection, bad types, etc.).
-      //   - Admin bypasses immutability check (server can promote roles, etc.).
+      // UPDATE: Owner updates own profile (role immutable) OR admin updates any profile.
+      //   - If an admin promotes someone to 'super_admin', the caller must be a super_admin.
       allow update: if (
-                      // Owner update path: strict immutability on privileged fields
                       isOwner(userId) &&
                       isValidUserData(request.resource.data) &&
                       areImmutableFieldsUnchanged(['uid', 'email', 'createdAt', 'role'])
-                    ) || isAdmin();
+                    ) || (
+                      isAdmin() &&
+                      (!('role' in request.resource.data) || request.resource.data.role != 'super_admin' || isSuperAdmin())
+                    );
 
-      // DELETE: Admin only.
+      // DELETE: Super Admin and Admin only.
       allow delete: if isAdmin();
     }
 
@@ -393,14 +681,13 @@ service cloud.firestore {
       // READ: Publicly readable (luxury catalog — no PII involved).
       allow read: if true;
 
-      // CREATE: Admin only, with full schema validation.
-      allow create: if isAdmin() && isValidProductData(request.resource.data);
+      // CREATE: Admins and Editors only, with strict schema validation.
+      allow create: if (isAdmin() || isEditor()) && isValidProductData(request.resource.data);
 
-      // UPDATE: Admin only, with full schema validation.
-      //   - isValidProductData ensures no Update Bypass on admin updates as well.
-      allow update: if isAdmin() && isValidProductData(request.resource.data);
+      // UPDATE: Admins and Editors only, with strict schema validation.
+      allow update: if (isAdmin() || isEditor()) && isValidProductData(request.resource.data);
 
-      // DELETE: Admin only.
+      // DELETE: Admin and Super Admin only.
       allow delete: if isAdmin();
     }
 
@@ -410,20 +697,19 @@ service cloud.firestore {
 
     match /orders/{orderId} {
 
-      // READ: Authenticated user may read only their own orders.
+      // READ: Authenticated customer may read only their own orders.
       //       Admins may read all orders.
       allow read: if isAuthenticated() &&
                     (resource.data.userId == request.auth.uid || isAdmin());
 
       // CREATE: Authenticated user may create their own order.
-      //   - userId in the new document MUST equal request.auth.uid (ownership lock).
+      //   - userId in the new document MUST equal request.auth.uid.
       //   - Full schema validation via isValidOrderData.
       allow create: if isAuthenticated() &&
                        request.resource.data.userId == request.auth.uid &&
                        isValidOrderData(request.resource.data);
 
-      // UPDATE: Admin only (e.g., updating order status, payment info).
-      //   - Non-admin clients cannot update orders (no fulfillment tampering).
+      // UPDATE: Admin only (order fulfillment, status progression, tracking).
       allow update: if isAdmin();
 
       // DELETE: Admin only.
@@ -447,7 +733,6 @@ service cloud.firestore {
                        isValidReviewData(request.resource.data);
 
       // UPDATE: Only the review owner or admin may update.
-      //   - isValidReviewData is called to prevent the Update Bypass vulnerability.
       //   - Immutable fields (userId, productId, createdAt) cannot be changed by owner.
       allow update: if (
                       isDocOwner() &&
@@ -460,10 +745,90 @@ service cloud.firestore {
     }
 
     // ===========================================================
+    // Collection Rules: enquiries/{enquiryId}
+    // ===========================================================
+    // Global export leads, RFQs, cold-chain consignments, and buyer inquiries.
+
+    match /enquiries/{enquiryId} {
+
+      // READ: All authenticated staff (viewers, editors, admins, super_admins).
+      allow read: if isViewer();
+
+      // CREATE:
+      //   1. Public submissions: Anyone can submit an inquiry/RFQ with sanitized initial schema.
+      //   2. Staff submissions: Editors and Admins can create full inquiries.
+      allow create: if (isEditor() && isValidEnquiryData(request.resource.data)) ||
+                       isPublicEnquirySubmission(request.resource.data);
+
+      // UPDATE: Admins, Editors, and Super Admins with full schema validation.
+      allow update: if isEditor() && isValidEnquiryData(request.resource.data);
+
+      // DELETE: Admins and Super Admins only (to prevent accidental lead deletion).
+      allow delete: if isAdmin();
+    }
+
+    // ===========================================================
+    // Collection Rules: auditLogs/{logId}
+    // ===========================================================
+    // Administrative audit trail. Immutable by design.
+
+    match /auditLogs/{logId} {
+
+      // READ: Super Admin and Admin only.
+      allow read: if isAdmin();
+
+      // CREATE: Any authenticated staff member (actions automatically logged).
+      allow create: if isStaff() && isValidAuditLogData(request.resource.data);
+
+      // UPDATE: Strictly forbidden to ensure non-repudiation and audit trail immutability.
+      allow update: if false;
+
+      // DELETE: Strictly forbidden to ensure non-repudiation and audit trail immutability.
+      allow delete: if false;
+    }
+
+    // ===========================================================
+    // Collection Rules: adminAllowlist/{email}
+    // ===========================================================
+    // Whitelisted administrator and staff directory.
+
+    match /adminAllowlist/{email} {
+
+      // READ: Authenticated Administrators and Super Admins.
+      allow read: if isAdmin();
+
+      // CREATE: Super Admin only, with strict schema validation.
+      allow create: if isSuperAdmin() && isValidAdminAllowlistData(request.resource.data);
+
+      // UPDATE: Super Admin only, with strict schema validation.
+      allow update: if isSuperAdmin() && isValidAdminAllowlistData(request.resource.data);
+
+      // DELETE: Super Admin only.
+      allow delete: if isSuperAdmin();
+    }
+
+    // ===========================================================
+    // Collection Rules: adminSettings/{settingId}
+    // ===========================================================
+    // Corporate configuration, banking details, APEDA/GSTIN metadata.
+
+    match /adminSettings/{settingId} {
+
+      // READ: All authenticated staff members (viewers, editors, admins, super_admins).
+      allow read: if isStaff();
+
+      // CREATE & UPDATE: Super Admin and Admin only.
+      allow create: if isAdmin() && isValidAdminSettingsData(request.resource.data);
+      allow update: if isAdmin() && isValidAdminSettingsData(request.resource.data);
+
+      // DELETE: Super Admin and Admin only.
+      allow delete: if isAdmin();
+    }
+
+    // ===========================================================
     // Default Deny — All other paths
     // ===========================================================
     // Explicit catch-all denies any unlisted collection or subcollection.
-    // This is defense-in-depth alongside the implicit default-deny of rules v2.
 
     match /{document=**} {
       allow read, write: if false;

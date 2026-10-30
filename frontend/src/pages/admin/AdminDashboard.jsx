@@ -51,6 +51,17 @@ import {
 import Logo from '../../components/common/Logo';
 import { logoutUser } from '../../store/slices/authSlice';
 import Button from '../../components/common/Button';
+import DashboardHome from './modules/dashboard/DashboardHome';
+import EnquiriesList from './modules/enquiries/EnquiriesList';
+import ShipmentsList from './modules/orders/ShipmentsList';
+import DocumentsStudio from './modules/documents/DocumentsStudio';
+import AuditLogsList from './modules/audit/AuditLogsList';
+import AdminSettings from './modules/settings/AdminSettings';
+import CommandPalette from './components/CommandPalette';
+import { auditLogger } from './services/auditLogger';
+import { exportService } from './services/exportService';
+import { Plane, Anchor, MessageSquare, Building } from 'lucide-react';
+
 import Breadcrumb from '../../components/common/Breadcrumb';
 
 import { productService } from '../../services/productService';
@@ -359,7 +370,48 @@ export default function AdminDashboard() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [activeTab, setActiveTab] = useState('products'); // 'products' | 'categories' | 'currencies' | 'hero' | 'orders' | 'payments' | 'staff' | 'users' | 'stats'
+  const [activeTab, setActiveTab] = useState('dashboard');
+
+  // International Trade & Export Modules State
+  const [enquiries, setEnquiries] = useState([]);
+  const [shipments, setShipments] = useState([]);
+  const [exportSettings, setExportSettings] = useState(null);
+  const [auditLogs, setAuditLogs] = useState([]);
+  const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
+
+  const logAudit = (action, module, resourceId, details) => {
+    auditLogger.log({
+      action,
+      module,
+      resourceId,
+      details,
+      actorEmail: authUser?.email || superAdminEmail,
+      actorName: authUser?.name || 'Super Admin',
+      actorRole: authUser?.role || 'super_admin',
+    }).then((entry) => {
+      setAuditLogs((prev) => [entry, ...prev.slice(0, 99)]);
+    });
+  };
+
+  const handleUpdateEnquiryStatus = async (id, newStatus, note) => {
+    const updated = await exportService.updateEnquiryStatus(id, newStatus, note, authUser?.name || 'Operations Lead');
+    if (updated) {
+      setEnquiries((prev) => prev.map((e) => (e.id === id ? updated : e)));
+    }
+  };
+
+  const handleUpdateShipmentStatus = async (id, newStatus) => {
+    const updated = await exportService.updateShipmentStatus(id, newStatus);
+    if (updated) {
+      setShipments((prev) => prev.map((s) => (s.id === id ? updated : s)));
+    }
+  };
+
+  const handleSaveExportSettings = async (newSettings) => {
+    const saved = await exportService.updateExportSettings(newSettings);
+    setExportSettings(saved);
+  };
+ // 'products' | 'categories' | 'currencies' | 'hero' | 'orders' | 'payments' | 'staff' | 'users' | 'stats'
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -685,6 +737,11 @@ export default function AdminDashboard() {
         adminService.getAdminStats().catch(() => ({ stats: {} })),
         adminService.getAllStaff().catch(() => ({ staff: [] })),
         productService.getLocalImages().catch(() => ({ images: [] })),
+
+        exportService.getAllEnquiries().catch(() => []),
+        exportService.getAllShipments().catch(() => []),
+        exportService.getExportSettings().catch(() => null),
+
       ]);
 
       setProducts(prodsData || []);
@@ -694,6 +751,8 @@ export default function AdminDashboard() {
       if (staffData?.staff) setStaffList(staffData.staff);
       if (staffData?.superAdminEmail) setSuperAdminEmail(staffData.superAdminEmail);
       if (localImgsData?.images) _setLocalImages(localImgsData.images);
+      if (arguments && Array.isArray(arguments)) {}
+      setAuditLogs(auditLogger.getLocalLogs());
     } catch (err) {
       console.error('Failed to load admin data:', err);
       toast.error('Notice: Running in resilient production mode with cached records.');
@@ -1416,13 +1475,63 @@ export default function AdminDashboard() {
     return matchesFilter && matchesSearch;
   });
 
+
+  const newEnquiriesCount = enquiries.filter((e) => e.status === 'New').length;
+  const inTransitCount = shipments.filter((s) => s.shippingStatus === 'In Transit').length;
+
   const ADMIN_MENU_SECTIONS = [
+    {
+      heading: 'EXECUTIVE OVERVIEW',
+      items: [
+        {
+          id: 'dashboard',
+          label: 'Executive Overview',
+          icon: TrendingUp,
+          badge: 'HQ',
+          badgeColor: 'text-rose-700 bg-rose-50 border-rose-200',
+        },
+      ],
+    },
+    {
+      heading: 'INTERNATIONAL TRADE & LEADS',
+      items: [
+        {
+          id: 'enquiries',
+          label: 'Export RFQs & Leads',
+          icon: MessageSquare,
+          count: enquiries.length,
+          alert: newEnquiriesCount > 0 ? `${newEnquiriesCount} new` : null,
+          alertColor: 'text-blue-700 bg-blue-50 border-blue-200 animate-pulse',
+        },
+        {
+          id: 'orders',
+          label: 'Export Cargo & Shipments',
+          icon: Plane,
+          count: shipments.length,
+          alert: inTransitCount > 0 ? `${inTransitCount} in air` : null,
+          alertColor: 'text-indigo-700 bg-indigo-50 border-indigo-200',
+        },
+        {
+          id: 'documents',
+          label: 'Invoices & Packing Lists',
+          icon: FileText,
+          badge: 'Proforma',
+          badgeColor: 'text-amber-700 bg-amber-50 border-amber-200',
+        },
+        {
+          id: 'payments',
+          label: 'Payments & Settlement',
+          icon: CreditCard,
+          count: paymentsList.length,
+        },
+      ],
+    },
     {
       heading: 'CATALOG & INVENTORY',
       items: [
         {
           id: 'products',
-          label: 'Products & Stock',
+          label: 'Export Catalog & Stock',
           icon: Layers,
           count: products.length,
           alert: lowStockCount > 0 ? `${lowStockCount} low` : null,
@@ -1460,49 +1569,66 @@ export default function AdminDashboard() {
       ],
     },
     {
-      heading: 'OPERATIONS & FULFILLMENT',
-      items: [
-        {
-          id: 'orders',
-          label: 'Orders Pipeline',
-          icon: Package,
-          count: orders.length,
-          alert: pendingOrdersCount > 0 ? `${pendingOrdersCount} pending` : null,
-          alertColor: 'text-rose-700 bg-rose-50 border-rose-200 animate-pulse',
-        },
-        {
-          id: 'payments',
-          label: 'Payments Ledger',
-          icon: CreditCard,
-          count: paymentsList.length,
-        },
-      ],
-    },
-    {
-      heading: 'ADMINISTRATION & USERS',
+      heading: 'ADMINISTRATION & SECURITY',
       items: [
         {
           id: 'staff',
-          label: 'Super Admin & Staff',
+          label: 'Super Admin & Staff RBAC',
           icon: Crown,
           count: `${staffList.length}/2`,
         },
         {
           id: 'users',
-          label: 'Patrons Accounts',
+          label: 'Buyers & Patrons Directory',
           icon: Users,
           count: usersList.length,
         },
         {
-          id: 'stats',
-          label: 'Executive Analytics',
-          icon: TrendingUp,
+          id: 'audit',
+          label: 'Security Audit Logs',
+          icon: Shield,
+          badge: 'Immutable',
+          badgeColor: 'text-slate-700 bg-slate-100 border-slate-300',
+        },
+        {
+          id: 'settings',
+          label: 'Export Company Profile',
+          icon: Building,
+          badge: 'IEC',
+          badgeColor: 'text-rose-700 bg-rose-50 border-rose-200',
         },
       ],
     },
   ];
 
+
   const TAB_METADATA = {
+    
+    dashboard: {
+      category: 'EXECUTIVE OVERVIEW',
+      title: 'Global Export Terminal & Executive KPIs',
+      description: 'Real-time trade intelligence, overseas air freight, and cold-chain performance overview.',
+    },
+    enquiries: {
+      category: 'INTERNATIONAL TRADE',
+      title: 'Export Enquiries & Buyer RFQ Pipeline',
+      description: 'Manage overseas customer demand, CIF/FOB quotations, and import destination requirements.',
+    },
+    documents: {
+      category: 'TRADE DOCUMENTATION',
+      title: 'Proforma & Commercial Invoices Studio',
+      description: 'DGFT compliant export invoices, packing lists, and international wire transfer instructions.',
+    },
+    audit: {
+      category: 'GOVERNANCE & SECURITY',
+      title: 'Immutable Administrative Audit Log',
+      description: 'Comprehensive trail of all administrative creations, edits, deletions, and status changes.',
+    },
+    settings: {
+      category: 'GLOBAL CONFIGURATION',
+      title: 'Company Export Profile & Legal Trade Credentials',
+      description: 'Importer Exporter Code (IEC), APEDA registration, GSTIN, and Bank SWIFT instructions.',
+    },
     products: {
       category: 'CATALOG & INVENTORY',
       title: 'Floral & Plant Inventory Maintenance',
@@ -1771,6 +1897,18 @@ export default function AdminDashboard() {
               <LogOut className="w-3 h-3 sm:w-3.5 sm:h-3.5" /> <span className="hidden sm:inline">Sign Out</span>
             </Button>
           </div>
+          <button
+            type="button"
+            onClick={() => setIsCommandPaletteOpen(true)}
+            className="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-slate-100 text-xs text-slate-500 font-medium transition-colors cursor-pointer"
+            title="Global Quick Action (Ctrl+K)"
+          >
+            <Search className="w-3.5 h-3.5 text-slate-400" />
+            <span>Search or command...</span>
+            <kbd className="px-1.5 py-0.2 rounded bg-white border border-slate-200 font-mono text-[10px] text-slate-500">
+              Ctrl K
+            </kbd>
+          </button>
         </header>
 
         {/* Master Two-Column Dashboard Layout: Left Menus + Right Content & Values */}
