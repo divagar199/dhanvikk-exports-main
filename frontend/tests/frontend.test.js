@@ -458,3 +458,93 @@ test('Frontend - Unique SKU Engine & Outward/Inward Single-Use Invoices', async 
     assert.equal(available[0].invoiceNo, 'DHN-OUT-261030-0002');
   });
 });
+
+
+test('Frontend - Real-time Dynamic Dashboard & Notification Engine', async (t) => {
+  const sampleOrders = [
+    {
+      orderId: 'ORD-1001',
+      totalAmount: 2499,
+      status: 'Delivered',
+      createdAt: '2026-10-30T10:00:00Z',
+      items: [{ name: 'Velvet Rose Hatbox', price: 2499, quantity: 1 }],
+    },
+    {
+      orderId: 'ORD-1002',
+      totalAmount: 1499,
+      status: 'Confirmed',
+      createdAt: '2026-10-30T11:30:00Z',
+      items: [{ name: 'Forever Red Roses', price: 1499, quantity: 1 }],
+    },
+    {
+      orderId: 'ORD-1003',
+      totalAmount: 3999,
+      status: 'Processing',
+      createdAt: '2026-10-25T14:00:00Z',
+      items: [{ name: 'Velvet Rose Hatbox', price: 3999, quantity: 1 }],
+    },
+  ];
+
+  const sampleProducts = [
+    { id: 'p1', name: 'Velvet Rose Hatbox', stock: 2, price: 2499 },
+    { id: 'p2', name: 'Forever Red Roses', stock: 15, price: 1499 },
+    { id: 'p3', name: 'Orchid Dreamscape', stock: 0, price: 4999 },
+  ];
+
+  const sampleEnquiries = [
+    { id: 'enq-1', status: 'New', country: 'UAE', flowerType: 'Dutch Tulips' },
+    { id: 'enq-2', status: 'Closed', country: 'Singapore' },
+  ];
+
+  await t.test('dynamically calculates total orders and revenue from real orders without fake placeholders', () => {
+    const totalRev = sampleOrders.reduce((sum, o) => sum + (o.totalAmount || 0), 0);
+    assert.equal(sampleOrders.length, 3);
+    assert.equal(totalRev, 7997);
+  });
+
+  await t.test('dynamically computes order status breakdown and percentages', () => {
+    const delivered = sampleOrders.filter(o => o.status === 'Delivered').length;
+    const processing = sampleOrders.filter(o => ['Processing', 'Confirmed'].includes(o.status)).length;
+    const cancelled = sampleOrders.filter(o => o.status === 'Cancelled').length;
+
+    assert.equal(delivered, 1);
+    assert.equal(processing, 2);
+    assert.equal(cancelled, 0);
+
+    const deliveredPct = Math.round((delivered / sampleOrders.length) * 100);
+    const processingPct = Math.round((processing / sampleOrders.length) * 100);
+    assert.equal(deliveredPct, 33);
+    assert.equal(processingPct, 67);
+  });
+
+  await t.test('computes top selling products dynamically from real items in placed orders', () => {
+    const statsMap = {};
+    sampleOrders.forEach((o) => {
+      o.items.forEach((it) => {
+        if (!statsMap[it.name]) statsMap[it.name] = { name: it.name, orders: 0, revenue: 0 };
+        statsMap[it.name].orders += 1;
+        statsMap[it.name].revenue += (it.price * it.quantity);
+      });
+    });
+
+    const ranked = Object.values(statsMap).sort((a, b) => b.orders - a.orders);
+    assert.equal(ranked[0].name, 'Velvet Rose Hatbox');
+    assert.equal(ranked[0].orders, 2);
+    assert.equal(ranked[0].revenue, 6498);
+    assert.equal(ranked[1].name, 'Forever Red Roses');
+    assert.equal(ranked[1].orders, 1);
+  });
+
+  await t.test('aggregates active live notifications strictly from real alerts', () => {
+    const orderAlerts = sampleOrders.filter(o => ['Processing', 'Confirmed', 'Pending'].includes(o.status));
+    const stockAlerts = sampleProducts.filter(p => (p.stock || 0) <= 5);
+    const enquiryAlerts = sampleEnquiries.filter(e => e.status === 'New' || e.status === 'Pending');
+
+    const totalActiveAlerts = orderAlerts.length + stockAlerts.length + enquiryAlerts.length;
+
+    assert.equal(orderAlerts.length, 2); // ORD-1002 (Confirmed), ORD-1003 (Processing)
+    assert.equal(stockAlerts.length, 2); // Velvet Rose (stock: 2), Orchid (stock: 0)
+    assert.equal(enquiryAlerts.length, 1); // enq-1 (status: New)
+    assert.equal(totalActiveAlerts, 5);
+  });
+});

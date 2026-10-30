@@ -412,7 +412,8 @@ export default function AdminDashboard() {
   const [exportSettings, setExportSettings] = useState(null);
   const [auditLogs, setAuditLogs] = useState([]);
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
-  const [headerDateFilter, setHeaderDateFilter] = useState('Today');
+  const [headerDateFilter, setHeaderDateFilter] = useState('All');
+  const [showNotificationsDropdown, setShowNotificationsDropdown] = useState(false);
   const [globalSearchQuery, setGlobalSearchQuery] = useState('');
 
   const logAudit = (action, module, resourceId, details) => {
@@ -1178,6 +1179,35 @@ export default function AdminDashboard() {
 
   useEffect(() => {
     fetchDashboardData();
+
+    // Live real-time listener for orders placed anywhere in storefront, checkout, or mobile
+    const handleOrdersUpdated = (e) => {
+      if (e?.detail && Array.isArray(e.detail)) {
+        setOrders(e.detail);
+      } else {
+        orderService.getAllOrders().then((res) => {
+          if (res?.orders) setOrders(res.orders);
+        }).catch(() => {});
+      }
+    };
+
+    const handleStorageChange = (e) => {
+      if (!e.key || e.key === 'dhanvikk_admin_orders') {
+        orderService.getAllOrders().then((res) => {
+          if (res?.orders) setOrders(res.orders);
+        }).catch(() => {});
+      }
+    };
+
+    window.addEventListener('dhanvikk_orders_updated', handleOrdersUpdated);
+    window.addEventListener('storage', handleStorageChange);
+    window.addEventListener('focus', fetchDashboardData);
+
+    return () => {
+      window.removeEventListener('dhanvikk_orders_updated', handleOrdersUpdated);
+      window.removeEventListener('storage', handleStorageChange);
+      window.removeEventListener('focus', fetchDashboardData);
+    };
   }, []);
 
   const handleLogout = async () => {
@@ -1512,17 +1542,98 @@ export default function AdminDashboard() {
   const inTransitCount = shipments.filter((s) => s.shippingStatus === 'In Transit').length;
 
   
+  // Live dynamic order counts for header dropdown filter
+  const todayOrders = useMemo(() => {
+    const now = new Date();
+    return orders.filter((o) => {
+      if (!o.createdAt) return false;
+      const d = new Date(o.createdAt);
+      return d.getDate() === now.getDate() && d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear();
+    });
+  }, [orders]);
+
+  const weekOrders = useMemo(() => {
+    const oneWeekAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
+    return orders.filter((o) => {
+      if (!o.createdAt) return false;
+      const d = new Date(o.createdAt);
+      return d >= oneWeekAgo;
+    });
+  }, [orders]);
+
+  const monthOrders = useMemo(() => {
+    const now = new Date();
+    return orders.filter((o) => {
+      if (!o.createdAt) return false;
+      const d = new Date(o.createdAt);
+      return d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear();
+    });
+  }, [orders]);
+
+  const yearOrders = useMemo(() => {
+    const now = new Date();
+    return orders.filter((o) => {
+      if (!o.createdAt) return false;
+      const d = new Date(o.createdAt);
+      return d.getFullYear() === now.getFullYear();
+    });
+  }, [orders]);
+
+  // Live dynamic notifications computed from real application events
+  const pendingOrdersAlerts = useMemo(() => {
+    return orders
+      .filter((o) => ['Pending', 'Confirmed', 'Processing', 'Preparing Floral Order'].includes(o.status || o.orderStatus))
+      .map((o) => ({
+        id: `ord-${o._id || o.orderId}`,
+        type: 'order',
+        title: `Order ${o.orderId || o._id || 'New'} awaiting fulfillment`,
+        desc: `${o.user?.name || o.shippingAddress?.fullName || 'Client'} • ₹${Number(o.totalAmount || o.amount || 0).toLocaleString('en-IN')}`,
+        time: o.createdAt ? new Date(o.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'Just now',
+        tab: 'orders',
+      }));
+  }, [orders]);
+
+  const lowStockAlerts = useMemo(() => {
+    return products
+      .filter((p) => (Number(p.stock) || 0) <= 5)
+      .map((p) => ({
+        id: `stock-${p._id || p.id}`,
+        type: 'stock',
+        title: `Low stock: ${p.name}`,
+        desc: `Only ${p.stock || 0} stems in cold storage room`,
+        time: 'Inventory Alert',
+        tab: 'products',
+      }));
+  }, [products]);
+
+  const pendingEnquiryAlerts = useMemo(() => {
+    return (enquiries || [])
+      .filter((e) => e.status === 'New' || e.status === 'Pending' || !e.status)
+      .map((e) => ({
+        id: `enq-${e.id || e._id}`,
+        type: 'enquiry',
+        title: `Buyer RFQ: ${e.flowerType || 'Floral Consignment'}`,
+        desc: `${e.buyerName || e.contactPerson || 'International Buyer'} (${e.country || 'Export'})`,
+        time: 'Enquiry',
+        tab: 'enquiries',
+      }));
+  }, [enquiries]);
+
+  const allLiveNotifications = useMemo(() => {
+    return [...pendingOrdersAlerts, ...lowStockAlerts, ...pendingEnquiryAlerts];
+  }, [pendingOrdersAlerts, lowStockAlerts, pendingEnquiryAlerts]);
+
   const ADMIN_MENU_ITEMS = [
     { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
-    { id: 'orders', label: 'Orders', icon: ShoppingBag, badge: orders.length > 0 ? orders.length : 12 },
-    { id: 'products', label: 'Products', icon: Package },
-    { id: 'categories', label: 'Categories', icon: LayoutGrid },
-    { id: 'customers', label: 'Customers', icon: Users },
-    { id: 'inventory', label: 'Inventory', icon: Layers },
+    { id: 'orders', label: 'Orders', icon: ShoppingBag, badge: orders.length > 0 ? orders.length : undefined },
+    { id: 'products', label: 'Products', icon: Package, badge: products.length > 0 ? products.length : undefined },
+    { id: 'categories', label: 'Categories', icon: LayoutGrid, badge: categoriesList.length > 0 ? categoriesList.length : undefined },
+    { id: 'customers', label: 'Customers', icon: Users, badge: usersList.length > 0 ? usersList.length : undefined },
+    { id: 'inventory', label: 'Inventory', icon: Layers, badge: lowStockAlerts.length > 0 ? `${lowStockAlerts.length} low` : undefined },
     { id: 'occasions', label: 'Occasions', icon: Sparkles },
     { id: 'promotions', label: 'Promo & Offers', icon: Tag },
     { id: 'logistics', label: 'Delivery & Logistics', icon: Truck },
-    { id: 'enquiries', label: 'Export Enquiries', icon: Globe },
+    { id: 'enquiries', label: 'Export Enquiries', icon: Globe, badge: pendingEnquiryAlerts.length > 0 ? pendingEnquiryAlerts.length : undefined },
     { id: 'reviews', label: 'Reviews', icon: Star },
     { id: 'reports', label: 'Reports & Analytics', icon: BarChart3 },
     { id: 'settings', label: 'Settings', icon: Settings },
@@ -1752,33 +1863,125 @@ export default function AdminDashboard() {
 
           {/* Right: Date Filter + Notification + Profile */}
           <div className="flex items-center gap-3 shrink-0">
-            {/* Today Filter Dropdown */}
+            {/* Real Dynamic Date Filter Dropdown */}
             <div className="relative hidden sm:block">
               <select
                 value={headerDateFilter}
                 onChange={(e) => setHeaderDateFilter(e.target.value)}
-                className="appearance-none bg-slate-50 border border-slate-200 text-xs font-semibold text-slate-700 py-2 pl-3.5 pr-8 rounded-xl focus:outline-none cursor-pointer"
+                className="appearance-none bg-slate-50 border border-slate-200 text-xs font-semibold text-slate-700 py-2 pl-3.5 pr-8 rounded-xl focus:outline-none focus:border-rose-300 cursor-pointer shadow-2xs"
               >
-                <option value="Today">Today</option>
-                <option value="This Week">This Week</option>
-                <option value="This Month">This Month</option>
-                <option value="This Year">This Year</option>
+                <option value="All">All Time ({orders.length})</option>
+                <option value="Today">Today ({todayOrders.length})</option>
+                <option value="This Week">This Week ({weekOrders.length})</option>
+                <option value="This Month">This Month ({monthOrders.length})</option>
+                <option value="This Year">This Year ({yearOrders.length})</option>
               </select>
               <ChevronDown className="w-3.5 h-3.5 text-slate-400 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
             </div>
 
-            {/* Notification Bell */}
-            <button
-              type="button"
-              onClick={() => toast.info('3 Active Notifications: 1 new RFQ enquiry, 2 orders awaiting packing.')}
-              className="relative p-2 rounded-xl bg-slate-50 border border-slate-200 text-slate-600 hover:text-rose-600 hover:bg-rose-50 transition-colors cursor-pointer"
-              title="Notifications"
-            >
-              <Bell className="w-4 h-4" />
-              <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-[#E11D48] text-white text-[10px] font-bold flex items-center justify-center">
-                3
-              </span>
-            </button>
+            {/* Real Interactive Notification Bell & Dropdown */}
+            <div className="relative">
+              <button
+                type="button"
+                onClick={() => setShowNotificationsDropdown((prev) => !prev)}
+                className={`relative p-2 rounded-xl border transition-all cursor-pointer ${
+                  showNotificationsDropdown
+                    ? 'bg-rose-50 border-rose-300 text-rose-600 shadow-xs'
+                    : 'bg-slate-50 border-slate-200 text-slate-600 hover:text-rose-600 hover:bg-rose-50'
+                }`}
+                title="Notifications"
+                aria-expanded={showNotificationsDropdown}
+              >
+                <Bell className="w-4 h-4" />
+                {allLiveNotifications.length > 0 && (
+                  <span className="absolute -top-1 -right-1 min-w-4 h-4 px-1 rounded-full bg-[#E11D48] text-white text-[10px] font-bold flex items-center justify-center shadow-xs">
+                    {allLiveNotifications.length > 99 ? '99+' : allLiveNotifications.length}
+                  </span>
+                )}
+              </button>
+
+              {/* Notification Dropdown Panel */}
+              {showNotificationsDropdown && (
+                <div className="absolute right-0 top-12 z-50 w-80 sm:w-96 bg-white rounded-2xl shadow-xl border border-slate-200 overflow-hidden animate-in fade-in slide-in-from-top-2 duration-150">
+                  <div className="p-3.5 bg-slate-50 border-b border-slate-100 flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs font-bold text-[#0F172A] font-['Poppins']">
+                        Notifications & Alerts
+                      </span>
+                      <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-rose-100 text-rose-600 font-mono">
+                        {allLiveNotifications.length} Active
+                      </span>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => setShowNotificationsDropdown(false)}
+                      className="p-1 rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-200/50 cursor-pointer"
+                    >
+                      <X className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
+
+                  {/* Notifications list */}
+                  <div className="max-h-80 overflow-y-auto divide-y divide-slate-100">
+                    {allLiveNotifications.length === 0 ? (
+                      <div className="py-10 px-4 text-center text-slate-400">
+                        <CheckCircle2 className="w-8 h-8 mx-auto mb-2 text-emerald-500 opacity-60" />
+                        <p className="text-xs font-medium text-slate-600">All caught up!</p>
+                        <p className="text-[11px] text-slate-400 mt-0.5">No pending orders, stock shortages, or buyer enquiries.</p>
+                      </div>
+                    ) : (
+                      allLiveNotifications.map((notif) => (
+                        <div
+                          key={notif.id}
+                          onClick={() => {
+                            setActiveTab(notif.tab);
+                            setShowNotificationsDropdown(false);
+                          }}
+                          className="p-3 hover:bg-rose-50/50 transition-colors cursor-pointer flex items-start gap-3 group"
+                        >
+                          <div className={`w-8 h-8 rounded-xl flex items-center justify-center shrink-0 mt-0.5 ${
+                            notif.type === 'order'
+                              ? 'bg-rose-100 text-rose-600'
+                              : notif.type === 'stock'
+                              ? 'bg-amber-100 text-amber-600'
+                              : 'bg-sky-100 text-sky-600'
+                          }`}>
+                            {notif.type === 'order' && <ShoppingBag className="w-4 h-4" />}
+                            {notif.type === 'stock' && <Package className="w-4 h-4" />}
+                            {notif.type === 'enquiry' && <Globe className="w-4 h-4" />}
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <h5 className="text-xs font-bold text-[#0F172A] group-hover:text-rose-600 transition-colors line-clamp-1">
+                              {notif.title}
+                            </h5>
+                            <p className="text-[11px] text-[#64748B] mt-0.5 line-clamp-1">
+                              {notif.desc}
+                            </p>
+                            <span className="text-[10px] text-slate-400 block mt-1 font-mono">
+                              {notif.time}
+                            </span>
+                          </div>
+                        </div>
+                      ))
+                    )}
+                  </div>
+
+                  {/* Dropdown Footer */}
+                  <div className="p-2.5 bg-slate-50 border-t border-slate-100 text-center">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setActiveTab('orders');
+                        setShowNotificationsDropdown(false);
+                      }}
+                      className="text-[11px] font-bold text-[#E11D48] hover:text-[#BE123C] cursor-pointer"
+                    >
+                      View All Orders & Shipments →
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
 
             {/* Profile Badge */}
             <div className="flex items-center gap-2.5 pl-2 border-l border-slate-100">
@@ -2003,6 +2206,8 @@ export default function AdminDashboard() {
               orders={orders}
               enquiries={enquiries}
               usersList={usersList}
+              headerDateFilter={headerDateFilter}
+              onDateFilterChange={setHeaderDateFilter}
               onSelectTab={setActiveTab}
               onQuickAction={(action) => {
                 if (action === 'add_product') {
