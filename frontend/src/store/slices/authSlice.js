@@ -76,8 +76,9 @@ export const loginUser = createAsyncThunk(
       } catch (fbErr) {
         console.warn('Firebase email/password sign-in note:', fbErr.message);
         if (
-          fbErr.code === 'auth/user-not-found' ||
-          fbErr.code === 'auth/invalid-credential'
+          !isStaffEmail &&
+          (fbErr.code === 'auth/user-not-found' ||
+           fbErr.code === 'auth/invalid-credential')
         ) {
           try {
             const defaultName = cleanEmail.split('@')[0].replace(/[._-]/g, ' ');

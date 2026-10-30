@@ -66,6 +66,7 @@ import {
   BarChart3,
   Settings,
   Bell,
+  Globe,
 } from 'lucide-react';
 
 import EnquiriesList from './modules/enquiries/EnquiriesList';
@@ -2060,7 +2061,7 @@ export default function AdminDashboard() {
         {/* TAB: REVIEWS */}
         {activeTab === 'reviews' && (
           <main className="max-w-7xl mx-auto px-4 sm:px-8 py-6 w-full flex-1">
-            <ReviewsList />
+            <ReviewsList products={products} />
           </main>
         )}
 
