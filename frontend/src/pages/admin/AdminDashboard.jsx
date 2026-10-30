@@ -52,6 +52,22 @@ import Logo from '../../components/common/Logo';
 import { logoutUser } from '../../store/slices/authSlice';
 import Button from '../../components/common/Button';
 import DashboardHome from './modules/dashboard/DashboardHome';
+import OccasionsList from './modules/occasions/OccasionsList';
+import PromotionsList from './modules/promotions/PromotionsList';
+import ReviewsList from './modules/reviews/ReviewsList';
+import ContentList from './modules/content/ContentList';
+import {
+  LayoutDashboard,
+  ShoppingBag,
+  LayoutGrid,
+  Sparkles,
+  Tag,
+  Star,
+  BarChart3,
+  Settings,
+  Bell,
+} from 'lucide-react';
+
 import EnquiriesList from './modules/enquiries/EnquiriesList';
 import ShipmentsList from './modules/orders/ShipmentsList';
 import DocumentsStudio from './modules/documents/DocumentsStudio';
@@ -378,6 +394,8 @@ export default function AdminDashboard() {
   const [exportSettings, setExportSettings] = useState(null);
   const [auditLogs, setAuditLogs] = useState([]);
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
+  const [headerDateFilter, setHeaderDateFilter] = useState('Today');
+  const [globalSearchQuery, setGlobalSearchQuery] = useState('');
 
   const logAudit = (action, module, resourceId, details) => {
     auditLogger.log({
@@ -1479,352 +1497,195 @@ export default function AdminDashboard() {
   const newEnquiriesCount = enquiries.filter((e) => e.status === 'New').length;
   const inTransitCount = shipments.filter((s) => s.shippingStatus === 'In Transit').length;
 
-  const ADMIN_MENU_SECTIONS = [
-    {
-      heading: 'EXECUTIVE OVERVIEW',
-      items: [
-        {
-          id: 'dashboard',
-          label: 'Executive Overview',
-          icon: TrendingUp,
-          badge: 'HQ',
-          badgeColor: 'text-rose-700 bg-rose-50 border-rose-200',
-        },
-      ],
-    },
-    {
-      heading: 'INTERNATIONAL TRADE & LEADS',
-      items: [
-        {
-          id: 'enquiries',
-          label: 'Export RFQs & Leads',
-          icon: MessageSquare,
-          count: enquiries.length,
-          alert: newEnquiriesCount > 0 ? `${newEnquiriesCount} new` : null,
-          alertColor: 'text-blue-700 bg-blue-50 border-blue-200 animate-pulse',
-        },
-        {
-          id: 'orders',
-          label: 'Export Cargo & Shipments',
-          icon: Plane,
-          count: shipments.length,
-          alert: inTransitCount > 0 ? `${inTransitCount} in air` : null,
-          alertColor: 'text-indigo-700 bg-indigo-50 border-indigo-200',
-        },
-        {
-          id: 'documents',
-          label: 'Invoices & Packing Lists',
-          icon: FileText,
-          badge: 'Proforma',
-          badgeColor: 'text-amber-700 bg-amber-50 border-amber-200',
-        },
-        {
-          id: 'payments',
-          label: 'Payments & Settlement',
-          icon: CreditCard,
-          count: paymentsList.length,
-        },
-      ],
-    },
-    {
-      heading: 'CATALOG & INVENTORY',
-      items: [
-        {
-          id: 'products',
-          label: 'Export Catalog & Stock',
-          icon: Layers,
-          count: products.length,
-          alert: lowStockCount > 0 ? `${lowStockCount} low` : null,
-          alertColor: 'text-amber-700 bg-amber-50 border-amber-200',
-        },
-        {
-          id: 'inward_outward',
-          label: 'Inward & Outward Logistics',
-          icon: ArrowDownUp,
-          count: inwardOutwardLedger.length,
-          badge: 'Stock Flow',
-          badgeColor: 'text-indigo-700 bg-indigo-50 border-indigo-200',
-        },
-        {
-          id: 'categories',
-          label: 'Categories Atelier',
-          icon: Flower2,
-          count: categoriesList.length,
-        },
-        {
-          id: 'currencies',
-          label: 'Currencies & Rates',
-          icon: Coins,
-          count: currenciesList.length,
-          badge: '11 Hubs',
-          badgeColor: 'text-sky-700 bg-sky-50 border-sky-200',
-        },
-        {
-          id: 'hero',
-          label: 'Hero Section CMS',
-          icon: Layers,
-          badge: 'LIVE',
-          badgeColor: 'text-emerald-700 bg-emerald-50 border-emerald-200',
-        },
-      ],
-    },
-    {
-      heading: 'ADMINISTRATION & SECURITY',
-      items: [
-        {
-          id: 'staff',
-          label: 'Super Admin & Staff RBAC',
-          icon: Crown,
-          count: `${staffList.length}/2`,
-        },
-        {
-          id: 'users',
-          label: 'Buyers & Patrons Directory',
-          icon: Users,
-          count: usersList.length,
-        },
-        {
-          id: 'audit',
-          label: 'Security Audit Logs',
-          icon: Shield,
-          badge: 'Immutable',
-          badgeColor: 'text-slate-700 bg-slate-100 border-slate-300',
-        },
-        {
-          id: 'settings',
-          label: 'Export Company Profile',
-          icon: Building,
-          badge: 'IEC',
-          badgeColor: 'text-rose-700 bg-rose-50 border-rose-200',
-        },
-      ],
-    },
+  
+  const ADMIN_MENU_ITEMS = [
+    { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
+    { id: 'orders', label: 'Orders', icon: ShoppingBag, badge: orders.length > 0 ? orders.length : 12 },
+    { id: 'products', label: 'Products', icon: Package },
+    { id: 'categories', label: 'Categories', icon: LayoutGrid },
+    { id: 'customers', label: 'Customers', icon: Users },
+    { id: 'inventory', label: 'Inventory', icon: Layers },
+    { id: 'occasions', label: 'Occasions', icon: Sparkles },
+    { id: 'promotions', label: 'Promo & Offers', icon: Tag },
+    { id: 'logistics', label: 'Delivery & Logistics', icon: Truck },
+    { id: 'enquiries', label: 'Export Enquiries', icon: Globe },
+    { id: 'content', label: 'Blog & Content', icon: FileText },
+    { id: 'reviews', label: 'Reviews', icon: Star },
+    { id: 'reports', label: 'Reports & Analytics', icon: BarChart3 },
+    { id: 'settings', label: 'Settings', icon: Settings },
   ];
 
 
   const TAB_METADATA = {
-    
     dashboard: {
-      category: 'EXECUTIVE OVERVIEW',
-      title: 'Global Export Terminal & Executive KPIs',
-      description: 'Real-time trade intelligence, overseas air freight, and cold-chain performance overview.',
-    },
-    enquiries: {
-      category: 'INTERNATIONAL TRADE',
-      title: 'Export Enquiries & Buyer RFQ Pipeline',
-      description: 'Manage overseas customer demand, CIF/FOB quotations, and import destination requirements.',
-    },
-    documents: {
-      category: 'TRADE DOCUMENTATION',
-      title: 'Proforma & Commercial Invoices Studio',
-      description: 'DGFT compliant export invoices, packing lists, and international wire transfer instructions.',
-    },
-    audit: {
-      category: 'GOVERNANCE & SECURITY',
-      title: 'Immutable Administrative Audit Log',
-      description: 'Comprehensive trail of all administrative creations, edits, deletions, and status changes.',
-    },
-    settings: {
-      category: 'GLOBAL CONFIGURATION',
-      title: 'Company Export Profile & Legal Trade Credentials',
-      description: 'Importer Exporter Code (IEC), APEDA registration, GSTIN, and Bank SWIFT instructions.',
-    },
-    products: {
-      category: 'CATALOG & INVENTORY',
-      title: 'Floral & Plant Inventory Maintenance',
-      description: 'Live stock adjustment, flower specs, dynamic categories & multi-currency rates.',
-    },
-    inward_outward: {
-      category: 'CATALOG & INVENTORY',
-      title: 'Inward & Outward Inventory Logistics & Cold-Chain Ledger',
-      description: 'Real-time supply chain ledger: log farm inward deliveries, lot batch codes, and outward order dispatches with automatic stock synchronization.',
-    },
-    categories: {
-      category: 'CATALOG & INVENTORY',
-      title: 'Categories & Subcategories Atelier',
-      description: 'Manage primary floral collections, SEO badges, and luxury gift categories.',
-    },
-    currencies: {
-      category: 'INTERNATIONAL COMMERCE',
-      title: 'Multi-Currency & Fixed Exchange Rates',
-      description: '11 International export hubs with live converter simulator and fixed rates.',
-    },
-    hero: {
-      category: 'STOREFRONT CMS',
-      title: 'Hero Section & Seasonal Campaign Banner',
-      description: 'Live headline, promotional highlights, CTA links, and hero arrangement visuals.',
+      category: 'HQ OVERVIEW',
+      title: 'Dashboard Analytics & Live Performance',
+      description: 'Real-time sales, order fulfillment, and floriculture revenue metrics.',
     },
     orders: {
       category: 'FULFILLMENT PIPELINE',
-      title: 'Customer Orders & Cold-Chain Dispatch',
+      title: 'Order Management & Dispatch',
       description: 'Track orders through Confirmed, Out for Delivery, and Delivered stages.',
     },
-    payments: {
-      category: 'FINANCIAL LEDGER',
-      title: 'Payment Transactions & Gateway Receipts',
-      description: 'Verified Razorpay, Stripe, and COD orders with receipts and currency breakdown.',
+    products: {
+      category: 'CATALOG & INVENTORY',
+      title: 'Botanical Products & Stock Levels',
+      description: 'Manage luxury arrangements, stems, live inventory, and multi-currency pricing.',
     },
-    staff: {
-      category: 'ACCESS CONTROL',
-      title: 'Super Admin Authority & Staff Quota (Max 2)',
-      description: 'Strict 2-staff member quota enforcement with role allocation and credentials.',
+    categories: {
+      category: 'CATALOG ATELIER',
+      title: 'Flower Categories & Subcategories',
+      description: 'Organize floral collections, stems, bouquets, and seasonal arrangements.',
     },
-    users: {
+    customers: {
       category: 'CLIENTELE DIRECTORY',
-      title: 'Registered Patrons & Accounts',
-      description: 'Customer list with verified phone numbers, emails, order counts, and registration dates.',
+      title: 'Customer Directory & Accounts',
+      description: 'Manage registered patrons, contact details, and historical orders.',
     },
-    stats: {
+    inventory: {
+      category: 'LOGISTICS & STOCK FLOW',
+      title: 'Inward & Outward Inventory Ledger',
+      description: 'Track incoming grower deliveries and outgoing floral dispatches.',
+    },
+    occasions: {
+      category: 'CELEBRATIONS & EVENTS',
+      title: 'Occasions & Curated Collections',
+      description: 'Festive seasons, weddings, corporate gifting, and romance arrangements.',
+    },
+    promotions: {
+      category: 'MARKETING & CAMPAIGNS',
+      title: 'Offers, Coupons & Promo Discounts',
+      description: 'Manage discount vouchers, seasonal promotional campaigns, and customer coupons.',
+    },
+    logistics: {
+      category: 'TRANSPORT & FLEET',
+      title: 'Delivery & Air Freight Logistics',
+      description: 'Track domestic delivery slots and international reefer air freight consignments.',
+    },
+    enquiries: {
+      category: 'GLOBAL TRADE',
+      title: 'Export Enquiries & Buyer RFQs',
+      description: 'Manage international buyer leads, send quotations, and track destination ports.',
+    },
+    content: {
+      category: 'STOREFRONT CMS',
+      title: 'Blog, Stories & Storefront Media',
+      description: 'Manage care guides, export journal articles, and marquee banners.',
+    },
+    reviews: {
+      category: 'FEEDBACK & REPUTATION',
+      title: 'Customer Reviews & Star Ratings',
+      description: 'Moderate customer ratings and showcase verified buyer testimonials.',
+    },
+    reports: {
       category: 'EXECUTIVE INTELLIGENCE',
-      title: 'Executive Analytics & Performance Insights',
-      description: 'Revenue totals, order completion ratios, customer growth, and floral category insights.',
+      title: 'Reports & Revenue Analytics',
+      description: 'Detailed financial insights, top-selling bouquets, and export destinations.',
+    },
+    settings: {
+      category: 'CORPORATE PROFILE',
+      title: 'Admin & Export Profile Settings',
+      description: 'Company information, IEC code, APEDA floriculture registration, and banking details.',
     },
   };
 
   const renderSidebarContent = (isMobile = false) => (
     <div className="flex flex-col h-full select-none bg-white">
-      {/* Sidebar Header */}
-      {isMobile ? (
-        <div className="p-4 border-b border-[#E2E8F0] flex items-center justify-between bg-white shrink-0">
-          <div className="flex items-center gap-2">
-            <Logo size="sm" linkTo="/admin/dashboard" />
-            <div>
-              <span className="font-bold text-xs uppercase tracking-wider text-[#0F172A] block">
-                Staff Console
-              </span>
-              <span className="text-[10px] text-[#E11D48] font-mono">Dhanvikk Blooms</span>
-            </div>
+      {/* Brand Header */}
+      <div className="p-4 sm:p-5 border-b border-slate-100 flex items-center justify-between shrink-0">
+        <div className="flex items-center gap-3">
+          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-rose-500 to-pink-600 flex items-center justify-center text-white shadow-sm shadow-rose-500/20 shrink-0">
+            <Flower2 className="w-5 h-5" />
           </div>
+          <div className="min-w-0">
+            <span className="font-bold text-base text-[#0F172A] tracking-tight block font-['Poppins']">
+              Dhanvikk
+            </span>
+            <span className="text-[9px] font-bold uppercase tracking-widest text-slate-400 block -mt-0.5">
+              Blooms & Exports
+            </span>
+          </div>
+        </div>
+        {isMobile && (
           <button
             type="button"
             onClick={() => setMobileSidebarOpen(false)}
-            className="p-1.5 rounded-full hover:bg-[#F8FAFC] text-[#666] hover:text-[#E11D48] border border-[#E2E8F0] cursor-pointer"
+            className="p-1.5 rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-50 cursor-pointer"
             aria-label="Close menu drawer"
           >
             <X className="w-4 h-4" />
           </button>
-        </div>
-      ) : (
-        <div className="p-3.5 border-b border-[#E2E8F0] bg-[#FFFFFF] shrink-0">
-          <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-[#E11D48] to-[#E11D48] flex items-center justify-center text-white shadow-xs shrink-0">
-              <Shield className="w-4 h-4" />
-            </div>
-            <div className="min-w-0">
-              <span className="font-bold text-xs uppercase tracking-wider text-[#0F172A] block truncate">
-                {authUser?.name ? authUser.name : 'Admin Navigation'}
-              </span>
-              <span className="text-[10px] text-emerald-700 font-semibold flex items-center gap-1 truncate">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse shrink-0" />
-                {authUser?.email ? authUser.email : 'Live Control Hub'}
-              </span>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Navigation Groups List */}
-      <div className="flex-1 overflow-y-auto p-2.5 sm:p-3 space-y-3.5 text-xs font-['Poppins']">
-        {ADMIN_MENU_SECTIONS.map((sec, sIdx) => (
-          <div key={sIdx} className="space-y-1">
-            <div className="px-2.5 py-0.5 text-[9px] font-bold uppercase tracking-wider text-[#94A3B8]">
-              {sec.heading}
-            </div>
-            <div className="space-y-0.5">
-              {sec.items.map((item) => {
-                const Icon = item.icon;
-                const isActive = activeTab === item.id;
-                return (
-                  <button
-                    key={item.id}
-                    type="button"
-                    onClick={() => {
-                      setActiveTab(item.id);
-                      if (isMobile) setMobileSidebarOpen(false);
-                      window.scrollTo({ top: 0, behavior: 'smooth' });
-                    }}
-                    className={`w-full text-left flex items-center justify-between px-2.5 sm:px-3 py-2 rounded-xl text-xs transition-all cursor-pointer group ${
-                      isActive
-                        ? 'bg-gradient-to-r from-[#FFF1F2] to-[#FFE4E6] text-[#E11D48] font-bold border border-[#FECDD3]/70 shadow-2xs'
-                        : 'text-[#334155] hover:text-[#0F172A] hover:bg-[#F8FAFC] font-medium border border-transparent'
-                    }`}
-                  >
-                    <div className="flex items-center gap-2.5 min-w-0">
-                      <Icon
-                        className={`w-4 h-4 shrink-0 transition-colors ${
-                          isActive ? 'text-[#E11D48]' : 'text-[#64748B] group-hover:text-[#0F172A]'
-                        }`}
-                      />
-                      <span className="truncate">{item.label}</span>
-                    </div>
-
-                    {/* Count or Badge on Right */}
-                    <div className="flex items-center gap-1 shrink-0 ml-1.5">
-                      {item.alert && (
-                        <span className={`px-1.5 py-0.2 rounded-full text-[9px] font-bold border ${item.alertColor}`}>
-                          {item.alert}
-                        </span>
-                      )}
-                      {item.badge && (
-                        <span className={`px-1.5 py-0.2 rounded-full text-[9px] font-bold border ${item.badgeColor || 'text-[#E11D48] bg-[#FFF1F2] border-[#FECDD3]'}`}>
-                          {item.badge}
-                        </span>
-                      )}
-                      {item.count !== undefined && !item.alert && (
-                        <span
-                          className={`px-1.5 py-0.2 rounded-full text-[10px] font-mono ${
-                            isActive ? 'bg-[#E11D48]/10 text-[#E11D48] font-bold' : 'bg-[#F1F5F9] text-[#64748B]'
-                          }`}
-                        >
-                          {item.count}
-                        </span>
-                      )}
-                    </div>
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-        ))}
+        )}
       </div>
 
-      {/* Sidebar Footer */}
-      <div className="p-2.5 sm:p-3 border-t border-[#E2E8F0] bg-[#FFFFFF] space-y-2 shrink-0">
-        <Link
-          to="/"
-          target="_blank"
-          className="flex items-center justify-between p-2 rounded-xl bg-[#F8FAFC] hover:bg-[#F1F5F9] text-[#444] text-xs font-semibold border border-[#E2E8F0] transition-colors group"
-        >
-          <span className="flex items-center gap-2">
-            <ExternalLink className="w-3.5 h-3.5 text-[#E11D48]" />
-            <span>Storefront Live</span>
-          </span>
-          <span className="text-[10px] text-[#888] group-hover:translate-x-0.5 transition-transform">↗</span>
-        </Link>
+      {/* Navigation List */}
+      <div className="flex-1 overflow-y-auto px-3 py-3 space-y-1 text-xs font-['Poppins']">
+        {ADMIN_MENU_ITEMS.map((item) => {
+          const Icon = item.icon;
+          const isActive = activeTab === item.id;
+          return (
+            <button
+              key={item.id}
+              type="button"
+              onClick={() => {
+                setActiveTab(item.id);
+                if (isMobile) setMobileSidebarOpen(false);
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+              className={`w-full text-left flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-medium transition-all cursor-pointer ${
+                isActive
+                  ? 'bg-[#E11D48] text-white font-semibold shadow-sm shadow-rose-500/20'
+                  : 'text-[#64748B] hover:text-[#0F172A] hover:bg-rose-50/70 font-medium'
+              }`}
+            >
+              <div className="flex items-center gap-3 min-w-0">
+                <Icon
+                  className={`w-4 h-4 shrink-0 transition-colors ${
+                    isActive ? 'text-white' : 'text-[#64748B]'
+                  }`}
+                />
+                <span className="truncate">{item.label}</span>
+              </div>
 
-        {/* Super Admin Status Card */}
-        <div className="p-2.5 rounded-xl bg-white border border-[#E2E8F0] flex items-center justify-between gap-2 shadow-2xs">
-          <div className="flex items-center gap-2 min-w-0">
-            <div className="w-7 h-7 rounded-lg bg-[#FFF1F2] border border-[#FECDD3] text-[#E11D48] flex items-center justify-center shrink-0">
-              <Crown className="w-3.5 h-3.5" />
-            </div>
-            <div className="min-w-0">
-              <span className="text-[10px] font-bold text-[#0F172A] block truncate uppercase">
-                Super Admin
-              </span>
-              <span className="text-[9px] text-[#64748B] font-mono block truncate" title={superAdminEmail}>
-                {superAdminEmail.split('@')[0]}
-              </span>
-            </div>
-          </div>
+              {item.badge !== undefined && (
+                <span
+                  className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${
+                    isActive
+                      ? 'bg-white/20 text-white'
+                      : 'bg-rose-100 text-rose-600'
+                  }`}
+                >
+                  {item.badge}
+                </span>
+              )}
+            </button>
+          );
+        })}
+      </div>
 
+      {/* Bottom Spread Freshness Banner */}
+      <div className="p-4 mx-3 mb-3 rounded-2xl bg-gradient-to-br from-rose-50 via-pink-50 to-pink-100/70 border border-rose-100 flex flex-col justify-between relative overflow-hidden group shrink-0">
+        <div className="flex justify-center -mt-1 mb-2">
+          <img
+            src="https://images.unsplash.com/photo-1508610048659-a06b669e3321?auto=format&fit=crop&w=240&q=80"
+            alt="Spread Freshness Worldwide"
+            className="w-16 h-16 object-cover rounded-xl shadow-2xs group-hover:scale-105 transition-transform duration-300"
+          />
+        </div>
+        <h5 className="text-xs font-bold text-[#0F172A] text-center leading-tight">
+          Spread Freshness Worldwide
+        </h5>
+        <div className="mt-3 flex justify-center">
           <button
             type="button"
-            onClick={handleLogout}
-            className="p-1.5 rounded-lg text-[#94A3B8] hover:text-rose-600 hover:bg-rose-50 transition-colors shrink-0 cursor-pointer"
-            title="Sign Out Admin"
+            onClick={() => {
+              setActiveTab('enquiries');
+              if (isMobile) setMobileSidebarOpen(false);
+            }}
+            className="w-7 h-7 rounded-full bg-white shadow-xs flex items-center justify-center text-rose-600 hover:scale-105 transition-transform cursor-pointer"
+            title="View Export Enquiries"
           >
-            <LogOut className="w-3.5 h-3.5" />
+            <ArrowRight className="w-3.5 h-3.5" />
           </button>
         </div>
       </div>
@@ -1840,75 +1701,92 @@ export default function AdminDashboard() {
       />
 
       <div className="min-h-screen bg-[#F8FAFC] text-[#0F172A] font-['Poppins'] flex flex-col selection:bg-[#E11D48] selection:text-white">
-        {/* Top Header */}
-        <header className="border-b border-[#E2E8F0] bg-white sticky top-0 z-40 px-2.5 sm:px-6 py-2.5 sm:py-3 flex items-center justify-between shadow-xs">
-          <div className="flex items-center gap-2 sm:gap-3 min-w-0">
-            {/* Mobile Hamburger Drawer Trigger */}
+        {/* Top Header matching reference design */}
+        <header className="bg-white/95 backdrop-blur-md border-b border-slate-100 sticky top-0 z-40 px-4 sm:px-8 py-3.5 flex items-center justify-between">
+          {/* Left: Mobile Menu Trigger + Global Search */}
+          <div className="flex items-center gap-3 flex-1 max-w-xl">
             <button
               type="button"
               onClick={() => setMobileSidebarOpen(true)}
-              className="lg:hidden p-1.5 rounded-xl text-[#E11D48] hover:bg-[#F8FAFC] border border-[#E2E8F0] transition-colors cursor-pointer mr-0.5 shrink-0"
-              aria-label="Open Admin Navigation Menu"
+              className="lg:hidden p-2 rounded-xl text-slate-600 hover:bg-slate-100 border border-slate-200 cursor-pointer"
+              aria-label="Open Navigation"
             >
-              <Menu className="w-5 h-5 text-[#E11D48]" />
+              <Menu className="w-5 h-5 text-slate-700" />
             </button>
 
-            <Logo size="sm" linkTo="/admin/dashboard" className="mr-0.5 sm:mr-1 shrink-0" />
-            <div className="hidden sm:block h-6 w-px bg-[#E2E8F0]" />
-            <div className="min-w-0">
-              <div className="flex items-center gap-1.5 sm:gap-2">
-                <span className="font-bold text-xs sm:text-sm tracking-wider uppercase text-[#0F172A] block truncate">
-                  Staff Console
-                </span>
-                <span className="hidden md:inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                  Live Production System
-                </span>
-              </div>
-              <span className="text-[10px] sm:text-[11px] text-[#E11D48] font-mono block truncate max-w-[140px] xs:max-w-[180px] sm:max-w-none">
-                Super Admin: {superAdminEmail}
-              </span>
+            <div className="relative w-full max-w-md">
+              <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+              <input
+                type="text"
+                placeholder="Search orders, products, customers..."
+                value={globalSearchQuery}
+                onChange={(e) => setGlobalSearchQuery(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    setIsCommandPaletteOpen(true);
+                  }
+                }}
+                className="w-full h-10 pl-10 pr-4 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-700 placeholder:text-slate-400 focus:outline-none focus:border-rose-400 focus:ring-2 focus:ring-rose-500/10 transition-all"
+              />
             </div>
           </div>
 
-          <div className="flex items-center gap-1.5 sm:gap-3 shrink-0">
-            <Link
-              to="/"
-              className="text-xs text-[#555555] hover:text-[#E11D48] border border-[#E2E8F0] px-3 py-1.5 rounded-full transition-colors hidden sm:inline-flex items-center gap-1.5 hover:bg-[#F8FAFC]"
-            >
-              <span>← View Storefront</span>
-            </Link>
+          {/* Right: Date Filter + Notification + Profile */}
+          <div className="flex items-center gap-3 shrink-0">
+            {/* Today Filter Dropdown */}
+            <div className="relative hidden sm:block">
+              <select
+                value={headerDateFilter}
+                onChange={(e) => setHeaderDateFilter(e.target.value)}
+                className="appearance-none bg-slate-50 border border-slate-200 text-xs font-semibold text-slate-700 py-2 pl-3.5 pr-8 rounded-xl focus:outline-none cursor-pointer"
+              >
+                <option value="Today">Today</option>
+                <option value="This Week">This Week</option>
+                <option value="This Month">This Month</option>
+                <option value="This Year">This Year</option>
+              </select>
+              <ChevronDown className="w-3.5 h-3.5 text-slate-400 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+            </div>
 
+            {/* Notification Bell */}
             <button
-              onClick={fetchDashboardData}
-              disabled={loading}
-              className="p-1.5 sm:p-2 text-[#64748B] hover:text-[#E11D48] border border-[#E2E8F0] rounded-full transition-colors hover:bg-[#F8FAFC] cursor-pointer"
-              title="Refresh Live Data"
+              type="button"
+              onClick={() => toast.info('3 Active Notifications: 1 new RFQ enquiry, 2 orders awaiting packing.')}
+              className="relative p-2 rounded-xl bg-slate-50 border border-slate-200 text-slate-600 hover:text-rose-600 hover:bg-rose-50 transition-colors cursor-pointer"
+              title="Notifications"
             >
-              <RefreshCw className={`w-3.5 h-3.5 sm:w-4 sm:h-4 ${loading ? 'animate-spin text-[#E11D48]' : ''}`} />
+              <Bell className="w-4 h-4" />
+              <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-[#E11D48] text-white text-[10px] font-bold flex items-center justify-center">
+                3
+              </span>
             </button>
 
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={handleLogout}
-              className="bg-transparent border-[#E2E8F0] text-[#E11D48] hover:bg-rose-50 hover:text-rose-600 hover:border-rose-200 text-[11px] sm:text-xs py-1 sm:py-1.5 px-2.5 sm:px-3"
-            >
-              <LogOut className="w-3 h-3 sm:w-3.5 sm:h-3.5" /> <span className="hidden sm:inline">Sign Out</span>
-            </Button>
+            {/* Profile Badge */}
+            <div className="flex items-center gap-2.5 pl-2 border-l border-slate-100">
+              <img
+                src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=120&q=80"
+                alt="Divagar"
+                className="w-9 h-9 rounded-full object-cover border border-rose-200 shadow-2xs"
+              />
+              <div className="hidden sm:block text-left">
+                <span className="text-xs font-bold text-[#0F172A] block leading-tight">
+                  Divagar
+                </span>
+                <span className="text-[10px] font-medium text-slate-400 block">
+                  Admin
+                </span>
+              </div>
+
+              <button
+                type="button"
+                onClick={handleLogout}
+                className="p-1.5 rounded-lg text-slate-400 hover:text-rose-600 hover:bg-rose-50 transition-colors cursor-pointer ml-1"
+                title="Sign Out"
+              >
+                <LogOut className="w-3.5 h-3.5" />
+              </button>
+            </div>
           </div>
-          <button
-            type="button"
-            onClick={() => setIsCommandPaletteOpen(true)}
-            className="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-slate-100 text-xs text-slate-500 font-medium transition-colors cursor-pointer"
-            title="Global Quick Action (Ctrl+K)"
-          >
-            <Search className="w-3.5 h-3.5 text-slate-400" />
-            <span>Search or command...</span>
-            <kbd className="px-1.5 py-0.2 rounded bg-white border border-slate-200 font-mono text-[10px] text-slate-500">
-              Ctrl K
-            </kbd>
-          </button>
         </header>
 
         {/* Master Two-Column Dashboard Layout: Left Menus + Right Content & Values */}
@@ -1936,6 +1814,8 @@ export default function AdminDashboard() {
           {/* Right Workspace Area: Displays all Values, KPIs, Tables & Forms */}
           <div className="flex-1 min-w-0 flex flex-col bg-[#F8FAFC] overflow-x-hidden">
             {/* Top Context Header for Active Section */}
+            {activeTab !== 'dashboard' && (
+              <>
             <div className="bg-white border-b border-[#E2E8F0] px-3.5 sm:px-6 py-2.5 sm:py-3 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 sticky top-[65px] z-30 shadow-2xs">
               <div className="min-w-0">
                 <div className="flex items-center gap-2 flex-wrap">
@@ -1964,7 +1844,7 @@ export default function AdminDashboard() {
                   <span className="hidden xs:inline">Sync</span>
                 </button>
 
-                {activeTab === 'inward_outward' && (
+                {(activeTab === 'inward_outward' || activeTab === 'inventory') && (
                   <div className="flex items-center gap-1.5">
                     <button
                       onClick={() => {
@@ -2083,6 +1963,107 @@ export default function AdminDashboard() {
                 />
               </div>
             </div>
+
+              </>
+            )}
+
+        {/* ========================================================
+            TAB 0: DASHBOARD EXECUTIVE OVERVIEW
+            ======================================================== */}
+        {activeTab === 'dashboard' && (
+          <main className="max-w-7xl mx-auto px-4 sm:px-8 py-6 w-full flex-1">
+            <DashboardHome
+              stats={stats}
+              products={products}
+              orders={orders}
+              enquiries={enquiries}
+              usersList={usersList}
+              onSelectTab={setActiveTab}
+              onQuickAction={(action) => {
+                if (action === 'add_product') {
+                  setEditingProduct(null);
+                  setProductForm({
+                    name: '',
+                    category: 'Flowers',
+                    subCategory: 'Hand Bouquets',
+                    flowerType: 'Roses',
+                    price: 2499,
+                    originalPrice: 2999,
+                    stock: 25,
+                    tag: 'NEW ARRIVAL',
+                    description: '',
+                    images: 'https://images.unsplash.com/photo-1561181286-d3fee7d55364?auto=format&fit=crop&w=800&q=80',
+                    linuxHostingPath: '/images/products/crimson-elegance.webp',
+                    lightRequirement: 'Bright Indirect Light',
+                    waterFrequency: 'Water 1-2 times weekly',
+                    potSize: 'Hand-crafted Ceramic Planter Included',
+                    fixedPrices: { AED: 110, INR: 2499, USD: 30, EUR: 28, GBP: 24, SAR: 112, QAR: 109, KWD: 9.2, OMR: 11.5, BHD: 11.3, SGD: 41 },
+                  });
+                  setShowProductModal(true);
+                }
+              }}
+              authUser={authUser}
+              superAdminEmail={superAdminEmail}
+            />
+          </main>
+        )}
+
+        {/* TAB: OCCASIONS */}
+        {activeTab === 'occasions' && (
+          <main className="max-w-7xl mx-auto px-4 sm:px-8 py-6 w-full flex-1">
+            <OccasionsList />
+          </main>
+        )}
+
+        {/* TAB: PROMOTIONS */}
+        {activeTab === 'promotions' && (
+          <main className="max-w-7xl mx-auto px-4 sm:px-8 py-6 w-full flex-1">
+            <PromotionsList />
+          </main>
+        )}
+
+        {/* TAB: LOGISTICS */}
+        {activeTab === 'logistics' && (
+          <main className="max-w-7xl mx-auto px-4 sm:px-8 py-6 w-full flex-1">
+            <ShipmentsList shipments={shipments} />
+          </main>
+        )}
+
+        {/* TAB: ENQUIRIES */}
+        {activeTab === 'enquiries' && (
+          <main className="max-w-7xl mx-auto px-4 sm:px-8 py-6 w-full flex-1">
+            <EnquiriesList
+              enquiries={enquiries}
+              onUpdateStatus={handleUpdateEnquiryStatus}
+              onSendQuotation={handleSendQuotation}
+            />
+          </main>
+        )}
+
+        {/* TAB: CONTENT */}
+        {activeTab === 'content' && (
+          <main className="max-w-7xl mx-auto px-4 sm:px-8 py-6 w-full flex-1">
+            <ContentList />
+          </main>
+        )}
+
+        {/* TAB: REVIEWS */}
+        {activeTab === 'reviews' && (
+          <main className="max-w-7xl mx-auto px-4 sm:px-8 py-6 w-full flex-1">
+            <ReviewsList />
+          </main>
+        )}
+
+        {/* TAB: SETTINGS */}
+        {activeTab === 'settings' && (
+          <main className="max-w-7xl mx-auto px-4 sm:px-8 py-6 w-full flex-1">
+            <AdminSettings
+              settings={exportSettings}
+              onSave={handleSaveSettings}
+              superAdminEmail={superAdminEmail}
+            />
+          </main>
+        )}
 
         {/* ========================================================
             TAB 1: PRODUCTS & LIVE STOCK LEVEL MAINTENANCE
@@ -3923,7 +3904,7 @@ export default function AdminDashboard() {
         {/* ========================================================
             TAB 3: REGISTERED USERS & LOGINS HISTORY
             ======================================================== */}
-        {activeTab === 'users' && (
+        {(activeTab === 'users' || activeTab === 'customers') && (
           <main className="max-w-7xl mx-auto px-3 sm:px-6 py-4 sm:py-6 w-full flex-1 space-y-4 sm:space-y-6">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
               <div>
@@ -4047,7 +4028,7 @@ export default function AdminDashboard() {
         {/* ========================================================
             TAB 4: EXECUTIVE ANALYTICS STATS
             ======================================================== */}
-        {activeTab === 'stats' && (
+        {(activeTab === 'stats' || activeTab === 'reports') && (
           <main className="max-w-7xl mx-auto px-3 sm:px-6 py-4 sm:py-6 w-full flex-1 space-y-4 sm:space-y-6">
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-4">
               <div className="bg-white border border-[#E2E8F0] rounded-2xl p-3.5 sm:p-6 shadow-sm">
