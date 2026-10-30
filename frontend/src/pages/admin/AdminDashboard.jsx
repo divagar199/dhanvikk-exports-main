@@ -1656,30 +1656,41 @@ export default function AdminDashboard() {
         })}
       </div>
 
-      {/* Bottom Spread Freshness Banner */}
-      <div className="p-4 mx-3 mb-3 rounded-2xl bg-gradient-to-br from-rose-50 via-pink-50 to-pink-100/70 border border-rose-100 flex flex-col justify-between relative overflow-hidden group shrink-0">
-        <div className="flex justify-center -mt-1 mb-2">
-          <img
-            src="https://images.unsplash.com/photo-1508610048659-a06b669e3321?auto=format&fit=crop&w=240&q=80"
-            alt="Spread Freshness Worldwide"
-            className="w-16 h-16 object-cover rounded-xl shadow-2xs group-hover:scale-105 transition-transform duration-300"
-          />
-        </div>
-        <h5 className="text-xs font-bold text-[#0F172A] text-center leading-tight">
-          Spread Freshness Worldwide
-        </h5>
-        <div className="mt-3 flex justify-center">
-          <button
-            type="button"
-            onClick={() => {
-              setActiveTab('enquiries');
-              if (isMobile) setMobileSidebarOpen(false);
-            }}
-            className="w-7 h-7 rounded-full bg-white shadow-xs flex items-center justify-center text-rose-600 hover:scale-105 transition-transform cursor-pointer"
-            title="View Export Enquiries"
-          >
-            <ArrowRight className="w-3.5 h-3.5" />
-          </button>
+      {/* Bottom Spread Freshness Banner - Matches Reference Design Exactly */}
+      <div className="p-3.5 sm:p-4 mx-3 mb-3 rounded-2xl bg-gradient-to-br from-rose-50 via-pink-50 to-pink-100/70 border border-rose-100 relative overflow-hidden group shrink-0 shadow-2xs hover:shadow-xs transition-all">
+        <div className="flex items-center justify-between relative z-10 min-h-[96px] sm:min-h-[108px]">
+          {/* Left Column: 3-line Typography & Circular Arrow Trigger */}
+          <div className="flex flex-col justify-between h-full z-10 pr-2 select-none">
+            <h5 className="font-['Poppins'] font-bold text-xs sm:text-[13px] text-[#0F172A] leading-[1.25] tracking-tight">
+              Spread<br />
+              Freshness<br />
+              Worldwide
+            </h5>
+
+            <button
+              type="button"
+              onClick={() => {
+                setActiveTab('enquiries');
+                if (isMobile) setMobileSidebarOpen(false);
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+              className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white shadow-xs hover:shadow flex items-center justify-center text-[#E11D48] hover:scale-105 active:scale-95 transition-all cursor-pointer mt-3 shrink-0"
+              title="Spread Freshness Worldwide - View Export Enquiries"
+              aria-label="Spread Freshness Worldwide"
+            >
+              <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+            </button>
+          </div>
+
+          {/* Right Column: High-Res Botanical Pink Blooms Bouquet */}
+          <div className="w-24 sm:w-28 h-24 sm:h-28 shrink-0 relative flex items-center justify-center -mr-2 -my-2 pointer-events-none">
+            <img
+              src="https://images.unsplash.com/photo-1561181286-d3fee7d55364?auto=format&fit=crop&w=260&q=80"
+              alt="Spread Freshness Worldwide"
+              className="w-full h-full object-cover rounded-xl drop-shadow-xs group-hover:scale-105 transition-transform duration-300"
+              loading="lazy"
+            />
+          </div>
         </div>
       </div>
     </div>
