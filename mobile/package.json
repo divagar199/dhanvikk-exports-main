@@ -11,7 +11,8 @@
     "prebuild": "expo prebuild",
     "doctor": "npx expo-doctor",
     "typecheck": "tsc --noEmit",
-    "test": "node --test tests/*.test.mjs"
+    "test": "node --test tests/*.test.mjs",
+    "postinstall": "node scripts/patch-google-signin.cjs"
   },
   "dependencies": {
     "@expo/vector-icons": "^15.0.0",
