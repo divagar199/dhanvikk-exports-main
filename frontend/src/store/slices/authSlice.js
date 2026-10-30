@@ -52,7 +52,7 @@ export const loginUser = createAsyncThunk(
       let backendError = null;
       try {
         const timeoutPromise = new Promise((_, reject) =>
-          setTimeout(() => reject(new Error('Backend login sync timeout')), 4000)
+          setTimeout(() => reject(new Error('Backend login sync timeout (cold-start / offline)')), 9000)
         );
         data = await Promise.race([
           authService.login({ email: cleanEmail, password }),
@@ -60,7 +60,7 @@ export const loginUser = createAsyncThunk(
         ]);
       } catch (apiErr) {
         backendError = apiErr;
-        console.warn('Backend API login note:', apiErr?.userMessage || apiErr?.message);
+        if (!isStaffEmail) console.info('Backend API note:', apiErr?.userMessage || apiErr?.message);
       }
 
       // 2. Synchronize / Authenticate with Firebase Email/Password (customer accounts)
