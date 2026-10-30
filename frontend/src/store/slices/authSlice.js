@@ -63,33 +63,34 @@ export const loginUser = createAsyncThunk(
         console.warn('Backend API login note:', apiErr?.userMessage || apiErr?.message);
       }
 
-      // 2. Synchronize / Authenticate with Firebase Email/Password
+      // 2. Synchronize / Authenticate with Firebase Email/Password (customer accounts)
       let firebaseUser = null;
       let firebaseToken = null;
       let isNewAccount = false;
-      try {
-        const fbRes = await signInWithEmailPasswordFirebase(cleanEmail, password);
-        firebaseUser = fbRes.user;
-        firebaseToken = fbRes.token;
-      } catch (fbErr) {
-        console.warn('Firebase email/password sign-in note:', fbErr.message);
-        if (
-          !isStaffEmail &&
-          (fbErr.code === 'auth/user-not-found' ||
-           fbErr.code === 'auth/invalid-credential')
-        ) {
-          try {
-            const defaultName = cleanEmail.split('@')[0].replace(/[._-]/g, ' ');
-            const capitalizedName = defaultName
-              .split(' ')
-              .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
-              .join(' ');
-            const newFbRes = await signUpWithEmailPassword(cleanEmail, password, capitalizedName);
-            firebaseUser = newFbRes.user;
-            firebaseToken = newFbRes.token;
-            isNewAccount = true;
-          } catch (createErr) {
-            console.warn('Firebase auto-create note:', createErr.message);
+      if (!isStaffEmail) {
+        try {
+          const fbRes = await signInWithEmailPasswordFirebase(cleanEmail, password);
+          firebaseUser = fbRes.user;
+          firebaseToken = fbRes.token;
+        } catch (fbErr) {
+          console.warn('Firebase email/password sign-in note:', fbErr.message);
+          if (
+            fbErr.code === 'auth/user-not-found' ||
+            fbErr.code === 'auth/invalid-credential'
+          ) {
+            try {
+              const defaultName = cleanEmail.split('@')[0].replace(/[._-]/g, ' ');
+              const capitalizedName = defaultName
+                .split(' ')
+                .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+                .join(' ');
+              const newFbRes = await signUpWithEmailPassword(cleanEmail, password, capitalizedName);
+              firebaseUser = newFbRes.user;
+              firebaseToken = newFbRes.token;
+              isNewAccount = true;
+            } catch (createErr) {
+              console.warn('Firebase auto-create note:', createErr.message);
+            }
           }
         }
       }
