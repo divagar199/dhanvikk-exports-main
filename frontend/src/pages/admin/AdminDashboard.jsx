@@ -55,7 +55,6 @@ import DashboardHome from './modules/dashboard/DashboardHome';
 import OccasionsList from './modules/occasions/OccasionsList';
 import PromotionsList from './modules/promotions/PromotionsList';
 import ReviewsList from './modules/reviews/ReviewsList';
-import ContentList from './modules/content/ContentList';
 import {
   LayoutDashboard,
   ShoppingBag,
@@ -1499,7 +1498,6 @@ export default function AdminDashboard() {
     { id: 'promotions', label: 'Promo & Offers', icon: Tag },
     { id: 'logistics', label: 'Delivery & Logistics', icon: Truck },
     { id: 'enquiries', label: 'Export Enquiries', icon: Globe },
-    { id: 'content', label: 'Blog & Content', icon: FileText },
     { id: 'reviews', label: 'Reviews', icon: Star },
     { id: 'reports', label: 'Reports & Analytics', icon: BarChart3 },
     { id: 'settings', label: 'Settings', icon: Settings },
@@ -1556,11 +1554,6 @@ export default function AdminDashboard() {
       category: 'GLOBAL TRADE',
       title: 'Export Enquiries & Buyer RFQs',
       description: 'Manage international buyer leads, send quotations, and track destination ports.',
-    },
-    content: {
-      category: 'STOREFRONT CMS',
-      title: 'Blog, Stories & Storefront Media',
-      description: 'Manage care guides, export journal articles, and marquee banners.',
     },
     reviews: {
       category: 'FEEDBACK & REPUTATION',
@@ -2027,13 +2020,6 @@ export default function AdminDashboard() {
               onUpdateStatus={handleUpdateEnquiryStatus}
               onSendQuotation={handleSendQuotation}
             />
-          </main>
-        )}
-
-        {/* TAB: CONTENT */}
-        {activeTab === 'content' && (
-          <main className="max-w-7xl mx-auto px-4 sm:px-8 py-6 w-full flex-1">
-            <ContentList />
           </main>
         )}
 
