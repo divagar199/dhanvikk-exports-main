@@ -8,6 +8,13 @@ import {
   // @ts-ignore
   getReactNativePersistence,
 } from 'firebase/auth';
+import {
+  getFirestore,
+  doc,
+  getDoc,
+  setDoc,
+  serverTimestamp,
+} from 'firebase/firestore';
 import { Platform } from 'react-native';
 import * as SecureStore from 'expo-secure-store';
 
@@ -101,6 +108,89 @@ try {
 }
 
 export const auth = authInstance;
+export const db = getFirestore(app);
+
+// ─── User → Firestore Sync ────────────────────────────────────────────────────
+/**
+ * saveUserToDb
+ * Writes the authenticated user to Firestore `users/{uid}`.
+ * - Sets `createdAt` ONLY on first login (checks whether the doc already exists).
+ * - Always updates `lastLoginAt`, `displayName`, `photoURL`, `provider`.
+ * - The `role` field is NEVER set from the client on updates (only on creation).
+ * - Uses `setDoc(..., { merge: true })` to avoid overwriting unrelated fields.
+ */
+export const saveUserToDb = async (firebaseUser: any, additionalData: any = {}) => {
+  if (!firebaseUser?.uid) return null;
+
+  const cleanEmail = (firebaseUser.email || '').trim().toLowerCase();
+  const displayName =
+    firebaseUser.displayName ||
+    additionalData.name ||
+    (cleanEmail ? cleanEmail.split('@')[0] : 'Valued Customer');
+
+  const userRef = doc(db, 'users', firebaseUser.uid);
+
+  try {
+    const existingSnap = await Promise.race([
+      getDoc(userRef),
+      new Promise<any>((_, reject) =>
+        setTimeout(() => reject(new Error('Firestore getDoc timeout')), 3000)
+      ),
+    ]);
+
+    const isNew = !existingSnap.exists();
+
+    if (isNew) {
+      // First login: initialize document with all required fields (createdAt, role, uid, email)
+      const newUserData = {
+        uid: firebaseUser.uid,
+        displayName,
+        email: cleanEmail,
+        photoURL: firebaseUser.photoURL || '',
+        phoneNumber: firebaseUser.phoneNumber || additionalData.phone || '',
+        provider: additionalData.provider || 'google.com',
+        role: 'user',
+        createdAt: serverTimestamp(),
+        lastLoginAt: serverTimestamp(),
+      };
+
+      await Promise.race([
+        setDoc(userRef, newUserData, { merge: true }),
+        new Promise<any>((_, reject) =>
+          setTimeout(() => reject(new Error('Firestore setDoc timeout')), 3000)
+        ),
+      ]);
+    } else {
+      // Subsequent login: update only mutable fields (never touches uid, email, role, or createdAt)
+      const updateData = {
+        displayName,
+        photoURL: firebaseUser.photoURL || '',
+        phoneNumber: firebaseUser.phoneNumber || additionalData.phone || '',
+        provider: additionalData.provider || 'google.com',
+        lastLoginAt: serverTimestamp(),
+      };
+
+      await Promise.race([
+        setDoc(userRef, updateData, { merge: true }),
+        new Promise<any>((_, reject) =>
+          setTimeout(() => reject(new Error('Firestore setDoc timeout')), 3000)
+        ),
+      ]);
+    }
+
+    return {
+      uid: firebaseUser.uid,
+      displayName,
+      email: cleanEmail,
+      photoURL: firebaseUser.photoURL || '',
+      provider: additionalData.provider || 'google.com',
+      role: isNew ? 'user' : (existingSnap.data()?.role || 'user'),
+    };
+  } catch (err) {
+    console.warn('[saveUserToDb] Firestore write failed or timed out:', err);
+    return null;
+  }
+};
 
 // ─── Google OAuth provider ────────────────────────────────────────────────────
 // prompt: 'select_account' forces the account chooser to appear on web flows.

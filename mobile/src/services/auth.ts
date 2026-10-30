@@ -114,6 +114,15 @@ export async function logout(): Promise<void> {
   } catch {
     // Ignore server error on logout
   } finally {
+    try {
+      const { auth } = await import('@/lib/firebase');
+      const { signOut } = await import('firebase/auth');
+      await signOut(auth);
+    } catch {}
+    try {
+      const pkg = require('@react-native-google-signin/google-signin');
+      if (pkg?.GoogleSignin?.signOut) await pkg.GoogleSignin.signOut();
+    } catch {}
     await clearSession();
   }
 }

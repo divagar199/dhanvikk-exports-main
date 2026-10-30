@@ -105,26 +105,39 @@ export const saveUserToDb = async (firebaseUser, additionalData = {}) => {
 
     const isNew = !existingSnap.exists();
 
-    const dataToWrite = {
-      uid: firebaseUser.uid,
-      displayName,
-      email: cleanEmail,
-      photoURL: firebaseUser.photoURL || '',
-      phoneNumber: firebaseUser.phoneNumber || additionalData.phone || '',
-      provider: additionalData.provider || 'google.com',
-      lastLoginAt: serverTimestamp(),
-    };
-
     if (isNew) {
-      // Only set these fields on first login — never overwrite them later
-      dataToWrite.createdAt = serverTimestamp();
-      dataToWrite.role = 'user';
-    }
+      // First login: initialize document with all required fields (createdAt, role, uid, email)
+      const newUserData = {
+        uid: firebaseUser.uid,
+        displayName,
+        email: cleanEmail,
+        photoURL: firebaseUser.photoURL || '',
+        phoneNumber: firebaseUser.phoneNumber || additionalData.phone || '',
+        provider: additionalData.provider || 'google.com',
+        role: 'user',
+        createdAt: serverTimestamp(),
+        lastLoginAt: serverTimestamp(),
+      };
 
-    await Promise.race([
-      setDoc(userRef, dataToWrite, { merge: true }),
-      new Promise((_, reject) => setTimeout(() => reject(new Error('Firestore setDoc timeout')), 3000)),
-    ]);
+      await Promise.race([
+        setDoc(userRef, newUserData, { merge: true }),
+        new Promise((_, reject) => setTimeout(() => reject(new Error('Firestore setDoc timeout')), 3000)),
+      ]);
+    } else {
+      // Subsequent login: update only mutable fields (never touches uid, email, role, or createdAt)
+      const updateData = {
+        displayName,
+        photoURL: firebaseUser.photoURL || '',
+        phoneNumber: firebaseUser.phoneNumber || additionalData.phone || '',
+        provider: additionalData.provider || 'google.com',
+        lastLoginAt: serverTimestamp(),
+      };
+
+      await Promise.race([
+        setDoc(userRef, updateData, { merge: true }),
+        new Promise((_, reject) => setTimeout(() => reject(new Error('Firestore setDoc timeout')), 3000)),
+      ]);
+    }
 
     return {
       uid: firebaseUser.uid,

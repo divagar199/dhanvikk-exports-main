@@ -12,7 +12,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { Image } from 'expo-image';
 import { router } from 'expo-router';
 import { GoogleAuthProvider, signInWithCredential, signInWithPopup } from 'firebase/auth';
-import { auth, googleProvider } from '@/lib/firebase';
+import { auth, googleProvider, saveUserToDb } from '@/lib/firebase';
 import { colors, radius, spacing } from '@/constants/theme';
 import { loginWithGoogle } from '@/services/auth';
 import { useStore } from '@/store/useStore';
@@ -115,6 +115,9 @@ export function GoogleSignInModal({ visible, onClose, onSuccess }: GoogleSignInM
       const cleanEmail = (fbUser.email || '').trim().toLowerCase();
       const cleanName = fbUser.displayName || cleanEmail.split('@')[0];
       const avatar = fbUser.photoURL || '';
+
+      // Sync to Firestore users/{uid}
+      saveUserToDb(fbUser, { name: cleanName, provider: 'google.com' }).catch(() => {});
 
       await persistUserLogin(
         fbUser.uid,
@@ -227,6 +230,9 @@ export function GoogleSignInModal({ visible, onClose, onSuccess }: GoogleSignInM
       const cleanEmail = (fbUser.email || '').trim().toLowerCase();
       const cleanName = fbUser.displayName || nativeUser?.name || cleanEmail.split('@')[0];
       const avatar = fbUser.photoURL || nativeUser?.photo || '';
+
+      // Sync to Firestore users/{uid}
+      saveUserToDb(fbUser, { name: cleanName, provider: 'google.com' }).catch(() => {});
 
       await persistUserLogin(
         fbUser.uid,

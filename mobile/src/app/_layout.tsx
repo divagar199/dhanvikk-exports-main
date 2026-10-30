@@ -5,7 +5,7 @@ import { StatusBar } from 'expo-status-bar';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { ToastProvider } from '@/context/ToastContext';
 import { BASE } from '@/lib/api';
-import { auth } from '@/lib/firebase';
+import { auth, saveUserToDb } from '@/lib/firebase';
 import { onAuthStateChanged } from 'firebase/auth';
 import { getStoredUser, saveSession } from '@/lib/storage';
 import { useStore } from '@/store/useStore';
@@ -62,6 +62,9 @@ function FirebaseAuthSync() {
       }
 
       // Firebase confirmed a signed-in user.
+      // Sync lastLoginAt in Firestore
+      saveUserToDb(fbUser).catch(() => {});
+
       // Only update the store if it's empty to avoid overwriting a freshly-set user.
       if (!useStore.getState().user) {
         const cleanEmail = (fbUser.email || '').trim().toLowerCase();
