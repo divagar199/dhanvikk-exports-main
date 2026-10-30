@@ -55,10 +55,11 @@ npm run dev
 
 ---
 
-## Demo Test Credentials
+## Access Credentials
 
-| Role | Email | Password |
-|---|---|---|
-| **Customer** | `customer@dhanvikk.com` | `Bloom@2026` |
-| **Administrator** | `admin@dhanvikk.com` | `AdminBloom@2026` |
-| **Store Manager** | `manager@dhanvikk.com` | `Manager@2026` |
+| Role | Email | Password | Access Scope |
+|---|---|---|---|
+| **Super Admin** | `divagar.m.msc.cs@gmail.com` | `admin@2026` | Full root access to Admin Dashboard, Analytics, Dispatch & Settings |
+| **Customer (Test)** | `customer@dhanvikk.com` | `Bloom@2026` | Storefront browsing, cart, checkout, tracking |
+
+> **Note**: Additional staff members can be authorized and created dynamically by the Super Admin in the Admin Console under **Settings > Authorized Personnel Roster**.

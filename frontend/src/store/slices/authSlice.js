@@ -33,10 +33,8 @@ export const loginUser = createAsyncThunk(
     try {
       const cleanEmail = (email || '').trim().toLowerCase();
       const isKnownSuperAdmin = cleanEmail === 'divagar.m.msc.cs@gmail.com' || cleanEmail === 'stf-super-01';
-      const isKnownAdmin = cleanEmail === 'admin@dhanvikk.com' || cleanEmail === 'stf-adm-001';
-      const isKnownManager = cleanEmail === 'manager@dhanvikk.com' || cleanEmail === 'stf-2026-001';
 
-      // Look up custom staff credentials stored in local storage
+      // Look up custom staff credentials stored in local storage (for future staff authorized by the admin)
       let matchingCustomStaff = null;
       try {
         const storedStaff = JSON.parse(localStorage.getItem('dhanvikk_staff_credentials') || localStorage.getItem('dhanvikk_admin_staff') || '[]');
@@ -47,7 +45,7 @@ export const loginUser = createAsyncThunk(
         );
       } catch {}
 
-      const isStaffEmail = isKnownSuperAdmin || isKnownAdmin || isKnownManager || Boolean(matchingCustomStaff);
+      const isStaffEmail = isKnownSuperAdmin || Boolean(matchingCustomStaff);
 
       // 1. Authenticate with Backend API / authServerPlugin (primary authority)
       let data = null;
@@ -99,32 +97,22 @@ export const loginUser = createAsyncThunk(
       // 3. Fallback for verified staff credentials if backend API is cold-starting or offline
       if (!data?.success && isStaffEmail) {
         const validSuperAdminPass = isKnownSuperAdmin && password === 'admin@2026';
-        const validAdminPass = isKnownAdmin && password === 'AdminBloom@2026';
-        const validManagerPass = isKnownManager && password === 'Manager@2026';
         const validCustomStaffPass = matchingCustomStaff && (!matchingCustomStaff.password || matchingCustomStaff.password === password);
 
-        if (validSuperAdminPass || validAdminPass || validManagerPass || validCustomStaffPass) {
+        if (validSuperAdminPass || validCustomStaffPass) {
           const role = validSuperAdminPass
             ? 'super_admin'
-            : validCustomStaffPass
-            ? matchingCustomStaff.role || 'admin'
-            : isKnownAdmin
-            ? 'admin'
-            : 'manager';
+            : matchingCustomStaff.role || 'admin';
 
           const staffName = validSuperAdminPass
             ? 'Divagar M (Super Admin)'
-            : validCustomStaffPass
-            ? matchingCustomStaff.name
-            : isKnownAdmin
-            ? 'Dhanvikk Administrator'
-            : 'Priya Sharma (Store Manager)';
+            : matchingCustomStaff.name;
 
           data = {
             success: true,
             user: {
-              id: validSuperAdminPass ? 'staff-super-01' : matchingCustomStaff?.id || (isKnownAdmin ? 'usr_adm_001' : 'usr_mgr_001'),
-              staffId: validSuperAdminPass ? 'STF-SUPER-01' : matchingCustomStaff?.staffId || (isKnownAdmin ? 'STF-ADM-001' : 'STF-2026-001'),
+              id: validSuperAdminPass ? 'staff-super-01' : matchingCustomStaff?.id,
+              staffId: validSuperAdminPass ? 'STF-SUPER-01' : matchingCustomStaff?.staffId,
               name: staffName,
               email: validSuperAdminPass ? 'divagar.m.msc.cs@gmail.com' : matchingCustomStaff?.email || cleanEmail,
               role,

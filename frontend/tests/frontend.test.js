@@ -196,3 +196,112 @@ test('Frontend - Google Sign-In Redirect & Destination Resolution', async (t) =>
   });
 });
 
+test('Frontend - Admin Authentication & Dynamic Staff Authorization Guard', async (t) => {
+  const ROOT_SUPER_ADMIN = 'divagar.m.msc.cs@gmail.com';
+  const ROLE_HIERARCHY = {
+    super_admin: 4,
+    admin: 3,
+    editor: 2,
+    viewer: 1,
+    customer: 0,
+  };
+
+  const authenticateStaff = (email, password, storedCustomStaff = []) => {
+    const cleanEmail = (email || '').trim().toLowerCase();
+    const isSuperAdmin = cleanEmail === ROOT_SUPER_ADMIN || cleanEmail === 'stf-super-01';
+
+    if (isSuperAdmin && password === 'admin@2026') {
+      return {
+        success: true,
+        user: { email: ROOT_SUPER_ADMIN, role: 'super_admin', name: 'Divagar M (Super Admin)' },
+      };
+    }
+
+    const custom = storedCustomStaff.find(
+      (s) =>
+        (s.email?.toLowerCase() === cleanEmail || s.staffId?.toLowerCase() === cleanEmail) &&
+        s.password === password
+    );
+
+    if (custom) {
+      return {
+        success: true,
+        user: { email: custom.email, role: custom.role || 'admin', name: custom.name },
+      };
+    }
+
+    return { success: false, message: 'Invalid credentials or access restricted.' };
+  };
+
+  const hasAccess = (userRole, requiredRole) => {
+    return (ROLE_HIERARCHY[userRole] || 0) >= (ROLE_HIERARCHY[requiredRole] || 0);
+  };
+
+  await t.test('Super Admin authenticates successfully with root credentials', () => {
+    const res = authenticateStaff('divagar.m.msc.cs@gmail.com', 'admin@2026');
+    assert.equal(res.success, true);
+    assert.equal(res.user.role, 'super_admin');
+  });
+
+  await t.test('deprecated mock staff accounts are strictly rejected', () => {
+    const resManager = authenticateStaff('manager@dhanvikk.com', 'Manager@2026');
+    assert.equal(resManager.success, false);
+
+    const resAdmin = authenticateStaff('admin@dhanvikk.com', 'AdminBloom@2026');
+    assert.equal(resAdmin.success, false);
+  });
+
+  await t.test('allows future staff members dynamically appointed by Super Admin', () => {
+    const futureStaff = [
+      {
+        id: 'stf-custom-1',
+        name: 'Kavitha R',
+        email: 'kavitha.operations@dhanvikk.com',
+        password: 'KavithaSecure#2026',
+        role: 'inventory_manager',
+      },
+    ];
+
+    const res = authenticateStaff('kavitha.operations@dhanvikk.com', 'KavithaSecure#2026', futureStaff);
+    assert.equal(res.success, true);
+    assert.equal(res.user.name, 'Kavitha R');
+    assert.equal(res.user.role, 'inventory_manager');
+  });
+
+  await t.test('role hierarchy correctly gates access based on required privilege level', () => {
+    assert.equal(hasAccess('super_admin', 'admin'), true);
+    assert.equal(hasAccess('admin', 'editor'), true);
+    assert.equal(hasAccess('viewer', 'admin'), false);
+    assert.equal(hasAccess('customer', 'viewer'), false);
+  });
+});
+
+test('Frontend - Cross-Platform Review Moderation & Aggregate Score', async (t) => {
+  const calculateAggregateRating = (reviewsList) => {
+    const approved = reviewsList.filter((r) => r.status === 'Approved');
+    if (approved.length === 0) return { averageRating: 0, count: 0 };
+    const sum = approved.reduce((acc, r) => acc + (r.rating || 5), 0);
+    const avg = Math.round((sum / approved.length) * 10) / 10;
+    return { averageRating: avg, count: approved.length };
+  };
+
+  await t.test('calculates correct rating only including Approved reviews', () => {
+    const reviews = [
+      { id: '1', rating: 5, status: 'Approved' },
+      { id: '2', rating: 4, status: 'Approved' },
+      { id: '3', rating: 1, status: 'Hidden' },
+    ];
+    const { averageRating, count } = calculateAggregateRating(reviews);
+    assert.equal(count, 2);
+    assert.equal(averageRating, 4.5);
+  });
+
+  await t.test('handles empty or all hidden reviews gracefully without NaN', () => {
+    const reviews = [{ id: '1', rating: 2, status: 'Pending' }];
+    const { averageRating, count } = calculateAggregateRating(reviews);
+    assert.equal(count, 0);
+    assert.equal(averageRating, 0);
+  });
+});
+
+

@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useAuthState } from '../../hooks/useAuthState';
 import Spinner from '../common/Spinner';
 import { setUserProfile, loginUser, loginWithGoogleThunk } from '../../store/slices/authSlice';
-import { Shield, Lock, Mail, ArrowRight, UserCheck, Flower2, KeyRound } from 'lucide-react';
+import { Shield, Lock, Mail, ArrowRight, Flower2 } from 'lucide-react';
 import { toast } from 'sonner';
 
 export default function RoleRoute({ children, allowedRoles = [] }) {
@@ -13,8 +13,8 @@ export default function RoleRoute({ children, allowedRoles = [] }) {
   const location = useLocation();
   const dispatch = useDispatch();
 
-  const [emailInput, setEmailInput] = useState('divagar.m.msc.cs@gmail.com');
-  const [passwordInput, setPasswordInput] = useState('admin@2026');
+  const [emailInput, setEmailInput] = useState('');
+  const [passwordInput, setPasswordInput] = useState('');
   const [isLoggingIn, setIsLoggingIn] = useState(false);
 
   // 1. Rehydrate user from local/session storage if Redux store hasn't initialized
@@ -36,7 +36,6 @@ export default function RoleRoute({ children, allowedRoles = [] }) {
     const email = firebaseUser.email?.toLowerCase();
     const isRootAdmin =
       email === 'divagar.m.msc.cs@gmail.com' ||
-      email === 'admin@dhanvikk.com' ||
       email === 'xzirexatech@gmail.com';
 
     if (isRootAdmin) {
@@ -161,35 +160,10 @@ export default function RoleRoute({ children, allowedRoles = [] }) {
           </p>
         </div>
 
-        {/* 1-Click Fast Unlock for Owner */}
-        <div className="mb-5 p-4 rounded-2xl bg-gradient-to-br from-rose-50 via-pink-50 to-pink-100/70 border border-rose-200/60 shadow-xs">
-          <div className="flex items-center justify-between mb-2">
-            <span className="text-xs font-bold text-[#9C1242] flex items-center gap-1.5">
-              <UserCheck className="w-4 h-4 text-[#E11D48]" />
-              Super Admin Session
-            </span>
-            <span className="text-[10px] font-mono text-emerald-700 bg-emerald-100/70 px-2 py-0.5 rounded-full font-bold">
-              Root
-            </span>
-          </div>
-          <div className="text-[11px] text-slate-600 font-mono mb-3 truncate">
-            divagar.m.msc.cs@gmail.com
-          </div>
-          <button
-            type="button"
-            disabled={isLoggingIn}
-            onClick={() => handleUnlock()}
-            className="w-full py-2.5 px-4 rounded-xl bg-[#E11D48] hover:bg-[#BE123C] text-white text-xs font-bold transition-all shadow-md shadow-rose-500/20 flex items-center justify-center gap-2 cursor-pointer active:scale-98 disabled:opacity-50"
-          >
-            <KeyRound className="w-4 h-4" />
-            <span>{isLoggingIn ? 'Unlocking Console…' : '⚡ 1-Click Unlock as Super Admin'}</span>
-          </button>
-        </div>
-
-        {/* Manual Password Form */}
+        {/* Admin Password Form */}
         <form onSubmit={handleUnlock} className="space-y-3 text-xs">
           <div>
-            <label className="block text-slate-600 font-semibold mb-1">Staff Email or ID</label>
+            <label className="block text-slate-600 font-semibold mb-1">Admin Email or Staff ID</label>
             <div className="relative">
               <Mail className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
               <input
@@ -212,7 +186,7 @@ export default function RoleRoute({ children, allowedRoles = [] }) {
                 required
                 value={passwordInput}
                 onChange={(e) => setPasswordInput(e.target.value)}
-                placeholder="admin@2026"
+                placeholder="Enter admin password"
                 className="w-full h-10 pl-9 pr-3 rounded-xl border border-slate-200 text-slate-800 bg-slate-50 focus:bg-white focus:outline-none focus:border-rose-400"
               />
             </div>

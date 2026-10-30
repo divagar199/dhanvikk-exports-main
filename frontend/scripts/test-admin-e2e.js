@@ -71,7 +71,7 @@ async function run() {
         localStorage.setItem('user', JSON.stringify({
           _id: 'admin_master_1',
           name: 'Dhanvikk Executive Director',
-          email: 'admin@dhanvikk.com',
+          email: 'divagar.m.msc.cs@gmail.com',
           role: 'admin',
           isSuperAdmin: true
         }));

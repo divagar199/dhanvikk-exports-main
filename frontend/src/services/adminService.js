@@ -2,42 +2,19 @@ import api from './api';
 
 const FALLBACK_USERS = [
   {
-    _id: 'usr_adm_001',
-    id: 'usr_adm_001',
-    name: 'Dhanvikk Administrator',
-    email: 'admin@dhanvikk.com',
-    role: 'admin',
-    phone: '+91 98765 11111',
-    avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80',
+    _id: 'usr_super_adm_001',
+    id: 'usr_super_adm_001',
+    name: 'Divagar M (Super Admin)',
+    email: 'divagar.m.msc.cs@gmail.com',
+    role: 'super_admin',
+    phone: '+91 98765 43210',
+    avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80',
     loginHistory: [
       {
         timestamp: new Date().toISOString(),
         ip: '127.0.0.1 (Production Console)',
         userAgent: 'Chrome on Windows 11',
-        method: 'email',
-      },
-      {
-        timestamp: new Date(Date.now() - 86400000).toISOString(),
-        ip: '192.168.1.5',
-        userAgent: 'Safari on macOS',
-        method: 'email',
-      },
-    ],
-  },
-  {
-    _id: 'usr_mgr_001',
-    id: 'usr_mgr_001',
-    name: 'Priya Sharma (Store Manager)',
-    email: 'manager@dhanvikk.com',
-    role: 'manager',
-    phone: '+91 98765 22222',
-    avatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=200&q=80',
-    loginHistory: [
-      {
-        timestamp: new Date(Date.now() - 3600000 * 4).toISOString(),
-        ip: '49.207.210.14',
-        userAgent: 'Firefox on Windows',
-        method: 'email',
+        method: 'admin_portal',
       },
     ],
   },

@@ -40,9 +40,9 @@ export const auditLogger = {
       module,
       resourceId: resourceId || 'N/A',
       details: details || '',
-      actorEmail: actorEmail || 'admin@dhanvikk.com',
-      actorName: actorName || 'Operations Lead',
-      actorRole: actorRole || 'admin',
+      actorEmail: actorEmail || 'divagar.m.msc.cs@gmail.com',
+      actorName: actorName || 'Divagar (Super Admin)',
+      actorRole: actorRole || 'super_admin',
       ipAddress: '127.0.0.1 (Internal Console)',
       userAgent: typeof navigator !== 'undefined' ? navigator.userAgent : 'Node.js',
     };

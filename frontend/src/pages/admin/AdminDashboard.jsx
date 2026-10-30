@@ -462,30 +462,7 @@ export default function AdminDashboard() {
       const saved = localStorage.getItem('dhanvikk_admin_staff');
       if (saved) return JSON.parse(saved);
     } catch {}
-    return [
-      {
-        id: 'staff-1',
-        name: 'Maya Krishnan',
-        email: 'maya.florist@dhanvikk.com',
-        role: 'inventory_manager',
-        roleTitle: 'Master Florist & Inventory Lead',
-        phone: '+971 50 123 4567',
-        status: 'Active',
-        joinedDate: '2026-01-15',
-        isSuperAdmin: false,
-      },
-      {
-        id: 'staff-2',
-        name: 'Arjun Nambiar',
-        email: 'arjun.dispatch@dhanvikk.com',
-        role: 'delivery_manager',
-        roleTitle: 'Cold-Chain Dispatch Coordinator',
-        phone: '+971 52 987 6543',
-        status: 'Active',
-        joinedDate: '2026-02-01',
-        isSuperAdmin: false,
-      },
-    ];
+    return [];
   });
   const [showStaffModal, setShowStaffModal] = useState(false);
   const [editingStaff, setEditingStaff] = useState(null);

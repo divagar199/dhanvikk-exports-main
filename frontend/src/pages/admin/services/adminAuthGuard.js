@@ -12,7 +12,6 @@ export const ADMIN_ROLES = {
 export const ROOT_ADMIN_EMAILS = [
   'divagar.m.msc.cs@gmail.com',
   'xzirexatech@gmail.com',
-  'admin@dhanvikk.com',
 ];
 
 const ROLE_HIERARCHY = {

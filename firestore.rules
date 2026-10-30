@@ -197,8 +197,7 @@ service cloud.firestore {
         (
           request.auth.token.email.lower() in [
             'divagar.m.msc.cs@gmail.com',
-            'xzirexatech@gmail.com',
-            'admin@dhanvikk.com'
+            'xzirexatech@gmail.com'
           ]
         );
     }

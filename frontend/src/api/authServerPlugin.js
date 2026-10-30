@@ -27,28 +27,6 @@ const DEMO_USERS = [
     avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80',
     createdAt: '2026-01-15T08:00:00Z',
   },
-  {
-    id: 'usr_adm_001',
-    staffId: 'STF-ADM-001',
-    name: 'Dhanvikk Administrator',
-    email: 'admin@dhanvikk.com',
-    passwordHash: hashPassword('AdminBloom@2026'),
-    role: 'admin',
-    phone: '+91 98765 11111',
-    avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80',
-    createdAt: '2025-11-01T08:00:00Z',
-  },
-  {
-    id: 'usr_mgr_001',
-    staffId: 'STF-2026-001',
-    name: 'Priya Sharma (Store Manager)',
-    email: 'manager@dhanvikk.com',
-    passwordHash: hashPassword('Manager@2026'),
-    role: 'manager',
-    phone: '+91 98765 22222',
-    avatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=200&q=80',
-    createdAt: '2025-12-01T08:00:00Z',
-  }
 ];
 
 const USER_STORAGE = new Map();

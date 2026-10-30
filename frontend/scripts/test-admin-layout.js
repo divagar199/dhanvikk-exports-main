@@ -87,9 +87,9 @@ async function run() {
       const emailInput = document.querySelector('input[type="email"]') || document.querySelector('input[placeholder*="email"]');
       const passInput = document.querySelector('input[type="password"]');
       if (enterPortalBtn && emailInput && passInput) {
-        emailInput.value = 'admin@dhanvikk.com';
+        emailInput.value = 'divagar.m.msc.cs@gmail.com';
         emailInput.dispatchEvent(new Event('input', { bubbles: true }));
-        passInput.value = 'AdminBloom@2026';
+        passInput.value = 'admin@2026';
         passInput.dispatchEvent(new Event('input', { bubbles: true }));
         enterPortalBtn.click();
         return { clickedEnterPortal: true };
