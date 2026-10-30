@@ -49,6 +49,7 @@ import {
   Check,
 } from 'lucide-react';
 import Logo from '../../components/common/Logo';
+import brandLogo from '../../assets/dhanvikk-brand-logo.png';
 import { logoutUser } from '../../store/slices/authSlice';
 import Button from '../../components/common/Button';
 import DashboardHome from './modules/dashboard/DashboardHome';
@@ -1710,21 +1711,15 @@ export default function AdminDashboard() {
 
   const renderSidebarContent = (isMobile = false) => (
     <div className="flex flex-col h-full select-none bg-white">
-      {/* Brand Header */}
+      {/* Brand Header with Authentic Dhanvikk Logo */}
       <div className="p-4 sm:p-5 border-b border-slate-100 flex items-center justify-between shrink-0">
-        <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-rose-500 to-pink-600 flex items-center justify-center text-white shadow-sm shadow-rose-500/20 shrink-0">
-            <Flower2 className="w-5 h-5" />
-          </div>
-          <div className="min-w-0">
-            <span className="font-bold text-base text-[#0F172A] tracking-tight block font-['Poppins']">
-              Dhanvikk
-            </span>
-            <span className="text-[9px] font-bold uppercase tracking-widest text-slate-400 block -mt-0.5">
-              Blooms & Exports
-            </span>
-          </div>
-        </div>
+        <Link to="/" className="flex items-center gap-3 group focus:outline-none" title="Dhanvikk Blooms Atelier - View Storefront">
+          <img
+            src={brandLogo}
+            alt="Dhanvikk Blooms & Exports Brand Logo"
+            className="h-9 sm:h-10 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
+          />
+        </Link>
         {isMobile && (
           <button
             type="button"
@@ -1833,16 +1828,24 @@ export default function AdminDashboard() {
       <div className="min-h-screen bg-[#F8FAFC] text-[#0F172A] font-['Poppins'] flex flex-col selection:bg-[#E11D48] selection:text-white">
         {/* Top Header matching reference design */}
         <header className="bg-white/95 backdrop-blur-md border-b border-slate-100 sticky top-0 z-40 px-4 sm:px-8 py-3.5 flex items-center justify-between">
-          {/* Left: Mobile Menu Trigger + Global Search */}
+          {/* Left: Mobile Menu Trigger + Brand Logo on mobile + Global Search */}
           <div className="flex items-center gap-3 flex-1 max-w-xl">
             <button
               type="button"
               onClick={() => setMobileSidebarOpen(true)}
-              className="lg:hidden p-2 rounded-xl text-slate-600 hover:bg-slate-100 border border-slate-200 cursor-pointer"
+              className="lg:hidden p-2 rounded-xl text-slate-600 hover:bg-slate-100 border border-slate-200 cursor-pointer shrink-0"
               aria-label="Open Navigation"
             >
               <Menu className="w-5 h-5 text-slate-700" />
             </button>
+
+            <Link to="/" className="lg:hidden shrink-0 flex items-center" title="Dhanvikk Blooms">
+              <img
+                src={brandLogo}
+                alt="Dhanvikk Blooms"
+                className="h-7 w-auto object-contain"
+              />
+            </Link>
 
             <div className="relative w-full max-w-md">
               <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />

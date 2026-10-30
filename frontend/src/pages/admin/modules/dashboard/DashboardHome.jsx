@@ -1,4 +1,5 @@
 import React, { useState, useMemo, useEffect } from 'react';
+import brandLogo from '../../../../assets/dhanvikk-brand-logo.png';
 import { getMostTimeSpentProducts } from '../../../../utils/telemetryService';
 import {
   TrendingUp,
@@ -332,13 +333,20 @@ export default function DashboardHome({
           1. WELCOME HEADER & ACTION BUTTON
           ======================================================== */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-[#0F172A] tracking-tight">
-            Welcome Back, Divagar! 👋
-          </h1>
-          <p className="text-sm text-[#64748B] mt-1 font-medium">
-            Here's your live floriculture business performance ({salesTimeframe}).
-          </p>
+        <div className="flex items-center gap-3.5">
+          <img
+            src={brandLogo}
+            alt="Dhanvikk Blooms Brand Logo"
+            className="h-10 sm:h-12 w-auto object-contain p-1.5 bg-white rounded-2xl border border-slate-200/80 shadow-xs"
+          />
+          <div>
+            <h1 className="text-2xl sm:text-3xl font-extrabold text-[#0F172A] tracking-tight">
+              Welcome Back, Divagar! 👋
+            </h1>
+            <p className="text-sm text-[#64748B] mt-0.5 font-medium">
+              Here's your live floriculture business performance ({salesTimeframe}).
+            </p>
+          </div>
         </div>
 
         <button
