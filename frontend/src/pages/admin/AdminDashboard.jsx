@@ -77,12 +77,14 @@ import AuditLogsList from './modules/audit/AuditLogsList';
 import AdminSettings from './modules/settings/AdminSettings';
 import InventoryLedger from './modules/inventory/InventoryLedger';
 import ReportsAnalytics from './modules/reports/ReportsAnalytics';
+import CustomerStaffManager from './modules/customers/CustomerStaffManager';
 import InvoiceModal from './modules/documents/InvoiceModal';
 import {
   ensureProductHasSKU,
   getNextProductSKU,
   isSKUUnique,
   ensureUniqueCatalogSKUs,
+  generateCategorySKU,
   generateOutwardInvoiceNumber,
   isInvoiceNumberUsedForInward,
   getAvailableOutwardInvoicesForInward,
@@ -632,6 +634,7 @@ export default function AdminDashboard() {
   const [showCategoryModal, setShowCategoryModal] = useState(false);
   const [editingCategory, setEditingCategory] = useState(null);
   const [categoryForm, setCategoryForm] = useState({
+    sku: '',
     name: '',
     slug: '',
     description: '',
@@ -1032,11 +1035,12 @@ export default function AdminDashboard() {
     }
   };
 
-  // Category Handlers
+  // Category Handlers with 10-Digit Serial Number / SKU
   const handleOpenCategoryModal = (cat = null) => {
     if (cat) {
       setEditingCategory(cat);
       setCategoryForm({
+        sku: cat.sku || generateCategorySKU(categoriesList.indexOf(cat) + 1),
         name: cat.name,
         slug: cat.slug || cat.id,
         description: cat.description || '',
@@ -1048,6 +1052,7 @@ export default function AdminDashboard() {
     } else {
       setEditingCategory(null);
       setCategoryForm({
+        sku: generateCategorySKU(categoriesList.length + 1),
         name: '',
         slug: '',
         description: '',
@@ -1072,27 +1077,29 @@ export default function AdminDashboard() {
       : [];
 
     const slug = (categoryForm.slug || categoryForm.name.toLowerCase().replace(/\s+/g, '-')).toLowerCase();
+    const assignedSku = categoryForm.sku || generateCategorySKU(categoriesList.length + 1);
 
     if (editingCategory) {
       const updated = categoriesList.map((c) =>
         c.id === editingCategory.id || c.slug === editingCategory.slug
-          ? { ...c, ...categoryForm, slug, subCategories: subArr }
+          ? { ...c, ...categoryForm, sku: assignedSku, slug, subCategories: subArr }
           : c
       );
       setCategoriesList(updated);
       localStorage.setItem('dhanvikk_admin_categories', JSON.stringify(updated));
-      toast.success(`Updated category: ${categoryForm.name}`);
+      toast.success(`Updated category: ${categoryForm.name} (SKU: ${assignedSku})`);
     } else {
       const newCat = {
         id: slug || `cat-${Date.now()}`,
         ...categoryForm,
+        sku: assignedSku,
         slug,
         subCategories: subArr,
       };
       const updated = [...categoriesList, newCat];
       setCategoriesList(updated);
       localStorage.setItem('dhanvikk_admin_categories', JSON.stringify(updated));
-      toast.success(`Created category: ${categoryForm.name}`);
+      toast.success(`Created category: ${categoryForm.name} (SKU: ${assignedSku})`);
     }
 
     setShowCategoryModal(false);
@@ -2635,6 +2642,7 @@ export default function AdminDashboard() {
                   <thead className="bg-[#F8FAFC] text-[#64748B] text-[11px] uppercase tracking-wider border-b border-[#E2E8F0]">
                     <tr>
                       <th className="py-3.5 px-5 font-semibold">Collection</th>
+                      <th className="py-3.5 px-4 font-semibold">10-Digit Serial / SKU</th>
                       <th className="py-3.5 px-4 font-semibold">Slug Identifier</th>
                       <th className="py-3.5 px-4 font-semibold">Badge Tag</th>
                       <th className="py-3.5 px-4 font-semibold">Subcategories</th>
@@ -2643,7 +2651,7 @@ export default function AdminDashboard() {
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-[#E2E8F0]">
-                    {categoriesList.map((cat) => (
+                    {categoriesList.map((cat, idx) => (
                       <tr key={cat.id || cat.slug} className="hover:bg-[#FFFFFF] transition-colors">
                         <td className="py-4 px-5">
                           <div className="flex items-center gap-3">
@@ -2657,6 +2665,11 @@ export default function AdminDashboard() {
                               <span className="text-[11px] text-[#777] line-clamp-1 max-w-xs">{cat.description}</span>
                             </div>
                           </div>
+                        </td>
+                        <td className="py-4 px-4">
+                          <span className="font-mono text-[11px] font-bold text-[#E11D48] bg-rose-50 px-2.5 py-1 rounded-lg border border-rose-200 inline-block shadow-2xs">
+                            {cat.sku || generateCategorySKU(idx + 1)}
+                          </span>
                         </td>
                         <td className="py-4 px-4 font-mono text-[11px] text-[#888]">
                           /category/{cat.slug || cat.id}
@@ -4008,126 +4021,15 @@ export default function AdminDashboard() {
         )}
 
         {/* ========================================================
-            TAB 3: REGISTERED USERS & LOGINS HISTORY
+            TAB 3: CUSTOMER & STAFF SPLIT AUDIT & TELEMETRY
             ======================================================== */}
         {(activeTab === 'users' || activeTab === 'customers') && (
-          <main className="max-w-7xl mx-auto px-3 sm:px-6 py-4 sm:py-6 w-full flex-1 space-y-4 sm:space-y-6">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-              <div>
-                <h2 className="text-lg font-bold font-['Poppins'] text-[#0F172A]">
-                  Registered Patrons & Staff Accounts (MongoDB)
-                </h2>
-                <p className="text-xs text-[#64748B]">
-                  Audit registered accounts, role privileges, and authentication timestamps
-                </p>
-              </div>
-              <span className="text-xs text-[#64748B] font-mono">
-                Total Registered: {usersList.length} Accounts
-              </span>
-            </div>
-
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-6">
-              {/* Users list */}
-              <div className="lg:col-span-7 bg-white border border-[#E2E8F0] rounded-2xl overflow-hidden shadow-sm">
-                <div className="overflow-x-auto">
-                  <table className="w-full text-left text-xs text-[#333333] min-w-[480px]">
-                    <thead className="bg-[#F8FAFC] text-[#64748B] text-[11px] uppercase tracking-wider border-b border-[#E2E8F0]">
-                      <tr>
-                        <th className="py-3 px-4 font-semibold">User</th>
-                        <th className="py-3 px-4 font-semibold">Role</th>
-                        <th className="py-3 px-4 font-semibold">Logins</th>
-                        <th className="py-3 px-4 text-right font-semibold">Inspect</th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-[#E2E8F0]">
-                      {usersList.map((usr) => (
-                        <tr key={usr._id || usr.id} className="hover:bg-[#FFFFFF]">
-                          <td className="py-3 px-4">
-                            <div className="flex items-center gap-2.5">
-                              <div className="w-8 h-8 rounded-full bg-[#FFF1F2] border border-[#FECDD3] text-[#E11D48] flex items-center justify-center font-bold text-xs shadow-2xs flex-shrink-0">
-                                {usr.name ? usr.name.charAt(0).toUpperCase() : 'U'}
-                              </div>
-                              <div>
-                                <span className="font-bold text-[#0F172A] block">{usr.name}</span>
-                                <span className="text-[11px] text-[#64748B]">{usr.email}</span>
-                              </div>
-                            </div>
-                          </td>
-
-                          <td className="py-3 px-4">
-                            <span
-                              className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider ${
-                                usr.role === 'admin' || usr.role === 'super_admin'
-                                  ? 'bg-[#FFF1F2] text-[#E11D48] border border-[#FECDD3]'
-                                  : 'bg-[#F8FAFC] text-[#555555] border border-[#E2E8F0]'
-                              }`}
-                            >
-                              {usr.role || 'customer'}
-                            </span>
-                          </td>
-
-                          <td className="py-3 px-4 font-mono font-bold text-[#0F172A]">
-                            {usr.loginHistory?.length || 1} logins
-                          </td>
-
-                          <td className="py-3 px-4 text-right">
-                            <button
-                              onClick={() => setSelectedUserLogins(usr)}
-                              className="px-3 py-1 rounded-lg bg-[#FFF1F2] hover:bg-[#FFE4EC] text-[#E11D48] border border-[#FECDD3] text-xs font-semibold cursor-pointer transition-colors"
-                            >
-                              View Logs
-                            </button>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-
-              {/* Login history telemetry panel */}
-              <div className="lg:col-span-5 bg-white border border-[#E2E8F0] rounded-2xl p-4 sm:p-6 shadow-sm space-y-4">
-                {selectedUserLogins ? (
-                  <>
-                    <div className="flex items-center justify-between pb-3 border-b border-[#E2E8F0]">
-                      <div>
-                        <h3 className="text-sm font-bold text-[#0F172A]">{selectedUserLogins.name}</h3>
-                        <p className="text-xs text-[#64748B]">{selectedUserLogins.email}</p>
-                      </div>
-                      <span className="px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 text-[10px] font-bold uppercase border border-emerald-200">
-                        {selectedUserLogins.role}
-                      </span>
-                    </div>
-
-                    <h4 className="text-xs font-bold text-[#64748B] uppercase tracking-wider">
-                      Recent Authentication Logs:
-                    </h4>
-
-                    {selectedUserLogins.loginHistory?.length > 0 ? (
-                      <div className="space-y-2.5 max-h-96 overflow-y-auto pr-1">
-                        {selectedUserLogins.loginHistory.map((log, i) => (
-                          <div key={i} className="p-3 rounded-xl bg-[#F8FAFC] border border-[#E2E8F0] text-xs space-y-1">
-                            <div className="flex justify-between items-center text-[#0F172A]">
-                              <span className="font-semibold text-[#E11D48]">Method: {log.method || 'email'}</span>
-                              <span className="text-[10px] text-[#64748B]">{new Date(log.timestamp).toLocaleString()}</span>
-                            </div>
-                            <p className="text-[11px] text-[#555555] font-mono">IP: {log.ip || '127.0.0.1'}</p>
-                            <p className="text-[10px] text-[#64748B] truncate">Agent: {log.userAgent || 'Browser Client'}</p>
-                          </div>
-                        ))}
-                      </div>
-                    ) : (
-                      <p className="text-xs text-[#64748B] italic">No historical login telemetry available for this account.</p>
-                    )}
-                  </>
-                ) : (
-                  <div className="py-16 text-center text-[#94A3B8]">
-                    <Users className="w-10 h-10 mx-auto mb-2 opacity-40 text-[#E11D48]" />
-                    <p className="text-xs">Select any user on the left to inspect detailed login telemetry logs.</p>
-                  </div>
-                )}
-              </div>
-            </div>
+          <main className="max-w-7xl mx-auto px-3 sm:px-6 py-4 sm:py-6 w-full flex-1">
+            <CustomerStaffManager
+              usersList={usersList}
+              superAdminEmail={superAdminEmail}
+              authUser={authUser}
+            />
           </main>
         )}
 
@@ -5266,17 +5168,43 @@ export default function AdminDashboard() {
               </div>
 
               <form onSubmit={handleSaveCategory} className="space-y-4 text-xs">
-                {/* Category Name */}
-                <div>
-                  <label className="block text-[#334155] font-semibold mb-1">Category Title *</label>
-                  <input
-                    type="text"
-                    required
-                    placeholder="e.g. Velvet Flower Boxes, Forever Roses"
-                    value={categoryForm.name}
-                    onChange={(e) => setCategoryForm({ ...categoryForm, name: e.target.value })}
-                    className="w-full h-10 px-3 rounded-xl bg-white border border-[#CBD5E1] text-[#0F172A] placeholder:text-[#94A3B8] focus:outline-none focus:border-[#E11D48]"
-                  />
+                {/* 10-Digit Registered SKU & Category Title */}
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                  <div>
+                    <label className="block text-[#334155] font-semibold mb-1">
+                      10-Digit SKU Serial *
+                    </label>
+                    <div className="flex items-center gap-1.5">
+                      <input
+                        type="text"
+                        maxLength={10}
+                        required
+                        placeholder="YYMMDDXXXX"
+                        value={categoryForm.sku}
+                        onChange={(e) => setCategoryForm({ ...categoryForm, sku: e.target.value.replace(/\D/g, '') })}
+                        className="w-full h-10 px-3 rounded-xl bg-white border border-[#CBD5E1] text-[#0F172A] font-mono font-bold placeholder:text-[#94A3B8] focus:outline-none focus:border-[#E11D48]"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setCategoryForm({ ...categoryForm, sku: generateCategorySKU(categoriesList.length + 1) })}
+                        title="Auto-generate sequential 10-digit SKU"
+                        className="px-2.5 h-10 rounded-xl bg-[#F8FAFC] border border-[#CBD5E1] text-[#E11D48] text-xs font-bold hover:bg-rose-50 cursor-pointer shrink-0"
+                      >
+                        Auto
+                      </button>
+                    </div>
+                  </div>
+                  <div className="sm:col-span-2">
+                    <label className="block text-[#334155] font-semibold mb-1">Category Title *</label>
+                    <input
+                      type="text"
+                      required
+                      placeholder="e.g. Velvet Flower Boxes, Forever Roses"
+                      value={categoryForm.name}
+                      onChange={(e) => setCategoryForm({ ...categoryForm, name: e.target.value })}
+                      className="w-full h-10 px-3 rounded-xl bg-white border border-[#CBD5E1] text-[#0F172A] placeholder:text-[#94A3B8] focus:outline-none focus:border-[#E11D48]"
+                    />
+                  </div>
                 </div>
 
                 {/* Slug & Badge */}

@@ -23,6 +23,7 @@ import {
   Calendar,
   MessageSquare,
   FileText,
+  FileSpreadsheet,
   ExternalLink,
   ChevronRight,
   ArrowRight,
@@ -32,6 +33,7 @@ import {
   User
 } from 'lucide-react';
 import { toast } from 'sonner';
+import InvoiceModal from '../admin/modules/documents/InvoiceModal';
 
 export default function OrdersPage() {
   const { user, isAuthenticated } = useSelector((state) => state.auth);
@@ -43,6 +45,7 @@ export default function OrdersPage() {
   const [statusFilter, setStatusFilter] = useState('all'); // all, active, delivered, cancelled
   const [guestLookupId, setGuestLookupId] = useState('');
   const [selectedOrderReceipt, setSelectedOrderReceipt] = useState(null);
+  const [selectedTaxInvoice, setSelectedTaxInvoice] = useState(null);
 
   useEffect(() => {
     fetchOrders();
@@ -364,6 +367,14 @@ export default function OrdersPage() {
                         {getStatusBadge(order.orderStatus || order.status)}
                         <button
                           type="button"
+                          onClick={() => setSelectedTaxInvoice(order)}
+                          className="px-3.5 py-1.5 rounded-full border border-rose-200 bg-rose-50 hover:bg-rose-100 text-[#E11D48] text-xs font-bold transition-all shadow-2xs flex items-center gap-1.5 cursor-pointer"
+                        >
+                          <FileSpreadsheet className="w-3.5 h-3.5" />
+                          <span>Tax Bill</span>
+                        </button>
+                        <button
+                          type="button"
                           onClick={() => setSelectedOrderReceipt(order)}
                           className="px-3.5 py-1.5 rounded-full border border-[#E5DFD9] bg-white hover:bg-[#FFF3F6] text-[#EC407A] text-xs font-bold transition-all shadow-2xs flex items-center gap-1.5 cursor-pointer"
                         >
@@ -491,6 +502,14 @@ export default function OrdersPage() {
             </div>
           )}
         </main>
+
+        {/* Official Tax Invoice Bill Modal */}
+        {selectedTaxInvoice && (
+          <InvoiceModal
+            order={selectedTaxInvoice}
+            onClose={() => setSelectedTaxInvoice(null)}
+          />
+        )}
 
         {/* Order Receipt Modal */}
         {selectedOrderReceipt && (
