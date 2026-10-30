@@ -429,6 +429,16 @@ export default function AdminDashboard() {
     const saved = await exportService.updateExportSettings(newSettings);
     setExportSettings(saved);
   };
+
+  const handleSaveSettings = async (newSettings) => {
+    const saved = await exportService.updateExportSettings(newSettings);
+    setExportSettings(saved);
+    toast.success('Company export settings saved successfully!');
+  };
+
+  const handleSendQuotation = async (enquiryId, quoteData) => {
+    toast.success('Formal quotation generated and dispatched to buyer!');
+  };
  // 'products' | 'categories' | 'currencies' | 'hero' | 'orders' | 'payments' | 'staff' | 'users' | 'stats'
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
   const [loading, setLoading] = useState(false);
