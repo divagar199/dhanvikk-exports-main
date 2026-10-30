@@ -78,7 +78,15 @@ import AdminSettings from './modules/settings/AdminSettings';
 import InventoryLedger from './modules/inventory/InventoryLedger';
 import ReportsAnalytics from './modules/reports/ReportsAnalytics';
 import InvoiceModal from './modules/documents/InvoiceModal';
-import { ensureProductHasSKU, getNextProductSKU } from '../../utils/skuGenerator';
+import {
+  ensureProductHasSKU,
+  getNextProductSKU,
+  isSKUUnique,
+  ensureUniqueCatalogSKUs,
+  generateOutwardInvoiceNumber,
+  isInvoiceNumberUsedForInward,
+  getAvailableOutwardInvoicesForInward,
+} from '../../utils/skuGenerator';
 import { parseProductsExcelFile, downloadProductExcelTemplate, exportArrayToExcel } from '../../utils/excelService';
 import { getCustomerActions, getMostTimeSpentProducts, getStaffAuditLogs } from '../../utils/telemetryService';
 import CommandPalette from './components/CommandPalette';
@@ -760,8 +768,8 @@ export default function AdminDashboard() {
 
       ]);
 
-      const sanitizedProds = (prodsData || []).map((p, idx) => ensureProductHasSKU(p, idx));
-      setProducts(sanitizedProds);
+      const uniqueProds = ensureUniqueCatalogSKUs(prodsData || []);
+      setProducts(uniqueProds);
       setOrders(ordersData?.orders || []);
       setUsersList(usersData?.users || []);
       if (statsData?.stats) setStats(statsData.stats);
@@ -1864,8 +1872,14 @@ export default function AdminDashboard() {
                     </button>
                     <button
                       onClick={() => {
+                        const autoInv = generateOutwardInvoiceNumber(inwardOutwardLedger);
                         if (products.length > 0) {
-                          setOutwardForm((prev) => ({ ...prev, productId: products[0].id || products[0]._id }));
+                          setOutwardForm((prev) => ({
+                            ...prev,
+                            productId: products[0].id || products[0]._id,
+                            invoiceNo: autoInv,
+                            batchNo: autoInv,
+                          }));
                         }
                         setShowOutwardModal(true);
                       }}
@@ -2068,13 +2082,17 @@ export default function AdminDashboard() {
           <main className="max-w-7xl mx-auto px-4 sm:px-8 py-6 w-full flex-1">
             <InventoryLedger
               products={products}
-              onUpdateStock={(prodId, newStock) => {
-                setProducts((prev) =>
-                  prev.map((p) =>
-                    (p.id === prodId || p._id === prodId) ? { ...p, stock: newStock } : p
-                  )
-                );
+              ledger={inwardOutwardLedger}
+              onUpdateLedger={(newLedger) => {
+                setInwardOutwardLedger(newLedger);
+                try {
+                  localStorage.setItem('dhanvikk_inward_outward', JSON.stringify(newLedger));
+                } catch {}
               }}
+              onUpdateProducts={(newProducts) => {
+                setProducts(newProducts);
+              }}
+              authUser={authUser}
             />
           </main>
         )}
@@ -4233,9 +4251,22 @@ export default function AdminDashboard() {
                       onClick={() => setProductForm({ ...productForm, sku: getNextProductSKU(products) })}
                       className="px-3 h-10 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 text-xs font-semibold whitespace-nowrap cursor-pointer transition-colors"
                     >
-                      Generate SKU
+                      Generate Unique SKU
                     </button>
                   </div>
+                  {productForm.sku && (
+                    <div className="mt-1">
+                      {isSKUUnique(productForm.sku, products, editingProduct?._id || editingProduct?.id) ? (
+                        <span className="text-[10px] text-emerald-600 font-semibold flex items-center gap-1">
+                          <CheckCircle2 className="w-3.5 h-3.5" /> 100% Unique registered SKU across catalog (Ready)
+                        </span>
+                      ) : (
+                        <span className="text-[10px] text-rose-600 font-semibold flex items-center gap-1">
+                          <AlertCircle className="w-3.5 h-3.5" /> SKU #{productForm.sku} already in use! Click Generate Unique SKU.
+                        </span>
+                      )}
+                    </div>
+                  )}
                   <p className="text-[10px] text-slate-500 mt-0.5">
                     10-digit serial format: Year (26) + Month (10) + Day (30) + 4-digit sequential item number
                   </p>

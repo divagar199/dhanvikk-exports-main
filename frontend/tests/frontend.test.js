@@ -373,3 +373,88 @@ test('Frontend - Tax Invoice Calculations & Numbering', async (t) => {
     assert.equal(grandTotal, 4200);
   });
 });
+
+
+test('Frontend - Unique SKU Engine & Outward/Inward Single-Use Invoices', async (t) => {
+  const {
+    isSKUUnique,
+    ensureUniqueCatalogSKUs,
+    generateOutwardInvoiceNumber,
+    isInvoiceNumberUsedForInward,
+    getAvailableOutwardInvoicesForInward,
+  } = await import('../src/utils/skuGenerator.js');
+
+  await t.test('isSKUUnique correctly detects collisions and allows own SKU update', () => {
+    const catalog = [
+      { id: 'prod_1', sku: '2610300001', name: 'Roses' },
+      { id: 'prod_2', sku: '2610300002', name: 'Lilies' },
+    ];
+
+    // Colliding with existing
+    assert.equal(isSKUUnique('2610300001', catalog, 'prod_3'), false);
+    // Unique new SKU
+    assert.equal(isSKUUnique('2610300003', catalog, 'prod_3'), true);
+    // Editing own product keeps own SKU valid
+    assert.equal(isSKUUnique('2610300001', catalog, 'prod_1'), true);
+  });
+
+  await t.test('ensureUniqueCatalogSKUs guarantees 100% unique SKUs across catalog', () => {
+    const rawCatalog = [
+      { id: '1', name: 'Product A', sku: '2610300001' },
+      { id: '2', name: 'Product B', sku: '2610300001' }, // Duplicate!
+      { id: '3', name: 'Product C' }, // Missing!
+      { id: '4', name: 'Product D', sku: '2610300001' }, // Another duplicate!
+    ];
+
+    const uniqueCatalog = ensureUniqueCatalogSKUs(rawCatalog, new Date('2026-10-30T10:00:00Z'));
+    assert.equal(uniqueCatalog.length, 4);
+
+    const skuSet = new Set(uniqueCatalog.map((p) => p.sku));
+    assert.equal(skuSet.size, 4, 'All 4 products must have distinct, unique SKUs');
+    assert.equal(uniqueCatalog[0].sku, '2610300001');
+    assert.notEqual(uniqueCatalog[1].sku, '2610300001');
+    assert.notEqual(uniqueCatalog[3].sku, '2610300001');
+  });
+
+  await t.test('generateOutwardInvoiceNumber auto-generates sequential DHN-OUT invoices', () => {
+    const testDate = new Date('2026-10-30T10:00:00Z');
+    const emptyLedger = [];
+    const firstInvoice = generateOutwardInvoiceNumber(emptyLedger, testDate);
+    assert.equal(firstInvoice, 'DHN-OUT-261030-0001');
+
+    const existingLedger = [
+      { type: 'outward', invoiceNo: 'DHN-OUT-261030-0001' },
+      { type: 'outward', invoiceNo: 'DHN-OUT-261030-0002' },
+    ];
+    const nextInvoice = generateOutwardInvoiceNumber(existingLedger, testDate);
+    assert.equal(nextInvoice, 'DHN-OUT-261030-0003');
+  });
+
+  await t.test('isInvoiceNumberUsedForInward strictly blocks re-using inward invoices', () => {
+    const ledger = [
+      { type: 'inward', invoiceNo: 'INV-FARM-901' },
+      { type: 'outward', invoiceNo: 'DHN-OUT-261030-0001' },
+    ];
+
+    // Already used in inward -> must return true (blocked)
+    assert.equal(isInvoiceNumberUsedForInward('INV-FARM-901', ledger), true);
+    assert.equal(isInvoiceNumberUsedForInward('inv-farm-901', ledger), true); // case-insensitive
+
+    // Not yet used in inward -> must return false (allowed)
+    assert.equal(isInvoiceNumberUsedForInward('INV-FARM-902', ledger), false);
+    assert.equal(isInvoiceNumberUsedForInward('DHN-OUT-261030-0001', ledger), false);
+  });
+
+  await t.test('getAvailableOutwardInvoicesForInward tracks unused outward invoices for 1-time import', () => {
+    const ledger = [
+      { type: 'outward', invoiceNo: 'DHN-OUT-261030-0001', productName: 'Red Roses' },
+      { type: 'outward', invoiceNo: 'DHN-OUT-261030-0002', productName: 'White Lilies' },
+      // One outward invoice was already imported inward
+      { type: 'inward', invoiceNo: 'DHN-OUT-261030-0001', productName: 'Red Roses Return' },
+    ];
+
+    const available = getAvailableOutwardInvoicesForInward(ledger);
+    assert.equal(available.length, 1);
+    assert.equal(available[0].invoiceNo, 'DHN-OUT-261030-0002');
+  });
+});

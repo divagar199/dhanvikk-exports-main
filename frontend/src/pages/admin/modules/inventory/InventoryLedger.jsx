@@ -21,7 +21,13 @@ import {
   Barcode,
 } from 'lucide-react';
 import { toast } from 'sonner';
-import { getNextProductSKU } from '../../../../utils/skuGenerator';
+import {
+  getNextProductSKU,
+  generateOutwardInvoiceNumber,
+  isInvoiceNumberUsedForInward,
+  getAvailableOutwardInvoicesForInward,
+  isValid10DigitSKU,
+} from '../../../../utils/skuGenerator';
 import {
   parseProductsExcelFile,
   downloadProductExcelTemplate,
@@ -31,11 +37,32 @@ import { logStaffAction } from '../../../../utils/telemetryService';
 
 export default function InventoryLedger({
   products = [],
-  ledger = [],
+  ledger: externalLedger = [],
   onUpdateLedger,
   onUpdateProducts,
   authUser,
 }) {
+  const [internalLedger, setInternalLedger] = useState(() => {
+    if (Array.isArray(externalLedger) && externalLedger.length > 0) return externalLedger;
+    try {
+      const stored = localStorage.getItem('dhanvikk_inward_outward');
+      return stored ? JSON.parse(stored) : [];
+    } catch {
+      return [];
+    }
+  });
+
+  const ledger = (Array.isArray(externalLedger) && externalLedger.length > 0) ? externalLedger : internalLedger;
+
+  const updateLedgerRecords = (newLedger) => {
+    setInternalLedger(newLedger);
+    if (typeof onUpdateLedger === 'function') {
+      onUpdateLedger(newLedger);
+    }
+    try {
+      localStorage.setItem('dhanvikk_inward_outward', JSON.stringify(newLedger));
+    } catch {}
+  };
   const [filterType, setFilterType] = useState('all');
   const [search, setSearch] = useState('');
   const [showInwardModal, setShowInwardModal] = useState(false);
@@ -102,8 +129,13 @@ export default function InventoryLedger({
       toast.error('Please select a valid product.');
       return;
     }
-    if (!inwardForm.invoiceNo.trim()) {
+    const cleanInvoiceNo = inwardForm.invoiceNo.trim().toUpperCase();
+    if (!cleanInvoiceNo) {
       toast.error('Supplier invoice number is mandatory for stock inward.');
+      return;
+    }
+    if (isInvoiceNumberUsedForInward(cleanInvoiceNo, ledger)) {
+      toast.error(`Invoice #${cleanInvoiceNo} has ALREADY been used for an inward receipt! Each invoice number can only be used or imported ONE TIME.`);
       return;
     }
 
@@ -141,7 +173,7 @@ export default function InventoryLedger({
     });
 
     const updatedLedger = [newEntry, ...ledger];
-    onUpdateLedger(updatedLedger);
+    updateLedgerRecords(updatedLedger);
     onUpdateProducts(updatedProducts);
 
     logStaffAction({
@@ -190,7 +222,7 @@ export default function InventoryLedger({
       id: `out-${Date.now()}`,
       date: todayStr,
       type: 'outward',
-      invoiceNo: outwardForm.invoiceNo.trim().toUpperCase() || `DHN-INV-${Date.now().toString().slice(-6)}`,
+      invoiceNo: outwardForm.invoiceNo.trim().toUpperCase() || generateOutwardInvoiceNumber(ledger),
       productId: selectedOutwardProduct.id || selectedOutwardProduct._id,
       productSku: selectedOutwardProduct.sku || selectedOutwardProduct.serialNumber || '2610300001',
       productName: selectedOutwardProduct.name,
@@ -214,7 +246,7 @@ export default function InventoryLedger({
     });
 
     const updatedLedger = [newEntry, ...ledger];
-    onUpdateLedger(updatedLedger);
+    updateLedgerRecords(updatedLedger);
     onUpdateProducts(updatedProducts);
 
     logStaffAction({
@@ -237,7 +269,7 @@ export default function InventoryLedger({
 
     try {
       setIsImporting(true);
-      const res = await parseProductsExcelFile(file, products);
+      const res = await parseProductsExcelFile(file, products, ledger);
 
       if (res.products && res.products.length > 0) {
         const mergedProducts = [...products, ...res.products];
@@ -246,7 +278,10 @@ export default function InventoryLedger({
         onUpdateProducts(mergedProducts);
         onUpdateLedger(mergedLedger);
 
-        toast.success(`Excel Import Complete: ${res.count} products added with registered 10-digit serials & inward stock! 🌸`);
+        toast.success(`Excel Import Complete: ${res.count} products added with strictly unique 10-digit SKUs! 🌸`);
+        if (res.skippedDuplicateInvoices && res.skippedDuplicateInvoices.length > 0) {
+          toast.warning(`Note: ${res.skippedDuplicateInvoices.length} duplicate inward invoice(s) were skipped to uphold the 1-time inward import rule.`);
+        }
         setShowImportModal(false);
       }
     } catch (err) {
@@ -365,7 +400,14 @@ export default function InventoryLedger({
         <div className="flex flex-wrap items-center gap-2">
           <button
             type="button"
-            onClick={() => setShowInwardModal(true)}
+            onClick={() => {
+              setInwardForm((prev) => ({
+                ...prev,
+                productId: prev.productId || products[0]?.id || products[0]?._id || '',
+                invoiceNo: '',
+              }));
+              setShowInwardModal(true);
+            }}
             className="px-3.5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer shadow-xs active:scale-98"
           >
             <ArrowDownLeft className="w-4 h-4" />
@@ -374,7 +416,15 @@ export default function InventoryLedger({
 
           <button
             type="button"
-            onClick={() => setShowOutwardModal(true)}
+            onClick={() => {
+              const autoInv = generateOutwardInvoiceNumber(ledger);
+              setOutwardForm((prev) => ({
+                ...prev,
+                invoiceNo: autoInv,
+                productId: prev.productId || products[0]?.id || products[0]?._id || '',
+              }));
+              setShowOutwardModal(true);
+            }}
             className="px-3.5 py-2 rounded-xl bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer shadow-xs active:scale-98"
           >
             <ArrowUpRight className="w-4 h-4" />
@@ -538,15 +588,67 @@ export default function InventoryLedger({
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-slate-700 font-semibold mb-1">Supplier Invoice Number *</label>
+                  <div className="flex items-center justify-between mb-1">
+                    <label className="block text-slate-700 font-semibold">
+                      Supplier / Inward Invoice Number *
+                    </label>
+                    <span className="text-[10px] font-bold text-amber-700 bg-amber-50 px-2 py-0.5 rounded border border-amber-200">
+                      1-Time Inward Use Only
+                    </span>
+                  </div>
                   <input
                     type="text"
                     required
                     placeholder="INV-GROW-2026-001"
                     value={inwardForm.invoiceNo}
-                    onChange={(e) => setInwardForm({ ...inwardForm, invoiceNo: e.target.value })}
-                    className="w-full h-10 px-3 rounded-xl border border-slate-200 text-slate-900 font-mono uppercase bg-slate-50 focus:bg-white focus:outline-none focus:border-rose-400"
+                    onChange={(e) => setInwardForm({ ...inwardForm, invoiceNo: e.target.value.trim().toUpperCase() })}
+                    className={`w-full h-10 px-3 rounded-xl border font-mono font-bold uppercase focus:outline-none ${
+                      isInvoiceNumberUsedForInward(inwardForm.invoiceNo, ledger)
+                        ? 'border-rose-400 bg-rose-50/70 text-rose-800'
+                        : inwardForm.invoiceNo
+                        ? 'border-emerald-400 bg-emerald-50/30 text-emerald-800'
+                        : 'border-slate-200 bg-slate-50 text-slate-900'
+                    }`}
                   />
+                  {inwardForm.invoiceNo && isInvoiceNumberUsedForInward(inwardForm.invoiceNo, ledger) && (
+                    <div className="mt-1 flex items-center gap-1.5 text-rose-600 text-[11px] font-semibold">
+                      <AlertCircle className="w-3.5 h-3.5 shrink-0" />
+                      <span>This invoice has ALREADY been used for inward stock! Duplicate inward use is blocked.</span>
+                    </div>
+                  )}
+                  {inwardForm.invoiceNo && !isInvoiceNumberUsedForInward(inwardForm.invoiceNo, ledger) && (
+                    <div className="mt-1 flex items-center gap-1.5 text-emerald-600 text-[11px] font-medium">
+                      <CheckCircle2 className="w-3.5 h-3.5 shrink-0" />
+                      <span>Invoice is unused and ready for 1-time inward receipt.</span>
+                    </div>
+                  )}
+                  {getAvailableOutwardInvoicesForInward(ledger).length > 0 && (
+                    <div className="mt-2">
+                      <label className="text-[10px] text-slate-500 font-medium block mb-1">
+                        Or import unused Outward Dispatch Invoice:
+                      </label>
+                      <select
+                        onChange={(e) => {
+                          const val = e.target.value;
+                          if (!val) return;
+                          const matched = getAvailableOutwardInvoicesForInward(ledger).find(o => o.invoiceNo === val);
+                          setInwardForm(prev => ({
+                            ...prev,
+                            invoiceNo: val,
+                            supplier: matched?.customer ? `Return / Inward from ${matched.customer}` : prev.supplier,
+                          }));
+                        }}
+                        className="w-full h-8 px-2 rounded-lg border border-slate-200 text-slate-700 text-[11px] bg-white cursor-pointer"
+                      >
+                        <option value="">-- Choose Outward Invoice ({getAvailableOutwardInvoicesForInward(ledger).length} available) --</option>
+                        {getAvailableOutwardInvoicesForInward(ledger).map((outw) => (
+                          <option key={outw.invoiceNo} value={outw.invoiceNo}>
+                            {outw.invoiceNo} — {outw.productName} ({outw.quantity} units, {outw.date})
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  )}
                 </div>
 
                 <div>
@@ -672,14 +774,33 @@ export default function InventoryLedger({
                 </div>
 
                 <div>
-                  <label className="block text-slate-700 font-semibold mb-1">Bill / Invoice Number</label>
-                  <input
-                    type="text"
-                    placeholder="DHN-INV-261030-001"
-                    value={outwardForm.invoiceNo}
-                    onChange={(e) => setOutwardForm({ ...outwardForm, invoiceNo: e.target.value })}
-                    className="w-full h-10 px-3 rounded-xl border border-slate-200 text-slate-900 font-mono uppercase bg-slate-50 focus:bg-white focus:outline-none focus:border-rose-400"
-                  />
+                  <div className="flex items-center justify-between mb-1">
+                    <label className="block text-slate-700 font-semibold">
+                      Outward Invoice / Bill Number *
+                    </label>
+                    <span className="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
+                      Auto Generated
+                    </span>
+                  </div>
+                  <div className="flex gap-2">
+                    <input
+                      type="text"
+                      required
+                      placeholder="DHN-OUT-261030-0001"
+                      value={outwardForm.invoiceNo}
+                      onChange={(e) => setOutwardForm({ ...outwardForm, invoiceNo: e.target.value.trim().toUpperCase() })}
+                      className="w-full h-10 px-3 rounded-xl border border-emerald-300 text-slate-900 font-mono font-bold uppercase bg-emerald-50/20 focus:bg-white focus:outline-none focus:border-rose-400"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setOutwardForm(prev => ({ ...prev, invoiceNo: generateOutwardInvoiceNumber(ledger) }))}
+                      className="px-2.5 h-10 rounded-xl border border-slate-200 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold whitespace-nowrap cursor-pointer transition-colors"
+                      title="Generate Next Outward Invoice Number"
+                    >
+                      New #
+                    </button>
+                  </div>
+                  <span className="text-[10px] text-slate-400 mt-0.5 block">Official sequential outward bill format (YYMMDD-XXXX)</span>
                 </div>
               </div>
 
