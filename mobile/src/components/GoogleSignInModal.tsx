@@ -1,14 +1,12 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import {
-  Alert,
+  ActivityIndicator,
   Modal,
   Platform,
   Pressable,
   StyleSheet,
   Text,
-  TextInput,
   View,
-  ActivityIndicator,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Image } from 'expo-image';
@@ -20,19 +18,28 @@ import { loginWithGoogle } from '@/services/auth';
 import { useStore } from '@/store/useStore';
 import { useToast } from '@/context/ToastContext';
 
-let GoogleSigninModule: any = null;
-let isGoogleSigninAvailable = false;
+// ─── Lazy-load @react-native-google-signin/google-signin ─────────────────────
+// The package only exists in a native Expo dev-client / standalone build.
+// We guard with try/catch so Expo Go & web continue to work without it.
+
+let GoogleSignin: any = null;
+let statusCodes: any = null;
+let isNativeSigninAvailable = false;
 
 const WEB_CLIENT_ID =
   process.env.EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID ||
   '160660053649-1ar8vvfbirn6jgd9bnukihvk0frgluv6.apps.googleusercontent.com';
 
 try {
-  GoogleSigninModule = require('@react-native-google-signin/google-signin');
-  if (GoogleSigninModule && GoogleSigninModule.GoogleSignin) {
-    isGoogleSigninAvailable = true;
-    if (typeof GoogleSigninModule.GoogleSignin.configure === 'function') {
-      GoogleSigninModule.GoogleSignin.configure({
+  const pkg = require('@react-native-google-signin/google-signin');
+  if (pkg?.GoogleSignin) {
+    GoogleSignin = pkg.GoogleSignin;
+    statusCodes = pkg.statusCodes;
+    isNativeSigninAvailable = true;
+
+    // Configure once at module load
+    if (typeof GoogleSignin.configure === 'function') {
+      GoogleSignin.configure({
         webClientId: WEB_CLIENT_ID,
         offlineAccess: true,
         scopes: ['profile', 'email'],
@@ -40,10 +47,12 @@ try {
     }
   }
 } catch {
-  isGoogleSigninAvailable = false;
+  isNativeSigninAvailable = false;
 }
 
 const brandLogo = require('@/assets/logo.png');
+
+// ─── Types ────────────────────────────────────────────────────────────────────
 
 interface GoogleSignInModalProps {
   visible: boolean;
@@ -51,188 +60,242 @@ interface GoogleSignInModalProps {
   onSuccess?: (user?: any) => void;
 }
 
+// ─── Helpers ─────────────────────────────────────────────────────────────────
+
+/**
+ * Saves the Firebase-authenticated user to the backend and the local store.
+ */
+async function persistUserLogin(
+  fbUid: string,
+  email: string,
+  name: string,
+  avatar: string,
+  phone: string,
+  setUser: (u: any) => void,
+  showToast: (...args: any[]) => void,
+  onClose: () => void,
+  onSuccess?: (u?: any) => void
+) {
+  const res = await loginWithGoogle({
+    email: email.trim().toLowerCase(),
+    name,
+    avatar,
+    googleUid: fbUid,
+    phone,
+  });
+
+  if (res?.user) {
+    setUser(res.user);
+    onClose();
+    if (onSuccess) onSuccess(res.user);
+    showToast(
+      'Welcome to Dhanvikk! 🌸',
+      `Signed in as ${res.user.name || email}`,
+      'success',
+      3000
+    );
+  }
+}
+
+// ─── Component ───────────────────────────────────────────────────────────────
 
 export function GoogleSignInModal({ visible, onClose, onSuccess }: GoogleSignInModalProps) {
   const setUser = useStore((s) => s.setUser);
   const { showToast } = useToast();
   const [busy, setBusy] = useState(false);
-  const [googleEmailInput, setGoogleEmailInput] = useState('');
-  const [showQuickGoogle, setShowQuickGoogle] = useState(false);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
+  // ── Web: signInWithPopup ──────────────────────────────────────────────────
   const handleWebGoogleSignIn = async () => {
     setBusy(true);
+    setErrorMsg(null);
     try {
       const res = await signInWithPopup(auth, googleProvider);
       const fbUser = res.user;
       const cleanEmail = (fbUser.email || '').trim().toLowerCase();
       const cleanName = fbUser.displayName || cleanEmail.split('@')[0];
-      const avatar =
-        fbUser.photoURL ||
-        `https://unavatar.io/google/${encodeURIComponent(cleanEmail)}?fallback=https://ui-avatars.com/api/?name=${encodeURIComponent(cleanName)}&background=E91E63&color=ffffff&bold=true`;
+      const avatar = fbUser.photoURL || '';
 
-      const backendRes = await loginWithGoogle({
-        email: cleanEmail,
-        name: cleanName,
+      await persistUserLogin(
+        fbUser.uid,
+        cleanEmail,
+        cleanName,
         avatar,
-        googleUid: fbUser.uid,
-      });
-
-      if (backendRes?.user) {
-        setUser(backendRes.user);
-        onClose();
-        if (onSuccess) onSuccess(backendRes.user);
-        showToast('Welcome to Dhanvikk! 🌸', `Signed in with Google as ${backendRes.user.name || cleanEmail}`, 'success', 3000);
-      }
-    } catch (err: any) {
-      console.error('Web Google Sign-In error:', err);
-      setShowQuickGoogle(true);
-      showToast(
-        'Google Sign-In Note',
-        'You can sign in directly below with your Google / Gmail ID.',
-        'info',
-        3000
+        fbUser.phoneNumber || '',
+        setUser,
+        showToast,
+        onClose,
+        onSuccess
       );
+    } catch (err: any) {
+      const code: string = err?.code || '';
+
+      if (code === 'auth/popup-closed-by-user' || code === 'auth/cancelled-popup-request') {
+        // User dismissed — no error toast needed
+        return;
+      }
+      if (code === 'auth/popup-blocked') {
+        setErrorMsg('Popup blocked by your browser. Please allow popups for this site and try again.');
+        return;
+      }
+      if (code === 'auth/unauthorized-domain') {
+        setErrorMsg('This domain is not authorised in Firebase Console. Contact support.');
+        return;
+      }
+      if (code === 'auth/network-request-failed') {
+        setErrorMsg('Network error. Please check your connection and try again.');
+        return;
+      }
+      console.warn('[GoogleSignInModal] Web sign-in error:', err);
+      setErrorMsg(err?.message || 'Google sign-in failed. Please try again.');
     } finally {
       setBusy(false);
     }
   };
 
-  const handleFirebaseGoogleAuth = async ({
-    idToken,
-    accessToken,
-    prefilledUser,
-  }: {
-    idToken?: string;
-    accessToken?: string;
-    prefilledUser?: any;
-  }) => {
+  // ── Native Android: @react-native-google-signin/google-signin ────────────
+  //
+  // KEY FIX: We call `GoogleSignin.signOut()` BEFORE `GoogleSignin.signIn()`.
+  // This forces the Google account chooser to show every time.
+  // Without this, Google silently reuses the last account.
+  const handleNativeGoogleSignIn = async () => {
+    if (!isNativeSigninAvailable || !GoogleSignin) return false;
+
     setBusy(true);
+    setErrorMsg(null);
+
     try {
-      let fbUser: any = null;
-      if (idToken || accessToken) {
-        try {
-          const credential = GoogleAuthProvider.credential(idToken || null, accessToken || null);
-          const userCred = await signInWithCredential(auth, credential);
-          fbUser = userCred.user;
-        } catch (credErr) {
-          console.warn('Firebase credential exchange note:', credErr);
-        }
+      // Check Play Services availability
+      if (typeof GoogleSignin.hasPlayServices === 'function') {
+        await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
       }
 
-      let cleanEmail = (fbUser?.email || prefilledUser?.email || '').trim().toLowerCase();
-      let cleanName = fbUser?.displayName || prefilledUser?.name || (cleanEmail ? cleanEmail.split('@')[0] : '');
-      let avatar = fbUser?.photoURL || prefilledUser?.photo || '';
+      // ⚠️ ALWAYS sign out first to force the account chooser to appear.
+      // This is the critical step that implements "prompt: select_account" on Android.
+      try {
+        if (typeof GoogleSignin.signOut === 'function') {
+          await GoogleSignin.signOut();
+        }
+      } catch {
+        // Sign-out failure is non-fatal; proceed to sign-in
+      }
 
-      if (!cleanEmail && accessToken) {
-        try {
-          const userinfoRes = await fetch('https://www.googleapis.com/userinfo/v2/me', {
+      // Now trigger the account chooser
+      const signInResult = await GoogleSignin.signIn();
+
+      // API v16+: result wrapped in `data`
+      const idToken: string | undefined =
+        signInResult?.data?.idToken || signInResult?.idToken;
+      const accessToken: string | undefined =
+        signInResult?.data?.accessToken || signInResult?.accessToken;
+      const nativeUser: any =
+        signInResult?.data?.user || signInResult?.user;
+
+      if (!idToken) {
+        // No idToken — use accessToken to fetch profile
+        if (accessToken) {
+          const resp = await fetch('https://www.googleapis.com/userinfo/v2/me', {
             headers: { Authorization: `Bearer ${accessToken}` },
           });
-          const userinfo = await userinfoRes.json();
-          cleanEmail = (userinfo.email || '').trim().toLowerCase();
-          cleanName = userinfo.name || (cleanEmail ? cleanEmail.split('@')[0] : '');
-          avatar = userinfo.picture || '';
-        } catch (fetchErr) {
-          console.warn('Could not fetch extra Google profile details:', fetchErr);
+          const info = await resp.json();
+          const cleanEmail = (info.email || '').trim().toLowerCase();
+          const cleanName = info.name || cleanEmail.split('@')[0];
+          const avatar = info.picture || '';
+
+          // We cannot create a Firebase credential without idToken; use Google UID directly
+          await persistUserLogin(
+            `g_${cleanEmail}`,
+            cleanEmail,
+            cleanName,
+            avatar,
+            '',
+            setUser,
+            showToast,
+            onClose,
+            onSuccess
+          );
+          return true;
+        }
+        throw new Error('Google sign-in did not return an idToken. Please try again.');
+      }
+
+      // Exchange the Google idToken for a Firebase credential
+      const credential = GoogleAuthProvider.credential(idToken, accessToken || null);
+      const userCred = await signInWithCredential(auth, credential);
+      const fbUser = userCred.user;
+
+      const cleanEmail = (fbUser.email || '').trim().toLowerCase();
+      const cleanName = fbUser.displayName || nativeUser?.name || cleanEmail.split('@')[0];
+      const avatar = fbUser.photoURL || nativeUser?.photo || '';
+
+      await persistUserLogin(
+        fbUser.uid,
+        cleanEmail,
+        cleanName,
+        avatar,
+        fbUser.phoneNumber || '',
+        setUser,
+        showToast,
+        onClose,
+        onSuccess
+      );
+      return true;
+    } catch (err: any) {
+      // Handle standard Google Sign-In status codes
+      if (statusCodes) {
+        if (err.code === statusCodes.SIGN_IN_CANCELLED) {
+          // User dismissed the account chooser — silent
+          return true;
+        }
+        if (err.code === statusCodes.IN_PROGRESS) {
+          return true;
+        }
+        if (err.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+          setErrorMsg('Google Play Services is not available on this device.');
+          return false;
         }
       }
 
-      if (!cleanEmail) {
-        setShowQuickGoogle(true);
-        throw new Error('Please enter your Google / Gmail address below to continue.');
+      // DEVELOPER_ERROR (code 10) — SHA mismatch
+      if (err.code === 10 || String(err.message).includes('DEVELOPER_ERROR')) {
+        setErrorMsg(
+          'Configuration error (code 10): SHA fingerprint mismatch. ' +
+          'Run `./gradlew signingReport` and add the SHA-1/SHA-256 to the Firebase Console.'
+        );
+        return false;
       }
 
-      if (!avatar) {
-        avatar = `https://unavatar.io/google/${encodeURIComponent(cleanEmail)}?fallback=https://ui-avatars.com/api/?name=${encodeURIComponent(cleanName)}&background=E91E63&color=ffffff&bold=true`;
+      // 12500 / 12501 — sign-in flow issues
+      if (err.code === 12500) {
+        setErrorMsg('Google Sign-In failed (12500). Check that your OAuth client ID is correct.');
+        return false;
+      }
+      if (err.code === 12501) {
+        setErrorMsg('Google Sign-In was cancelled (12501).');
+        return true; // user cancelled, not an error
       }
 
-      const res = await loginWithGoogle({
-        email: cleanEmail,
-        name: cleanName,
-        avatar,
-        googleUid: fbUser?.uid || prefilledUser?.id || `goog_${cleanEmail}`,
-      });
-
-      if (res?.user) {
-        setUser(res.user);
-        onClose();
-        if (onSuccess) onSuccess(res.user);
-        showToast('Welcome to Dhanvikk! 🌸', `Signed in with Google as ${res.user.name || cleanEmail}`, 'success', 3000);
-      }
-    } catch (err: any) {
-      console.error('Firebase Google Auth error:', err);
-      setShowQuickGoogle(true);
-      showToast(
-        'Quick Google Sign-In',
-        err?.message || 'Please enter your Google / Gmail ID below for instant login.',
-        'info',
-        3500
-      );
-    } finally {
-      setBusy(false);
-    }
-  };
-
-  const handleNativePlayServicesSignIn = async (): Promise<boolean> => {
-    if (!isGoogleSigninAvailable || !GoogleSigninModule?.GoogleSignin) {
+      console.warn('[GoogleSignInModal] Native sign-in error:', err);
+      setErrorMsg(err?.message || 'Google sign-in failed. Please try again.');
       return false;
-    }
-    setBusy(true);
-    try {
-      if (typeof GoogleSigninModule.GoogleSignin.hasPlayServices === 'function') {
-        await GoogleSigninModule.GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
-      }
-      const signInResult = await GoogleSigninModule.GoogleSignin.signIn();
-      const idToken = signInResult?.data?.idToken || signInResult?.idToken;
-      const prefilledUser = signInResult?.data?.user || signInResult?.user;
-      if (idToken) {
-        await handleFirebaseGoogleAuth({ idToken, prefilledUser });
-        return true;
-      }
-    } catch (err: any) {
-      const statusCodes = GoogleSigninModule?.statusCodes;
-      if (statusCodes && err.code === statusCodes.SIGN_IN_CANCELLED) {
-        // User cancelled account picker
-        return true;
-      }
-      if (statusCodes && err.code === statusCodes.IN_PROGRESS) {
-        return true;
-      }
-      console.warn('Google Play Services sign-in error:', err);
-      setShowQuickGoogle(true);
     } finally {
       setBusy(false);
     }
-    return false;
   };
 
-  const handleInstantGoogleLogin = async (customEmail?: string) => {
-    const email = (customEmail || googleEmailInput).trim().toLowerCase();
-    if (!email || !email.includes('@')) {
-      return showToast('Invalid Email', 'Please enter a valid Google or Gmail address.', 'error');
-    }
-    setBusy(true);
-    try {
-      const cleanName = email.split('@')[0];
-      const avatar = `https://unavatar.io/google/${encodeURIComponent(email)}?fallback=https://ui-avatars.com/api/?name=${encodeURIComponent(cleanName)}&background=E91E63&color=ffffff&bold=true`;
-
-      const res = await loginWithGoogle({
-        email,
-        name: cleanName.charAt(0).toUpperCase() + cleanName.slice(1),
-        avatar,
-        googleUid: `goog_${Date.now()}_${email.replace(/[^a-zA-Z0-9]/g, '')}`,
-      });
-
-      if (res?.user) {
-        setUser(res.user);
-        onClose();
-        if (onSuccess) onSuccess(res.user);
-        showToast('Welcome to Dhanvikk! 🌸', `Signed in with Google as ${res.user.name || email}`, 'success', 3000);
-      }
-    } catch (err: any) {
-      showToast('Login Failed', err.message || 'Unable to authenticate. Please check your network connection.', 'error');
-    } finally {
-      setBusy(false);
+  // ── Main button handler ───────────────────────────────────────────────────
+  const handleGooglePress = async () => {
+    setErrorMsg(null);
+    if (Platform.OS === 'web') {
+      await handleWebGoogleSignIn();
+    } else if (isNativeSigninAvailable) {
+      await handleNativeGoogleSignIn();
+    } else {
+      // Expo Go or unsupported environment
+      setErrorMsg(
+        'Native Google Sign-In is only available in a development build or production APK. ' +
+        'Please use the email/password option instead.'
+      );
     }
   };
 
@@ -240,77 +303,52 @@ export function GoogleSignInModal({ visible, onClose, onSuccess }: GoogleSignInM
     <Modal visible={visible} transparent animationType="slide" onRequestClose={onClose}>
       <Pressable style={s.overlay} onPress={onClose}>
         <Pressable style={s.sheet} onPress={(e) => e.stopPropagation()}>
-          {/* Header */}
+
+          {/* ── Header ──────────────────────────────────────────────────── */}
           <View style={s.sheetHeader}>
             <Image source={brandLogo} style={s.brandIcon} contentFit="contain" />
             <Text style={s.sheetTitle}>Sign in to Dhanvikk</Text>
-            <Pressable style={s.closeBtn} onPress={onClose} hitSlop={8}>
+            <Pressable style={s.closeBtn} onPress={onClose} hitSlop={8} accessibilityLabel="Close">
               <Ionicons name="close" size={22} color={colors.ink} />
             </Pressable>
           </View>
 
           <Text style={s.sheetSub}>
-            Sign in with your verified account to access <Text style={s.brandHighlight}>Dhanvikk Blooms</Text>
+            Use your Google account to access{' '}
+            <Text style={s.brandHighlight}>Dhanvikk Blooms</Text>
           </Text>
 
+          {/* ── Body ────────────────────────────────────────────────────── */}
           {busy ? (
             <View style={s.loadingBox}>
               <ActivityIndicator size="large" color={colors.primary} />
-              <Text style={s.loadingText}>Authenticating with Google Cloud & Firebase…</Text>
+              <Text style={s.loadingText}>Authenticating with Google…</Text>
             </View>
           ) : (
             <View style={s.accountsList}>
-              {/* Primary Google Sign In Button */}
-              <Pressable
-                style={s.officialGoogleBtn}
-                onPress={async () => {
-                  if (Platform.OS === 'web') {
-                    await handleWebGoogleSignIn();
-                  } else if (isGoogleSigninAvailable) {
-                    const ok = await handleNativePlayServicesSignIn();
-                    if (!ok) {
-                      setShowQuickGoogle(true);
-                    }
-                  } else {
-                    setShowQuickGoogle(true);
-                  }
-                }}
-                disabled={busy}
-              >
-                <Ionicons name="logo-google" size={20} color="#EA4335" style={{ marginRight: 10 }} />
-                <Text style={s.officialGoogleBtnText}>Sign in with Google Account</Text>
-              </Pressable>
 
-              {/* 1-Tap Google Quick Sign-In Box */}
-              <View style={s.quickGoogleBox}>
-                <View style={s.quickGoogleHeader}>
-                  <Ionicons name="flash" size={14} color="#EA4335" />
-                  <Text style={s.quickGoogleHeaderText}>1-Tap Google / Gmail Sign In</Text>
+              {/* Error message */}
+              {errorMsg ? (
+                <View style={s.errorBox}>
+                  <Ionicons name="alert-circle-outline" size={16} color="#C53030" style={{ marginRight: 6 }} />
+                  <Text style={s.errorText}>{errorMsg}</Text>
                 </View>
-                <View style={s.quickGoogleInputRow}>
-                  <Ionicons name="mail" size={18} color="#EA4335" style={{ marginRight: 8 }} />
-                  <TextInput
-                    style={s.quickGoogleInput}
-                    placeholder="Enter your Google / Gmail ID"
-                    placeholderTextColor={colors.muted}
-                    value={googleEmailInput}
-                    onChangeText={setGoogleEmailInput}
-                    keyboardType="email-address"
-                    autoCapitalize="none"
-                    autoCorrect={false}
-                  />
-                  <Pressable
-                    style={[
-                      s.quickGoogleSubmitBtn,
-                      (!googleEmailInput.trim() || busy) && { opacity: 0.6 },
-                    ]}
-                    onPress={() => handleInstantGoogleLogin()}
-                    disabled={!googleEmailInput.trim() || busy}
-                  >
-                    <Ionicons name="arrow-forward" size={16} color={colors.white} />
-                  </Pressable>
+              ) : null}
+
+              {/* ── Primary Google button (Google Brand Guidelines) ──── */}
+              <Pressable
+                style={({ pressed }) => [s.googleBtn, pressed && { opacity: 0.85 }]}
+                onPress={handleGooglePress}
+                disabled={busy}
+                accessibilityLabel="Continue with Google"
+                accessibilityRole="button"
+              >
+                {/* Official Google "G" logo colours */}
+                <View style={s.googleLogoWrap}>
+                  <Ionicons name="logo-google" size={18} color="#4285F4" />
                 </View>
-              </View>
+                <Text style={s.googleBtnText}>Continue with Google</Text>
+              </Pressable>
 
               <View style={s.dividerRow}>
                 <View style={s.dividerLine} />
@@ -318,34 +356,36 @@ export function GoogleSignInModal({ visible, onClose, onSuccess }: GoogleSignInM
                 <View style={s.dividerLine} />
               </View>
 
-              {/* Secure Email & Password Login Button */}
+              {/* ── Email / Password ─────────────────────────────────── */}
               <Pressable
                 style={s.emailBtn}
                 onPress={() => {
                   onClose();
                   router.push('/auth/login');
                 }}
+                accessibilityLabel="Sign in with email and password"
               >
                 <Ionicons name="mail-outline" size={20} color={colors.white} style={{ marginRight: 10 }} />
                 <Text style={s.emailBtnText}>Sign in with Email & Password</Text>
               </Pressable>
 
-              {/* Create New Account Button */}
+              {/* ── Create account ───────────────────────────────────── */}
               <Pressable
                 style={s.registerBtn}
                 onPress={() => {
                   onClose();
                   router.push('/auth/register');
                 }}
+                accessibilityLabel="Create a new account"
               >
                 <Ionicons name="person-add-outline" size={18} color={colors.primaryDeep} style={{ marginRight: 8 }} />
-                <Text style={s.registerBtnText}>Create New Customer Account</Text>
+                <Text style={s.registerBtnText}>Create New Account</Text>
               </Pressable>
             </View>
           )}
 
           <Text style={s.termsText}>
-            Every customer account is protected with enterprise Firebase Authentication and encrypted personal address storage.
+            Protected by Firebase Authentication & encrypted storage.
           </Text>
         </Pressable>
       </Pressable>
@@ -353,6 +393,7 @@ export function GoogleSignInModal({ visible, onClose, onSuccess }: GoogleSignInM
   );
 }
 
+// ─── Styles ───────────────────────────────────────────────────────────────────
 const s = StyleSheet.create({
   overlay: {
     flex: 1,
@@ -422,69 +463,49 @@ const s = StyleSheet.create({
     gap: 10,
     marginBottom: 16,
   },
-  officialGoogleBtn: {
+  errorBox: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    backgroundColor: '#FFF5F5',
+    borderWidth: 1,
+    borderColor: '#FED7D7',
+    borderRadius: radius.md,
+    padding: 10,
+  },
+  errorText: {
+    flex: 1,
+    fontSize: 12,
+    color: '#C53030',
+    lineHeight: 17,
+  },
+  // Google button — follows Google Brand Guidelines (white, border, shadow)
+  googleBtn: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: colors.white,
-    borderWidth: 1.5,
+    backgroundColor: '#FFFFFF',
+    borderWidth: 1,
     borderColor: '#DADCE0',
-    borderRadius: radius.pill,
+    borderRadius: 4,
     height: 50,
     paddingHorizontal: 16,
-    shadowColor: '#000',
+    shadowColor: 'rgba(60,64,67,0.3)',
     shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.08,
+    shadowOpacity: 1,
     shadowRadius: 2,
     elevation: 2,
   },
-  officialGoogleBtnText: {
+  googleLogoWrap: {
+    marginRight: 10,
+    width: 20,
+    alignItems: 'center',
+  },
+  googleBtnText: {
     fontSize: 14,
-    fontWeight: '800',
-    color: colors.ink,
-  },
-  quickGoogleBox: {
-    backgroundColor: '#FFF7F7',
-    borderWidth: 1.2,
-    borderColor: '#FED7D7',
-    borderRadius: radius.md,
-    padding: 12,
-    marginTop: 4,
-  },
-  quickGoogleHeader: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 6,
-    marginBottom: 8,
-  },
-  quickGoogleHeaderText: {
-    fontSize: 12,
-    fontWeight: '700',
-    color: '#C53030',
-  },
-  quickGoogleInputRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: colors.white,
-    borderWidth: 1,
-    borderColor: '#E2E8F0',
-    borderRadius: radius.pill,
-    paddingHorizontal: 12,
-    height: 44,
-  },
-  quickGoogleInput: {
-    flex: 1,
-    fontSize: 13,
-    color: colors.ink,
-    paddingVertical: 0,
-  },
-  quickGoogleSubmitBtn: {
-    backgroundColor: '#EA4335',
-    width: 32,
-    height: 32,
-    borderRadius: 16,
-    alignItems: 'center',
-    justifyContent: 'center',
+    fontWeight: '500',
+    color: '#3C4043',
+    fontFamily: Platform.OS === 'ios' ? 'System' : 'Roboto',
+    letterSpacing: 0.1,
   },
   dividerRow: {
     flexDirection: 'row',

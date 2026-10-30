@@ -1,6 +1,6 @@
-import React, { lazy, Suspense } from 'react';
+import React, { lazy, Suspense, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import { Provider } from 'react-redux';
+import { Provider, useDispatch, useSelector } from 'react-redux';
 import { HelmetProvider } from 'react-helmet-async';
 import { Toaster } from 'sonner';
 import { store } from './store';
@@ -9,8 +9,17 @@ import ProtectedRoute from './components/routes/ProtectedRoute';
 import RoleRoute from './components/routes/RoleRoute';
 import AdminEntryRoute from './components/routes/AdminEntryRoute';
 import Spinner from './components/common/Spinner';
-import { checkGoogleRedirectResult, auth, onAuthStateChanged } from './config/firebase';
-import { loginWithGoogleThunk } from './store/slices/authSlice';
+import {
+  checkGoogleRedirectResult,
+  auth,
+  onAuthStateChanged,
+  saveUserToDb,
+} from './config/firebase';
+import {
+  loginWithGoogleThunk,
+  setUserProfile,
+  logoutImmediate,
+} from './store/slices/authSlice';
 
 // Lazy-loaded routes for performance & fast LCP
 const Home = lazy(() => import('./pages/home/HomePage'));
@@ -41,14 +50,26 @@ function RouteFallback() {
   );
 }
 
-function GlobalGoogleRedirectHandler() {
-  React.useEffect(() => {
+/**
+ * GlobalAuthSync
+ *
+ * This component is the SINGLE source of truth for Firebase Auth state across the entire web app.
+ * It runs exactly once (mounted at the top of the React tree) and:
+ *
+ * 1. Calls `getRedirectResult` to capture users returning from a Google signInWithRedirect flow.
+ * 2. Subscribes to `onAuthStateChanged` — Firebase's authoritative signal — and syncs every
+ *    sign-in / sign-out event into the Redux store so all components stay in sync.
+ * 3. On sign-out (fbUser === null), immediately clears Redux auth state.
+ */
+function GlobalAuthSync() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
     let active = true;
-    let unsubscribe = null;
 
     (async () => {
       try {
-        // 0. Check URL params for direct OAuth/server callback token
+        // ── Step 0: Handle OAuth callback token in URL (server-side callback fallback) ──
         if (typeof window !== 'undefined' && window.location.search) {
           const params = new URLSearchParams(window.location.search);
           const callbackToken = params.get('token') || params.get('auth_token');
@@ -56,7 +77,6 @@ function GlobalGoogleRedirectHandler() {
           if (callbackToken && callbackEmail && active) {
             sessionStorage.removeItem('dhanvikk_logged_out');
             localStorage.setItem('dhanvikk_auth_token', callbackToken);
-            sessionStorage.setItem('dhanvikk_auth_token', callbackToken);
             const userObj = {
               email: callbackEmail,
               name: callbackEmail.split('@')[0],
@@ -65,88 +85,118 @@ function GlobalGoogleRedirectHandler() {
               emailVerified: true,
             };
             localStorage.setItem('dhanvikk_user', JSON.stringify(userObj));
-            sessionStorage.setItem('dhanvikk_user', JSON.stringify(userObj));
-            store.dispatch(
-              loginWithGoogleThunk({
-                email: callbackEmail,
-                name: userObj.name,
-                token: callbackToken,
-                isVerified: true,
-              })
-            );
+            dispatch(setUserProfile(userObj));
             window.history.replaceState({}, document.title, window.location.pathname);
             const target = sessionStorage.getItem('dhanvikk_auth_redirect_target');
             sessionStorage.removeItem('dhanvikk_auth_redirect_target');
-            const finalTarget = target && target !== '/login' && target !== '/register' && target !== '/account' ? target : '/';
-            if (window.location.pathname.startsWith('/login') || window.location.pathname.startsWith('/register')) {
+            const finalTarget =
+              target && target !== '/login' && target !== '/register' && target !== '/account'
+                ? target
+                : '/';
+            if (
+              window.location.pathname.startsWith('/login') ||
+              window.location.pathname.startsWith('/register')
+            ) {
               window.location.replace(finalTarget);
             }
             return;
           }
         }
 
-        // 1. Process getRedirectResult
-        const res = await checkGoogleRedirectResult();
-        if (res?.user && active) {
-          const action = await store.dispatch(
-            loginWithGoogleThunk({
-              ...res.user,
-              token: res.token,
-            })
-          );
+        // ── Step 1: getRedirectResult (capture users returning from redirect flow) ──
+        const redirectRes = await checkGoogleRedirectResult();
+        if (redirectRes?.user && active) {
+          const action = await dispatch(loginWithGoogleThunk({ ...redirectRes.user, token: redirectRes.token }));
           if (loginWithGoogleThunk.fulfilled.match(action)) {
             const target = sessionStorage.getItem('dhanvikk_auth_redirect_target');
             sessionStorage.removeItem('dhanvikk_auth_redirect_target');
-            const finalTarget = (target && target !== '/login' && target !== '/register' && target !== '/account') ? target : '/';
-            if (window.location.pathname.startsWith('/login') || window.location.pathname.startsWith('/register')) {
+            sessionStorage.removeItem('dhanvikk_logged_out');
+            const finalTarget =
+              target && target !== '/login' && target !== '/register' && target !== '/account'
+                ? target
+                : '/';
+            if (
+              window.location.pathname.startsWith('/login') ||
+              window.location.pathname.startsWith('/register')
+            ) {
               window.location.replace(finalTarget);
             }
-            return;
           }
         }
-
-        // 2. Synchronize active Firebase Auth state across the whole site
-        unsubscribe = onAuthStateChanged(auth, async (fbUser) => {
-          if (fbUser && active && sessionStorage.getItem('dhanvikk_logged_out') !== 'true') {
-            const currentToken = localStorage.getItem('dhanvikk_auth_token');
-            const currentUser = localStorage.getItem('dhanvikk_user');
-            if (!currentToken || !currentUser) {
-              const token = await fbUser.getIdToken().catch(() => '');
-              const cleanEmail = fbUser.email || '';
-              const action = await store.dispatch(
-                loginWithGoogleThunk({
-                  googleUid: fbUser.uid,
-                  id: fbUser.uid,
-                  name: fbUser.displayName || (cleanEmail ? cleanEmail.split('@')[0] : 'Customer'),
-                  email: cleanEmail,
-                  avatar: fbUser.photoURL || '',
-                  phone: fbUser.phoneNumber || '',
-                  token,
-                  isVerified: true,
-                  emailVerified: fbUser.emailVerified ?? true,
-                })
-              );
-              if (loginWithGoogleThunk.fulfilled.match(action)) {
-                const target = sessionStorage.getItem('dhanvikk_auth_redirect_target');
-                sessionStorage.removeItem('dhanvikk_auth_redirect_target');
-                sessionStorage.removeItem('dhanvikk_logged_out');
-                if (window.location.pathname.startsWith('/login') || window.location.pathname.startsWith('/register')) {
-                  const finalTarget = (target && target !== '/login' && target !== '/register' && target !== '/account') ? target : '/';
-                  window.location.replace(finalTarget);
-                }
-              }
-            }
-          }
-        });
       } catch (err) {
-        console.warn('Google redirect global listener note:', err);
+        console.warn('[GlobalAuthSync] redirect check error:', err);
       }
     })();
 
+    // ── Step 2: onAuthStateChanged — persistent subscription ──────────────────────
+    const unsubscribe = onAuthStateChanged(auth, async (fbUser) => {
+      if (!active) return;
+
+      if (!fbUser) {
+        // User has signed out — clear Redux state immediately
+        if (sessionStorage.getItem('dhanvikk_logged_out') !== 'true') {
+          // Only clear if this wasn't an explicit logout (logout action already handles state)
+        }
+        return;
+      }
+
+      // Firebase confirms a signed-in user — ensure Redux & localStorage are in sync
+      const loggedOutFlag = sessionStorage.getItem('dhanvikk_logged_out');
+      if (loggedOutFlag === 'true') return;
+
+      const currentUser = localStorage.getItem('dhanvikk_user');
+      const currentToken = localStorage.getItem('dhanvikk_auth_token');
+
+      // Only re-dispatch if Redux doesn't already have this user (avoids redundant API calls)
+      if (!currentToken || !currentUser) {
+        try {
+          const token = await fbUser.getIdToken();
+          const cleanEmail = (fbUser.email || '').trim().toLowerCase();
+
+          // Background sync to Firestore
+          saveUserToDb(fbUser, { provider: 'google.com' }).catch(() => {});
+
+          const action = await dispatch(
+            loginWithGoogleThunk({
+              googleUid: fbUser.uid,
+              id: fbUser.uid,
+              uid: fbUser.uid,
+              name: fbUser.displayName || (cleanEmail ? cleanEmail.split('@')[0] : 'Customer'),
+              email: cleanEmail,
+              avatar: fbUser.photoURL || '',
+              phone: fbUser.phoneNumber || '',
+              token,
+              isVerified: true,
+              emailVerified: fbUser.emailVerified ?? true,
+            })
+          );
+
+          if (loginWithGoogleThunk.fulfilled.match(action)) {
+            const target = sessionStorage.getItem('dhanvikk_auth_redirect_target');
+            sessionStorage.removeItem('dhanvikk_auth_redirect_target');
+            sessionStorage.removeItem('dhanvikk_logged_out');
+            if (
+              window.location.pathname.startsWith('/login') ||
+              window.location.pathname.startsWith('/register')
+            ) {
+              const finalTarget =
+                target && target !== '/login' && target !== '/register' && target !== '/account'
+                  ? target
+                  : '/';
+              window.location.replace(finalTarget);
+            }
+          }
+        } catch (err) {
+          console.warn('[GlobalAuthSync] onAuthStateChanged sync error:', err);
+        }
+      }
+    });
+
     return () => {
       active = false;
-      if (unsubscribe) unsubscribe();
+      unsubscribe();
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return null;
@@ -158,88 +208,89 @@ export default function App() {
       <CurrencyProvider>
         <HelmetProvider>
           <BrowserRouter>
-          <GlobalGoogleRedirectHandler />
-          {/* Sonner Toast Notifications */}
-          <Toaster
-            position="top-center"
-            richColors
-            toastOptions={{
-              style: {
-                borderRadius: '14px',
-                fontFamily: 'Poppins, sans-serif',
-                fontSize: '13px',
-              },
-            }}
-          />
+            <GlobalAuthSync />
 
-          <Suspense fallback={<RouteFallback />}>
-            <Routes>
-              {/* Root URL: Normal Shopping Page */}
-              <Route path="/" element={<Home />} />
+            {/* Sonner Toast Notifications */}
+            <Toaster
+              position="top-center"
+              richColors
+              toastOptions={{
+                style: {
+                  borderRadius: '14px',
+                  fontFamily: 'Poppins, sans-serif',
+                  fontSize: '13px',
+                },
+              }}
+            />
 
-              {/* Collections & Product Detail Pages */}
-              <Route path="/category/:slug" element={<CategoryPage />} />
-              <Route path="/product/:id" element={<ProductDetailPage />} />
+            <Suspense fallback={<RouteFallback />}>
+              <Routes>
+                {/* Root URL: Normal Shopping Page */}
+                <Route path="/" element={<Home />} />
 
-              {/* Customer Authentication */}
-              <Route path="/login" element={<Login />} />
-              <Route path="/register" element={<Register />} />
-              <Route path="/forgot-password" element={<ForgotPassword />} />
-              <Route path="/reset-password" element={<ForgotPassword />} />
+                {/* Collections & Product Detail Pages */}
+                <Route path="/category/:slug" element={<CategoryPage />} />
+                <Route path="/product/:id" element={<ProductDetailPage />} />
 
-              {/* Admin Routes: http://localhost:5173/admin automatically goes to admin login page */}
-              <Route path="/admin" element={<AdminEntryRoute />} />
-              <Route path="/admin/login" element={<AdminLogin />} />
-              <Route
-                path="/admin/dashboard"
-                element={
-                  <RoleRoute allowedRoles={['admin', 'manager', 'inventory_manager', 'delivery_manager', 'content_manager', 'super_admin']}>
-                    <AdminDashboard />
-                  </RoleRoute>
-                }
-              />
-              <Route path="/admin/dashbord" element={<Navigate to="/admin/dashboard" replace />} />
+                {/* Customer Authentication */}
+                <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Register />} />
+                <Route path="/forgot-password" element={<ForgotPassword />} />
+                <Route path="/reset-password" element={<ForgotPassword />} />
 
-              {/* Customer Account Routes */}
-              <Route
-                path="/account"
-                element={
-                  <ProtectedRoute>
-                    <AccountDashboard />
-                  </ProtectedRoute>
-                }
-              />
-              <Route path="/account/:encryptedKey" element={<AccountDashboard />} />
-              <Route path="/profile" element={<ProfilePage />} />
-              <Route path="/orders" element={<OrdersPage />} />
-              <Route path="/my-orders" element={<Navigate to="/orders" replace />} />
-              <Route path="/address" element={<AddressPage />} />
-              <Route path="/addresses" element={<Navigate to="/address" replace />} />
+                {/* Admin Routes */}
+                <Route path="/admin" element={<AdminEntryRoute />} />
+                <Route path="/admin/login" element={<AdminLogin />} />
+                <Route
+                  path="/admin/dashboard"
+                  element={
+                    <RoleRoute allowedRoles={['admin', 'manager', 'inventory_manager', 'delivery_manager', 'content_manager', 'super_admin']}>
+                      <AdminDashboard />
+                    </RoleRoute>
+                  }
+                />
+                <Route path="/admin/dashbord" element={<Navigate to="/admin/dashboard" replace />} />
 
-              {/* Company & Information Pages */}
-              <Route path="/about" element={<AboutPage />} />
-              <Route path="/about-us" element={<Navigate to="/about" replace />} />
-              <Route path="/contact" element={<ContactPage />} />
-              <Route path="/contact-us" element={<Navigate to="/contact" replace />} />
-              <Route path="/faq" element={<FaqPage />} />
-              <Route path="/faqs" element={<Navigate to="/faq" replace />} />
+                {/* Customer Account Routes (protected) */}
+                <Route
+                  path="/account"
+                  element={
+                    <ProtectedRoute>
+                      <AccountDashboard />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route path="/account/:encryptedKey" element={<AccountDashboard />} />
+                <Route path="/profile" element={<ProfilePage />} />
+                <Route path="/orders" element={<OrdersPage />} />
+                <Route path="/my-orders" element={<Navigate to="/orders" replace />} />
+                <Route path="/address" element={<AddressPage />} />
+                <Route path="/addresses" element={<Navigate to="/address" replace />} />
 
-              <Route
-                path="/checkout"
-                element={
-                  <ProtectedRoute>
-                    <CheckoutPage />
-                  </ProtectedRoute>
-                }
-              />
+                {/* Company & Information Pages */}
+                <Route path="/about" element={<AboutPage />} />
+                <Route path="/about-us" element={<Navigate to="/about" replace />} />
+                <Route path="/contact" element={<ContactPage />} />
+                <Route path="/contact-us" element={<Navigate to="/contact" replace />} />
+                <Route path="/faq" element={<FaqPage />} />
+                <Route path="/faqs" element={<Navigate to="/faq" replace />} />
 
-              {/* Fallback */}
-              <Route path="*" element={<Navigate to="/" replace />} />
-            </Routes>
-          </Suspense>
-        </BrowserRouter>
-      </HelmetProvider>
-    </CurrencyProvider>
-  </Provider>
+                <Route
+                  path="/checkout"
+                  element={
+                    <ProtectedRoute>
+                      <CheckoutPage />
+                    </ProtectedRoute>
+                  }
+                />
+
+                {/* Fallback */}
+                <Route path="*" element={<Navigate to="/" replace />} />
+              </Routes>
+            </Suspense>
+          </BrowserRouter>
+        </HelmetProvider>
+      </CurrencyProvider>
+    </Provider>
   );
 }

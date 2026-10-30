@@ -12,6 +12,8 @@ import {
   sendPasswordResetEmail,
   onAuthStateChanged,
   signInWithCredential,
+  browserLocalPersistence,
+  setPersistence,
 } from 'firebase/auth';
 import {
   getFirestore,
@@ -36,16 +38,16 @@ const getResolvedAuthDomain = () => {
 
 // Firebase configuration for project: auth-checker-1-main (Web App)
 const firebaseConfig = {
-  apiKey: import.meta.env.VITE_FIREBASE_API_KEY || 'AIzaSyC1hipp0dBNuKNRcT11fb-yj9KHZjFAQdE',
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
   authDomain: getResolvedAuthDomain(),
-  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID || 'auth-checker-1-main',
-  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET || 'auth-checker-1-main.firebasestorage.app',
-  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID || '160660053649',
-  appId: import.meta.env.VITE_FIREBASE_APP_ID || '1:160660053649:web:3133a668cc3085163e6930',
-  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID || 'G-0Q9KCWM5N5',
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
+  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID,
 };
 
-// Initialize Firebase App
+// Initialize Firebase App (singleton guard)
 const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
 
 // Initialize Analytics safely in browser
@@ -63,52 +65,118 @@ if (typeof window !== 'undefined') {
 // Initialize Services
 export const auth = getAuth(app);
 export const db = getFirestore(app);
-export const googleProvider = new GoogleAuthProvider();
 
-// Custom parameters for Google OAuth
-googleProvider.setCustomParameters({
-  prompt: 'select_account',
-});
+// Set session persistence to browserLocalPersistence so the user stays logged in across refreshes.
+// This runs once at module load; errors are non-fatal (e.g., storage blocked by privacy settings).
+setPersistence(auth, browserLocalPersistence).catch(() => {});
+
+// Google OAuth provider — force account chooser every time
+export const googleProvider = new GoogleAuthProvider();
+googleProvider.setCustomParameters({ prompt: 'select_account' });
+googleProvider.addScope('email');
+googleProvider.addScope('profile');
+
+// ─── User → Firestore Sync ────────────────────────────────────────────────────
 
 /**
- * Safe user profile extraction (non-blocking)
+ * saveUserToDb
+ * Writes the authenticated user to Firestore `users/{uid}`.
+ * - Sets `createdAt` ONLY on first login (checks whether the doc already exists).
+ * - Always updates `lastLoginAt`, `displayName`, `photoURL`, `provider`.
+ * - The `role` field is NEVER set from the client on updates (only on creation).
+ * - Uses `setDoc(..., { merge: true })` to avoid overwriting unrelated fields.
  */
-export const syncUserWithFirestore = async (firebaseUser, additionalData = {}) => {
+export const saveUserToDb = async (firebaseUser, additionalData = {}) => {
   if (!firebaseUser?.uid) return null;
 
-  const cleanEmail = firebaseUser.email || '';
-  const baseData = {
-    uid: firebaseUser.uid,
-    id: firebaseUser.uid,
-    email: cleanEmail,
-    displayName:
-      firebaseUser.displayName ||
-      additionalData.name ||
-      (cleanEmail ? cleanEmail.split('@')[0] : 'Valued Customer'),
-    photoURL: firebaseUser.photoURL || '',
-    phoneNumber: firebaseUser.phoneNumber || additionalData.phone || '',
-    role: additionalData.role || 'customer',
-    ...additionalData,
-  };
+  const cleanEmail = (firebaseUser.email || '').trim().toLowerCase();
+  const displayName =
+    firebaseUser.displayName ||
+    additionalData.name ||
+    (cleanEmail ? cleanEmail.split('@')[0] : 'Valued Customer');
 
-  // Background non-blocking sync attempt (fails silently if Firestore API is disabled)
-  (async () => {
-    try {
-      const userRef = doc(db, 'users', firebaseUser.uid);
-      await Promise.race([
-        setDoc(userRef, { ...baseData, lastLoginAt: serverTimestamp() }, { merge: true }),
-        new Promise((_, reject) => setTimeout(() => reject(new Error('Firestore timeout')), 1000)),
-      ]);
-    } catch {
-      // Offline or disabled Firestore is non-fatal
+  const userRef = doc(db, 'users', firebaseUser.uid);
+
+  try {
+    const existingSnap = await Promise.race([
+      getDoc(userRef),
+      new Promise((_, reject) => setTimeout(() => reject(new Error('Firestore getDoc timeout')), 3000)),
+    ]);
+
+    const isNew = !existingSnap.exists();
+
+    const dataToWrite = {
+      uid: firebaseUser.uid,
+      displayName,
+      email: cleanEmail,
+      photoURL: firebaseUser.photoURL || '',
+      phoneNumber: firebaseUser.phoneNumber || additionalData.phone || '',
+      provider: additionalData.provider || 'google.com',
+      lastLoginAt: serverTimestamp(),
+    };
+
+    if (isNew) {
+      // Only set these fields on first login — never overwrite them later
+      dataToWrite.createdAt = serverTimestamp();
+      dataToWrite.role = 'user';
     }
-  })();
 
-  return baseData;
+    await Promise.race([
+      setDoc(userRef, dataToWrite, { merge: true }),
+      new Promise((_, reject) => setTimeout(() => reject(new Error('Firestore setDoc timeout')), 3000)),
+    ]);
+
+    return {
+      uid: firebaseUser.uid,
+      displayName,
+      email: cleanEmail,
+      photoURL: firebaseUser.photoURL || '',
+      role: isNew ? 'user' : (existingSnap.data()?.role || 'customer'),
+      isNew,
+    };
+  } catch (err) {
+    // Firestore write failure is non-fatal — auth still succeeds
+    console.warn('[firebase] saveUserToDb non-fatal error:', err?.message);
+    return null;
+  }
 };
 
+// Keep old name as alias for backward compatibility with other code that calls syncUserWithFirestore
+export const syncUserWithFirestore = async (firebaseUser, additionalData = {}) => {
+  const result = await saveUserToDb(firebaseUser, additionalData);
+
+  // Backward-compatible return shape
+  if (!result) {
+    const cleanEmail = (firebaseUser?.email || '').trim().toLowerCase();
+    return {
+      uid: firebaseUser?.uid,
+      id: firebaseUser?.uid,
+      email: cleanEmail,
+      displayName:
+        firebaseUser?.displayName ||
+        additionalData.name ||
+        (cleanEmail ? cleanEmail.split('@')[0] : 'Valued Customer'),
+      photoURL: firebaseUser?.photoURL || '',
+      phoneNumber: firebaseUser?.phoneNumber || additionalData.phone || '',
+      role: additionalData.role || 'customer',
+      ...additionalData,
+    };
+  }
+
+  return {
+    ...result,
+    id: result.uid,
+    name: result.displayName,
+    avatar: result.photoURL,
+    ...additionalData,
+  };
+};
+
+// ─── Google Sign-In (Popup → Redirect Fallback) ───────────────────────────────
+
 /**
- * Sign In with Google (Instant popup with seamless automatic redirect fallback if popup is blocked)
+ * Sign In with Google using a popup (account chooser always shown).
+ * Falls back to redirect if popup is blocked or on mobile browsers.
  */
 export const signInWithGoogleFirebase = async () => {
   try {
@@ -116,12 +184,12 @@ export const signInWithGoogleFirebase = async () => {
     const user = result.user;
     const token = await user.getIdToken();
 
-    const cleanEmail = user.email || '';
+    const cleanEmail = (user.email || '').trim().toLowerCase();
     const resolvedName = user.displayName || (cleanEmail ? cleanEmail.split('@')[0] : 'Google Customer');
-    const resolvedAvatar = user.photoURL || (cleanEmail ? `https://unavatar.io/google/${encodeURIComponent(cleanEmail)}` : '');
+    const resolvedAvatar = user.photoURL || '';
 
-    // Non-blocking background sync attempt
-    syncUserWithFirestore(user, { provider: 'google' }).catch(() => {});
+    // Non-blocking background sync
+    saveUserToDb(user, { provider: 'google.com' }).catch(() => {});
 
     return {
       success: true,
@@ -140,8 +208,8 @@ export const signInWithGoogleFirebase = async () => {
       token,
     };
   } catch (error) {
-    console.warn('Google Sign-In interaction notice:', error.code, error.message);
-    
+    console.warn('[firebase] Google Sign-In notice:', error.code, error.message);
+
     // User explicitly closed or canceled the popup
     if (
       error.code === 'auth/popup-closed-by-user' ||
@@ -150,9 +218,9 @@ export const signInWithGoogleFirebase = async () => {
       return { canceled: true, message: 'Google sign-in was canceled.' };
     }
 
-    // Popup was blocked by browser settings -> Seamlessly fallback to redirect flow
+    // Popup was blocked by browser → fallback to redirect flow
     if (error.code === 'auth/popup-blocked') {
-      console.info('Google popup was blocked by browser; smoothly initiating full-page redirect flow...');
+      console.info('[firebase] Popup blocked — falling back to signInWithRedirect...');
       try {
         if (typeof window !== 'undefined') {
           sessionStorage.setItem('dhanvikk_auth_redirect_target', window.location.pathname || '/');
@@ -160,11 +228,11 @@ export const signInWithGoogleFirebase = async () => {
         await signInWithRedirect(auth, googleProvider);
         return { redirecting: true, message: 'Redirecting to Google Sign-In...' };
       } catch (redirectErr) {
-        console.warn('Redirect fallback attempt notice:', redirectErr);
+        console.warn('[firebase] Redirect fallback notice:', redirectErr);
         return {
           popupBlocked: true,
           error: error.code,
-          message: 'The Google sign-in popup was blocked. Redirecting...',
+          message: 'The Google sign-in popup was blocked. Please enable popups for this site.',
         };
       }
     }
@@ -175,7 +243,25 @@ export const signInWithGoogleFirebase = async () => {
       return {
         unauthorizedDomain: true,
         error: error.code,
-        message: `The domain "${currentHost}" is not authorized in Firebase Auth. Please verify Authorized Domains in Firebase Console.`,
+        message: `The domain "${currentHost}" is not authorized in Firebase Auth. Please add it under Authentication → Settings → Authorized Domains in the Firebase Console.`,
+      };
+    }
+
+    // Account exists with a different provider
+    if (error.code === 'auth/account-exists-with-different-credential') {
+      return {
+        accountConflict: true,
+        error: error.code,
+        message: 'An account already exists with this email using a different sign-in method. Please use that method to sign in.',
+      };
+    }
+
+    // Network error
+    if (error.code === 'auth/network-request-failed') {
+      return {
+        networkError: true,
+        error: error.code,
+        message: 'Network connection error. Please check your internet and try again.',
       };
     }
 
@@ -184,7 +270,7 @@ export const signInWithGoogleFirebase = async () => {
 };
 
 /**
- * Parse Google ID Token JWT without external dependencies
+ * Parse Google ID Token JWT payload without external dependencies
  */
 export const parseJwtPayload = (token) => {
   try {
@@ -201,7 +287,7 @@ export const parseJwtPayload = (token) => {
     );
     return JSON.parse(jsonPayload);
   } catch (err) {
-    console.warn('Failed to parse Google JWT payload:', err?.message);
+    console.warn('[firebase] Failed to parse Google JWT payload:', err?.message);
     return null;
   }
 };
@@ -213,19 +299,17 @@ export const signInWithGoogleCredential = async (idToken) => {
   if (!idToken) throw new Error('No Google credential provided.');
 
   const payload = parseJwtPayload(idToken);
-  const cleanEmail = payload?.email || '';
+  const cleanEmail = (payload?.email || '').trim().toLowerCase();
   const resolvedName = payload?.name || (cleanEmail ? cleanEmail.split('@')[0] : 'Google Customer');
-  const resolvedAvatar = payload?.picture || (cleanEmail ? `https://unavatar.io/google/${encodeURIComponent(cleanEmail)}` : '');
-  const googleUid = payload?.sub || '';
+  const resolvedAvatar = payload?.picture || '';
 
   try {
-    // 1. Authenticate with Firebase using official Google credential
     const credential = GoogleAuthProvider.credential(idToken);
     const result = await signInWithCredential(auth, credential);
     const user = result.user;
     const fbToken = await user.getIdToken().catch(() => idToken);
 
-    syncUserWithFirestore(user, { provider: 'google' }).catch(() => {});
+    saveUserToDb(user, { provider: 'google.com' }).catch(() => {});
 
     return {
       success: true,
@@ -234,7 +318,7 @@ export const signInWithGoogleCredential = async (idToken) => {
         uid: user.uid,
         googleUid: user.uid,
         name: user.displayName || resolvedName,
-        email: user.email || cleanEmail,
+        email: (user.email || cleanEmail).trim().toLowerCase(),
         avatar: user.photoURL || resolvedAvatar,
         phone: user.phoneNumber || '',
         role: 'customer',
@@ -244,35 +328,23 @@ export const signInWithGoogleCredential = async (idToken) => {
       token: fbToken,
     };
   } catch (fbErr) {
-    console.warn('Firebase signInWithCredential note (proceeding with verified Google JWT):', fbErr?.message);
-    // Graceful fallback: If Firebase Auth rules or domain config restricts SDK, authenticated Google JWT is verified
-    return {
-      success: true,
-      user: {
-        id: googleUid || `g_${Date.now()}`,
-        uid: googleUid || `g_${Date.now()}`,
-        googleUid,
-        name: resolvedName,
-        email: cleanEmail,
-        avatar: resolvedAvatar,
-        phone: '',
-        role: 'customer',
-        isVerified: true,
-        emailVerified: payload?.email_verified ?? true,
-      },
-      token: idToken,
-    };
+    console.warn('[firebase] signInWithCredential note:', fbErr?.message);
+    throw fbErr;
   }
 };
 
 /**
- * Direct Google Redirect sign in
+ * Initiate Google sign-in via full-page redirect (used as manual fallback)
  */
 export const signInWithGoogleRedirect = async (customTarget = '/') => {
   if (typeof window !== 'undefined') {
-    const target = customTarget && !customTarget.includes('/login') && !customTarget.includes('/register') && !customTarget.includes('/account')
-      ? customTarget
-      : '/';
+    const target =
+      customTarget &&
+      !customTarget.includes('/login') &&
+      !customTarget.includes('/register') &&
+      !customTarget.includes('/account')
+        ? customTarget
+        : '/';
     sessionStorage.setItem('dhanvikk_auth_redirect_target', target);
   }
   await signInWithRedirect(auth, googleProvider);
@@ -281,7 +353,7 @@ export const signInWithGoogleRedirect = async (customTarget = '/') => {
 let redirectResultPromise = null;
 
 /**
- * Handle Google Redirect result if redirect authentication was used
+ * Handle Google Redirect result — call exactly once on app mount.
  */
 export const checkGoogleRedirectResult = () => {
   if (!redirectResultPromise) {
@@ -290,19 +362,17 @@ export const checkGoogleRedirectResult = () => {
         const result = await getRedirectResult(auth);
         let user = result?.user;
 
-        // Fallback: If getRedirectResult returned null, check auth.currentUser
         if (!user && auth.currentUser) {
           user = auth.currentUser;
         }
 
         if (!user) return null;
         const token = await user.getIdToken();
-
-        const cleanEmail = user.email || '';
+        const cleanEmail = (user.email || '').trim().toLowerCase();
         const resolvedName = user.displayName || (cleanEmail ? cleanEmail.split('@')[0] : 'Google Customer');
-        const resolvedAvatar = user.photoURL || (cleanEmail ? `https://unavatar.io/google/${encodeURIComponent(cleanEmail)}` : '');
+        const resolvedAvatar = user.photoURL || '';
 
-        syncUserWithFirestore(user, { provider: 'google' }).catch(() => {});
+        saveUserToDb(user, { provider: 'google.com' }).catch(() => {});
 
         return {
           success: true,
@@ -321,29 +391,29 @@ export const checkGoogleRedirectResult = () => {
           token,
         };
       } catch (error) {
-        console.warn('Redirect check notice:', error.code, error.message);
+        console.warn('[firebase] checkGoogleRedirectResult notice:', error.code, error.message);
         if (error.code === 'auth/unauthorized-domain') {
           return {
             error: 'unauthorized-domain',
-            message: 'Domain not authorized in Firebase Console: please add "dhanvikk-exports-main.vercel.app" to Firebase Authentication -> Settings -> Authorized Domains.',
+            message:
+              'Domain not authorized in Firebase Console. Add it under Authentication → Settings → Authorized Domains.',
           };
         }
+        // Try auth.currentUser as last resort
         if (auth.currentUser) {
           try {
             const user = auth.currentUser;
             const token = await user.getIdToken();
-            const cleanEmail = user.email || '';
-            const resolvedName = user.displayName || (cleanEmail ? cleanEmail.split('@')[0] : 'Google Customer');
-            const resolvedAvatar = user.photoURL || (cleanEmail ? `https://unavatar.io/google/${encodeURIComponent(cleanEmail)}` : '');
+            const cleanEmail = (user.email || '').trim().toLowerCase();
             return {
               success: true,
               user: {
                 id: user.uid,
                 uid: user.uid,
                 googleUid: user.uid,
-                name: resolvedName,
+                name: user.displayName || (cleanEmail ? cleanEmail.split('@')[0] : 'Google Customer'),
                 email: cleanEmail,
-                avatar: resolvedAvatar,
+                avatar: user.photoURL || '',
                 phone: user.phoneNumber || '',
                 role: 'customer',
                 isVerified: true,
@@ -351,7 +421,9 @@ export const checkGoogleRedirectResult = () => {
               },
               token,
             };
-          } catch {}
+          } catch {
+            // ignore
+          }
         }
         return null;
       }
@@ -359,6 +431,8 @@ export const checkGoogleRedirectResult = () => {
   }
   return redirectResultPromise;
 };
+
+// ─── Email / Password ─────────────────────────────────────────────────────────
 
 /**
  * Register with Email and Password
@@ -389,7 +463,7 @@ export const signUpWithEmailPassword = async (email, password, displayName) => {
       token,
     };
   } catch (error) {
-    console.error('Email/Password Registration Error:', error);
+    console.error('[firebase] Email/Password Registration Error:', error);
     throw error;
   }
 };
@@ -417,20 +491,20 @@ export const signInWithEmailPasswordFirebase = async (email, password) => {
       token,
     };
   } catch (error) {
-    console.error('Email/Password Login Error:', error);
+    console.error('[firebase] Email/Password Login Error:', error);
     throw error;
   }
 };
 
 /**
- * Sign Out
+ * Sign Out from Firebase
  */
 export const logOutFirebase = async () => {
   try {
     await signOut(auth);
     return { success: true };
   } catch (error) {
-    console.error('Firebase Sign-Out Error:', error);
+    console.error('[firebase] Sign-Out Error:', error);
     throw error;
   }
 };
@@ -443,7 +517,7 @@ export const resetPasswordFirebase = async (email) => {
     await sendPasswordResetEmail(auth, email);
     return { success: true };
   } catch (error) {
-    console.error('Password Reset Error:', error);
+    console.error('[firebase] Password Reset Error:', error);
     throw error;
   }
 };

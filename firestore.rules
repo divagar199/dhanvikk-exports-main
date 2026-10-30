@@ -1,49 +1,470 @@
 rules_version = '2';
+
+// ===============================================================
+// Dhanvikk Blooms — Cloud Firestore Security Rules
+// ===============================================================
+//
+// Assumed Data Models
+// ===============================================================
+//
+// Collection: users
+// Document ID: {uid}  (must equal request.auth.uid)
+// Fields:
+//   - uid          : string  (required, immutable) — Firebase Auth UID
+//   - id           : string  (optional) — mirror of uid
+//   - email        : string  (required, immutable) — user email; max 254 chars
+//   - displayName  : string  (optional) — display name; max 100 chars
+//   - photoURL     : string  (optional) — avatar URL; max 512 chars
+//   - phoneNumber  : string  (optional) — phone; max 20 chars
+//   - role         : string  (required, IMMUTABLE by client) — 'user' | 'customer'
+//                    Only server/admin can set 'admin' or other privileged roles.
+//   - provider     : string  (optional) — 'google' | 'password'; max 20 chars
+//   - createdAt    : timestamp (optional, immutable) — set server-side on first write
+//   - lastLoginAt  : timestamp (optional) — updated on each login
+//
+// Collection: products
+// Document ID: {productId}
+// Fields:
+//   - slug          : string  (required) — URL-safe slug; max 120 chars
+//   - name          : string  (required) — product name; max 150 chars
+//   - category      : string  (required) — category; max 60 chars
+//   - subCategory   : string  (optional) — sub-category; max 60 chars
+//   - occasion      : string  (optional) — occasion tag; max 60 chars
+//   - recipient     : string  (optional) — recipient tag; max 60 chars
+//   - flowerType    : string  (optional) — flower type; max 60 chars
+//   - price         : number  (required) — price in INR; >= 0
+//   - originalPrice : number  (optional) — compare-at price; >= 0
+//   - stock         : number  (required) — stock count; >= 0
+//   - inStock       : bool    (optional) — derived from stock
+//   - images        : list    (required) — list of image URLs; max 20 items
+//   - image         : string  (optional) — primary image URL; max 512 chars
+//   - rating        : number  (optional) — average rating; 0-5
+//   - reviewsCount  : number  (optional) — total review count; >= 0
+//   - tag           : string  (optional) — display tag; max 50 chars
+//   - description   : string  (required) — product description; max 2000 chars
+//   - isFeatured    : bool    (optional)
+//   - isBestSeller  : bool    (optional)
+//   - isNewArrival  : bool    (optional)
+//   - createdAt     : timestamp or string (optional)
+//
+// Collection: orders
+// Document ID: {orderId}
+// Fields:
+//   - userId            : string  (required, immutable) — owner's Firebase Auth UID
+//   - orderId           : string  (required) — human-readable order ID; max 50 chars
+//   - items             : list    (required) — array of order line items; max 100 items
+//   - shippingAddress   : map     (required) — delivery address map
+//   - deliveryDate      : string  (required) — ISO date string; max 30 chars
+//   - timeSlot          : string  (optional) — delivery time slot; max 50 chars
+//   - greetingCardMessage : string (optional) — greeting note; max 500 chars
+//   - paymentInfo       : map     (optional) — payment metadata map
+//   - subtotal          : number  (required) — order subtotal; >= 0
+//   - deliveryFee       : number  (required) — delivery fee; >= 0
+//   - totalAmount       : number  (required) — grand total; >= 0
+//   - status            : string  (required) — order status; max 50 chars
+//   - createdAt         : timestamp or string (optional, immutable)
+//
+// Collection: reviews
+// Document ID: {reviewId}
+// Fields:
+//   - userId    : string  (required, immutable) — reviewer's Firebase Auth UID
+//   - userName  : string  (required) — reviewer display name; max 100 chars
+//   - productId : string  (required, immutable) — referenced product ID; max 120 chars
+//   - rating    : number  (required) — star rating; 1-5
+//   - comment   : string  (required) — review body; max 1000 chars
+//   - title     : string  (optional) — review headline; max 150 chars
+//   - createdAt : timestamp or string (optional, immutable)
+//   - verified  : bool    (optional)
+//   - helpful   : number  (optional) — helpful vote count; >= 0
+//
+// ===============================================================
+
 service cloud.firestore {
   match /databases/{database}/documents {
-    // Helper functions
+
+    // ===========================================================
+    // Helper Functions
+    // ===========================================================
+
+    // Check if the request has a valid authenticated session
     function isAuthenticated() {
       return request.auth != null;
     }
+
+    // Check if the authenticated user's UID equals the given userId
     function isOwner(userId) {
       return isAuthenticated() && request.auth.uid == userId;
     }
+
+    // Check if the authenticated user's UID equals the document's uid field
+    function isDocOwner() {
+      return isAuthenticated() && request.auth.uid == resource.data.userId;
+    }
+
+    // Admin check: custom token claim OR whitelisted email.
+    // SECURITY: NEVER trust request.resource.data for admin role checks —
+    // always derive authority from request.auth.token (server-issued).
     function isAdmin() {
-      return isAuthenticated() && 
-        (request.auth.token.role == 'admin' || 
-         request.auth.token.email in ['xzirexatech@gmail.com', 'admin@dhanvikk.com']);
+      return isAuthenticated() &&
+        (
+          request.auth.token.role == 'admin' ||
+          request.auth.token.email in [
+            'xzirexatech@gmail.com',
+            'admin@dhanvikk.com'
+          ]
+        );
     }
 
-    // User profiles: users can read/write their own document; admins can read all
+    // Validate that the incoming document contains ONLY the specified fields.
+    // Prevents schema pollution / extraneous field injection.
+    function hasOnlyAllowedFields(fields) {
+      return request.resource.data.keys().hasOnly(fields);
+    }
+
+    // Validate that all specified fields are present in the incoming document.
+    function hasRequiredFields(fields) {
+      return request.resource.data.keys().hasAll(fields);
+    }
+
+    // Validate a string field: must be string and within [minLen, maxLen].
+    function validStr(field, minLen, maxLen) {
+      return request.resource.data[field] is string &&
+             request.resource.data[field].size() >= minLen &&
+             request.resource.data[field].size() <= maxLen;
+    }
+
+    // Validate an optional string field: if present, must be string and within [minLen, maxLen].
+    function validOptStr(field, minLen, maxLen) {
+      return !(field in request.resource.data) ||
+             (request.resource.data[field] is string &&
+              request.resource.data[field].size() >= minLen &&
+              request.resource.data[field].size() <= maxLen);
+    }
+
+    // Validate an optional boolean field: if present, must be bool.
+    function validOptBool(field) {
+      return !(field in request.resource.data) ||
+             request.resource.data[field] is bool;
+    }
+
+    // Validate an optional non-negative number field.
+    function validOptNonNegNum(field) {
+      return !(field in request.resource.data) ||
+             (request.resource.data[field] is number &&
+              request.resource.data[field] >= 0);
+    }
+
+    // Validate that the listed fields have NOT been affected by this write.
+    // Used to protect immutable fields (createdAt, uid, role, userId, etc.).
+    function areImmutableFieldsUnchanged(fields) {
+      return !request.resource.data.diff(resource.data).affectedKeys().hasAny(fields);
+    }
+
+    // ===========================================================
+    // Domain Validator: users
+    // ===========================================================
+    //
+    // Called in BOTH create AND update rules to prevent the "Update Bypass"
+    // vulnerability. Enforces strict schema, type safety, and size limits.
+    //
+    // Allowed fields on create (client-writable):
+    //   uid, id, email, displayName, photoURL, phoneNumber,
+    //   role, provider, createdAt, lastLoginAt
+    //
+    // On create: role MUST be 'user' or 'customer' — never 'admin'.
+    // On update:  role and createdAt MUST be checked as immutable (see rules).
+
+    function isValidUserData(data) {
+      return
+        // --- Schema: only allow declared fields (no extra payload fields) ---
+        data.keys().hasOnly([
+          'uid', 'id', 'email', 'displayName', 'photoURL',
+          'phoneNumber', 'role', 'provider', 'createdAt', 'lastLoginAt'
+        ]) &&
+
+        // --- Required fields ---
+        data.keys().hasAll(['uid', 'email', 'role']) &&
+
+        // --- uid: string, 1-128 chars ---
+        data.uid is string &&
+        data.uid.size() >= 1 &&
+        data.uid.size() <= 128 &&
+
+        // --- email: string, basic length bounds (format validated by Firebase Auth) ---
+        data.email is string &&
+        data.email.size() >= 3 &&
+        data.email.size() <= 254 &&
+
+        // --- role: string (client may only set 'user' or 'customer') ---
+        data.role is string &&
+        data.role in ['user', 'customer'] &&
+
+        // --- Optional string fields with DoS size limits ---
+        (!(  'id'          in data) || (data.id          is string && data.id.size()          <= 128)) &&
+        (!(  'displayName' in data) || (data.displayName is string && data.displayName.size() <= 100)) &&
+        (!(  'photoURL'    in data) || (data.photoURL    is string && data.photoURL.size()    <= 512)) &&
+        (!(  'phoneNumber' in data) || (data.phoneNumber is string && data.phoneNumber.size() <= 20))  &&
+        (!('provider'      in data) || (data.provider    is string && data.provider.size()    <= 20));
+    }
+
+    // ===========================================================
+    // Domain Validator: products
+    // ===========================================================
+
+    function isValidProductData(data) {
+      return
+        // --- Schema: only allow declared fields ---
+        data.keys().hasOnly([
+          'slug', 'name', 'category', 'subCategory', 'occasion',
+          'recipient', 'flowerType', 'price', 'originalPrice', 'stock',
+          'inStock', 'images', 'image', 'rating', 'reviewsCount',
+          'tag', 'description', 'isFeatured', 'isBestSeller', 'isNewArrival',
+          'createdAt', 'id', '_id'
+        ]) &&
+
+        // --- Required fields ---
+        data.keys().hasAll(['slug', 'name', 'category', 'price', 'stock', 'images', 'description']) &&
+
+        // --- Required strings with size limits ---
+        data.slug        is string && data.slug.size()        >= 1 && data.slug.size()        <= 120 &&
+        data.name        is string && data.name.size()        >= 1 && data.name.size()        <= 150 &&
+        data.category    is string && data.category.size()    >= 1 && data.category.size()    <= 60  &&
+        data.description is string && data.description.size() >= 1 && data.description.size() <= 2000 &&
+
+        // --- Required numbers ---
+        data.price is number && data.price >= 0 &&
+        data.stock is number && data.stock >= 0 &&
+
+        // --- Required list: images ---
+        data.images is list && data.images.size() >= 1 && data.images.size() <= 20 &&
+
+        // --- Optional string fields ---
+        (!(  'subCategory' in data) || (data.subCategory is string && data.subCategory.size() <= 60)) &&
+        (!(  'occasion'    in data) || (data.occasion    is string && data.occasion.size()    <= 60)) &&
+        (!(  'recipient'   in data) || (data.recipient   is string && data.recipient.size()   <= 60)) &&
+        (!(  'flowerType'  in data) || (data.flowerType  is string && data.flowerType.size()  <= 60)) &&
+        (!(  'image'       in data) || (data.image       is string && data.image.size()       <= 512)) &&
+        (!(  'tag'         in data) || (data.tag         is string && data.tag.size()         <= 50))  &&
+        (!(  'id'          in data) || (data.id          is string && data.id.size()          <= 128)) &&
+        (!('_id'           in data) || (data._id         is string && data._id.size()         <= 128)) &&
+
+        // --- Optional numbers ---
+        (!('originalPrice' in data) || (data.originalPrice is number && data.originalPrice >= 0)) &&
+        (!('rating'        in data) || (data.rating        is number && data.rating >= 0 && data.rating <= 5)) &&
+        (!('reviewsCount'  in data) || (data.reviewsCount  is number && data.reviewsCount >= 0)) &&
+
+        // --- Optional booleans ---
+        (!('inStock'      in data) || data.inStock      is bool) &&
+        (!('isFeatured'   in data) || data.isFeatured   is bool) &&
+        (!('isBestSeller' in data) || data.isBestSeller is bool) &&
+        (!('isNewArrival' in data) || data.isNewArrival is bool);
+    }
+
+    // ===========================================================
+    // Domain Validator: orders
+    // ===========================================================
+
+    function isValidOrderData(data) {
+      return
+        // --- Schema: only allow declared fields ---
+        data.keys().hasOnly([
+          'userId', 'orderId', 'items', 'shippingAddress',
+          'deliveryDate', 'timeSlot', 'greetingCardMessage',
+          'paymentInfo', 'subtotal', 'deliveryFee', 'totalAmount',
+          'status', 'createdAt', 'user', 'orderStatus'
+        ]) &&
+
+        // --- Required fields ---
+        data.keys().hasAll([
+          'userId', 'orderId', 'items', 'shippingAddress',
+          'deliveryDate', 'subtotal', 'deliveryFee', 'totalAmount', 'status'
+        ]) &&
+
+        // --- userId: must equal the requesting user's UID (enforced in rule) ---
+        data.userId is string && data.userId.size() >= 1 && data.userId.size() <= 128 &&
+
+        // --- orderId: string with size limit ---
+        data.orderId is string && data.orderId.size() >= 1 && data.orderId.size() <= 50 &&
+
+        // --- items: non-empty list, max 100 items ---
+        data.items is list && data.items.size() >= 1 && data.items.size() <= 100 &&
+
+        // --- shippingAddress: must be a map ---
+        data.shippingAddress is map &&
+
+        // --- deliveryDate: string, max 30 chars ---
+        data.deliveryDate is string && data.deliveryDate.size() >= 1 && data.deliveryDate.size() <= 30 &&
+
+        // --- numeric amounts: non-negative ---
+        data.subtotal    is number && data.subtotal    >= 0 &&
+        data.deliveryFee is number && data.deliveryFee >= 0 &&
+        data.totalAmount is number && data.totalAmount >= 0 &&
+
+        // --- status: string, max 50 chars ---
+        data.status is string && data.status.size() >= 1 && data.status.size() <= 50 &&
+
+        // --- optional string fields ---
+        (!('timeSlot'             in data) || (data.timeSlot             is string && data.timeSlot.size()             <= 50))  &&
+        (!('greetingCardMessage'  in data) || (data.greetingCardMessage  is string && data.greetingCardMessage.size()  <= 500)) &&
+        (!('orderStatus'          in data) || (data.orderStatus          is string && data.orderStatus.size()          <= 50))  &&
+
+        // --- optional map fields ---
+        (!('paymentInfo' in data) || data.paymentInfo is map) &&
+        (!('user'        in data) || data.user        is map);
+    }
+
+    // ===========================================================
+    // Domain Validator: reviews
+    // ===========================================================
+
+    function isValidReviewData(data) {
+      return
+        // --- Schema: only allow declared fields ---
+        data.keys().hasOnly([
+          'userId', 'userName', 'productId', 'rating',
+          'comment', 'title', 'createdAt', 'verified', 'helpful',
+          'date', 'userEmail', 'author'
+        ]) &&
+
+        // --- Required fields ---
+        data.keys().hasAll(['userId', 'userName', 'productId', 'rating', 'comment']) &&
+
+        // --- userId: must be string ---
+        data.userId    is string && data.userId.size()    >= 1 && data.userId.size()    <= 128 &&
+        data.userName  is string && data.userName.size()  >= 1 && data.userName.size()  <= 100 &&
+        data.productId is string && data.productId.size() >= 1 && data.productId.size() <= 120 &&
+        data.comment   is string && data.comment.size()   >= 1 && data.comment.size()   <= 1000 &&
+
+        // --- rating: integer 1-5 ---
+        data.rating is number && data.rating >= 1 && data.rating <= 5 &&
+
+        // --- optional string fields ---
+        (!('title'     in data) || (data.title     is string && data.title.size()     <= 150)) &&
+        (!('date'      in data) || (data.date      is string && data.date.size()      <= 30))  &&
+        (!('userEmail' in data) || (data.userEmail is string && data.userEmail.size() <= 254)) &&
+        (!('author'    in data) || (data.author    is string && data.author.size()    <= 100)) &&
+
+        // --- optional fields ---
+        (!('verified' in data) || data.verified is bool) &&
+        (!('helpful'  in data) || (data.helpful  is number && data.helpful >= 0));
+    }
+
+    // ===========================================================
+    // Collection Rules: users/{userId}
+    // ===========================================================
+
     match /users/{userId} {
+
+      // READ: Only the document owner or an admin may read user profiles.
+      // Prevents cross-user PII (email, phone) exposure.
       allow read: if isOwner(userId) || isAdmin();
-      allow create: if isOwner(userId) || isAdmin();
-      allow update: if isOwner(userId) || isAdmin();
+
+      // CREATE: Owner creates their own document.
+      //   - Document ID must equal the requesting user's UID (isOwner).
+      //   - uid field in data must equal the requesting user's UID.
+      //   - isValidUserData enforces: role ∈ ['user','customer'] (no 'admin' self-grant).
+      //   - Privilege escalation via 'admin' role on create is BLOCKED by the validator.
+      allow create: if isOwner(userId) &&
+                       request.resource.data.uid == request.auth.uid &&
+                       isValidUserData(request.resource.data);
+
+      // UPDATE: Owner may update their own document OR admin may update any.
+      //   - For non-admin owners: role, createdAt, and uid are immutable.
+      //   - isValidUserData is called to enforce schema and type safety on every update.
+      //   - Prevents the "Update Bypass" vulnerability (1MB injection, bad types, etc.).
+      //   - Admin bypasses immutability check (server can promote roles, etc.).
+      allow update: if (
+                      // Owner update path: strict immutability on privileged fields
+                      isOwner(userId) &&
+                      isValidUserData(request.resource.data) &&
+                      areImmutableFieldsUnchanged(['uid', 'email', 'createdAt', 'role'])
+                    ) || isAdmin();
+
+      // DELETE: Admin only.
       allow delete: if isAdmin();
     }
 
-    // Products: catalog is publicly readable, writeable only by admins
+    // ===========================================================
+    // Collection Rules: products/{productId}
+    // ===========================================================
+
     match /products/{productId} {
-      allow read: if true;
-      allow write: if isAdmin();
-    }
 
-    // Orders: customer can read/create their own orders; admin can manage all
-    match /orders/{orderId} {
-      allow read: if isAuthenticated() && (resource.data.userId == request.auth.uid || isAdmin());
-      allow create: if isAuthenticated() && (request.resource.data.userId == request.auth.uid || isAdmin());
-      allow update: if isAdmin();
+      // READ: Publicly readable (luxury catalog — no PII involved).
+      allow read: if true;
+
+      // CREATE: Admin only, with full schema validation.
+      allow create: if isAdmin() && isValidProductData(request.resource.data);
+
+      // UPDATE: Admin only, with full schema validation.
+      //   - isValidProductData ensures no Update Bypass on admin updates as well.
+      allow update: if isAdmin() && isValidProductData(request.resource.data);
+
+      // DELETE: Admin only.
       allow delete: if isAdmin();
     }
 
-    // Reviews: readable by all, writable by authenticated owner
-    match /reviews/{reviewId} {
-      allow read: if true;
-      allow create: if isAuthenticated();
-      allow update, delete: if isAuthenticated() && (resource.data.userId == request.auth.uid || isAdmin());
+    // ===========================================================
+    // Collection Rules: orders/{orderId}
+    // ===========================================================
+
+    match /orders/{orderId} {
+
+      // READ: Authenticated user may read only their own orders.
+      //       Admins may read all orders.
+      allow read: if isAuthenticated() &&
+                    (resource.data.userId == request.auth.uid || isAdmin());
+
+      // CREATE: Authenticated user may create their own order.
+      //   - userId in the new document MUST equal request.auth.uid (ownership lock).
+      //   - Full schema validation via isValidOrderData.
+      allow create: if isAuthenticated() &&
+                       request.resource.data.userId == request.auth.uid &&
+                       isValidOrderData(request.resource.data);
+
+      // UPDATE: Admin only (e.g., updating order status, payment info).
+      //   - Non-admin clients cannot update orders (no fulfillment tampering).
+      allow update: if isAdmin();
+
+      // DELETE: Admin only.
+      allow delete: if isAdmin();
     }
 
-    // Default deny all other paths
+    // ===========================================================
+    // Collection Rules: reviews/{reviewId}
+    // ===========================================================
+
+    match /reviews/{reviewId} {
+
+      // READ: Publicly readable (product reviews are public-facing content).
+      allow read: if true;
+
+      // CREATE: Any authenticated user may create a review.
+      //   - userId in the review MUST equal request.auth.uid.
+      //   - Full schema validation prevents malformed or oversized payloads.
+      allow create: if isAuthenticated() &&
+                       request.resource.data.userId == request.auth.uid &&
+                       isValidReviewData(request.resource.data);
+
+      // UPDATE: Only the review owner or admin may update.
+      //   - isValidReviewData is called to prevent the Update Bypass vulnerability.
+      //   - Immutable fields (userId, productId, createdAt) cannot be changed by owner.
+      allow update: if (
+                      isDocOwner() &&
+                      isValidReviewData(request.resource.data) &&
+                      areImmutableFieldsUnchanged(['userId', 'productId', 'createdAt'])
+                    ) || isAdmin();
+
+      // DELETE: Only the review owner or admin may delete.
+      allow delete: if isDocOwner() || isAdmin();
+    }
+
+    // ===========================================================
+    // Default Deny — All other paths
+    // ===========================================================
+    // Explicit catch-all denies any unlisted collection or subcollection.
+    // This is defense-in-depth alongside the implicit default-deny of rules v2.
+
     match /{document=**} {
       allow read, write: if false;
     }
