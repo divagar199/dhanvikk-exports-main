@@ -2288,6 +2288,8 @@ export default function AdminDashboard() {
               settings={exportSettings}
               onSave={handleSaveSettings}
               superAdminEmail={superAdminEmail}
+              authUser={authUser}
+              onLogAudit={logAudit}
             />
           </main>
         )}

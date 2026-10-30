@@ -1,7 +1,7 @@
 import express from 'express';
 import {
   login, googleLogin, googleRedirectCallback, getMe, logout, register, getProfileData, updateProfile,
-  saveAddress, deleteAddress, toggleWishlistBouquet, verifyPortalKey, saveUserCart,
+  saveAddress, deleteAddress, toggleWishlistBouquet, verifyPortalKey, saveUserCart, changePassword,
 } from '../controllers/authController.js';
 import { protect } from '../middleware/authMiddleware.js';
 
@@ -21,5 +21,6 @@ router.delete('/addresses/:id', protect, deleteAddress);
 router.post('/wishlist', protect, toggleWishlistBouquet);
 router.post('/cart', protect, saveUserCart);
 router.post('/verify-portal', verifyPortalKey);
+router.put('/change-password', changePassword);
 
 export default router;

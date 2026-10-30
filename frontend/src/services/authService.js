@@ -98,6 +98,18 @@ export const authService = {
   /**
    * Persist user-specific cart
    */
+  /**
+   * Change password for logged-in admin / user
+   */
+  async changePassword(data) {
+    try {
+      const response = await api.put('/api/auth/change-password', data);
+      return response.data;
+    } catch (err) {
+      throw err.response?.data || err;
+    }
+  },
+
   async saveUserCart(cart) {
     const response = await api.post('/api/auth/cart', { cart });
     return response.data;

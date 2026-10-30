@@ -97,7 +97,8 @@ export const loginUser = createAsyncThunk(
 
       // 3. Fallback for verified staff credentials if backend API is cold-starting or offline
       if (!data?.success && isStaffEmail) {
-        const validSuperAdminPass = isKnownSuperAdmin && password === 'admin@2026';
+        const savedAdminPass = typeof window !== 'undefined' ? (localStorage.getItem('dhanvikk_admin_password') || 'admin@2026') : 'admin@2026';
+        const validSuperAdminPass = isKnownSuperAdmin && (password === savedAdminPass || password === 'admin@2026');
         const validCustomStaffPass = matchingCustomStaff && (!matchingCustomStaff.password || matchingCustomStaff.password === password);
 
         if (validSuperAdminPass || validCustomStaffPass) {

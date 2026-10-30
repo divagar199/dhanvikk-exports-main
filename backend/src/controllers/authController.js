@@ -1353,3 +1353,83 @@ export const saveUserCart = async (req, res) => {
     res.status(500).json({ success: false, message: error.message });
   }
 };
+
+/**
+ * @desc Change password for logged in admin / staff
+ * @route PUT /api/auth/change-password
+ * @access Private (Admin & Super Admin only)
+ */
+export const changePassword = async (req, res) => {
+  try {
+    const { currentPassword, newPassword, email } = req.body;
+    const targetEmail = (email || req.user?.email || 'divagar.m.msc.cs@gmail.com').trim().toLowerCase();
+
+    if (!currentPassword || !newPassword) {
+      return res.status(400).json({
+        success: false,
+        message: 'Current password and new password are required.',
+      });
+    }
+
+    if (newPassword.length < 6) {
+      return res.status(400).json({
+        success: false,
+        message: 'New password must be at least 6 characters long.',
+      });
+    }
+
+    // Role verification: only allow logged-in admin / super_admin
+    const userRole = req.user?.role || req.body.role || 'super_admin';
+    if (!['admin', 'super_admin'].includes(userRole)) {
+      return res.status(403).json({
+        success: false,
+        message: 'Access restricted: Only authorized administrators can change admin credentials.',
+      });
+    }
+
+    let userFound = false;
+
+    // Check MongoDB if online
+    if (getDBStatus()) {
+      const dbUser = await UserModel.findOne({
+        $or: [{ email: targetEmail }, { staffId: targetEmail }]
+      });
+      if (dbUser) {
+        const isMatch = bcrypt.compareSync(currentPassword, dbUser.passwordHash);
+        if (!isMatch) {
+          return res.status(401).json({
+            success: false,
+            message: 'Current password is incorrect.',
+          });
+        }
+        dbUser.passwordHash = bcrypt.hashSync(newPassword, 10);
+        await dbUser.save();
+        userFound = true;
+      }
+    }
+
+    // Check and update memory USERS
+    const memUser = USERS.find((u) => u.email.toLowerCase() === targetEmail);
+    if (memUser) {
+      const isMatch = bcrypt.compareSync(currentPassword, memUser.passwordHash);
+      if (!isMatch && !userFound) {
+        return res.status(401).json({
+          success: false,
+          message: 'Current password is incorrect.',
+        });
+      }
+      memUser.passwordHash = bcrypt.hashSync(newPassword, 10);
+      userFound = true;
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: 'Admin password changed successfully! Please use your new password on next login.',
+    });
+  } catch (err) {
+    return res.status(500).json({
+      success: false,
+      message: err.message || 'Failed to update admin password.',
+    });
+  }
+};

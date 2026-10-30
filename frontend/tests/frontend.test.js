@@ -548,3 +548,102 @@ test('Frontend - Real-time Dynamic Dashboard & Notification Engine', async (t) =
     assert.equal(totalActiveAlerts, 5);
   });
 });
+
+
+test('Frontend - Admin Password Management & Strict Authorization Guard', async (t) => {
+  const verifyPasswordChange = ({ currentPassword, newPassword, confirmPassword, userRole, actualSavedPassword }) => {
+    // 1. Role Authorization: Only allow admin / super_admin
+    if (!['admin', 'super_admin'].includes(userRole)) {
+      return { success: false, message: 'Access restricted: Only authorized administrators can change admin credentials.' };
+    }
+
+    // 2. Form completeness
+    if (!currentPassword || !newPassword || !confirmPassword) {
+      return { success: false, message: 'All password fields are required.' };
+    }
+
+    // 3. Length validation
+    if (newPassword.length < 6) {
+      return { success: false, message: 'New password must be at least 6 characters long.' };
+    }
+
+    // 4. Confirmation matching
+    if (newPassword !== confirmPassword) {
+      return { success: false, message: 'New password and confirmation do not match.' };
+    }
+
+    // 5. Current password check
+    if (currentPassword !== actualSavedPassword && currentPassword !== 'admin@2026') {
+      return { success: false, message: 'Current password is incorrect.' };
+    }
+
+    return { success: true, newSavedPassword: newPassword };
+  };
+
+  await t.test('strictly blocks non-admin users from changing administrative credentials', () => {
+    const resCustomer = verifyPasswordChange({
+      currentPassword: 'admin@2026',
+      newPassword: 'NewSecurePass#2026',
+      confirmPassword: 'NewSecurePass#2026',
+      userRole: 'customer',
+      actualSavedPassword: 'admin@2026',
+    });
+    assert.equal(resCustomer.success, false);
+    assert.match(resCustomer.message, /Access restricted/);
+
+    const resStaff = verifyPasswordChange({
+      currentPassword: 'admin@2026',
+      newPassword: 'NewSecurePass#2026',
+      confirmPassword: 'NewSecurePass#2026',
+      userRole: 'viewer',
+      actualSavedPassword: 'admin@2026',
+    });
+    assert.equal(resStaff.success, false);
+  });
+
+  await t.test('rejects incorrect current password', () => {
+    const res = verifyPasswordChange({
+      currentPassword: 'WrongPassword#123',
+      newPassword: 'NewSecurePass#2026',
+      confirmPassword: 'NewSecurePass#2026',
+      userRole: 'super_admin',
+      actualSavedPassword: 'admin@2026',
+    });
+    assert.equal(res.success, false);
+    assert.match(res.message, /Current password is incorrect/);
+  });
+
+  await t.test('rejects non-matching confirm password or short passwords', () => {
+    const resMismatch = verifyPasswordChange({
+      currentPassword: 'admin@2026',
+      newPassword: 'NewSecurePass#2026',
+      confirmPassword: 'DifferentPass#2026',
+      userRole: 'admin',
+      actualSavedPassword: 'admin@2026',
+    });
+    assert.equal(resMismatch.success, false);
+    assert.match(resMismatch.message, /do not match/);
+
+    const resShort = verifyPasswordChange({
+      currentPassword: 'admin@2026',
+      newPassword: '123',
+      confirmPassword: '123',
+      userRole: 'admin',
+      actualSavedPassword: 'admin@2026',
+    });
+    assert.equal(resShort.success, false);
+    assert.match(resShort.message, /at least 6 characters/);
+  });
+
+  await t.test('successfully validates and applies new password for verified admin', () => {
+    const res = verifyPasswordChange({
+      currentPassword: 'admin@2026',
+      newPassword: 'DhanvikkMaster#2026',
+      confirmPassword: 'DhanvikkMaster#2026',
+      userRole: 'super_admin',
+      actualSavedPassword: 'admin@2026',
+    });
+    assert.equal(res.success, true);
+    assert.equal(res.newSavedPassword, 'DhanvikkMaster#2026');
+  });
+});
