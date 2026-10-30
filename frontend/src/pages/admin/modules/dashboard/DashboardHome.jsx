@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { getMostTimeSpentProducts } from '../../../../utils/telemetryService';
 import {
   TrendingUp,
   ShoppingBag,
@@ -34,13 +35,30 @@ export default function DashboardHome({
   const [salesTimeframe, setSalesTimeframe] = useState('This Year');
   const [selectedOrderRow, setSelectedOrderRow] = useState(null);
 
-  // Dynamic metrics with fallback to prototype showcase values
-  const totalOrdersCount = orders.length > 0 ? orders.length : 247;
-  const totalRevenueAmount = stats.totalRevenue && stats.totalRevenue > 0
-    ? `₹${Number(stats.totalRevenue).toLocaleString('en-IN')}`
-    : '₹2,48,650';
-  const newCustomersCount = usersList.length > 0 ? usersList.length : 86;
-  const productsCount = products.length > 0 ? products.length : 324;
+  // Live real calculated metrics (0 fake placeholders)
+  const totalOrdersCount = orders.length;
+  const computedRevenue = orders.reduce((sum, o) => {
+    const val = typeof o.totalAmount === 'number'
+      ? o.totalAmount
+      : typeof o.amount === 'string'
+      ? parseInt(o.amount.replace(/[^0-9]/g, ''), 10) || 0
+      : Number(o.amount) || 0;
+    return sum + val;
+  }, 0);
+  const totalRevenueAmount = `₹${computedRevenue.toLocaleString('en-IN')}`;
+  const newCustomersCount = usersList.length;
+  const productsCount = products.length;
+
+  // Real order status counts
+  const deliveredCount = orders.filter((o) => (o.status || o.orderStatus) === 'Delivered').length;
+  const processingCount = orders.filter((o) => ['Processing', 'Confirmed', 'Preparing Floral Order', 'Pending'].includes(o.status || o.orderStatus)).length;
+  const shippedCount = orders.filter((o) => ['Shipped', 'Out for Delivery'].includes(o.status || o.orderStatus)).length;
+  const cancelledCount = orders.filter((o) => (o.status || o.orderStatus) === 'Cancelled').length;
+  const returnedCount = orders.filter((o) => (o.status || o.orderStatus) === 'Returned').length;
+  const totalStatusOrders = totalOrdersCount || 1;
+
+  // Real Customer Most Time Spent Products (Dwell Telemetry)
+  const mostTimeSpentProducts = getMostTimeSpentProducts().slice(0, 4);
 
   // Real or Curated Orders matching the reference design
   const displayOrders = orders.length > 0

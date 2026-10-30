@@ -75,6 +75,12 @@ import ShipmentsList from './modules/orders/ShipmentsList';
 import DocumentsStudio from './modules/documents/DocumentsStudio';
 import AuditLogsList from './modules/audit/AuditLogsList';
 import AdminSettings from './modules/settings/AdminSettings';
+import InventoryLedger from './modules/inventory/InventoryLedger';
+import ReportsAnalytics from './modules/reports/ReportsAnalytics';
+import InvoiceModal from './modules/documents/InvoiceModal';
+import { ensureProductHasSKU, getNextProductSKU } from '../../utils/skuGenerator';
+import { parseProductsExcelFile, downloadProductExcelTemplate, exportArrayToExcel } from '../../utils/excelService';
+import { getCustomerActions, getMostTimeSpentProducts, getStaffAuditLogs } from '../../utils/telemetryService';
 import CommandPalette from './components/CommandPalette';
 import { auditLogger } from './services/auditLogger';
 import { exportService } from './services/exportService';
@@ -696,6 +702,7 @@ export default function AdminDashboard() {
 
   const [productForm, setProductForm] = useState({
     name: '',
+    sku: '',
     category: 'Flowers',
     subCategory: 'Hand Bouquets',
     flowerType: 'Roses',
@@ -729,6 +736,8 @@ export default function AdminDashboard() {
   const [orderSearch, setOrderSearch] = useState('');
   const [orderStatusFilter, setOrderStatusFilter] = useState('All');
   const [selectedOrderModal, setSelectedOrderModal] = useState(null);
+  const [invoiceOrder, setInvoiceOrder] = useState(null);
+  const [customerFilterTab, setCustomerFilterTab] = useState('patrons'); // 'patrons' | 'dwell' | 'staff'
 
   // Users state
   const [usersList, setUsersList] = useState([]);
@@ -751,7 +760,8 @@ export default function AdminDashboard() {
 
       ]);
 
-      setProducts(prodsData || []);
+      const sanitizedProds = (prodsData || []).map((p, idx) => ensureProductHasSKU(p, idx));
+      setProducts(sanitizedProds);
       setOrders(ordersData?.orders || []);
       setUsersList(usersData?.users || []);
       if (statsData?.stats) setStats(statsData.stats);
@@ -1967,6 +1977,7 @@ export default function AdminDashboard() {
                   setEditingProduct(null);
                   setProductForm({
                     name: '',
+                    sku: getNextProductSKU(products),
                     category: 'Flowers',
                     subCategory: 'Hand Bouquets',
                     flowerType: 'Roses',
@@ -2037,6 +2048,22 @@ export default function AdminDashboard() {
               settings={exportSettings}
               onSave={handleSaveSettings}
               superAdminEmail={superAdminEmail}
+            />
+          </main>
+        )}
+
+        {/* TAB: INVENTORY (INWARD & OUTWARD LEDGER WITH 10-DIGIT SKU) */}
+        {activeTab === 'inventory' && (
+          <main className="max-w-7xl mx-auto px-4 sm:px-8 py-6 w-full flex-1">
+            <InventoryLedger
+              products={products}
+              onUpdateStock={(prodId, newStock) => {
+                setProducts((prev) =>
+                  prev.map((p) =>
+                    (p.id === prodId || p._id === prodId) ? { ...p, stock: newStock } : p
+                  )
+                );
+              }}
             />
           </main>
         )}
@@ -2180,6 +2207,71 @@ export default function AdminDashboard() {
               </div>
 
               {/* Add New Product Trigger */}
+              <div className="flex flex-wrap items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => downloadProductExcelTemplate()}
+                  className="h-9 px-3 text-xs font-semibold rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 flex items-center gap-1.5 cursor-pointer shadow-2xs"
+                  title="Download Excel Import Template"
+                >
+                  <FileSpreadsheet className="w-3.5 h-3.5 text-emerald-600" />
+                  <span>Excel Template</span>
+                </button>
+
+                <label className="h-9 px-3 text-xs font-semibold rounded-xl border border-emerald-300 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 flex items-center gap-1.5 cursor-pointer shadow-2xs transition-colors">
+                  <Upload className="w-3.5 h-3.5 text-emerald-700" />
+                  <span>Import Excel</span>
+                  <input
+                    type="file"
+                    accept=".xlsx, .xls, .csv"
+                    className="hidden"
+                    onChange={async (e) => {
+                      const file = e.target.files?.[0];
+                      if (!file) return;
+                      try {
+                        const imported = await parseProductsExcelFile(file);
+                        if (!imported || imported.length === 0) {
+                          toast.error('No valid products found in sheet');
+                          return;
+                        }
+                        const withSKUs = imported.map((p, idx) => ensureProductHasSKU(p, products.length + idx));
+                        setProducts((prev) => [...withSKUs, ...prev]);
+                        toast.success(`Successfully imported ${imported.length} products with 10-digit SKUs! 🌸`);
+                      } catch (err) {
+                        toast.error('Excel import failed: ' + (err.message || 'Check columns'));
+                      } finally {
+                        e.target.value = '';
+                      }
+                    }}
+                  />
+                </label>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    exportArrayToExcel(
+                      products.map((p) => ({
+                        '10-Digit SKU': p.sku || ensureProductHasSKU(p).sku,
+                        'Product Name': p.name,
+                        'Category': p.category,
+                        'Subcategory': p.subCategory || '-',
+                        'Price (INR)': p.price,
+                        'Stock Stems': p.stock !== undefined ? p.stock : 10,
+                        'Tag': p.tag || 'Fresh Stems',
+                        'Image URL': p.image || p.images?.[0] || '',
+                      })),
+                      'Dhanvikk_Products_Catalog_SKU'
+                    );
+                    toast.success('Catalog exported with 10-digit SKUs! 🌸');
+                  }}
+                  className="h-9 px-3 text-xs font-semibold rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 flex items-center gap-1.5 cursor-pointer shadow-2xs"
+                  title="Export products to Excel"
+                >
+                  <FileSpreadsheet className="w-3.5 h-3.5 text-slate-600" />
+                  <span>Export Catalog</span>
+                </button>
+              </div>
+
               <Button
                 variant="primary"
                 size="sm"
@@ -2263,7 +2355,7 @@ export default function AdminDashboard() {
                                     )}
                                   </div>
                                   <span className="text-[10px] text-[#64748B] block font-mono">
-                                    {prod.flowerType || 'Floral'} • SKU: {prodId.toString().slice(-6).toUpperCase()}
+                                    {prod.flowerType || 'Floral'} • <span className="font-bold text-rose-700 bg-rose-50 px-1.5 py-0.5 rounded border border-rose-200">SKU: {prod.sku || ensureProductHasSKU(prod).sku}</span>
                                   </span>
                                 </div>
                               </div>
@@ -3233,6 +3325,15 @@ export default function AdminDashboard() {
 
                           {/* Inspect Modal Trigger */}
                           <button
+                            type="button"
+                            onClick={() => setInvoiceOrder(order)}
+                            className="px-2.5 py-1.5 rounded-lg bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 text-xs font-semibold cursor-pointer transition-colors flex items-center gap-1.5 shadow-2xs"
+                            title="Generate Official Tax Invoice & Share on WhatsApp"
+                          >
+                            <FileText className="w-3.5 h-3.5" />
+                            <span>Tax Bill</span>
+                          </button>
+                          <button
                             onClick={() => setSelectedOrderModal(order)}
                             className="p-1.5 rounded-lg bg-[#F8FAFC] hover:bg-[#F1F5F9] text-[#64748B] hover:text-[#E11D48] border border-[#E2E8F0] cursor-pointer transition-colors"
                             title="View Full Packing Slip & Items"
@@ -4005,6 +4106,16 @@ export default function AdminDashboard() {
             TAB 4: EXECUTIVE ANALYTICS STATS
             ======================================================== */}
         {(activeTab === 'stats' || activeTab === 'reports') && (
+          <main className="max-w-7xl mx-auto px-3 sm:px-6 py-4 sm:py-6 w-full flex-1">
+            <ReportsAnalytics
+              orders={orders}
+              products={products}
+              customers={usersList}
+            />
+          </main>
+        )}
+
+        {false && (activeTab === 'stats' || activeTab === 'reports') && (
           <main className="max-w-7xl mx-auto px-3 sm:px-6 py-4 sm:py-6 w-full flex-1 space-y-4 sm:space-y-6">
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-4">
               <div className="bg-white border border-[#E2E8F0] rounded-2xl p-3.5 sm:p-6 shadow-sm">
@@ -4047,6 +4158,13 @@ export default function AdminDashboard() {
         {/* ========================================================
             MODAL: ADD / EDIT BOTANICAL PRODUCT
             ======================================================== */}
+        {invoiceOrder && (
+          <InvoiceModal
+            order={invoiceOrder}
+            onClose={() => setInvoiceOrder(null)}
+          />
+        )}
+
         {showProductModal && (
           <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4">
             <div className="bg-white border border-[#E2E8F0] rounded-2xl sm:rounded-3xl p-4 sm:p-6 max-w-xl w-full max-h-[92vh] overflow-y-auto space-y-4 shadow-2xl text-[#0F172A]">
@@ -4082,6 +4200,34 @@ export default function AdminDashboard() {
                     onChange={(e) => setProductForm({ ...productForm, name: e.target.value })}
                     className="w-full h-10 px-3 rounded-xl bg-white border border-[#CBD5E1] text-[#0F172A] placeholder:text-[#94A3B8] focus:outline-none focus:border-[#E11D48]"
                   />
+                </div>
+
+                {/* 10-Digit Registered SKU / Serial Number */}
+                <div>
+                  <label className="block text-[#334155] font-semibold mb-1">
+                    10-Digit Registered SKU / Serial (YYMMDDXXXX) *
+                  </label>
+                  <div className="flex gap-2">
+                    <input
+                      type="text"
+                      required
+                      maxLength={10}
+                      placeholder="e.g. 2610300001"
+                      value={productForm.sku || ''}
+                      onChange={(e) => setProductForm({ ...productForm, sku: e.target.value.replace(/[^0-9]/g, '') })}
+                      className="w-full h-10 px-3 rounded-xl bg-slate-50 border border-[#CBD5E1] font-mono text-sm font-bold text-rose-700 tracking-wider focus:outline-none focus:border-[#E11D48]"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setProductForm({ ...productForm, sku: getNextProductSKU(products) })}
+                      className="px-3 h-10 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 text-xs font-semibold whitespace-nowrap cursor-pointer transition-colors"
+                    >
+                      Generate SKU
+                    </button>
+                  </div>
+                  <p className="text-[10px] text-slate-500 mt-0.5">
+                    10-digit serial format: Year (26) + Month (10) + Day (30) + 4-digit sequential item number
+                  </p>
                 </div>
 
                 {/* 2. Proper Product Category & Subcategory Dropdown List */}

@@ -19,6 +19,7 @@ import {
   User,
 } from 'lucide-react';
 import { toast } from 'sonner';
+import { exportArrayToExcel } from '../../../../utils/excelService';
 
 export default function EnquiriesList({ enquiries = [], onUpdateStatus, onLogAudit }) {
   const [search, setSearch] = useState('');
@@ -120,9 +121,39 @@ export default function EnquiriesList({ enquiries = [], onUpdateStatus, onLogAud
         </div>
 
         <div className="flex items-center gap-2">
-          <span className="text-xs text-slate-500">
-            Showing <strong>{filteredEnquiries.length}</strong> inquiries
-          </span>
+          <div className="flex items-center gap-2">
+            <span className="text-xs text-slate-500">
+              Showing <strong>{filteredEnquiries.length}</strong> inquiries
+            </span>
+            <button
+              type="button"
+              onClick={() => {
+                exportArrayToExcel(
+                  enquiries.map((e) => ({
+                    'RFQ ID': e.id,
+                    'Buyer Name': e.buyerName,
+                    'Company': e.companyName || '-',
+                    'Email': e.email,
+                    'Phone': e.phone || '-',
+                    'Country': e.country,
+                    'Port': e.destinationPort || 'Direct Air Cargo',
+                    'Product Interest': e.productInterest,
+                    'Target Volume': e.targetVolume,
+                    'Incoterm': e.preferredIncoterm || 'CIF',
+                    'Status': e.status,
+                    'Date': new Date(e.createdAt).toLocaleDateString('en-GB'),
+                    'Message': e.message,
+                  })),
+                  'Dhanvikk_Export_Enquiries_RFQs'
+                );
+                toast.success('Exported RFQs to Excel! 🌸');
+              }}
+              className="h-9 px-3 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 text-xs font-semibold flex items-center gap-1.5 cursor-pointer shadow-xs transition-colors"
+            >
+              <FileText className="w-3.5 h-3.5 text-emerald-600" />
+              <span>Export RFQs</span>
+            </button>
+          </div>
         </div>
       </div>
 
@@ -228,13 +259,31 @@ export default function EnquiriesList({ enquiries = [], onUpdateStatus, onLogAud
                     </span>
                   </div>
 
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-1.5">
+                    <a
+                      href={`https://wa.me/${(enq.phone || '919876543210').replace(/[^0-9]/g, '')}?text=${encodeURIComponent(`Dear ${enq.buyerName}, Greetings from Dhanvikk Blooms & Exports. In reference to your RFQ for ${enq.productInterest || 'fresh flowers'}:`)}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="px-2.5 py-1.5 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-200 text-xs font-semibold flex items-center gap-1 transition-colors cursor-pointer"
+                      title="Reply on WhatsApp"
+                    >
+                      <MessageSquare className="w-3.5 h-3.5" />
+                      <span className="hidden sm:inline">WhatsApp</span>
+                    </a>
+                    <a
+                      href={`mailto:${enq.email}?subject=${encodeURIComponent(`Dhanvikk Blooms - Official Export Quotation (${enq.id})`)}&body=${encodeURIComponent(`Dear ${enq.buyerName},\n\nThank you for reaching out to Dhanvikk Blooms & Exports regarding your requirement for ${enq.productInterest} (${enq.targetVolume}).\n\n`)}`}
+                      className="px-2.5 py-1.5 rounded-xl bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200 text-xs font-semibold flex items-center gap-1 transition-colors cursor-pointer"
+                      title="Reply via Email"
+                    >
+                      <Mail className="w-3.5 h-3.5" />
+                      <span className="hidden sm:inline">Email</span>
+                    </a>
                     <button
                       type="button"
                       onClick={() => setSelectedEnquiry(enq)}
                       className="px-3 py-1.5 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-700 font-semibold text-xs flex items-center gap-1 transition-colors cursor-pointer"
                     >
-                      <span>Manage RFQ</span>
+                      <span>Manage</span>
                       <ChevronRight className="w-3.5 h-3.5" />
                     </button>
                   </div>

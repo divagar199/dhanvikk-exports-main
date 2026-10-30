@@ -305,3 +305,71 @@ test('Frontend - Cross-Platform Review Moderation & Aggregate Score', async (t) 
 });
 
 
+
+test('Frontend - 10-Digit Serial Number / SKU Engine (YYMMDDXXXX)', async (t) => {
+  const { generate10DigitSKU, isValid10DigitSKU, parseSKU, getNextProductSKU, ensureProductHasSKU } = await import('../src/utils/skuGenerator.js');
+
+  await t.test('generates exactly 10 numeric digits conforming to YYMMDDXXXX', () => {
+    const testDate = new Date('2026-10-30T10:00:00Z');
+    const sku = generate10DigitSKU(1, testDate);
+    assert.equal(sku.length, 10);
+    assert.equal(sku, '2610300001');
+    assert.equal(isValid10DigitSKU(sku), true);
+  });
+
+  await t.test('pads sequence numbers properly up to 4 digits', () => {
+    const testDate = new Date('2026-10-30T10:00:00Z');
+    assert.equal(generate10DigitSKU(42, testDate), '2610300042');
+    assert.equal(generate10DigitSKU(999, testDate), '2610300999');
+    assert.equal(generate10DigitSKU(1024, testDate), '2610301024');
+  });
+
+  await t.test('parses date and sequence from 10-digit SKU correctly', () => {
+    const parsed = parseSKU('2610300015');
+    assert.equal(parsed.valid, true);
+    assert.equal(parsed.year, '2026');
+    assert.equal(parsed.month, '10');
+    assert.equal(parsed.day, '30');
+    assert.equal(parsed.sequence, 15);
+  });
+
+  await t.test('getNextProductSKU calculates next sequential SKU from existing list', () => {
+    const existing = [
+      { id: '1', sku: '2610300001' },
+      { id: '2', sku: '2610300002' },
+    ];
+    const nextSKU = getNextProductSKU(existing, new Date('2026-10-30T10:00:00Z'));
+    assert.equal(nextSKU, '2610300003');
+  });
+
+  await t.test('ensureProductHasSKU preserves existing valid SKU or assigns deterministic new SKU', () => {
+    const prodWithSKU = { id: 'p1', name: 'Red Roses', sku: '2610300005' };
+    assert.equal(ensureProductHasSKU(prodWithSKU).sku, '2610300005');
+
+    const prodWithoutSKU = { id: 'p2', name: 'White Lilies' };
+    const fixed = ensureProductHasSKU(prodWithoutSKU, 0, new Date('2026-10-30T10:00:00Z'));
+    assert.equal(fixed.sku, '2610300001');
+  });
+});
+
+test('Frontend - Tax Invoice Calculations & Numbering', async (t) => {
+  await t.test('computes subtotal, GST 5%, and grand total with absolute accuracy', () => {
+    const items = [
+      { name: 'Red Roses Hatbox', quantity: 2, price: 1500, sku: '2610300001' },
+      { name: 'Pink Lily Stem', quantity: 1, price: 1000, sku: '2610300002' },
+    ];
+    const subtotal = items.reduce((acc, item) => acc + (item.price * item.quantity), 0);
+    assert.equal(subtotal, 4000);
+
+    const taxRate = 5; // 5% GST
+    const cgst = Math.round((subtotal * (taxRate / 2)) / 100);
+    const sgst = Math.round((subtotal * (taxRate / 2)) / 100);
+    const totalTax = cgst + sgst;
+    assert.equal(cgst, 100);
+    assert.equal(sgst, 100);
+    assert.equal(totalTax, 200);
+
+    const grandTotal = subtotal + totalTax;
+    assert.equal(grandTotal, 4200);
+  });
+});

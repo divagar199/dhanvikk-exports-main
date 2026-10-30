@@ -42,6 +42,7 @@ import { toggleWishlist, isProductInWishlist } from '../../store/slices/wishlist
 import { toast } from 'sonner';
 import { useCurrency } from '../../context/CurrencyContext';
 import { getProductImageUrl } from '../../utils/imageUrl';
+import { recordProductDwellTime, recordCustomerAction } from '../../utils/telemetryService';
 
 export default function ProductDetailPage() {
   const { formatPrice } = useCurrency();
@@ -59,12 +60,32 @@ export default function ProductDetailPage() {
   const [relatedProducts, setRelatedProducts] = useState([]);
   const [carouselPage, setCarouselPage] = useState(0);
 
+    useEffect(() => {
+    if (!product) return;
+    const startTime = Date.now();
+    recordCustomerAction('VIEW_PRODUCT', {
+      productId: product.id || product._id,
+      productName: product.name,
+      sku: product.sku,
+    }, user);
+
+    return () => {
+      const elapsed = Math.max(1, Math.round((Date.now() - startTime) / 1000));
+      recordProductDwellTime(product.id || product._id, elapsed, product.name, product.sku);
+    };
+  }, [product, user]);
+
   const inWishlist = isProductInWishlist(wishlistItems, product);
 
   const handleToggleWishlist = (targetProduct = product) => {
     if (!targetProduct) return;
     const isSaved = isProductInWishlist(wishlistItems, targetProduct);
     dispatch(toggleWishlist(targetProduct));
+    recordCustomerAction(isSaved ? 'REMOVE_FROM_WISHLIST' : 'ADD_TO_WISHLIST', {
+      productId: targetProduct.id || targetProduct._id,
+      productName: targetProduct.name,
+      sku: targetProduct.sku,
+    }, user);
     if (isSaved) {
       toast('Removed from wishlist', { icon: '🤍' });
     } else {
@@ -337,6 +358,12 @@ export default function ProductDetailPage() {
     };
 
     dispatch(addItem(cartItem));
+    recordCustomerAction('ADD_TO_CART', {
+      productId: product.id || product._id,
+      productName: product.name,
+      sku: product.sku,
+      quantity,
+    }, user);
     setAdded(true);
     setTimeout(() => setAdded(false), 2000);
     toast.success(`Added ${quantity > 1 ? `${quantity}x ` : ''}${product.name} to cart 🌸`);
