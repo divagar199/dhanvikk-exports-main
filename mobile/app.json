@@ -33,11 +33,17 @@
         }
       ],
       "expo-image",
-      "@react-native-google-signin/google-signin"
+      [
+        "@react-native-google-signin/google-signin",
+        {
+          "iosUrlScheme": "com.googleusercontent.apps.160660053649-1ar8vvfbirn6jgd9bnukihvk0frgluv6"
+        }
+      ]
     ],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.dhanvikk.blooms",
+      "googleServicesFile": "./GoogleService-Info.plist",
       "infoPlist": {
         "NSLocationWhenInUseUsageDescription": "Allow Dhanvikk to access your GPS and location to auto-detect your delivery address and locate nearby botanical hubs.",
         "NSLocationAlwaysAndWhenInUseUsageDescription": "Allow Dhanvikk to access your location to deliver real-time floral dispatch updates and locate nearby botanical hubs.",

@@ -22,11 +22,15 @@ function getStoredProducts() {
 }
 
 /**
- * Persist products to localStorage
+ * Persist products to localStorage and dispatch live synchronization events
  */
 function saveStoredProducts(list) {
   try {
     localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(list));
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new CustomEvent('dhanvikk_products_updated', { detail: list }));
+      window.dispatchEvent(new Event('storage'));
+    }
   } catch (err) {
     console.warn('Could not save products to localStorage (quota or disabled):', err);
   }
@@ -146,7 +150,8 @@ export const productService = {
       if (response.data && response.data.product) {
         const remoteProd = response.data.product;
         const current = getStoredProducts() || [...PRODUCTS];
-        saveStoredProducts([remoteProd, ...current.filter((p) => (p.id || p._id) !== (remoteProd.id || remoteProd._id))]);
+        const combined = [remoteProd, ...current.filter((p) => (p.id || p._id) !== (remoteProd.id || remoteProd._id))];
+        saveStoredProducts(combined);
         return response.data;
       }
     } catch (err) {
@@ -167,7 +172,7 @@ export const productService = {
     const imgUrl = Array.isArray(productData.images)
       ? productData.images[0]
       : (productData.images || productData.image);
-    const imgArr = Array.isArray(productData.images) ? productData.images : [imgUrl];
+    const imgArr = Array.isArray(productData.images) ? productData.images : (imgUrl ? [imgUrl] : []);
 
     // Attempt remote backend update
     try {
@@ -197,8 +202,8 @@ export const productService = {
       updatedProduct = {
         ...current[idx],
         ...productData,
-        image: imgUrl,
-        images: imgArr,
+        image: imgUrl || current[idx].image,
+        images: imgArr.length > 0 ? imgArr : current[idx].images,
         stock: productData.stock !== undefined ? Number(productData.stock) : current[idx].stock,
         inStock: (productData.stock !== undefined ? Number(productData.stock) : current[idx].stock) > 0,
       };

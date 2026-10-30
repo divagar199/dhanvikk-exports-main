@@ -1,15 +1,18 @@
+import bcrypt from 'bcryptjs';
 import { UserModel } from '../models/User.js';
+import { USERS } from '../data/users.js';
 import { getDBStatus } from '../config/db.js';
 import dotenv from 'dotenv';
 
 dotenv.config();
 
-const SUPER_ADMIN_EMAIL = (process.env.SUPER_ADMIN_EMAIL || 'divagar.m.msc.cs@gmail.com').toLowerCase().trim();
+export const SUPER_ADMIN_EMAIL = (process.env.SUPER_ADMIN_EMAIL || 'divagar.m.msc.cs@gmail.com').toLowerCase().trim();
 
 // In-memory staff list (active fallback & memory store)
-let inMemoryStaff = [
+export let inMemoryStaff = [
   {
     id: 'staff-super-01',
+    staffId: 'STF-SUPER-01',
     name: 'Divagar M (Super Admin)',
     email: SUPER_ADMIN_EMAIL,
     role: 'super_admin',
@@ -17,12 +20,13 @@ let inMemoryStaff = [
     phone: '+91 98765 43210',
     status: 'Active',
     avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80',
-    permissions: ['all_access', 'manage_staff', 'manage_products', 'manage_orders', 'view_finances', 'delete_records'],
+    permissions: ['all_access', 'manage_staff', 'manage_products', 'manage_orders', 'view_finances', 'delete_records', 'inward_outward'],
     joinedDate: '2026-01-01',
     isSuperAdmin: true,
   },
   {
     id: 'staff-florist-02',
+    staffId: 'STF-2026-001',
     name: 'Priya Sharma',
     email: 'priya.florist@dhanvikk.com',
     role: 'inventory_manager',
@@ -30,12 +34,13 @@ let inMemoryStaff = [
     phone: '+971 50 123 4567',
     status: 'Active',
     avatar: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=200&q=80',
-    permissions: ['manage_products', 'manage_inventory', 'view_orders'],
+    permissions: ['manage_products', 'manage_inventory', 'view_orders', 'inward_outward'],
     joinedDate: '2026-02-15',
     isSuperAdmin: false,
   },
   {
     id: 'staff-dispatch-03',
+    staffId: 'STF-2026-002',
     name: 'Rahul Nair',
     email: 'rahul.dispatch@dhanvikk.com',
     role: 'delivery_manager',
@@ -43,7 +48,7 @@ let inMemoryStaff = [
     phone: '+971 55 987 6543',
     status: 'Active',
     avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80',
-    permissions: ['manage_orders', 'update_delivery_status'],
+    permissions: ['manage_orders', 'update_delivery_status', 'inward_outward'],
     joinedDate: '2026-03-01',
     isSuperAdmin: false,
   },
@@ -80,27 +85,35 @@ export const getAllStaff = async (req, res) => {
         }).select('-passwordHash');
 
         if (dbUsers && dbUsers.length > 0) {
-          // Merge or supplement
-          const dbStaff = dbUsers.map((u) => ({
-            id: u._id.toString(),
-            _id: u._id.toString(),
-            name: u.name,
-            email: u.email,
-            role: u.role,
-            roleTitle:
-              u.role === 'super_admin'
-                ? 'Super Admin'
-                : u.role === 'inventory_manager'
-                ? 'Master Florist & Inventory'
-                : u.role === 'delivery_manager'
-                ? 'Dispatch Coordinator'
-                : 'Store Administrator',
-            phone: u.phone || '',
-            status: 'Active',
-            avatar: u.avatar,
-            isSuperAdmin: u.email.toLowerCase() === SUPER_ADMIN_EMAIL || u.role === 'super_admin',
-            joinedDate: u.createdAt ? new Date(u.createdAt).toISOString().split('T')[0] : '2026-01-01',
-          }));
+          const dbStaff = dbUsers.map((u) => {
+            const memoryMatch = inMemoryStaff.find(
+              (m) => m.email.toLowerCase() === u.email.toLowerCase() || m.id === u._id.toString()
+            );
+            return {
+              id: u._id.toString(),
+              _id: u._id.toString(),
+              staffId: u.staffId || memoryMatch?.staffId || `STF-${u._id.toString().slice(-4)}`,
+              name: u.name,
+              email: u.email,
+              role: u.role,
+              roleTitle:
+                u.role === 'super_admin'
+                  ? 'Super Admin & Co-Founder'
+                  : u.role === 'inventory_manager'
+                  ? 'Master Florist & Inventory'
+                  : u.role === 'delivery_manager'
+                  ? 'Cold-Chain Dispatch Coordinator'
+                  : u.role === 'manager'
+                  ? 'Store Operations Manager'
+                  : 'Store Administrator',
+              phone: u.phone || '',
+              status: 'Active',
+              avatar: u.avatar || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80',
+              permissions: memoryMatch?.permissions || ['manage_products', 'manage_orders', 'inward_outward'],
+              isSuperAdmin: u.email.toLowerCase() === SUPER_ADMIN_EMAIL || u.role === 'super_admin',
+              joinedDate: u.createdAt ? new Date(u.createdAt).toISOString().split('T')[0] : '2026-01-01',
+            };
+          });
 
           // Ensure super admin is included at the top
           const hasSuperAdmin = dbStaff.some((s) => s.email.toLowerCase() === SUPER_ADMIN_EMAIL);
@@ -131,7 +144,7 @@ export const getAllStaff = async (req, res) => {
  */
 export const addStaffMember = async (req, res) => {
   try {
-    const { name, email, role, phone, roleTitle, permissions } = req.body;
+    const { name, email, role, phone, roleTitle, permissions, staffId, password } = req.body;
 
     if (!name || !email) {
       return res.status(400).json({ success: false, message: 'Staff name and email are required' });
@@ -145,8 +158,13 @@ export const addStaffMember = async (req, res) => {
       return res.status(400).json({ success: false, message: 'A staff member with this email already exists' });
     }
 
+    const assignedStaffId = staffId && staffId.trim() ? staffId.trim() : `STF-2026-${String(inMemoryStaff.length + 1).padStart(3, '0')}`;
+    const plainPassword = password && password.trim() ? password.trim() : 'Staff@2026';
+    const passwordHash = bcrypt.hashSync(plainPassword, 10);
+
     const newStaff = {
       id: `staff-${Date.now()}`,
+      staffId: assignedStaffId,
       name,
       email: cleanEmail,
       role: role || 'admin',
@@ -154,10 +172,29 @@ export const addStaffMember = async (req, res) => {
       phone: phone || '',
       status: 'Active',
       avatar: `https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80`,
-      permissions: permissions || ['manage_products', 'manage_orders'],
+      permissions: permissions || ['manage_products', 'manage_orders', 'inward_outward'],
       joinedDate: new Date().toISOString().split('T')[0],
       isSuperAdmin: cleanEmail === SUPER_ADMIN_EMAIL,
     };
+
+    // Register / update in in-memory USERS array so authController.login immediately recognizes this staff member
+    const existingUserIndex = USERS.findIndex((u) => u.email.toLowerCase() === cleanEmail);
+    const userPayload = {
+      id: newStaff.id,
+      staffId: assignedStaffId,
+      name,
+      email: cleanEmail,
+      passwordHash,
+      role: newStaff.role,
+      phone: phone || '',
+      avatar: newStaff.avatar,
+      createdAt: new Date(),
+    };
+    if (existingUserIndex >= 0) {
+      USERS[existingUserIndex] = { ...USERS[existingUserIndex], ...userPayload };
+    } else {
+      USERS.push(userPayload);
+    }
 
     if (getDBStatus()) {
       try {
@@ -165,6 +202,7 @@ export const addStaffMember = async (req, res) => {
         if (existingUser) {
           existingUser.role = newStaff.role;
           existingUser.name = name;
+          existingUser.passwordHash = passwordHash;
           if (phone) existingUser.phone = phone;
           await existingUser.save();
           newStaff._id = existingUser._id.toString();
@@ -172,7 +210,7 @@ export const addStaffMember = async (req, res) => {
           const createdDoc = await UserModel.create({
             name,
             email: cleanEmail,
-            passwordHash: '$2a$10$temporaryStaffHashPlaceHolder1234567890',
+            passwordHash,
             role: newStaff.role,
             phone: phone || '',
           });
@@ -187,7 +225,7 @@ export const addStaffMember = async (req, res) => {
 
     return res.status(201).json({
       success: true,
-      message: `Staff member ${name} added successfully!`,
+      message: `Staff member ${name} (ID: ${assignedStaffId}) authorized & added successfully!`,
       staff: newStaff,
     });
   } catch (error) {
@@ -196,15 +234,15 @@ export const addStaffMember = async (req, res) => {
 };
 
 /**
- * @desc Update staff member details / role
+ * @desc Update staff member details / role / password
  * @route PUT /api/admin/staff/:id
  */
 export const updateStaffMember = async (req, res) => {
   try {
     const { id } = req.params;
-    const { name, role, phone, roleTitle, status, permissions } = req.body;
+    const { name, role, phone, roleTitle, status, permissions, staffId, password } = req.body;
 
-    const index = inMemoryStaff.findIndex((s) => s.id === id || s._id === id);
+    const index = inMemoryStaff.findIndex((s) => s.id === id || s._id === id || s.staffId === id);
     if (index !== -1) {
       // Prevent changing super admin role
       if (inMemoryStaff[index].isSuperAdmin && role && role !== 'super_admin') {
@@ -219,16 +257,38 @@ export const updateStaffMember = async (req, res) => {
         phone: phone !== undefined ? phone : inMemoryStaff[index].phone,
         status: status || inMemoryStaff[index].status,
         permissions: permissions || inMemoryStaff[index].permissions,
+        staffId: staffId || inMemoryStaff[index].staffId,
       };
+
+      const targetEmail = inMemoryStaff[index].email.toLowerCase();
+      let passwordHash = null;
+      if (password && password.trim()) {
+        passwordHash = bcrypt.hashSync(password.trim(), 10);
+      }
+
+      // Update in USERS array
+      const userIndex = USERS.findIndex((u) => u.email.toLowerCase() === targetEmail);
+      if (userIndex >= 0) {
+        USERS[userIndex].name = inMemoryStaff[index].name;
+        USERS[userIndex].role = inMemoryStaff[index].role;
+        USERS[userIndex].staffId = inMemoryStaff[index].staffId;
+        if (passwordHash) {
+          USERS[userIndex].passwordHash = passwordHash;
+        }
+      }
 
       if (getDBStatus()) {
         try {
           const query = id.match(/^[0-9a-fA-F]{24}$/) ? { _id: id } : { email: inMemoryStaff[index].email };
-          await UserModel.findOneAndUpdate(query, {
+          const updateObj = {
             name: inMemoryStaff[index].name,
             role: inMemoryStaff[index].role,
             phone: inMemoryStaff[index].phone,
-          });
+          };
+          if (passwordHash) {
+            updateObj.passwordHash = passwordHash;
+          }
+          await UserModel.findOneAndUpdate(query, updateObj);
         } catch (dbErr) {
           console.warn('MongoDB staff update warning:', dbErr.message);
         }
@@ -236,7 +296,7 @@ export const updateStaffMember = async (req, res) => {
 
       return res.status(200).json({
         success: true,
-        message: 'Staff details updated',
+        message: 'Staff details & credentials updated successfully',
         staff: inMemoryStaff[index],
       });
     }
@@ -255,7 +315,9 @@ export const deleteStaffMember = async (req, res) => {
   try {
     const { id } = req.params;
 
-    const target = inMemoryStaff.find((s) => s.id === id || s._id === id || s.email.toLowerCase() === id.toLowerCase());
+    const target = inMemoryStaff.find(
+      (s) => s.id === id || s._id === id || s.staffId === id || s.email.toLowerCase() === id.toLowerCase()
+    );
     if (!target) {
       return res.status(404).json({ success: false, message: 'Staff member not found' });
     }
@@ -268,7 +330,13 @@ export const deleteStaffMember = async (req, res) => {
       });
     }
 
-    inMemoryStaff = inMemoryStaff.filter((s) => s.id !== id && s._id !== id);
+    inMemoryStaff = inMemoryStaff.filter((s) => s.id !== id && s._id !== id && s.staffId !== id);
+
+    // Demote or remove from USERS
+    const userIndex = USERS.findIndex((u) => u.email.toLowerCase() === target.email.toLowerCase());
+    if (userIndex >= 0) {
+      USERS[userIndex].role = 'customer';
+    }
 
     if (getDBStatus()) {
       try {
@@ -281,7 +349,7 @@ export const deleteStaffMember = async (req, res) => {
 
     return res.status(200).json({
       success: true,
-      message: `Staff member ${target.name} has been removed.`,
+      message: `Staff member ${target.name} has been revoked and removed.`,
     });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });

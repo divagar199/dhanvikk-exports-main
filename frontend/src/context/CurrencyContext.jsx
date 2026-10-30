@@ -59,37 +59,7 @@ export const CURRENCY_CONFIGS = {
     name: 'Indian Rupee',
     country: 'India',
     rateFromINR: 1,
-    format: (val) => `₹${val.toLocaleString('en-IN')}`,
-  },
-  USD: {
-    code: 'USD',
-    symbol: '$',
-    nativeSymbol: '$',
-    label: 'USD ($) • Global/USA',
-    name: 'US Dollar',
-    country: 'Global / USA',
-    rateFromINR: 1 / 83.5, // 1 USD = ~83.5 INR
-    format: (val) => `$${val.toLocaleString()}`,
-  },
-  EUR: {
-    code: 'EUR',
-    symbol: '€',
-    nativeSymbol: '€',
-    label: 'EUR (€) • Europe',
-    name: 'Euro',
-    country: 'Europe / EU',
-    rateFromINR: 1 / 90.5, // 1 EUR = ~90.5 INR
-    format: (val) => `€${val.toLocaleString()}`,
-  },
-  GBP: {
-    code: 'GBP',
-    symbol: '£',
-    nativeSymbol: '£',
-    label: 'GBP (£) • United Kingdom',
-    name: 'British Pound',
-    country: 'United Kingdom',
-    rateFromINR: 1 / 106.5, // 1 GBP = ~106.5 INR
-    format: (val) => `£${val.toLocaleString()}`,
+    format: (val) => `₹${val.toLocaleString()}`,
   },
   SAR: {
     code: 'SAR',
@@ -124,32 +94,62 @@ export const CURRENCY_CONFIGS = {
   BHD: {
     code: 'BHD',
     symbol: 'BHD',
-    nativeSymbol: 'ب.د',
-    label: 'BHD (ب.د) • Bahrain',
+    nativeSymbol: 'د.ب',
+    label: 'BHD (د.ب) • Bahrain',
     name: 'Bahraini Dinar',
     country: 'Bahrain',
     rateFromINR: 1 / 221, // 1 BHD = ~221 INR
     format: (val) => `BHD ${Number(val).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`,
   },
+  USD: {
+    code: 'USD',
+    symbol: '$',
+    nativeSymbol: '$',
+    label: 'USD ($) • United States',
+    name: 'US Dollar',
+    country: 'United States',
+    rateFromINR: 1 / 83.5,
+    format: (val) => `$${val.toLocaleString()}`,
+  },
+  GBP: {
+    code: 'GBP',
+    symbol: '£',
+    nativeSymbol: '£',
+    label: 'GBP (£) • United Kingdom',
+    name: 'British Pound',
+    country: 'United Kingdom',
+    rateFromINR: 1 / 106,
+    format: (val) => `£${val.toLocaleString()}`,
+  },
+  EUR: {
+    code: 'EUR',
+    symbol: '€',
+    nativeSymbol: '€',
+    label: 'EUR (€) • Eurozone / Europe',
+    name: 'Euro',
+    country: 'Europe / Eurozone',
+    rateFromINR: 1 / 91,
+    format: (val) => `€${val.toLocaleString()}`,
+  },
   CAD: {
     code: 'CAD',
-    symbol: 'C$',
-    nativeSymbol: 'C$',
-    label: 'CAD (C$) • Canada',
+    symbol: 'CA$',
+    nativeSymbol: '$',
+    label: 'CAD ($) • Canada',
     name: 'Canadian Dollar',
     country: 'Canada',
-    rateFromINR: 1 / 61.5, // 1 CAD = ~61.5 INR
-    format: (val) => `C$${val.toLocaleString()}`,
+    rateFromINR: 1 / 61.5,
+    format: (val) => `CA$${val.toLocaleString()}`,
   },
   AUD: {
     code: 'AUD',
-    symbol: 'A$',
-    nativeSymbol: 'A$',
-    label: 'AUD (A$) • Australia',
+    symbol: 'AU$',
+    nativeSymbol: '$',
+    label: 'AUD ($) • Australia',
     name: 'Australian Dollar',
     country: 'Australia',
-    rateFromINR: 1 / 55.2, // 1 AUD = ~55.2 INR
-    format: (val) => `A$${val.toLocaleString()}`,
+    rateFromINR: 1 / 55,
+    format: (val) => `AU$${val.toLocaleString()}`,
   },
   JPY: {
     code: 'JPY',
@@ -158,7 +158,7 @@ export const CURRENCY_CONFIGS = {
     label: 'JPY (¥) • Japan',
     name: 'Japanese Yen',
     country: 'Japan',
-    rateFromINR: 1.82, // 1 INR = ~1.82 JPY
+    rateFromINR: 1.85,
     format: (val) => `¥${Math.round(val).toLocaleString()}`,
   },
 };
@@ -170,13 +170,13 @@ export const COUNTRY_TO_CURRENCY_MAP = {
   US: 'USD',
   GB: 'GBP',
   SG: 'SGD',
-  OM: 'OMR',
+  MY: 'MYR',
+  LK: 'LKR',
   SA: 'SAR',
   QA: 'QAR',
   KW: 'KWD',
+  OM: 'OMR',
   BH: 'BHD',
-  MY: 'MYR',
-  LK: 'LKR',
   DE: 'EUR',
   FR: 'EUR',
   IT: 'EUR',
@@ -216,6 +216,52 @@ export function CurrencyProvider({ children }) {
     }
     return 'AED'; // Default currency for Dhanvikk Luxury Flowers
   });
+
+  // Load live admin rates override if configured in Admin Dashboard
+  const [customRates, setCustomRates] = useState(() => {
+    try {
+      const saved = localStorage.getItem('dhanvikk_currency_rates');
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed)) {
+          const map = {};
+          parsed.forEach((c) => {
+            if (c.code && c.rateToINR) {
+              map[c.code] = 1 / Number(c.rateToINR);
+            }
+          });
+          return map;
+        }
+      }
+    } catch {}
+    return {};
+  });
+
+  useEffect(() => {
+    const handleRatesUpdate = () => {
+      try {
+        const saved = localStorage.getItem('dhanvikk_currency_rates');
+        if (saved) {
+          const parsed = JSON.parse(saved);
+          if (Array.isArray(parsed)) {
+            const map = {};
+            parsed.forEach((c) => {
+              if (c.code && c.rateToINR) {
+                map[c.code] = 1 / Number(c.rateToINR);
+              }
+            });
+            setCustomRates(map);
+          }
+        }
+      } catch {}
+    };
+    window.addEventListener('storage', handleRatesUpdate);
+    window.addEventListener('dhanvikk_currency_rates_updated', handleRatesUpdate);
+    return () => {
+      window.removeEventListener('storage', handleRatesUpdate);
+      window.removeEventListener('dhanvikk_currency_rates_updated', handleRatesUpdate);
+    };
+  }, []);
 
   const setCurrency = (newCurrency) => {
     if (CURRENCY_CONFIGS[newCurrency]) {
@@ -267,13 +313,15 @@ export function CurrencyProvider({ children }) {
     if (num === 0) return 0;
 
     const config = targetCurrency ? (CURRENCY_CONFIGS[targetCurrency] || currentConfig) : currentConfig;
+    const effectiveRate = customRates[config.code] || config.rateFromINR;
+
     if (config.code === 'INR') {
       return Math.round(num);
     }
     if (config.code === 'OMR') {
-      return Number((num * config.rateFromINR).toFixed(2));
+      return Number((num * effectiveRate).toFixed(2));
     }
-    return Math.round(num * config.rateFromINR);
+    return Math.round(num * effectiveRate);
   };
 
   /**

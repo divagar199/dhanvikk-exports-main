@@ -27,6 +27,8 @@ export default function Home() {
     queryKey: ['featured-products'],
     queryFn: () => getProducts({ limit: 40 }),
     initialData: () => getCachedProducts({ limit: 40 }),
+    staleTime: 1000 * 30,
+    refetchOnWindowFocus: true,
   });
 
   const filteredProducts = products.filter((p) => {

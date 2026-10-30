@@ -40,6 +40,13 @@ import {
   FileText,
   Lock,
   Menu,
+  ArrowDownUp,
+  ArrowDownRight,
+  ArrowUpRight,
+  Boxes,
+  FileSpreadsheet,
+  Key,
+  Check,
 } from 'lucide-react';
 import Logo from '../../components/common/Logo';
 import { logoutUser } from '../../store/slices/authSlice';
@@ -402,12 +409,120 @@ export default function AdminDashboard() {
   const [showStaffModal, setShowStaffModal] = useState(false);
   const [editingStaff, setEditingStaff] = useState(null);
   const [staffForm, setStaffForm] = useState({
+    staffId: '',
+    password: '',
     name: '',
     email: '',
     role: 'inventory_manager',
     roleTitle: '',
     phone: '',
     status: 'Active',
+  });
+
+  // Botanical Inward & Outward Logistics Ledger
+  const DEFAULT_INWARD_OUTWARD = [
+    {
+      id: 'in-001',
+      type: 'inward',
+      date: '2026-05-18T09:30:00Z',
+      productName: 'Royal Dutch Velvet Rose Symphony',
+      productId: 'prod_1',
+      sku: 'DH-ROSE-01',
+      batchNo: 'BATCH-2026-AMS-042',
+      supplierOrReason: 'FloraHolland Aalsmeer B.V.',
+      quantity: 120,
+      unitCost: 280,
+      currency: 'INR',
+      grade: 'Grade A+ Cold-Chain Certified',
+      handledBy: 'Maya Krishnan (STF-2026-001)',
+      notes: 'Arrived at 4°C in pristine condition. Pre-hydrated with floral preservative.',
+      status: 'Received & Stocked',
+    },
+    {
+      id: 'out-001',
+      type: 'outward',
+      date: '2026-05-19T14:15:00Z',
+      productName: 'Royal Dutch Velvet Rose Symphony',
+      productId: 'prod_1',
+      sku: 'DH-ROSE-01',
+      batchNo: 'BATCH-2026-AMS-042',
+      supplierOrReason: 'VIP Wedding Gala (Order #DH-9014)',
+      quantity: 35,
+      unitCost: 280,
+      currency: 'INR',
+      grade: 'Luxury Export Grade',
+      handledBy: 'Arjun Nambiar (STF-2026-002)',
+      notes: 'Refrigerated transit dispatch to Burj Al Arab Ballroom.',
+      status: 'Dispatched & Delivered',
+    },
+    {
+      id: 'in-002',
+      type: 'inward',
+      date: '2026-05-20T10:00:00Z',
+      productName: 'Midnight Orchids & Gold Dust Lillies',
+      productId: 'prod_2',
+      sku: 'DH-ORCH-02',
+      batchNo: 'BATCH-2026-BLR-019',
+      supplierOrReason: 'Bengaluru Orchid Valley Exporters',
+      quantity: 80,
+      unitCost: 450,
+      currency: 'INR',
+      grade: 'Grade A+ Cold-Chain Certified',
+      handledBy: 'Maya Krishnan (STF-2026-001)',
+      notes: 'Direct farm shipment. Stems cut at dawn, sealed in moisture tubes.',
+      status: 'Received & Stocked',
+    },
+    {
+      id: 'out-002',
+      type: 'outward',
+      date: '2026-05-21T11:45:00Z',
+      productName: 'Midnight Orchids & Gold Dust Lillies',
+      productId: 'prod_2',
+      sku: 'DH-ORCH-02',
+      batchNo: 'BATCH-2026-BLR-019',
+      supplierOrReason: 'Cold-Chain Moisture Loss Pruning',
+      quantity: 3,
+      unitCost: 450,
+      currency: 'INR',
+      grade: 'Damaged / Pruned',
+      handledBy: 'Maya Krishnan (STF-2026-001)',
+      notes: 'Natural petal damage during transit. Written off per quality standard.',
+      status: 'Written Off',
+    },
+  ];
+
+  const [inwardOutwardLedger, setInwardOutwardLedger] = useState(() => {
+    try {
+      const saved = localStorage.getItem('dhanvikk_inward_outward');
+      if (saved) return JSON.parse(saved);
+    } catch {}
+    return DEFAULT_INWARD_OUTWARD;
+  });
+  const [inwardFilter, setInwardFilter] = useState('all');
+  const [inwardSearch, setInwardSearch] = useState('');
+  const [showInwardModal, setShowInwardModal] = useState(false);
+  const [showOutwardModal, setShowOutwardModal] = useState(false);
+  const [showPasswordMap, setShowPasswordMap] = useState({});
+  const [copiedStaffId, setCopiedStaffId] = useState(null);
+
+  const [inwardForm, setInwardForm] = useState({
+    productId: '',
+    supplier: 'FloraHolland Aalsmeer B.V.',
+    batchNo: '',
+    quantity: '50',
+    unitCost: '250',
+    grade: 'Grade A+ Cold-Chain Certified',
+    notes: 'Inspected upon arrival at 4°C, stems hydrated and conditioned.',
+  });
+
+  const [outwardForm, setOutwardForm] = useState({
+    productId: '',
+    reason: 'Customer Order Dispatch',
+    batchNo: '',
+    quantity: '10',
+    unitCost: '250',
+    grade: 'Luxury Export Grade',
+    notes: 'Inspected and packaged in thermal climate-controlled delivery tote.',
   });
 
   // Categories Management State
@@ -644,6 +759,8 @@ export default function AdminDashboard() {
     if (staff) {
       setEditingStaff(staff);
       setStaffForm({
+        staffId: staff.staffId || staff.id || 'STF-2026-001',
+        password: staff.password || 'Staff@2026',
         name: staff.name,
         email: staff.email,
         role: staff.role,
@@ -658,7 +775,10 @@ export default function AdminDashboard() {
         return;
       }
       setEditingStaff(null);
+      const nextNum = String(currentStaffCount + 1).padStart(3, '0');
       setStaffForm({
+        staffId: `STF-2026-${nextNum}`,
+        password: 'Staff@2026',
         name: '',
         email: '',
         role: 'inventory_manager',
@@ -678,7 +798,16 @@ export default function AdminDashboard() {
         const updated = staffList.map((s) => (s.id === editingStaff.id || s._id === editingStaff._id ? { ...s, ...staffForm } : s));
         setStaffList(updated);
         localStorage.setItem('dhanvikk_admin_staff', JSON.stringify(updated));
-        toast.success(`Updated staff credentials for ${staffForm.name}`);
+
+        try {
+          const creds = JSON.parse(localStorage.getItem('dhanvikk_staff_credentials') || '[]');
+          const idx = creds.findIndex((c) => c.email?.toLowerCase() === staffForm.email.toLowerCase() || c.staffId === staffForm.staffId);
+          if (idx >= 0) creds[idx] = { ...creds[idx], ...staffForm };
+          else creds.push(staffForm);
+          localStorage.setItem('dhanvikk_staff_credentials', JSON.stringify(creds));
+        } catch {}
+
+        toast.success(`Updated staff credentials for ${staffForm.name} (${staffForm.staffId})`);
       } else {
         if (isStaffQuotaFull) {
           toast.error('Maximum Staff Limit Reached: Exactly 2 staff positions can be authorized.');
@@ -690,16 +819,116 @@ export default function AdminDashboard() {
           joinedDate: new Date().toISOString().split('T')[0],
           isSuperAdmin: staffForm.email.toLowerCase() === superAdminEmail.toLowerCase(),
         };
+        await adminService.addStaff(newMember).catch(() => {});
         const updated = [...staffList, newMember];
         setStaffList(updated);
         localStorage.setItem('dhanvikk_admin_staff', JSON.stringify(updated));
-        toast.success(`Staff member ${staffForm.name} added successfully! 🌸`);
+
+        try {
+          const creds = JSON.parse(localStorage.getItem('dhanvikk_staff_credentials') || '[]');
+          creds.push(staffForm);
+          localStorage.setItem('dhanvikk_staff_credentials', JSON.stringify(creds));
+        } catch {}
+
+        toast.success(`Staff member ${staffForm.name} (${staffForm.staffId}) authorized & added successfully! 🌸`);
       }
       setShowStaffModal(false);
       setEditingStaff(null);
     } catch (err) {
       toast.error(err.message || 'Error saving staff member');
     }
+  };
+
+  // Inward & Outward Inventory Handlers
+  const handleSaveInward = async (e) => {
+    e.preventDefault();
+    const targetProduct = products.find((p) => p.id === inwardForm.productId || p._id === inwardForm.productId) || products[0];
+    const qty = parseInt(inwardForm.quantity, 10) || 0;
+    if (!targetProduct || qty <= 0) {
+      toast.error('Please select a valid product and enter a positive quantity');
+      return;
+    }
+    const newStock = (parseInt(targetProduct.stock, 10) || 0) + qty;
+    const updatedProduct = { ...targetProduct, stock: newStock };
+    const newProducts = products.map((p) => (p.id === targetProduct.id || p._id === targetProduct._id ? updatedProduct : p));
+
+    setProducts(newProducts);
+    localStorage.setItem('dhanvikk_admin_products', JSON.stringify(newProducts));
+    productService.updateProduct(targetProduct.id || targetProduct._id, { stock: newStock }).catch(() => {});
+    window.dispatchEvent(new CustomEvent('dhanvikk_products_updated', { detail: { products: newProducts } }));
+    window.dispatchEvent(new Event('storage'));
+
+    const newEntry = {
+      id: `in-${Date.now()}`,
+      type: 'inward',
+      date: new Date().toISOString(),
+      productName: targetProduct.name,
+      productId: targetProduct.id || targetProduct._id,
+      sku: targetProduct.sku || `DH-BOT-${(targetProduct.id || '01').toString().slice(-4)}`,
+      batchNo: inwardForm.batchNo || `BATCH-${new Date().getFullYear()}-${Date.now().toString().slice(-4)}`,
+      supplierOrReason: inwardForm.supplier || 'FloraHolland Aalsmeer B.V.',
+      quantity: qty,
+      unitCost: parseFloat(inwardForm.unitCost) || 250,
+      currency: 'INR',
+      grade: inwardForm.grade || 'Grade A+ Cold-Chain Certified',
+      handledBy: authUser?.name || 'Super Admin (Divagar M)',
+      notes: inwardForm.notes || 'Inward delivery inspected and stored in cold room.',
+      status: 'Received & Stocked',
+    };
+
+    const updatedLedger = [newEntry, ...inwardOutwardLedger];
+    setInwardOutwardLedger(updatedLedger);
+    localStorage.setItem('dhanvikk_inward_outward', JSON.stringify(updatedLedger));
+    toast.success(`Inward Delivery Recorded: +${qty} units added to ${targetProduct.name}. Live stock is now ${newStock}! 🌸`);
+    setShowInwardModal(false);
+  };
+
+  const handleSaveOutward = async (e) => {
+    e.preventDefault();
+    const targetProduct = products.find((p) => p.id === outwardForm.productId || p._id === outwardForm.productId) || products[0];
+    const qty = parseInt(outwardForm.quantity, 10) || 0;
+    if (!targetProduct || qty <= 0) {
+      toast.error('Please select a valid product and enter a positive quantity');
+      return;
+    }
+    const currentStock = parseInt(targetProduct.stock, 10) || 0;
+    if (qty > currentStock) {
+      toast.error(`Cannot dispatch ${qty} units. Current stock for ${targetProduct.name} is only ${currentStock}!`);
+      return;
+    }
+    const newStock = Math.max(0, currentStock - qty);
+    const updatedProduct = { ...targetProduct, stock: newStock };
+    const newProducts = products.map((p) => (p.id === targetProduct.id || p._id === targetProduct._id ? updatedProduct : p));
+
+    setProducts(newProducts);
+    localStorage.setItem('dhanvikk_admin_products', JSON.stringify(newProducts));
+    productService.updateProduct(targetProduct.id || targetProduct._id, { stock: newStock }).catch(() => {});
+    window.dispatchEvent(new CustomEvent('dhanvikk_products_updated', { detail: { products: newProducts } }));
+    window.dispatchEvent(new Event('storage'));
+
+    const newEntry = {
+      id: `out-${Date.now()}`,
+      type: 'outward',
+      date: new Date().toISOString(),
+      productName: targetProduct.name,
+      productId: targetProduct.id || targetProduct._id,
+      sku: targetProduct.sku || `DH-BOT-${(targetProduct.id || '01').toString().slice(-4)}`,
+      batchNo: outwardForm.batchNo || 'BATCH-ACTIVE',
+      supplierOrReason: outwardForm.reason || 'Customer Order Dispatch',
+      quantity: qty,
+      unitCost: parseFloat(outwardForm.unitCost) || targetProduct.price || 250,
+      currency: 'INR',
+      grade: outwardForm.grade || 'Luxury Fulfillment',
+      handledBy: authUser?.name || 'Super Admin (Divagar M)',
+      notes: outwardForm.notes || 'Outward movement verified and dispatched.',
+      status: outwardForm.reason.includes('Pruning') || outwardForm.reason.includes('Damage') ? 'Written Off' : 'Dispatched & Deducted',
+    };
+
+    const updatedLedger = [newEntry, ...inwardOutwardLedger];
+    setInwardOutwardLedger(updatedLedger);
+    localStorage.setItem('dhanvikk_inward_outward', JSON.stringify(updatedLedger));
+    toast.success(`Outward Movement Recorded: -${qty} units deducted from ${targetProduct.name}. Live stock is now ${newStock}! 🚚`);
+    setShowOutwardModal(false);
   };
 
   const handleDeleteStaff = async (staff) => {
@@ -1095,6 +1324,14 @@ export default function AdminDashboard() {
           alertColor: 'text-amber-700 bg-amber-50 border-amber-200',
         },
         {
+          id: 'inward_outward',
+          label: 'Inward & Outward Logistics',
+          icon: ArrowDownUp,
+          count: inwardOutwardLedger.length,
+          badge: 'Stock Flow',
+          badgeColor: 'text-indigo-700 bg-indigo-50 border-indigo-200',
+        },
+        {
           id: 'categories',
           label: 'Categories Atelier',
           icon: Flower2,
@@ -1165,6 +1402,11 @@ export default function AdminDashboard() {
       category: 'CATALOG & INVENTORY',
       title: 'Floral & Plant Inventory Maintenance',
       description: 'Live stock adjustment, flower specs, dynamic categories & multi-currency rates.',
+    },
+    inward_outward: {
+      category: 'CATALOG & INVENTORY',
+      title: 'Inward & Outward Inventory Logistics & Cold-Chain Ledger',
+      description: 'Real-time supply chain ledger: log farm inward deliveries, lot batch codes, and outward order dispatches with automatic stock synchronization.',
     },
     categories: {
       category: 'CATALOG & INVENTORY',
@@ -1478,6 +1720,35 @@ export default function AdminDashboard() {
                   <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin text-[#C2185B]' : ''}`} />
                   <span className="hidden xs:inline">Sync</span>
                 </button>
+
+                {activeTab === 'inward_outward' && (
+                  <div className="flex items-center gap-1.5">
+                    <button
+                      onClick={() => {
+                        if (products.length > 0) {
+                          setInwardForm((prev) => ({ ...prev, productId: products[0].id || products[0]._id }));
+                        }
+                        setShowInwardModal(true);
+                      }}
+                      className="px-3 py-1 rounded-lg bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-bold flex items-center gap-1.5 shadow-xs cursor-pointer transition-colors"
+                    >
+                      <Plus className="w-3.5 h-3.5" />
+                      <span>Log Inward Delivery</span>
+                    </button>
+                    <button
+                      onClick={() => {
+                        if (products.length > 0) {
+                          setOutwardForm((prev) => ({ ...prev, productId: products[0].id || products[0]._id }));
+                        }
+                        setShowOutwardModal(true);
+                      }}
+                      className="px-3 py-1 rounded-lg bg-amber-700 hover:bg-amber-800 text-white text-xs font-bold flex items-center gap-1.5 shadow-xs cursor-pointer transition-colors"
+                    >
+                      <ArrowUpRight className="w-3.5 h-3.5" />
+                      <span>Record Outward</span>
+                    </button>
+                  </div>
+                )}
 
                 {activeTab === 'products' && (
                   <button
@@ -3285,7 +3556,7 @@ export default function AdminDashboard() {
                 <table className="w-full text-left text-xs text-[#333333] min-w-[650px]">
                   <thead className="bg-[#FAF7F2] text-[#666666] text-[11px] uppercase tracking-wider border-b border-[#EFE7DE]">
                     <tr>
-                      <th className="py-3.5 px-5 font-semibold">Staff Member</th>
+                      <th className="py-3.5 px-5 font-semibold">Staff Member / ID</th>
                       <th className="py-3.5 px-4 font-semibold">Role Title & Badge</th>
                       <th className="py-3.5 px-4 font-semibold">Phone / Contact</th>
                       <th className="py-3.5 px-4 font-semibold">Operational Status</th>
@@ -3320,7 +3591,12 @@ export default function AdminDashboard() {
                                     </span>
                                   )}
                                 </div>
-                                <span className="text-[11px] text-[#777777] font-mono block">{st.email}</span>
+                                <div className="flex items-center gap-2 mt-0.5">
+                                    <span className="text-[11px] text-[#777777] font-mono">{st.email}</span>
+                                    <span className="text-[9px] font-mono px-1.5 py-0.2 rounded bg-[#FAF7F2] border border-[#EFE7DE] text-[#555]">
+                                      ID: {st.staffId || (isSuper ? 'STF-SUPER-01' : 'STF-2026-001')}
+                                    </span>
+                                  </div>
                               </div>
                             </div>
                           </td>
@@ -4135,7 +4411,60 @@ export default function AdminDashboard() {
               </div>
 
               <form onSubmit={handleSaveStaff} className="space-y-4 text-xs">
-                {/* Staff Full Name */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div>
+                    <label className="block text-[#444444] font-semibold mb-1">Staff ID *</label>
+                    <div className="relative">
+                      <input
+                        type="text"
+                        required
+                        placeholder="e.g. STF-2026-001"
+                        value={staffForm.staffId}
+                        onChange={(e) => setStaffForm({ ...staffForm, staffId: e.target.value })}
+                        className="w-full h-10 px-3 pr-12 rounded-xl bg-white border border-[#DCD5CD] text-[#242124] font-mono text-xs focus:outline-none focus:border-[#D4AF37]"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setStaffForm({ ...staffForm, staffId: `STF-2026-${Math.floor(100 + Math.random() * 900)}` })}
+                        className="absolute right-1.5 top-2 px-1.5 py-0.5 text-[10px] bg-[#FAF7F2] border border-[#EFE7DE] rounded hover:bg-[#F2ECE6] text-[#666]"
+                        title="Auto Generate ID"
+                      >
+                        Auto
+                      </button>
+                    </div>
+                  </div>
+                  <div>
+                    <label className="block text-[#444444] font-semibold mb-1">Staff Password *</label>
+                    <div className="relative">
+                      <input
+                        type={showPasswordMap['staff_modal'] ? 'text' : 'password'}
+                        required
+                        placeholder="Min 6 characters"
+                        value={staffForm.password}
+                        onChange={(e) => setStaffForm({ ...staffForm, password: e.target.value })}
+                        className="w-full h-10 px-3 pr-20 rounded-xl bg-white border border-[#DCD5CD] text-[#242124] text-xs font-mono focus:outline-none focus:border-[#D4AF37]"
+                      />
+                      <div className="absolute right-1.5 top-2 flex items-center gap-1">
+                        <button
+                          type="button"
+                          onClick={() => setShowPasswordMap((prev) => ({ ...prev, staff_modal: !prev.staff_modal }))}
+                          className="px-1.5 py-0.5 text-[10px] bg-[#FAF7F2] border border-[#EFE7DE] rounded hover:bg-[#F2ECE6] text-[#666]"
+                        >
+                          {showPasswordMap['staff_modal'] ? 'Hide' : 'Show'}
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setStaffForm({ ...staffForm, password: `Staff@${new Date().getFullYear()}` })}
+                          className="px-1.5 py-0.5 text-[10px] bg-[#FEF3C7] border border-[#FDE68A] text-[#854D0E] rounded hover:bg-[#FDE68A]"
+                          title="Generate Default Password"
+                        >
+                          Gen
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
                 <div>
                   <label className="block text-[#444444] font-semibold mb-1">Staff Full Name *</label>
                   <input
@@ -4262,7 +4591,270 @@ export default function AdminDashboard() {
         {/* ========================================================
             MODAL: ADD / EDIT COLLECTION & CATEGORY
             ======================================================== */}
-        {showCategoryModal && (
+        
+      {/* ========================================================
+          MODAL: LOG INWARD FARM CONSIGNMENT
+          ======================================================== */}
+      {showInwardModal && (
+        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4 overflow-y-auto">
+          <div className="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl border border-[#EFE7DE] my-8 animate-in fade-in zoom-in-95 duration-150">
+            <div className="flex items-center justify-between pb-3 border-b border-[#EFE7DE] mb-4">
+              <div className="flex items-center gap-2">
+                <div className="w-8 h-8 rounded-xl bg-emerald-50 text-emerald-700 flex items-center justify-center">
+                  <ArrowDownRight className="w-4 h-4" />
+                </div>
+                <div>
+                  <h3 className="text-base font-bold text-[#242124] font-['Poppins']">
+                    Log Inward Farm Consignment
+                  </h3>
+                  <p className="text-[11px] text-[#777]">Increases product catalog stock across web and app</p>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => setShowInwardModal(false)}
+                className="w-8 h-8 rounded-full bg-[#FAF7F2] hover:bg-[#F2ECE6] flex items-center justify-center text-[#666] border border-[#EFE7DE] cursor-pointer"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+
+            <form onSubmit={handleSaveInward} className="space-y-3.5 text-xs">
+              {/* Product Select */}
+              <div>
+                <label className="block text-[#444] font-semibold mb-1">Select Botanical Product *</label>
+                <select
+                  required
+                  value={inwardForm.productId}
+                  onChange={(e) => setInwardForm({ ...inwardForm, productId: e.target.value })}
+                  className="w-full h-10 px-3 rounded-xl bg-white border border-[#DCD5CD] text-[#242124] focus:outline-none focus:border-[#D4AF37]"
+                >
+                  {products.map((p) => (
+                    <option key={p.id || p._id} value={p.id || p._id}>
+                      {p.name} (Current Stock: {p.stock || 0}) • ₹{p.price}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Supplier & Batch */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-[#444] font-semibold mb-1">Supplier / Farm *</label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="e.g. FloraHolland Aalsmeer B.V."
+                    value={inwardForm.supplier}
+                    onChange={(e) => setInwardForm({ ...inwardForm, supplier: e.target.value })}
+                    className="w-full h-10 px-3 rounded-xl bg-white border border-[#DCD5CD] text-[#242124] focus:outline-none focus:border-[#D4AF37]"
+                  />
+                </div>
+                <div>
+                  <label className="block text-[#444] font-semibold mb-1">Batch / Lot Code *</label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="e.g. BATCH-2026-AMS-05"
+                    value={inwardForm.batchNo}
+                    onChange={(e) => setInwardForm({ ...inwardForm, batchNo: e.target.value })}
+                    className="w-full h-10 px-3 rounded-xl bg-white border border-[#DCD5CD] text-[#242124] font-mono focus:outline-none focus:border-[#D4AF37]"
+                  />
+                </div>
+              </div>
+
+              {/* Quantity & Unit Cost */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-[#444] font-semibold mb-1">Units Received (Stems) *</label>
+                  <input
+                    type="number"
+                    min="1"
+                    required
+                    value={inwardForm.quantity}
+                    onChange={(e) => setInwardForm({ ...inwardForm, quantity: e.target.value })}
+                    className="w-full h-10 px-3 rounded-xl bg-white border border-[#DCD5CD] text-[#242124] font-bold text-emerald-700 focus:outline-none focus:border-[#D4AF37]"
+                  />
+                </div>
+                <div>
+                  <label className="block text-[#444] font-semibold mb-1">Unit Purchase Cost (₹)</label>
+                  <input
+                    type="number"
+                    min="0"
+                    step="0.01"
+                    value={inwardForm.unitCost}
+                    onChange={(e) => setInwardForm({ ...inwardForm, unitCost: e.target.value })}
+                    className="w-full h-10 px-3 rounded-xl bg-white border border-[#DCD5CD] text-[#242124] focus:outline-none focus:border-[#D4AF37]"
+                  />
+                </div>
+              </div>
+
+              {/* Freshness Grade */}
+              <div>
+                <label className="block text-[#444] font-semibold mb-1">Freshness / Quality Grade</label>
+                <select
+                  value={inwardForm.grade}
+                  onChange={(e) => setInwardForm({ ...inwardForm, grade: e.target.value })}
+                  className="w-full h-10 px-3 rounded-xl bg-white border border-[#DCD5CD] text-[#242124] focus:outline-none focus:border-[#D4AF37]"
+                >
+                  <option value="Grade A+ Cold-Chain Certified">Grade A+ Cold-Chain Certified (4°C)</option>
+                  <option value="Grade A Luxury Export">Grade A Luxury Export</option>
+                  <option value="Direct Greenhouse Standard">Direct Greenhouse Standard</option>
+                  <option value="Preserved Exotic Foliage">Preserved Exotic Foliage</option>
+                </select>
+              </div>
+
+              {/* Notes */}
+              <div>
+                <label className="block text-[#444] font-semibold mb-1">Cold-Chain Storage Notes</label>
+                <textarea
+                  rows={2}
+                  placeholder="e.g. Received at 4°C, stems re-cut and placed in conditioning preservative."
+                  value={inwardForm.notes}
+                  onChange={(e) => setInwardForm({ ...inwardForm, notes: e.target.value })}
+                  className="w-full p-2.5 rounded-xl bg-white border border-[#DCD5CD] text-[#242124] focus:outline-none focus:border-[#D4AF37]"
+                />
+              </div>
+
+              <div className="flex justify-end gap-2.5 pt-3 border-t border-[#EFE7DE]">
+                <button
+                  type="button"
+                  onClick={() => setShowInwardModal(false)}
+                  className="px-4 py-2 rounded-xl bg-[#FAF7F2] text-[#666] hover:text-[#242124] border border-[#EFE7DE] cursor-pointer"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="px-5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold shadow-md cursor-pointer transition-all"
+                >
+                  Confirm Inward & Increase Stock
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* ========================================================
+          MODAL: RECORD OUTWARD STOCK MOVEMENT
+          ======================================================== */}
+      {showOutwardModal && (
+        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4 overflow-y-auto">
+          <div className="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl border border-[#EFE7DE] my-8 animate-in fade-in zoom-in-95 duration-150">
+            <div className="flex items-center justify-between pb-3 border-b border-[#EFE7DE] mb-4">
+              <div className="flex items-center gap-2">
+                <div className="w-8 h-8 rounded-xl bg-amber-50 text-amber-700 flex items-center justify-center">
+                  <ArrowUpRight className="w-4 h-4" />
+                </div>
+                <div>
+                  <h3 className="text-base font-bold text-[#242124] font-['Poppins']">
+                    Record Outward Stock Movement
+                  </h3>
+                  <p className="text-[11px] text-[#777]">Deducts product inventory in catalog and updates storefronts</p>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => setShowOutwardModal(false)}
+                className="w-8 h-8 rounded-full bg-[#FAF7F2] hover:bg-[#F2ECE6] flex items-center justify-center text-[#666] border border-[#EFE7DE] cursor-pointer"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+
+            <form onSubmit={handleSaveOutward} className="space-y-3.5 text-xs">
+              {/* Product Select */}
+              <div>
+                <label className="block text-[#444] font-semibold mb-1">Select Botanical Product *</label>
+                <select
+                  required
+                  value={outwardForm.productId}
+                  onChange={(e) => setOutwardForm({ ...outwardForm, productId: e.target.value })}
+                  className="w-full h-10 px-3 rounded-xl bg-white border border-[#DCD5CD] text-[#242124] focus:outline-none focus:border-[#D4AF37]"
+                >
+                  {products.map((p) => (
+                    <option key={p.id || p._id} value={p.id || p._id}>
+                      {p.name} (Current Stock: {p.stock || 0})
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Movement Reason */}
+              <div>
+                <label className="block text-[#444] font-semibold mb-1">Movement Type / Destination *</label>
+                <select
+                  value={outwardForm.reason}
+                  onChange={(e) => setOutwardForm({ ...outwardForm, reason: e.target.value })}
+                  className="w-full h-10 px-3 rounded-xl bg-white border border-[#DCD5CD] text-[#242124] focus:outline-none focus:border-[#D4AF37]"
+                >
+                  <option value="Customer Order Dispatch">Customer Order Dispatch (Cold-Chain Delivery)</option>
+                  <option value="Boutique Display Allocation">Boutique Display Allocation (Showroom)</option>
+                  <option value="Cold-Chain Moisture Loss / Petal Pruning">Cold-Chain Moisture Loss / Petal Pruning (Shrinkage)</option>
+                  <option value="VIP Marketing Gifting & Samples">VIP Marketing Gifting & Samples</option>
+                  <option value="Inter-Store Branch Transfer">Inter-Store Branch Transfer</option>
+                </select>
+              </div>
+
+              {/* Quantity */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-[#444] font-semibold mb-1">Units Deducted *</label>
+                  <input
+                    type="number"
+                    min="1"
+                    required
+                    value={outwardForm.quantity}
+                    onChange={(e) => setOutwardForm({ ...outwardForm, quantity: e.target.value })}
+                    className="w-full h-10 px-3 rounded-xl bg-white border border-[#DCD5CD] text-[#242124] font-bold text-amber-700 focus:outline-none focus:border-[#D4AF37]"
+                  />
+                </div>
+                <div>
+                  <label className="block text-[#444] font-semibold mb-1">Reference / Order ID</label>
+                  <input
+                    type="text"
+                    placeholder="e.g. Order #DH-9014 or Store Branch"
+                    value={outwardForm.batchNo}
+                    onChange={(e) => setOutwardForm({ ...outwardForm, batchNo: e.target.value })}
+                    className="w-full h-10 px-3 rounded-xl bg-white border border-[#DCD5CD] text-[#242124] font-mono focus:outline-none focus:border-[#D4AF37]"
+                  />
+                </div>
+              </div>
+
+              {/* Notes */}
+              <div>
+                <label className="block text-[#444] font-semibold mb-1">Dispatch / Quality Verification Notes</label>
+                <textarea
+                  rows={2}
+                  placeholder="e.g. Hand-tied bouquet inspected, wrapped with hydration pack, loaded into refrigerated van."
+                  value={outwardForm.notes}
+                  onChange={(e) => setOutwardForm({ ...outwardForm, notes: e.target.value })}
+                  className="w-full p-2.5 rounded-xl bg-white border border-[#DCD5CD] text-[#242124] focus:outline-none focus:border-[#D4AF37]"
+                />
+              </div>
+
+              <div className="flex justify-end gap-2.5 pt-3 border-t border-[#EFE7DE]">
+                <button
+                  type="button"
+                  onClick={() => setShowOutwardModal(false)}
+                  className="px-4 py-2 rounded-xl bg-[#FAF7F2] text-[#666] hover:text-[#242124] border border-[#EFE7DE] cursor-pointer"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="px-5 py-2 rounded-xl bg-amber-600 hover:bg-amber-700 text-white font-bold shadow-md cursor-pointer transition-all"
+                >
+                  Confirm Outward & Deduct Stock
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {showCategoryModal && (
           <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4">
             <div className="bg-white border border-[#EFE7DE] rounded-2xl sm:rounded-3xl p-4 sm:p-6 max-w-lg w-full max-h-[92vh] overflow-y-auto space-y-4 sm:space-y-5 shadow-2xl text-[#242124]">
               <div className="flex items-center justify-between pb-3 border-b border-[#EFE7DE]">

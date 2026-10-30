@@ -89,7 +89,11 @@ export default function HomePage() {
       }
     };
     window.addEventListener('storage', handleStorageChange);
-    return () => window.removeEventListener('storage', handleStorageChange);
+    window.addEventListener('dhanvikk_hero_updated', handleStorageChange);
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+      window.removeEventListener('dhanvikk_hero_updated', handleStorageChange);
+    };
   }, []);
 
   const dispatch = useDispatch();

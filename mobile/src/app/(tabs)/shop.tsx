@@ -61,6 +61,8 @@ export default function Shop() {
   const { data = [], isLoading, refetch } = useQuery<Product[]>({
     queryKey: ['products', q],
     queryFn: () => getProducts({ search: q, limit: 100 }),
+    staleTime: 1000 * 30,
+    refetchOnWindowFocus: true,
     initialData: () => getCachedProducts({ search: q, limit: 100 }),
   });
 

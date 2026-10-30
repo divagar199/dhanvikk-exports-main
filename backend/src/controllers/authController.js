@@ -114,7 +114,7 @@ export const login = async (req, res, next) => {
 
     // Check MongoDB first if connected
     if (getDBStatus()) {
-      user = await UserModel.findOne({ email: cleanEmail });
+      user = await UserModel.findOne({ $or: [{ email: cleanEmail }, { staffId: cleanEmail }, { staffId: email.trim() }] });
       if (user) {
         isMatch = bcrypt.compareSync(password, user.passwordHash);
         if (!isMatch) {
@@ -136,7 +136,7 @@ export const login = async (req, res, next) => {
 
     // Fallback or seed to local USERS array if not found in MongoDB
     if (!user) {
-      const memoryUser = USERS.find((u) => u.email === cleanEmail);
+      const memoryUser = USERS.find((u) => u.email === cleanEmail || (u.staffId && u.staffId.toLowerCase() === cleanEmail));
       if (memoryUser) {
         isMatch = bcrypt.compareSync(password, memoryUser.passwordHash);
         if (!isMatch) {
