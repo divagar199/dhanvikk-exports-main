@@ -1986,19 +1986,17 @@ export default function AdminDashboard() {
               )}
             </div>
 
-            {/* Profile Badge */}
+            {/* Profile Badge - Dynamic User First Letter Logo */}
             <div className="flex items-center gap-2.5 pl-2 border-l border-slate-100">
-              <img
-                src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=120&q=80"
-                alt="Divagar"
-                className="w-9 h-9 rounded-full object-cover border border-rose-200 shadow-2xs"
-              />
+              <div className="w-9 h-9 rounded-full bg-gradient-to-br from-[#E11D48] to-[#BE123C] text-white flex items-center justify-center font-bold text-sm shadow-sm ring-2 ring-rose-100 shrink-0">
+                {(authUser?.name || authUser?.email || 'Divagar').charAt(0).toUpperCase()}
+              </div>
               <div className="hidden sm:block text-left">
                 <span className="text-xs font-bold text-[#0F172A] block leading-tight">
-                  Divagar
+                  {authUser?.name ? authUser.name.split(' ')[0] : 'Divagar'}
                 </span>
-                <span className="text-[10px] font-medium text-slate-400 block">
-                  Admin
+                <span className="text-[10px] font-medium text-slate-400 block capitalize">
+                  {authUser?.role?.replace('_', ' ') || 'Admin'}
                 </span>
               </div>
 

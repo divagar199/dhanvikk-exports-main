@@ -561,15 +561,15 @@ export default function CustomerStaffManager({
                   <tr className="hover:bg-slate-50/60 transition-colors">
                     <td className="py-4 px-5">
                       <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-full bg-rose-50 border border-rose-200 text-rose-600 flex items-center justify-center font-bold text-sm relative">
-                          D
-                          <div className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-amber-400 text-white flex items-center justify-center">
+                        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#E11D48] to-[#BE123C] text-white flex items-center justify-center font-bold text-sm relative shadow-xs">
+                          {(authUser?.name || 'Divagar').charAt(0).toUpperCase()}
+                          <div className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-amber-400 text-white flex items-center justify-center shadow-2xs">
                             <Crown className="w-2.5 h-2.5 fill-current" />
                           </div>
                         </div>
                         <div>
-                          <span className="font-bold text-slate-900 text-sm block">Divagar M</span>
-                          <span className="text-[11px] text-slate-500 font-mono">{superAdminEmail}</span>
+                          <span className="font-bold text-slate-900 text-sm block">{authUser?.name || 'Divagar M'}</span>
+                          <span className="text-[11px] text-slate-500 font-mono">{authUser?.email || superAdminEmail}</span>
                         </div>
                       </div>
                     </td>

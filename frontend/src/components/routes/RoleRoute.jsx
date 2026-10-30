@@ -171,7 +171,7 @@ export default function RoleRoute({ children, allowedRoles = [] }) {
                 required
                 value={emailInput}
                 onChange={(e) => setEmailInput(e.target.value)}
-                placeholder="divagar.m.msc.cs@gmail.com"
+                placeholder="Enter your email"
                 className="w-full h-10 pl-9 pr-3 rounded-xl border border-slate-200 text-slate-800 bg-slate-50 focus:bg-white focus:outline-none focus:border-rose-400"
               />
             </div>
@@ -186,7 +186,7 @@ export default function RoleRoute({ children, allowedRoles = [] }) {
                 required
                 value={passwordInput}
                 onChange={(e) => setPasswordInput(e.target.value)}
-                placeholder="Enter admin password"
+                placeholder="Enter your password"
                 className="w-full h-10 pl-9 pr-3 rounded-xl border border-slate-200 text-slate-800 bg-slate-50 focus:bg-white focus:outline-none focus:border-rose-400"
               />
             </div>

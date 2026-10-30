@@ -139,11 +139,12 @@ export default function AdminLogin() {
               inputClassName="text-[#242124] placeholder:text-[#999999]"
               className="[&_label]:text-[#242124] [&>div]:bg-white [&>div]:border-[#DCD5CD]"
               {...register('email')}
-              placeholder="divagar.m.msc.cs@gmail.com"
+              placeholder="Enter your email"
             />
 
             <PasswordInput
               label="Password"
+              placeholder="Enter your password"
               autoComplete="current-password"
               error={errors.password?.message}
               className="[&_label]:text-[#242124] [&>div]:bg-white [&>div]:border-[#DCD5CD] [&_input]:text-[#242124]"

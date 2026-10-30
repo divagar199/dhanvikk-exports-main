@@ -426,7 +426,7 @@ export default function Register() {
                       name="name"
                       autoComplete="name"
                       type="text"
-                      placeholder="e.g. Priya Sharma"
+                      placeholder="Enter your full name"
                       value={formData.name}
                       onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                       className="w-full pl-10 pr-3.5 h-11 text-xs sm:text-sm rounded-xl border border-[#E5DFD9] bg-[#FAF7F2]/60 focus:bg-white focus:border-[#EC407A] focus:outline-none transition-all text-[#242124]"
@@ -463,7 +463,7 @@ export default function Register() {
                       name="phone"
                       autoComplete="tel"
                       type="tel"
-                      placeholder="50 123 4567 / 98765 43210"
+                      placeholder="Enter your phone number"
                       value={formData.phone}
                       onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                       className="w-full px-3.5 h-11 text-xs sm:text-sm rounded-xl border border-[#E5DFD9] bg-[#FAF7F2]/60 focus:bg-white focus:border-[#EC407A] focus:outline-none transition-all text-[#242124]"
@@ -485,7 +485,7 @@ export default function Register() {
                       name="email"
                       autoComplete="email"
                       type="email"
-                      placeholder="name@example.com"
+                      placeholder="Enter your email"
                       value={formData.email}
                       readOnly={Boolean(googleUser)}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
@@ -513,7 +513,7 @@ export default function Register() {
                         name="password"
                         autoComplete="new-password"
                         type={showPassword ? 'text' : 'password'}
-                        placeholder="Create password (min. 4 characters)"
+                        placeholder="Enter your password"
                         value={formData.password}
                         onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                         className="w-full pl-10 pr-10 h-11 text-xs sm:text-sm rounded-xl border border-[#E5DFD9] bg-[#FAF7F2]/60 focus:bg-white focus:border-[#EC407A] focus:outline-none transition-all text-[#242124]"
@@ -562,7 +562,7 @@ export default function Register() {
                     name="street"
                     autoComplete="street-address"
                     type="text"
-                    placeholder="e.g. Villa 14, Palm Crescent, Palm Jumeirah"
+                    placeholder="Enter your street address"
                     value={formData.street}
                     onChange={(e) => setFormData({ ...formData, street: e.target.value })}
                     className="w-full px-3.5 h-10 text-xs sm:text-sm rounded-xl border border-[#E5DFD9] bg-white focus:border-[#EC407A] focus:outline-none transition-all text-[#242124]"

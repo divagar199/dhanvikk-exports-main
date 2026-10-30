@@ -71,7 +71,7 @@ export default function Footer() {
                     type="email"
                     value={newsletterEmail}
                     onChange={(e) => setNewsletterEmail(e.target.value)}
-                    placeholder="Enter your private email..."
+                    placeholder="Enter your email"
                     className="w-full h-12 pl-11 pr-4 rounded-full bg-white border border-[#E0D7D0] text-xs text-[#242124] placeholder:text-[#888888] focus:outline-none focus:border-[#C2185B] focus:ring-1 focus:ring-[#C2185B] transition-all shadow-xs"
                     required
                   />

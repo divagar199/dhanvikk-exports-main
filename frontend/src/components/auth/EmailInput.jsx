@@ -5,7 +5,7 @@ import Input from '../common/Input';
 const EmailInput = forwardRef(function EmailInput(
   {
     label = 'Email address',
-    placeholder = 'Enter your email address',
+    placeholder = 'Enter your email',
     error,
     autoComplete = 'email',
     ...props
